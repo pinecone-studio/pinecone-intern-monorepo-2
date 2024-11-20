@@ -9,6 +9,7 @@ export const authorTypeDefs = gql`
   type Query {
     getAuthor(_id: ID!): Author!
     getAuthors: [Author!]!
+    getAuthorsByName( name: String): [Author!]!
   }
 
   type Mutation {
