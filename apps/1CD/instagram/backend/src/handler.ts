@@ -4,6 +4,7 @@ import { typeDefs } from './schemas';
 import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
+import { Context } from './types';
 
 connectToDb();
 

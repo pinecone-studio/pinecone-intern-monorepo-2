@@ -7,7 +7,7 @@ const config: CodegenConfig = {
     'apps/1CD/concert-ticket/backend/src/generated/index.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
-        contextType: 'Context',
+        contextType: '../types#Context',
         makeResolverTypeCallable: true,
         maybeValue: 'T',
       },

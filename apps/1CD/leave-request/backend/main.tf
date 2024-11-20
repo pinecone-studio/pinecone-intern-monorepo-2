@@ -7,24 +7,24 @@ terraform {
   }
 }
 
-resource "vercel_project" "hotel-booking-backend" {
-  name             = "hotel-booking-backend"
-  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
-  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
+resource "vercel_project" "leave-request-backend" {
+  name             = "leave-request-backend"
+  build_command    = "nx build --skip-nx-cache leave-request-backend"
+  output_directory = "./dist/apps/1CD/leave-request/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "hotel-booking-backend" {
-  name             = "hotel-booking-backend"
-  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
-  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
+resource "vercel_project" "leave-request-backend" {
+  name             = "leave-request-backend"
+  build_command    = "nx build --skip-nx-cache leave-request-backend"
+  output_directory = "./dist/apps/1CD/leave-request/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "hotel-booking-backend" {
-  name             = "hotel-booking-backend"
-  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
-  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
+resource "vercel_project" "leave-request-backend" {
+  name             = "leave-request-backend"
+  build_command    = "nx build --skip-nx-cache leave-request-backend"
+  output_directory = "./dist/apps/1CD/leave-request/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }

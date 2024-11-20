@@ -16,16 +16,25 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "../../../../apps/1CD/hr-leave-request/backend/.next/types/**/*.ts",
-    "../../../../dist/aapps/1CD/hr-leave-request/backend/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "../../../../apps/1CD/leave-request/backend/.next/types/**/*.ts",
+    "../../../../dist/aapps/1CD/leave-request/backend/.next/types/**/*.ts",
+    "next-env.d.ts",
+    "../../../../dist/apps/1CD/leave-request/backend/.next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "node_modules",
+    "jest.config.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }

@@ -1,6 +1,2 @@
-import { NextRequest } from "next/server";
-// ene deer contextiin type aa bicheerei
-
-type Context = {
-  req: NextRequest
-};
+/* eslint-disable @typescript-eslint/ban-types */
+export type Context = {};
