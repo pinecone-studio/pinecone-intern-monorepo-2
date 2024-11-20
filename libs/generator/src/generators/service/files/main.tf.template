@@ -7,22 +7,15 @@ terraform {
   }
 }
 
-resource "vercel_project" "<%= name %>" {
-  name             = "<%= name %>"
+resource "vercel_project" "<%= name %>-prod" {
+  name             = "<%= name %>-prod"
   build_command    = "nx build --skip-nx-cache <%= name %>"
   output_directory = "./dist/<%= directory %>/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "<%= name %>" {
-  name             = "<%= name %>"
-  build_command    = "nx build --skip-nx-cache <%= name %>"
-  output_directory = "./dist/<%= directory %>/.next"
-  framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
-}
-resource "vercel_project" "<%= name %>" {
-  name             = "<%= name %>"
+resource "vercel_project" "<%= name %>-testing" {
+  name             = "<%= name %>-testing"
   build_command    = "nx build --skip-nx-cache <%= name %>"
   output_directory = "./dist/<%= directory %>/.next"
   framework        = "nextjs"
