@@ -7,22 +7,15 @@ terraform {
   }
 }
 
-resource "vercel_project" "instagram-backend" {
-  name             = "instagram-backend"
+resource "vercel_project" "instagram-backend-prod" {
+  name             = "intern-1cd-instagram-backend-prod"
   build_command    = "nx build --skip-nx-cache instagram-backend"
   output_directory = "./dist/apps/1CD/instagram/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "instagram-backend" {
-  name             = "instagram-backend"
-  build_command    = "nx build --skip-nx-cache instagram-backend"
-  output_directory = "./dist/apps/1CD/instagram/backend/.next"
-  framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
-}
-resource "vercel_project" "instagram-backend" {
-  name             = "instagram-backend"
+resource "vercel_project" "instagram-backend-testing" {
+  name             = "intern-1cd-instagram-backend-testing"
   build_command    = "nx build --skip-nx-cache instagram-backend"
   output_directory = "./dist/apps/1CD/instagram/backend/.next"
   framework        = "nextjs"

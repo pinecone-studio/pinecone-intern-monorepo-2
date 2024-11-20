@@ -7,22 +7,15 @@ terraform {
   }
 }
 
-resource "vercel_project" "tinder-backend" {
-  name             = "tinder-backend"
+resource "vercel_project" "tinder-backend-prod" {
+  name             = "intern-1cd-tinder-backend-prod"
   build_command    = "nx build --skip-nx-cache tinder-backend"
   output_directory = "./dist/apps/1CD/tinder/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "tinder-backend" {
-  name             = "tinder-backend"
-  build_command    = "nx build --skip-nx-cache tinder-backend"
-  output_directory = "./dist/apps/1CD/tinder/backend/.next"
-  framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
-}
-resource "vercel_project" "tinder-backend" {
-  name             = "tinder-backend"
+resource "vercel_project" "tinder-backend-testing" {
+  name             = "intern-1cd-tinder-backend-testing"
   build_command    = "nx build --skip-nx-cache tinder-backend"
   output_directory = "./dist/apps/1CD/tinder/backend/.next"
   framework        = "nextjs"

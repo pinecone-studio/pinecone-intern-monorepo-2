@@ -61,7 +61,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["leave-request-backend"],
+          "groups": ["intern-1cd-leave-request-backend"],
           "env": "dev"
         }
       }
@@ -71,7 +71,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["leave-request-backend"],
+          "groups": ["intern-1cd-leave-request-backend"],
           "env": "test"
         }
       }
@@ -81,7 +81,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["leave-request-backend"],
+          "groups": ["intern-1cd-leave-request-backend"],
           "env": "prod"
         }
       }
