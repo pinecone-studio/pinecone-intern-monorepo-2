@@ -7,24 +7,24 @@ terraform {
   }
 }
 
-resource "vercel_project" "concert-ticket-backend" {
-  name             = "concert-ticket-backend"
-  build_command    = "nx build --skip-nx-cache concert-ticket-backend"
-  output_directory = "./dist/apps/1CD/concert-ticket/backend/.next"
+resource "vercel_project" "hotel-booking-backend-prod" {
+  name             = "hotel-booking-backend"
+  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
+  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "concert-ticket-backend" {
-  name             = "concert-ticket-backend"
-  build_command    = "nx build --skip-nx-cache concert-ticket-backend"
-  output_directory = "./dist/apps/1CD/concert-ticket/backend/.next"
+resource "vercel_project" "hotel-booking-backend-testing" {
+  name             = "hotel-booking-backend"
+  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
+  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "concert-ticket-backend" {
-  name             = "concert-ticket-backend"
-  build_command    = "nx build --skip-nx-cache concert-ticket-backend"
-  output_directory = "./dist/apps/1CD/concert-ticket/backend/.next"
+resource "vercel_project" "hotel-booking-backend-dev" {
+  name             = "hotel-booking-backend"
+  build_command    = "nx build --skip-nx-cache hotel-booking-backend"
+  output_directory = "./dist/apps/1CD/hotel-booking/backend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
