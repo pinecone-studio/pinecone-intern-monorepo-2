@@ -7,17 +7,17 @@ terraform {
   }
 }
 
-resource "vercel_project" "<%= name %>-prod" {
-  name             = "<%= name %>-prod"
-  build_command    = "nx build --skip-nx-cache <%= name %>"
-  output_directory = "./dist/<%= directory %>/.next"
+resource "vercel_project" "leave-request-frontend-prod" {
+  name             = "leave-request-frontend-prod"
+  build_command    = "nx build --skip-nx-cache leave-request-frontend"
+  output_directory = "./dist/apps/1CD/leave-request/frontend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
-resource "vercel_project" "<%= name %>-testing" {
-  name             = "<%= name %>-testing"
-  build_command    = "nx build --skip-nx-cache <%= name %>"
-  output_directory = "./dist/<%= directory %>/.next"
+resource "vercel_project" "leave-request-frontend-testing" {
+  name             = "leave-request-frontend-testing"
+  build_command    = "nx build --skip-nx-cache leave-request-frontend"
+  output_directory = "./dist/apps/1CD/leave-request/frontend/.next"
   framework        = "nextjs"
   team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
 }
