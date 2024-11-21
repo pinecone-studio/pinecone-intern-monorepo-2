@@ -5,6 +5,7 @@ import { ProjectPreview } from '../../utils/federation/federation-projects-actio
 import { getAffectedApps } from '../../utils/affected/get-affected-apps';
 import { addCommentToPullRequest } from '../../utils/github/add-comment-to-pull-request';
 import { getAffectedFederationServices } from '../../utils';
+import { runE2EActionAgainstPreviewLink } from '../../utils/actions/run-e2e-against-preview-link';
 
 export const handleError = (error) => {
   console.log(red(`\n > Error while running preview action: ${error} \n`));
@@ -38,6 +39,7 @@ export const addCommentIfPreviewUrlAvailable = async (
   if (isActionPreviewUrlAvailable(federationPreviewUrl, federationProjectsPreviewUrl, otherProjectsPreviewLinks)) {
     const previewData: (ProjectPreview | string)[] = [buildFederationPreviewUrl(federationPreviewUrl, affectedFederationServices), ...federationProjectsPreviewUrl, ...otherProjectsPreviewLinks];
     await addCommentToPullRequest(previewData as ProjectPreview[]);
+    await runE2EActionAgainstPreviewLink([...federationProjectsPreviewUrl, ...otherProjectsPreviewLinks]);
   }
 };
 
