@@ -30,6 +30,7 @@ const userSchema = new Schema<UserType>({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   phone: {
     type: String,
@@ -62,6 +63,9 @@ const userSchema = new Schema<UserType>({
   updatedAt: {
     type: Date,
     default: new Date(),
+  },
+  otp: {
+    type: String,
   },
 });
 
