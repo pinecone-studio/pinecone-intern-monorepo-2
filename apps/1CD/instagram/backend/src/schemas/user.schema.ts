@@ -14,9 +14,19 @@ export const typeDefs = gql`
     accountVisibility: String
     followerCount: Int
     followingCount: Int
-    password: String
+    password: String!
     createdAt: Date
     updatedAt: Date
     otp: String
+  }
+  input SignupInput {
+    email: String!
+    password: String!
+    userName: String!
+    fullName: String!
+  }
+
+  type Mutation {
+    signup(input: SignupInput!): User!
   }
 `;

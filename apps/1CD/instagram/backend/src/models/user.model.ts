@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 export type UserType = {
-  _id: Schema.Types.ObjectId;
+  _id: string;
   userName: string;
   fullName: string;
   email: string;
@@ -56,6 +56,10 @@ const userSchema = new Schema<UserType>({
   followingCount: {
     type: Number,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: new Date(),
@@ -69,4 +73,4 @@ const userSchema = new Schema<UserType>({
   },
 });
 
-export const userModel = model('userModel', userSchema);
+export const userModel = models['userModel'] || model('userModel', userSchema);
