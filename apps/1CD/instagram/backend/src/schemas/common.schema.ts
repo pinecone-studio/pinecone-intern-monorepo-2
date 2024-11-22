@@ -15,5 +15,6 @@ export const typeDefs = gql`
 
   type Mutation {
     sampleMutation: String!
+
   }
 `;
