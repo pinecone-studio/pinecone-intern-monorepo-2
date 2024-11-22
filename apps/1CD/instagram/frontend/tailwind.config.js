@@ -8,6 +8,9 @@ module.exports = {
   content: [join(__dirname, 'src/**/*.{ts,tsx}'), '../../../../libs/shadcn/src/lib/ui/*.{ts,tsx}', ...createGlobPatternsForDependencies(__dirname)],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
