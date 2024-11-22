@@ -14,7 +14,6 @@ export const typeDefs = gql`
     accountVisibility: String
     followerCount: Int
     followingCount: Int
-    password: String!
     createdAt: Date
     updatedAt: Date
     otp: String
