@@ -172,7 +172,7 @@
         "parallel": false
       }
     },
-    "ew": {
+    "preview": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
