@@ -1,7 +1,22 @@
-query Query {
+query SampleQueryOneTwo {
   sampleQuery
 }
 
 mutation Mutation {
   sampleMutation
+}
+
+mutation SignUp($email: String!, $password: String!) {
+  signUp(email: $email, password: $password) {
+    _id
+    email
+    password
+    role
+    phoneNumber
+    otp
+    passwordResetToken
+    passwordResetTokenExpire
+    createdAt
+    updatedAt
+  }
 }
