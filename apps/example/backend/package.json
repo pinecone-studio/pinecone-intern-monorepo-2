@@ -10,6 +10,8 @@
     "jsonwebtoken": "9.0.2",
     "mongoose": "8.7.2",
     "next": "14.2.14",
+    "nodemailer": "6.9.16",
+    "otp-agent": "3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.3.3"
