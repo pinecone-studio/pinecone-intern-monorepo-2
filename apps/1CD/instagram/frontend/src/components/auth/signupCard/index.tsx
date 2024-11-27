@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
+import { useAuth } from '@/components/providers/AuthProvider';
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -45,6 +46,7 @@ const inputs: { name: keyof z.infer<typeof formSchema>; label: string }[] = [
 ];
 
 export const SignupCard = () => {
+  const { signup } = useAuth();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,10 +57,16 @@ export const SignupCard = () => {
     },
   });
 
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   await signup()
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await signup({
+      email: values.email,
+      password: values.password,
+      fullName: values.fullName,
+      userName: values.userName,
+    });
+  };
 
-  // }
+  console.log('form', signup);
 
   return (
     <Card className="w-[350px] mx-auto text-center border-none bg-white text-sm text-[#09090B] leading-5 font-normal">
@@ -68,11 +76,9 @@ export const SignupCard = () => {
         </CardTitle>
         <CardDescription className="px-10 text-sm text-[#09090B] leading-5 font-normal">Sign up to see photos and videos from your friends</CardDescription>
       </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-          // onSubmit={form.handleSubmit(onSubmit)}
-          >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent>
             <div className="grid items-center w-full gap-2">
               {inputs.map((input) => (
                 <FormField
@@ -104,12 +110,14 @@ export const SignupCard = () => {
                 </p>
               </div>
             </div>
-          </form>
-        </Form>
-      </CardContent>
-      <CardFooter className="flex justify-center">
-        <Button className="w-full bg-[#2563EB80] hover:bg-[#2563EB] text-white">Sign up</Button>
-      </CardFooter>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <Button className="w-full bg-[#2563EB80] hover:bg-[#2563EB] text-white" type="submit">
+              Sign up
+            </Button>
+          </CardFooter>
+        </form>
+      </Form>
     </Card>
   );
 };

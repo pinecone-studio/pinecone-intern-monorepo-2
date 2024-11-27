@@ -1,5 +1,7 @@
 'use client';
-import { createContext, PropsWithChildren, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { User, useSignupMutation } from 'src/generated';
 
 type SignUp = {
   email: string;
@@ -10,13 +12,23 @@ type SignUp = {
 
 type AuthContextType = {
   signup: (_params: SignUp) => void;
+  user: User | null;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [signupMutation] = useSignupMutation({
+    onCompleted: (data) => {
+      localStorage.setItem('token', data.signup.token);
+      setUser(data.signup.user);
+      router.push('/');
+    },
+  });
   const signup = async ({ email, password, fullName, userName }: SignUp) => {
-    await {
+    await signupMutation({
       variables: {
         input: {
           email,
@@ -25,9 +37,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           userName,
         },
       },
-    };
+    });
   };
-  return <AuthContext.Provider value={{ signup }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signup, user }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
