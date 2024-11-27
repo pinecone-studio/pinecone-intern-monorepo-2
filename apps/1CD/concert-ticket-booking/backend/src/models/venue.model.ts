@@ -3,9 +3,10 @@ import { model, models, Schema } from 'mongoose';
 type Venue = {
   _id: Schema.Types.ObjectId;
   name: string;
+  location:string;
   image: string;
   capacity: string;
-  size: number;
+  size: string;
 };
 
 const venueSchema = new Schema<Venue>(
@@ -13,6 +14,10 @@ const venueSchema = new Schema<Venue>(
     name: {
       type: String,
       required: true,
+    },
+    location: {
+      type:String,
+      required:true,
     },
     image: {
       type: String,
@@ -23,7 +28,7 @@ const venueSchema = new Schema<Venue>(
       required: true,
     },
     size: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
