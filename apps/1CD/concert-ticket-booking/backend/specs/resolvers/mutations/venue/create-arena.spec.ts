@@ -6,7 +6,7 @@ jest.mock('../../../../src/models/venue.model', ()=>({
     create:jest.fn(),
 }));
 
-describe('createArena Mutation', ()=>{
+describe('createArena', ()=>{
     it('should create a arena when the arena is not created', async ()=> {
         (Venue.create as jest.Mock).mockResolvedValueOnce({
             _id:'1',
