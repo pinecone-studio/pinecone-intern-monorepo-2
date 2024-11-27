@@ -6,6 +6,7 @@ export const addHotelGeneralInfo = async (_: unknown, { input }: { input: HotelI
   try {
     const createdGeneralInfo = await hotelsModel.create({
       ...input,
+
       createdAt: new Date(),
     });
     return createdGeneralInfo;
