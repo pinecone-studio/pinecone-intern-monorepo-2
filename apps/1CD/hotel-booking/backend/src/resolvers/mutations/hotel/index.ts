@@ -1,2 +1,2 @@
 export * from './add-hotel-general-info';
-export * from './updateHotelLocation';
+export * from './update-hotel-location';

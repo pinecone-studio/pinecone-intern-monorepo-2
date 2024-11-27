@@ -1,4 +1,4 @@
-import { updateHotelLocation } from '../../../../src/resolvers/mutations/hotel/updateHotelLocation';
+import { updateHotelLocation } from '../../../../src/resolvers/mutations/hotel/update-hotel-location';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models', () => ({
