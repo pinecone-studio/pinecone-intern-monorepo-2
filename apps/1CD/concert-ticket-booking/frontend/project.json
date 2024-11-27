@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {  
-          "groups": ["intern-1cd-concert-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["intern-1cd-concert-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "prod"
         }
       }
