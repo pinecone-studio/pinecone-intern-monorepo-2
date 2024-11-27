@@ -12,8 +12,15 @@ export const typeDefs = gql`
     updatedAt: String
     createdAt: String
   }
+  input UpdatePostInput {
+    _id: ID!
+
+    description: String
+    images: [String]
+  }
 
   type Mutation {
     createPost(user: String!, description: String, images: [String!]!): Post!
+    updatePost(input: UpdatePostInput!): Post!
   }
 `;
