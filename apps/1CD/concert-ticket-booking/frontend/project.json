@@ -1,5 +1,5 @@
 {
-  "name": "concert-ticket-booking-frontend",
+  "name": "concert-frontend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/1CD/concert-ticket-booking/frontend",
   "projectType": "application",
@@ -27,17 +27,17 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "concert-ticket-booking-frontend:build",
+        "buildTarget": "concert-frontend:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "concert-ticket-booking-frontend:build:development",
+          "buildTarget": "concert-frontend:build:development",
           "dev": true,
           "port": 4201
         },
         "production": {
-          "buildTarget": "concert-ticket-booking-frontend:build:production",
+          "buildTarget": "concert-frontend:build:production",
           "dev": false
         }
       },
@@ -55,7 +55,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "concert-ticket-booking-frontend:build:production"
+        "buildTarget": "concert-frontend:build:production"
       }
     },
     "test": {
@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "dev"
         }
       }
@@ -87,8 +87,8 @@
       "executor": "@pinecone-intern-monorepo/secrets:get",
       "defaultConfiguration": "testing",
       "configurations": {
-        "testing": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+        "testing": {  
+          "groups": ["intern-1cd-concert-frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+          "groups": ["intern-1cd-concert-frontend"],
           "env": "prod"
         }
       }
@@ -127,7 +127,7 @@
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress concert-ticket-booking-frontend --watch"],
+        "commands": ["npx nx cypress concert-frontend --watch"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -150,7 +150,7 @@
         "cypressConfig": "apps/1CD/concert-ticket-booking/frontend/cypress.config.ts",
         "testingType": "e2e",
         "reporter": "mochawesome",
-        "devServerTarget": "concert-ticket-booking-frontend:serve:development",
+        "devServerTarget": "concert-frontend:serve:development",
         "browser": "chrome"
       },
       "dependsOn": [
