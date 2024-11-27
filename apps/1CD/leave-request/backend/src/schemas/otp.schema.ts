@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const UserTypeDefs = gql`
+export const OTPTypeDefs = gql`
   type OTP {
     _id: ID!,
     otp: String!,

@@ -1,6 +1,13 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { createsOTP } from '../../../src/resolvers/mutations/otp/create-otp';
 
+jest.mock('nodemailer', () => ({
+  createTransport: jest.fn(() => ({
+    sendMail: jest.fn().mockResolvedValue({otp: "9999"}),
+  })),
+}))
+
+
 jest.mock('../../../src/models/user', () => ({
   UserModel: {
     findOne: jest.fn().mockResolvedValueOnce(null).mockResolvedValueOnce({ email: 'Zolo@gmail.com' }).mockResolvedValueOnce({ email: 'Zolo@gmail.com' }),
