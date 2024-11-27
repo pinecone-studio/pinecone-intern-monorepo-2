@@ -14,6 +14,7 @@ jest.mock('../../../src/models/user', () => ({
   },
 }));
 
+
 jest.mock('../../../src/models/otp', () => ({
   OTPModel: {
     findOne: jest
@@ -26,6 +27,7 @@ jest.mock('../../../src/models/otp', () => ({
         email: 'Zolo@gmail.com',
         OTP: '9991',
       }),
+    deleteOne: jest.fn().mockResolvedValue(null)
   },
 }));
 

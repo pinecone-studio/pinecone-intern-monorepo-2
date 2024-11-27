@@ -13,8 +13,11 @@ export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) 
     throw new Error('User not found');
   }
   const oldOTP = await OTPModel.findOne({ email });
-  if (oldOTP && oldOTP.expirationDate > new Date()) {
-    throw new Error('Old OTP is not expired');
+  if (oldOTP) {
+    if (oldOTP.expirationDate > new Date()){
+      throw new Error('Old OTP is not expired');
+    }
+    await OTPModel.deleteOne({email})
   }
 
   const otp = generateOTP();
