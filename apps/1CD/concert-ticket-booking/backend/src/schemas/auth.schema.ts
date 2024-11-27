@@ -13,7 +13,26 @@ export const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date!
   }
+  type AuthResponse {
+    user: User!
+    token: String!
+  }
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+  input UpdateInput {
+    phoneNumber: String!
+    email: String!
+  }
+  input ChangePasswordInput {
+    oldPassword: String!
+    newPassword: String!
+  }
   type Mutation {
     signUp(email: String!, password: String!): User!
+    login(input: LoginInput!): AuthResponse!
+    updateUser(input: UpdateInput!): User!
+    changePassword(input: ChangePasswordInput!): User!
   }
 `;
