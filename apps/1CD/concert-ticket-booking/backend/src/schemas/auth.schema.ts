@@ -25,9 +25,14 @@ export const typeDefs = gql`
     phoneNumber: String!
     email: String!
   }
+  input ChangePasswordInput {
+    oldPassword: String!
+    newPassword: String!
+  }
   type Mutation {
     signUp(email: String!, password: String!): User!
     login(input: LoginInput!): AuthResponse!
     updateUser(input: UpdateInput!): User!
+    changePassword(input: ChangePasswordInput!): User!
   }
 `;
