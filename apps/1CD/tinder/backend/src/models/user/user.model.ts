@@ -7,7 +7,7 @@ export type UserType={
     password:string,
     otp?:number,
     bio:string,
-    age:Date,
+    age:number,
     gender:string,
     interests:[string],
     photos:[string],
@@ -42,7 +42,7 @@ const userSchema=new Schema<UserType>({
        
     },
     age:{
-        type:Date,
+        type:Number,
        
     },
     gender:{
