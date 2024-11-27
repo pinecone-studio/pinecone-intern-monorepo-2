@@ -17,18 +17,18 @@ export type HotelsType = {
 };
 
 const hotelsSchema = new Schema<HotelsType>({
-  hotelName: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
+  hotelName: {
+    type: String,
+    required: true,
+  },
+
   description: {
     type: String,
   },
   starRating: {
     type: Number,
   },
+  phoneNumber: Number,
   userRating: {
     type: Number,
   },
