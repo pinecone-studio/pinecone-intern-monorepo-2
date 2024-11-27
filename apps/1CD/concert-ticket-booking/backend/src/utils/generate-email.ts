@@ -14,18 +14,17 @@ const transporter = nodemailer.createTransport({
   },
 });
 export const generateEmail = async (email: string, otp: string) => {
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: email, // list of receivers
     subject: 'Hello ✔', // Subject line
     text: 'Hello world?', // plain text body
     html: generateTemplate(otp), // html body
   });
-  console.log('send email info ======>>>>', info);
 };
 
 export const sendEmailWithLink = async (email: string, resetToken: string): Promise<void> => {
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: email, // list of receivers
     subject: 'Hello ✔', // Subject line
