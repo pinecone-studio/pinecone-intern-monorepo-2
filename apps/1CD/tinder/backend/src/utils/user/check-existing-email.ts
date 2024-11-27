@@ -13,7 +13,7 @@ export const checkExistingEmail=async(email:string)=>{
     if(existingUser){
         throw new GraphQLError('email already exist',{
             extensions:{
-                code:'USER_ALREADY_EXISTS'
+                code:'USER_ALREADY_EXISTS',
             }
         })
     }
