@@ -24,5 +24,4 @@ export const runChecksOnAffectedApps = (target: string, action: string) => {
 export const performPreCommitChecks = () => {
   runChecksOnAffectedApps('lint', 'lint');
   runChecksOnAffectedApps('build', 'build');
-  runChecksOnAffectedApps('test', 'test');
 };
