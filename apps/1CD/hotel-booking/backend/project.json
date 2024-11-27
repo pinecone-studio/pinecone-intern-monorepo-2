@@ -96,7 +96,14 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": ["graphql-codegen --config ./apps/1CD/hotel-booking/backend/codegen.ts"]
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "get-secrets:dev",
+          "params": "forward"
+        }
+      ]
+
     },
     "export": {
       "executor": "@nx/next:export",

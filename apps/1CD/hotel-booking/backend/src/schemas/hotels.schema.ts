@@ -10,6 +10,7 @@ export const typeDefs = gql`
     starRating: Int
     userRating: Int
     phoneNumber: Int
+    location: String
   }
   input HotelInput {
     hotelName: String!
@@ -20,5 +21,6 @@ export const typeDefs = gql`
   }
   type Mutation {
     addHotelGeneralInfo(input: HotelInput!): Hotel!
+    updateHotelLocation(_id: ID!, location: String!): Hotel!
   }
 `;
