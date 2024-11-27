@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+
 connectToDb();
 
 const server = new ApolloServer<Context>({
@@ -16,19 +16,6 @@ const server = new ApolloServer<Context>({
 
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
-    const token = req.headers.get('authorization') || '';
-
-    let userId = null;
-
-    try {
-      if (!process.env.JWT_SECRET) {
-        throw new Error('JWT_SECRET is not defined');
-      }
-      const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
-      userId = decoded.userId;
-    } catch (error) {
-      console.error(error);
-    }
-    return { userId };
+    return { req };
   },
 });
