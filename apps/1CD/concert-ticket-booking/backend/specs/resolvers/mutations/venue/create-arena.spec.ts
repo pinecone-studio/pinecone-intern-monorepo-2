@@ -17,7 +17,7 @@ describe('createArena Mutation', ()=>{
             size:'2800',
          });
 
-        const result=await createArena!({}, {
+        const result=await createArena?.({}, {
       input: {
         name:'UG Arena', 
         location:'Bayngol',
