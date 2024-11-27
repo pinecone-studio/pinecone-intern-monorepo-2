@@ -39,12 +39,12 @@ const SigninPage = () => {
   return (
     <div className="bg-gray-100 w-screen h-screen flex items-center justify-center ">
       <div>
-        <div className="bg-white rounded-xl p-10">
+        <div className="bg-white rounded-xl p-4 py-10">
           <Form {...form}>
             <div className="w-full flex justify-center p-5">
               <Image alt="" width={150} height={50} src="/images/Vector.png" className="" />
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-[360px] m-auto flex flex-col gap-10">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-[300px] m-auto flex flex-col gap-10">
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}

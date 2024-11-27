@@ -18,6 +18,7 @@ export const typeDefs = gql`
     updatedAt: Date
     otp: String
   }
+
   input SignupInput {
     email: String!
     password: String!
@@ -25,7 +26,17 @@ export const typeDefs = gql`
     fullName: String!
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type Query {
+    getUser(userId: ID!): User!
+  }
+
   type Mutation {
     signup(input: SignupInput!): User!
+    login(input: LoginInput!): User!
   }
 `;

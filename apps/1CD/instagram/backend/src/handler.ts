@@ -4,6 +4,7 @@ import { typeDefs } from './schemas';
 import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Context } from './types';
 
 connectToDb();
@@ -16,6 +17,14 @@ const server = new ApolloServer<Context>({
 
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
-    return { req };
+    const token = req.headers.get('authorization') || '';
+    let userId = null;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+      userId = decoded.userId;
+    } catch {
+      userId = null;
+    }
+    return { userId };
   },
 });
