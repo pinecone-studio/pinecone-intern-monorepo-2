@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { createsOTP } from '../../../src/resolvers/mutations/otp/create-otp';
+import { createsOTP } from '../../../../src/resolvers/mutations/otp/create-otp';
 
 jest.mock('nodemailer', () => ({
   createTransport: jest.fn(() => ({
@@ -8,14 +8,14 @@ jest.mock('nodemailer', () => ({
 }))
 
 
-jest.mock('../../../src/models/user', () => ({
+jest.mock('../../../../src/models/user', () => ({
   UserModel: {
     findOne: jest.fn().mockResolvedValueOnce(null).mockResolvedValueOnce({ email: 'Zolo@gmail.com' }).mockResolvedValueOnce({ email: 'Zolo@gmail.com' }),
   },
 }));
 
 
-jest.mock('../../../src/models/otp', () => ({
+jest.mock('../../../../src/models/otp', () => ({
   OTPModel: {
     findOne: jest
       .fn()
