@@ -17,7 +17,8 @@ describe('check user if exist', () => {
     userName: 'Zolo',
     profile: 'Profile',
     role: 'supervisee',
-    position: "engineer"
+    position: "engineer",
+    hireDate: "2024-11-28T05:09:08.018Z"
   };
   it("user that already existed exist", async () => {
     try {
