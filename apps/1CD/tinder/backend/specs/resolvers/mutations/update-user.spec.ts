@@ -29,7 +29,8 @@ describe('find user by ID', () => {
   };
 
   it('should find user by ID', async () => {
-    (userModel.findById as jest.Mock).mockResolvedValue(mockUser), (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
+    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
+    (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
     const updateduser = await updateUser!(
       {},
       { _id: '123', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
