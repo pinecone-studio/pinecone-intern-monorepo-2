@@ -33,6 +33,7 @@ export const typeDefs = gql`
     signUp(email: String!, password: String!): User!
     login(input: LoginInput!): AuthResponse!
     updateUser(input: UpdateInput!): User!
+    verifyUserEmail(email: String!): User!
     changePassword(input: ChangePasswordInput!): User!
   }
 `;
