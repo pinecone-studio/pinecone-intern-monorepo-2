@@ -3,7 +3,13 @@ import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models', () => ({
   hotelsModel: {
-    findByIdAndUpdate: jest.fn().mockReturnValueOnce({ _id: '1', location: 'test' }).mockReturnValueOnce(null),
+    findByIdAndUpdate: jest
+      .fn()
+      .mockReturnValueOnce({
+        _id: '1',
+        location: 'test',
+      })
+      .mockReturnValueOnce(null),
   },
 }));
 
