@@ -14,11 +14,9 @@ export const UserTypeDefs = gql`
     updatedAt: Date
   }
 
-  type Query {
-    
-  }
+  
 
-  type Mutation {
-    
+  type Query {
+    findUserByEmail(email: String!):User 
   }
 `;
