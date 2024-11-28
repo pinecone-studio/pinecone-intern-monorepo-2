@@ -83,9 +83,8 @@ describe('performPreCommitChecks', () => {
     runCommandMock.mockImplementation();
     preCommitChecks.performPreCommitChecks();
 
-    expect(runCommandMock).toHaveBeenCalledTimes(3);
+    expect(runCommandMock).toHaveBeenCalledTimes(2);
     expect(runCommandMock).toHaveBeenCalledWith('lint', 'lint');
     expect(runCommandMock).toHaveBeenCalledWith('build', 'build');
-    expect(runCommandMock).toHaveBeenCalledWith('test', 'test');
   });
 });

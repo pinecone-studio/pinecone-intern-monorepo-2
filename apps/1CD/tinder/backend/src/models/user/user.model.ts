@@ -42,7 +42,7 @@ const userSchema=new Schema<UserType>({
        
     },
     age:{
-        type: Number,
+        type:Number,
        
     },
     gender:{
