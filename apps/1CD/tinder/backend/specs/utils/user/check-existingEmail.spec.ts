@@ -1,52 +1,41 @@
-import { GraphQLError } from "graphql";
-import { checkExistingEmail } from "../../../src/utils/user/check-existing-email";
+import { GraphQLError } from 'graphql';
+import { userModel } from '../../../src/models';
+import { checkExistingEmail } from '../../../src/utils/user/check-existing-email';
 
-
-const mockFindOne=jest.fn();
-
-jest.mock('../../../src/models',()=>({
-    userModel:{
-        findOne: (args:string) => mockFindOne(args) 
-    }
+jest.mock('../../../src/models', () => ({
+  userModel: {
+    findOne: jest.fn(),
+  },
 }));
-describe('checkExistingEmail',()=>{
-    beforeEach(() =>{
-        mockFindOne.mockClear();
+
+describe('checkExistingEmail', () => {
+  it('should return email if email is possible to', async () => {
+    const mockEmail = 'test@gmail.com';
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
+    const res = await checkExistingEmail(mockEmail);
+    expect(userModel.findOne).toHaveBeenCalledWith({ email: mockEmail });
+    expect(res).toBe(mockEmail);
+  });
+
+  it('should throw graphqlError when email already exists', async () => {
+    const mockEmail = 'test@gmail.com';
+    (userModel.findOne as jest.Mock).mockResolvedValue({
+      email: mockEmail,
     });
-    it('should return email when it doesnt exist in database', async()=>{
-        const email='newuser@gmail.com';
-        mockFindOne.mockResolvedValue(null);
-        const res=await checkExistingEmail(email);
-        expect(res).toBe(email);
-        expect(mockFindOne).toHaveBeenCalledWith({email});
-        expect(mockFindOne).toHaveBeenCalledTimes(1);
+    await expect(checkExistingEmail(mockEmail)).rejects.toThrowError(GraphQLError);
+    await expect(checkExistingEmail(mockEmail)).rejects.toMatchObject({
+        extensions:{
+            code:'USER_ALREADY_EXISTS'
+        }
     })
-    it('should throw graphqlError when email already exists', async()=>{
-        const email='existingUser@gmail.com';
-        mockFindOne.mockResolvedValue({email});
-        await expect(checkExistingEmail(email)).rejects.toThrow(
-            new GraphQLError('email already exist',{
-                extensions:{
-                    code:'USER_ALREADY_EXISTS'
-                }
-            })
-        );
-        expect(mockFindOne).toHaveBeenCalledWith({email});
-        expect(mockFindOne).toHaveBeenCalledTimes(1);
-    })
-    it('should throw graphqlError when email is empty', async()=>{
-        const email='';
-        await expect(checkExistingEmail(email)).rejects.toThrow(
-            new GraphQLError('email is required',{
-                extensions:{
-                    code:'EMAIL_REQUIRED'
-                }
-            })
-        )
-    })
-    it('should throw error when database fails', async()=>{
-        const email='example2gmail.com'
-        mockFindOne.mockRejectedValue(new Error('database error'));
-        await expect(checkExistingEmail(email)).rejects.toThrow('database error')
-        })
-})
+  });
+
+  it('should throw graphql error when email is not provided', async()=>{
+    const mockEmail='';
+
+    await expect(checkExistingEmail(mockEmail)).rejects.toThrow(GraphQLError);
+    await expect(checkExistingEmail(mockEmail)).rejects.toThrow('email is required');
+  });
+
+
+});

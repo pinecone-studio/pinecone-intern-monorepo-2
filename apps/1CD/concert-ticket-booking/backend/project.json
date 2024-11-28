@@ -1,5 +1,5 @@
 {
-  "name": "concert-ticket-booking-backend",
+  "name": "concert-backend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/1CD/concert-ticket-booking/backend",
   "projectType": "application",
@@ -27,16 +27,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "concert-ticket-booking-backend:build",
+        "buildTarget": "concert-backend:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "concert-ticket-booking-backend:build:development",
+          "buildTarget": "concert-backend:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "concert-ticket-booking-backend:build:production",
+          "buildTarget": "concert-backend:build:production",
           "dev": false
         }
       }
@@ -95,7 +95,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "concert-ticket-booking-backend:build:production"
+        "buildTarget": "concert-backend:build:production"
       }
     },
     "export-env": {
