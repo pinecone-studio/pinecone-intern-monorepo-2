@@ -3,7 +3,7 @@ import User from '../../../models/user.model';
 import crypto from 'crypto';
 import { sendEmailWithLink } from '../../../utils/sent-recover-link';
 
-export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }, {}) => {
+export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) => {
   const { email, otp } = input;
   const user = await User.findOne({ email, otp });
   if (!user) {
