@@ -39,7 +39,13 @@
           "buildTarget": "hotel-booking-backend:build:production",
           "dev": false
         }
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "codegen",
+          "params": "forward"
+        }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
