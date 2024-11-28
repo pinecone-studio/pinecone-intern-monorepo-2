@@ -4,7 +4,7 @@ type TicketType = {
   _id: Schema.Types.ObjectId;
   zoneName: string;
   soldQuantity: number;
-  totalQuantity: string;
+  totalQuantity: number;
   unitPrice: number;
   discount: number;
   additional: string;
@@ -28,10 +28,10 @@ const ticketSchema = new Schema<Ticket>(
           required: true,
         },
         totalQuantity: {
-          type: String,
+          type: Number,
           required: true,
         },
-        quantity: {
+        soldQuantity: {
           type: Number,
           required: true,
         },
