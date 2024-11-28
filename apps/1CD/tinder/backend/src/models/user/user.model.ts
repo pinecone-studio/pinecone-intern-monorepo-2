@@ -33,7 +33,7 @@ const userSchema=new Schema<UserType>({
        
     },
     otp:{
-        type:Number,
+        type: Number,
         expires:'5m',
         
     },
