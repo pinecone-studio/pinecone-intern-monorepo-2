@@ -7,7 +7,7 @@ export type UserType={
     password:string,
     otp?:number,
     bio:string,
-    age:Date,
+    age:Number,
     gender:string,
     interests:[string],
     photos:[string],

@@ -7,7 +7,7 @@ export const typeDefs = gql`
     name: String!
     email: String!
     bio: String!
-    age: Date!
+    age: Int!
     gender: String!
     interests: [String!]
     photos: [String!]
@@ -30,6 +30,21 @@ export const typeDefs = gql`
     otp: Int!
     password: String!
   }
+
+  input CreateUserInput {
+    name: String!
+    email: String!
+    bio: String!
+    age: Int!
+    gender: String!
+    interests: [String!]
+    photos: [String!]
+    profession: String!
+    schoolWork: [String!]
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
   type RegisterResponse {email:String!}
 
 
@@ -37,5 +52,8 @@ export const typeDefs = gql`
     registerEmail(input: RegisterEmailInput!): RegisterResponse!
     registerOtp(input: RegisterOtpInput!): RegisterResponse!
     registerPassword(input: RegisterPasswordInput!): RegisterResponse!
+    createUser(input: CreateUserInput!):User!
+    updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
   }
 `;
+
