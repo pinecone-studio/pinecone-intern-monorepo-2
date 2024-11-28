@@ -37,6 +37,9 @@ const UserSchema = new Schema<User>(
       type: Date,
       required: true,
     },
+    supervisor: {
+      type: [String],
+    }
   },
   {
     timestamps: true,

@@ -31,7 +31,7 @@ jest.mock('../../../../src/models/otp', () => ({
   },
 }));
 
-describe('check user if exist', () => {
+describe('createsOTP', () => {
   it("user that doesn't exist", async () => {
     try {
       await createsOTP!({}, { email: 'Zolo2004@gmail.com' }, {}, {} as GraphQLResolveInfo);
