@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["Intern-1cd-concert-ticket-booking-frontend"],
+          "groups": ["intern-1cd-concert-ticket-booking-frontend"],
           "env": "prod"
         }
       }
