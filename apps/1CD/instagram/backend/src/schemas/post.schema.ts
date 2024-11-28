@@ -19,8 +19,13 @@ export const typeDefs = gql`
     images: [String]
   }
 
+  type Query {
+    getMyPosts(userID: String!): [Post!]!
+  }
+
   type Mutation {
     createPost(user: String!, description: String, images: [String!]!): Post!
     updatePost(input: UpdatePostInput!): Post!
+    deletePost(_id: String!): Post!
   }
 `;
