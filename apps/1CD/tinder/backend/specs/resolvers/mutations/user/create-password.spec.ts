@@ -1,4 +1,4 @@
-import { createPassword } from 'apps/1CD/tinder/backend/src/resolvers/mutations';
+import { createPassword } from '../../../../src/resolvers/mutations';
 import { userModel } from '../../../../src/models';
 import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 
