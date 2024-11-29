@@ -7,7 +7,7 @@ jest.mock('../../../../src/models/user.model', () => ({
   findById: jest.fn(),
 }));
 jest.mock('bcrypt', () => ({
-  compare: jest.fn(),
+  compareSync: jest.fn(),
 }));
 
 describe('user change password', () => {
@@ -26,7 +26,7 @@ describe('user change password', () => {
       email: 'test@gmail.com',
       password: 'hashedPassword',
     });
-    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
+    (bcrypt.compareSync as jest.Mock).mockResolvedValueOnce(false);
     try {
       await changePassword!({}, { input: { oldPassword: 'wrongPass', newPassword: 'test1234' } }, { userId: '1' }, {} as GraphQLResolveInfo);
     } catch (error) {
@@ -46,7 +46,7 @@ describe('user change password', () => {
       }),
     };
     (User.findById as jest.Mock).mockResolvedValueOnce(mockUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
+    (bcrypt.compareSync as jest.Mock).mockResolvedValueOnce(true);
 
     const result = await changePassword!({}, { input: { oldPassword: 'correctPass', newPassword: 'test1234' } }, { userId: '1' }, {} as GraphQLResolveInfo);
 

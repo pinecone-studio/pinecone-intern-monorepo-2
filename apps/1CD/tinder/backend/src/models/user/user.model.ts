@@ -33,9 +33,9 @@ const userSchema=new Schema<UserType>({
        
     },
     otp:{
-        type: Number,
-        expires:'5m',
-        
+
+        type:Number,
+
     },
     bio:{
         type:String,
