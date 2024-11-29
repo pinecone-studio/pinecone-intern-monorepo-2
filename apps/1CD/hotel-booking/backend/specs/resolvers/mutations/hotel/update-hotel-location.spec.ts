@@ -15,12 +15,12 @@ jest.mock('../../../../src/models', () => ({
 
 describe('updateHotelLocation', () => {
   it('should update location', async () => {
-    const result = await updateHotelLocation!({}, { _id: '1', location: 'test' }, {}, {} as GraphQLResolveInfo);
+    const result = await updateHotelLocation!({}, { _id: '1', location: 'test' }, { userId: '1' }, {} as GraphQLResolveInfo);
     expect(result).toEqual({ id: '1', location: 'test' });
   });
   it('should be id null', async () => {
     try {
-      await updateHotelLocation!({}, { _id: '0', location: 'test' }, {}, {} as GraphQLResolveInfo);
+      await updateHotelLocation!({}, { _id: '0', location: 'test' }, { userId: '1' }, {} as GraphQLResolveInfo);
     } catch (err) {
       expect(err).toEqual(new Error('Error to update location'));
     }
