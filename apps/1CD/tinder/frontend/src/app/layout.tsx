@@ -10,7 +10,7 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body>
+      <body className="font-inter">
         <ApolloWrapper>{children}</ApolloWrapper>
       </body>
     </html>
