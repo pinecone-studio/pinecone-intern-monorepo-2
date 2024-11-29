@@ -16,17 +16,18 @@ jest.mock('../../../../src/models/post.model.ts', () => ({
 }));
 
 const input = {
+  
   _id: '1',
-
   images: ['img1', 'img2'],
   description: 'post Test',
 };
+
 describe('Create Post', () => {
   it('should create a post', async () => {
     const result = await updatePost!(
       {},
       {
-        input,
+        input
       },
       {},
       {} as GraphQLResolveInfo
