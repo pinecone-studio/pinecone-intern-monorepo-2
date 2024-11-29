@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useAddHotelGeneralInfoMutation } from '@/generated';
+import { GraphQLError } from 'graphql';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
@@ -12,21 +13,39 @@ type AddHotelGeneralInfoType = {
 };
 const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   const [addHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+
   const PhoneNumberError = () => {
     if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
-    return <p className="text-red-500">{formik.errors.phoneNumber}</p>;
+    return (
+      <p data-testid="Phonenumber-Error" className="text-red-500">
+        {formik.errors.phoneNumber}
+      </p>
+    );
   };
+
   const StarsRating = () => {
     if (!formik.errors.starsRating || !formik.touched.starsRating) return <div></div>;
-    return <p className="text-red-500">{formik.errors.starsRating}</p>;
+    return (
+      <p data-testid="Hotel-Stars-Rating" className="text-red-500">
+        {formik.errors.starsRating}
+      </p>
+    );
   };
   const ReviewRating = () => {
     if (!formik.errors.rating || !formik.touched.rating) return <div></div>;
-    return <p className="text-red-500">{formik.errors.rating}</p>;
+    return (
+      <p data-testid="Review-Rating" className="text-red-500">
+        {formik.errors.rating}
+      </p>
+    );
   };
   const HotelName = () => {
     if (!formik.errors.hotelName || !formik.touched.hotelName) return <div></div>;
-    return <p className="text-red-500">{formik.errors.hotelName}</p>;
+    return (
+      <p data-testid="Hotel-Name-Error" className="text-red-500">
+        {formik.errors.hotelName}
+      </p>
+    );
   };
   const initialValues = {
     hotelName: '',
@@ -45,17 +64,21 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      await addHotelGeneralInfo({
-        variables: {
-          input: {
-            hotelName: values.hotelName,
-            description: values.description,
-            starRating: Number(values.starsRating),
-            userRating: Number(values.rating),
-            phoneNumber: Number(values.phoneNumber),
+      try {
+        await addHotelGeneralInfo({
+          variables: {
+            input: {
+              hotelName: values.hotelName,
+              description: values.description,
+              starRating: Number(values.starsRating),
+              userRating: Number(values.rating),
+              phoneNumber: Number(values.phoneNumber),
+            },
           },
-        },
-      });
+        });
+      } catch (err) {
+        throw new GraphQLError((err as Error).message);
+      }
 
       setOpen(false);
     },
@@ -71,7 +94,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             <div className="flex flex-col gap-2 text-sm">
               <div>Name</div>
               <div>
-                <Input value={formik.values.hotelName} onChange={formik.handleChange} id="hotelName" />
+                <Input data-cy="Hotel-Name-Input" data-testid="Hotel-Name-Input" value={formik.values.hotelName} onChange={formik.handleChange} id="hotelName" />
                 <HotelName />
               </div>
             </div>
@@ -84,21 +107,27 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             <div className="flex flex-col gap-2 text-sm">
               <div>Stars Rating</div>
               <div>
-                <Input value={formik.values.starsRating === 0 ? '' : formik.values.starsRating} onChange={formik.handleChange} id="starsRating" />
+                <Input
+                  data-cy="Stars-Rating-Input"
+                  data-testid="StarsRating"
+                  value={formik.values.starsRating === 0 ? '' : formik.values.starsRating}
+                  onChange={formik.handleChange}
+                  id="starsRating"
+                />
                 <StarsRating />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div>Phone Number</div>
               <div>
-                <Input value={formik.values.phoneNumber === 0 ? '' : formik.values.phoneNumber} onChange={formik.handleChange} id="phoneNumber" />
+                <Input data-cy="PhoneNumber-Input" data-testid="Phonenumber" value={formik.values.phoneNumber === 0 ? '' : formik.values.phoneNumber} onChange={formik.handleChange} id="phoneNumber" />
                 <PhoneNumberError />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div>Rating</div>
               <div>
-                <Input value={formik.values.rating === 0 ? '' : formik.values.rating} onChange={formik.handleChange} id="rating" />
+                <Input data-cy="Review-Rating-Input" data-testid="Review-Rating" value={formik.values.rating === 0 ? '' : formik.values.rating} onChange={formik.handleChange} id="rating" />
                 <ReviewRating />
               </div>
             </div>
@@ -110,7 +139,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               </Button>
             </div>
             <div>
-              <Button type="submit" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
+              <Button data-cy="Save-Button" data-testid="Save-Button" type="submit" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
                 Save
               </Button>
             </div>

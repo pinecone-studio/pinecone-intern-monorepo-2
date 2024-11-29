@@ -18,16 +18,13 @@ const server = new ApolloServer<Context>({
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
     const token = req.headers.get('authorization') || '';
-
     let userId = null;
-
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
       userId = decoded.userId;
     } catch {
       userId = null;
     }
-
     return {
       userId,
     };
