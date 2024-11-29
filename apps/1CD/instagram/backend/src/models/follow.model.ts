@@ -30,7 +30,7 @@ const followSchema = new Schema<FollowType>({
   },
   status: {
     type: String,
-    enum: ['pending', 'approved'],
+    enum: ['APPROVED', 'PENDING'],
   },
 });
 

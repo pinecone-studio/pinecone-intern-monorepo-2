@@ -13,7 +13,7 @@ jest.mock('../../../src/models/user.model.ts', () => ({
         bio: 'g',
         gender: 'male',
         profileImg: 'img',
-        accountVisibility: 'public',
+        accountVisibility: 'PUBLIC',
       })
       .mockReturnValueOnce(null),
   },
@@ -26,7 +26,7 @@ const input = {
   bio: 'g',
   gender: 'male',
   profileImg: 'img',
-  accountVisibility: 'public',
+  accountVisibility: 'PUBLIC',
 };
 describe('Update user data', () => {
   it('should update user data', async () => {
@@ -46,7 +46,7 @@ describe('Update user data', () => {
       bio: 'g',
       gender: 'male',
       profileImg: 'img',
-      accountVisibility: 'public',
+      accountVisibility: 'PUBLIC',
     });
   });
   it('should throw user data', async () => {
