@@ -27,16 +27,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "concert-backend:build",
+        "buildTarget": "concert-ticket-booking-backend:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "concert-backend:build:development",
+          "buildTarget": "concert-ticket-booking-backend:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "concert-backend:build:production",
+          "buildTarget": "concert-ticket-booking-backend:build:production",
           "dev": false
         }
       }
@@ -95,7 +95,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "concert-backend:build:production"
+        "buildTarget": "concert-ticket-booking-backend:build:production"
       }
     },
     "export-env": {
