@@ -31,7 +31,18 @@ export const typeDefs = gql`
     fullName: String!
   }
 
+  input UpdateInput {
+    _id: ID!
+    userName: String
+    fullName: String
+    bio: String
+    gender: String
+    profileImg: String
+    accountVisibility: String
+  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
+    updateUserData(input: UpdateInput!): User!
   }
 `;
