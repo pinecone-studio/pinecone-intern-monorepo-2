@@ -12,7 +12,6 @@ export const addRoomService = async (_: unknown, { input, roomId }: { input: Roo
         },
       }
     );
-
     return addRoomService;
   } catch (error) {
     throw new GraphQLError((error as Error).message);

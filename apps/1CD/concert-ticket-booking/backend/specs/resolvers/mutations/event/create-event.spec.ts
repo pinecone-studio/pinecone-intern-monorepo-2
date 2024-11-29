@@ -1,6 +1,6 @@
 import { createEvent } from '../../../../src/resolvers/mutations/event/create-event';
 import Event from '../../../../src/models/event.model';
-import Ticket from '../../../../src/models/ticket.model';
+import Ticket from '../../../../src/models/tickets.model';
 import { GraphQLResolveInfo } from 'graphql';
 import { EventInput } from '../../../../src/generated';
 

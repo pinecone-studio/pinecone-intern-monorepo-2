@@ -1,5 +1,5 @@
 import { createTicket } from '../../../src/resolvers/mutations';
-import Ticket from '../../../src/models/ticket.model';
+import Ticket from '../../../src/models/tickets.model';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../src/models/ticket.model', () => ({

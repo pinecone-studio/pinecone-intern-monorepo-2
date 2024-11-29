@@ -1,6 +1,6 @@
 import { MutationResolvers } from '../../../generated';
 import Event from '../../../models/event.model';
-import Ticket from '../../../models/ticket.model';
+import Ticket from '../../../models/tickets.model';
 
 export const createEvent: MutationResolvers['createEvent'] = async (_, { input }) => {
   const newTickets = await Ticket.insertMany(input.dayTickets);
