@@ -13,3 +13,4 @@ export const createUser : MutationResolvers['createUser'] = async (_ : unknown, 
 
     return user
 }
+

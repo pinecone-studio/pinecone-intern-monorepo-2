@@ -16,6 +16,7 @@ export const UserTypeDefs = gql`
 
   type Mutation {
     createUser(email: String!, userName: String!, profile: String!, role: String!, position: String!, supervisor: [ID], hireDate: Date!): User
+    updateUserRole(email:String!, role: String!): Role
   }
 
   type Query {
