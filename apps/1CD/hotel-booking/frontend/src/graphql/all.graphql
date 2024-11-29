@@ -1,7 +1,17 @@
 query Query {
   sampleQuery
 }
-
 mutation Mutation {
   sampleMutation
+}
+mutation addHotelGeneralInfo($input: HotelInput!) {
+  addHotelGeneralInfo(input: $input) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+  }
 }

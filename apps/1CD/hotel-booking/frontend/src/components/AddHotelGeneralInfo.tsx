@@ -4,30 +4,60 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { useAddHotelGeneralInfoMutation } from '@/generated';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
-  setOpen: (_value: boolean) => void;
+  setOpen: (_: boolean) => void;
 };
 const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
+  const [addHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+  const PhoneNumberError = () => {
+    if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
+    return <p className="text-red-500">{formik.errors.phoneNumber}</p>;
+  };
+  const StarsRating = () => {
+    if (!formik.errors.starsRating || !formik.touched.starsRating) return <div></div>;
+    return <p className="text-red-500">{formik.errors.starsRating}</p>;
+  };
+  const ReviewRating = () => {
+    if (!formik.errors.rating || !formik.touched.rating) return <div></div>;
+    return <p className="text-red-500">{formik.errors.rating}</p>;
+  };
+  const HotelName = () => {
+    if (!formik.errors.hotelName || !formik.touched.hotelName) return <div></div>;
+    return <p className="text-red-500">{formik.errors.hotelName}</p>;
+  };
   const initialValues = {
     hotelName: '',
     description: '',
-    starsRating: '',
-    phoneNumber: '',
-    rating: '',
+    starsRating: 0,
+    phoneNumber: 0,
+    rating: 0,
   };
   const validationSchema = yup.object({
     hotelName: yup.string().required('hotel name is required'),
-    description: yup.string().max(100, 'description max length is 100 character'),
-    starsRating: yup.string().required('hotel stars rating is required'),
-    phoneNumber: yup.number().min(7, 'phone number length must be 8').max(8, 'phone number length must be 8'),
-    rating: yup.string().required('hotel review is required'),
+    description: yup.string(),
+    starsRating: yup.number().required('hotel stars rating is required'),
+    phoneNumber: yup.number().min(7, 'phone number length must be 8'),
+    rating: yup.number().required('hotel review is required'),
   });
   const formik = useFormik({
     initialValues,
-    onSubmit: () => {
-      console.log('');
+    onSubmit: async (values) => {
+      await addHotelGeneralInfo({
+        variables: {
+          input: {
+            hotelName: values.hotelName,
+            description: values.description,
+            starRating: Number(values.starsRating),
+            userRating: Number(values.rating),
+            phoneNumber: Number(values.phoneNumber),
+          },
+        },
+      });
+
+      setOpen(false);
     },
     validationSchema,
   });
@@ -42,6 +72,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               <div>Name</div>
               <div>
                 <Input value={formik.values.hotelName} onChange={formik.handleChange} id="hotelName" />
+                <HotelName />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
@@ -53,21 +84,22 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             <div className="flex flex-col gap-2 text-sm">
               <div>Stars Rating</div>
               <div>
-                <Input value={formik.values.starsRating} onChange={formik.handleChange} id="starsRating" />
+                <Input value={formik.values.starsRating === 0 ? '' : formik.values.starsRating} onChange={formik.handleChange} id="starsRating" />
+                <StarsRating />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div>Phone Number</div>
               <div>
-                <Input value={formik.values.phoneNumber} onChange={formik.handleChange} id="phoneNumber" />
-                {formik.errors.phoneNumber && formik.touched.phoneNumber && <p className="text-red-500">{formik.errors.phoneNumber}</p>}
+                <Input value={formik.values.phoneNumber === 0 ? '' : formik.values.phoneNumber} onChange={formik.handleChange} id="phoneNumber" />
+                <PhoneNumberError />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div>Rating</div>
               <div>
-                <Input value={formik.values.rating} onChange={formik.handleChange} id="rating" />
-                {formik.errors.rating && formik.touched.rating && <p className="text-red-500">{formik.errors.rating}</p>}
+                <Input value={formik.values.rating === 0 ? '' : formik.values.rating} onChange={formik.handleChange} id="rating" />
+                <ReviewRating />
               </div>
             </div>
           </div>
@@ -78,7 +110,9 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               </Button>
             </div>
             <div>
-              <Button className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">Save</Button>
+              <Button type="submit" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
+                Save
+              </Button>
             </div>
           </div>
         </form>
