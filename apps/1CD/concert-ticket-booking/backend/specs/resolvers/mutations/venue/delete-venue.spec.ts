@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 import Venue from '../../../../src/models/venue.model';
-import { deleteArena } from '../../../../src/resolvers/mutations/venue';
+import { deleteArena } from '../../../../src/resolvers/mutations/venue/delete-venue';
 
 jest.mock('../../../../src/models/venue.model', ()=>({
     findByIdAndDelete:jest.fn(),

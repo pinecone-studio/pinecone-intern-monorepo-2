@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from "graphql";
-import { getArena } from "../../../src/resolvers/queries";
+import { getArena } from "../../../src/resolvers/queries/get-venue";
 import Venue from "../../../src/models/venue.model";
 
 jest.mock('../../../src/models/venue.model', ()=>({

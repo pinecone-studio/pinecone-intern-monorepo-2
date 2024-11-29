@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import Venue from '../../../../src/models/venue.model';
-import { createArena } from "../../../../src/resolvers/mutations/venue";
+import { createArena } from "../../../../src/resolvers/mutations/venue/create-venue";
 
 jest.mock('../../../../src/models/venue.model', ()=>({
     create:jest.fn(),
