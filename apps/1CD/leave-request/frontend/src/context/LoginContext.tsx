@@ -1,12 +1,12 @@
 'use client';
 
-import React, { createContext, PropsWithChildren, useContext, useState } from 'react';
+import React, { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from 'react';
 
 interface LoginContextType {
   email: string;
   expirationDate: string;
-  setEmail:  void;
-  setExpirationDate:  void;
+  setEmail:  Dispatch<SetStateAction<string>>;
+  setExpirationDate:  Dispatch<SetStateAction<string>>;
 }
 
 const LoginContext = createContext<LoginContextType | undefined>(undefined);

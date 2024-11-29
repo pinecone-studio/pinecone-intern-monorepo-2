@@ -13,3 +13,6 @@ mutation CreatesOTP($email: String!) {
   }
 }
 
+mutation CheckOTP($email: String!, $otp: String!) {
+  checkOTP(email: $email, OTP: $otp)
+}
