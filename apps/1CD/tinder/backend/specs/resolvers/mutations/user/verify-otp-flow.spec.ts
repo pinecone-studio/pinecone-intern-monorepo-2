@@ -18,7 +18,7 @@ describe('verifying the otp', () => {
   const mockOtp = 1234;
   const mockInfo = {} as GraphQLResolveInfo;
 
-  it('should return email and otp when otp is verified', async () => {
+  it('should return email when otp is verified', async () => {
     const mockUser = {
       email: mockEmail,
       otp: mockOtp,
@@ -29,7 +29,7 @@ describe('verifying the otp', () => {
     (checkOtpDate as jest.Mock).mockReturnValue('otp is valid');
 
     const res = await verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {}, mockInfo);
-    expect(res).toEqual({ email: mockEmail, otp: mockOtp });
+    expect(res).toEqual({ email: mockEmail});
     expect(checkOtpDate).toHaveBeenCalledWith(mockUser);
   });
 
