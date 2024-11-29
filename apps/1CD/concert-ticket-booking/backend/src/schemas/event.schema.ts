@@ -31,10 +31,10 @@ export const typeDefs = gql`
   }
   input TicketInput {
     scheduledDay: Date!
-    ticketType: [ticketTypeInput!]!
+    ticketType: [ticketsTypeInput!]!
   }
 
-  input ticketTypeInput {
+  input ticketsTypeInput {
     zoneName: String!
     soldQuantity: Int!
     totalQuantity: Int!
