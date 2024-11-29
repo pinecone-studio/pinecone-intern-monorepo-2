@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 export type BookingType = {
-  id: string;
+  _id: string;
   userId: string;
   roomId: string;
   checkInDate: Date;

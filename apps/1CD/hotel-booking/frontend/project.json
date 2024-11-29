@@ -18,7 +18,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:testing",
           "params": "forward"
         }
       ]
@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["Intern-1cd-hotel-booking-frontend"],
+          "groups": ["intern-1cd-hotel-booking-frontend"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["Intern-1cd-hotel-booking-frontend"],
+          "groups": ["intern-1cd-hotel-booking-frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["Intern-1cd-hotel-booking-frontend"],
+          "groups": ["intern-1cd-hotel-booking-frontend"],
           "env": "prod"
         }
       }
@@ -198,32 +198,7 @@
         }
       ]
     },
-    "deploy-dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "clean"
-        },
-        {
-          "target": "get-secrets:dev"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen:dev",
-          "params": "forward"
-        }
-      ]
-    },
+
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],

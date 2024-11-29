@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const typeDefs = gql`
   scalar Date
 
+
   type RoomServiceType {
     bathroom: [String]
     accessability: [String]
@@ -24,7 +25,27 @@ export const typeDefs = gql`
     bedroom: [String]
     other: [String]
   }
+
+
+  type RoomType {
+    _id: ID
+    hotelId: ID
+    roomName: String
+    roomType: String
+    price: Int
+    roomInformation: String
+    createdAt: Date
+  }
+  input RoomTypeInput {
+    hotelId: ID
+    roomName: String
+    roomType: String
+    price: Int
+    roomInformation: String
+  }
   type Mutation {
-    addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
+    addRoom(input: RoomTypeInput!): RoomType!
+        addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
+
   }
 `;
