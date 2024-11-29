@@ -1,69 +1,82 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { followModel } from '../../../src/models/follow.model';
+import { userModel } from '../../../src/models/user.model';
 import { sendFollowReq } from '../../../src/resolvers/mutations';
 
-jest.mock('../../../src/models/user.model.ts', () => ({
-  userModel: {
-    findById: jest.fn().mockResolvedValueOnce({ _id: '3', name: 'Test User' }).mockResolvedValueOnce(null).mockResolvedValueOnce({ _id: '3', name: 'Test User' }),
-  },
-}));
+jest.mock('../../../src/models/user.model.ts');
+jest.mock('../../../src/models/follow.model.ts');
 
-jest.mock('../../../src/models/follow.model.ts', () => ({
-  followModel: {
-    create: jest
-      .fn()
-      .mockResolvedValueOnce({
-        _id: '1',
-        followerId: '2',
-        followingId: '3',
-        status: 'a',
-      })
-      .mockRejectedValueOnce(new Error('could not send follow request')),
-  },
-}));
+describe('sendFollowReq', () => {
+  const followerId = 'followerId';
+  const followingId = 'followingId';
 
-describe('Create follow request', () => {
-  it('should create a follow request', async () => {
-    const response = await sendFollowReq!(
-      {},
-      {
-        followerId: '2',
-        followingId: '3',
-        status: 'a',
-      },
-      {},
-      {} as GraphQLResolveInfo
-    );
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    expect(response).toEqual({
-      _id: '1',
-      followerId: '2',
-      followingId: '3',
-      status: 'a',
+  it('should create a follow request with status pending for a private account', async () => {
+    (userModel.findById as jest.Mock).mockResolvedValueOnce({
+      _id: followingId,
+      accountVisibility: 'private',
+    });
+
+    (followModel.create as jest.Mock).mockResolvedValueOnce({
+      _id: 'requestId',
+      followerId,
+      followingId,
+      status: 'pending',
+    });
+
+    const result = await sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual({
+      _id: 'requestId',
+      followerId,
+      followingId,
+      status: 'pending',
+    });
+    expect(userModel.findById).toHaveBeenCalledWith(followingId);
+    expect(followModel.create).toHaveBeenCalledWith({
+      followerId,
+      followingId,
+      status: 'pending',
     });
   });
 
-  it('should not follow if user does not exist', async () => {
-    try {
-      await sendFollowReq!({}, { followerId: '2', followingId: '3', status: 'a' }, { userId: null }, {} as GraphQLResolveInfo);
-    } catch (error) {
-      expect(error).toEqual(new Error('User not found'));
-    }
+  it('should create a follow request with status approved for a public account', async () => {
+    (userModel.findById as jest.Mock).mockResolvedValueOnce({
+      _id: followingId,
+      accountVisibility: 'public',
+    });
+
+    (followModel.create as jest.Mock).mockResolvedValueOnce({
+      _id: 'requestId',
+      followerId,
+      followingId,
+      status: 'approved',
+    });
+
+    const result = await sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual({
+      _id: 'requestId',
+      followerId,
+      followingId,
+      status: 'approved',
+    });
+    expect(userModel.findById).toHaveBeenCalledWith(followingId);
+    expect(followModel.create).toHaveBeenCalledWith({
+      followerId,
+      followingId,
+      status: 'approved',
+    });
   });
 
-  it('could not send follow request', async () => {
-    try {
-      await sendFollowReq!(
-        {},
-        {
-          followerId: '2',
-          followingId: '3',
-          status: 'a',
-        },
-        {},
-        {} as GraphQLResolveInfo
-      );
-    } catch (error) {
-      expect(error).toEqual(new Error('could not send follow request'));
-    }
+  it('should throw an error if the user does not exist', async () => {
+    (userModel.findById as jest.Mock).mockResolvedValueOnce(null);
+
+    await expect(sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('User not found');
+    expect(userModel.findById).toHaveBeenCalledWith(followingId);
+    expect(followModel.create).not.toHaveBeenCalled();
   });
 });

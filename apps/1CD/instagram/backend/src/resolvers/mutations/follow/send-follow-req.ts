@@ -18,3 +18,5 @@ export const sendFollowReq: MutationResolvers['sendFollowReq'] = async (_: unkno
   const sendRequest = await followModel.create({ followerId, followingId, status });
   return sendRequest;
 };
+
+//i wanna test sendFollowReq function but i dont know how to test it. please create me a testing code for this function using jest
