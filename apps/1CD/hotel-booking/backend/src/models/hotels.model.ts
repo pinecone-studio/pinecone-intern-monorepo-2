@@ -2,7 +2,7 @@ import { Schema, model, models } from 'mongoose';
 import { RoomsType } from './rooms.model';
 
 export type HotelsType = {
-  id: string;
+  _id: string;
   hotelName: string;
   description?: string;
   starRating: number;
