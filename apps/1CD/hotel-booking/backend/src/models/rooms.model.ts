@@ -9,7 +9,15 @@ export type RoomsType = {
   images: string[];
   amenities: string[];
   price: number;
-  roomService: string[];
+  roomService: {
+    bathroom: [];
+    accessability: [];
+    entertaiment: [];
+    foodDrink: [];
+    other: [];
+    bedroom:[]
+  };
+
   rating: number;
   starsRating: number;
   createdAt: Date;
@@ -18,7 +26,6 @@ export type RoomsType = {
 const roomsSchema = new Schema<RoomsType>({
   roomType: {
     type: String,
-    required: true,
   },
 
   roomCount: {
@@ -26,22 +33,24 @@ const roomsSchema = new Schema<RoomsType>({
   },
   roomNumber: {
     type: String,
-    required: true,
   },
   images: [String],
   price: {
     type: Number,
-    required: true,
   },
   amenities: {
     type: [String],
   },
 
-  roomService: [
-    {
-      type: String,
-    },
-  ],
+  roomService: {
+    bathroom: [String],
+    accessability: [String],
+    entertaiment: [String],
+    foodDrink: [String],
+    other: [String],
+    bedroom:[String]
+  },
+
   rating: {
     type: Number,
   },
