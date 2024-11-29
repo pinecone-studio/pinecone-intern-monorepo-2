@@ -3,7 +3,7 @@ import { RoomServiceInput } from "../../../../src/generated";
 import { addRoomService } from "../../../../src/resolvers/mutations";
 
 
-jest.mock('apps/1CD/hotel-booking/backend/src/models', () => ({
+jest.mock('src/models', () => ({
     roomsModel: {
         findByIdAndUpdate: jest
         .fn()
