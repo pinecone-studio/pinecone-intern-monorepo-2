@@ -33,7 +33,7 @@ const ticketSchema = new Schema<Ticket>(
         },
         soldQuantity: {
           type: Number,
-          required: true,
+          default: 0,
         },
         unitPrice: {
           type: Number,
@@ -54,5 +54,5 @@ const ticketSchema = new Schema<Ticket>(
     timestamps: true,
   }
 );
-const Ticket = models['Ticket'] || model('Ticket', ticketSchema);
+const Ticket = models['Ticket'] || model<Ticket>('Ticket', ticketSchema);
 export default Ticket;
