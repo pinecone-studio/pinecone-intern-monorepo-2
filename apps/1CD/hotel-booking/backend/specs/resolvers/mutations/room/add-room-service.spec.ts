@@ -1,5 +1,6 @@
-import { RoomServiceInput } from "apps/1CD/hotel-booking/backend/src/generated";
-import { addRoomService } from "apps/1CD/hotel-booking/backend/src/resolvers/mutations/room/add-room-service";
+
+import { RoomServiceInput } from "../../../../src/generated";
+import { addRoomService } from "../../../../src/resolvers/mutations";
 
 
 jest.mock('apps/1CD/hotel-booking/backend/src/models', () => ({
