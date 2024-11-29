@@ -1,7 +1,7 @@
 import { HotelInput } from '../../../../src/generated';
 import { addHotelGeneralInfo } from '../../../../src/resolvers/mutations/hotel/add-hotel-general-info';
 
-jest.mock('apps/1CD/hotel-booking/backend/src/models', () => ({
+jest.mock('src/models', () => ({
   hotelsModel: {
     create: jest
       .fn()
