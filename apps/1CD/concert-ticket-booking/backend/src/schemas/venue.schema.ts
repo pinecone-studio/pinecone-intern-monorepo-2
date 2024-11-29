@@ -1,28 +1,28 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
-export const typeDefs=gql
-`type Venue {
+export const typeDefs = gql`
+  type Venue {
     _id: ID!
-    name:String!
-    location:String!
-    image:String!
-    capacity:String!
-    size:String!
-}
+    name: String!
+    location: String!
+    image: String!
+    capacity: String!
+    size: String!
+  }
 
-input ArenaInput {
-    name:String!
-    location:String!
-    image:String!
-    capacity:String!
-        size:String!
-    }
+  input ArenaInput {
+    name: String!
+    location: String!
+    image: String!
+    capacity: String!
+    size: String!
+  }
 
-type Mutation {
+  type Mutation {
     createArena(input: ArenaInput!): Venue!
     deleteArena(_id: ID!): Venue!
-}
-type Query {
+  }
+  type Query {
     getArena: [Venue]
-    }    
+  }
 `;
