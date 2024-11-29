@@ -22,7 +22,7 @@ const nextConfig = {
     ];
   },
   env: {
-    MONGO_URI: process.env.MONGO_URI,
+    MONGODB_URL: process.env.MONGODB_URL,
   },
   nx: {
     svgr: false,
