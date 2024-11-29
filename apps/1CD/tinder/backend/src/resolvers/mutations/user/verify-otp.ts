@@ -13,5 +13,5 @@ export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) =>
     throw new GraphQLError('USER_NOT_FOUND');
   }
   await checkOtpDate(user);
-  return { email: user.email, otp: user.otp };
+  return { email: user.email };
 };
