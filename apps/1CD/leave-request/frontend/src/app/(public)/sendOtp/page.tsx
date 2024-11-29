@@ -1,14 +1,12 @@
 import Image from "next/image";
-import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Card} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
 import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 import logo from "@/components/logo.png";
-import { ArrowLeft, ArrowLeftSquare, RefreshCw, SendToBackIcon } from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
-export  default function SendOtp() {
+const SendOtp = () => {
     return(
         <div className="mt-24">
             <Card className=" bg-white w-[500px] h-full m-auto mx-auto p-10">
@@ -37,3 +35,5 @@ export  default function SendOtp() {
         </div>
     )
 }
+
+export default SendOtp

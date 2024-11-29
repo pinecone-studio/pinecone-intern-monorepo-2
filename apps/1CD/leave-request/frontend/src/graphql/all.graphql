@@ -5,3 +5,11 @@ query Query {
 mutation Mutation {
   sampleMutation
 }
+
+mutation CreatesOTP($email: String!) {
+  createsOTP(email: $email) {
+    email
+    expirationDate
+  }
+}
+
