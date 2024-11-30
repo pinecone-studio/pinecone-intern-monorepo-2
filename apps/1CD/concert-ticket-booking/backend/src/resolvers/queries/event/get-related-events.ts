@@ -15,7 +15,7 @@ export const getRelatedEvents: QueryResolvers['getRelatedEvents'] = async (_, { 
     scheduledDays: {
       $elemMatch: { $gte: today },
     },
-  });
+  }).limit(6);
 
   return { eventDetail, relatedEvents };
 };
