@@ -17,6 +17,10 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI,
+    BACKEND_URI: process.env.BACKEND_URI,
+  },
 };
 
 const plugins = [withNx];

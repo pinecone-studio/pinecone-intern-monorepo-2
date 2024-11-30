@@ -4,8 +4,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useAddHotelGeneralInfoMutation } from '@/generated';
+
 import { GraphQLError } from 'graphql';
+import { useAddHotelGeneralInfoMutation } from '@/generated';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
@@ -65,7 +66,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     initialValues,
     onSubmit: async (values) => {
       try {
-        await addHotelGeneralInfo({
+        const response = await addHotelGeneralInfo({
           variables: {
             input: {
               hotelName: values.hotelName,
@@ -76,7 +77,9 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             },
           },
         });
+        console.log({ response });
       } catch (err) {
+        console.log(err);
         throw new GraphQLError((err as Error).message);
       }
 
@@ -99,7 +102,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               </div>
             </div>
             <div className="flex flex-col gap-2 text-sm">
-              <div>Descriptoin</div>
+              <div>Description</div>
               <div>
                 <Textarea maxLength={100} value={formik.values.description} onChange={formik.handleChange} id="description" />
               </div>
@@ -139,7 +142,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               </Button>
             </div>
             <div>
-              <Button data-cy="Save-Button" data-testid="Save-Button" type="submit" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
+              <Button type="submit" data-cy="Save-Button" data-testid="Save-Button" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
                 Save
               </Button>
             </div>

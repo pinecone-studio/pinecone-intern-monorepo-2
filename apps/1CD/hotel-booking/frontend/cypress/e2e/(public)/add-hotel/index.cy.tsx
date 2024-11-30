@@ -18,6 +18,6 @@ describe('admin add-hotel page', () => {
     cy.get('[data-cy=PhoneNumber-Input]').type('80808080');
     cy.get('[data-cy=Review-Rating-Input]').type('10');
     cy.get('[data-cy=Save-Button]').click();
-    cy.get('[data-cy=Add-Hotel-General-Info-Dialog]').should('not.be.ok');
+    cy.get('[data-cy=Add-Hotel-General-Info-Dialog]').should('not.be.visible');
   });
 });

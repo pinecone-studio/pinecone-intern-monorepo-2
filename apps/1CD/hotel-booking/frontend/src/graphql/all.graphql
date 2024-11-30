@@ -15,3 +15,14 @@ mutation addHotelGeneralInfo($input: HotelInput!) {
     phoneNumber
   }
 }
+mutation updateHotelLocation($location: String!, $id: String!) {
+  updateHotelLocation(location: $location, _id: $id) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+  }
+}
