@@ -4,39 +4,34 @@ import jwt from 'jsonwebtoken';
 import { AccountVisibility } from '../../generated';
 
 export const signup: MutationResolvers['signup'] = async (_: unknown, { input }) => {
-  try {
-    const { email, accountVisibility = AccountVisibility.Public } = input;
+  const { email, accountVisibility = AccountVisibility.Public } = input;
 
-    const user = await userModel.findOne({ email });
+  const user = await userModel.findOne({ email });
 
-    if (user) throw new Error('User already exists');
+  if (user) throw new Error('User already exists');
 
-    console.log({ accountVisibility });
+  console.log({ accountVisibility });
 
-    const newUser = await userModel.create({
-      ...input,
-      accountVisibility,
-    });
+  const newUser = await userModel.create({
+    ...input,
+    accountVisibility,
+  });
 
-    console.log({ newUser });
+  console.log({ newUser });
 
-    if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET environment variable is not set');
-    }
-
-    const token = jwt.sign(
-      {
-        userId: newUser._id,
-      },
-      process.env.JWT_SECRET
-    );
-
-    return {
-      user: newUser,
-      token,
-    };
-  } catch (e) {
-    console.error({ e });
-    throw new Error('Signup failed');
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is not set');
   }
+
+  const token = jwt.sign(
+    {
+      userId: newUser._id,
+    },
+    process.env.JWT_SECRET
+  );
+
+  return {
+    user: newUser,
+    token,
+  };
 };
