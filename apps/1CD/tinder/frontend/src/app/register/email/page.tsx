@@ -7,7 +7,7 @@ const Register = () => {
   return (
     <div className='pt-[200px] justify-items-center'>
       <div className="flex items-center gap-1">
-        <Image src="logo.svg" width={20} height={24} alt="logo" className='w-5 h-6' />
+        <Image src="../logo.svg" width={20} height={24} alt="logo" className='w-5 h-6' />
         <div className="text-[#424242] font-bold text-2xl">tinder</div>
       </div>
       <div className='text-[#09090B] font-semibold text-2xl pt-6 '>Create an account</div>
