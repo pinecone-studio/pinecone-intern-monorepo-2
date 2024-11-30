@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 export type AmenitiesType = {
-  id: string;
+  _id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
