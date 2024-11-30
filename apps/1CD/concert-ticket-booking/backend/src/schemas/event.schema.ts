@@ -54,8 +54,15 @@ export const typeDefs = gql`
     venue: ID!
     category: [ID!]!
   }
+  type RelatedEventResponse {
+    eventDetail: Event!
+    relatedEvents: [Event!]!
+  }
 
   type Mutation {
     createEvent(input: EventInput!): Event!
+  }
+  type Query {
+    getRelatedEvents(eventId: String!): RelatedEventResponse!
   }
 `;
