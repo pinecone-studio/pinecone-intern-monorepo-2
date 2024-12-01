@@ -1,75 +1,27 @@
+import { ForgetPasswordInput } from '../../../generated';
 import { userModel } from '../../../models';
+
 import { generateOTP } from '../../../utils/user/generate-otp';
 import { sendOtpMail } from '../../../utils/user/send-otp-email';
 
-const forgetPassword = {
-  Mutation: {
-    registerEmail: async (_: unknown, { input }: { input: { email: string } }) => {
-      const { email } = input;
+export const forgetPassword = async (_: unknown, { input }: { input: ForgetPasswordInput }) => {
+  const { email } = input;
 
-      const user = await userModel.findOne({ email });
-      if (!user) {
-        return {
-          success: false,
-          message: 'Энэ имэйл бүртгэлгүй байна. Бүртгэл үүсгэнэ үү.',
-        };
-      }
+  const otp = generateOTP();
 
-      const otp = generateOTP();
-      user.otp = otp;
-      await user.save();
-
-      await sendOtpMail(email, otp);
-
-      return {
-        success: true,
-        message: 'OTP амжилттай илгээгдлээ.',
-        email,
-      };
+  const user = await userModel.updateOne(
+    {
+      email,
     },
-    registerOtp: async (_: unknown, { input }: { input: { email: string; otp: number } }) => {
-      const { email, otp } = input;
+    {
+      otp,
+    }
+  );
+  if (!user) {
+    throw new Error('user not found');
+  }
 
-      const user = await userModel.findOne({ email });
-      if (!user || user.otp !== otp) {
-        return {
-          success: false,
-          message: 'Буруу OTP эсвэл хэрэглэгч олдсонгүй.',
-        };
-      }
+  await sendOtpMail(email, otp);
 
-      user.otp = undefined;
-      await user.save();
-
-      return {
-        success: true,
-        message: 'OTP амжилттай баталгаажлаа.',
-        email,
-      };
-    },
-
-    registerPassword: async (_: unknown, { input }: { input: { email: string; otp: number; password: string } }) => {
-      const { email, otp, password } = input;
-
-      const user = await userModel.findOne({ email });
-      if (!user || user.otp !== otp) {
-        return {
-          success: false,
-          message: 'Буруу OTP эсвэл хэрэглэгч олдсонгүй.',
-        };
-      }
-
-      user.password = password;
-      user.otp = undefined;
-      await user.save();
-
-      return {
-        success: true,
-        message: 'Нууц үг амжилттай тохируулагдлаа.',
-        email,
-      };
-    },
-  },
+  return email;
 };
-
-export default forgetPassword;
