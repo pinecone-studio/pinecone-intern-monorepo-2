@@ -66,7 +66,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     initialValues,
     onSubmit: async (values) => {
       try {
-        const response = await addHotelGeneralInfo({
+        await addHotelGeneralInfo({
           variables: {
             input: {
               hotelName: values.hotelName,
@@ -77,9 +77,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             },
           },
         });
-        console.log({ response });
       } catch (err) {
-        console.log(err);
         throw new GraphQLError((err as Error).message);
       }
 

@@ -4,7 +4,7 @@ import AddHotelGeneralInfo from '@/components/AddHotelGeneralInfo';
 
 describe('AddHotelGeneralInfo Component', () => {
   it('renders the form and validates errors', async () => {
-    const { getByTestId, queryByTestId } = render(
+    const { getByTestId } = render(
       <MockedProvider>
         <AddHotelGeneralInfo open={true} setOpen={jest.fn()} />
       </MockedProvider>
@@ -19,7 +19,5 @@ describe('AddHotelGeneralInfo Component', () => {
       expect(getByTestId('Hotel-Stars-Rating')).toBeInTheDocument();
       expect(getByTestId('Review-Rating')).toBeInTheDocument();
     });
-
-    expect(queryByTestId('Invalid-Element')).not.toBeInTheDocument();
   });
 });
