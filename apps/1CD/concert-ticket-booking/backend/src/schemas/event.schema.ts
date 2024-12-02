@@ -55,10 +55,13 @@ export const typeDefs = gql`
     venue: ID!
     category: [ID!]!
   }
+  type Response {
+    message: String!
+  }
 
   type Mutation {
     createEvent(input: EventInput!): Event!
-    deleteEvent(_id: ID!): Event!
+    deleteEvent(_id: ID!): Response!
   }
   type Query {
     getSpecialEvent: [Event!]!
