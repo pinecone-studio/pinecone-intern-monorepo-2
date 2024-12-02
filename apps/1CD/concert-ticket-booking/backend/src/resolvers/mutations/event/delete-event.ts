@@ -16,7 +16,7 @@ export const deleteEvent: MutationResolvers['deleteEvent'] = async (_, { _id }) 
   } catch (e) {
     console.log({ e });
     return {
-      message: 'error',
+      message: 'error found',
     };
   }
 };
