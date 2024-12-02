@@ -11,7 +11,7 @@ type Event = {
   image: string;
   discount: number;
   venue: Schema.Types.ObjectId;
-  priority: String;
+  priority: string;
   category: Schema.Types.ObjectId[];
 };
 

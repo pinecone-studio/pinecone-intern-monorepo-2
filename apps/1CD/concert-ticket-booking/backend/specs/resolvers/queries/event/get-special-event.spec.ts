@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
-import Event from '../../../src/models/event.model';
-import { getSpecialEvent } from '../../../src/resolvers/queries/getSpecialEvent/get_special_event';
+import Event from '../../../../src/models/event.model';
+import { getSpecialEvent } from '../../../../src/resolvers/queries/event/get-special-events';
 
 jest.mock('../../../src/models/event.model', () => ({
   find: jest.fn(),
