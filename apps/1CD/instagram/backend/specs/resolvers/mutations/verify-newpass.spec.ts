@@ -15,7 +15,7 @@ describe('verify-new-password', () => {
   it('should throw error, if password recovery period has expired', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(null);
     try {
-      await verifyNewPass!({}, { input: { password: 'newPass', resetToken: '11223344' } }, {}, {} as GraphQLResolveInfo);
+      await verifyNewPass!({}, { input: { password: 'newPass', resetToken: '11223344' } }, { userId: null }, {} as GraphQLResolveInfo);
     } catch (error) {
       expect(error).toEqual(new Error('Your password recovery period has expired.'));
     }
@@ -31,7 +31,7 @@ describe('verify-new-password', () => {
     };
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(mockUserModel);
     expect(crypto.createHash).toHaveBeenCalledWith('sha256');
-    await verifyNewPass!({}, { input: { password: 'newPass', resetToken: '11223344' } }, {}, {} as GraphQLResolveInfo);
+    await verifyNewPass!({}, { input: { password: 'newPass', resetToken: '11223344' } }, { userId: null }, {} as GraphQLResolveInfo);
     expect(mockUserModel.password).toBe('newPass');
     expect(mockUserModel.save).toHaveBeenCalled();
   });
