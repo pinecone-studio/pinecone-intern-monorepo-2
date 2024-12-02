@@ -79,6 +79,7 @@
     "formik": "2.4.6",
     "graphql": "16.6.0",
     "graphql-tag": "2.12.6",
+    "input-otp": "^1.4.1",
     "jest-canvas-mock": "2.5.2",
     "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
