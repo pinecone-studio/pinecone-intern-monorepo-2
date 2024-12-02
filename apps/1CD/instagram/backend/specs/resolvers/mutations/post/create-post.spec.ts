@@ -44,7 +44,7 @@ describe('Create Post', () => {
         images: ['img1', 'img2'],
         description: 'post Test',
       },
-      {},
+      { userId: null },
       {} as GraphQLResolveInfo
     );
 
@@ -67,7 +67,7 @@ describe('Create Post', () => {
           images: [],
           description: 'post Test',
         },
-        {},
+        { userId: null },
         {} as GraphQLResolveInfo
       );
     } catch (error) {
@@ -86,7 +86,7 @@ describe('Create Post', () => {
           images: [],
           description: 'post Test',
         },
-        {},
+        { userId: null },
         {} as GraphQLResolveInfo
       );
     } catch (error) {
