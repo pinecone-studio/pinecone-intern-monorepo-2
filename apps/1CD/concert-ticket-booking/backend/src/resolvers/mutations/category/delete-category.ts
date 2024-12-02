@@ -7,7 +7,7 @@ export const deleteCategory: MutationResolvers['deleteCategory'] = async (_, { i
     throw new Error('Category not found');
   }
 
-  console.log(deleteCat);
+
 
   return deleteCat;
 };
