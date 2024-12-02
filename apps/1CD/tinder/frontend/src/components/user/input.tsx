@@ -42,11 +42,11 @@ export function CalendarForm({ setDob }: CalendarFormProps) {
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
+              <FormLabel htmlFor="dob">Date of birth (Required)</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    <Button variant={'outline'} className={cn('w-[294px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}>
+                    <Button variant="outline" className={cn('w-[294px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')} aria-label="Pick a date of birth">
                       {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
