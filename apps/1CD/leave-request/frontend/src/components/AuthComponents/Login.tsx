@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import logo from '@/components/logo.png';
 import { useCreatesOtpMutation } from '@/generated';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
@@ -46,7 +45,7 @@ const Login = () => {
     <div className="mt-24" data-testid='createOTP-modal'>
       <Card className="bg-white w-[500px] h-full m-auto mx-auto p-12">
         <h1 className="font-bold text-center mb-6 mx-4">Нэвтрэх</h1>
-        <Image src={logo.src} alt="logo" width={150} height={150} className="mx-auto" />
+        <Image src={'/logo.png'} alt="logo" width={150} height={150} className="mx-auto" />
         <Formik initialValues={{ email: '' }} validationSchema={validationSchema} onSubmit={sendEmail}>
           {({ handleSubmit, handleChange, values, errors, touched }) => (
             <Form onSubmit={handleSubmit}>

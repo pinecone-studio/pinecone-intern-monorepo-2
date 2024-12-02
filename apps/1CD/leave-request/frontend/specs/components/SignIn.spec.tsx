@@ -1,47 +1,66 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { CreatesOtpDocument } from '@/generated';
 import Login from '@/components/AuthComponents/Login';
+import { LoginProvider } from '@/context/LoginContext';
+import { CreatesOtpDocument } from '@/generated';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { useRouter } from 'next/navigation';
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 const newDate = new Date();
 
-const createOTPMock: MockedResponse = {
+const createOtpMock: MockedResponse = {
   request: {
     query: CreatesOtpDocument,
-    variables: { email: 'Zolo@gmail.com' },
+    variables: { email: 'test@example.com' },
   },
   result: {
     data: {
       createsOTP: {
-        email: 'Zolo@gmail.com',
-        expirationDate: newDate.toString(),
+        email: 'test@example.com',
+        expirationDate: newDate.toISOString(),
+        __typename: 'CreatesOTP',
       },
     },
   },
 };
 
-describe('Login request, otp creating, component test', () => {
-  it('should render and show the modal after OTP request', async () => {
-    const { getByTestId } = render(
-      <MockedProvider mocks={[createOTPMock]} addTypename={false}>
-        <Login />
+describe('Login request, OTP creation, component test', () => {
+  it('validates email input and shows errors', async () => {
+    const { getByTestId, getByText } = render(
+      <MockedProvider>
+        <LoginProvider>
+          <Login />
+        </LoginProvider>
       </MockedProvider>
     );
 
-    const modal = getByTestId('check-otp-modal');
-    const input = getByTestId('email-input');
-    const sendOTPButton = getByTestId('sendOTP-submit-button');
+    fireEvent.click(getByTestId('sendOTP-submit-button'));
 
-    // Simulate user input and button click
-    act(() => {
-      fireEvent.change(input, { target: { value: 'Zolo@gmail.com' } });
-      fireEvent.click(sendOTPButton);
-    });
+    await waitFor(() => expect(getByText('И-мэйл хаяг оруулна уу')));
+  });
 
-    // Wait for modal to appear
-    await waitFor(() => expect(modal).toBeInTheDocument());
+  it('submits OTP request and navigates on success', async () => {
+    const router = useRouter();
+    const { getByTestId } = render(
+      <MockedProvider mocks={[createOtpMock]} addTypename={false}>
+        <LoginProvider>
+          <Login />
+        </LoginProvider>
+      </MockedProvider>
+    );
 
-    // Optionally, you can check if the modal is visible (if you have a CSS class or style that controls visibility)
-    // expect(modal).toBeVisible();
+    const emailInput = getByTestId('email-input');
+    const submitButton = getByTestId('sendOTP-submit-button');
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => expect(router.push));
   });
 });

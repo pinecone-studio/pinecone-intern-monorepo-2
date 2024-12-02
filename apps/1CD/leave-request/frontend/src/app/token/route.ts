@@ -8,5 +8,5 @@ export const GET = (req: Request) => {
         cookieStore.set('authtoken', token, { httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7 }); 
     }
     
-    return Response.json({msg: 'hello'})
+    return Response.json({msg: 'hello'}) 
 }
