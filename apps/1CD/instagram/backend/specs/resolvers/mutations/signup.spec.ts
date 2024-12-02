@@ -32,7 +32,7 @@ describe('signup', () => {
     (userModel.create as jest.Mock).mockResolvedValue(mockNewUser);
     (jwt.sign as jest.Mock).mockReturnValue(mockToken);
 
-    const result = await signup!({}, { input: mockInput }, {}, {} as GraphQLResolveInfo);
+    const result = await signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
       user: mockNewUser,
@@ -46,7 +46,7 @@ describe('signup', () => {
   it('should throw error if user already exists', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue({ email: mockInput.email });
 
-    await expect(signup!({}, { input: mockInput }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('User already exists');
+    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('User already exists');
   });
 
   it('should throw error if JWT_SECRET is not set', async () => {
@@ -55,7 +55,7 @@ describe('signup', () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
     (userModel.create as jest.Mock).mockResolvedValue({ _id: 'mockUserId', ...mockInput });
 
-    await expect(signup!({}, { input: mockInput }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
+    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
   });
 
   it('should create user with default PUBLIC visibility when not specified', async () => {
@@ -76,7 +76,7 @@ describe('signup', () => {
     (userModel.create as jest.Mock).mockResolvedValue(mockNewUser);
     (jwt.sign as jest.Mock).mockReturnValue(mockToken);
 
-    const result = await signup!({}, { input: inputWithoutVisibility }, {}, {} as GraphQLResolveInfo);
+    const result = await signup!({}, { input: inputWithoutVisibility }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
       user: mockNewUser,
