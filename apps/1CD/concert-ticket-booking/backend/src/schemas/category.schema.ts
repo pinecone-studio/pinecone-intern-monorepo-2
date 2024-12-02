@@ -10,8 +10,7 @@ export const typeDefs = gql`
     createCategory(name: String!): Category!
     deleteCategory(id: String!): Category!
   }
-  # type Mutation {
-  #   createCategory(input: CreateCategoryInput!): Category!
-  #   deleteCategory(_id: ID!): Category!
-  # }
+  type Query {
+    getCategory: [Category!]!
+  }
 `;
