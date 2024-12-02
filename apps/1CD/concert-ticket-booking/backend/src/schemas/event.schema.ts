@@ -57,5 +57,6 @@ export const typeDefs = gql`
 
   type Mutation {
     createEvent(input: EventInput!): Event!
+    deleteEvent(_id: ID!): Event!
   }
 `;
