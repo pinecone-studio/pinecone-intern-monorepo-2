@@ -1,9 +1,10 @@
 import { MutationResolvers } from '../../generated';
 import { userModel } from '../../models/user.model';
 import jwt from 'jsonwebtoken';
+import { AccountVisibility } from '../../generated';
 
-export const signup: MutationResolvers['signup'] = async (_, { input }) => {
-  const { email } = input;
+export const signup: MutationResolvers['signup'] = async (_: unknown, { input }) => {
+  const { email, accountVisibility = AccountVisibility.Public } = input;
 
   const user = await userModel.findOne({ email });
 
@@ -11,6 +12,7 @@ export const signup: MutationResolvers['signup'] = async (_, { input }) => {
 
   const newUser = await userModel.create({
     ...input,
+    accountVisibility,
   });
 
   if (!process.env.JWT_SECRET) {
