@@ -18,7 +18,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:testing",
           "params": "forward"
         }
       ]
@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["Intern-1cd-instagram-frontend"],
+          "groups": ["intern-1cd-instagram-frontend"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["Intern-1cd-instagram-frontend"],
+          "groups": ["intern-1cd-instagram-frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["Intern-1cd-instagram-frontend"],
+          "groups": ["intern-1cd-instagram-frontend"],
           "env": "prod"
         }
       }
