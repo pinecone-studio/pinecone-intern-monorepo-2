@@ -5,5 +5,9 @@ import { typeDefs as HotelsTypeDefs } from './hotels.schema';
 import { typeDefs as RoomTypeDefs } from './room.schema';
 import { typeDefs as UserTypeDefs } from './user.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, HotelsTypeDefs, RoomTypeDefs, UserTypeDefs]);
+import { typeDefs as BookingTypeDefs } from './booking.schema';
+
+import { typeDefs as PaymentTypeDefs } from './payment.schema';
+
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, HotelsTypeDefs, RoomTypeDefs, UserTypeDefs, PaymentTypeDefs,BookingTypeDefs]);
 

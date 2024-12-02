@@ -10,8 +10,9 @@ export const typeDefs = gql`
     guestArtists: [String!]!
     dayTickets: [Ticket!]!
     image: String!
-    discount: String
+    discount: Float
     venue: ID!
+    priority: String!
     category: [ID!]!
   }
   type Ticket {
@@ -50,12 +51,15 @@ export const typeDefs = gql`
     guestArtists: [String!]!
     dayTickets: [TicketInput!]!
     image: String!
-    discount: String
+    discount: Int
     venue: ID!
     category: [ID!]!
   }
 
   type Mutation {
     createEvent(input: EventInput!): Event!
+  }
+  type Query {
+    getSpecialEvent: [Event!]!
   }
 `;
