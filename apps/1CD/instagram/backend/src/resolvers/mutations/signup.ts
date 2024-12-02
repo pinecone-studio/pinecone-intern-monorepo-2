@@ -17,8 +17,6 @@ export const signup: MutationResolvers['signup'] = async (_: unknown, { input })
     accountVisibility,
   });
 
-  console.log({ newUser });
-
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET environment variable is not set');
   }

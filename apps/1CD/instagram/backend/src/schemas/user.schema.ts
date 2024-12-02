@@ -47,8 +47,13 @@ export const typeDefs = gql`
     accountVisibility: AccountVisibility
   }
 
+  type Query {
+    getUser: User!
+  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
+    deleteUser(_id: String!): User!
   }
 `;
