@@ -72,7 +72,7 @@ const eventSchema = new Schema<Event>(
     },
     priority: {
       type: String,
-      enum: ['high', 'meduim', 'low'],
+      enum: ['high', 'medium', 'low'],
       default: 'low',
     },
   },

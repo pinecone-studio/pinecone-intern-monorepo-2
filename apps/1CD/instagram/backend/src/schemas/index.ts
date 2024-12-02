@@ -2,5 +2,6 @@ import { mergeTypeDefs } from '@graphql-tools/merge';
 import { typeDefs as CommonTypeDefs } from './common.schema';
 import { typeDefs as UserTypeDefs } from './user.schema';
 import { typeDefs as PostTypeDefs } from './post.schema';
+import { typeDefs as FollowTypeDefs } from './follow.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, UserTypeDefs, PostTypeDefs]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, UserTypeDefs, PostTypeDefs, FollowTypeDefs]);
