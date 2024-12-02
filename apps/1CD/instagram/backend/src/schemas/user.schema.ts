@@ -22,6 +22,8 @@ export const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date!
     otp: String
+    resetPasswordToken: String
+    resetPasswordTokenExpire: Date
   }
 
   type AuthResponse {
@@ -46,9 +48,17 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
-
+  input ForgetpasswordInput {
+    email: String!
+  }
+  input VerifyNewPassInput {
+    password: String!
+    resetToken: String!
+  }
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
+    forgetPassword(input: ForgetpasswordInput!): User!
+    verifyNewPass(input: VerifyNewPassInput!): User!
   }
 `;
