@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import Event from '../../../../src/models/event.model';
 import { getSpecialEvent } from '../../../../src/resolvers/queries/event/get-special-events';
 
-jest.mock('../../../src/models/event.model', () => ({
+jest.mock('../../../../src/models/event.model', () => ({
   find: jest.fn(),
 }));
 
