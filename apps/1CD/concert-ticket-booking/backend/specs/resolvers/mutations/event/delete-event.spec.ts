@@ -2,7 +2,7 @@ import { deleteEvent } from '../../../../src/resolvers/mutations/event/delete-ev
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/event.model', () => ({
-  findOneAndDelete: jest.fn().mockResolvedValueOnce({ _id: '1', name: 'test-name' }).mockResolvedValueOnce(null),
+  findOneAndDelete: jest.fn().mockResolvedValueOnce({ message: 'success' }).mockResolvedValueOnce(null),
 }));
 
 describe('Delete Event', () => {
@@ -10,8 +10,7 @@ describe('Delete Event', () => {
     const result = await deleteEvent!({}, { _id: '1' }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      _id: '1',
-      name: 'test-name',
+      message: 'success',
     });
   });
 
