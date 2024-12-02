@@ -23,7 +23,7 @@ export const handler = startServerAndCreateNextHandler<NextRequest, Context>(ser
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
       userId = decoded.userId;
-    } catch (e) {
+    } catch (error) {
       userId = null;
     }
 
