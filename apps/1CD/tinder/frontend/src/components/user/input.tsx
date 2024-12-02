@@ -17,7 +17,7 @@ const FormSchema = z.object({
 });
 
 interface CalendarFormProps {
-  setDob: React.Dispatch<React.SetStateAction<string>>;
+  setDob: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export function CalendarForm({ setDob }: CalendarFormProps) {
@@ -30,7 +30,7 @@ export function CalendarForm({ setDob }: CalendarFormProps) {
       form.setValue('dob', date);
       setDob(format(date, 'yyyy-MM-dd'));
     } else {
-      setDob('');
+      setDob(null);
     }
   };
 
