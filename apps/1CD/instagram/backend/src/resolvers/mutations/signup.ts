@@ -10,8 +10,6 @@ export const signup: MutationResolvers['signup'] = async (_: unknown, { input })
 
   if (user) throw new Error('User already exists');
 
-  console.log({ accountVisibility });
-
   const newUser = await userModel.create({
     ...input,
     accountVisibility,
