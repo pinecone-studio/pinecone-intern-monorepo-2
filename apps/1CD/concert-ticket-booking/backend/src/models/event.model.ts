@@ -11,7 +11,7 @@ type Event = {
   image: string;
   discount: number;
   venue: Schema.Types.ObjectId;
-  priority: string;
+  priority: String;
   category: Schema.Types.ObjectId[];
 };
 
@@ -72,7 +72,7 @@ const eventSchema = new Schema<Event>(
     },
     priority: {
       type: String,
-      enum: ['high', 'meduim', 'low'],
+      enum: ['high', 'medium', 'low'],
       default: 'low',
     },
   },
