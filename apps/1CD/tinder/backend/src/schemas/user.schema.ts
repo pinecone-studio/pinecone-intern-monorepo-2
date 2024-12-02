@@ -25,12 +25,21 @@ export const typeDefs = gql`
   type RegisterResponse {
     email: String!
   }
-  input ForgetPasswordInput {
+  input CheckEmailInput {
     email: String!
   }
-
+  input SendResetOtpInput {
+    email: String!
+  }
+  input ResetPasswordInput {
+    email: String!
+    otp: Int!
+    newPassword: String!
+  }
   type Mutation {
     registerEmail(input: RegisterEmailInput!): RegisterResponse!
-    forgetPassword(input: ForgetPasswordInput!): String!
+    checkEmail(input: CheckEmailInput!): RegisterResponse!
+    sendResetOtp(input: SendResetOtpInput!): RegisterResponse!
+    resetPassword(input: ResetPasswordInput!): RegisterResponse!
   }
 `;
