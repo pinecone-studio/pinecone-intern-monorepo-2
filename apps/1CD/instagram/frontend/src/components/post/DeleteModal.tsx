@@ -10,7 +10,7 @@ export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOp
   const handleDalete = async () => {
     await deletePost({
       variables: {
-        _id: '6747e938f81062f3c8d5df89',
+        _id: id,
       },
     });
     setOpenDeleteModal(false);
@@ -19,7 +19,10 @@ export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOp
   //aldaaa zaawal toast uguh
   //refresh hiih
   return (
-    <Dialog open={openDeleteModal}>
+    <Dialog
+      open={openDeleteModal}
+      // onOpenChange={() => setOpenDeleteModal(false)}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Delete post?{id}</DialogTitle>
@@ -27,10 +30,10 @@ export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOp
         </DialogHeader>
 
         <DialogFooter>
-          <Button className="text-black bg-white hover:text-white hover:bg-slate-400" onClick={() => setOpenDeleteModal(false)}>
+          <Button data-testid="cancel-btn" className="text-black bg-white hover:text-white hover:bg-slate-400" onClick={() => setOpenDeleteModal(false)}>
             Cancel
           </Button>
-          <Button className="text-red-500 bg-white border hover:text-black hover:bg-white hover:border-red-500" onClick={() => handleDalete()}>
+          <Button data-testid="delete-post-btn" className="text-red-500 bg-white border hover:text-black hover:bg-white hover:border-red-500" onClick={() => handleDalete()}>
             {loading ? 'Loading ...' : 'Delete'}
           </Button>
         </DialogFooter>
