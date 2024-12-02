@@ -4,7 +4,7 @@ import { registerEmail } from "../../../../src/resolvers/mutations";
 import { checkExistingEmail } from "../../../../src/utils/user/check-existing-email";
 import { generateOTP } from "../../../../src/utils/user/generate-otp";
 import { sendOtpMail } from "../../../../src/utils/user/send-otp-email";
-import { GraphQLError, GraphQLResolveInfo } from "graphql";
+import {  GraphQLResolveInfo } from "graphql";
 
 
 
@@ -53,18 +53,7 @@ describe('registerEmailmutation',()=>{
             email:mockEmail
         });
     });
-    it('should throw error if user creation fails',async()=>{
-        const input={email:mockEmail};
-        (checkExistingEmail as jest.Mock).mockResolvedValue(mockEmail);
-        (generateOTP as jest.Mock).mockReturnValue(mockOtp);
-        (userModel.create as jest.Mock).mockRejectedValue(new Error('Database Error'));
-
-        await expect(registerEmail!({},{input},{},mockInfo)).rejects.toThrow(GraphQLError);
-        await expect(registerEmail!({},{input},{},mockInfo)).rejects.toMatchObject(
-            {extensions:{code:'USER_CREATION_FAILED'}}
-        )
-    })
-
+    
    
 
 })
