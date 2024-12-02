@@ -43,7 +43,7 @@ const Login = () => {
   });
 
   return (
-    <div className="mt-24">
+    <div className="mt-24" data-testid='createOTP-modal'>
       <Card className="bg-white w-[500px] h-full m-auto mx-auto p-12">
         <h1 className="font-bold text-center mb-6 mx-4">Нэвтрэх</h1>
         <Image src={logo.src} alt="logo" width={150} height={150} className="mx-auto" />
@@ -52,11 +52,11 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
               <div className="mt-8 mx-4 flex flex-col gap-2">
                 <Label className="mt-4">И-мэйл хаяг</Label>
-                <Input type="email" id="email" placeholder="Email" className="mt-2" name="email" onChange={handleChange} value={values.email} />
+                <Input type="email" id="email" placeholder="Email" className="mt-2" name="email" onChange={handleChange} value={values.email} data-testid="email-input" />
                 {touched.email && errors.email && <span className="text-red-500">{errors.email}</span>}
                 {error && values.email == oldEmail && <span className="text-red-500">{error.message}</span>}
               </div>
-              <Button type="submit" variant="default2" className="mt-6 mx-4 w-[375px] mb-6" disabled={loading}>
+              <Button type="submit" variant="default2" className="mt-6 mx-4 w-[375px] mb-6" disabled={loading} data-testid='sendOTP-submit-button'>
                 Нэвтрэх
               </Button>
             </Form>
