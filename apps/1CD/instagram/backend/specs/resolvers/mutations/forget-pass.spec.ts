@@ -22,7 +22,7 @@ describe('forget-password', () => {
   it('Should throw error if user not exist', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(null);
     try {
-      await forgetPassword!({}, { input: { email: 'test@gmail.com' } }, {}, {} as GraphQLResolveInfo);
+      await forgetPassword!({}, { input: { email: 'test@gmail.com' } }, { userId: null }, {} as GraphQLResolveInfo);
     } catch (error) {
       expect(error).toEqual(new Error('Can not find this email address'));
     }
@@ -31,7 +31,7 @@ describe('forget-password', () => {
     const mockUserModel = { _id: '1', email: 'test@gmail.com', resetPasswordToken: '', resetPasswordTokenExpire: null, save: jest.fn() };
     (userModel.findOne as jest.Mock).mockResolvedValueOnce(mockUserModel);
     (crypto.randomBytes as jest.Mock).mockReturnValueOnce('resetToken');
-    await forgetPassword!({}, { input: { email: 'test@gmail.com' } }, { _id: '2' }, {} as GraphQLResolveInfo);
+    await forgetPassword!({}, { input: { email: 'test@gmail.com' } }, { userId: null }, {} as GraphQLResolveInfo);
     expect(crypto.createHash).toHaveBeenCalledWith('sha256');
     // (crypto.update as jest.Mock).mockReturnValueOnce('resetToken')
     // expect(crypto.update).toHaveBeenCalledWith('resetToken');
