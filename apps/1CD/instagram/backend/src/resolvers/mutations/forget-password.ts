@@ -14,7 +14,6 @@ export const forgetPassword: MutationResolvers['forgetPassword'] = async (_: unk
   userExist.resetPasswordToken = hashedResetToken;
   userExist.resetPasswordTokenExpire = new Date(Date.now() + 3 * 60 * 1000);
   const saveUser = await userExist.save();
-  // const userExistAndUpdate = await userModel.updateOne({ email }, { resetPasswordToken: hashedResetToken, resetPasswordTokenExpire: new Date(Date.now() + 3 * 60 * 1000) });
   await sendResetPassUrlToMail(email, resetToken);
   return saveUser;
 };

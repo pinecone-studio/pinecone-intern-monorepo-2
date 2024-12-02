@@ -11,7 +11,6 @@ export const sendFollowReq: MutationResolvers['sendFollowReq'] = async (_: unkno
 
   const status = accountVisibility === AccountVisibility.Private ? FollowStatus.Pending : FollowStatus.Approved;
 
-  console.log('status', status);
   const sendRequest = await followModel.create({ followerId, followingId, status });
 
   return sendRequest;
