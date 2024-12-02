@@ -6,6 +6,7 @@ type Request = {
   bankAccount: string;
   bankName: string;
   accountOwner: string;
+  phoneNumber: string;
   totalPrice: number;
   status: string;
 };
@@ -15,7 +16,7 @@ const requestSchema = new Schema<Request>(
     eventId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Venue',
+      ref: 'Event',
     },
     bankAccount: {
       type: String,
@@ -33,9 +34,14 @@ const requestSchema = new Schema<Request>(
       type: Number,
       required: true,
     },
-    status: {
+    phoneNumber: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'done'],
+      default: 'pending',
     },
   },
   {
@@ -43,5 +49,5 @@ const requestSchema = new Schema<Request>(
   }
 );
 
-const Request = models['Cancel'] || model<Request>('Request', requestSchema);
+const Request = models['Request'] || model<Request>('Request', requestSchema);
 export default Request;

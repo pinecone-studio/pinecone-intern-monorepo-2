@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 export type UserType = {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -35,7 +35,6 @@ const userSchema = new Schema<UserType>({
   },
   role: {
     type: String,
-    required: true,
   },
 
   createdAt: {

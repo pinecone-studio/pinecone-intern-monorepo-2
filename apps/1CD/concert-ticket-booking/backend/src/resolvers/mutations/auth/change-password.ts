@@ -7,7 +7,7 @@ export const changePassword: MutationResolvers['changePassword'] = async (_, { i
 
   const user = await User.findById(userId);
 
-  if (!user || !(await bcrypt.compare(oldPassword, user.password))) {
+  if (!user || !(await bcrypt.compareSync(oldPassword, user.password))) {
     throw new Error('User not found or incorrect password');
   }
 

@@ -1,7 +1,7 @@
 import { addRoom } from '../../../../src/resolvers/mutations/rooms/add-room';
 import { RoomTypeInput } from '../../../../src/generated';
 
-jest.mock('apps/1CD/hotel-booking/backend/src/models', () => ({
+jest.mock('src/models', () => ({
   roomsModel: {
     create: jest
       .fn()

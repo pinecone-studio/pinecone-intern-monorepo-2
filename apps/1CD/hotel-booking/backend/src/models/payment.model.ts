@@ -13,9 +13,7 @@ const paymentMethodSchema = new Schema<paymentMethodType>({
   userId: String,
   amount: Number,
   paymentMethod: String,
-  status: {
-    enum: ['paid', 'pending', 'failed'],
-  },
+  status: { type: String, enum: ['paid', 'failed', 'pending'] },
 });
 
 export const paymentMethodModel = models['payment-method'] || model('payment-method', paymentMethodSchema);
