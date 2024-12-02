@@ -22,6 +22,8 @@ export const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date!
     otp: String
+    resetPasswordToken: String
+    resetPasswordTokenExpire: Date
   }
 
   type AuthResponse {
@@ -55,5 +57,16 @@ export const typeDefs = gql`
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
     deleteUser(_id: String!): User!
+    forgetPassword(input: ForgetpasswordInput!): User!
+    verifyNewPass(input: VerifyNewPassInput!): User!
+   }
+    
+   input ForgetpasswordInput {
+    email: String!
+   }
+  
+    input VerifyNewPassInput {
+    password: String!
+    resetToken: String!
   }
 `;
