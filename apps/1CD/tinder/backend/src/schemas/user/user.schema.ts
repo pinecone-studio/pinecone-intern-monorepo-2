@@ -50,18 +50,19 @@ export const typeDefs = gql`
     updatedAt: Date!
   }
 
+ 
 
-
-
-  type VerifyingOtpResponse {
-    email: String!
-    otp: Int!
+  input CreatePassInput {
+    email:String!
+    password:String!
   }
+  
 
   type Mutation {
 
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
-    verifyOtp(input: VerifyOtpInput!): VerifyingOtpResponse!
+    verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
+    createPassword(input:CreatePassInput!):RegisterEmailResponse!
 
   
     createUser(input: CreateUserInput!):User!
