@@ -1,5 +1,5 @@
 'use client';
-import AddHotelGeneralInfo from '@/components/AddHotelGeneralInfo';
+import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 const Page = () => {

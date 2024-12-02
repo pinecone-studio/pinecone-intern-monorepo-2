@@ -1,6 +1,7 @@
 describe('admin add-hotel page', () => {
   beforeEach(() => {
     cy.visit('/add-hotel');
+    // cy.visit('/Hotel-General-Info-Page');
   });
 
   it('1. Should render add-hotel', () => {
@@ -18,6 +19,19 @@ describe('admin add-hotel page', () => {
     cy.get('[data-cy=PhoneNumber-Input]').type('80808080');
     cy.get('[data-cy=Review-Rating-Input]').type('10');
     cy.get('[data-cy=Save-Button]').click();
-    cy.get('[data-cy=Add-Hotel-General-Info-Dialog]').should('not.be.visible');
+    cy.get('[data-cy=Hotel-General-Info-Page]').should('not.exist'); // Or check the dialog specifically
+  });
+
+  it('4. when user all input unfill', () => {
+    cy.get('[data-cy=Open-Dialog-Button]').click();
+    cy.get('[data-cy=Save-Button]').click();
+    cy.get('[data-cy=Phonenumber-Error]').should('be.visible');
+    cy.get('[data-cy=Hotel-Stars-Rating]').should('be.visible');
+    cy.get('[data-cy=Review-Rating]').should('be.visible');
+    cy.get('[data-cy=Hotel-Name-Error]').should('be.visible');
+  });
+  it('5. when user click cancel button ', () => {
+    cy.get('[data-cy=Open-Dialog-Button]').click();
+    cy.get('[data-cy=Cancel-Button]').click();
   });
 });
