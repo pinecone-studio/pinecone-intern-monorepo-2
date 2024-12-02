@@ -1,7 +1,7 @@
 import { addAmenity } from '../../../../src/resolvers/mutations/hotel/add-amenity';
 import { GraphQLError } from 'graphql';
 
-jest.mock('apps/1CD/hotel-booking/backend/src/models', () => ({
+jest.mock('../../../../src/models', () => ({
     amenitiesModel: {
         create: jest
             .fn()
