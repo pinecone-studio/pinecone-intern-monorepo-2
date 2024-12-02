@@ -2,6 +2,11 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
+  enum AccountVisibility {
+    PUBLIC
+    PRIVATE
+  }
+
   type User {
     _id: ID!
     userName: String!
@@ -11,11 +16,11 @@ export const typeDefs = gql`
     bio: String
     gender: String
     profileImg: String
-    accountVisibility: String
-    followerCount: Int
-    followingCount: Int
-    createdAt: Date
-    updatedAt: Date
+    accountVisibility: AccountVisibility!
+    followerCount: Int!
+    followingCount: Int!
+    createdAt: Date!
+    updatedAt: Date!
     otp: String
   }
 
@@ -29,9 +34,21 @@ export const typeDefs = gql`
     password: String!
     userName: String!
     fullName: String!
+    accountVisibility: AccountVisibility
+  }
+
+  input UpdateInput {
+    _id: ID!
+    userName: String
+    fullName: String
+    bio: String
+    gender: String
+    profileImg: String
+    accountVisibility: AccountVisibility
   }
 
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
+    updateUserData(input: UpdateInput!): User!
   }
 `;
