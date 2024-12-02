@@ -7,8 +7,8 @@ import { z } from 'zod';
 import { cn } from '../../../../../../../libs/shadcn/src/lib/utils';
 import { Button } from '../../../../../../../libs/shadcn/src/lib/ui/button';
 import { Calendar } from '../../../../../../../libs/shadcn/src/lib/ui/calendar';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../../../../../../../libs/shadcn/src/lib/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../../../../libs/shadcn/src/lib/ui/popover';
 
 const FormSchema = z.object({
   dob: z.date({
