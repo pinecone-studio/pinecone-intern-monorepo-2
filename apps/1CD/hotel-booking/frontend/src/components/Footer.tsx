@@ -1,5 +1,5 @@
 import { FaRegCopyright } from 'react-icons/fa6';
-export const Footer = () => {
+const Footer = () => {
   return (
     <div>
       <div className="container mx-auto text-black max-w-[1280px] h-[192px]">
@@ -19,4 +19,4 @@ export const Footer = () => {
   );
 };
 
-export default Footer();
+export default Footer;

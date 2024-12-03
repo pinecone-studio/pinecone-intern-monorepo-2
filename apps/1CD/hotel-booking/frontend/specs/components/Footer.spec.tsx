@@ -1,4 +1,4 @@
-import Footer from '@/components/providers/Footer';
+import Footer from '@/components/Footer';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 

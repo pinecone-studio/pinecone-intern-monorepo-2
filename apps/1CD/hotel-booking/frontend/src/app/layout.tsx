@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
-import { FooterHome } from '@/components/providers/FooterHome';
+import FooterHome from '@/components/FooterHome';
 
 export const metadata = {
   title: 'Welcome to example-frontend',

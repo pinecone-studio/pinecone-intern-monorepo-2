@@ -2,7 +2,7 @@ import { FaRegCopyright } from 'react-icons/fa6';
 import { FiPhone } from 'react-icons/fi';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { AiTwotoneCustomerService } from 'react-icons/ai';
-export const FooterHome = () => {
+const FooterHome = () => {
   return (
     <div className="container mx-auto max-w-[1920px] h-[280px] bg-yellow-200 flex flex-row justify-around">
       <div className="pt-10 flex flex-col justify-between">
@@ -67,4 +67,4 @@ export const FooterHome = () => {
     </div>
   );
 };
-export default FooterHome();
+export default FooterHome;
