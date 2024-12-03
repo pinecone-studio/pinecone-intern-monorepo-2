@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { forgetPassword } from '../../../src/resolvers/mutations/forget-password';
+import { forgetPassword } from '../../../src/resolvers/mutations/auth/forget-password';
 import { userModel } from '../../../src/models/user.model';
 import crypto from 'crypto';
 
