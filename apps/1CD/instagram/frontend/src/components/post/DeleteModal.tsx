@@ -19,11 +19,8 @@ export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOp
   //aldaaa zaawal toast uguh
   //refresh hiih
   return (
-    <Dialog
-      open={openDeleteModal}
-      // onOpenChange={() => setOpenDeleteModal(false)}
-    >
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={openDeleteModal}>
+      <DialogContent className="sm:max-w-[425px] [&>button]:hidden">
         <DialogHeader>
           <DialogTitle>Delete post?{id}</DialogTitle>
           <DialogDescription>Are you sure you want to delete this post?</DialogDescription>
