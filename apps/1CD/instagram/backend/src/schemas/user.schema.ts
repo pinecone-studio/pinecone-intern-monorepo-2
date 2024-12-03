@@ -53,16 +53,16 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
-  
+
   input ForgetpasswordInput {
     email: String!
   }
-      
+
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
   }
-              
+
   type Query {
     getUser: User!
   }
@@ -73,7 +73,6 @@ export const typeDefs = gql`
     deleteUser(_id: String!): User!
     forgetPassword(input: ForgetpasswordInput!): User!
     verifyNewPass(input: VerifyNewPassInput!): User!
-   login(input: LoginInput!): AuthResponse!
+    login(input: LoginInput!): AuthResponse!
   }
-    
 `;
