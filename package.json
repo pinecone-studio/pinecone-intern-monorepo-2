@@ -102,7 +102,7 @@
     "tailwindcss-animate": "1.0.7",
     "tslib": "2.3.0",
     "winston": "3.11.0",
-    "yup": "^1.4.0",
+    "yup": "1.4.0",
     "zod": "3.23.8"
   },
   "devDependencies": {
