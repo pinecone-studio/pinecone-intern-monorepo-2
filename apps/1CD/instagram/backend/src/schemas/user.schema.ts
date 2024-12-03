@@ -48,17 +48,25 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
-  input ForgetpasswordInput {
-    email: String!
+
+  type Query {
+    getUser: User!
   }
-  input VerifyNewPassInput {
-    password: String!
-    resetToken: String!
-  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
+    deleteUser(_id: String!): User!
     forgetPassword(input: ForgetpasswordInput!): User!
     verifyNewPass(input: VerifyNewPassInput!): User!
+   }
+    
+   input ForgetpasswordInput {
+    email: String!
+   }
+  
+    input VerifyNewPassInput {
+    password: String!
+    resetToken: String!
   }
 `;

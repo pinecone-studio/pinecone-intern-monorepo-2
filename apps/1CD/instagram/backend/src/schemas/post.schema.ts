@@ -14,7 +14,6 @@ export const typeDefs = gql`
   }
   input UpdatePostInput {
     _id: ID!
-
     description: String
     images: [String]
   }
