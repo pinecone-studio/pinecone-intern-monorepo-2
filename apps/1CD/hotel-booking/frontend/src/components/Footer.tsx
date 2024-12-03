@@ -1,4 +1,4 @@
-import { FaRegCopyright } from 'react-icons/fa6';
+import { Copyright } from 'lucide-react';
 const Footer = () => {
   return (
     <div>
@@ -9,7 +9,7 @@ const Footer = () => {
         </div>
         <p className="text-[14px] text-[#09090B]">Some hotels require you to cancel more than 24 hours before check-in. Details on site.</p>
         <div className="text-[14px] flex items-center gap-1 text-[#09090B]">
-          <FaRegCopyright />
+          <Copyright />
           <p>2024 Pedia is an Pedia Group company. All rights reserved.</p>
         </div>
         <p className="text-[14px] text-[#09090B]">Pedia and the Pedia logo are trademarks or registered trademarks of Pedia, LP in the United</p>
