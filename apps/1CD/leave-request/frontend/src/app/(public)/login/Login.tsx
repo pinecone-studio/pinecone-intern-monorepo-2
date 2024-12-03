@@ -64,7 +64,7 @@ const Login = () => {
                 {touched.email && errors.email && <span className="text-red-500">{errors.email}</span>}
                 {error && values.email == oldEmail && <span className="text-red-500">{error.message}</span>}
               </div>
-              <Button type="submit" variant="default2" className="mt-6 mx-4 w-[375px] mb-6" disabled={loading} data-testid='sendOTP-submit-button'>
+              <Button type="submit" className="mt-6 mx-4 w-[375px] mb-6" disabled={loading} data-testid='sendOTP-submit-button'>
                 Нэвтрэх
               </Button>
             </Form>
