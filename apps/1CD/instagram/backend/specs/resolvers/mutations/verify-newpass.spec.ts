@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { userModel } from '../../../src/models/user.model';
-import { verifyNewPass } from '../../../src/resolvers/mutations/verify-newpass';
+import { verifyNewPass } from '../../../src/resolvers/mutations/auth/verify-newpass';
 import crypto from 'crypto';
 
 jest.mock('../../../src/models/user.model', () => ({ userModel: { findOne: jest.fn() } }));
