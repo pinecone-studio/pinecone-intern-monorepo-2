@@ -5,7 +5,8 @@ import { PostCard } from '@/components/post/PostCard';
 const Page = () => {
   return (
     <div>
-      Home Page
+      <p> Home Page .. </p>
+
       <PostCard />
     </div>
   );
