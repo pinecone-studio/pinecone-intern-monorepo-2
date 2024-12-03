@@ -1,5 +1,5 @@
 {
-  "name": "concert-frontend",
+  "name": "concert-ticket-booking-frontend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/1CD/concert-ticket-booking/frontend",
   "projectType": "application",
@@ -27,17 +27,17 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "concert-frontend:build",
+        "buildTarget": "concert-ticket-booking-frontend:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "concert-frontend:build:development",
+          "buildTarget": "concert-ticket-booking-frontend:build:development",
           "dev": true,
           "port": 4201
         },
         "production": {
-          "buildTarget": "concert-frontend:build:production",
+          "buildTarget": "concert-ticket-booking-frontend:build:production",
           "dev": false
         }
       },
@@ -55,7 +55,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "concert-frontend:build:production"
+        "buildTarget": "concert-ticket-booking-frontend:build:production"
       }
     },
     "test": {
@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress concert-frontend"],
+        "commands": ["npx nx cypress example-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -127,7 +127,7 @@
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress concert-frontend --watch"],
+        "commands": ["npx nx cypress concert-ticket-booking-frontend --watch"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -150,7 +150,7 @@
         "cypressConfig": "apps/1CD/concert-ticket-booking/frontend/cypress.config.ts",
         "testingType": "e2e",
         "reporter": "mochawesome",
-        "devServerTarget": "concert-frontend:serve:development",
+        "devServerTarget": "concert-ticket-booking-frontend:serve:development",
         "browser": "chrome"
       },
       "dependsOn": [
