@@ -1,7 +1,8 @@
-import { FaRegCopyright } from 'react-icons/fa6';
-import { FiPhone } from 'react-icons/fi';
-import { MdOutlineMailOutline } from 'react-icons/md';
-import { AiTwotoneCustomerService } from 'react-icons/ai';
+import { Copyright } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import { Phone } from 'lucide-react';
+import { Headphones } from 'lucide-react';
+
 const FooterHome = () => {
   return (
     <div className="container mx-auto max-w-[1920px] h-[280px] bg-yellow-200 flex flex-row justify-around">
@@ -12,7 +13,7 @@ const FooterHome = () => {
             <p className="text-[16.8px] pb-2">Pedia</p>
           </div>
           <div className="flex items-center gap-1">
-            <FaRegCopyright />
+            <Copyright />
             <p className="text-[14px]">2024 Booking Mongolia. All Rights Reserved.</p>
           </div>
         </div>
@@ -30,17 +31,17 @@ const FooterHome = () => {
       <div className="pt-10 my-3 w-[168px] text-[14px]">
         <p>Contact Information</p>
         <div className="flex items-center gap-2 pt-3">
-          <MdOutlineMailOutline />
+          <Mail />
           <p>Email: support@pedia.mn</p>
         </div>
 
         <div className="flex items-center gap-2 pt-3">
-          <FiPhone />
+          <Phone />
           <p>Phone: +976(11)123-4567</p>
         </div>
 
         <div className="flex items-center gap-2 pt-3">
-          <AiTwotoneCustomerService />
+          <Headphones />
           <p>Customer Support: Avaiable 24/7</p>
         </div>
       </div>
