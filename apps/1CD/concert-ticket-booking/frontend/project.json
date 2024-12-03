@@ -191,10 +191,6 @@
         },
         {
           "target": "export-env"
-        },
-        {
-          "target": "codegen:testing",
-          "params": "forward"
         }
       ]
     },
