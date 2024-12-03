@@ -3,6 +3,7 @@ import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import FooterHome from '@/components/FooterHome';
 import Header from '@/components/Header';
+import HomePageCard from '@/components/Home-Page-Card';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -14,8 +15,9 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <Header/>
+          <Header />
           {children}
+          <HomePageCard />
           <FooterHome />
         </ApolloWrapper>
       </body>
