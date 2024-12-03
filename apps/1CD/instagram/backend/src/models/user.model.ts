@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+// import bcrypt from 'bcrypt';
 
 export type UserType = {
   _id: string;

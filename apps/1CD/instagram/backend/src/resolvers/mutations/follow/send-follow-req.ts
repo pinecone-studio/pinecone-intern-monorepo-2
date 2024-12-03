@@ -1,4 +1,4 @@
-import { AccountVisibility, FollowStatus, MutationResolvers } from '../../../generated';
+import { FollowStatus, MutationResolvers } from '../../../generated';
 import { followModel } from '../../../models/follow.model';
 import { userModel } from '../../../models/user.model';
 
@@ -9,7 +9,7 @@ export const sendFollowReq: MutationResolvers['sendFollowReq'] = async (_: unkno
 
   const { accountVisibility } = user;
 
-  const status = accountVisibility === AccountVisibility.Private ? FollowStatus.Pending : FollowStatus.Approved;
+  const status = accountVisibility === accountVisibility.Private ? FollowStatus.Pending : FollowStatus.Approved;
 
   const sendRequest = await followModel.create({ followerId, followingId, status });
 

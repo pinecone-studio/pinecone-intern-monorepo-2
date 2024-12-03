@@ -71,6 +71,7 @@
     "class-variance-authority": "0.7.0",
     "cmdk": "1.0.0",
     "commitizen": "4.3.0",
+    "crypto-js": "^4.2.0",
     "cypress-wait-until": "3.0.2",
     "date-fns": "4.1.0",
     "dotenv": "16.0.3",
