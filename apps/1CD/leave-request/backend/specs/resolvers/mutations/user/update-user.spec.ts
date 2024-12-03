@@ -1,16 +1,34 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { UserModel } from 'src/models';
-import { updateUser } from 'src/resolvers/mutations';
+import { updateUser } from '../../../../src/resolvers/mutations';
 
-
-jest.mock('../../../src/models', () => ({
-  userModel: {
-    findOne: jest.fn(),
-    findOneAndUpdate: jest.fn(),
+jest.mock('../../../../src/models/user', () => ({
+  UserModel: {
+    findOne: jest
+      .fn()
+      .mockResolvedValueOnce({
+        email: 'zul@gmail.com',
+        userName: 'zula',
+        role: 'engineer',
+        profile: '',
+        position: 'Developer',
+        supervisor: 'yes',
+        hireDate: '2022.07.11',
+      })
+      .mockResolvedValueOnce(null),
+    findOneAndUpdate: jest.fn().mockReturnValue({
+      email: 'zul@gmail.com',
+      userName: 'zula',
+      role: 'engineer',
+      profile: '',
+      position: 'Developer',
+      supervisor: 'yes',
+      hireDate: '2022.07.11',
+    }),
   },
 }));
 
-describe('find user by ID', () => {
+describe('find user by email', () => {
   const mockUser = {
     email: 'zul@gmail.com',
     userName: 'zula',
@@ -18,7 +36,7 @@ describe('find user by ID', () => {
     profile: '',
     position: 'Developer',
     supervisor: 'yes',
-    hireDate:'2022.07'
+    hireDate: '2022.07',
   };
 
   const updatedUser = {
@@ -29,43 +47,23 @@ describe('find user by ID', () => {
     profile: '',
     position: 'Developer',
     supervisor: 'yes',
-    hireDate:'2022.07'
+    hireDate: '2022.08',
   };
 
-  it('should find user by ID', async () => {
+  it('should find user by email', async () => {
     (UserModel.findOne as jest.Mock).mockResolvedValue(mockUser);
     (UserModel.findOneAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
-    const updateduser = await updateUser?.(
+    const updatedUserResult = await updateUser?.(
       {},
-      {  email: 'zul@gmail.com',
-        userName: 'zula',
-        role: 'engineer',
-        profile: '',
-        position: 'Developer',
-        supervisor: 'yes',
-        hireDate:'2022.07' },
+      { email: 'zoloo@gmail.com', userName: 'zula', role: 'engineer', profile: '', position: 'Developer', supervisor: [], hireDate: '2022.08' },
       {},
       {} as GraphQLResolveInfo
     );
-    expect(updateduser).toEqual(updatedUser);
+    expect(updatedUserResult).toEqual(updatedUser);
   });
 
-  it('should throw error', async () => {
-    (UserModel.findOne as jest.Mock).mockResolvedValue(null);
-
-    expect(
-      updateUser?.(
-        {},
-        { email: 'zulaa@gmail.com',
-            userName: 'zula',
-            role: 'engineer',
-            profile: '',
-            position: 'Developer',
-            supervisor: 'yes',
-            hireDate:'2022.07' },
-        {},
-        {} as GraphQLResolveInfo
-      )
-    ).rejects.toThrow('Could not find user');
+  it('should throw error if user is not found', async () => {
+    const task = await updateUser!({}, { email: 'zoloo@gmail.com', userName: 'zula', role: 'engineer', profile: '', position: 'Developer', supervisor: [] }, {}, {} as GraphQLResolveInfo);
+    await expect(task).toEqual(new Error("User doesn't exist in this email"));
   });
 });

@@ -5,11 +5,12 @@ export const updateUser : MutationResolvers['updateUser'] = async (_ : unknown, 
 
     const findUser = await UserModel.findOne({email})
 
-    if(findUser){
-        throw new Error("User exist in this email")
+
+    if(!findUser){
+        throw new Error("User doesn't exist in this email")
     }
 
-    const user = await UserModel.findOneAndUpdate({email, userName, profile, role, position, supervisor, hireDate})
+    const user = await UserModel.findOneAndUpdate({email},{ userName, profile, role, position, supervisor, hireDate})
 
     return user
 }
