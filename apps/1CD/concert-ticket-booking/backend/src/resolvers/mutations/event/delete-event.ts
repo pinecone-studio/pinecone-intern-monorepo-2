@@ -4,7 +4,6 @@ import Event from '../../../models/event.model';
 export const deleteEvent: MutationResolvers['deleteEvent'] = async (_, { _id }) => {
   try {
     const eventDeleted = await Event.findOneAndDelete({ _id });
-    console.log({ eventDeleted });
     if (!eventDeleted) {
       throw new Error('Event not found');
     }

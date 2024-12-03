@@ -55,13 +55,34 @@ export const typeDefs = gql`
     venue: ID!
     category: [ID!]!
   }
+  input EventUpdateInput {
+    name: String
+    description: String
+    mainArtists: [String]
+    guestArtists: [String]
+    dayTickets: [TicketInput]
+    image: String
+    discount: String
+    venue: ID
+    category: [ID]
+  }
+
   type Response {
     message: String!
+  }
+  input EventsFilter {
+    q: String
+  }
+
+  type Query {
+    getEventById(_id: ID!): Event!
+    getEvents(filter: EventsFilter): [Event]!
   }
 
   type Mutation {
     createEvent(input: EventInput!): Event!
     deleteEvent(_id: ID!): Response!
+    updateEvent(_id: ID!, event: EventUpdateInput): Event!
   }
   type Query {
     getSpecialEvent: [Event!]!
