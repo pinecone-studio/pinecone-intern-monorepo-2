@@ -37,21 +37,10 @@ describe('getMyPost', () => {
       </MockedProvider>
     );
 
-    await waitFor(() => expect(getByTestId('post-load')));
-
-    // const posrCard = getByTestId('post-card');
-
-    // await waitFor(() => expect(posrCard));
-
+    await waitFor(() => expect(getByTestId('post-card')));
     const moreBtn = getByTestId('more-btn');
-    fireEvent.click(moreBtn);
-
-    await waitFor(() => expect(getByTestId('more')));
-
+    fireEvent.keyDown(moreBtn, { key: 'Enter' });
     const deleteBtn = getByTestId('delete-btn');
-    // // const deleteModal = getByTestId('delete-modal');
-
     fireEvent.click(deleteBtn);
-    // // await waitFor(() => expect(deleteModal));
   });
 });

@@ -50,8 +50,9 @@ export const PostCard = () => {
                     <MoreVertical />
                   </Button>
                 </DropdownMenuTrigger>
-                <div data-testid="more">
-                  <button
+
+                <DropdownMenuContent>
+                  <DropdownMenuItem
                     data-testid="delete-btn"
                     onClick={() => {
                       setOpenDeleteModal(true);
@@ -59,12 +60,10 @@ export const PostCard = () => {
                     className="text-red-600"
                   >
                     Delete
-                  </button>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Cancel</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Cancel</DropdownMenuItem>
+                </DropdownMenuContent>
               </DropdownMenu>
             </div>
             <div className="relative flex w-full h-[585px]  ">
