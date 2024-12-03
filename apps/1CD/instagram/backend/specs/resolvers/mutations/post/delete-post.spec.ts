@@ -20,7 +20,7 @@ describe('Create Post', () => {
       {
         _id: '1',
       },
-      {},
+      { userId: null },
       {} as GraphQLResolveInfo
     );
 
@@ -35,7 +35,7 @@ describe('Create Post', () => {
         {
           _id: '1',
         },
-        {},
+        { userId: null },
         {} as GraphQLResolveInfo
       );
     } catch (error) {
