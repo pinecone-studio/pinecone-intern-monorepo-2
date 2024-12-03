@@ -16,7 +16,7 @@ describe('sendFollowReq', () => {
     (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
     (followModel.create as jest.Mock).mockResolvedValue({ _id: '1', followerId, followingId, status: FollowStatus.Approved });
 
-    const result = await sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo);
+    const result = await sendFollowReq!({}, { followerId, followingId }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(userModel.findById).toHaveBeenCalledWith(followingId);
     expect(followModel.create).toHaveBeenCalledWith({
@@ -32,7 +32,7 @@ describe('sendFollowReq', () => {
     (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
     (followModel.create as jest.Mock).mockResolvedValue({ _id: '1', followerId, followingId, status: FollowStatus.Pending });
 
-    const result = await sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo);
+    const result = await sendFollowReq!({}, { followerId, followingId }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(userModel.findById).toHaveBeenCalledWith(followingId);
     expect(followModel.create).toHaveBeenCalledWith({
@@ -46,6 +46,6 @@ describe('sendFollowReq', () => {
   it('should throw an error if the user is not found', async () => {
     (userModel.findById as jest.Mock).mockResolvedValue(null);
 
-    await expect(sendFollowReq!({}, { followerId, followingId }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('User not found');
+    await expect(sendFollowReq!({}, { followerId, followingId }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('User not found');
   });
 });

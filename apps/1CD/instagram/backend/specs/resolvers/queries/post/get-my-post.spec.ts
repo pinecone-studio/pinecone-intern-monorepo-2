@@ -21,7 +21,7 @@ jest.mock('../../../../src/models/post.model', () => ({
 
 describe('get my post', () => {
   it('should get my posts', async () => {
-    const response = await getMyPosts!({}, { userID: '1' }, {}, {} as GraphQLResolveInfo);
+    const response = await getMyPosts!({}, { userID: '1' }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(response).toEqual([
       {
