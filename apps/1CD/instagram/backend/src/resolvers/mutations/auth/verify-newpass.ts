@@ -1,5 +1,5 @@
-import { MutationResolvers } from '../../generated';
-import { userModel } from '../../models/user.model';
+import { MutationResolvers } from '../../../generated';
+import { userModel } from '../../../models/user.model';
 import crypto from 'crypto';
 
 export const verifyNewPass: MutationResolvers['verifyNewPass'] = async (_: unknown, { input }) => {
