@@ -1,33 +1,71 @@
+import { userModel } from '../../../src/models/user.model';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { GraphQLResolveInfo } from 'graphql';
-import { login } from '../../../src/resolvers/mutations/login';
+import { login } from 'src/resolvers/mutations';
 
-jest.mock('../../../src/models/user.model', () => ({
-  userModel: {
-    findOne: jest.fn().mockResolvedValueOnce({ _id: '1' }).mockResolvedValueOnce(null),
-  },
-}));
+jest.mock('../../../src/models/user.model');
+jest.mock('jsonwebtoken');
+jest.mock('bcrypt');
 
-jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn().mockReturnValue('token'),
-}));
+describe('login mutation', () => {
+  const mockInput = {
+    email: 'test@example.com',
+    password: 'password123',
+  };
 
-describe('login', () => {
-  it('should login', async () => {
-    const response = await login!({}, { input: { email: '', password: '' } }, { userId: null }, {} as GraphQLResolveInfo);
+  const mockUser = {
+    _id: 'user123',
+    email: mockInput.email,
+    password: bcrypt.hashSync(mockInput.password, 10),
+    fullName: 'Test User',
+    userName: 'testuser',
+  };
 
-    expect(response).toEqual({
-      user: {
-        _id: '1',
-      },
-      token: 'token',
+  beforeEach(() => {
+    jest.clearAllMocks();
+    process.env.JWT_SECRET = 'test-secret';
+  });
+
+  it('should return user and token for valid credentials', async () => {
+    const mockToken = 'jwt-token-123';
+
+    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (bcrypt.compareSync as jest.Mock).mockReturnValue(true);
+    (jwt.sign as jest.Mock).mockReturnValue(mockToken);
+
+    const result = await login!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo);
+
+    expect(userModel.findOne).toHaveBeenCalledWith({ email: mockInput.email });
+    expect(bcrypt.compareSync).toHaveBeenCalledWith(mockInput.password, mockUser.password);
+    expect(jwt.sign).toHaveBeenCalledWith({ userId: mockUser._id }, process.env.JWT_SECRET!);
+    expect(result).toEqual({
+      user: mockUser,
+      token: mockToken,
     });
   });
 
-  it('should not login', async () => {
-    try {
-      await login!({}, { input: { email: '', password: '' } }, { userId: null }, {} as GraphQLResolveInfo);
-    } catch (error) {
-      expect(error).toEqual(new Error('Invalid credentials'));
-    }
+  it('should throw an error if the user does not exist', async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
+
+    await expect(login!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Invalid credentials');
+  });
+
+  it('should throw an error if the password is incorrect', async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+    (bcrypt.compareSync as jest.Mock).mockReturnValue(false);
+
+    await expect(login!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Хэрэглэгчийн нууц үг тохирохгүй байна.');
+  });
+
+  it('should throw an error if JWT_SECRET is not set', async () => {
+    delete process.env.JWT_SECRET;
+
+    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (bcrypt.compareSync as jest.Mock).mockReturnValue(true);
+    (jwt.sign as jest.Mock).mockReturnValue('jwt-token-123');
+
+    await expect(login!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
   });
 });
