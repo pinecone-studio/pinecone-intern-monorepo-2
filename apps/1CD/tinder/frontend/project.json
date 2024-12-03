@@ -185,12 +185,6 @@
       "dependsOn": [
         {
           "target": "clean"
-        },
-        {
-          "target": "get-secrets:testing"
-        },
-        {
-          "target": "export-env"
         }
       ]
     },
