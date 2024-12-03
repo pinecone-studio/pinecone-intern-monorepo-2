@@ -1,0 +1,5 @@
+mutation registerEmail($input:RegisterEmailInput!){
+    registerEmail(input:$input){
+        email
+    }
+}
