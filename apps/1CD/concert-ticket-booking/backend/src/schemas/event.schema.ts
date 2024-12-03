@@ -72,6 +72,8 @@ export const typeDefs = gql`
   }
   input EventsFilter {
     q: String
+    date: String
+    artist: String
   }
 
   type Query {
