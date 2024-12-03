@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 const Birthday = () => {
   const FormSchema = z.object({
     dob: z.date({
-      requiredError: 'A date of birth is required.',
+     message: 'A date of birth is required.',
     }),
   });
   const form = useForm<z.infer<typeof FormSchema>>({
