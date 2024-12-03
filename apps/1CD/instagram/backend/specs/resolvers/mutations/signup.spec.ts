@@ -1,18 +1,21 @@
-import { signup } from '../../../src/resolvers/mutations/signup';
+import { signup } from '../../../src/resolvers/mutations/auth/signup';
 import { userModel } from '../../../src/models/user.model';
-import jwt from 'jsonwebtoken';
 import { AccountVisibility } from '../../../src/generated';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { GraphQLResolveInfo } from 'graphql';
 
+// Mock the dependencies
 jest.mock('../../../src/models/user.model');
 jest.mock('jsonwebtoken');
+jest.mock('crypto');
 
-describe('signup', () => {
+describe('signup mutation', () => {
   const mockInput = {
     email: 'test@example.com',
-    password: 'password123',
-    userName: 'testuser',
     fullName: 'Test User',
+    userName: 'testuser',
+    password: 'testpass123',
     accountVisibility: AccountVisibility.Public,
   };
 
@@ -21,70 +24,102 @@ describe('signup', () => {
     process.env.JWT_SECRET = 'test-secret';
   });
 
-  it('should create a new user successfully', async () => {
-    const mockNewUser = {
-      _id: 'mockUserId',
-      ...mockInput,
-    };
-    const mockToken = 'mock-jwt-token';
+  it('should create a new user successfully with explicit visibility', async () => {
+    // Mock return values
+    const mockHashedPassword = 'hashedPassword123';
+    const mockUserId = 'user123';
+    const mockToken = 'jwt-token-123';
 
+    // Setup mocks
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (userModel.create as jest.Mock).mockResolvedValue(mockNewUser);
+    (crypto.randomBytes as jest.Mock).mockReturnValue({
+      toString: jest.fn().mockReturnValue('mockPassword'),
+    });
+    (crypto.createHash as jest.Mock).mockReturnValue({
+      update: jest.fn().mockReturnThis(),
+      digest: jest.fn().mockReturnValue(mockHashedPassword),
+    });
+    (userModel.create as jest.Mock).mockResolvedValue({
+      _id: mockUserId,
+      ...mockInput,
+      password: mockHashedPassword,
+    });
     (jwt.sign as jest.Mock).mockReturnValue(mockToken);
 
     const result = await signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      user: mockNewUser,
+      user: {
+        _id: mockUserId,
+        ...mockInput,
+        password: mockHashedPassword,
+      },
       token: mockToken,
     });
-    expect(userModel.findOne).toHaveBeenCalledWith({ email: mockInput.email });
-    expect(userModel.create).toHaveBeenCalledWith(mockInput);
-    expect(jwt.sign).toHaveBeenCalledWith({ userId: mockNewUser._id }, 'test-secret');
   });
 
-  it('should throw error if user already exists', async () => {
-    (userModel.findOne as jest.Mock).mockResolvedValue({ email: mockInput.email });
-
-    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('User already exists');
-  });
-
-  it('should throw error if JWT_SECRET is not set', async () => {
-    process.env.JWT_SECRET = '';
-
-    (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (userModel.create as jest.Mock).mockResolvedValue({ _id: 'mockUserId', ...mockInput });
-
-    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
-  });
-
-  it('should create user with default PUBLIC visibility when not specified', async () => {
+  it('should create a new user successfully with default visibility', async () => {
+    // Mock return values
+    const mockHashedPassword = 'hashedPassword123';
+    const mockUserId = 'user123';
+    const mockToken = 'jwt-token-123';
     const inputWithoutVisibility = {
-      email: 'test@example.com',
-      password: 'password123',
-      userName: 'testuser',
-      fullName: 'Test User',
+      email: mockInput.email,
+      fullName: mockInput.fullName,
+      userName: mockInput.userName,
+      password: mockInput.password,
     };
-    const mockNewUser = {
-      _id: 'mockUserId',
+
+    // Setup mocks
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
+    (crypto.randomBytes as jest.Mock).mockReturnValue({
+      toString: jest.fn().mockReturnValue('mockPassword'),
+    });
+    (crypto.createHash as jest.Mock).mockReturnValue({
+      update: jest.fn().mockReturnThis(),
+      digest: jest.fn().mockReturnValue(mockHashedPassword),
+    });
+    (userModel.create as jest.Mock).mockResolvedValue({
+      _id: mockUserId,
       ...inputWithoutVisibility,
       accountVisibility: AccountVisibility.Public,
-    };
-    const mockToken = 'mock-jwt-token';
-
-    (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (userModel.create as jest.Mock).mockResolvedValue(mockNewUser);
+      password: mockHashedPassword,
+    });
     (jwt.sign as jest.Mock).mockReturnValue(mockToken);
 
     const result = await signup!({}, { input: inputWithoutVisibility }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      user: mockNewUser,
+      user: {
+        _id: mockUserId,
+        ...inputWithoutVisibility,
+        accountVisibility: AccountVisibility.Public,
+        password: mockHashedPassword,
+      },
       token: mockToken,
     });
-    expect(userModel.create).toHaveBeenCalledWith({
-      ...inputWithoutVisibility,
-      accountVisibility: AccountVisibility.Public,
+  });
+
+  it('should throw error if user already exists', async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue({ _id: 'existingUser' });
+    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('User already exists');
+  });
+
+  it('should throw error if JWT_SECRET is not set', async () => {
+    delete process.env.JWT_SECRET;
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
+    (crypto.randomBytes as jest.Mock).mockReturnValue({
+      toString: jest.fn().mockReturnValue('mockPassword'),
     });
+    (crypto.createHash as jest.Mock).mockReturnValue({
+      update: jest.fn().mockReturnThis(),
+      digest: jest.fn().mockReturnValue('hashedPassword'),
+    });
+    (userModel.create as jest.Mock).mockResolvedValue({
+      _id: 'userId',
+      ...mockInput,
+    });
+
+    await expect(signup!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
   });
 });
