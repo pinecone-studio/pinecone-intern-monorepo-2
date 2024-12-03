@@ -35,5 +35,7 @@ describe('DeletePostModal', () => {
     fireEvent.click(modalBtn);
 
     await waitFor(() => expect(getByText('Delete')));
+    // const modal = getByTestId('modalCancel');
+    // fireEvent.keyDown(modal, { key: 'Enter' });
   });
 });
