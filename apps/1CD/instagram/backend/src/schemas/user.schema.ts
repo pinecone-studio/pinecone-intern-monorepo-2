@@ -53,20 +53,30 @@ export const typeDefs = gql`
     getUser: User!
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type Query {
+    getUser: User!
+  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
     deleteUser(_id: String!): User!
     forgetPassword(input: ForgetpasswordInput!): User!
     verifyNewPass(input: VerifyNewPassInput!): User!
-   }
+  }
     
-   input ForgetpasswordInput {
+  input ForgetpasswordInput {
     email: String!
-   }
+  }
   
-    input VerifyNewPassInput {
+  input VerifyNewPassInput {
     password: String!
     resetToken: String!
+    login(input: LoginInput!): AuthResponse!
   }
 `;

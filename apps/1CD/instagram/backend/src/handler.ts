@@ -1,12 +1,11 @@
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { typeDefs } from './schemas';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { Context } from './types';
-
 connectToDb();
 
 const server = new ApolloServer<Context>({
