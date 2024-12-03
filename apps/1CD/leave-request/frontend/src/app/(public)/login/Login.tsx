@@ -38,7 +38,16 @@ const Login = () => {
 
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('И-мэйл хаяг буруу байна').required('И-мэйл хаяг оруулна уу'),
+    email: Yup.string()
+      .email('И-мэйл хаяг буруу байна') // Ensures the value is a valid email
+      .required('И-мэйл хаяг оруулна уу') // Ensures the field is not empty
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        'И-мэйл хаяг буруу байна' // Validates custom email format (regex)
+      )
+      .min(5, 'И-мэйл хаяг хамгийн багадаа 5 тэмдэгт байх ёстой')
+      .max(50, 'И-мэйл хаяг хамгийн ихдээ 50 тэмдэгт байх ёстой')
+      
   });
 
   return (
@@ -51,7 +60,7 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
               <div className="mt-8 mx-4 flex flex-col gap-2">
                 <Label className="mt-4">И-мэйл хаяг</Label>
-                <Input type="email" id="email" placeholder="Email" className="mt-2" name="email" onChange={handleChange} value={values.email} data-testid="email-input" />
+                <Input id="email" placeholder="Email" className="mt-2" name="email" onChange={handleChange} value={values.email} data-testid="email-input" />
                 {touched.email && errors.email && <span className="text-red-500">{errors.email}</span>}
                 {error && values.email == oldEmail && <span className="text-red-500">{error.message}</span>}
               </div>

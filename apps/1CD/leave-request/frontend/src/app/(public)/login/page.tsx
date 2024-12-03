@@ -1,6 +1,6 @@
 'use server'
 
-import Login from "../../../components/AuthComponents/Login"
+import Login from "./Login"
 
 const Page = () => {
   return <Login/>
