@@ -25,25 +25,23 @@ const PostSchema = new Schema<Post>({
 
   images: [{ type: String, required: true }],
 
-  lastComments: { type: String, },
+  lastComments: { type: String },
 
   commentCount: {
     type: Number,
-  
   },
 
   likeCount: {
     type: Number,
-   
   },
   updatedAt: {
     type: Date,
-   
+
     default: new Date(),
   },
   createdAt: {
     type: Date,
-    
+
     default: new Date(),
   },
 });

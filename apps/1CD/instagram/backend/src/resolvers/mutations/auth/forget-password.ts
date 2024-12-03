@@ -1,6 +1,6 @@
-import { userModel } from '../../models/user.model';
+import { userModel } from '../../../models/user.model';
 import crypto from 'crypto';
-import { sendResetPassUrlToMail } from '../../utils/sendmail';
+import { sendResetPassUrlToMail } from '../../../utils/sendmail';
 import { MutationResolvers } from 'src/generated';
 
 export const forgetPassword: MutationResolvers['forgetPassword'] = async (_: unknown, { input }) => {
