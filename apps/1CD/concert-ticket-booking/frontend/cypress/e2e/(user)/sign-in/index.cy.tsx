@@ -4,7 +4,7 @@ describe('Sign-In Page', () => {
   });
 
   it('1. should render sign-in page', () => {
-    cy.get('h1').contains('Бүртгүүлэх');
+    cy.get('h1').contains('Нэвтрэх');
     cy.get('[data-cy="Sign-In-Page"]').should('be.visible');
   });
 

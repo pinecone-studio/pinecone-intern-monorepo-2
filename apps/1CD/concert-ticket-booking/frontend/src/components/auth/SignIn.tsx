@@ -49,12 +49,12 @@ const SignIn = () => {
   return (
     <div data-cy="Sign-In-Page">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[360px] m-auto flex flex-col gap-10" data-cy="sign-in-form">
-          <h1 className="text-2xl font-semibold text-center" data-cy="sign-in-heading">
-            Бүртгүүлэх
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[446px] rounded-2xl bg-[#09090B] m-auto flex flex-col" data-cy="sign-in-form">
+          <h1 className="text-2xl font-semibold text-center mt-8 text-white" data-cy="sign-in-heading">
+            Нэвтрэх
           </h1>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 px-12  pt-6 ">
             {inputs.map((input) => (
               <FormField
                 key={input.label}
@@ -62,7 +62,7 @@ const SignIn = () => {
                 name={input.name}
                 render={({ field }) => (
                   <FormItem data-cy={`form-item-${input.name}`}>
-                    <FormLabel className="text-xs" data-cy={`form-label-${input.name}`}>
+                    <FormLabel className="text-xs text-white" data-cy={`form-label-${input.name}`}>
                       {input.label}
                     </FormLabel>
                     <FormControl>
@@ -74,16 +74,20 @@ const SignIn = () => {
               />
             ))}
 
-            <Button className="p-2 text-white bg-black rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
+            <Button className="p-2 w-full text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
               Нэвтрэх
             </Button>
+            <p className="w-full text-white text-xs text-center">
+              Та бүртгэлтэй хаяггүй бол
+              <button data-cy="Sign-Up-Link-Button">
+                <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white ">
+                  бүртгүүлэх
+                </Link>
+              </button>
+              хэсгээр <br />
+              орно уу.
+            </p>
           </div>
-
-          <Link href="/sign-">
-            <Button type="reset" variant="ghost" className="w-full text-xs" data-cy="Sign-Up-Link-Button">
-              Бүртгүүлэх
-            </Button>
-          </Link>
         </form>
       </Form>
     </div>
