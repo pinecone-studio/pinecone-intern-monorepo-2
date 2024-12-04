@@ -55,7 +55,7 @@ export const typeDefs = gql`
   input CreatePassInput {
     email:String!
     password:String!
-  }
+  } 
   
 
   type Mutation {
@@ -63,6 +63,8 @@ export const typeDefs = gql`
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
     verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
     createPassword(input:CreatePassInput!):RegisterEmailResponse!
+    resendOtp(input:RegisterEmailInput!): RegisterEmailResponse!
+
 
   
     createUser(input: CreateUserInput!):User!

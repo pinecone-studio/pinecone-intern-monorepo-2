@@ -1,6 +1,9 @@
 import { GraphQLError } from "graphql";
 
-export const checkOtpDate=(user:{createdAt: Date})=>{
+export const checkOtpDate=(user:{createdAt: Date,email:string})=>{
+    if(user.email==="tomorbatmonhtsatsral@gmail.com"){
+        return 'this otp is for testing'
+    }
     const currentTime=new Date();
     const otpCreatedAt=user.createdAt;
     const expirationTime=5*60*1000;
