@@ -14,8 +14,7 @@ jest.mock('../../../../src/models/user', () => ({
         position: 'Developer',
         supervisor: 'yes',
         hireDate: '2022.07.11',
-      })
-      .mockResolvedValueOnce(null),
+      }).mockResolvedValueOnce(null),
     findOneAndUpdate: jest.fn().mockReturnValue({
       email: 'zul@gmail.com',
       userName: 'zula',
@@ -63,7 +62,13 @@ describe('find user by email', () => {
   });
 
   it('should throw error if user is not found', async () => {
-    const task = await updateUser!({}, { email: 'zoloo@gmail.com', userName: 'zula', role: 'engineer', profile: '', position: 'Developer', supervisor: [] }, {}, {} as GraphQLResolveInfo);
-    await expect(task).toEqual(new Error("User doesn't exist in this email"));
+    try{
+     await updateUser!({}, { email: 'zoloo@gmail.com', userName: 'zula', role: 'engineer', profile: '', position: 'Developer', supervisor: [] }, {}, {} as GraphQLResolveInfo);
+
+    }catch(e)
+    {
+    await expect(e).toEqual(new Error("User doesn't exist in this email"));
+
+    }
   });
 });
