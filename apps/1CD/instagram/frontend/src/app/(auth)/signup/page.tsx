@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -48,6 +48,7 @@ const inputs: { name: keyof z.infer<typeof formSchema>; label: string }[] = [
 
 const SignupPage = () => {
   const { signup } = useAuth();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,12 +60,15 @@ const SignupPage = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await signup({
-      email: values.email,
-      password: values.password,
-      fullName: values.fullName,
-      userName: values.userName,
-    });
+    try {
+      await signup(values);
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'User already exists',
+      });
+    }
   };
   return (
     <div className="flex flex-col justify-center min-h-screen gap-2 bg-gray-50" data-cy="signup-page">
