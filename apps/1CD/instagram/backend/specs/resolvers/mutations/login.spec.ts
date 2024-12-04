@@ -1,10 +1,10 @@
+import { userModel } from 'src/models/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { GraphQLResolveInfo } from 'graphql';
 import { login } from 'src/resolvers/mutations';
-import { userModel } from 'src/models';
 
-jest.mock('../../../src/models/user.model');
+jest.mock('src/models/user.model');
 jest.mock('jsonwebtoken');
 jest.mock('bcrypt');
 
@@ -63,8 +63,6 @@ describe('login mutation', () => {
     delete process.env.JWT_SECRET;
 
     (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.compareSync as jest.Mock).mockReturnValue(true);
-    (jwt.sign as jest.Mock).mockReturnValue('jwt-token-123');
 
     await expect(login!({}, { input: mockInput }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('JWT_SECRET environment variable is not set');
   });
