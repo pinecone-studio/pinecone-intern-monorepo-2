@@ -1,7 +1,8 @@
 import { GraphQLError } from 'graphql';
 import { MutationResolvers } from '../../../generated';
 import { userModel } from '../../../models';
-
+import { generateOTP } from '../../../utils/user/generate-otp';
+import { sendOtpMail } from '../../../utils/user/send-otp-email';
 export const checkEmail: MutationResolvers['checkEmail'] = async (_, { input }) => {
   const { email } = input;
   const user = await userModel.findOne({ email });
@@ -12,5 +13,8 @@ export const checkEmail: MutationResolvers['checkEmail'] = async (_, { input }) 
     });
   }
 
-  return { message: 'Email exists' };
+  const otp = generateOTP();
+  await sendOtpMail(email, otp);
+
+  return { email };
 };
