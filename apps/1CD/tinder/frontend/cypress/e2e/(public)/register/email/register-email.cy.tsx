@@ -2,7 +2,7 @@ describe('register with email page',()=>{
     beforeEach(()=>{
         cy.visit('/register/email');
     });
-    it('1.should display the header and introductory texg',()=>{
+    it('1.should display the header and introductory text',()=>{
         cy.get('[data-cy="register-email-header"]').should('be.visible');
         cy.contains('tinder').should('be.visible')
         cy.contains('Create an account').should('be.visible');

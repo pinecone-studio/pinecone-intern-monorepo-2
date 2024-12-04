@@ -18,19 +18,17 @@ const Register = () => {
   const router = useRouter();
 
   const handleRegister = async () => {
-    if (!email) return toast('🫢 Oops! We need your email to sign you up', {});
+    if (!email) return toast.error('Oops! We need your email to sign you up', {});
 
     try {
       const res = await registerEmail({ variables: { input: { email } } });
       if (res?.data?.registerEmail?.email) {
-        console.log('register by email failed1', data?.registerEmail?.email);
         localStorage.setItem('userEmail',email)
         router.push('/register/otp');
       } else {
         console.log('register by email failed', data?.registerEmail?.email);
       }
     } catch (error) {
-      console.log(error)
       handleError(error);
     }
   };
@@ -39,12 +37,12 @@ const Register = () => {
       const message = error.message;
   
       if (message === 'email already exist') {
-        toast('❗️ This email is already registered. Please use a different email or log in.');
+        toast('This email is already registered. Please use a different email or log in.');
       } else {
-        toast('❗️ An unexpected error occurred. Please try again.');
+        toast('An unexpected error occurred. Please try again.');
       }
     } else {
-      toast('❗️ An unexpected error occurred. Please try again.');
+      toast('sAn unexpected error occurred. Please try again.');
     }
   };
 
