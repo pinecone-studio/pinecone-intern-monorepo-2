@@ -1,7 +1,7 @@
-import { userModel } from "apps/1CD/tinder/backend/src/models";
-import { resendOtp } from "apps/1CD/tinder/backend/src/resolvers/mutations";
-import { generateOTP } from "apps/1CD/tinder/backend/src/utils/user/generate-otp";
-import { sendOtpMail } from "apps/1CD/tinder/backend/src/utils/user/send-otp-email";
+
+import { resendOtp } from "../../../../src/resolvers/mutations";
+import { generateOTP } from "../../../../src/utils/user/generate-otp";
+import { sendOtpMail } from "../../../../src/utils/user/send-otp-email";
 import { GraphQLResolveInfo } from "graphql";
 
 jest.mock('../../../../src/models',()=>({
