@@ -6,7 +6,7 @@ export const typeDefs = gql`
     _id: ID!
     name: String!
     email: String!
-    opt: Int!
+    otp: Int!
     bio: String!
     age: Int!
     gender: String!
