@@ -1,8 +1,8 @@
-import { userModel } from '../../../src/models/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { GraphQLResolveInfo } from 'graphql';
 import { login } from 'src/resolvers/mutations';
+import { userModel } from 'src/models';
 
 jest.mock('../../../src/models/user.model');
 jest.mock('jsonwebtoken');

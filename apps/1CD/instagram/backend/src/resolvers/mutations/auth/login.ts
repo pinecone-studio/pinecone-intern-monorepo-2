@@ -14,24 +14,18 @@ export const login: MutationResolvers['login'] = async (_, { input }) => {
     email,
   });
   if (!user) {
-    console.error('Email not found:', email);
     throw new Error('Invalid credentials');
   }
 
   const isPasswordValid = bcrypt.compareSync(password, user.password);
-  console.log('Input Password', password);
-  console.log('User Password', user.password);
-  if (!isPasswordValid) {
-    console.log('Password incorrect', password);
-    throw new Error('Хэрэглэгчийн нууц үг тохирохгүй байна.');
-  }
+  if (!isPasswordValid) throw new Error('Хэрэглэгчийн нууц үг тохирохгүй байна.');
+
   const token = jwt.sign(
     {
       userId: user._id,
     },
     process.env.JWT_SECRET!
   );
-  console.log('Generated JWT:', token);
 
   return { user, token };
 };
