@@ -6,31 +6,6 @@ export const typeDefs = gql`
     PUBLIC
     PRIVATE
   }
-
-  type User {
-    _id: ID!
-    userName: String!
-    fullName: String!
-    email: String!
-    phone: String
-    bio: String
-    gender: String
-    profileImg: String
-    accountVisibility: AccountVisibility!
-    followerCount: Int!
-    followingCount: Int!
-    createdAt: Date!
-    updatedAt: Date!
-    otp: String
-    resetPasswordToken: String
-    resetPasswordTokenExpire: Date
-  }
-
-  type AuthResponse {
-    user: User!
-    token: String!
-  }
-
   input SignupInput {
     email: String!
     password: String!
@@ -61,6 +36,30 @@ export const typeDefs = gql`
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
+  }
+
+  type User {
+    _id: ID!
+    userName: String!
+    fullName: String!
+    email: String!
+    phone: String
+    bio: String
+    gender: String
+    profileImg: String
+    accountVisibility: AccountVisibility!
+    followerCount: Int!
+    followingCount: Int!
+    createdAt: Date!
+    updatedAt: Date!
+    otp: String
+    resetPasswordToken: String
+    resetPasswordTokenExpire: Date
+  }
+
+  type AuthResponse {
+    user: User!
+    token: String!
   }
 
   type Query {
