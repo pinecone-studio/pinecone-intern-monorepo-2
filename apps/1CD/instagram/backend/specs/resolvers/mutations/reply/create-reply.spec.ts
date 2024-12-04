@@ -7,7 +7,7 @@ jest.mock('../../../../src/models/reply-model.ts', () => ({
     create: jest.fn().mockResolvedValue({
       _id: '1',
       description: 's',
-      user: '673f738103387ea426252c1e',
+      userID: '673f738103387ea426252c1e',
       commentID: 'a231',
     }),
   },
