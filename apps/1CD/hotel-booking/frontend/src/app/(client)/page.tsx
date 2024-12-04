@@ -1,4 +1,18 @@
+'use client';
+import { useGetHotelsQuery } from '@/generated';
+
 const Page = () => {
+  const { data, loading } = useGetHotelsQuery();
+  // data = {
+  //   getHotels : [
+  //     {
+
+  //     }
+  //   ]
+  // }
+  console.log({ data });
+
+  if (loading) return <div>loading...</div>;
   return (
     <div className="max-w-[1920px]">
       <div className="container mx-auto">
@@ -7,11 +21,12 @@ const Page = () => {
           <button className="border-2 font-medium text-[14px] text-[#18181B] py-2 px-4 rounded-md">View all</button>
         </div>
 
-        <div className="grid grid-cols-4 rounded-md">
-          <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">1</div>
-          <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">2</div>
-          <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">3</div>
-          <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">4</div>
+        <div className="grid grid-cols-4 rounded-md gap-2">
+          {data?.getHotels.map((hotel) => (
+            <div key={hotel._id} className="w-[308px] h-[424px] bg-pink-500 rounded-md">
+              {hotel.hotelName}
+            </div>
+          ))}
         </div>
 
         <div className="flex justify-between pt-8 pb-4">
@@ -19,7 +34,7 @@ const Page = () => {
           <button className="border-2 font-medium text-[14px] text-[#18181B] py-2 px-4 rounded-md">View all</button>
         </div>
         <div className="grid grid-cols-4 rounded-md pb-14">
-          <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">1</div>
+          <div>1</div>
           <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">2</div>
           <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">3</div>
           <div className="w-[308px] h-[424px] bg-pink-500 rounded-md">4</div>
