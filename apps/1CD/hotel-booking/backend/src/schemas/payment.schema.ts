@@ -21,7 +21,14 @@ export const typeDefs = gql`
     paymentMethod: String!
     status: PaymentStatus!
   }
+
+  type PaymentResponse {
+    success: Boolean
+    message: String
+  }
+
   type Mutation {
+    processPayment(token: String, amount: Int!): PaymentResponse
     addPayment(input: PaymentInput!): PaymentType!
   }
 `;
