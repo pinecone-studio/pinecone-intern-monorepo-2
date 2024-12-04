@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
+import { LoginProvider } from '@/context/LoginContext';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -11,7 +12,9 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
       <body>
-        <ApolloWrapper>{children}</ApolloWrapper>
+        <ApolloWrapper>
+          <LoginProvider>{children}</LoginProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );
