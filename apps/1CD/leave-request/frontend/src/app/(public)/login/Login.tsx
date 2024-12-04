@@ -24,9 +24,9 @@ const Login = () => {
   const sendEmail = async (values: { email: string }) => {
     setOldEmail(values.email);
     try {
-      const response = await createOtp({ variables: { email: values.email } });
+      const response = await createOtp({ variables: { email: values.email.toLowerCase() } });
       if (response.data) {
-        setEmail(response.data.createsOTP!.email);
+        setEmail(response.data.createsOTP!.email.toLowerCase());
         setExpirationDate(response.data.createsOTP!.expirationDate);
         router.push('/sendOtp')
       }
