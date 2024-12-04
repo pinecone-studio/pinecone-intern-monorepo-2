@@ -1,29 +1,55 @@
 'use client';
-
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import React from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { SquarePlus } from 'lucide-react';
+import Image from 'next/image';
 
 export const Navbar = () => {
-  const [value, setValue] = React.useState(0);
-
   return (
-    <Box sx={{ width: 500 }}>
-      <BottomNavigation
-        showLabels={true}
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-      </BottomNavigation>
-    </Box>
+    <div className="flex flex-col items-start justify-between w-[260px] h-screen border-l-[1px] p- ">
+      <div>
+        <div className="relative w-[100px] h-[30px]">
+          <Image alt="Logo" src="/images/Logo.png" fill={true} className="w-auto h-auto" />
+        </div>
+        <div>
+          <Button variant="ghost" className="hover:bg-white">
+            Home
+          </Button>
+        </div>
+
+        <div>
+          <Button variant="ghost" className="">
+            Search
+          </Button>
+        </div>
+
+        <div>
+          <Button variant="ghost" className="">
+            Notifications
+          </Button>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger data-testid="more-btn" asChild>
+            <Button variant="ghost" className="">
+              <SquarePlus /> <span>Create</span>
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem>Cancel</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <div>
+        <Button variant="ghost" className="">
+          More
+        </Button>
+      </div>
+    </div>
   );
 };
