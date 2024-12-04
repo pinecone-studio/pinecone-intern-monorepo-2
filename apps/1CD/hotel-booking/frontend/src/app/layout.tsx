@@ -3,7 +3,7 @@ import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import FooterHome from '@/components/FooterHome';
 import Header from '@/components/Header';
-import HomePageCard from '@/components/Home-Page-Card';
+import HomePageCard from '@/components/HomePageCard';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
