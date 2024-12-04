@@ -3,3 +3,8 @@ mutation registerEmail($input:RegisterEmailInput!){
         email
     }
 }
+mutation createPassword($input: CreatePassInput!) {
+  createPassword(input: $input) {
+    email
+  }
+}
