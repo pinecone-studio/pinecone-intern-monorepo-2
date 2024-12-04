@@ -21,8 +21,7 @@ export type UserType={
 const userSchema=new Schema<UserType>({
     name:{
         type:String,
-        required:true
-       
+        required:false,
     },
     email:{
         type:String,
@@ -33,9 +32,9 @@ const userSchema=new Schema<UserType>({
        
     },
     otp:{
+
         type:Number,
-        expires:'5m',
-        
+
     },
     bio:{
         type:String,

@@ -8,6 +8,7 @@ export const sendOtpMail=async (email:string,otp:number)=>{
                 user:'tomorbatmonhtsatsral@gmail.com',
                 pass:process.env.OTP_SECRET,
             },
+            debug: true, 
         });
         await transporter.sendMail({
             from:'tomorbatmonhtsatsral@gmail.com',
@@ -18,6 +19,8 @@ export const sendOtpMail=async (email:string,otp:number)=>{
         return 'Email sent successfully';
 
     }catch(error){
+        console.log(error)
+        
         throw new GraphQLError('Failed to send OTP email',{
             extensions:{
                 code:'FAILED_OTP'

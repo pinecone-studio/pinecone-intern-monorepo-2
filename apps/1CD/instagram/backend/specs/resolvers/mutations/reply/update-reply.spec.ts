@@ -5,20 +5,20 @@ import { updateReply} from '../../../../src/resolvers/mutations';
 
 jest.mock('../../../../src/models/reply.model.ts', () => ({
   ReplyModel: {
-    findbyIdAndUpdate: jest
+    findByIdAndUpdate: jest
       .fn()
       .mockResolvedValueOnce({
-        userID: "1",     
+       _id:"123" ,    
         description:"s",
-        comment:"a231"
+       
       })
       .mockResolvedValueOnce(null),
   },
 }));
-// const input = { 
-//   userID: "1",     
-//   description:"s",
-//   comment:"a231"};
+const input = { 
+  _id:"123" ,    
+  description:"s",
+};
 
 
 describe('update Reply', () => {
@@ -26,19 +26,16 @@ describe('update Reply', () => {
     const result = await updateReply!(
       {},
       {
-        userID: "1",     
-        // description:"s",
-        // comment:"a231"
+       input
       },
-      {},
+      {userId: null},
       {} as GraphQLResolveInfo
     );
 
     expect(result).toEqual(
        {
-        userID: "1",     
+        _id:"123" ,    
         description:"s",
-        comment:"a231"
         
        
     });
@@ -48,11 +45,9 @@ describe('update Reply', () => {
       await updateReply!(
         {},
         {
-          userID: "1",     
-          // description:"s",
-          // comment:"a231"
+        input
         },
-        {},
+        {userId: null},
         {} as GraphQLResolveInfo
       );
     } catch (error) {

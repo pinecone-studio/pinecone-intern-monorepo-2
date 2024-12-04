@@ -14,13 +14,17 @@ export const typeDefs = gql`
   }
   input UpdatePostInput {
     _id: ID!
-
     description: String
     images: [String]
+  }
+
+  type Query {
+    getMyPosts(userID: String!): [Post!]!
   }
 
   type Mutation {
     createPost(user: String!, description: String, images: [String!]!): Post!
     updatePost(input: UpdatePostInput!): Post!
+    deletePost(_id: String!): Post!
   }
 `;

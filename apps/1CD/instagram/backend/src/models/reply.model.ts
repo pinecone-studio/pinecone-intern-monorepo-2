@@ -5,8 +5,6 @@ export type Reply = {
   user: Schema.Types.ObjectId;
   comment:string;
   description: string;
-  lastComments: string;
-  likeCount: number;
   createdAt: Date;
   updatedAt: Date; 
 };
@@ -19,11 +17,6 @@ const ReplySchema = new Schema<Reply>({
   },
   description: {
     type: String,
-  },
-  lastComments: { type: String, },
-  likeCount: {
-    type: Number,
-   
   },
   createdAt: {
     type: Date,

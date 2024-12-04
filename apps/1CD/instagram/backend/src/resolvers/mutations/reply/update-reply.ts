@@ -3,12 +3,14 @@ import { ReplyModel } from '../../../models/reply.model';
 
 
 
-export const updateReply: MutationResolvers['updateReply'] = async (_, {userID}) => {
-  const updateReply = await ReplyModel.findByIdAndUpdate({userID},{new: true});
+export const updateReply: MutationResolvers['updateReply'] = async (_, {input}) => {
+try {
+  const updateReply = await ReplyModel.findByIdAndUpdate(input._id, {description:input.description}, {new: true});
   if (!updateReply) {
-    throw new Error('Can not updated post');
+    throw new Error('Can not updated reply');
   }
-
-  
   return updateReply;
+} catch (error) {
+  console.log("error", error)
+}
 };

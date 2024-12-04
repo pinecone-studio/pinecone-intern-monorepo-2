@@ -1,8 +1,8 @@
-import { MutationResolvers } from '../../generated';
-import { userModel } from '../../models/user.model';
+import { MutationResolvers } from '../../../generated';
+import { userModel } from '../../../models';
 import jwt from 'jsonwebtoken';
 
-export const signup: MutationResolvers['signup'] = async (_, { input }) => {
+export const signUp: MutationResolvers['signUp'] = async (_, { input }) => {
   const { email } = input;
 
   const user = await userModel.findOne({ email });
@@ -13,15 +13,11 @@ export const signup: MutationResolvers['signup'] = async (_, { input }) => {
     ...input,
   });
 
-  if (!process.env.JWT_SECRET) {
-    throw new Error('JWT_SECRET environment variable is not set');
-  }
-
   const token = jwt.sign(
     {
       userId: newUser._id,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET!
   );
 
   return {

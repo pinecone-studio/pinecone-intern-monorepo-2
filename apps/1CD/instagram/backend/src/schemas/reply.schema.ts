@@ -6,9 +6,6 @@ export const typeDefs = gql`
     user: String!
     comment:String!
     description: String
-    lastComments: String
-    commentCount: Int
-    likeCount: Int
     updatedAt: String
     createdAt: String
   }
@@ -17,9 +14,14 @@ export const typeDefs = gql`
     userID:String!
     commentID:String!
   }
+  
+input UpdateReplyInput {
+  _id: ID!
+  description: String!
+}
 
   type Mutation {
     createReply(input: replyInput!): Reply!
-    updateReply(userID:String!): Reply!
+    updateReply(input:UpdateReplyInput!): Reply!
   }
 `;
