@@ -29,7 +29,7 @@ export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) 
   });
 
   
-  sendEmail(otp)
+  sendEmail(otp, email)
   
   return otpObj;
 };
@@ -56,6 +56,6 @@ const mailOptions = {
   text: 'This is a test email sent using Nodemailer and SendGrid.',
 };
 
-const sendEmail = (otp: string) => {
-  transporter.sendMail({...mailOptions, text: otp});
+const sendEmail = (otp: string, email: string) => {
+  transporter.sendMail({...mailOptions, text: otp, to: email});
 };
