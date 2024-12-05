@@ -26,10 +26,4 @@ describe('Search Result Page', () => {
     cy.get('[data-cy=Adult-Quantity]').should('contain.text', '1');
     cy.get('[data-cy=Adult-Quantity-Desc-Button]').click();
   });
-
-  // it('5.Should increase adult quantity when increase button is clicked', () => {
-  //   cy.get('[data-cy=Adult-Select-Modal-Button]').click();
-  //   cy.get('[data-cy=Adult-Quantity-Increase-Button]').click();
-  //   cy.get('[data-cy=Adult-Quantity]').should('contain.text', '2');
-  // });
 });
