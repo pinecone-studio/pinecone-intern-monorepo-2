@@ -54,10 +54,16 @@ export const typeDefs = gql`
     discount: Int
     venue: ID!
     category: [ID!]!
+    priority: String!
+  }
+
+  input EventPriorityUpdateInput {
+    priority: String!
   }
 
   type Mutation {
     createEvent(input: EventInput!): Event!
+    updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
   }
   type Query {
     getSpecialEvent: [Event!]!
