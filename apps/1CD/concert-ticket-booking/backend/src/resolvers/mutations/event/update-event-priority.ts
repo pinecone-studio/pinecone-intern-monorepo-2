@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+
 import { MutationResolvers } from '../../../generated';
 import Event from '../../../models/event.model';
 

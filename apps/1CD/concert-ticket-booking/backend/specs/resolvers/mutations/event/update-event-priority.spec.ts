@@ -29,7 +29,7 @@ const _id = '1'
     try {
       await updateEventPriority!({},{input,_id}, {userId: '1'}, {} as GraphQLResolveInfo);
     } catch (err) {
-      expect ((err as Error)).toEqual('Event not found');
+      expect ((err as Error).message).toEqual('Event not found');
     }
     });
   });
