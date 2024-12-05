@@ -38,7 +38,7 @@ describe('checkEmailmutation', () => {
   });
 
   it('should send OTP and return email if email is found', async () => {
-    (userModel.findOne as jest.Mock).mockResolvedValue({ email: mockEmail });
+    (userModel.findOne as jest.Mock).mockResolvedValue({ email: mockEmail, save: jest.fn().mockResolvedValue(true) });
     (generateOTP as jest.Mock).mockReturnValue(mockOtp);
     (sendOtpMail as jest.Mock).mockResolvedValue('Email sent successfully');
 
@@ -53,7 +53,7 @@ describe('checkEmailmutation', () => {
   });
 
   it('should save the OTP in the user record', async () => {
-    const user = { email: mockEmail, save: jest.fn(), otp: undefined as number | undefined };
+    const user = { email: mockEmail, save: jest.fn().mockResolvedValue(true), otp: undefined as number | undefined };
     (userModel.findOne as jest.Mock).mockResolvedValue(user);
     (generateOTP as jest.Mock).mockReturnValue(mockOtp);
 
