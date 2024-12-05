@@ -4,13 +4,14 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { LuDot } from 'react-icons/lu';
 import { BiSolidChevronLeft, BiSolidChevronRight } from 'react-icons/bi';
-import { FaRegBookmark, FaRegComment, FaRegHeart } from 'react-icons/fa';
+import { FaRegBookmark, FaRegHeart } from 'react-icons/fa';
 import { CiFaceSmile } from 'react-icons/ci';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
 import { useGetMyPostsQuery } from '@/generated';
+import Comment from '../comment/PostComment';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -80,10 +81,10 @@ export const PostCard = () => {
             <div className="flex items-center justify-between px-1 py-3 text-xl">
               <div className="flex gap-3">
                 <p>
-                  <FaRegHeart />{' '}
+                  <FaRegHeart />
                 </p>
                 <p>
-                  <FaRegComment />
+                  <Comment />
                 </p>
               </div>
               <p>
