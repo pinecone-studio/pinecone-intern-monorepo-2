@@ -1,18 +1,17 @@
 import { userModel } from '../../../models/user.model';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { AccountVisibility } from '../../../generated';
 import { MutationResolvers } from '../../../generated';
 
 export const signup: MutationResolvers['signup'] = async (_: unknown, { input }) => {
-  const { email, accountVisibility = AccountVisibility.Public } = input;
+  const { email, password, accountVisibility = AccountVisibility.Public } = input;
 
   const user = await userModel.findOne({ email });
 
   if (user) throw new Error('User already exists');
 
-  const newPassword = crypto.randomBytes(25).toString('hex');
-  const hashedPassword = crypto.createHash('sha256').update(newPassword).digest('hex');
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await userModel.create({
     ...input,
