@@ -19,7 +19,6 @@ export const sendOtpMail=async (email:string,otp:number)=>{
         return 'Email sent successfully';
 
     }catch(error){
-        console.log(error)
         
         throw new GraphQLError('Failed to send OTP email',{
             extensions:{
