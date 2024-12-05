@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, createContext, useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import { UPDATE_USER } from '@/graphql/userdetailsgraphql';
+import { UPDATE_USER } from '@/graphql/Userdetailsgraphql';
 
 type UserDetailsInput = {
   variables:{
@@ -16,7 +16,7 @@ type UserDetailsInput = {
 };
 
 type UserDetailsContextType = {
-  updateUser: (input: UserDetailsInput) => void;
+  updateUser: (_variables: UserDetailsInput) => void;
 };
 
 const UserDetailsContext = createContext<UserDetailsContextType>({} as UserDetailsContextType);
@@ -36,7 +36,6 @@ export const UserDetailsProvider = ({ children }: PropsWithChildren) => {
           interests         
         }
       });
-      console.log("User details updated successfully!");
     } catch (error) {
       console.error('Error updating user:', error);
     }

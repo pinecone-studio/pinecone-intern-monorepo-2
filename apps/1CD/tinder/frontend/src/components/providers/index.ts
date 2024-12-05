@@ -1,2 +1,2 @@
 export * from './ApolloWrapper';
-export * from '../userdetails'
+export * from '../Userdetails'
