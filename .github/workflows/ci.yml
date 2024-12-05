@@ -19,8 +19,8 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 15
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,20 +30,20 @@ jobs:
         with:
           bun-version: 1.0.4
       - name: Install dependencies
-        run: yarn install
-        if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
+        run: bun install -y
+        # if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
       - name: Run lint on affected projects
-        run: yarn nx affected -t lint --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t lint --parallel=5 --output-style=stream-without-prefixes
 
   test:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
         with:
           bun-version: 1.0.4
       - name: Install dependencies
-        run: yarn install
+        run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -61,12 +61,16 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
       - name: Run test on affected projects
-        run: yarn nx affected -t test --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t test --parallel=5 --output-style=stream-without-prefixes
 
   build:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,20 +80,31 @@ jobs:
         with:
           bun-version: 1.0.4
       - name: Install dependencies
-        run: yarn install
+        run: bun install -y
+      - name: Install Vercel CLI
+        run: bun add --global vercel@latest
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
+      - name: Get NX BASE and NX HEAD
+        uses: nrwl/nx-set-shas@v4
+      - name: Export NX BASE AND HEAD
+        run: |
+          export NX_BASE=${{ env.NX_BASE }}
+          export NX_HEAD=${{ env.NX_HEAD }}
+          export VERCEL_TOKEN=${{ env.VERCEL_TOKEN }}
+          export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
+          bash ./tools/scripts/export-action-env.sh
       - name: Run build on affected projects
-        run: yarn nx affected -t build --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t build --parallel=5 --output-style=stream-without-prefixes
 
   preview-and-E2E:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
@@ -103,17 +118,22 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - name: Install dependencies
-        run: yarn install
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+      - run: bun install -y
+      - name: Install Cypress
+        run: bunx cypress install
+      - name: Install Vercel CLI
+        run: bun add --global vercel@latest
+      - name: Install Vercel CLI
+        run: bun add --global vercel@latest
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
-      - name: Install Cypress
-        run: yarn add cypress install
-      - name: Install Vercel CLI
-        run: yarn global add vercel
-      - uses: nrwl/nx-set-shas@v4
+      - name: Get NX BASE and NX HEAD
+        uses: nrwl/nx-set-shas@v4
       - name: Export NX BASE AND HEAD
         run: |
           export NX_BASE=${{ env.NX_BASE }}
@@ -122,4 +142,4 @@ jobs:
           export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
           bash ./tools/scripts/export-action-env.sh
       - name: Generate Preview Links
-        run: yarn nx preview-action scripts
+        run: bunx nx preview-action scripts

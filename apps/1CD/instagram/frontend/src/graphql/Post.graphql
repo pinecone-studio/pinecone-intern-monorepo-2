@@ -1,0 +1,21 @@
+mutation DeletePost($_id: String!) {
+  deletePost(_id: $_id) {
+    _id
+    user
+    description
+  }
+}
+
+query GetMyPosts($userID: String!) {
+  getMyPosts(userID: $userID) {
+    _id
+    user
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}

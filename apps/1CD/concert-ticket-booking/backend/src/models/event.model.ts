@@ -3,14 +3,15 @@ import { model, models, Schema } from 'mongoose';
 type Event = {
   _id: Schema.Types.ObjectId;
   name: string;
+  scheduledDays: string[];
   description: string;
   mainArtists: string[];
   guestArtists: string[];
   dayTickets: Schema.Types.ObjectId[];
-  images: [string];
+  image: string;
   discount: number;
   venue: Schema.Types.ObjectId;
-  priority: boolean;
+  priority: string;
   category: Schema.Types.ObjectId[];
 };
 
@@ -24,6 +25,12 @@ const eventSchema = new Schema<Event>(
       type: String,
       default: 'comment',
     },
+    scheduledDays: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     mainArtists: [
       {
         type: String,
@@ -33,12 +40,12 @@ const eventSchema = new Schema<Event>(
     guestArtists: [
       {
         type: String,
-        default: '',
+        required: true,
       },
     ],
-    images: {
-      type: [String],
-      default: ['img'],
+    image: {
+      type: String,
+      required: true,
     },
     discount: {
       type: Number,
@@ -48,7 +55,7 @@ const eventSchema = new Schema<Event>(
       {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Tickets',
+        ref: 'Ticket',
       },
     ],
     category: [
@@ -62,6 +69,11 @@ const eventSchema = new Schema<Event>(
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Venue',
+    },
+    priority: {
+      type: String,
+      enum: ['high', 'medium', 'low'],
+      default: 'low',
     },
   },
   {

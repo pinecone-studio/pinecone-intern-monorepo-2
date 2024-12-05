@@ -20,5 +20,10 @@ export const typeDefs = gql`
   }
   type Mutation {
     addHotelGeneralInfo(input: HotelInput!): Hotel!
+    updateHotelLocation(location: String!, _id: String!): Hotel!
+  }
+  type Query {
+    getHotel(_id: ID!): Hotel!
+    getHotels: [Hotel!]!
   }
 `;

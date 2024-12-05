@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { AccountVisibility } from 'src/generated';
 
 export type UserType = {
   _id: string;
@@ -9,13 +10,15 @@ export type UserType = {
   bio: string;
   gender: string;
   profileImg: string;
-  accountVisibility: string;
+  accountVisibility: AccountVisibility;
   followerCount: number;
   followingCount: number;
   password: string;
   createdAt: Date;
   updatedAt: Date;
   otp?: string;
+  resetPasswordToken: string;
+  resetPasswordTokenExpire: Date;
 };
 
 const userSchema = new Schema<UserType>({
@@ -47,14 +50,16 @@ const userSchema = new Schema<UserType>({
   },
   accountVisibility: {
     type: String,
-    enum: ['public', 'private'],
-    default: 'public',
+    enum: [AccountVisibility.Private, AccountVisibility.Public],
+    default: AccountVisibility.Public,
   },
   followerCount: {
     type: Number,
+    default: 0,
   },
   followingCount: {
     type: Number,
+    default: 0,
   },
   password: {
     type: String,
@@ -71,6 +76,8 @@ const userSchema = new Schema<UserType>({
   otp: {
     type: String,
   },
+  resetPasswordToken: { type: String },
+  resetPasswordTokenExpire: { type: Date },
 });
 
 export const userModel = models['userModel'] || model('userModel', userSchema);

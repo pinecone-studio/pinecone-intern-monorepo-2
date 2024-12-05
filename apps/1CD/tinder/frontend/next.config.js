@@ -17,9 +17,9 @@ const nextConfig = {
       },
     ],
   },
-  env: {
-    BACKEND_URI: process.env.BACKEND_URI || '',
-    LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI ||''
+  env:{
+    BACKEND_URI:process.env.BACKEND_URI || '',
+    LOCAL_BACKEND_URI:process.env.LOCAL_BACKEND_URI||'',
   }
 };
 

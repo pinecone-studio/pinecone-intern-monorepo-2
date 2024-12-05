@@ -4,8 +4,9 @@ type Venue = {
   _id: Schema.Types.ObjectId;
   name: string;
   image: string;
+  location:string;
   capacity: string;
-  size: number;
+  size: string;
 };
 
 const venueSchema = new Schema<Venue>(
@@ -18,12 +19,16 @@ const venueSchema = new Schema<Venue>(
       type: String,
       required: true,
     },
+    location: {
+      type:String,
+      required:true,
+    },
     capacity: {
       type: String,
       required: true,
     },
     size: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
