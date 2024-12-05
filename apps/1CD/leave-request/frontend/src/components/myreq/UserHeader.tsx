@@ -2,12 +2,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Image from 'next/image';
+import { Sun } from 'lucide-react';
 
 const UserHeader = () => {
   return (
-    <header className="flex flex-col h-16 gap-4 px-6 pt-4 mb-24">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex gap-4">
+    <header className="flex flex-col h-16 gap-4 px-6 pt-4 mb-24 bg-white">
+      <div className="flex items-center justify-between gap-4 bg-white">
+        <div className="flex gap-4 ">
           <Image src="/Logo/Vector.svg" width={32} height={28} alt="Logo" />
           <Select>
             <SelectTrigger className="w-[180px]">
@@ -20,7 +21,8 @@ const UserHeader = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-6  bg-white">
+        <Sun />
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>

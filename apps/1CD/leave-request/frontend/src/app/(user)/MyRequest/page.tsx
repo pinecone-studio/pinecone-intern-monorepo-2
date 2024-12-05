@@ -1,6 +1,7 @@
 'use client';
 
-import Requests from '@/components/myreq/requests';
+import Requests from '@/components/myreq/Requests';
+import SentRequest from '@/components/myreq/SentRequest';
 import UserHeader from '@/components/myreq/UserHeader';
 
 const Page = () => {
@@ -8,6 +9,7 @@ const Page = () => {
     <>
       <UserHeader />
       <Requests />
+      <SentRequest /> 
     </>
   );
 };
