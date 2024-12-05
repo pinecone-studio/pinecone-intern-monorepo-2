@@ -26,7 +26,7 @@ const Password = () => {
         <div className="text-[#09090B] font-medium text-sm pb-2 pt-4">Confirm Password</div>
         <Input data-cy="register-email-input" placeholder="name@example.com" className="w-[350px] border-[#E4E4E7] border-2" />
         <Button data-cy="register-continue-button"className="w-[350px] h-9 bg-[#E11D48E5] rounded-full text-[#FAFAFA] text-sm font-medium mt-4" >
-          Continue
+          Continue.
         </Button>
         
         {/* <Toaster /> */}
