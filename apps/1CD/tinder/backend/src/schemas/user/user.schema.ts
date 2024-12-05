@@ -22,6 +22,10 @@ export const typeDefs = gql`
     email: String!
   }
 
+  input checkEmailInput {
+    email: String!
+  }
+
   input VerifyOtpInput {
     email: String!
     otp: Int!
@@ -59,8 +63,11 @@ export const typeDefs = gql`
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
     verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
     createPassword(input: CreatePassInput!): RegisterEmailResponse!
+
+    checkEmail(input: checkEmailInput!): RegisterEmailResponse!
     createUser(input: CreateUserInput!): User!
     updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): User!
     updateAttraction(email: String!, attraction: String!): User!
+
   }
 `;
