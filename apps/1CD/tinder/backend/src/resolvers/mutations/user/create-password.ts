@@ -7,7 +7,7 @@ export const createPassword:MutationResolvers['createPassword']=async(_,{input})
     if(!email||!password){
         throw new GraphQLError('email and pass are required')
     }
-    const createPassword=await userModel.findOneAndUpdate({email},{password});
+    const createPassword=await userModel.findOneAndUpdate({email},{password:password});
     if(!createPassword){
         throw new GraphQLError('user not found')
     }
