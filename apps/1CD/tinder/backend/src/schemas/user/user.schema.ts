@@ -15,6 +15,7 @@ export const typeDefs = gql`
     schoolWork: [String!]
     createdAt: Date!
     updatedAt: Date!
+    attraction: String!
   }
 
   input RegisterEmailInput {
@@ -62,9 +63,11 @@ export const typeDefs = gql`
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
     verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
     createPassword(input: CreatePassInput!): RegisterEmailResponse!
-    checkEmail(input: checkEmailInput!): RegisterEmailResponse!
 
+    checkEmail(input: checkEmailInput!): RegisterEmailResponse!
     createUser(input: CreateUserInput!): User!
     updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): User!
+    updateAttraction(email: String!, attraction: String!): User!
+
   }
 `;
