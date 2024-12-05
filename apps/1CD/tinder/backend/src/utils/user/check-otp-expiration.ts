@@ -10,7 +10,7 @@ export const checkOtpDate=(user:{createdAt: Date,email:string})=>{
     
     const timeDifference=currentTime.getTime()-otpCreatedAt.getTime(); //can use number(), valueof()
     if(timeDifference>expirationTime){
-        throw new GraphQLError('failed otp', {
+        throw new GraphQLError('otp is invalid', {
             extensions: { code: 'OTP_IS_INVALID' },
           });
     }

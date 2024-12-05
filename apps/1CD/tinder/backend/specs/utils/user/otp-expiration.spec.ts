@@ -18,6 +18,6 @@ describe('check whether otp is expired or not', () => {
       email:"example@gmail.com"
     };
     expect(() => checkOtpDate(user)).toThrow(GraphQLError);
-    expect(() => checkOtpDate(user)).toThrow('failed otp');
+    expect(() => checkOtpDate(user)).toThrow('otp is invalid');
   });
 });
