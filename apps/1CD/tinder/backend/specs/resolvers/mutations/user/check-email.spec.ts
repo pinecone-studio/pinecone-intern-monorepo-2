@@ -1,7 +1,7 @@
 import { userModel } from '../../../../src/models/user/user.model';
 import { generateOTP } from '../../../../src/utils/user/generate-otp';
 import { sendOtpMail } from '../../../../src/utils/user/send-otp-email';
-import { checkEmail } from '../../../../src/resolvers/mutations/user/checkEmail';
+import { checkEmail } from '../../../../src/resolvers/mutations/user/check-email';
 import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/user/user.model', () => ({
@@ -19,7 +19,7 @@ jest.mock('../../../../src/utils/user/send-otp-email', () => ({
   sendOtpMail: jest.fn(),
 }));
 
-describe('checkEmailmutation', () => {
+describe('check-Emailmutation', () => {
   const mockEmail = 'example@gmail.com';
   const mockOtp = 1234;
   const mockInfo = {} as GraphQLResolveInfo;
