@@ -19,25 +19,3 @@ export const updateEventPriority: MutationResolvers['updateEventPriority'] = asy
 
 
 
-// jest.mock ('../../../../src/models/event.model', ()=> ({
-//   findByIdAndUpdate: jest.fn(),
-// }));
-
-// describe ('update priority', ()=> {
-//   const input = {
-//     priority : "test"
-//   }; 
-//   const _id = '1' 
-//   it ('should update priority', async ()=> {
-//     (Event.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce({
-//       _id: '1', 
-//       priority: 'test'
-//     })
-//     const result = await updateEvent! ({}, {input, _id}, {userId: '1'}, {} as GraphQLResolveInfo);
-//     expect (result ). toEqual ({
-//       _id: "1",
-//       priority: "test"
-//     });
-//   });
-
-// })
