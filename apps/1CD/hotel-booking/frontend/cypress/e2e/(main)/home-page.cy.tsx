@@ -1,5 +1,9 @@
 describe('Home Page', () => {
-  it(`Should render home page`, () => {
+  beforeEach(() => {
     cy.visit('/');
+  });
+
+  it('1. Should render add-hotel', () => {
+    cy.get('[data-cy=hello]').should('be.visible');
   });
 });
