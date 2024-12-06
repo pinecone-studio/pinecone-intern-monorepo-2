@@ -33,7 +33,7 @@ const inputs = [
 const ForgotPassword = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,11 +52,7 @@ const ForgotPassword = () => {
       console.log('error', error.message);
       form.reset();
       // Assuming your error response contains a message or specific field for "email not found"
-      if (error.message.includes('Email not found')) {
-        setErrorMessage('Email not found');
-      } else {
         toast.error('Email not found');
-      }
     },
   });
 
@@ -80,6 +76,7 @@ const ForgotPassword = () => {
   };
 
   return (
+
   <div className=''>
     <div data-cy="Forgot-Password-Page" className='bg-[#27272A]'>
       <Form {...form} >
