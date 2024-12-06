@@ -18,6 +18,6 @@ mutation Signup($input: SignupInput!) {
   }
 }
 
-mutation Forgetpassword($input: ForgetpasswordInput!) {
+mutation ForgetPassword($input: ForgetpasswordInput!) {
   forgetPassword(input: $input)
 }

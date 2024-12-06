@@ -2,7 +2,7 @@
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { useForgetpasswordMutation, User, useSignupMutation } from 'src/generated';
+import { useForgetPasswordMutation, User, useSignupMutation } from 'src/generated';
 
 type SignUp = {
   email: string;
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
     });
   };
-  const [forgetPasswordMutation] = useForgetpasswordMutation({
+  const [ForgetPasswordMutation] = useForgetPasswordMutation({
     onCompleted: () => {
       toast({ variant: 'default', title: 'Success', description: 'A password recovery link has been sent to your email address.' });
       router.push('/');
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     },
   });
   const forgetPassword = async ({ email }: ForgetPassword) => {
-    await forgetPasswordMutation({ variables: { input: { email } } });
+    await ForgetPasswordMutation({ variables: { input: { email } } });
   };
   return <AuthContext.Provider value={{ signup, user, forgetPassword }}>{children}</AuthContext.Provider>;
 };
