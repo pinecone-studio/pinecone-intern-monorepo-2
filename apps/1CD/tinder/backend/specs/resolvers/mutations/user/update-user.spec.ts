@@ -1,18 +1,18 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { updateUser } from '../../../../src/resolvers/mutations';
-import { userModel } from 'apps/1CD/tinder/backend/src/models';
+import { userModel } from '../../../../src/models';
 
 
-jest.mock('apps/1CD/tinder/backend/src/models', () => ({
+jest.mock('../../../../src/models', () => ({
   userModel: {
-    findById: jest.fn(),
-    findByIdAndUpdate: jest.fn(),
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
   },
 }));
 
-describe('find user by ID', () => {
+describe('find user by email', () => {
   const mockUser = {
-    _id: '123',
+    email: 'anna@gmail.com',
     name: 'Sara',
     bio: 'Traveler',
     interests: ['Reading', 'Traveling'],
@@ -29,12 +29,12 @@ describe('find user by ID', () => {
     schoolWork: ['university', 'school'],
   };
 
-  it('should find user by ID', async () => {
-    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
-    (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
+  it('should find user by email and update', async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
     const updateduser = await updateUser!(
       {},
-      { _id: '123', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
+      {  email: 'anna@gmail.com', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
       {},
       {} as GraphQLResolveInfo
     );
@@ -42,15 +42,38 @@ describe('find user by ID', () => {
   });
 
   it('should throw error', async () => {
-    (userModel.findById as jest.Mock).mockResolvedValue(null);
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
 
-    expect(
+    
+      await expect( updateUser!(
+        {},
+        {  email: 'anna@gmail.com', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
+        {},
+        {} as GraphQLResolveInfo
+      )).rejects.toThrow("Could not find user") 
+   
+
+   
+  });
+
+  it('should throw internal server error', async () => {
+    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (userModel.findOneAndUpdate as jest.Mock).mockRejectedValue(new Error('Database connection failed'));
+    await expect(
       updateUser!(
         {},
-        { _id: '123', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
+        { 
+          email: 'anna@gmail.com', 
+          name: 'Sarah', 
+          bio: 'singer', 
+          interests: ['Dancing', 'Traveling'], 
+          profession: 'Software Engineer', 
+          schoolWork: ['university', 'school'] 
+        },
         {},
         {} as GraphQLResolveInfo
       )
-    ).rejects.toThrow('Could not find user');
+    ).rejects.toThrow('Internal server error');
   });
+  
 });

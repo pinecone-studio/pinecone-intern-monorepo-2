@@ -9,6 +9,9 @@ import { useUseDetails } from './providers/UserDetailsProvider';
 import { UserdetailsBio } from './UserdetailsBio';
 import { UserdetailsName } from './UserdetailsName';
 import { UserdetailsProfession } from './UserdetailsProfession';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required').min(2, 'Name length must be at least 2 characters'),
   bio: Yup.string().required('Bio is required'),
@@ -26,8 +29,28 @@ const initialValues = {
 };
 
 export const Userdetails = () => {
-  const _id = '6747bf86eef691c549c23463'; 
-  const { updateUser } = useUseDetails();
+  const [email, setEmail]= useState('')
+  useEffect (()=>{
+   const localemail = localStorage.getItem('userEmail')
+   const email = localemail? JSON.parse(localemail) :""
+   setEmail(email)
+  },[])
+  const { updateUser,data, error} = useUseDetails();
+
+
+  useEffect(() => {
+    if(data){
+     toast.success("Successfully added your information");
+      return;
+    }
+    const message = error.cause?.message
+    if (message === "Could not find user") {
+      toast.error("Your email is not valid");
+      return;
+    }
+
+  }, [data,error]);
+
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -35,19 +58,22 @@ export const Userdetails = () => {
       try {
         await updateUser({
           variables:{
-            _id: _id,
+            email: email,
             name: values.name,
             bio: values.bio,
             profession: values.profession,
             schoolWork: values.schoolWork,
             interests: values.interests
           }
-        });
-        
+        })
+       
       } catch (error) {
-        console.error('Error updating user:', error);
+        if(error){
+          toast.error("Internal server error. Try again")
+        }
       }
       formik.resetForm()
+    
     },
   });
 

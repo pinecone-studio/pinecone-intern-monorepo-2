@@ -66,7 +66,7 @@ export const typeDefs = gql`
 
   
     createUser(input: CreateUserInput!):User!
-    updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
+    updateUser(email: String!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
 
   }
 `;
