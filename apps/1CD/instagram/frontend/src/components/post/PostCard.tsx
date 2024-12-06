@@ -11,7 +11,7 @@ import { MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
 import { useGetMyPostsQuery } from '@/generated';
-import Comment from '../comment/PostComment';
+import PostComment from '../comment/PostComment';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -84,7 +84,7 @@ export const PostCard = () => {
                   <FaRegHeart />
                 </p>
                 <p>
-                  <Comment />
+                  <PostComment />
                 </p>
               </div>
               <p>

@@ -4,20 +4,22 @@ import { FaRegComment } from 'react-icons/fa';
 import ImageScroll from './ImageScroll';
 import CommentLists from './CommentLists';
 
-const Comment = () => {
+const PostComment = () => {
   return (
     <div>
       <Dialog>
         <DialogTrigger>
           <FaRegComment />
         </DialogTrigger>
-        <DialogContent className="w-[500px] h-[500px] flex">
-          <ImageScroll />
-          <CommentLists />
-        </DialogContent>
+        <div className="w-4/5 h-3/4">
+          <DialogContent className="flex min-w-full h-screen bg-blue-500">
+            <ImageScroll />
+            <CommentLists />
+          </DialogContent>
+        </div>
       </Dialog>
     </div>
   );
 };
 
-export default Comment;
+export default PostComment;

@@ -2,6 +2,7 @@ import { Comment, MutationResolvers } from 'src/generated';
 import { commentModel, CommentPopulatedType } from 'src/models/comment.model';
 
 export const createComment: MutationResolvers['createComment'] = async (_: unknown, { input }, { userId }) => {
+  console.log('id', userId);
   if (!userId) throw new Error('something wrong in authorization');
   const { postId, commentText } = input;
   const newComment = await commentModel.create({ postId, commentText, commentedUser: userId });
