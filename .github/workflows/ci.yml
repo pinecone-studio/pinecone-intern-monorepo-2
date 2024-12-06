@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.4
+          bun-version: 1.1.10
       - name: Install dependencies
         run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.4
+          bun-version: 1.1.10
       - name: Install dependencies
         run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -79,7 +79,7 @@ jobs:
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.4
+          bun-version: 1.1.10
       - name: Install dependencies
         run: bun install -y
       - name: Install Vercel CLI

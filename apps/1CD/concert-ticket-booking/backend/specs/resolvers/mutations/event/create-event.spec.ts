@@ -2,6 +2,7 @@ import { createEvent } from '../../../../src/resolvers/mutations/event/create-ev
 import Event from '../../../../src/models/event.model';
 import Ticket from '../../../../src/models/ticket.model';
 import { GraphQLResolveInfo } from 'graphql';
+import { EventInput } from '../../../../src/generated';
 
 // Mocking the models
 jest.mock('../../../../src/models/event.model', () => ({
@@ -13,8 +14,9 @@ jest.mock('../../../../src/models/ticket.model', () => ({
 }));
 
 describe('createEvent mutation', () => {
-  const input = {
+  const input:EventInput = {
     name: 'Sample Event',
+    priority:"1",
     description: 'Sample Description',
     mainArtists: ['Artist1'],
     guestArtists: ['Artist2'],
