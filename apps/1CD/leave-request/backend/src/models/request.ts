@@ -21,7 +21,8 @@ const RequstSchema = new Schema<Request>(
     },
     requestType: {
         type: String,
-        required: true
+        required: true,
+        enum: ['paid, unpaid, remote']
     },
     message: {
       type: String

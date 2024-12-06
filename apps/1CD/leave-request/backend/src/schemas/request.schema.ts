@@ -15,6 +15,6 @@ export const RequestTypeDefs = gql`
   }
 
   type Mutation {
-    createsRequest(requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
+    createsRequest(email : String!,requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
   }
 `;
