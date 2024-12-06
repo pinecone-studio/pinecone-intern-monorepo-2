@@ -9,14 +9,13 @@ jest.mock('../../../../src/models/event.model', () => ({
   create: jest.fn(),
   findById: jest.fn(),
 }));
-jest.mock('../../../../src/models/ticket.model', () => ({
+jest.mock('../../../../src/models/tickets.model', () => ({
   insertMany: jest.fn(),
 }));
 
 describe('createEvent mutation', () => {
   const input:EventInput = {
     name: 'Sample Event',
-    priority:"1",
     description: 'Sample Description',
     mainArtists: ['Artist1'],
     guestArtists: ['Artist2'],

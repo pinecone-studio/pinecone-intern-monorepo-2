@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { getArena } from "../../../../src/resolvers/queries/venue/get-venue";
 import Venue from "../../../../src/models/venue.model";
 
-jest.mock('../../../src/models/venue.model', ()=>({
+jest.mock('../../../../src/models/venue.model', ()=>({
         find: jest.fn(),
 }));
 

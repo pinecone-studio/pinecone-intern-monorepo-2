@@ -54,7 +54,7 @@ export const typeDefs = gql`
     discount: Int
     venue: ID!
     category: [ID!]!
-    priority: String!
+   
   }
 
   input EventPriorityUpdateInput {
