@@ -25,7 +25,7 @@ export const sendResetPassUrlToMail = async (email: string, resetToken: string) 
           <p>If you made this request, click the link below to change your account:</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetUrl}" 
-               style="background-color: #4CAF50; 
+               style="background-color: rgb(59 130 246); 
                       color: white; 
                       padding: 12px 24px; 
                       text-decoration: none; 

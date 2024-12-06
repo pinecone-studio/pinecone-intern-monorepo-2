@@ -70,7 +70,7 @@ export const typeDefs = gql`
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
     deleteUser(_id: String!): User!
-    forgetPassword(input: ForgetpasswordInput!): User!
+    forgetPassword(input: ForgetpasswordInput!): Response!
     verifyNewPass(input: VerifyNewPassInput!): User!
     login(input: LoginInput!): AuthResponse!
   }

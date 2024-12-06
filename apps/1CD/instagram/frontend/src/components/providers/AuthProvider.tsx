@@ -1,7 +1,8 @@
 'use client';
+import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { User, useSignupMutation } from 'src/generated';
+import { useForgetpasswordMutation, User, useSignupMutation } from 'src/generated';
 
 type SignUp = {
   email: string;
@@ -10,9 +11,11 @@ type SignUp = {
   password: string;
 };
 
+type ForgetPassword = { email: string };
 type AuthContextType = {
   signup: (_params: SignUp) => void;
   user: User | null;
+  forgetPassword: (_params: ForgetPassword) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -39,7 +42,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
     });
   };
-  return <AuthContext.Provider value={{ signup, user }}>{children}</AuthContext.Provider>;
+  const [forgetPasswordMutation] = useForgetpasswordMutation({
+    onCompleted: () => {
+      toast({ variant: 'default', title: 'Success', description: 'A password recovery link has been sent to your email address.' });
+      router.push('/');
+    },
+    onError: (error) => {
+      toast({ variant: 'destructive', title: 'Error', description: `${error.message}` });
+    },
+  });
+  const forgetPassword = async ({ email }: ForgetPassword) => {
+    await forgetPasswordMutation({ variables: { input: { email } } });
+  };
+  return <AuthContext.Provider value={{ signup, user, forgetPassword }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
