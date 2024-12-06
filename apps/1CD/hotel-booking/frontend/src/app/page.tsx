@@ -7,8 +7,8 @@ const Page = () => {
     <>
       <section className="h-screen">
         <h2>Home Page</h2>
+        <SearchResult />
       </section>
-      <SearchResult />
     </>
   );
 };
