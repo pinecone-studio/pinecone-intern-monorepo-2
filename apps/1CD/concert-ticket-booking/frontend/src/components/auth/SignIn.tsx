@@ -47,14 +47,18 @@ const SignIn = () => {
   };
 
   return (
-    <div data-cy="Sign-In-Page">
+    <div data-cy="Sign-In-Page" className="flex min-h-[calc(100vh-314px)] bg-black align-center px-4 py-6">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-[446px] rounded-2xl bg-[#09090B] m-auto flex flex-col" data-cy="sign-in-form">
-          <h1 className="text-2xl font-semibold text-center mt-8 text-white" data-cy="sign-in-heading">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full max-w-[446px] rounded-2xl bg-[#09090B] m-auto flex flex-col border border-gray-600 py-6 px-6 sm:py-8 sm:px-12 gap-6"
+          data-cy="sign-in-form"
+        >
+          <h1 className="mt-4 text-xl font-semibold text-center text-white sm:mt-8 sm:text-2xl" data-cy="sign-in-heading">
             Нэвтрэх
           </h1>
 
-          <div className="flex flex-col gap-4 px-12  pt-6 ">
+          <div className="flex flex-col w-full gap-4 ">
             {inputs.map((input) => (
               <FormField
                 key={input.label}
@@ -66,21 +70,22 @@ const SignIn = () => {
                       {input.label}
                     </FormLabel>
                     <FormControl>
-                      <Input type={input.type} className="p-2 rounded-sm" placeholder={input.label} {...field} data-cy={`input-${input.name}`} />
+                      <Input type={input.type} className="p-2 text-white bg-black border-gray-600 rounded-md" placeholder={input.label} {...field} data-cy={`input-${input.name}`} />
                     </FormControl>
                     <FormMessage className="text-xs text-red-500" data-cy={`form-message-${input.name}`} />
                   </FormItem>
                 )}
               />
             ))}
-
+          </div>
+          <div className="flex flex-col gap-6">
             <Button className="p-2 w-full text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
               Нэвтрэх
             </Button>
-            <p className="w-full text-white text-xs text-center">
+            <p className="w-full text-sm text-center text-zinc-400 ">
               Та бүртгэлтэй хаяггүй бол
               <button data-cy="Sign-Up-Link-Button">
-                <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white ">
+                <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
                   бүртгүүлэх
                 </Link>
               </button>
