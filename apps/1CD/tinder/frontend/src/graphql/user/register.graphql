@@ -8,3 +8,9 @@ mutation verifyOtp($input:VerifyOtpInput!){
         email
     }
 }
+
+mutation resendOtp($input:RegisterEmailInput!){
+    resendOtp(input:$input){
+        email
+    }
+}
