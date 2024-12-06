@@ -41,7 +41,7 @@ export const Header = () => {
         )}
         {user && (
           <div>
-            <Button data-cy="singout" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36" onClick={signout}>
+            <Button data-cy="singoutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36" onClick={signout}>
               Гарах
             </Button>
           </div>
