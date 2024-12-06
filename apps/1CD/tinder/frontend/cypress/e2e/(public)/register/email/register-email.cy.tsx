@@ -2,7 +2,7 @@ describe('register with email page',()=>{
     beforeEach(()=>{
         cy.visit('/register/email');
     });
-    it('1.should display the header and introductory text',()=>{
+    it('1.should render register page correctly',()=>{
         cy.get('[data-cy="register-email-header"]').should('be.visible');
         cy.contains('tinder').should('be.visible')
         cy.contains('Create an account').should('be.visible');
@@ -18,25 +18,30 @@ describe('register with email page',()=>{
       cy.get('[data-cy="register-continue-button"]').should('be.enabled');
     })
     it('4.should show a toast notification when no email is provided',()=>{
+        cy.get('[data-cy="register-email-input"]').type('');
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('🫢 Oops! We need your email to sign you up').should('be.visible');
+        cy.contains('email is required').should('be.visible');
     })
     it('5.should redirect to otp page ',()=>{
-        cy.get('[data-cy="register-email-input"]').type('cypress1213@gmail.com');
+        const mockEmail = 'test@example.com';
+        cy.get('[data-cy="register-email-input"]').type(mockEmail);
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.url().should('include', '/register/otp');
+        cy.contains(`Success! We've sent a verification otp to ${mockEmail}. Please check your inbox.`).should('exist')
         cy.window().then((window) => {
             expect(window.localStorage.getItem('userEmail')).to.equal('cypress1213@gmail.com');
           });
+        cy.url().should('include', '/register/otp');
     })
     it('6.should show an error toast when the email aleady exists',()=>{
         cy.get('[data-cy="register-email-input"]').type('satsuraltumurbat@gmail.com');
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('❗️ This email is already registered. Please use a different email or log in.').should('be.visible');
+        cy.contains('email already exist').should('be.visible');
     });
+    
     it('7.should show an error toast when the unexpected error occurs',()=>{
         cy.get('[data-cy="register-email-input"]').type('cypress');
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('❗️ An unexpected error occurred. Please try again.').should('be.visible');
-    })
+        cy.contains('Failed to send OTP email').should('be.visible');
+    });
+  
 })

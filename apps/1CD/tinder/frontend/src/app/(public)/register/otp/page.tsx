@@ -22,29 +22,18 @@ const VerifyOtp = () => {
     }
   },[]);
 
-  const [verifyOtp] = useVerifyOtpMutation();
+  const [verifyOtp] = useVerifyOtpMutation({
+    onCompleted:()=>{
+      toast.success('OTP verified successfully!');
+      router.push('/register/password');
+    },
+    onError:(error)=>{
+      toast.error(error.message)
+    },
+  
+   
+  });
 
-  const handleOtp = async (value: string) => {
-    try {
-      const res = await verifyOtp({
-        variables: {
-          input: {
-            email,
-            otp: Number(value),
-          },
-        },
-      });
-      console.log(res?.data)
-      if (res?.data?.verifyOtp?.email) {
-        toast.success('Otp is verified');
-        router.push('/register/password');
-      }else{
-        throw new Error;
-      }
-    } catch (error) {
-      toast.error('Invalid OTP. Please try again.');
-    }
-  };
 
   // useEffect(()=>{
   //   if(countdown===0){
@@ -85,7 +74,9 @@ const VerifyOtp = () => {
         To continue, enter the secure code we sent to {email}. Check junk mail if it’s not in your inbox.
       </div>
 
-      <InputOTP data-cy="otp-input" onComplete={handleOtp} maxLength={4} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+      <InputOTP data-cy="otp-input" onComplete={(value)=>verifyOtp({variables: {
+        input: {email, otp: Number(value)}
+      }})} maxLength={4} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
         <InputOTPGroup className="mt-6">
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />
