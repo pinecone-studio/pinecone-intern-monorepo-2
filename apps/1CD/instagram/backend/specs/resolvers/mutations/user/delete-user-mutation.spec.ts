@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { deleteUser } from 'src/resolvers/mutations';
+import { deleteUser } from 'src/resolvers/mutations/user/delete-user-mutation';
 
 jest.mock('../../../../src/models/user.model.ts', () => ({
   userModel: {
