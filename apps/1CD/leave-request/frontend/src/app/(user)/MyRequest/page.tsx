@@ -6,11 +6,11 @@ import UserHeader from '@/components/myreq/UserHeader';
 
 const Page = () => {
   return (
-    <>
+    <div data-cy="myRequest-page">
       <UserHeader />
       <Requests />
-      <SentRequest /> 
-    </>
+      <SentRequest />
+    </div>
   );
 };
 

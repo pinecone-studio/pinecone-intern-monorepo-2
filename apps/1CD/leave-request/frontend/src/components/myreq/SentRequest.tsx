@@ -8,7 +8,7 @@ import { ClientDatePicker } from './DatePicker';
 
 type RequestThatIsent = {
   MongolDate: string;
-  Date: String;
+  Date: string;
   description: string;
   status: string;
   icon1?: React.ReactNode;
@@ -38,11 +38,6 @@ const RequestThatIsent = ({ Date, description, icon1, MongolDate, status, icon2,
 };
 
 const SentRequest = () => {
-  const [calendarVisible, setCalendarVisible] = useState(false);
-
-  const ToggleCalendar = () => {
-    setCalendarVisible((prevState) => !prevState);
-  };
   return (
     <>
       <div className="w-[684PX] bg-[#F4F4F5] mx-auto pt-10">
@@ -55,9 +50,9 @@ const SentRequest = () => {
         </div>
         <div className="py-6 rounded-lg text=[#71717A]">
           <RequestThatIsent Date="10/15" MongolDate="Өнөөдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A'/>} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
-          <RequestThatIsent Date="10/15" MongolDate="Өнөөдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A' />} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
-          <RequestThatIsent Date="10/15" MongolDate="Өнөөдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A'/>} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
-          <RequestThatIsent Date="10/15" MongolDate="Өнөөдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A'/>} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
+          <RequestThatIsent Date="10/14" MongolDate="Өчигдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A' />} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
+          <RequestThatIsent Date="10/13" MongolDate="2 хоногийн өмнө" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A'/>} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
+          <RequestThatIsent Date="10/12" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A' />} icon2={<Calendar1 size={14} color='#71717A' />} yearDate="2024/10/25" MongolDate={''} />
           <RequestThatIsent description="Чөлөө (1 хоног)" status={"Хүлээгдэж байна."} icon1={<Tag size={14} />} icon2={<Calendar1 size={14} color='#71717A' />} yearDate="2024/10/25" MongolDate={''} Date={undefined} />
         </div>
       </div>
