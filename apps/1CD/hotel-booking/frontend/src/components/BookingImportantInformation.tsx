@@ -1,6 +1,6 @@
 const BookingImportantInformation = () => {
   return (
-    <div className="text-[#09090B] flex flex-col gap-4">
+    <div data-cy="Booking-Important-Information" className="text-[#09090B] flex flex-col gap-4">
       <div className="text-xl">Important information</div>
 
       <ul className="list-disc">

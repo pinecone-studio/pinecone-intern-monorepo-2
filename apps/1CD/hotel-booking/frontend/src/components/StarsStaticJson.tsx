@@ -1,3 +1,5 @@
+import { text } from 'stream/consumers';
+
 export const RatingStars = [
   { value: 1, text: '1 ⭐ hotel' },
   { value: 2, text: '2 ⭐ hotel' },
@@ -50,3 +52,8 @@ export const ReviewRating = [
 ];
 
 export const Cards = ['/images/cards-cc_american_express.png', '/images/cards-cc_jcb.png', '/images/cards-cc_master_card.png', '/images/cards-cc_visa.png'];
+export const Countries = [
+  { text: 'Mongolia 🇲🇳', value: 'Mongolia' },
+  { value: 'HongKong', text: 'Hong Kong 🇭🇰' },
+  { text: 'English 🇬🇧', value: 'English' },
+];
