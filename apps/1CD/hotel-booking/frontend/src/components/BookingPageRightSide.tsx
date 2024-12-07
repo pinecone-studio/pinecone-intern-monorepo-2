@@ -5,10 +5,10 @@ export const BookingPageRightSide = () => {
   return (
     <div className="max-w-[515px] w-full">
       <div className="w-full h-auto">
-        <Image src={'/images/cards-cc_visa.png'} className="object-cover w-full h-full bg-slate-500" width={1000} height={1000} alt="image" />
+        <Image src={'/images/cards-cc_visa.png'} className="object-cover w-full h-full rounded-t-[8px] bg-slate-500" width={1000} height={1000} alt="image" />
       </div>
 
-      <div className="p-4 text-[#09090B] border mb-6">
+      <div className="p-4 text-[#09090B] border rounded-b-[8px] mb-6">
         <div className="mb-1 text-lg font-bold">Flower Hotel Ulaanbaatar</div>
         <div className="text-sm mb-4 text-[#71717A]">Zaluuchuud Avenue, 18, Bayanzurkh, Ulaanbaatar, Ulaanbaatar, 001334</div>
         <div className="flex items-center gap-2 text-sm">
@@ -49,7 +49,7 @@ export const BookingPageRightSide = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 border p-4 text-[#09090B]">
+      <div className="flex flex-col rounded-[8px] gap-2 border p-4 text-[#09090B]">
         <div className="text-lg font-bold">Price Detail</div>
         <div className="flex items-center justify-between text-sm">
           <div className="flex gap-1">
