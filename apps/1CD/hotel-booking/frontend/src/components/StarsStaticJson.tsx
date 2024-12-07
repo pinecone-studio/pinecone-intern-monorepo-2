@@ -1,5 +1,3 @@
-import { text } from 'stream/consumers';
-
 export const RatingStars = [
   { value: 1, text: '1 ⭐ hotel' },
   { value: 2, text: '2 ⭐ hotel' },

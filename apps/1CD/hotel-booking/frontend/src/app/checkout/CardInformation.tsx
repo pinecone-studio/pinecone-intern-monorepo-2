@@ -19,7 +19,7 @@ const CardInformation = ({ values, formikHandleChange, errors, touched, setField
     setFieldValue('ExpirationDate', input);
   };
   const handleSecurityCode = (e: ChangeEvent<HTMLInputElement>) => {
-    let input = e.target.value;
+    const input = e.target.value;
     const result = input.replace(/[a-zA-Z]/g, ''); // Remove non-numeric characters
     setFieldValue('securityCode', result);
   };
