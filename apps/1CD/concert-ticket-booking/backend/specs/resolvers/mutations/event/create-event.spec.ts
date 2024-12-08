@@ -16,7 +16,6 @@ jest.mock('../../../../src/models/ticket.model', () => ({
 describe('createEvent mutation', () => {
   const input:EventInput = {
     name: 'Sample Event',
-    priority:"1",
     description: 'Sample Description',
     mainArtists: ['Artist1'],
     guestArtists: ['Artist2'],
