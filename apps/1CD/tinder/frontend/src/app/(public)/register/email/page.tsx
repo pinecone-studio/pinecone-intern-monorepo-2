@@ -16,9 +16,9 @@ const Register = () => {
 
   const [registerEmail, { loading }] = useRegisterEmailMutation({
     onCompleted: (data) => {
-      toast.success(`Success! We've sent a verification otp to ${data.registerEmail.email}. Please check your inbox.`);
-      localStorage.setItem('useEmail', data.registerEmail.email);
+     
       router.push('/register/otp');
+      localStorage.setItem('userEmail', data.registerEmail.email);
     },
     onError: (error) => {
       toast.error(error.message);

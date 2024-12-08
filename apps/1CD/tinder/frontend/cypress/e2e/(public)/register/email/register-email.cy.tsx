@@ -18,19 +18,17 @@ describe('register with email page',()=>{
       cy.get('[data-cy="register-continue-button"]').should('be.enabled');
     })
     it('4.should show a toast notification when no email is provided',()=>{
-        cy.get('[data-cy="register-email-input"]').type('');
         cy.get('[data-cy="register-continue-button"]').click();
         cy.contains('email is required').should('be.visible');
     })
     it('5.should redirect to otp page ',()=>{
-        const mockEmail = 'test@example.com';
+        const mockEmail = 'cypress@gmail.com';
         cy.get('[data-cy="register-email-input"]').type(mockEmail);
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains(`Success! We've sent a verification otp to ${mockEmail}. Please check your inbox.`).should('exist')
-        cy.window().then((window) => {
-            expect(window.localStorage.getItem('userEmail')).to.equal('cypress1213@gmail.com');
-          });
         cy.url().should('include', '/register/otp');
+        cy.window().then((window) => {
+            expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
+          });
     })
     it('6.should show an error toast when the email aleady exists',()=>{
         cy.get('[data-cy="register-email-input"]').type('satsuraltumurbat@gmail.com');
