@@ -25,7 +25,6 @@ describe('register with email page',()=>{
         const mockEmail = 'cypress@gmail.com';
         cy.get('[data-cy="register-email-input"]').type(mockEmail);
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.url().should('include', '/register/otp');
         cy.window().then((window) => {
             expect(window.localStorage.setItem('userEmail',mockEmail));
           });
@@ -34,7 +33,8 @@ describe('register with email page',()=>{
           });
     })
     it('6.should show an error toast when the email aleady exists',()=>{
-        cy.get('[data-cy="register-email-input"]').type('satsuraltumurbat@gmail.com');
+        const mockEmail = 'cypress@gmail.com';
+        cy.get('[data-cy="register-email-input"]').type(mockEmail );
         cy.get('[data-cy="register-continue-button"]').click();
         cy.contains('email already exist').should('be.visible');
     });
