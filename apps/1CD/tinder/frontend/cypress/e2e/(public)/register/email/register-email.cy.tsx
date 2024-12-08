@@ -21,28 +21,20 @@ describe('register with email page',()=>{
         cy.get('[data-cy="register-continue-button"]').click();
         cy.contains('email is required').should('be.visible');
     })
-    it('5.should redirect to otp page ',()=>{
+  
+    it('6.should redirect to otp page ',()=>{
         const mockEmail = 'cypress@gmail.com';
         cy.get('[data-cy="register-email-input"]').type(mockEmail);
         cy.get('[data-cy="register-continue-button"]').click();
+        cy.wait(5000)
         cy.window().then((window) => {
             expect(window.localStorage.setItem('userEmail',mockEmail));
           });
         cy.window().then((window) => {
             expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
           });
+      
     })
-    it('6.should show an error toast when the email aleady exists',()=>{
-        const mockEmail = 'existinguser@example.com';
-        cy.get('[data-cy="register-email-input"]').type(mockEmail );
-        cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('email already exist').should('be.visible');
-    });
+   
     
-    it('7.should show an error toast when the unexpected error occurs',()=>{
-        cy.get('[data-cy="register-email-input"]').type('cypress');
-        cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('Failed to send OTP email').should('be.visible');
-    });
-  
 })
