@@ -27,6 +27,9 @@ describe('register with email page',()=>{
         cy.get('[data-cy="register-continue-button"]').click();
         cy.url().should('include', '/register/otp');
         cy.window().then((window) => {
+            expect(window.localStorage.setItem('userEmail',mockEmail));
+          });
+        cy.window().then((window) => {
             expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
           });
     })
