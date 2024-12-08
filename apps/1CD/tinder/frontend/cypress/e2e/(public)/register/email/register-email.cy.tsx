@@ -33,15 +33,14 @@ describe('register with email page',()=>{
           });
     })
     it('6.should show an error toast when the email aleady exists',()=>{
-        const mockEmail = 'cypress@gmail.com';
+        const mockEmail = 'existinguser@example.com';
         cy.get('[data-cy="register-email-input"]').type(mockEmail );
         cy.get('[data-cy="register-continue-button"]').click();
         cy.contains('email already exist').should('be.visible');
     });
     
     it('7.should show an error toast when the unexpected error occurs',()=>{
-        const mockEmail = 'existinguser@example.com';
-        cy.get('[data-cy="register-email-input"]').type( mockEmail);
+        cy.get('[data-cy="register-email-input"]').type('cypress');
         cy.get('[data-cy="register-continue-button"]').click();
         cy.contains('Failed to send OTP email').should('be.visible');
     });
