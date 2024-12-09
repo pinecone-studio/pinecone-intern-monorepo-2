@@ -15,6 +15,10 @@ export const RequestTypeDefs = gql`
   }
 
   type Mutation {
-    createsRequest(email : String!,requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
+    createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
+  }
+  type Query {
+    checkAvailablePaidLeave(email: String!):Int
+    checkAvailavleRemoteLeave(email: String!): Int
   }
 `;
