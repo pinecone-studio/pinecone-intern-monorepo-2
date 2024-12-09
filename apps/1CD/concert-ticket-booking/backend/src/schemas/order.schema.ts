@@ -29,32 +29,21 @@ input MyTicketTypeInput {
     discount: Int!
     additional: String!
   }
+  input ChangeStatusInput {
+     orderId:ID!
+    requestId:ID!
+}
 
 type Query {
     getOrder: [Order]!
 }
+type ChangeStatusResponse {
+  message:String!
+}
 
 type Mutation {
+    changeStatus(input: ChangeStatusInput!): ChangeStatusResponse!
     addToCarts(input: OrderInput!): Order!
     deleteOrder(_id: ID!): Order!
 }
-`;
-
-// import gql from "graphql-tag";
-
-// export const orderTypedefs = gql`
-//   type Request {
-//     _id: String!
-//     eventId: Schema.Types.ObjectId!
-//     bankAccount: string!
-//     bankName: strin!
-//     accountOwner: string!
-//     phoneNumber: string!
-//     totalPrice: number!
-//     status: String!
-//     orderId: String!
-//   }
-//   type Mutation {
-//     changeReq(_id:ID!): String!
-//   }
-// `
+`
