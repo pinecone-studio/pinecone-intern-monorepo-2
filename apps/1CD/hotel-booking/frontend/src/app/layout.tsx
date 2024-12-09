@@ -16,7 +16,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <Header/>
+          <Header />
           {children}
           <FooterHome />
         </ApolloWrapper>
