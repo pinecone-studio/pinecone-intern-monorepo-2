@@ -16,7 +16,7 @@ const Page = () => {
 
   if (loading) return <div>loading...</div>;
   return (
-    <div className="max-w-[1920px]">
+    <div data-cy="Home-Page" className="max-w-[1920px]">
       <SearchResult />
 
       <div className="container mx-auto">
