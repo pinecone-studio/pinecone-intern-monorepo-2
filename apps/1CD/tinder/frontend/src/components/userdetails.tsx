@@ -15,17 +15,17 @@ import { toast } from 'sonner';
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required').min(2, 'Name length must be at least 2 characters'),
   bio: Yup.string().required('Bio is required'),
-  interests: Yup.array().of(Yup.string()).optional(),
+  interests: Yup.string().optional(),
   profession: Yup.string().required('Profession is required'),
-  schoolWork: Yup.array().of(Yup.string()).optional(),
+  schoolWork: Yup.string().optional(),
 });
 
 const initialValues = {
   name: '',
   bio: '',
-  interests: [],  
+  interests: '',  
   profession: '',
-  schoolWork: [], 
+  schoolWork: '', 
 };
 
 export const Userdetails = () => {
@@ -56,14 +56,16 @@ export const Userdetails = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
+        const arrayofInterests = formik.values.interests.split(',').map(item => item.trim())
+        const arrayofSchool = formik.values.schoolWork.split(',').map(item => item.trim())
         await updateUser({
           variables:{
             email: email,
             name: values.name,
             bio: values.bio,
             profession: values.profession,
-            schoolWork: values.schoolWork,
-            interests: values.interests
+            schoolWork: arrayofSchool,
+            interests:arrayofInterests
           }
         })
        
@@ -76,7 +78,6 @@ export const Userdetails = () => {
     
     },
   });
-
   return (
     <div className="flex justify-center" data-cy="User-Details-Page">
       <form className="flex flex-col gap-6 max-w-sm" onSubmit={formik.handleSubmit}>
@@ -93,8 +94,8 @@ export const Userdetails = () => {
               type="text"
               id="interests"
               placeholder="Enter your interests (comma separated)"
-              value={formik.values.interests.join(', ')}
-              onChange={(e) => formik.setFieldValue('interests', e.target.value.split(',').map(item => item.trim()))} 
+              value={formik.values.interests}
+              onChange={formik.handleChange} 
               data-cy="User-Details-Interests-Input"
             />
             {formik.errors.interests && formik.touched.interests && (
@@ -110,8 +111,8 @@ export const Userdetails = () => {
               type="text"
               id="schoolWork"
               placeholder="Enter your school/work"
-              value={formik.values.schoolWork.join(', ')} 
-              onChange={(e) => formik.setFieldValue('schoolWork', e.target.value.split(',').map(item => item.trim()))} 
+              value={formik.values.schoolWork} 
+              onChange={formik.handleChange} 
               data-cy="User-Details-schoolWork-Input"
             />
             {formik.errors.schoolWork && formik.touched.schoolWork && (

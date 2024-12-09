@@ -28,7 +28,6 @@ describe('find user by email', () => {
     profession: 'Software Engineer',
     schoolWork: ['university', 'school'],
   };
-
   it('should find user by email and update', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
@@ -51,11 +50,8 @@ describe('find user by email', () => {
         {},
         {} as GraphQLResolveInfo
       )).rejects.toThrow("Could not find user") 
-   
 
-   
   });
-
   it('should throw internal server error', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
     (userModel.findOneAndUpdate as jest.Mock).mockRejectedValue(new Error('Database connection failed'));
