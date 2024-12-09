@@ -1,5 +1,6 @@
 'use client';
 import HomePageCard from '@/components/HomePageCard';
+import { SearchResult } from '@/components/search-hotel/SearchResult';
 import { useGetHotelsQuery } from '@/generated';
 
 const Page = () => {
@@ -16,6 +17,8 @@ const Page = () => {
   if (loading) return <div>loading...</div>;
   return (
     <div className="max-w-[1920px]">
+      <SearchResult />
+
       <div className="container mx-auto">
         <div className="flex justify-between pt-8 pb-4">
           <p className="font-semibold text-[24px] texxt-[#09090B]">Popular Hotels</p>
