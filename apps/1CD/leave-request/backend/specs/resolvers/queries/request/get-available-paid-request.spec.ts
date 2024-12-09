@@ -11,9 +11,7 @@ jest.mock('../../../../src/models/user', () => ({
 
 jest.mock('../../../../src/models/request', () => ({
   RequestModel: {
-    find: jest.fn(() => ({
-      countDocuments: jest.fn().mockResolvedValueOnce(2),
-    })),
+    find: jest.fn().mockResolvedValueOnce([]),
   },
 }));
 
@@ -22,8 +20,8 @@ describe('checkAvailablePaidLeaveInGivenYear', () => {
     const result = await checkAvailablePaidLeaveInGivenYear!({}, { email: 'test@example.com' }, {}, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      thisYear: 3,
-      nextYear: 3,
+      thisYear: 40,
+      nextYear: 40,
     });
   });
 

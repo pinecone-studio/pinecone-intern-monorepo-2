@@ -1,5 +1,5 @@
 import { QueryResolvers } from 'src/generated';
-import { RequestModel, UserModel } from 'src/models';
+import { Request, RequestModel, UserModel } from 'src/models';
 
 export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailablePaidLeaveInGivenYear'] = async (_, { email }) => {
   const user = await UserModel.findOne({ email });
@@ -10,11 +10,30 @@ export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailableP
 
   const { thisYearDate, lastYearDate, nextYearDate } = getHireDateThisAndLastYear(user.hireDate);
 
-  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'paid', requestDate: { $in: [thisYearDate, lastYearDate] } }).countDocuments();
+  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [thisYearDate, lastYearDate] } });
 
-  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'paid', requestDate: { $in: [nextYearDate, thisYearDate] } }).countDocuments();
+  console.log("thisYearAcceptedRequests       ", thisYearAcceptedRequests)
 
-  return { thisYear: 5 - thisYearAcceptedRequests, nextYear: 5 - nextYearAcceptedRequests };
+  const totalLastYear = totalHours(thisYearAcceptedRequests);
+
+  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [nextYearDate, thisYearDate] } });
+
+  const totalThisYear = totalHours(nextYearAcceptedRequests);
+
+  return { thisYear: 40 - totalLastYear, nextYear: 40 - totalThisYear };
+};
+
+const totalHours = (list: Request[]) => {
+  let totalHours = 0;
+  for (let i = 0; i < list.length; i++) {
+    const { startTime, endTime } = list[i];
+    if (startTime) {
+      totalHours += endTime!.getHours() - startTime.getHours();
+    } else {
+      totalHours += 8;
+    }
+  }
+  return totalHours;
 };
 
 const getHireDateThisAndLastYear = (hireDate: Date) => {
@@ -40,15 +59,15 @@ export const checkAvailavleRemoteLeaveInGivenMonth: QueryResolvers['checkAvailav
   }
   const { thisMonthDate, lastMonthDate, nextMonthDate } = getHireDateThisAndLastMonth(user.hireDate);
 
-  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'paid', requestDate: { $in: [thisMonthDate, lastMonthDate] } }).countDocuments();
+  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote",requestDate: { $in: [thisMonthDate, lastMonthDate] } }).countDocuments();
 
-  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'paid', requestDate: { $in: [nextMonthDate, thisMonthDate] } }).countDocuments();
+  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote", requestDate: { $in: [nextMonthDate, thisMonthDate] } }).countDocuments();
 
   return { thisMonth: 5 - thisYearAcceptedRequests, nextMonth: 5 - nextYearAcceptedRequests };
 };
 
-const getHireDateThisAndLastMonth = (hireDate : Date) => {
-    const today = new Date();
+const getHireDateThisAndLastMonth = (hireDate: Date) => {
+  const today = new Date();
 
   const hireMonth = hireDate.getMonth();
   const hireDay = hireDate.getDate();
@@ -59,5 +78,5 @@ const getHireDateThisAndLastMonth = (hireDate : Date) => {
 
   const nextMonthDate = new Date(today.getFullYear(), hireMonth + 1, hireDay);
 
-  return {thisMonthDate, lastMonthDate, nextMonthDate}
-}
+  return { thisMonthDate, lastMonthDate, nextMonthDate };
+};
