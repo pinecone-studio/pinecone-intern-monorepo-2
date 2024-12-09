@@ -1,4 +1,4 @@
-import { MutationResolvers } from '../../../generated';
+import { MutationResolvers, Response } from '../../../generated';
 import { userModel } from '../../../models/user.model';
 import crypto from 'crypto';
 
@@ -12,5 +12,5 @@ export const verifyNewPass: MutationResolvers['verifyNewPass'] = async (_: unkno
   userExist.password = password;
   await userExist.save();
 
-  return userExist;
+  return Response.Success;
 };

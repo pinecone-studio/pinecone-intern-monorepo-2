@@ -56,7 +56,6 @@ export const typeDefs = gql`
   input ForgetpasswordInput {
     email: String!
   }
-
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
@@ -70,8 +69,8 @@ export const typeDefs = gql`
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
     deleteUser(_id: String!): User!
-    forgetPassword(input: ForgetpasswordInput!): User!
-    verifyNewPass(input: VerifyNewPassInput!): User!
+    forgetPassword(input: ForgetpasswordInput!): Response!
+    verifyNewPass(input: VerifyNewPassInput!): Response!
     login(input: LoginInput!): AuthResponse!
   }
 `;
