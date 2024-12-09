@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const BookingPageRightSide = () => {
   return (
-    <div className="max-w-[515px] w-full">
+    <div data-testid="Booking-Right-Side" className="max-w-[515px] w-full">
       <div className="w-full h-auto">
         <Image src={'/images/cards-cc_visa.png'} className="object-cover w-full h-full rounded-t-[8px] bg-slate-500" width={1000} height={1000} alt="image" />
       </div>
