@@ -22,7 +22,7 @@ jest.mock('../../../../src/utils/user/create-token-cookie',()=>({
 
 describe('verifying the otp', () => {
   const mockEmail = 'test@gmail.com';
-  const mockOtp = 1234;
+  const mockOtp = '1234';
   const mockInfo = {} as GraphQLResolveInfo;
 
   it('should return email when otp is verified', async () => {
@@ -43,8 +43,8 @@ describe('verifying the otp', () => {
   });
 
   it('should throw error when input is empty', async () => {
-    await expect(verifyOtp!({}, { input: { email: '', otp: 0 } }, {}, mockInfo)).rejects.toThrow(GraphQLError);
-    await expect(verifyOtp!({}, { input: { email: '', otp: 0 } }, {}, mockInfo)).rejects.toThrow('Email or Otp are required');
+    await expect(verifyOtp!({}, { input: { email: '', otp:mockOtp} }, {}, mockInfo)).rejects.toThrow(GraphQLError);
+    await expect(verifyOtp!({}, { input: { email: '', otp: mockOtp } }, {}, mockInfo)).rejects.toThrow('Email or Otp are required');
   });
 
   it('should throw error when user is not found', async () => {
