@@ -1,4 +1,5 @@
 'use client';
+import HomePageCard from '@/components/HomePageCard';
 import { useGetHotelsQuery } from '@/generated';
 
 const Page = () => {
@@ -23,8 +24,8 @@ const Page = () => {
 
         <div className="grid grid-cols-4 rounded-md gap-2">
           {data?.getHotels.map((hotel) => (
-            <div key={hotel._id} className="w-[308px] h-[424px] bg-pink-500 rounded-md">
-              {hotel.hotelName}
+            <div key={hotel._id}>
+              <HomePageCard hotel={hotel} />
             </div>
           ))}
         </div>
