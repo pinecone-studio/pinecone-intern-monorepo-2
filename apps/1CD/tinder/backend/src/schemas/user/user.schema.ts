@@ -35,7 +35,6 @@ export const typeDefs = gql`
     email: String!
   }
 
-
   input CreateUserInput {
     name: String!
     email: String!
@@ -50,24 +49,24 @@ export const typeDefs = gql`
     updatedAt: Date!
   }
 
- 
-
   input CreatePassInput {
-    email:String!
-    password:String!
+    email: String!
+    password: String!
   }
-  
+
+  input BirthdaySubmitInput {
+    email: String!
+    age: Int!
+  }
 
   type Mutation {
-
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
     verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
-    createPassword(input:CreatePassInput!):RegisterEmailResponse!
+    createPassword(input: CreatePassInput!): RegisterEmailResponse!
 
-  
-    createUser(input: CreateUserInput!):User!
-    updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
+    createUser(input: CreateUserInput!): User!
+    updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): User!
 
+    birthdaySubmit(input: BirthdaySubmitInput!): User!
   }
 `;
-
