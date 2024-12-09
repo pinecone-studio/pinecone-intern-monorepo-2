@@ -3,21 +3,19 @@ import { model, models, Schema } from 'mongoose';
 type TicketType = {
   _id: Schema.Types.ObjectId;
   zoneName: string;
-  quantity: number;
+  soldQuantity: number;
+  totalQuantity:number;
   unitPrice: number;
   discount: number;
+  additional: string;
 };
 type Order = {
   userId: Schema.Types.ObjectId;
-  tickets: [
-    {
       ticketId: Schema.Types.ObjectId;
       eventId: Schema.Types.ObjectId;
       status: string;
       orderNumber: number;
-      ticketTypes: TicketType[];
-    }
-  ];
+      ticketType: TicketType[];
 };
 
 const orderSchema = new Schema<Order>(
@@ -27,9 +25,7 @@ const orderSchema = new Schema<Order>(
       required: true,
       ref: 'User',
     },
-    tickets: [
-      {
-        ticketId: {
+       ticketId: {
           type: Schema.Types.ObjectId,
           required: true,
           ref: 'Ticket',
@@ -41,22 +37,26 @@ const orderSchema = new Schema<Order>(
         },
         status: {
           type: String,
-          enum: ['able', 'notable', 'pending'],
-          default: 'able',
+          enum: ['available', 'unavailable', 'pending','approved'],
+          default: 'available',
         },
         orderNumber: {
           type: Number,
           required: true,
         },
-        ticketTypes: [
+        ticketType: [
           {
             zoneName: {
               type: String,
               required: true,
             },
-            quantity: {
+            soldQuantity: {
               type: Number,
               required: true,
+            },
+            totalQuantity: {
+              type:Number,
+              required:true,
             },
             unitPrice: {
               type: Number,
@@ -66,17 +66,16 @@ const orderSchema = new Schema<Order>(
               type: Number,
               default: 0,
             },
+            additional: {
+              type:String,
+              default:'nothing',
+            }
           },
         ],
       },
       {
         timestamps: true,
       },
-    ],
-  },
-  {
-    timestamps: true,
-  }
 );
 
 const Order = models['Order'] || model('Order', orderSchema);
