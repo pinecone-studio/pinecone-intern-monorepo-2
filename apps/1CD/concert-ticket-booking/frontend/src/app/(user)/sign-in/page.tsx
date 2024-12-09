@@ -1,4 +1,4 @@
-import SignIn from '@/components/auth/SignIn';
+import SignIn from '@/app/(user)/sign-in/SignIn';
 import React from 'react';
 
 const LoginPage = () => {

@@ -60,14 +60,10 @@ const SignUp = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { password, repeatPassword } = values;
-    if (password === repeatPassword) {
-      await handleSignUp({
-        email: values.email,
-        password: values.password,
-      });
-    }
-    return;
+    await handleSignUp({
+      email: values.email,
+      password: values.password,
+    });
   };
 
   return (
