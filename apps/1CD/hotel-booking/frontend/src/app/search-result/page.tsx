@@ -5,6 +5,7 @@ import { ComboboxDemo } from '../../app/TravelerSelection';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
+import { useGetHotelsQuery } from '@/generated';
 
 const Page = () => {
   const { data } = useGetHotelsQuery();
@@ -44,7 +45,9 @@ const Page = () => {
                 </SelectContent>
               </Select>
             </div>
-            <SearchedHotelCards />
+            {data?.getHotels.map((hotelData) => (
+              <SearchedHotelCards key={hotelData._id} hotelData={hotelData} />
+            ))}
           </section>
         </section>
       </main>

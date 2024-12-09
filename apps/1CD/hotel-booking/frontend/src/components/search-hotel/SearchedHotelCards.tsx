@@ -4,15 +4,16 @@ import { Rating } from '@mui/material';
 import { Badge } from '@/components/ui/badge';
 
 import Image from 'next/image';
+import { Hotel } from '@/generated';
 
-export const SearchedHotelCards = () => {
+export const SearchedHotelCards = ({ hotelData }: { hotelData: Hotel }) => {
   return (
     <Card className="min-w-[872px] max-h-[250px] mt-5">
       <CardContent className="flex gap-8">
         <Image src="https://via.placeholder.com/150" alt="hotel image" className="flex-1 border border-black h-[222px]" height={60} width={80}></Image>
         <section className="flex-col flex-1 pt-5">
           <div className="text-center md:text-left">
-            <header className="text-lg font-semibold">Toyoko Inn Ulaanbaatar</header>
+            <header className="text-lg font-semibold">{hotelData.hotelName}</header>
             <Rating />
           </div>
           <section className="flex justify-between mt-14">
