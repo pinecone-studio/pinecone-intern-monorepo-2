@@ -11,6 +11,7 @@ export type Request = {
   supervisorEmail: string;
   result: string;
   comment: string;
+  files: string[]
 };
 
 const RequstSchema = new Schema<Request>(
@@ -38,7 +39,8 @@ const RequstSchema = new Schema<Request>(
         type: String,
         enum: ['fail', 'success', 'sent', 'pending']
     },
-    comment: String
+    comment: String,
+    files: [String]
   },
   {
     timestamps: true,
