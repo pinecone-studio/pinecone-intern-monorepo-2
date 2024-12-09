@@ -28,7 +28,7 @@ export const typeDefs = gql`
 
   input VerifyOtpInput {
     email: String!
-    otp: Int!
+    otp: String!
   }
   input createPasswordInput {
     email: String!
