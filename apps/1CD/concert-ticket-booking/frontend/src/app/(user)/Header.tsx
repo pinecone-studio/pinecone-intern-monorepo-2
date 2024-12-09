@@ -31,17 +31,21 @@ export const Header = () => {
         {!user && (
           <div className="flex items-center gap-2 md:gap-4">
             <Link href="/sign-up">
-              <Button className="text-xs font-medium leading-5 bg-black border border-gray-600 rounded-lg md:text-sm w-28 md:w-36">Бүртгүүлэх</Button>
+              <Button data-cy="SignUpBtn" className="text-xs font-medium leading-5 bg-black border border-gray-600 rounded-lg md:text-sm w-28 md:w-36">
+                Бүртгүүлэх
+              </Button>
             </Link>
 
             <Link href="/sign-in">
-              <Button className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36">Нэвтрэх</Button>
+              <Button data-cy="SignInBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36">
+                Нэвтрэх
+              </Button>
             </Link>
           </div>
         )}
         {user && (
           <div>
-            <Button data-cy="singoutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36" onClick={signout}>
+            <Button data-cy="SignOutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36" onClick={signout}>
               Гарах
             </Button>
           </div>
