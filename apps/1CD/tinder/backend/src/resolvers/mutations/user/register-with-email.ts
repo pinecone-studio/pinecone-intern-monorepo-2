@@ -9,7 +9,7 @@ export const registerEmail: MutationResolvers['registerEmail'] = async (_, { inp
   const { email } = input;
  
     await checkExistingEmail(email);
-    const otp = generateOTP();
+    const otp = generateOTP(email);
     await sendOtpMail(email, otp);
     await userModel.create({ ...input, otp });
     return { email };

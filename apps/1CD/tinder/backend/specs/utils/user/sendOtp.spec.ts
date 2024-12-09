@@ -18,7 +18,7 @@ describe('sendOtpMail', () => {
   it('should send an email successfully', async () => {
     // Arrange
     const testEmail = 'test@example.com';
-    const testOtp = 123456;
+    const testOtp = '123456';
 
     mockTransporter.sendMail.mockResolvedValue({
       messageId: 'test-message-id'
@@ -49,7 +49,7 @@ describe('sendOtpMail', () => {
   it('should throw a GraphQLError when email sending fails', async () => {
 
     const testEmail = 'test@example.com';
-    const testOtp = 123456;
+    const testOtp = '123456';
 
 
     mockTransporter.sendMail.mockRejectedValue(new Error('SMTP Error'));

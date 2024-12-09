@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
 import nodemailer from 'nodemailer';
-export const sendOtpMail=async (email:string,otp:number)=>{
+export const sendOtpMail=async (email:string,otp:string)=>{
     try{
         const transporter=nodemailer.createTransport({
             service:'gmail',
