@@ -1,6 +1,6 @@
 describe('Search Result Page', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/search-result');
   });
   it('1. Should be visible', () => {
     cy.get('[data-cy=Adult-Select-Modal-Button]').should('be.visible');
