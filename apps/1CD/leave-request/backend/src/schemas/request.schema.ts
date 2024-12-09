@@ -14,11 +14,20 @@ export const RequestTypeDefs = gql`
     comment: String
   }
 
+  type AvailablePaidLeaves {
+    thisYear: Int
+    nextYear: Int
+  }
+  type AvailableRemoteLeaves {
+    thisMonth: Int
+    nextMonth: Int
+  }
+
   type Mutation {
     createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
   }
   type Query {
-    checkAvailablePaidLeave(email: String!):Int
-    checkAvailavleRemoteLeave(email: String!): Int
+    checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
+    checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
   }
 `;
