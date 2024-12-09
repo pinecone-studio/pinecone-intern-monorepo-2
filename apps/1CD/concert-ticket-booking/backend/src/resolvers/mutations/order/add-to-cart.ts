@@ -5,7 +5,6 @@ import Ticket from "../../../models/ticket.model";
     export const addToCarts: MutationResolvers['addToCarts'] = async (_, { input }, { userId }) => {
          const { ticketId, ticketType } = input; 
          const findTicket = await Ticket.findById(ticketId); 
-         console.log("input", input.ticketType);
          if (findTicket) { 
             ticketType.forEach(({ _id, soldQuantity }) => { 
             
@@ -20,8 +19,7 @@ import Ticket from "../../../models/ticket.model";
             } 
         }); 
     } 
-   const saved = await findTicket.save(); 
-   console.log("saved", saved);
+    await findTicket.save(); 
     const createOrder = await Order.create({ userId, ...input, 
 
     }); 
