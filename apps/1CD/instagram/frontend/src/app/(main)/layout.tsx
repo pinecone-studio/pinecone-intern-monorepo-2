@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 // import '/../global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { UserBar } from '@/components/header/UserBar';
-import { Header } from '@/components/header/Header';
+import { Header } from '@/components/header/header';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -14,11 +14,13 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <div className="relative flex justify-between w-screen">
+          <div className="relative flex justify-between w-screen gap-10 pr-1">
             <Header />
 
-            <div className="flex h-screen overflow-scroll bg-green-200 ">{children}</div>
-            <UserBar />
+            <div className="flex justify-center w-full h-screen overflow-scroll">{children}</div>
+            <div className="flex w-full pt-10">
+              <UserBar />
+            </div>
           </div>
         </ApolloWrapper>
       </body>

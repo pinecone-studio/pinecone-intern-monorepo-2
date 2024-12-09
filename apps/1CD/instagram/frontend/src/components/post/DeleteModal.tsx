@@ -6,21 +6,23 @@ import { Dispatch, SetStateAction } from 'react';
 
 export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOpenDeleteModal: Dispatch<SetStateAction<boolean>>; openDeleteModal: boolean; id: string }) => {
   const [deletePost, { loading }] = useDeletePostMutation({
-    onError: (error) => {
-      console.log('not deleete', error);
-      setOpenDeleteModal(false);
-    },
-    onCompleted: () => {
-      setOpenDeleteModal(false);
-    },
+    // onError: (error) => {
+    //   console.log('not deleete', error);
+    //   setOpenDeleteModal(false);
+    // },
+    // onCompleted: () => {
+    //   setOpenDeleteModal(false);
+    // },
   });
 
-  const handleDalete = async () =>
+  const handleDalete = async () => {
     deletePost({
       variables: {
         _id: '123',
       },
     });
+    setOpenDeleteModal(false);
+  };
 
   //aldaaa zaawal toast uguh
   //refresh hiih
