@@ -21,6 +21,7 @@ const nextConfig = {
     VERCEL_TOKEN: process.env.VERCEL_TOKEN,
     LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI,
     BACKEND_URI: process.env.BACKEND_URI,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 };
 

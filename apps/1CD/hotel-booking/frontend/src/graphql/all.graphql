@@ -37,3 +37,13 @@ mutation updateHotelLocation($location: String!, $id: String!) {
     phoneNumber
   }
 }
+mutation addPayment($input: PaymentInput!) {
+  addPayment(input: $input) {
+    _id
+    bookingId
+    userId
+    amount
+    paymentMethod
+    status
+  }
+}
