@@ -4,30 +4,11 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
-
-const formSchema = z
-  .object({
-    email: z.string().min(2, {
-      message: 'Email must be at least 2 characters.',
-    }),
-    password: z
-      .string()
-      .min(8, { message: 'Be at least 8 characters long' })
-      .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-      .regex(/[0-9]/, { message: 'Contain at least one number.' })
-      .regex(/[^a-zA-Z0-9]/, {
-        message: 'Contain at least one special character.',
-      })
-      .trim(),
-    repeatPassword: z.string().min(8, { message: 'Be at least 8 characters long' }),
-  })
-  .refine((data) => data.password === data.repeatPassword, {
-    message: 'Passwords do not match',
-    path: ['repeatPassword'],
-  });
+import { formSchema } from '@/utils/validationschema';
+import { z } from 'zod';
 
 const inputs = [
   {
