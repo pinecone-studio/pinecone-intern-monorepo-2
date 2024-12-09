@@ -1,5 +1,4 @@
 import { Schema, model, models } from 'mongoose';
-import { RoomsType } from './rooms.model';
 
 export type HotelsType = {
   _id: string;
@@ -12,7 +11,7 @@ export type HotelsType = {
   images: string[];
   location: string;
   city: string;
-  rooms: RoomsType[];
+
   createdAt: Date;
 };
 
@@ -40,16 +39,15 @@ const hotelsSchema = new Schema<HotelsType>({
   city: {
     type: String,
   },
-  rooms: [
-    {
-      type: {},
-    },
-  ],
   createdAt: {
     type: Date,
     required: true,
     default: Date.now,
   },
 });
+
+export type HotelsPopulatedType = Omit<HotelsType, 'hotels'> & {
+  hotels: HotelsType;
+};
 
 export const hotelsModel = models['hotels'] || model('hotels', hotelsSchema);

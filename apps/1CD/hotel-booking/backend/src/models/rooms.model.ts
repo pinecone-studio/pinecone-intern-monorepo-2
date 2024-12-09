@@ -1,8 +1,8 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, Types, model, models } from 'mongoose';
 
 export type RoomsType = {
   _id: string;
-  hotelId: string;
+  hotelId: Types.ObjectId;
   roomType: string;
   roomCount: number;
   roomNumber: string;
@@ -29,7 +29,7 @@ const roomsSchema = new Schema<RoomsType>({
   roomType: {
     type: String,
   },
-  hotelId: String,
+  hotelId: Schema.Types.ObjectId,
   roomInformation: String,
   roomName: String,
 
@@ -68,5 +68,9 @@ const roomsSchema = new Schema<RoomsType>({
     default: Date.now,
   },
 });
+
+export type RoomsPopulatedType = Omit<RoomsType, 'rooms'> & {
+  rooms: RoomsType;
+};
 
 export const roomsModel = models['rooms'] || model('rooms', roomsSchema);
