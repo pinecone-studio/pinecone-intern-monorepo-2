@@ -166,13 +166,6 @@
         },
         {
           "target": "get-secrets:testing"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen",
-          "params": "forward"
         }
       ]
     },
