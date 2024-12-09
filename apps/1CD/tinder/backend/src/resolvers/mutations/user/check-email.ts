@@ -13,7 +13,7 @@ export const checkEmail: MutationResolvers['checkEmail'] = async (_, { input }) 
     });
   }
 
-  const otp = generateOTP();
+  const otp = generateOTP(email);
   user.otp = otp;
   await user.save();
 

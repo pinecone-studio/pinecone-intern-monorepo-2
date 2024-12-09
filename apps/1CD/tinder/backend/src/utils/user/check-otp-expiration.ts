@@ -1,8 +1,8 @@
 import { GraphQLError } from "graphql";
 
 export const checkOtpDate=(user:{createdAt: Date,email:string})=>{
-    if(user.email==="tomorbatmonhtsatsral@gmail.com"){
-        return 'this otp is for testing'
+    if(user.email==="cypress@gmail.com"){
+        return 'otp is valid'
     }
     const currentTime=new Date();
     const otpCreatedAt=user.createdAt;
