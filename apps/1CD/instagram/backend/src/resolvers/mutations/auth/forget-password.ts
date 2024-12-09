@@ -1,7 +1,7 @@
 import { userModel } from '../../../models/user.model';
 import crypto from 'crypto';
 import { sendResetPassUrlToMail } from '../../../utils/sendmail';
-import { MutationResolvers } from 'src/generated';
+import { MutationResolvers, Response } from 'src/generated';
 
 export const forgetPassword: MutationResolvers['forgetPassword'] = async (_: unknown, { input }) => {
   const { email } = input;
@@ -13,7 +13,7 @@ export const forgetPassword: MutationResolvers['forgetPassword'] = async (_: unk
   const hashedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
   userExist.resetPasswordToken = hashedResetToken;
   userExist.resetPasswordTokenExpire = new Date(Date.now() + 3 * 60 * 1000);
-  const saveUser = await userExist.save();
+  await userExist.save();
   await sendResetPassUrlToMail(email, resetToken);
-  return saveUser;
+  return Response.Success;
 };

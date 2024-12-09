@@ -67,9 +67,13 @@ export const typeDefs = gql`
 
     createPassword(input:CreatePassInput!):RegisterEmailResponse!
     resendOtp(input:RegisterEmailInput!): RegisterEmailResponse!
-    createUser(input: CreateUserInput!):User!
-    updateUser(email: String!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
+
+
+
     checkEmail(input: checkEmailInput!): RegisterEmailResponse!
+    createUser(input: CreateUserInput!): User!
+    updateUser(email: String!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): User!
     updateAttraction(email: String!, attraction: String!): User!
+
   }
 `;

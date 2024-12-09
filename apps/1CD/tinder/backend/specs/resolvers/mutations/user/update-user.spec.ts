@@ -50,7 +50,9 @@ describe('find user by email', () => {
         {},
         {} as GraphQLResolveInfo
       )).rejects.toThrow("Could not find user") 
+   
 
+   
   });
   it('should throw internal server error', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);

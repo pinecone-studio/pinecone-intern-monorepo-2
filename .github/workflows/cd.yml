@@ -35,6 +35,9 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.19.1'
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
@@ -81,6 +84,9 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.19.1'
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
@@ -127,6 +133,9 @@ jobs:
             ~/.cache/Cypress
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.19.1'
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
