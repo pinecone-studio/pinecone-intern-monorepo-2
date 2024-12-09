@@ -1,8 +1,8 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { updateUser } from '../../../src/resolvers/mutations';
-import { userModel } from '../../../src/models';
+import { updateUser } from '../../../../src/resolvers/mutations';
+import { userModel } from '../../../../src/models';
 
-jest.mock('../../../src/models', () => ({
+jest.mock('../../../../src/models', () => ({
   userModel: {
     findById: jest.fn(),
     findByIdAndUpdate: jest.fn(),
