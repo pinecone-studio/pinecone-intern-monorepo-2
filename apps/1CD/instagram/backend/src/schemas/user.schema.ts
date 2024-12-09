@@ -56,7 +56,6 @@ export const typeDefs = gql`
   input ForgetpasswordInput {
     email: String!
   }
-
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
