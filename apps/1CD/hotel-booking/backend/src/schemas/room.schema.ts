@@ -48,4 +48,8 @@ export const typeDefs = gql`
         addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
 
   }
+  type Query {
+    getRooms(hotelId:ID!):[RoomType!]!
+    getRoomServiceData(roomId:ID!): [RoomServiceType!]!
+  }
 `;
