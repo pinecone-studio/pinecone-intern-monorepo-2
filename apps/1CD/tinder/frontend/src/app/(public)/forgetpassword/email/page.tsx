@@ -15,8 +15,8 @@ const CheckEmail = () => {
 
   const [checkEmail, { loading }] = useCheckEmailMutation({
     onCompleted: (data) => {
-      router.push('/forgetpassword/otp');
       localStorage.setItem('userEmail', data.checkEmail.email);
+      router.push('/forgetpassword/otp');
     },
     onError: (error) => {
       toast.error(error.message);

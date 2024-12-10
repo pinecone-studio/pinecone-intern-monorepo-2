@@ -32,6 +32,7 @@ describe('forgetpassword with email page', () => {
     cy.get('[data-cy="forgetpassword-continue-button"]').click();
 
     cy.window().then((window) => {
+      expect(window.localStorage.setItem('userEmail', mockEmail));
       expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
     });
 
