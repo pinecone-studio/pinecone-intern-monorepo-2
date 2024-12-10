@@ -92,7 +92,6 @@ export const typeDefs = gql`
 
     deleteEvent(_id: ID!): Response!
     updateEvent(_id: ID!, event: EventUpdateInput): Event!
-
   }
   type Query {
     getSpecialEvent: [Event!]!
