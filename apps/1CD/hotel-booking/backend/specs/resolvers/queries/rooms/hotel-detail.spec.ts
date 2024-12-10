@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
-import { getRooms } from "src/resolvers/queries/rooms/get-room-data";
+import { hotelDetail } from "src/resolvers/queries";
+
 
 jest.mock('src/models', ()=>({
     roomsModel:{
@@ -14,7 +15,7 @@ jest.mock('src/models', ()=>({
 }));
 describe('get-rooms', () => {
     it('should return room', async () => {
-      const response = await getRooms!({}, { hotelId: '1' }, {userId:"1"},{} as GraphQLResolveInfo);
+      const response = await hotelDetail!({}, { hotelId: '1' }, {userId:"1"},{} as GraphQLResolveInfo);
       expect(response).toEqual({
         _id: '1',
         roomName: 'test',
@@ -22,7 +23,7 @@ describe('get-rooms', () => {
     });
     it('should return null', async () => {
       try {
-        await getRooms!({}, { hotelId: '1' }, {userId: "1"}, {} as GraphQLResolveInfo);
+        await hotelDetail!({}, { hotelId: '1' }, {userId: "1"}, {} as GraphQLResolveInfo);
       } catch (err) {
         expect((err as Error).message).toEqual('Rooms not found');
       }

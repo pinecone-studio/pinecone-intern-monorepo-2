@@ -49,7 +49,7 @@ export const typeDefs = gql`
 
   }
   type Query {
-    getRooms(hotelId:ID!):[RoomType!]!
-    getRoomServiceData(roomId:ID!): [RoomServiceType!]!
+    hotelDetail(hotelId:ID!):[RoomType!]!
+    hotelService(roomId:ID!): [RoomServiceType!]!
   }
 `;
