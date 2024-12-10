@@ -1,15 +1,10 @@
 import{model, models, Schema} from 'mongoose'
 
 export type Chatmodel = {
-    _id:String, 
     participants:[string],
     createdAt: Date
 }
 const Chatschema= new Schema<Chatmodel>({
-    _id:{
-        type:String,
-        required:true
-    },
     participants:{
         type:[String],
         required:true

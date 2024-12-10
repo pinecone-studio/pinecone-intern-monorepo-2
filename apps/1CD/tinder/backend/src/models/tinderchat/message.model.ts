@@ -1,6 +1,5 @@
 import { model, models, Schema } from 'mongoose';
 export type Messagetype = {
-  _id: string;
   chatId: string;
   content: string;
   senderId:string,
@@ -8,10 +7,6 @@ export type Messagetype = {
 };
 
 const Messageschema =new Schema <Messagetype>({
-    _id: {
-        type:String, 
-        required:true
-    }, 
     chatId:{
         type: String,
         required:true
