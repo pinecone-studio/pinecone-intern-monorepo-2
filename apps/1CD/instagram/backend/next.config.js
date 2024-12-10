@@ -22,7 +22,11 @@ const nextConfig = {
     ];
   },
   env: {
-    MONGODB_URL: process.env.MONGO_URI,
+    MONGO_URI: process.env.MONGO_URI,
+    JWT_SECRET: process.env.JWT_SECRET,
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
   },
   nx: {
     svgr: false,
