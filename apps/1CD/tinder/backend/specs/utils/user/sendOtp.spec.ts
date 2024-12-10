@@ -17,8 +17,8 @@ describe('sendOtpMail', () => {
 
   it('should send an email successfully', async () => {
     // Arrange
-    const testEmail = 'test@example.com';
-    const testOtp = '123456';
+    const testEmail = 'cypress@gmail.com';
+    const testOtp = '0000';
 
     mockTransporter.sendMail.mockResolvedValue({
       messageId: 'test-message-id'
