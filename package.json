@@ -72,7 +72,6 @@
     "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0",
     "class-variance-authority": "0.7.0",
-    "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "commitizen": "4.3.0",
     "cypress-wait-until": "3.0.2",
