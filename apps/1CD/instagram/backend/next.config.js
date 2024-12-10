@@ -26,6 +26,7 @@ const nextConfig = {
     JWT_SECRET: process.env.JWT_SECRET,
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
   },
   nx: {
     svgr: false,
