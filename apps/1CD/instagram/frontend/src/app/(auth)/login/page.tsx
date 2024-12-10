@@ -9,7 +9,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useState } from 'react';
-// import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
@@ -21,7 +20,6 @@ const formSchema = z.object({
 
 const LogInPage = () => {
   const { login } = useAuth();
-  // const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({

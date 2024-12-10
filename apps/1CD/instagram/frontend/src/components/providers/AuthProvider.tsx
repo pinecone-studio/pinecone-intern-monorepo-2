@@ -26,7 +26,6 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  // const { toast } = useToast();
 
   const [signupMutation] = useSignupMutation({
     onCompleted: (data) => {
