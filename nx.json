@@ -93,6 +93,9 @@
         "linter": "eslint",
         "e2eTestRunner": "none"
       }
+    },
+    "@nx/workspace:move": {
+      "projectNameAndRootFormat": "as-provided"
     }
   }
 }
