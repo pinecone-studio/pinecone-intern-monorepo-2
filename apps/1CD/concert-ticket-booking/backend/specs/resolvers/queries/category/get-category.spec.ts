@@ -1,4 +1,4 @@
-import { getCategory } from '../../../../src/resolvers/queries/category/get-category';
+import { getCategories } from '../../../../src/resolvers/queries/category/get-category';
 import Category from '../../../../src/models/category.model';
 import { GraphQLResolveInfo } from 'graphql';
 jest.mock('../../../../src/models/category.model');
@@ -19,7 +19,7 @@ describe('getCategory Resolver', () => {
     (Category.find as jest.Mock).mockResolvedValueOnce(mockCategories);
 
     // Call the resolver
-    const result = await getCategory!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo);
+    const result = await getCategories!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo);
 
     // Assertions
     expect(Category.find).toHaveBeenCalledWith({});
@@ -31,7 +31,7 @@ describe('getCategory Resolver', () => {
     (Category.find as jest.Mock).mockResolvedValueOnce([]);
 
     // Call the resolver
-    const result = await getCategory!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo);
+    const result = await getCategories!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo);
 
     // Assertions
     expect(Category.find).toHaveBeenCalledWith({});
@@ -44,7 +44,7 @@ describe('getCategory Resolver', () => {
     (Category.find as jest.Mock).mockRejectedValueOnce(mockError);
 
     // Call the resolver and expect an error
-    await expect(getCategory!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Database error');
+    await expect(getCategories!({}, { id: '123' }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Database error');
 
     // Assertions
     expect(Category.find).toHaveBeenCalledWith({});

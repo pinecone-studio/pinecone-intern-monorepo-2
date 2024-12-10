@@ -17,7 +17,7 @@ jest.mock('../../../../src/utils/user/send-otp-email',()=>({
 }));
 describe('resend otp',()=>{
     const mockEmail="example@gmail.com";
-    const mockOtp=1234;
+    const mockOtp='1234';
     const mockInfo={} as GraphQLResolveInfo;
     it('should successfully resend the otp ',async()=>{
         const input={email:mockEmail};
