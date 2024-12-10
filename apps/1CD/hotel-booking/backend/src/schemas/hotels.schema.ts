@@ -18,12 +18,18 @@ export const typeDefs = gql`
     userRating: Int!
     phoneNumber: Int!
   }
+  input HotelFilterInput {
+    starRating: Int
+    userRating: Int
+    checkInDate: Date
+    checkOutDate: Date
+  }
   type Mutation {
     addHotelGeneralInfo(input: HotelInput!): Hotel!
     updateHotelLocation(location: String!, _id: String!): Hotel!
   }
   type Query {
     getHotel(_id: ID!): Hotel!
-    getHotels: [Hotel!]!
+    getHotels(input: HotelFilterInput!): [Hotel!]!
   }
 `;
