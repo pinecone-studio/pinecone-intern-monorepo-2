@@ -15,7 +15,7 @@ const CheckEmail = () => {
 
   const [checkEmail, { loading }] = useCheckEmailMutation({
     onCompleted: (data) => {
-      router.push('/register/otp');
+      router.push('/forgetpassword/otp');
       localStorage.setItem('userEmail', data.checkEmail.email);
     },
     onError: (error) => {
@@ -27,8 +27,8 @@ const CheckEmail = () => {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white pt-[200px]">
-      <div className="flex gap-2">
+    <div data-cy="forgetpassword-page-container" className="min-h-screen flex flex-col items-center justify-center bg-white pt-[200px]">
+      <div data-cy="forgetpassword-email-header" className="flex gap-2">
         <Image src="../logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
 
         <div className="text-[#424242] font-bold text-2xl">tinder</div>
@@ -38,8 +38,9 @@ const CheckEmail = () => {
         <p className="text-center text-gray-500 text-sm mb-6">Enter your email account to reset password</p>
 
         <div>
-          <label className="block text-sm text-gray-600 mb-1 pt-1">Email</label>
+          <div className="block text-sm text-gray-600 mb-1 pt-1">Email</div>
           <Input
+            data-cy="forgetpassword-email-input"
             type="email"
             placeholder="name@example.com"
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-pink-500"
@@ -48,7 +49,13 @@ const CheckEmail = () => {
           />
         </div>
         <div className="py-2">
-          <Button type="submit" className="w-full bg-[#fd5b6d] hover:bg-[#fd4b5d] text-white py-4 rounded-full font-medium transition duration-200" onClick={() => checkEmail()} disabled={loading}>
+          <Button
+            data-cy="forgetpassword-continue-button"
+            type="submit"
+            className="w-full bg-[#fd5b6d] hover:bg-[#fd4b5d] text-white py-4 rounded-full font-medium transition duration-200"
+            onClick={() => checkEmail()}
+            disabled={loading}
+          >
             Continue
           </Button>
         </div>
