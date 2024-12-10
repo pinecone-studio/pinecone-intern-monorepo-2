@@ -1,47 +1,31 @@
-// import { render, waitFor } from '@testing-library/react';
-// import { MockedProvider } from '@apollo/client/testing';
-// import { Header } from '@/components/header/header';
-
-// describe('Header', () => {
-//   it('should render', async () => {
-//     const { getByTestId } = render(
-//       <MockedProvider>
-//         <Header />
-//       </MockedProvider>
-//     );
-
-//     await waitFor(() => expect(getByTestId('header')));
-//   });
-// });
-
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
 import { Header } from '@/components/header/Header';
 
-describe('Header Component', () => {
-  it('renders header component', () => {
-    render(<Header />);
-    const header = screen.getByTestId('header');
-    expect(header);
+describe('Header', () => {
+  it('should render', async () => {
+    const { getByTestId } = render(
+      <MockedProvider>
+        <Header />
+      </MockedProvider>
+    );
+    const header = getByTestId('header');
+
+    await waitFor(() => expect(header));
   });
 
-  it('displays logo image when not hidden', () => {
-    render(<Header />);
-    const logo = screen.getByAltText('Logo');
-    expect(logo);
-    expect(logo);
+  it('should render', async () => {
+    const { getByTestId, getAllByTestId } = render(
+      <MockedProvider>
+        <Header />
+      </MockedProvider>
+    );
+
+    const btn = getAllByTestId('hideIconBtn')[0];
+    fireEvent.click(btn);
+
+    const header = getByTestId('header');
+
+    await waitFor(() => expect(header));
   });
-
-  it('has correct initial width', () => {
-    render(<Header />);
-    const header = screen.getByTestId('header');
-    expect(header);
-
-    // expect(header).not.toHaveClass('w-20');
-  });
-
-  //   it('contains link to home page', () => {
-  //     render(<Header />);
-  //     const homeLink = screen.getByTestId('hideIconBtn');
-  //     expect(homeLink);
-  //   });
 });
