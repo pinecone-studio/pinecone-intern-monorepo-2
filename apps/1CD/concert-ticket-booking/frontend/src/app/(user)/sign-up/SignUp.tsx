@@ -7,8 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { formSchema } from '@/utils/validationschema';
 import { z } from 'zod';
+import { formSchema } from '@/utils/validationschema';
 
 const inputs = [
   {
