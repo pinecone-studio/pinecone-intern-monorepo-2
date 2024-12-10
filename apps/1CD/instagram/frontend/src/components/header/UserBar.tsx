@@ -13,7 +13,7 @@ export const UserBar = () => {
           </div>
           <div className="">
             <h1 className="text-sm font-bold ">defavours_11</h1>
-            <p className="text-[12px] text-gray-500 ">defavours</p>
+            <p className="text-[12px] text-gray-500 ">quuppp</p>
           </div>
         </div>
         <div>
