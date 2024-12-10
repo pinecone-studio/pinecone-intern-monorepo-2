@@ -11,6 +11,6 @@ export const typeDefs = gql`
     deleteCategory(id: String!): Category!
   }
   type Query {
-    getCategory: [Category!]!
+    getCategories: [Category!]!
   }
 `;

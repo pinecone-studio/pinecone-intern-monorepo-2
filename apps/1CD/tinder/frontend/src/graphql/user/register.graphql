@@ -3,3 +3,14 @@ mutation registerEmail($input:RegisterEmailInput!){
         email
     }
 }
+mutation verifyOtp($input:VerifyOtpInput!){
+    verifyOtp(input:$input){
+        email
+    }
+}
+
+mutation resendOtp($input:RegisterEmailInput!){
+    resendOtp(input:$input){
+        email
+    }
+}
