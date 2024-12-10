@@ -10,7 +10,6 @@ const Page = () => {
         <p>Home page</p>
         <PostCard />
       </div>
-
       <UserBar />
     </div>
   );
