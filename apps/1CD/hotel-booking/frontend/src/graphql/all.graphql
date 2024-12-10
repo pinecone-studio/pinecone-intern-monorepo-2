@@ -26,6 +26,25 @@ mutation addHotelGeneralInfo($input: HotelInput!) {
     phoneNumber
   }
 }
+
+query GetRooms($hotelId: ID!) {
+  getRooms(hotelId: $hotelId) {
+    _id
+    images
+    roomName
+    price
+    roomService {
+      accessability
+      bathroom
+      bedroom
+      entertaiment
+      foodDrink
+      other
+    }
+    
+  }
+}
+
 mutation updateHotelLocation($location: String!, $id: String!) {
   updateHotelLocation(location: $location, _id: $id) {
     createdAt
