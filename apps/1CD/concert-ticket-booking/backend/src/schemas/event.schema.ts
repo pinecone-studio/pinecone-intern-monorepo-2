@@ -18,10 +18,10 @@ export const typeDefs = gql`
   type Ticket {
     _id: ID!
     scheduledDay: Date!
-    ticketType: [ticketType!]!
+    ticketType: [TicketType!]!
   }
 
-  type ticketType {
+  type TicketType {
     _id: ID!
     zoneName: String!
     soldQuantity: Int!
@@ -32,10 +32,10 @@ export const typeDefs = gql`
   }
   input TicketInput {
     scheduledDay: Date!
-    ticketType: [ticketsTypeInput!]!
+    ticketType: [TicketTypeInput!]!
   }
 
-  input ticketsTypeInput {
+  input TicketTypeInput {
     zoneName: String!
     soldQuantity: Int!
     totalQuantity: Int!
@@ -56,8 +56,42 @@ export const typeDefs = gql`
     category: [ID!]!
   }
 
+  input EventPriorityUpdateInput {
+    priority: String!
+  }
+  input EventUpdateInput {
+    name: String
+    description: String
+    mainArtists: [String]
+    guestArtists: [String]
+    dayTickets: [TicketInput]
+    image: String
+    discount: String
+    venue: ID
+    category: [ID]
+  }
+
+  type Response {
+    message: String!
+  }
+  input EventsFilter {
+    q: String
+    date: String
+    artist: String
+  }
+
+  type Query {
+    getEventById(_id: ID!): Event!
+    getEvents(filter: EventsFilter): [Event]!
+  }
+
   type Mutation {
     createEvent(input: EventInput!): Event!
+
+    updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
+
+    deleteEvent(_id: ID!): Response!
+    updateEvent(_id: ID!, event: EventUpdateInput): Event!
   }
   type Query {
     getSpecialEvent: [Event!]!

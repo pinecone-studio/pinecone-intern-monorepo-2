@@ -10,8 +10,10 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body>
-        <ApolloWrapper>{children}</ApolloWrapper>
+      <body className="">
+        <ApolloWrapper>
+          <div className="max-w-[1280px] mx-auto">{children}</div>
+        </ApolloWrapper>
       </body>
     </html>
   );

@@ -39,6 +39,11 @@ export const typeDefs = gql`
     accountVisibility: AccountVisibility
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
   input UpdateInput {
     _id: ID!
     userName: String
@@ -48,17 +53,26 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
+
   input ForgetpasswordInput {
     email: String!
   }
+
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
   }
+
+  type Query {
+    getUser: User!
+  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!
-    forgetPassword(input: ForgetpasswordInput!): User!
-    verifyNewPass(input: VerifyNewPassInput!): User!
+    deleteUser(_id: String!): User!
+    forgetPassword(input: ForgetpasswordInput!): Response!
+    verifyNewPass(input: VerifyNewPassInput!): Response!
+    login(input: LoginInput!): AuthResponse!
   }
 `;

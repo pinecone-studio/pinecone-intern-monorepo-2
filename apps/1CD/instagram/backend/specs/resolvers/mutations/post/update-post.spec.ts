@@ -28,7 +28,7 @@ describe('Create Post', () => {
       {
         input,
       },
-      {},
+      { userId: null },
       {} as GraphQLResolveInfo
     );
 
@@ -45,7 +45,7 @@ describe('Create Post', () => {
         {
           input,
         },
-        {},
+        { userId: null },
         {} as GraphQLResolveInfo
       );
     } catch (error) {

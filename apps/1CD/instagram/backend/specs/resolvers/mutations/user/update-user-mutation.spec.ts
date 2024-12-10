@@ -21,7 +21,7 @@ describe('updateUserData', () => {
     const mockUser = { ...inputData, updatedAt: new Date() };
     (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUser);
 
-    const result = await updateUserData!({}, { input: inputData }, {}, {} as GraphQLResolveInfo);
+    const result = await updateUserData!({}, { input: inputData }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(userModel.findByIdAndUpdate).toHaveBeenCalledWith(
       userId,
@@ -41,6 +41,6 @@ describe('updateUserData', () => {
   it('should throw an error if user data could not be updated', async () => {
     (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
 
-    await expect(updateUserData!({}, { input: inputData }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('Could not update user data');
+    await expect(updateUserData!({}, { input: inputData }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Could not update user data');
   });
 });
