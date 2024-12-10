@@ -29,7 +29,7 @@ const nextConfig = {
     API_SECRET:process.env.API_SECRET,
     OTP_SECRET:process.env.OTP_SECRET,
     PASS_SALT:process.env.PASS_SALT,
-    TOKEN_SECRET:process.env.TOKEN_SECRET
+    TOKEN_SECRET:process.env.TOKEN_SECRET,
   },
   nx: {
     svgr: false,
