@@ -13,8 +13,8 @@ jest.mock('next/headers',()=>({
 
 describe('should create the token and set in the cookie',()=>{
     const mockUser={
-        email:'test@example.com',
-        _id:'1234'
+        email:'cypress@gmail.com',
+        _id:'0000'
     };
     beforeEach(() => {
         jest.clearAllMocks();

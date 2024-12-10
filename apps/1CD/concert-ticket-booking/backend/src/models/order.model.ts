@@ -4,18 +4,18 @@ type TicketType = {
   _id: Schema.Types.ObjectId;
   zoneName: string;
   soldQuantity: number;
-  totalQuantity:number;
+  totalQuantity: number;
   unitPrice: number;
   discount: number;
   additional: string;
 };
 type Order = {
   userId: Schema.Types.ObjectId;
-      ticketId: Schema.Types.ObjectId;
-      eventId: Schema.Types.ObjectId;
-      status: string;
-      orderNumber: number;
-      ticketType: TicketType[];
+  ticketId: Schema.Types.ObjectId;
+  eventId: Schema.Types.ObjectId;
+  status: string;
+  orderNumber: number;
+  ticketType: TicketType[];
 };
 
 const orderSchema = new Schema<Order>(
@@ -25,57 +25,53 @@ const orderSchema = new Schema<Order>(
       required: true,
       ref: 'User',
     },
-       ticketId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: 'Ticket',
-        },
-        eventId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-          ref: 'Event',
-        },
-        status: {
+    ticketId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Ticket',
+    },
+    eventId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Event',
+    },
+    status: {
+      type: String,
+      enum: ['available', 'unavailable', 'pending', 'approved'],
+      default: 'available',
+    },
+    ticketType: [
+      {
+        zoneName: {
           type: String,
-          enum: ['available', 'unavailable', 'pending','approved'],
-          default: 'available',
+          required: true,
         },
-        orderNumber: {
+        soldQuantity: {
           type: Number,
           required: true,
         },
-        ticketType: [
-          {
-            zoneName: {
-              type: String,
-              required: true,
-            },
-            soldQuantity: {
-              type: Number,
-              required: true,
-            },
-            totalQuantity: {
-              type:Number,
-              required:true,
-            },
-            unitPrice: {
-              type: Number,
-              required: true,
-            },
-            discount: {
-              type: Number,
-              default: 0,
-            },
-            additional: {
-              type:String,
-              default:'nothing',
-            }
-          },
-        ],
+        totalQuantity: {
+          type: Number,
+          required: true,
+        },
+        unitPrice: {
+          type: Number,
+          required: true,
+        },
+        discount: {
+          type: Number,
+          default: 0,
+        },
+        additional: {
+          type: String,
+          default: 'nothing',
+        },
       },
-      {
-        timestamps: true,
-      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
 );
 
 const Order = models['Order'] || model('Order', orderSchema);
