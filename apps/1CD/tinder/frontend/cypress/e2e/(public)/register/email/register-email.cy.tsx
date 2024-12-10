@@ -33,6 +33,7 @@ describe('register with email page',()=>{
         cy.window().then((window) => {
             expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
           });
+        cy.url().should('include', 'register/otp') 
       
     })
    
