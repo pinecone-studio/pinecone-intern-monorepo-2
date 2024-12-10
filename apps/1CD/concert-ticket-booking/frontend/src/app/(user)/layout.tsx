@@ -3,7 +3,7 @@ import { ApolloWrapper, AuthProvider } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
 
 import { Footer } from '@/components/footer/Footer';
-import { Header } from './Header';
+import { Header } from '../../components/Header';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
