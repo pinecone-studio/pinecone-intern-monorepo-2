@@ -1,9 +1,8 @@
-'use client';
 import { PropsWithChildren } from 'react';
-import './global.css';
+import '../global.css';
+
+import { Header } from '@/components/header/Header';
 import { ApolloWrapper } from '@/components/providers';
-import { AuthProvider } from '@/components/providers/AuthProvider';
-// import { Toaster } from '@/components/ui/toaster';
 
 // export const metadata = {
 //   title: 'Welcome to example-frontend',
@@ -15,10 +14,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <AuthProvider>
-            {children}
-            {/* <Toaster /> */}
-          </AuthProvider>
+          <div className="relative flex justify-between w-screen gap-10 pr-1">
+            <Header />
+            <div className="flex w-full h-screen overflow-scroll">{children}</div>
+          </div>
         </ApolloWrapper>
       </body>
     </html>
