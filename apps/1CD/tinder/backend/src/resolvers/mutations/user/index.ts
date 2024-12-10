@@ -6,3 +6,4 @@ export * from './create-password';
 export * from './resend-otp';
 export * from './check-email';
 export * from './update-attraction';
+export * from './forget-otp';
