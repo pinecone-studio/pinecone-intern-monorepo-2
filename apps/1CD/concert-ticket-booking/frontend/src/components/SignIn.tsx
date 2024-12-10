@@ -70,21 +70,28 @@ const SignIn = () => {
                       {input.label}
                     </FormLabel>
                     <FormControl>
-                      <Input type={input.type} className="p-2 text-white bg-black border-gray-600 rounded-md" placeholder={input.label} {...field} data-cy={`input-${input.name}`} />
+                      <Input
+                        type={input.type}
+                        className="p-2 text-white bg-black border-gray-600 rounded-md"
+                        placeholder={input.label}
+                        {...field}
+                        data-cy={`input-${input.name}`}
+                        data-testid={`input-${input.name}`}
+                      />
                     </FormControl>
-                    <FormMessage className="text-xs text-red-500" data-cy={`form-message-${input.name}`} />
+                    <FormMessage className="text-xs text-red-500" data-cy={`form-message-${input.name}`} data-testid={`form-message-${input.name}`} />
                   </FormItem>
                 )}
               />
             ))}
           </div>
           <div className="flex flex-col gap-6">
-            <Button className="p-2 w-full text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
+            <Button data-testid="Sign-In-Submit-Button" className="p-2 w-full text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
               Нэвтрэх
             </Button>
             <p className="w-full text-sm text-center text-zinc-400 ">
               Та бүртгэлтэй хаяггүй бол
-              <button data-cy="Sign-Up-Link-Button">
+              <button data-cy="Sign-Up-Link-Button" data-testid="Sign-Up-Link-Button">
                 <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
                   бүртгүүлэх
                 </Link>

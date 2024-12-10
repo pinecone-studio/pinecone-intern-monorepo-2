@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { z } from 'zod';
-import { formSchema } from '@/utils/validationschema';
 
 const inputs = [
   {
@@ -30,6 +29,27 @@ const inputs = [
 
 const SignUp = () => {
   const { handleSignUp } = useAuth();
+
+  const formSchema = z
+    .object({
+      email: z.string().min(2, {
+        message: 'Email must be at least 2 characters.',
+      }),
+      password: z
+        .string()
+        .min(8, { message: 'Be at least 8 characters long' })
+        .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
+        .regex(/[0-9]/, { message: 'Contain at least one number.' })
+        .regex(/[^a-zA-Z0-9]/, {
+          message: 'Contain at least one special character.',
+        })
+        .trim(),
+      repeatPassword: z.string().min(8, { message: 'Be at least 8 characters long' }),
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+      message: 'Passwords do not match',
+      path: ['repeatPassword'],
+    });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,7 +85,7 @@ const SignUp = () => {
                       {input.label}
                     </FormLabel>
                     <FormControl data-cy={`input-${input.name}`} className="text-white bg-black border border-gray-600 rounded-md">
-                      <Input data-cy={`input-${input.name}`} type={input.type} className="p-2 rounded-sm" placeholder={input.label} {...field} />
+                      <Input data-cy={`input-${input.name}`} data-testid={`input-${input.name}`} type={input.type} className="p-2 rounded-sm" placeholder={input.label} {...field} />
                     </FormControl>
                     <FormMessage data-cy={`form-message-${input.name}`} className="text-xs text-red-500" />
                   </FormItem>
@@ -74,12 +94,12 @@ const SignUp = () => {
             ))}
           </div>
           <div className="flex flex-col gap-6">
-            <Button data-cy="Sign-Up-Submit-Button" className="w-full p-2 text-white rounded-sm bg-sky-500" type="submit">
+            <Button data-cy="Sign-Up-Submit-Button" data-testid="Sign-Up-Submit-Button" className="w-full p-2 text-white rounded-sm bg-sky-500" type="submit">
               Бүртгүүлэх
             </Button>
             <p className="w-full text-xs text-center text-zinc-400">
               Та бүртгэлтэй хаягтай бол
-              <button data-cy="Sign-In-Link-Button">
+              <button data-cy="Sign-In-Link-Button" data-testid="Sign-In-Link-Button">
                 <Link href="/sign-in" className="mx-1 underline underline-offset-2 decoration-white hover:text-gray-600 ">
                   нэвтрэх
                 </Link>
