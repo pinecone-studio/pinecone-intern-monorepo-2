@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 // import '/../global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { UserBar } from '@/components/header/UserBar';
-import { Header } from '@/components/header/header';
+import { Header } from '@/components/header/Header';
 
 export const metadata = {
   title: 'Welcome to example-frontend',

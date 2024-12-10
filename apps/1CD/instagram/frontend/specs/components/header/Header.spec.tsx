@@ -15,7 +15,7 @@
 // });
 
 import { render, screen } from '@testing-library/react';
-import { Header } from '@/components/header/header';
+import { Header } from '@/components/header/Header';
 
 describe('Header Component', () => {
   it('renders header component', () => {
@@ -35,6 +35,7 @@ describe('Header Component', () => {
     render(<Header />);
     const header = screen.getByTestId('header');
     expect(header);
+
     // expect(header).not.toHaveClass('w-20');
   });
 
