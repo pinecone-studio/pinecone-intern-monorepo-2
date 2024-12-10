@@ -1,7 +1,8 @@
 name: CI
 on:
   pull_request:
-    types: [labeled, synchronize, edited]
+    types:
+      - labeled
     branches:
       - main
     paths-ignore:
@@ -19,16 +20,16 @@ concurrency:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 15
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v3
         with:
-          bun-version: 1.0.4
+          node-version: '18.19.1'
       - name: Install dependencies
         run: yarn install
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -42,16 +43,16 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v3
         with:
-          bun-version: 1.0.4
+          node-version: '18.19.1'
       - name: Install dependencies
         run: yarn install
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -65,31 +66,46 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v3
         with:
-          bun-version: 1.0.4
+          node-version: '18.19.1'
       - name: Install dependencies
         run: yarn install
+      - name: Install Vercel CLI
+        run: yarn global add vercel
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
+      - name: Get NX BASE and NX HEAD
+        uses: nrwl/nx-set-shas@v4
+      - name: Export NX BASE AND HEAD
+        run: |
+          export NX_BASE=${{ env.NX_BASE }}
+          export NX_HEAD=${{ env.NX_HEAD }}
+          export VERCEL_TOKEN=${{ env.VERCEL_TOKEN }}
+          export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
+          bash ./tools/scripts/export-action-env.sh
       - name: Run build on affected projects
         run: yarn nx affected -t build --parallel=5 --output-style=stream-without-prefixes
 
   preview-and-E2E:
     runs-on: ubuntu-latest
-    if: "${{ contains(github.event.pull_request.labels.*.name, 'PR status: code ready') }}"
-    timeout-minutes: 20
+    if: "${{ github.event.label.name == 'PR status: code ready' }}"
+    timeout-minutes: 10
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
@@ -105,15 +121,16 @@ jobs:
           node-version: '18.19.1'
       - name: Install dependencies
         run: yarn install
+      - name: Install Vercel CLI
+        run: yarn global add vercel
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
+      - name: Install Cypress
+        run: yarn add cypress install
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
-      - name: Install Cypress
-        run: yarn add cypress install
-      - name: Install Vercel CLI
-        run: yarn global add vercel
-      - uses: nrwl/nx-set-shas@v4
+      - name: Get NX BASE and NX HEAD
+        uses: nrwl/nx-set-shas@v4
       - name: Export NX BASE AND HEAD
         run: |
           export NX_BASE=${{ env.NX_BASE }}

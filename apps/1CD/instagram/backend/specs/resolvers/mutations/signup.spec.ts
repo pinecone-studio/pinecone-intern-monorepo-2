@@ -2,13 +2,12 @@ import { signup } from '../../../src/resolvers/mutations/auth/signup';
 import { userModel } from '../../../src/models/user.model';
 import { AccountVisibility } from '../../../src/generated';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { GraphQLResolveInfo } from 'graphql';
 
-// Mock the dependencies
 jest.mock('../../../src/models/user.model');
 jest.mock('jsonwebtoken');
-jest.mock('crypto');
+jest.mock('bcrypt');
 
 describe('signup mutation', () => {
   const mockInput = {
@@ -18,27 +17,18 @@ describe('signup mutation', () => {
     password: 'testpass123',
     accountVisibility: AccountVisibility.Public,
   };
-
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.JWT_SECRET = 'test-secret';
   });
 
   it('should create a new user successfully with explicit visibility', async () => {
-    // Mock return values
     const mockHashedPassword = 'hashedPassword123';
     const mockUserId = 'user123';
     const mockToken = 'jwt-token-123';
 
-    // Setup mocks
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (crypto.randomBytes as jest.Mock).mockReturnValue({
-      toString: jest.fn().mockReturnValue('mockPassword'),
-    });
-    (crypto.createHash as jest.Mock).mockReturnValue({
-      update: jest.fn().mockReturnThis(),
-      digest: jest.fn().mockReturnValue(mockHashedPassword),
-    });
+    (bcrypt.hash as jest.Mock).mockResolvedValue('mockHashedPassword');
     (userModel.create as jest.Mock).mockResolvedValue({
       _id: mockUserId,
       ...mockInput,
@@ -59,7 +49,6 @@ describe('signup mutation', () => {
   });
 
   it('should create a new user successfully with default visibility', async () => {
-    // Mock return values
     const mockHashedPassword = 'hashedPassword123';
     const mockUserId = 'user123';
     const mockToken = 'jwt-token-123';
@@ -70,15 +59,10 @@ describe('signup mutation', () => {
       password: mockInput.password,
     };
 
-    // Setup mocks
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (crypto.randomBytes as jest.Mock).mockReturnValue({
-      toString: jest.fn().mockReturnValue('mockPassword'),
-    });
-    (crypto.createHash as jest.Mock).mockReturnValue({
-      update: jest.fn().mockReturnThis(),
-      digest: jest.fn().mockReturnValue(mockHashedPassword),
-    });
+
+    (bcrypt.hash as jest.Mock).mockResolvedValue('mockHashedPassword');
+
     (userModel.create as jest.Mock).mockResolvedValue({
       _id: mockUserId,
       ...inputWithoutVisibility,
@@ -108,13 +92,7 @@ describe('signup mutation', () => {
   it('should throw error if JWT_SECRET is not set', async () => {
     delete process.env.JWT_SECRET;
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    (crypto.randomBytes as jest.Mock).mockReturnValue({
-      toString: jest.fn().mockReturnValue('mockPassword'),
-    });
-    (crypto.createHash as jest.Mock).mockReturnValue({
-      update: jest.fn().mockReturnThis(),
-      digest: jest.fn().mockReturnValue('hashedPassword'),
-    });
+    (bcrypt.hash as jest.Mock).mockResolvedValue('mockHashedPassword');
     (userModel.create as jest.Mock).mockResolvedValue({
       _id: 'userId',
       ...mockInput,
