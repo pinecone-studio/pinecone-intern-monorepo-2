@@ -1,4 +1,4 @@
-import { RatingStars, ReviewRating } from '@/components/StarsStaticJson';
+import { Cards, Countries, RatingStars, ReviewRating } from '@/components/StarsStaticJson';
 
 describe('static stars', () => {
   it('Rating stars', () => {
@@ -6,5 +6,11 @@ describe('static stars', () => {
   });
   it('Review rating stars', () => {
     expect(ReviewRating).toHaveLength(10);
+  });
+  it('payment card image', () => {
+    expect(Cards).toHaveLength(4);
+  });
+  it('payment Countries', () => {
+    expect(Countries).toHaveLength(3);
   });
 });

@@ -5,7 +5,7 @@ import { sendOtpMail } from '../../../utils/user/send-otp-email';
 
 export const resendOtp: MutationResolvers['resendOtp'] = async (_, { input }) => {
   const { email } = input;
-  const otp = await generateOTP();
+  const otp = await generateOTP(email);
   await sendOtpMail(email, otp);
   await userModel.findOneAndUpdate({ email }, { otp });
   return { email };

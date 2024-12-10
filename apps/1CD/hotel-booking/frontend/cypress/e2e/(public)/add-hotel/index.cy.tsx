@@ -22,10 +22,9 @@ describe('admin add-hotel page', () => {
     cy.get('[data-cy=PhoneNumber-Input]').type('80808080');
     cy.get('[data-cy=Review-Rating-Stars-Trigger]').click();
     cy.get('[data-cy=Review-Rating-Item1]').click();
-
     cy.get('[data-cy="Review-Rating-Stars"]').should('have.text', '1 ⭐');
     cy.get('[data-cy=Save-Button]').click();
-    cy.get('[data-cy=Hotel-General-Info-Page]').should('not.exist'); // Or check the dialog specifically
+    cy.get('[data-cy=Hotel-General-Info-Page]').should('not.exist');
   });
 
   it('4. when user all input unfill', () => {

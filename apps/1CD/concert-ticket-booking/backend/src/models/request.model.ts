@@ -3,6 +3,7 @@ import { model, models, Schema } from 'mongoose';
 type Request = {
   _id: Schema.Types.ObjectId;
   eventId: Schema.Types.ObjectId;
+  orderId: Schema.Types.ObjectId;
   bankAccount: string;
   bankName: string;
   accountOwner: string;
@@ -17,6 +18,11 @@ const requestSchema = new Schema<Request>(
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Event',
+    },
+    orderId : {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Order',
     },
     bankAccount: {
       type: String,

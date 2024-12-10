@@ -53,9 +53,11 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
+
   input ForgetpasswordInput {
     email: String!
   }
+
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
