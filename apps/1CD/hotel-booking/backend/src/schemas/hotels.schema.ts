@@ -10,6 +10,7 @@ export const typeDefs = gql`
     starRating: Int
     userRating: Int
     phoneNumber: Int
+    images: [String]
   }
   input HotelInput {
     hotelName: String!
@@ -17,6 +18,7 @@ export const typeDefs = gql`
     starRating: Int!
     userRating: Int!
     phoneNumber: Int!
+    images: [String]
   }
   input HotelFilterInput {
     starRating: Int
@@ -27,6 +29,7 @@ export const typeDefs = gql`
   type Mutation {
     addHotelGeneralInfo(input: HotelInput!): Hotel!
     updateHotelLocation(location: String!, _id: String!): Hotel!
+    updateHotelImages(images: [String!]!, _id: String!): Hotel!
   }
   type Query {
     getHotel(_id: ID!): Hotel!

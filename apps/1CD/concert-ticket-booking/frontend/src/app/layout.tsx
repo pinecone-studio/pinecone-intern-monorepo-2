@@ -1,7 +1,5 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper, AuthProvider } from '@/components/providers';
-import { ToastContainer } from 'react-toastify';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -11,16 +9,8 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body>
-        <ApolloWrapper>
-          <AuthProvider>
-            <div>{children}</div>
-            <ToastContainer />
-          </AuthProvider>
-        </ApolloWrapper>
-      </body>
+      <body>{children}</body>
     </html>
   );
 };
-
 export default RootLayout;

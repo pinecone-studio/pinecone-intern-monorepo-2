@@ -16,8 +16,8 @@ const Register = () => {
 
   const [registerEmail, { loading }] = useRegisterEmailMutation({
     onCompleted: (data) => {
-      router.push('/register/otp');
       localStorage.setItem('userEmail', data.registerEmail.email);
+      router.push('/register/otp');
     },
     onError: (error) => {
       toast.error(error.message);

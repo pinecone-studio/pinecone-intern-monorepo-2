@@ -6,7 +6,7 @@ describe('check whether otp is expired or not', () => {
     const currentTime = new Date();
     const user = {
       createdAt: new Date(currentTime.getTime() - 3 * 60 * 1000),
-      email:"example@gmail.com"
+      email:"cypress@gmail.com"
     };
     const res = checkOtpDate(user);
     expect(res).toBe('otp is valid');
@@ -15,7 +15,7 @@ describe('check whether otp is expired or not', () => {
     const currentTime = new Date();
     const user = {
       createdAt: new Date(currentTime.getTime() - 6 * 60 * 1000),
-      email:"example@gmail.com"
+      email:"test@gmail.com"
     };
     expect(() => checkOtpDate(user)).toThrow(GraphQLError);
     expect(() => checkOtpDate(user)).toThrow('otp is invalid');

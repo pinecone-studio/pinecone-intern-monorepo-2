@@ -20,8 +20,8 @@ jest.mock('../../../../src/utils/user/send-otp-email', () => ({
 }));
 
 describe('check-Emailmutation', () => {
-  const mockEmail = 'example@gmail.com';
-  const mockOtp = 1234;
+  const mockEmail = 'cypress@gmail.com';
+  const mockOtp = '0000';
   const mockInfo = {} as GraphQLResolveInfo;
 
   it('should throw an error if email is not found', async () => {

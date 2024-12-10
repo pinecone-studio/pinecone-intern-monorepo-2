@@ -3,6 +3,7 @@ import { MutationResolvers } from '../../../generated';
 import { OTPModel } from '../../../models/otp';
 import { findUserByEmail } from '../../queries';
 import nodemailer from 'nodemailer';
+import { generateHtmlTemplate } from 'src/utils/generate-html-template';
 
 export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) => {
 
@@ -53,9 +54,10 @@ const mailOptions = {
   from: 'zolookorzoloo@gmail.com',   // This should be your verified sender email (can be any email)
   to: 'zolookorzoloo@gmail.com',     // The recipient's email
   subject: 'Test Email',
-  text: 'This is a test email sent using Nodemailer and SendGrid.',
+  html: 'This is a test email sent using Nodemailer and SendGrid.',
+  // html: generateHtmlTemplate({otp}),
 };
 
 const sendEmail = (otp: string, email: string) => {
-  transporter.sendMail({...mailOptions, text: otp, to: email});
+  transporter.sendMail({...mailOptions, html: generateHtmlTemplate(otp), to: email});
 };
