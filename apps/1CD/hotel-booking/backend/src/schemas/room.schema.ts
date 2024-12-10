@@ -66,4 +66,8 @@ export const typeDefs = gql`
     addRoom(input: RoomTypeInput!): RoomType!
     addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
   }
+  type Query {
+    hotelDetail(hotelId:ID!):[RoomType!]!
+    hotelService(roomId:ID!): [RoomServiceType!]!
+  }
 `;
