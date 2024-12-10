@@ -1,26 +1,39 @@
 'use client';
 import { Button } from '@/components/ui/button';
-
 import { Input } from '@/components/ui/input';
 import { ComboboxDemo } from '../../app/TravelerSelection';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
-import { useGetHotelsQuery } from '@/generated';
+import { useGetRoomsQuery } from '@/generated';
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
 import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
+import { Loader2 } from 'lucide-react';
+import React from 'react';
+import { DateRange } from 'react-day-picker';
 
 const Page = () => {
-  const { data } = useGetHotelsQuery();
+  const [date, setDate] = React.useState<DateRange | undefined>();
+  const { data, loading } = useGetRoomsQuery();
+
+  if (loading)
+    return (
+      <div className="min-h-screen">
+        <div className="flex absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] items-center gap-2 text-3xl font-bold">
+          <Loader2 className="animate-spin" />
+          <div>Loading...</div>
+        </div>
+      </div>
+    );
   return (
     <>
       <main data-cy="Get-Rooms-Page" className="h-full">
         <section data-testid="search-result-section" className="flex mx-auto items-center pl-5 gap-4 mt-20 max-w-[1200px] max-h-28 border-[3px] border-orange-200 rounded-xl">
           <div className="flex flex-col gap-2 my-4">
             <p>Dates</p>
-            <DatePickerWithRange />
+            <DatePickerWithRange date={date} setDate={setDate} />
           </div>
           <div className="flex flex-col gap-2 my-4">
             <p>Travels</p>
@@ -70,8 +83,8 @@ const Page = () => {
                 </SelectContent>
               </Select>
             </div>
-            {data?.getHotels.slice(0, 5).map((hotelData) => (
-              <SearchedHotelCards key={hotelData._id} hotelData={hotelData} />
+            {data?.getRooms.slice(0, 5).map((roomData) => (
+              <SearchedHotelCards key={roomData.id} roomData={roomData} />
             ))}
           </section>
         </section>

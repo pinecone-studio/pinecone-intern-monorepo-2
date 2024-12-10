@@ -47,3 +47,32 @@ mutation addPayment($input: PaymentInput!) {
     status
   }
 }
+
+query GetRooms {
+  getRooms {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    hotelId {
+      createdAt
+      _id
+      hotelName
+      description
+      starRating
+      userRating
+      phoneNumber
+      images
+    }
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+  }
+}
