@@ -23,7 +23,7 @@ describe('forgetpassword with email page', () => {
 
   it('4. should show a toast notification when no email is provided', () => {
     cy.get('[data-cy="forgetpassword-continue-button"]').click();
-    cy.contains('email is required').should('be.visible');
+    cy.contains('Email not found').should('be.visible');
   });
 
   it('5. should redirect to otp page', () => {
@@ -36,6 +36,6 @@ describe('forgetpassword with email page', () => {
       expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
     });
 
-    cy.url().should('include', '/fotgetpassword/otp');
+    cy.url().should('include', '/forgetpassword/otp');
   });
 });
