@@ -67,7 +67,7 @@ export const PostCard = () => {
               </DropdownMenu>
             </div>
             <div className="relative flex w-full h-[585px]  ">
-              <Image fill={true} src="/images/img1.avif" alt="Photo1" className="object-cover w-auto h-auto " />
+              <Image fill={true} src={post.images[0]} alt="Photo1" className="object-cover w-auto h-auto " />
               <div className="relative flex items-center justify-between w-full px-1 ">
                 <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600">
                   <BiSolidChevronLeft />
