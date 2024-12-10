@@ -8,7 +8,6 @@ import { z } from 'zod';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
@@ -21,7 +20,7 @@ const formSchema = z.object({
 const LogInPage = () => {
   const { login } = useAuth();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,7 +30,6 @@ const LogInPage = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
     try {
       await login({
         email: values.email,
@@ -43,8 +41,6 @@ const LogInPage = () => {
         title: 'Error',
         description: 'User not found',
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -54,7 +50,7 @@ const LogInPage = () => {
         <div className="bg-white rounded-xl p-6 py-10">
           <Form {...form}>
             <div className="w-full flex justify-center p-5">
-              <Image alt="Instagram Logo" width={175} height={51} src="/images/Vector.png" data-cy="login-logo" />
+              <Image alt="Instagram Logo" width={175} height={51} src="/images/Logo.png" data-cy="login-logo" />
             </div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-[300px] m-auto flex flex-col gap-10">
               <div className="flex flex-col gap-4">
@@ -88,8 +84,7 @@ const LogInPage = () => {
                     Forgot password?
                   </Button>
                 </Link>
-                <Button disabled={isLoading} className="p-2 text-white bg-[#2563EB80] hover:bg-[#2563EB] rounded-lg" type="submit" data-cy="login-submit">
-                  {isLoading && <span className="loader absolute left-0"></span>}
+                <Button className="p-2 text-white bg-[#2563EB80] hover:bg-[#2563EB] rounded-lg" type="submit" data-cy="login-submit">
                   Log in
                 </Button>
               </div>
