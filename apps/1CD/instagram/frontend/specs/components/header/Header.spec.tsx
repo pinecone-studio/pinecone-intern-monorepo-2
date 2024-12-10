@@ -9,11 +9,9 @@ describe('Header', () => {
         <Header />
       </MockedProvider>
     );
-    const header = getByTestId('header');
 
-    await waitFor(() => expect(header));
+    await waitFor(() => expect(getByTestId('header')));
   });
-
   it('should render', async () => {
     const { getByTestId, getAllByTestId } = render(
       <MockedProvider>
@@ -21,11 +19,8 @@ describe('Header', () => {
       </MockedProvider>
     );
 
+    await waitFor(() => expect(getByTestId('header')));
     const btn = getAllByTestId('hideIconBtn')[0];
     fireEvent.click(btn);
-
-    const header = getByTestId('header');
-
-    await waitFor(() => expect(header));
   });
 });

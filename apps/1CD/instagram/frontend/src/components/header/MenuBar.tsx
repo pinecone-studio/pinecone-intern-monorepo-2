@@ -30,9 +30,9 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href="/" className={'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground'}>
-              <h1>
+              <p>
                 <FiHome />
-              </h1>
+              </p>
 
               <p className={`${hide ? 'hidden' : ''}`}>Home</p>
             </Link>
@@ -54,7 +54,7 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
                     }
                   }}
                 >
-                  <h1>{item.icon}</h1>
+                  <p>{item.icon}</p>
 
                   <p className={`${hide ? 'hidden' : ''}`}>{item.name}</p>
                 </Link>
@@ -65,9 +65,9 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className={'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground cursor-pointer'}>
-                <h1>
+                <p>
                   <MdOutlineAddBox />
-                </h1>
+                </p>
 
                 <p className={`${hide ? 'hidden' : ''}`}>Create</p>
               </div>
@@ -75,13 +75,13 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
 
             <DropdownMenuContent>
               <DropdownMenuItem className="flex items-center justify-between">
-                <h1>Post</h1>
+                <p>Post</p>
                 <p>
                   <CiImageOn />
                 </p>
               </DropdownMenuItem>
               <DropdownMenuItem className="flex items-center justify-between">
-                <h1>Story</h1>
+                <p>Story</p>
                 <p>
                   <LuBookOpenCheck />
                 </p>
