@@ -11,7 +11,7 @@ jest.mock('../../../../src/models/user', () => ({
 
 jest.mock('../../../../src/models/request', () => ({
   RequestModel: {
-    find: jest.fn().mockResolvedValueOnce([]),
+    find: jest.fn().mockResolvedValue([]),
   },
 }));
 

@@ -12,8 +12,6 @@ export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailableP
 
   const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [thisYearDate, lastYearDate] } });
 
-  console.log("thisYearAcceptedRequests       ", thisYearAcceptedRequests)
-
   const totalLastYear = totalHours(thisYearAcceptedRequests);
 
   const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [nextYearDate, thisYearDate] } });
