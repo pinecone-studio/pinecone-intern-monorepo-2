@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Header } from '../../src/components/Header';
+import { Header } from '../../../src/components/Header';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { jest } from '@jest/globals';
 
