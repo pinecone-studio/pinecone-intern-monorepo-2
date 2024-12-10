@@ -87,14 +87,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 1.1.10
-      - run: bun install -y
+      - name: Install dependencies
+        run: yarn install
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Install Vercel CLI
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
-        run: bun add --global vercel@latest
+        run: yarn global add vercel
       - name: setup canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
@@ -108,7 +106,7 @@ jobs:
           export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
           bash ./tools/scripts/export-action-env.sh
       - name: Deploy Affected Apps to Development
-        run: bunx nx deploy-testing-action scripts
+        run: yarn nx deploy-testing-action scripts
 
   deploy-prod:
     if: github.event.pull_request.merged == true
@@ -136,14 +134,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 1.1.10
-      - run: bun install -y
+      - name: Install dependencies
+        run: yarn install
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Install Vercel CLI
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
-        run: bun add --global vercel@latest
+        run: yarn global add vercel
       - name: setup canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
@@ -157,4 +153,4 @@ jobs:
           export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
           bash ./tools/scripts/export-action-env.sh
       - name: Deploy Affected Apps to Development
-        run: bunx nx deploy-prod-action scripts
+        run: yarn nx deploy-prod-action scripts
