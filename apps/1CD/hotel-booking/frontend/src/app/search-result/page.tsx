@@ -5,28 +5,31 @@ import { ComboboxDemo } from '../../app/TravelerSelection';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
-import { useGetRoomsQuery } from '@/generated';
+import { useGetRoomsLazyQuery } from '@/generated';
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
 import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 
 const Page = () => {
   const [date, setDate] = React.useState<DateRange | undefined>();
-  const { data, loading } = useGetRoomsQuery();
+  const [userReviewRating, setUserReviewRating] = useState<number>(0);
+  const [starRating, setStarRating] = useState<number>(0);
+  const [getRooms, { loading, data }] = useGetRoomsLazyQuery({
+    variables: {
+      input: {
+        checkInDate: date?.from,
+        checkOutDate: date?.to,
+      },
+    },
+  });
+  useEffect(() => {
+    getRooms();
+  }, [date, getRooms]);
 
-  if (loading)
-    return (
-      <div className="min-h-screen">
-        <div className="flex absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] items-center gap-2 text-3xl font-bold">
-          <Loader2 className="animate-spin" />
-          <div>Loading...</div>
-        </div>
-      </div>
-    );
   return (
     <>
       <main data-cy="Get-Rooms-Page" className="h-full">
@@ -43,7 +46,7 @@ const Page = () => {
             Search
           </Button>
         </section>
-        <section className="flex justify-center w-full gap-16">
+        <section className="flex justify-center w-full gap-16 pb-20">
           <main className="flex flex-col gap-4 w-60">
             <div className="flex flex-col gap-2 mt-12">
               <p>Search by property name</p>
@@ -52,13 +55,13 @@ const Page = () => {
             <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
               <h2>Rating</h2>
               {UserRatingMock.map((rating, index) => (
-                <RatingCheckbox key={index} rating={rating} />
+                <RatingCheckbox userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
               ))}
             </div>
             <div className="flex flex-col gap-3 pt-3 pl-3">
               <h2>Stars</h2>
               {StarRatingMock.map((stars, index) => (
-                <StarRatingCheckbox key={index} stars={stars} />
+                <StarRatingCheckbox starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
               ))}
             </div>
             <div className="flex flex-col gap-3 pt-3 pl-3">
@@ -68,7 +71,7 @@ const Page = () => {
               ))}
             </div>
           </main>
-          <section className="h-full pb-20 mt-10">
+          <section className="max-w-[872px] w-full h-full  mt-10">
             <div className="flex items-center justify-between">
               <p>51 properties</p>
               <Select>
@@ -83,9 +86,16 @@ const Page = () => {
                 </SelectContent>
               </Select>
             </div>
-            {data?.getRooms.slice(0, 5).map((roomData) => (
-              <SearchedHotelCards key={roomData.id} roomData={roomData} />
-            ))}
+            {loading ? (
+              <div className="min-h-screen">
+                <div className="flex absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] items-center gap-2 text-3xl font-bold">
+                  <Loader2 className="animate-spin" />
+                  <div>Loading...</div>
+                </div>
+              </div>
+            ) : (
+              data?.getRooms.slice(0, 5).map((roomData) => <SearchedHotelCards key={roomData.id} roomData={roomData} />)
+            )}
           </section>
         </section>
       </main>

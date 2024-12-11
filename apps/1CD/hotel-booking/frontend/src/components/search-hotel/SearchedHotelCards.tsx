@@ -10,7 +10,7 @@ export const SearchedHotelCards = ({ roomData }: { roomData: Room }) => {
   return (
     <Card data-cy="room-card" className="min-w-[872px] max-h-[250px] mt-5">
       <CardContent className="flex gap-8">
-        <Image src="https://via.placeholder.com/150" alt="hotel image" className="flex-1 border border-black h-[222px]" height={60} width={80}></Image>
+        <Image src="https://via.placeholder.com/150" alt="hotel image" className="flex-1 border border-black h-[222px]" height={60} width={80} />
         <section className="flex-col flex-1 pt-5">
           <div className="text-center md:text-left">
             <header className="text-lg font-semibold">{roomData.hotelId?.hotelName}</header>

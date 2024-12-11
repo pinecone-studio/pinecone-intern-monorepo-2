@@ -48,8 +48,8 @@ mutation addPayment($input: PaymentInput!) {
   }
 }
 
-query GetRooms {
-  getRooms {
+query GetRooms($input: RoomFilterType!) {
+  getRooms(input: $input) {
     id
     roomService {
       bathroom

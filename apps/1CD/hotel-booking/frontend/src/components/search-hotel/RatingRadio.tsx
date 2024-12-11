@@ -1,12 +1,21 @@
 import { Checkbox } from '@/components/ui/checkbox';
 interface RatingCheckboxProps {
   rating: number;
+  userReviewRating: number;
+  setUserReviewRating: (_value: number) => void;
 }
 
-const RatingCheckbox: React.FC<RatingCheckboxProps> = ({ rating }) => {
+const RatingCheckbox: React.FC<RatingCheckboxProps> = ({ rating, userReviewRating, setUserReviewRating }) => {
+  const userReviewRatingNumber = (rating: number) => {
+    if (rating == userReviewRating) {
+      setUserReviewRating(0);
+    } else {
+      setUserReviewRating(rating);
+    }
+  };
   return (
     <div className="flex items-center space-x-2">
-      <Checkbox id="terms2" className="rounded-xl" />
+      <Checkbox checked={userReviewRating == rating} onClick={() => userReviewRatingNumber(rating)} id="terms2" className="rounded-xl" />
       <label htmlFor="terms2" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         +{rating}
       </label>
