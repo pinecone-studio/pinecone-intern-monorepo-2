@@ -54,11 +54,7 @@ const VerifyOtp = () => {
       },
     },
     onCompleted: () => {
-      {
-        console.log('-------------------------------------------------')
         toast.success('New OTP sent to your email. Please check your email!');
-      }
-      
     },
   });
 
@@ -110,7 +106,6 @@ const VerifyOtp = () => {
       >
         {canResend ? 'Send again' : `Send again (${countdown})`}
       </div>
-      <Toaster />
     </div>
   );
 };
