@@ -13,6 +13,7 @@ const nextConfig = {
   env: {
     BACKEND_URI: process.env.BACKEND_URI,
     VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI,
   },
   images: {
     remotePatterns: [
