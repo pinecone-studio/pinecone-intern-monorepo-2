@@ -10,6 +10,12 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
+  env: {
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    BACKEND_URI: process.env.BACKEND_URI,
+    LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI,
+  },
+
   images: {
     remotePatterns: [
       {
