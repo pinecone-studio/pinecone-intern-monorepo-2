@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { UserType } from './user.model';
 
 export type FollowType = {
   _id: string;
@@ -33,5 +34,7 @@ const followSchema = new Schema<FollowType>({
     enum: ['APPROVED', 'PENDING'],
   },
 });
-
+export type FollowPopulatedType = Omit<FollowType, 'followingId'> & {
+  followingId: UserType;
+};
 export const followModel = models['followModel'] || model('followModel', followSchema);
