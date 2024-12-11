@@ -21,8 +21,8 @@ const Header = () => {
           <button className="w-8 h-8 overflow-hidden bg-gray-300 rounded-full"></button>
         </div>
       </div>
-      <nav className="hidden md:flex gap-6 text-sm font-medium text-[#09090B]">
-        {['Pending Requests', 'Leave Calendar', 'My Requests', 'Request Form'].map((item, index) => (
+      <nav className="hidden md:flex gap-6 text-sm font-medium text-[#09090B] ">
+        {['Pending Requests', 'Leave Calendar', 'My Requests', 'Request Forms'].map((item, index) => (
           <a key={index} href={item.replace(' ', '')} className="px-3 py-2 border-b-gray-500 hover:border-b-black hover:text-blue-600">
             {item}
           </a>
