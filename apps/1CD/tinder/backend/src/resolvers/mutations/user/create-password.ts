@@ -2,9 +2,13 @@ import bcrypt from "bcryptjs";
 import { GraphQLError } from "graphql";
 import { MutationResolvers } from "../../../generated";
 import { userModel } from "../../../models";
+import { cookies } from "next/headers";
 
 export const createPassword:MutationResolvers['createPassword']=async(_,{input})=>{
     const {email,password}=input;
+    const token=cookies().get('token')?.value;
+    console.log(token);
+
     const PASS_SALT=process.env.PASS_SALT;
     if(!email||!password){
         throw new GraphQLError('email and pass are required')

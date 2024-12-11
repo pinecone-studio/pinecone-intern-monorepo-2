@@ -64,11 +64,15 @@ export const typeDefs = gql`
     email: String!
     age: Int!
   }
+  
+  type ResponseWithtoken{
+    token:String!
+  }
 
 
   type Mutation {
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
-    verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
+    verifyOtp(input: VerifyOtpInput!):  ResponseWithtoken!
 
     createPassword(input: CreatePassInput!): RegisterEmailResponse!
 
