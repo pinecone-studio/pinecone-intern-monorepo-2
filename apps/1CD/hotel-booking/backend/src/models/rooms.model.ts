@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { hotelsModel } from './hotels.model';
 
 export type RoomsType = {
   _id: string;
@@ -17,7 +18,7 @@ export type RoomsType = {
     entertaiment: [];
     foodDrink: [];
     other: [];
-    bedroom:[]
+    bedroom: [];
   };
 
   rating: number;
@@ -29,7 +30,10 @@ const roomsSchema = new Schema<RoomsType>({
   roomType: {
     type: String,
   },
-  hotelId: String,
+  hotelId: {
+    type: String,
+    ref: hotelsModel,
+  },
   roomInformation: String,
   roomName: String,
 
@@ -53,7 +57,7 @@ const roomsSchema = new Schema<RoomsType>({
     entertaiment: [String],
     foodDrink: [String],
     other: [String],
-    bedroom:[String]
+    bedroom: [String],
   },
 
   rating: {

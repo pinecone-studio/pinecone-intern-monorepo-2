@@ -6,8 +6,8 @@ mutation DeletePost($_id: String!) {
   }
 }
 
-query GetMyPosts($userID: String!) {
-  getMyPosts(userID: $userID) {
+query GetMyPosts($userId: String!) {
+  getMyPosts(userID: $userId) {
     _id
     user
     description
