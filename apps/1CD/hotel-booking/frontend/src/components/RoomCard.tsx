@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { RoomType } from "@/generated";
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from "lucide-react"
 
 const RoomCard = () => {
