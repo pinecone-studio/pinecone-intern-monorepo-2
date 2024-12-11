@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { RoomType } from "@/generated";
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from "lucide-react"
 
 const RoomCard = () => {
-
     return (
             <div className="border border-solid 1px rounded-md w-[349px]">
-                <div className="bg-[#EBEBEB] w-[349px] h-[216px]"></div>
+                <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
+                </div>
                 <div className="p-4">
                     <div className="flex flex-col gap-4">
                         <div className="text-base font-bold">Economy Double Room, City View</div>

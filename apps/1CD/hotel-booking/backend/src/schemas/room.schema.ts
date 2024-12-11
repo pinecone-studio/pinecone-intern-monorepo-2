@@ -48,6 +48,7 @@ export const typeDefs = gql`
     price: Int
     roomInformation: String
     createdAt: Date
+    images:[String]
   }
 
   input RoomTypeInput {
