@@ -1,11 +1,12 @@
 import { Schema, model, models } from 'mongoose';
+import { UserType } from './user.model';
 
 export type Post = {
   _id: string;
-  user: string;
+  user: Schema.Types.ObjectId;
   description: string;
   images: string[];
-  lastComments: string;
+  lastComments: string[];
   commentCount: number;
   likeCount: number;
   updatedAt: Date;
@@ -14,8 +15,8 @@ export type Post = {
 
 const PostSchema = new Schema<Post>({
   user: {
-    type: String,
-
+    type: Schema.Types.ObjectId,
+    ref: 'userModel',
     required: true,
   },
 
@@ -25,7 +26,7 @@ const PostSchema = new Schema<Post>({
 
   images: [{ type: String, required: true }],
 
-  lastComments: { type: String },
+  lastComments: [{ type: String }],
 
   commentCount: {
     type: Number,
@@ -45,5 +46,9 @@ const PostSchema = new Schema<Post>({
     default: new Date(),
   },
 });
+
+export type PostPopulatedType = Omit<Post, 'user'> & {
+  user: UserType;
+};
 
 export const PostModel = models.Post || model<Post>('Post', PostSchema);
