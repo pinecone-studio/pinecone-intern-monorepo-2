@@ -1,5 +1,6 @@
 import { QueryResolvers } from '../../../generated';
 import Event from '../../../models/event.model';
+import { Event as EventType } from '../../../generated';
 
 export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} }) => {
   const today = new Date().toISOString();
@@ -30,7 +31,7 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
     findFilter.$and.push({ $or: [{ mainArtists: { $elemMatch: { $regex: new RegExp(artist, 'i') } } }, { guestArtists: { $elemMatch: { $regex: new RegExp(artist, 'i') } } }] });
   }
 
-  const events = await Event.find(findFilter);
+  const events: EventType[] = await Event.find(findFilter).populate(['dayTickets', 'venue']);
 
   return events;
 };
