@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useRegisterEmailMutation } from '@/generated';
-import { Toaster } from '@/components/ui/sonner';
+
 import { toast } from 'sonner';
 
 import { useRouter } from 'next/navigation';
@@ -30,8 +30,6 @@ const Register = () => {
   });
   const router = useRouter();
 
-
-
   return (
     <div data-cy="register-page-container" className="pt-[200px] justify-items-center">
       <div data-cy="register-email-header" className="flex items-center gap-1">
@@ -51,7 +49,6 @@ const Register = () => {
           <div className="my-6 text-[#71717A] font-normal text-xs mx-5">OR</div>
           <Separator className="my-8 w-[145px]" color="#E4E4E7" />
         </div>
-        <Toaster />
 
         <Button className="w-[350px] h-9 bg-white border-[#E4E4E7] rounded-full text-[#18181B] hover:bg-white border-2 text-sm font-medium mt-4">Log in</Button>
         <div className="text-[#71717A] font-normal text-sm pt-6 text-center">By clicking continue, you agree to our</div>
