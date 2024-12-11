@@ -5,6 +5,26 @@ query Query {
 mutation Mutation {
   sampleMutation
 }
+query GetUser {
+  getUser{
+ _id
+    userName
+    fullName
+    email
+    phone
+    bio
+    gender
+    profileImg
+    accountVisibility
+    followerCount
+    followingCount
+    createdAt
+    updatedAt
+    otp
+    resetPasswordToken
+    resetPasswordTokenExpire
+  }
+}
 
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
