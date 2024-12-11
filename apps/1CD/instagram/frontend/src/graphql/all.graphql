@@ -17,3 +17,11 @@ mutation Signup($input: SignupInput!) {
     token
   }
 }
+
+mutation ForgetPassword($input: ForgetpasswordInput!) {
+  forgetPassword(input: $input)
+}
+
+mutation ResetPassword($input: VerifyNewPassInput!) {
+  verifyNewPass(input: $input)
+}
