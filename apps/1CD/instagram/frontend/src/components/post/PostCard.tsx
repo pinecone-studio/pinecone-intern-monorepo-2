@@ -10,13 +10,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
-import { useGetMyPostsQuery } from '@/generated';
+import { useGetMyPostsQuery, useGetUserQuery } from '@/generated';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const { data: user } = useGetUserQuery();
   const { data, loading } = useGetMyPostsQuery({
     variables: {
-      userID: '673f6ec003387ea426252c1a',
+      userId: user?.getUser._id || '',
     },
   });
 
@@ -32,11 +33,11 @@ export const PostCard = () => {
             <div className="flex items-center justify-between py-[12px]">
               <div className="flex items-center gap-2">
                 <div className="relative flex rounded-full w-9 h-9">
-                  <Image fill={true} src={post.images[0]} alt="Photo1" className="w-auto h-auto rounded-full" />
+                  <Image fill={true} src={user?.getUser.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                 </div>
 
                 <h1 className="flex items-center font-bold ">
-                  defavours
+                  {user?.getUser.userName}
                   <span className="flex items-center font-normal text-gray-600">
                     {' '}
                     <LuDot className="text-2xl" />
@@ -67,7 +68,7 @@ export const PostCard = () => {
               </DropdownMenu>
             </div>
             <div className="relative flex w-full h-[585px]  ">
-              <Image fill={true} src="/images/img1.avif" alt="Photo1" className="object-cover w-auto h-auto " />
+              <Image fill={true} src={post.images[0]} alt="Photo1" className="object-cover w-auto h-auto " />
               <div className="relative flex items-center justify-between w-full px-1 ">
                 <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600">
                   <BiSolidChevronLeft />

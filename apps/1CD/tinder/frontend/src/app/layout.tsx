@@ -14,8 +14,9 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       <body className="">
         <ApolloWrapper>
           <div className="max-w-[1280px] mx-auto">
-            {children} <Toaster />
-          </div>
+            {children}
+            <Toaster />
+            </div>
         </ApolloWrapper>
       </body>
     </html>

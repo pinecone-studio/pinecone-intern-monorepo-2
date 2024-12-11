@@ -20,6 +20,12 @@ export const typeDefs = gql`
     phoneNumber: Int!
     images: [String]
   }
+  input HotelFilterInput {
+    starRating: Int
+    userRating: Int
+    checkInDate: Date
+    checkOutDate: Date
+  }
   type Mutation {
     addHotelGeneralInfo(input: HotelInput!): Hotel!
     updateHotelLocation(location: String!, _id: String!): Hotel!
