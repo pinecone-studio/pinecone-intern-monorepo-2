@@ -2,16 +2,18 @@ import { getEvents } from '../../../../src/resolvers/queries/event/get-events';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/event.model', () => ({
-  find: jest.fn().mockReturnValue([
-    {
-      _id: '1',
-      name: 'test-name',
-    },
-    {
-      _id: '2',
-      name: '2',
-    },
-  ]),
+  find: jest.fn().mockReturnValue({
+    populate: jest.fn().mockReturnValue([
+      {
+        _id: '1',
+        name: 'test-name',
+      },
+      {
+        _id: '2',
+        name: '2',
+      },
+    ]),
+  }),
 }));
 
 describe('Get Events', () => {
