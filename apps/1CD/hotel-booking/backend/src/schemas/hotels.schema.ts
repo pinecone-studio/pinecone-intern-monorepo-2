@@ -33,6 +33,6 @@ export const typeDefs = gql`
   }
   type Query {
     getHotel(_id: ID!): Hotel!
-    getHotels(input: HotelFilterInput!): [Hotel!]!
+    getHotels: [Hotel!]!
   }
 `;
