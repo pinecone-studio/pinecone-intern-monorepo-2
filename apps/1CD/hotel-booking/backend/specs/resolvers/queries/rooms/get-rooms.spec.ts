@@ -45,6 +45,7 @@ describe('get rooms', () => {
     checkInDate: '2024-12-08',
     checkOutDate: '2024-12-12',
     starRating: 5,
+    userRating: 4,
   };
   it('if succussfylly worked', async () => {
     const result = await getRooms({}, { input });

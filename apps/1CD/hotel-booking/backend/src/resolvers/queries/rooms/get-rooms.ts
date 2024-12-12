@@ -11,8 +11,10 @@ type FilterType = {
 export const getRooms = async (_: unknown, { input }: { input: RoomFilterType }) => {
   try {
     const filter = {};
-    await filterStar({ input, filter });
-    await filterDate({ filter, input });
+    if (input) {
+      await filterHotelInfo({ filter, input });
+      await filterDate({ filter, input });
+    }
     const rooms = await roomsModel.find(filter).populate('hotelId');
     return rooms;
   } catch (err) {
@@ -39,13 +41,22 @@ const filterDate = async ({ filter, input }: { filter: FilterType; input: RoomFi
   };
 };
 
-const filterStar = async ({ filter, input }: { filter: FilterType; input: RoomFilterType }) => {
-  const { starRating } = input;
+const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: RoomFilterType }) => {
+  const hotelFilter: {
+    userRating?: number;
+    starRating?: number;
+  } = {};
+  const { starRating, userRating } = input;
+  if (userRating) {
+    hotelFilter.userRating = userRating;
+  }
+  if (starRating) {
+    hotelFilter.starRating = starRating;
+  }
+
   let matchHotels = [];
 
-  if (starRating) {
-    matchHotels = await hotelsModel.find({ starRating });
-  }
+  matchHotels = await hotelsModel.find(hotelFilter);
 
   if (!matchHotels.length) return;
 
