@@ -14,7 +14,7 @@ export interface RequestFormValues {
   endTime: string;
   supervisorEmail: string;
   message: string;
-  files: File[]
+  optionalFile: File | null
 }
 
 export const CreateNewRequest = ({ email }: { email: string }) => {
@@ -27,7 +27,7 @@ export const CreateNewRequest = ({ email }: { email: string }) => {
       endTime: '',
       supervisorEmail: '',
       message: '',
-      files: []
+      optionalFile: null
     },
     onSubmit: () => {
       console.log(formik.values);

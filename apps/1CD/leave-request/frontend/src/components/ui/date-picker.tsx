@@ -4,7 +4,7 @@ import * as React from "react"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 
-import { cn } from "../../../../../../../libs/shadcn/src/lib/utils"
+import { cn } from "./ComboBox"
 import { Button } from "../../../../../../../libs/shadcn/src/lib/ui/button"
 import { Calendar } from "../../../../../../../libs/shadcn/src/lib/ui/calendar"
 import {
@@ -14,6 +14,8 @@ import {
 } from "../../../../../../../libs/shadcn/src/lib/ui/popover"
 import { FormikProps } from "formik"
 import { RequestFormValues } from "@/app/(main)/createNewRequest/CreateNewRequest"
+
+
 
 export const DatePickerDemo = ({formik} : {formik: FormikProps<RequestFormValues>}) => {
   const {requestDate} = formik.values
@@ -30,7 +32,7 @@ export const DatePickerDemo = ({formik} : {formik: FormikProps<RequestFormValues
           )}
         >
          
-          {requestDate ? format(requestDate, "P") : format(today, 'P')}
+          {requestDate ? format(requestDate, "P") : "Та өдрөө"}
           <CalendarIcon size={16}/>
         </Button>
       </PopoverTrigger>
