@@ -22,7 +22,7 @@ describe('submit birthday of user', () => {
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(mockUser);
 
     const result = await birthdaySubmit!({}, { input: { email: mockEmail, age: mockAge } }, {}, info);
-    expect(result).toEqual(mockUser.email);
+    expect(result).toEqual({ email: mockUser.email });
   });
 
   it('should throw an error when user is not found', async () => {
