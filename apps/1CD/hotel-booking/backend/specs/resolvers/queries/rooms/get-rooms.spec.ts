@@ -46,6 +46,7 @@ describe('get rooms', () => {
     checkOutDate: '2024-12-12',
     starRating: 5,
     userRating: 4,
+    hotelAmenities: [''],
   };
   it('if succussfylly worked', async () => {
     const result = await getRooms({}, { input });

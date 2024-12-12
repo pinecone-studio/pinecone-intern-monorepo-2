@@ -11,6 +11,7 @@ export const typeDefs = gql`
     userRating: Int
     phoneNumber: Int
     images: [String]
+    hotelAmenities: [String]
   }
   input HotelInput {
     hotelName: String!
