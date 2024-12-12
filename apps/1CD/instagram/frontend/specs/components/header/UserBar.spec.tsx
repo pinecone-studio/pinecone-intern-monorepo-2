@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 
 import { UserBar } from '@/components/header/UserBar';
@@ -12,5 +12,7 @@ describe('Userbar', () => {
     );
 
     await waitFor(() => expect(getByTestId('user-bar')));
+    const btn = getByTestId('logoutBtn');
+    fireEvent.click(btn);
   });
 });

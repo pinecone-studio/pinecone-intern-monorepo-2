@@ -83,6 +83,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    router.push('/login');
   };
 
   useEffect(() => {
