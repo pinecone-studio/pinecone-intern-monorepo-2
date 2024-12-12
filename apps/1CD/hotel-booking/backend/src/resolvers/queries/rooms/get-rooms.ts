@@ -8,6 +8,13 @@ type FilterType = {
     $in: string[];
   };
 };
+type HotelFilterType = {
+  userRating?: number;
+  starRating?: number;
+  hotelAmenities?: {
+    $in: string[];
+  };
+};
 export const getRooms = async (_: unknown, { input }: { input: RoomFilterType }) => {
   try {
     const filter = {};
@@ -42,18 +49,15 @@ const filterDate = async ({ filter, input }: { filter: FilterType; input: RoomFi
 };
 
 const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: RoomFilterType }) => {
-  const hotelFilter: {
-    userRating?: number;
-    starRating?: number;
-  } = {};
-  const { starRating, userRating } = input;
+  const hotelFilter: HotelFilterType = {};
+  const { starRating, userRating, hotelAmenities } = input;
+  filterByAmenities({ hotelFilter, hotelAmenities });
   if (userRating) {
     hotelFilter.userRating = userRating;
   }
   if (starRating) {
     hotelFilter.starRating = starRating;
   }
-
   let matchHotels = [];
 
   matchHotels = await hotelsModel.find(hotelFilter);
@@ -65,4 +69,11 @@ const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: R
   filter.hotelId = {
     $in: matchHotels,
   };
+};
+const filterByAmenities = ({ hotelFilter, hotelAmenities }: { hotelFilter: HotelFilterType; hotelAmenities: string[] | undefined }) => {
+  if (hotelAmenities) {
+    hotelFilter.hotelAmenities = {
+      $in: hotelAmenities,
+    };
+  }
 };
