@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [signupMutation] = useSignupMutation({
     onCompleted: (data) => {
       localStorage.setItem('token', data.signup.token);
-      // setUser(data.signup.user as User);
+      setUser(data.signup.user as User);
       router.push('/login');
     },
   });
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [signinMutation] = useLoginMutation({
     onCompleted: (data) => {
       localStorage.setItem('token', data.login.token);
-      // setUser(data.login.user as User);
+      setUser(data.login.user as User);
       router.push('/');
     },
   });
