@@ -1,7 +1,4 @@
 'use client';
-
-import { Calendar } from '@/components/ui/calendar';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar1, Tag } from 'lucide-react';
 import { ClientDatePicker } from './DatePicker';
@@ -53,7 +50,7 @@ const SentRequest = () => {
           <RequestThatIsent Date="10/14" MongolDate="Өчигдөр" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A' />} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
           <RequestThatIsent Date="10/13" MongolDate="2 хоногийн өмнө" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A'/>} icon2={<Calendar1 size={14} color='#71717A'/>} yearDate="2024/10/25" />
           <RequestThatIsent Date="10/12" description="Чөлөө (1 хоног)" status="Хүлээгдэж байна." icon1={<Tag size={14} color='#71717A' />} icon2={<Calendar1 size={14} color='#71717A' />} yearDate="2024/10/25" MongolDate={''} />
-          <RequestThatIsent description="Чөлөө (1 хоног)" status={"Хүлээгдэж байна."} icon1={<Tag size={14} />} icon2={<Calendar1 size={14} color='#71717A' />} yearDate="2024/10/25" MongolDate={''} Date={undefined} />
+          <RequestThatIsent description="Чөлөө (1 хоног)" status={"Хүлээгдэж байна."} icon1={<Tag size={14} />} icon2={<Calendar1 size={14} color='#71717A' />} yearDate="2024/10/25" MongolDate={''} Date={''}  />
         </div>
       </div>
     </>
