@@ -16,10 +16,10 @@ export const ClientDatePicker= ({ className }: React.HTMLAttributes<HTMLDivEleme
   });
 
   return (
-    <div className={cn('grid gap-2', className)}>
-      <Popover>
+    <div className={cn('grid gap-2', className)} data-testid="choose-date">
+      <Popover >
         <PopoverTrigger asChild>
-          <Button id="date" variant={'outline'} className={cn('w-[300px] justify-start text-left font-normal', !date && 'text-muted-foreground')}>
+          <Button id="date" variant={'outline'} className={cn('w-[300px] justify-start text-left font-normal', !date && 'text-muted-foreground')} data-testid="choose-first-date">
             <CalendarIcon />
             {date?.from ? (
               date.to ? (
