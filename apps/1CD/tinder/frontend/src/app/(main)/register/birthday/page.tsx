@@ -37,15 +37,8 @@ const Birthday = () => {
   const [BirthdaySubmit]
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    const timestamp = data.dob.getTime();
-    console.log('DOB timestamp:', timestamp);
-
-    try {
-      console.log('Submitting timestamp to backend', { dob: timestamp });
-      router.push('/');
-    } catch (error) {
-      console.error('Error submitting data', error);
-    }
+    console.log(data);
+    router.push('/');
   };
 
   const handleBack = () => {
@@ -57,10 +50,10 @@ const Birthday = () => {
       <div className="flex flex-col items-center w-full gap-6">
         <div className="flex items-center gap-1" data-cy="logo-container">
           <Image src={'/img/logo.svg'} alt="Tinder logo" width={40} height={40} className="w-[24px] h-[28px]" />
-          <p className="text-3xl text-gray-600 font-semibold">tinder</p>
+          <p className="text-3xl font-semibold text-gray-600">tinder</p>
         </div>
         <div>
-          <p className="text-2xl text-gray-900 font-semibold" data-cy="question-title">
+          <p className="text-2xl font-semibold text-gray-900" data-cy="question-title">
             How old are you?
           </p>
           <p className="text-[#71717A] text-sm" data-cy="question-description">
@@ -87,7 +80,7 @@ const Birthday = () => {
                               Pick a date
                             </span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" data-cy="calendar-icon" />
+                          <CalendarIcon className="w-4 h-4 ml-auto opacity-50" data-cy="calendar-icon" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -107,17 +100,18 @@ const Birthday = () => {
                 </FormItem>
               )}
             />
-          </form>
-        </Form>
-
-        <div className="flex justify-between w-[400px]" data-cy="navigation-buttons">
-          <button type="button" onClick={handleBack} className="hover:bg-gray-100 border border-1 rounded-full px-4 py-2" data-cy="back-button">
+            <div className="flex justify-between w-[400px]" data-cy="navigation-buttons">
+          <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
             Back
           </button>
           <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
             Next
           </button>
         </div>
+          </form>
+        </Form>
+
+        
       </div>
     </div>
   );

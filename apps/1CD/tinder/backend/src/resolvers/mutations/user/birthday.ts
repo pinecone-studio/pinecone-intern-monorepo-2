@@ -21,5 +21,5 @@ export const birthdaySubmit: MutationResolvers['birthdaySubmit'] = async (_, { i
 
   if (!updateUser) throw new Error('Could not find user');
 
-  return updateUser.email;
+  return { email: updateUser.email };
 };
