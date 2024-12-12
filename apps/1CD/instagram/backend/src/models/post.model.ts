@@ -1,9 +1,9 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, Types, model, models } from 'mongoose';
 import { UserType } from './user.model';
 
 export type Post = {
   _id: string;
-  user: Schema.Types.ObjectId;
+  user: Types.ObjectId;
   description: string;
   images: string[];
   lastComments: string[];
