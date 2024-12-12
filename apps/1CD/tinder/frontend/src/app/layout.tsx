@@ -1,6 +1,7 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -12,7 +13,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body className="">
         <ApolloWrapper>
-          <div className="max-w-[1280px] mx-auto">{children}</div>
+          <div className="max-w-[1280px] mx-auto">
+            {children}
+            <Toaster />
+            </div>
         </ApolloWrapper>
       </body>
     </html>

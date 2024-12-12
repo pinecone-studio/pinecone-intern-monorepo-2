@@ -1,7 +1,7 @@
 import Category from '../../../models/category.model';
 import { QueryResolvers } from '../../../generated';
 
-export const getCategory: QueryResolvers['getCategory'] = async () => {
-  const getCategory = await Category.find({});
-  return getCategory;
+export const getCategories: QueryResolvers['getCategories'] = async () => {
+  const getCategories = await Category.find({});
+  return getCategories;
 };

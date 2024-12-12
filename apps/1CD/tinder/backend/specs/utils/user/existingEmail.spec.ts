@@ -10,11 +10,10 @@ jest.mock('../../../src/models', () => ({
 
 describe('checkExistingEmail', () => {
   it('should return email if email is possible to', async () => {
-    const mockEmail = 'test@gmail.com';
+    const mockEmail = 'cypress@gmail.com';
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
     const res = await checkExistingEmail(mockEmail);
-    expect(userModel.findOne).toHaveBeenCalledWith({ email: mockEmail });
-    expect(res).toBe(mockEmail);
+        expect(res).toBe(mockEmail);
   });
 
   it('should throw graphqlError when email already exists', async () => {

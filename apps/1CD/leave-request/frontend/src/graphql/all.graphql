@@ -1,6 +1,18 @@
 query Query {
   sampleQuery
 }
+query getAllUsers {
+  getAllUsers {
+    _id
+    email
+    userName
+    profile
+    role
+    position
+    supervisor
+    hireDate
+  }
+}
 
 mutation Mutation {
   sampleMutation
