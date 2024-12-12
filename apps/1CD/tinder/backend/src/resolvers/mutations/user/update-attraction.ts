@@ -6,6 +6,6 @@ export const updateAttraction: MutationResolvers['updateAttraction'] = async (_,
   if (!user) {
     throw new Error('user not found');
   }
-  const oneUser = await userModel.findOneAndUpdate({ email }, { attraction }, { new: true });
-  return oneUser.email;
+  const oneUser = await userModel.findOneAndUpdate({ email }, { attraction });
+  return { email: oneUser.email, attraction: oneUser.attraction };
 };
