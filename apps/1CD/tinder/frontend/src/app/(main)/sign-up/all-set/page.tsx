@@ -24,10 +24,10 @@ const ImageUpload = () => {
           </div>
           <div className="text-center">
             <p className="text-2xl text-gray-900 font-semibold" data-cy="question-title">
-              You're all set!
+              You&apos;re all set!
             </p>
             <p className="text-[#71717A] text-sm text-center" data-cy="question-description">
-              Your account is all set. You're ready to explore <br></br>and connect!
+              Your account is all set. You&apos;re ready to explore <br></br>and connect!
             </p>
           </div>
           <button onClick={handleNext} className="hover:bg-gray-800 bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="swipe-button">

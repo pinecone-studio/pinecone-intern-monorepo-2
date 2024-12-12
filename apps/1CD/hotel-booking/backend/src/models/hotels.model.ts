@@ -2,18 +2,18 @@ import { Schema, model, models } from 'mongoose';
 import { RoomsType } from './rooms.model';
 
 export type HotelsType = {
-  _id: string;
-  hotelName: string;
+  _id?: string;
+  hotelName?: string;
   description?: string;
-  starRating: number;
-  phoneNumber: number;
-  userRating: number;
-  hotelAmenities: string[];
-  images: string[];
-  location: string;
-  city: string;
-  rooms: RoomsType[];
-  createdAt: Date;
+  starRating?: number;
+  phoneNumber?: number;
+  userRating?: number;
+  hotelAmenities?: string[];
+  images?: string[];
+  location?: string;
+  city?: string;
+  rooms?: RoomsType[];
+  createdAt?: Date;
 };
 
 const hotelsSchema = new Schema<HotelsType>({
