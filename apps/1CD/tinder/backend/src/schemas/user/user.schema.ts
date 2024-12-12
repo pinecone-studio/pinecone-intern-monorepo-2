@@ -83,6 +83,6 @@ export const typeDefs = gql`
 
     updateAttraction(email: String!, attraction: String!): RegisterEmailResponse!
 
-    birthdaySubmit(input: BirthdaySubmitInput!): User!
+    birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
   }
 `;
