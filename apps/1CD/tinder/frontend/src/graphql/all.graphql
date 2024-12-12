@@ -5,3 +5,10 @@ query Query {
 mutation Mutation {
   sampleMutation
 }
+
+mutation updateAttraction($email: String!, $attraction: String!) {
+  updateAttraction(email: $email, attraction: $attraction) {
+    email
+    attraction
+  }
+}
