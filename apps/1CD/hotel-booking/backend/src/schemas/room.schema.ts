@@ -60,6 +60,7 @@ export const typeDefs = gql`
   input RoomFilterType {
     checkInDate: Date
     checkOutDate: Date
+    starRating: Int
   }
   type Query {
     getRooms(input: RoomFilterType!): [Room!]!
