@@ -1,14 +1,20 @@
 import { RoomFilterType } from 'src/generated';
-import { bookingModel, roomsModel } from 'src/models';
+import { bookingModel, hotelsModel, roomsModel } from 'src/models';
 type FilterType = {
   _id?: {
     $nin: string[];
+  };
+  hotelId?: {
+    $in: string[];
   };
 };
 export const getRooms = async (_: unknown, { input }: { input: RoomFilterType }) => {
   try {
     const filter = {};
-    await filterDate({ filter, input });
+    if (input) {
+      await filterHotelInfo({ filter, input });
+      await filterDate({ filter, input });
+    }
     const rooms = await roomsModel.find(filter).populate('hotelId');
     return rooms;
   } catch (err) {
@@ -32,5 +38,31 @@ const filterDate = async ({ filter, input }: { filter: FilterType; input: RoomFi
 
   filter._id = {
     $nin: bookedRoomIds,
+  };
+};
+
+const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: RoomFilterType }) => {
+  const hotelFilter: {
+    userRating?: number;
+    starRating?: number;
+  } = {};
+  const { starRating, userRating } = input;
+  if (userRating) {
+    hotelFilter.userRating = userRating;
+  }
+  if (starRating) {
+    hotelFilter.starRating = starRating;
+  }
+
+  let matchHotels = [];
+
+  matchHotels = await hotelsModel.find(hotelFilter);
+
+  if (!matchHotels.length) return;
+
+  matchHotels = matchHotels.map((hotel) => hotel._id);
+
+  filter.hotelId = {
+    $in: matchHotels,
   };
 };
