@@ -37,4 +37,7 @@ const followSchema = new Schema<FollowType>({
 export type FollowPopulatedType = Omit<FollowType, 'followingId'> & {
   followingId: UserType;
 };
+export type FollowerPopulatedType = Omit<FollowType, 'followerId'> & {
+  followerId: UserType;
+};
 export const followModel = models['followModel'] || model('followModel', followSchema);
