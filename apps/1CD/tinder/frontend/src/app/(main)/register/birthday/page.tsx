@@ -13,14 +13,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRouter } from 'next/navigation';
-import { BirthdaySubmitInput } from '@/generated';
-
-const BIRTHDAY_SUBMIT_MUTATION = `
-mutation BirthdaySubmit($input: BirthdaySubmitInput!) {
-birthdaySubmit(input: $input) {
-email
-}
-}`;
+import { useBirthdaySubmitMutation } from '@/generated';
 
 const Birthday = () => {
   const FormSchema = z.object({
@@ -34,10 +27,33 @@ const Birthday = () => {
 
   const router = useRouter();
 
-  const [BirthdaySubmit]
+  const [birthdaySubmit] = useBirthdaySubmitMutation({
+    onCompleted: () => {
+      router.push('/');
+    },
+  });
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
+  const onSubmit = (formData: { dob: Date }) => {
+    const today = new Date();
+    const birthDate = new Date(formData.dob); // Extract the dob from formData
+
+    // Calculate age by subtracting the year of birth from the current year
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    // Adjust age if the birthday hasn't occurred yet this year
+    const month = today.getMonth();
+    const day = today.getDate();
+    if (month < birthDate.getMonth() || (month === birthDate.getMonth() && day < birthDate.getDate())) {
+      age--;
+    }
+    birthdaySubmit({
+      variables: {
+        input: {
+          email: 'sara@gmail.com',
+          age: age,
+        },
+      },
+    });
     router.push('/');
   };
 
@@ -101,17 +117,15 @@ const Birthday = () => {
               )}
             />
             <div className="flex justify-between w-[400px]" data-cy="navigation-buttons">
-          <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
-            Back
-          </button>
-          <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
-            Next
-          </button>
-        </div>
+              <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
+                Back
+              </button>
+              <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
+                Next
+              </button>
+            </div>
           </form>
         </Form>
-
-        
       </div>
     </div>
   );
