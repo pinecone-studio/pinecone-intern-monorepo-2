@@ -8,6 +8,7 @@ export const addNewBooking = async (_: unknown, { input }: { input: BookingInput
       ...input,
       createdAt: new Date(),
     });
+
     return createdBooking;
   } catch (err) {
     throw new GraphQLError((err as Error).message);

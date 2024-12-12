@@ -11,7 +11,7 @@ export const typeDefs = gql`
     dayTickets: [Ticket!]!
     image: String!
     discount: Float
-    venue: ID!
+    venue: Venue!
     priority: String!
     category: [ID!]!
   }
@@ -92,7 +92,6 @@ export const typeDefs = gql`
 
     deleteEvent(_id: ID!): Response!
     updateEvent(_id: ID!, event: EventUpdateInput): Event!
-
   }
   type Query {
     getSpecialEvent: [Event!]!
