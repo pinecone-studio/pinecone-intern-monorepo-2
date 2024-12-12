@@ -1,18 +1,18 @@
-mutation registerEmail($input:RegisterEmailInput!){
-    registerEmail(input:$input){
-        email
-    }
+mutation registerEmail($input: RegisterEmailInput!) {
+  registerEmail(input: $input) {
+    email
+  }
 }
-mutation verifyOtp($input:VerifyOtpInput!){
-    verifyOtp(input:$input){
-        email
-    }
+mutation verifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    token
+  }
 }
 
-mutation resendOtp($input:RegisterEmailInput!){
-    resendOtp(input:$input){
-        email
-    }
+mutation resendOtp($input: RegisterEmailInput!) {
+  resendOtp(input: $input) {
+    email
+  }
 }
 mutation createPassword($input: CreatePassInput!) {
   createPassword(input: $input) {
