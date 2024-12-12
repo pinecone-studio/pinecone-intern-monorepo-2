@@ -5,7 +5,7 @@ mutation registerEmail($input:RegisterEmailInput!){
 }
 mutation verifyOtp($input:VerifyOtpInput!){
     verifyOtp(input:$input){
-        email
+        token
     }
 }
 
