@@ -13,6 +13,14 @@ import { Calendar } from '@/components/ui/calendar';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRouter } from 'next/navigation';
+import { BirthdaySubmitInput } from '@/generated';
+
+const BIRTHDAY_SUBMIT_MUTATION = `
+mutation BirthdaySubmit($input: BirthdaySubmitInput!) {
+birthdaySubmit(input: $input) {
+email
+}
+}`;
 
 const Birthday = () => {
   const FormSchema = z.object({
@@ -26,9 +34,18 @@ const Birthday = () => {
 
   const router = useRouter();
 
+  const [BirthdaySubmit]
+
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
-    router.push('/');
+    const timestamp = data.dob.getTime();
+    console.log('DOB timestamp:', timestamp);
+
+    try {
+      console.log('Submitting timestamp to backend', { dob: timestamp });
+      router.push('/');
+    } catch (error) {
+      console.error('Error submitting data', error);
+    }
   };
 
   const handleBack = () => {
@@ -82,7 +99,6 @@ const Birthday = () => {
                         disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                         initialFocus
                         data-cy="calendar"
-                        
                       />
                     </PopoverContent>
                   </Popover>
