@@ -92,8 +92,8 @@ const Page = () => {
               </Select>
             </div>
             {loading ? (
-              <div className="min-h-screen">
-                <div className="flex absolute translate-x-[-50%] translate-y-[-50%] left-[50%] top-[50%] items-center gap-2 text-3xl font-bold">
+              <div className="flex items-center justify-center w-full min-h-screen">
+                <div className="flex items-center justify-center gap-2 text-3xl font-bold">
                   <Loader2 className="animate-spin" />
                   <div>Loading...</div>
                 </div>
