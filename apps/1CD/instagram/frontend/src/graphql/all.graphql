@@ -58,3 +58,14 @@ mutation Login($input: LoginInput!) {
     token
   }
 }
+
+mutation ConfirmFollowReq($id: ID!) {
+  confirmFollowReq(_id: $id) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
+  }
+}
