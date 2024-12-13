@@ -35,12 +35,10 @@ const Birthday = () => {
 
   const onSubmit = (formData: { dob: Date }) => {
     const today = new Date();
-    const birthDate = new Date(formData.dob); // Extract the dob from formData
+    const birthDate = new Date(formData.dob);
 
-    // Calculate age by subtracting the year of birth from the current year
     let age = today.getFullYear() - birthDate.getFullYear();
 
-    // Adjust age if the birthday hasn't occurred yet this year
     const month = today.getMonth();
     const day = today.getDate();
     if (month < birthDate.getMonth() || (month === birthDate.getMonth() && day < birthDate.getDate())) {
@@ -56,6 +54,7 @@ const Birthday = () => {
     });
     router.push('/');
   };
+
 
   const handleBack = () => {
     router.push('/');
