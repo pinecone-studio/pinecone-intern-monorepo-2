@@ -32,7 +32,7 @@ const Page = () => {
   });
   useEffect(() => {
     getRooms();
-  }, [date, getRooms]);
+  }, [date, getRooms, starRating, userReviewRating, hotelAmenities]);
 
   return (
     <>
