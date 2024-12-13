@@ -7,7 +7,9 @@ interface AmenitiesCheckboxProps {
 
 const AmenitiesCheckbox: React.FC<AmenitiesCheckboxProps> = ({ amenities, hotelAmenities, setHotelAmenities }) => {
   const handleValue = () => {
-    let array = [...hotelAmenities];
+    const array = [...hotelAmenities];
+    setHotelAmenities(array);
+    return array;
   };
   return (
     <div className="flex items-center space-x-2">
