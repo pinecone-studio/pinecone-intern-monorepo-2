@@ -82,7 +82,7 @@ export const typeDefs = gql`
 
   type Query {
     getEventById(_id: ID!): Event!
-    getEvents(filter: EventsFilter): [Event!]!
+    getEvents(filter: EventsFilter): [Event]!
   }
 
   type Mutation {
