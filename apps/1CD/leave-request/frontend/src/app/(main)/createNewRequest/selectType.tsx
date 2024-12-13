@@ -10,6 +10,7 @@ type HourOption = { label: string; value: string };
 import React, { useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'; // Example library import
+import { generateHours } from './generate-hourst';
 
 export const ChooseHourlyOrDaily = ({ formik, data }: { formik: FormikProps<RequestFormValues>; data: CreateRequestQuery | undefined }) => {
   const [typeRequest, setType] = useState('');
@@ -111,7 +112,9 @@ const AdditionalInfo = ({ formik, data }: { formik: FormikProps<RequestFormValue
   if (!data?.getAllSupervisors) return null;
 
   const supervisorList = data.getAllSupervisors;
-  const options = supervisorList.map((supervisor) => supervisor && { label: supervisor.userName, value: supervisor.email }).filter((option) => option != null);
+  const options = supervisorList
+    .map((supervisor) => (supervisor ? { label: supervisor.userName, value: supervisor.email } : null))
+    .filter((option): option is { label: string; value: string } => option !== null);
 
   return (
     <>
@@ -147,13 +150,3 @@ const ReasonTextarea = ({ formik }: { formik: FormikProps<RequestFormValues> }) 
     <Textarea className="w-full" onChange={(e) => formik.setFieldValue('message', e.target.value)} value={formik.values.message || ''} />
   </div>
 );
-
-const generateHours = () => {
-  const startHour = 8; // Start from 8:00 AM
-  const duration = 8; // Generate hours for 8 hours
-  return Array.from({ length: duration }, (_, i) => {
-    const hour = startHour + i;
-    const formattedTime = `${hour}:00`;
-    return { label: formattedTime, value: formattedTime };
-  });
-};
