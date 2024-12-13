@@ -2,8 +2,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { SuggestUser } from '../SuggestUser';
+import { useAuth } from '../providers';
 
 export const UserBar = () => {
+  const { signout } = useAuth();
   return (
     <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4">
       <div className="flex items-center justify-between w-full ">
@@ -17,7 +19,9 @@ export const UserBar = () => {
           </div>
         </div>
         <div>
-          <button className="text-[11px] font-bold text-[#2563EB]">Log out</button>
+          <button className="text-[11px] font-bold text-[#2563EB]" data-testid="logoutBtn" onClick={signout}>
+            Log out
+          </button>
         </div>
       </div>
       <div className="flex justify-between text-sm">

@@ -11,7 +11,7 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body>
+      <body className='bg-[#F4F4F5]'>
         <ApolloWrapper>
           <LoginProvider>{children}</LoginProvider>
         </ApolloWrapper>

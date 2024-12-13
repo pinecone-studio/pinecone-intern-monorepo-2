@@ -54,7 +54,7 @@ describe('Signup page', () => {
 
     cy.get('button[type="submit"]').click();
     cy.wait('@signupMutation');
-    cy.url().should('eq', Cypress.config().baseUrl + '/');
+    cy.url().should('eq', Cypress.config().baseUrl + '/login');
   });
 
   it('4. should show toast error when user already exists', () => {
@@ -84,11 +84,6 @@ describe('Signup page', () => {
     cy.get('button[type="submit"]').click();
     cy.wait('@signupMutation');
 
-    // Check for toast message
-    cy.get('[role="status"]')
-      .should('be.visible')
-      .first() // Get the first toast if multiple exist
-      .should('contain.text', 'Error')
-      .and('contain.text', 'User already exists');
+    cy.get('[role="status"]').should('be.visible').first().should('contain.text', 'Error').and('contain.text', 'User already exists');
   });
 });

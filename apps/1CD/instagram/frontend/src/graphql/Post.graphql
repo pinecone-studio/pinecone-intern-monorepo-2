@@ -1,15 +1,25 @@
 mutation DeletePost($_id: String!) {
   deletePost(_id: $_id) {
     _id
-    user
+    user {
+      _id
+      userName
+      fullName
+      email
+    }
     description
   }
 }
 
-query GetMyPosts($userId: String!) {
-  getMyPosts(userID: $userId) {
+query GetMyPosts {
+  getMyPosts {
     _id
-    user
+    user {
+      _id
+      userName
+      fullName
+      email
+    }
     description
     images
     lastComments
