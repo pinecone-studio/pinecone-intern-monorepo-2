@@ -5,7 +5,7 @@ import { Send } from 'lucide-react';
 import { useCreateRequestQuery } from '@/generated';
 import { SelectRequestType } from './SelectRequestType';
 import { useFormik } from 'formik';
-import { ChooseHourlyOrDaily } from './selectType';
+import { ChooseHourlyOrDaily } from './SelectType';
 
 export interface RequestFormValues {
   requestType: string ;
