@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { ApolloWrapper, AuthProvider } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
-import { Header } from '../../components/Header';
+import { Header } from '../../components/header/Header';
 import { Footer } from '@/components/footer/Footer';
 
 export const metadata = {

@@ -14,6 +14,7 @@ type AuthContextType = {
   handleSignIn: (_params: SignUpParams) => void;
   signout: () => void;
   user: LoginMutation['login']['user'] | null;
+  loading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -21,17 +22,21 @@ export const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<LoginMutation['login']['user'] | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const [signUpMutation] = useSignUpMutation({
     onCompleted: () => {
+      setLoading(false);
       router.push('/sign-in');
     },
     onError: (error) => {
+      setLoading(false);
       toast.error(error.message);
     },
   });
 
   const handleSignUp = async ({ email, password }: SignUpParams) => {
+    setLoading(true);
     await signUpMutation({
       variables: {
         email,
@@ -41,6 +46,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
   const [signInMutation] = useLoginMutation({
     onCompleted: (data) => {
+      setLoading(false);
       localStorage.setItem('token', data.login.token);
       toast.success('Successfully login');
 
@@ -50,10 +56,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       }
     },
     onError: (error) => {
+      setLoading(false);
       toast.error(error.message);
     },
   });
   const handleSignIn = async ({ email, password }: SignUpParams) => {
+    setLoading(true);
     await signInMutation({
       variables: {
         input: {
@@ -69,7 +77,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setUser(null);
   };
 
-  return <AuthContext.Provider value={{ handleSignUp, handleSignIn, user, signout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ handleSignUp, handleSignIn, user, signout, loading }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
