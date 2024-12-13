@@ -1,6 +1,6 @@
 describe('Home Page', () => {
   beforeEach(() => {
-    cy.visit('/home');
+    cy.visit('/user/home');
   });
   it('1.Displays loading state', () => {
     cy.contains('Loading...').should('be.visible');
