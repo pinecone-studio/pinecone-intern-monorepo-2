@@ -88,7 +88,7 @@
     "jest-canvas-mock": "2.5.2",
     "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
-    "lucide": "^0.465.0",
+    "lucide": "^0.468.0",
     "lucide-react": "0.453.0",
     "mongoose": "8.2.2",
     "next": "14.2.14",
