@@ -5,44 +5,17 @@ import { SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } fr
 import { useGetHotelsQuery } from '@/generated';
 import { TableBody, TableCell, TableRow, Table } from '@mui/material';
 import { Select } from '@radix-ui/react-select';
-import { Zap } from 'lucide-react';
-import { PanelLeft } from 'lucide-react';
-import Link from 'next/link';
 import { Star } from 'lucide-react';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
   if (loading) return <div>Loading...</div>;
   return (
     <div data-cy="home-page-div" className="max-w-[1920px] container mx-auto">
       <div className="container max-w-[1640px] bg-slate-100 flex">
-        <div className="bg-yellow-100 w-[240px] h-[948px]">
-          <div className="flex gap-2 items-center pl-2 py-2.5">
-            <div className="w-[32px] h-[32px] bg-[#2563EB] rounded-lg flex items-center justify-center">
-              <div className="bg-white rounded-full w-[16px] h-[16px]"></div>
-            </div>
-            <div>
-              <p className="text-[#334155] text-[14px]">Pedia</p>
-              <p className="text-[#334155] text-[12px]">Admin</p>
-            </div>
-          </div>
-          <div className="pl-2 py-2.5 w-[224px]">
-            <div className="flex gap-2 items-center bg-[#F4F4f5] pt-1.5 py-2 rounded-sm pl-2 pr-2">
-              <Zap className="w-[12px] h-[13.33px] text-[#09090B]" />
-              <Link href="hotels" className="text-sm text-[#09090B]">
-                Hotels
-              </Link>
-            </div>
-            <div className="flex gap-2 items-center pt-1.5 py-2 pl-2 pr-2">
-              <Zap className="w-[12px] h-[13.33px] text-[#71717A]" />
-              <Link href="guests" className="text-sm text-[#71717A]">
-                Guests
-              </Link>
-            </div>
-          </div>
-        </div>
         <div className="bg-[#F4F4F5] w-[1640px] h-full">
           <div className="flex items-center gap-2 px-4 py-5">
-            <PanelLeft className="p-2 w-[44px] h-[28px] border-r-2" />
+            <SidebarTrigger />
             <div className="font-normal text-sm text-[#020617]">Hotels</div>
           </div>
           <div>
