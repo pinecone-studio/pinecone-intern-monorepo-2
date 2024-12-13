@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
-
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { FaPlus } from 'react-icons/fa';
@@ -13,16 +12,14 @@ const RequestCategory = () => {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(false);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
-  const [isChecked, setIsChecked] = React.useState<string[]>([]); // Array to store checked categories
+  const [isChecked, setIsChecked] = React.useState<string[]>([]);
 
   console.log(isChecked);
 
   const handleCheckedChange = (value: string, isChecked: boolean) => {
     if (isChecked) {
-      // Add category to isChecked array if it is checked
       setIsChecked((prev) => [...prev, value]);
     } else {
-      // Remove category from isChecked array if it is unchecked
       setIsChecked((prev) => prev.filter((item) => item !== value));
     }
   };
@@ -30,46 +27,38 @@ const RequestCategory = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      {
-  isChecked.length === 0 ? (
-    <div className="flex">
-      <Button variant="outline" className="text-sm font-medium text-[#18181B]">
-        <FaPlus className="mr-2" size={16} />
-        Төлөв
-      </Button>
-    </div>
-  ) : isChecked.length < 3 ? (
-    <div className="flex">
-      <Button variant="outline" className="text-sm font-medium text-[#18181B] border-r-0 rounded-r-none">
-        <FaPlus className="mr-2" size={16} />
-        Төлөв
-      </Button>
-      <div className="flex pl-2 gap-1 bg-white items-center pr-4 border-[1px] rounded-r-md">
-        {isChecked.map((cat, index) => (
-          <p
-            key={index}
-            className="bg-[#F4F4F5] rounded-sm px-1 py-[2px] text-xs text-[#09090B] h-5"
-          >
-            {cat}
-          </p>
-        ))}
-      </div>
-    </div>
-  ) : (
-    <div className="flex">
-      <Button variant="outline" className="text-sm font-medium text-[#18181B] border-r-0 rounded-r-none">
-        <FaPlus className="mr-2" size={16} />
-        Төлөв
-      </Button>
-      <div className="flex pl-2 gap-1 bg-white items-center pr-4 border-[1px] rounded-r-md">
-        <p className="bg-[#F4F4F5] rounded-sm px-1 py-[2px] text-xs text-[#09090B] h-5">
-          3 сонгогдсон
-        </p>
-      </div>
-    </div>
-  )
-}
-
+        {isChecked.length === 0 ? (
+          <div className="flex">
+            <Button variant="outline" className="text-sm font-medium text-[#18181B]">
+              <FaPlus className="mr-2" size={16} />
+              Төлөв
+            </Button>
+          </div>
+        ) : isChecked.length < 3 ? (
+          <div className="flex">
+            <Button variant="outline" className="text-sm font-medium text-[#18181B] border-r-0 rounded-r-none">
+              <FaPlus className="mr-2" size={16} />
+              Төлөв
+            </Button>
+            <div className="flex pl-2 gap-1 bg-white items-center pr-4 border-[1px] rounded-r-md">
+              {isChecked.map((cat, index) => (
+                <p key={index} className="bg-[#F4F4F5] rounded-sm px-1 py-[2px] text-xs text-[#09090B] h-5">
+                  {cat}
+                </p>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex">
+            <Button variant="outline" className="text-sm font-medium text-[#18181B] border-r-0 rounded-r-none">
+              <FaPlus className="mr-2" size={16} />
+              Төлөв
+            </Button>
+            <div className="flex pl-2 gap-1 bg-white items-center pr-4 border-[1px] rounded-r-md">
+              <p className="bg-[#F4F4F5] rounded-sm px-1 py-[2px] text-xs text-[#09090B] h-5">3 сонгогдсон</p>
+            </div>
+          </div>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuCheckboxItem

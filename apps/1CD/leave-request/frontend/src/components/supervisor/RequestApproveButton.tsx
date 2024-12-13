@@ -1,16 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 import { GoCheck } from 'react-icons/go';
 
 const ApproveButton = () => {
-  {
-    /* <button className="flex items-center gap-2 rounded-md px-4 py-2 bg-[#18181B] text-[#FAFAFA] text-sm font-medium">
-                <GoCheck size={16} />
-                Зөвшөөрөх
-            </button> */
-  }
   return (
     <Dialog>
       <DialogTrigger asChild>

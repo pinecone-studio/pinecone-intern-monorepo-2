@@ -1,8 +1,6 @@
 import { MdOutlineDateRange } from 'react-icons/md';
 import { GoTag } from 'react-icons/go';
 import { IoMdTime } from 'react-icons/io';
-
-import { GoX } from 'react-icons/go';
 import ApproveButton from './RequestApproveButton';
 import DenyButton from './RequestDenyButton';
 
@@ -58,7 +56,7 @@ const RequestDetail = () => {
           <GoX size={16} />
           Татгалзах
         </button> */}
-        <DenyButton/>
+        <DenyButton />
         {/* <button className="flex items-center gap-2 rounded-md px-4 py-2 bg-[#18181B] text-[#FAFAFA] text-sm font-medium">
                 <GoCheck size={16} />
                 Зөвшөөрөх
