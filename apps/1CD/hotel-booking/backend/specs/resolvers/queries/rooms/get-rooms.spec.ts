@@ -36,20 +36,25 @@ jest.mock('src/models', () => ({
           hotelName: 'test',
         },
       ])
+
       .mockResolvedValueOnce([]),
   },
 }));
 
 describe('get rooms', () => {
-  const input = {
-    checkInDate: '2024-12-08',
-    checkOutDate: '2024-12-12',
-    starRating: 5,
-    userRating: 4,
-    hotelAmenities: [''],
-  };
   it('if succussfylly worked', async () => {
-    const result = await getRooms({}, { input });
+    const result = await getRooms(
+      {},
+      {
+        input: {
+          checkInDate: '2024-12-08',
+          checkOutDate: '2024-12-12',
+          starRating: 5,
+          userRating: 4,
+          hotelAmenities: ['a'],
+        },
+      }
+    );
     expect(result).toEqual([
       {
         _id: '1',
@@ -57,9 +62,21 @@ describe('get rooms', () => {
       },
     ]);
   });
+
   it('if unsuccussfylly worked', async () => {
     try {
-      await getRooms({}, { input });
+      await getRooms(
+        {},
+        {
+          input: {
+            checkInDate: '2024-12-08',
+            checkOutDate: '2024-12-12',
+            starRating: 5,
+            userRating: 4,
+            hotelAmenities: [],
+          },
+        }
+      );
     } catch (err) {
       expect(err).toEqual(new Error('aldaa'));
     }
