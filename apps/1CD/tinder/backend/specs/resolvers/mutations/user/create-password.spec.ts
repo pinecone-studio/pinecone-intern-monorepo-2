@@ -9,31 +9,28 @@ jest.mock('../../../../src/models', () => ({
 }));
 
 describe('create password of user', () => {
-  const mockEmail = 'test@gmail.com';
-  const mockPassword = 'test';
+  const mockEmail = 'cypress@gmail.com';
+  const mockPassword = 'Tinder1213@';
   const info = {} as GraphQLResolveInfo;
+  const userId='675675e84bd85fce3de34006'
   it('should return when user create the password successfully', async () => {
-    const input = { email: mockEmail, password: mockPassword };
+    const input = {password: mockPassword };
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue({
       email: mockEmail,
     });
-    const res = await createPassword!({}, { input }, {}, info);
+    const res = await createPassword!({}, { input }, {userId}, info);
     expect(res).toEqual({
         email: mockEmail,
       });
   });
   it('should throw error when password is empty', async () => {
-    await expect(createPassword!({}, { input: { email:mockEmail, password: '' } }, {}, info)).rejects.toThrow(GraphQLError);
-    await expect(createPassword!({}, { input: { email:mockEmail, password: '' } }, {}, info)).rejects.toThrow('email and pass are required');
+    await expect(createPassword!({}, { input: {password: '' } }, {userId}, info)).rejects.toThrow(GraphQLError);
+    await expect(createPassword!({}, { input: {password: '' } }, {userId}, info)).rejects.toThrow('Password is required. Please enter a password to continue.');
   });
-  it('should throw error when email is empty',async()=>{
-    await expect(createPassword!({},{input:{email:'',password:mockPassword}},{},info)).rejects.toThrow(GraphQLError);
-    await expect(createPassword!({}, { input: { email:'', password:mockPassword } },{},info)).rejects.toThrow('email and pass are required');
-  })
 
   it('should throw error if the user is empty',async()=>{
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(null);
-    await expect(createPassword!({},{input:{email:'example@gmail.com',password:mockPassword}},{},info)).rejects.toThrow(GraphQLError);
-    await expect(createPassword!({},{input:{email:'example@gmail.com',password:mockPassword}},{},info)).rejects.toThrow('user not found');
+    await expect(createPassword!({},{input:{password:mockPassword}},{userId},info)).rejects.toThrow(GraphQLError);
+    await expect(createPassword!({},{input:{password:mockPassword}},{userId},info)).rejects.toThrow('User not found. Please check if the username or email is correct.');
   })
 });
