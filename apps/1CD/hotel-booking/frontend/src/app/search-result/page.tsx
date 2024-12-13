@@ -60,19 +60,19 @@ const Page = () => {
             <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
               <h2>Rating</h2>
               {UserRatingMock.map((rating, index) => (
-                <RatingCheckbox userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
+                <RatingCheckbox index={index} userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
               ))}
             </div>
             <div className="flex flex-col gap-3 pt-3 pl-3">
               <h2>Stars</h2>
               {StarRatingMock.map((stars, index) => (
-                <StarRatingCheckbox starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
+                <StarRatingCheckbox index={index} starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
               ))}
             </div>
             <div className="flex flex-col gap-3 pt-3 pl-3">
               <h2>Amenities</h2>
               {AmenitiesMock.map((amenities, index) => (
-                <AmenitiesCheckbox key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
+                <AmenitiesCheckbox index={index} key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
               ))}
             </div>
           </main>

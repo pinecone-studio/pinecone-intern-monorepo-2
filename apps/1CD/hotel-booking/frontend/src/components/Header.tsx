@@ -1,3 +1,5 @@
+import HeaderFilter from './search-hotel/HeaderFilter';
+
 const Header = () => {
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
