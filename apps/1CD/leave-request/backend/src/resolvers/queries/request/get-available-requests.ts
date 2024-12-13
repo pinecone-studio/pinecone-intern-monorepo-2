@@ -1,5 +1,6 @@
 import { QueryResolvers } from 'src/generated';
-import { Request, RequestModel, UserModel } from 'src/models';
+import { RequestModel, UserModel } from 'src/models';
+import { totalHours } from 'src/utils/calc-total-hours';
 
 export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailablePaidLeaveInGivenYear'] = async (_, { email }) => {
   const user = await UserModel.findOne({ email });
@@ -21,18 +22,6 @@ export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailableP
   return { thisYear: 40 - totalLastYear, nextYear: 40 - totalThisYear };
 };
 
-const totalHours = (list: Request[]) => {
-  let totalHours = 0;
-  for (let i = 0; i < list.length; i++) {
-    const { startTime, endTime } = list[i];
-    if (startTime) {
-      totalHours += endTime!.getHours() - startTime.getHours();
-    } else {
-      totalHours += 8;
-    }
-  }
-  return totalHours;
-};
 
 const getHireDateThisAndLastYear = (hireDate: Date) => {
   const today = new Date();
