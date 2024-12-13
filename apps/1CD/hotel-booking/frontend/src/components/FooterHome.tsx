@@ -20,10 +20,10 @@ const FooterHome = () => {
         </div>
         <div className="pb-10 text-[14px]">
           <div className="flex gap-1">
-            <Image alt="logo" src="./images/cards-cc_jcb.png"></Image>
-            <Image alt="logo" src="./images/cards-cc_visa.png"></Image>
-            <Image alt="logo" src="./images/cards-cc_master_card.png"></Image>
-            <Image alt="logo" src="./images/cards-cc_american_express.png"></Image>
+            <Image alt="logo" src="/images/cards-cc_jcb.png" width={500} height={500} className="w-4 h-4" />
+            <Image alt="logo" src="/images/cards-cc_visa.png" width={500} height={500} className="w-4 h-4" />
+            <Image alt="logo" src="/images/cards-cc_master_card.png" width={500} height={500} className="w-4 h-4" />
+            <Image alt="logo" src="/images/cards-cc_american_express.png" width={500} height={500} className="w-4 h-4" />
           </div>
           <p className="pt-2">Accepted Payment Methods</p>
         </div>

@@ -30,13 +30,12 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
             variant={'outline'}
             className={cn('w-full max-w-[500px] justify-between text-left font-normal', 'flex items-center', 'text-xs sm:text-sm md:text-base', 'px-2 sm:px-4')}
           >
-            {date?.from && date.to ? (
+            {date?.to && date.from && (
               <span className="truncate">
                 {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
               </span>
-            ) : (
-              <span data-cy="Select-Date">Select dates</span>
             )}
+
             <CalendarIcon className="w-4 h-4 ml-2 opacity-50" />
           </Button>
         </PopoverTrigger>

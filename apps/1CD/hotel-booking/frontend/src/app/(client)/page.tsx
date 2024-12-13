@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
-  const [sliceNum, setSliceNum] = useState(8);
+  const [sliceNum, setSliceNum] = useState<number | undefined>(8);
   if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
   return (
     <div data-cy="Home-Page" className="w-full">
@@ -16,7 +16,7 @@ const Page = () => {
         <p data-cy="Popular-Hotels" className="font-semibold text-[24px] text-[#09090B]">
           Popular Hotels
         </p>
-        <Button variant="outline" className="hover:bg-slate-200" data-cy="View-All-Btn" onClick={() => setSliceNum(sliceNum + 4)}>
+        <Button variant="outline" className="hover:bg-slate-200" data-cy="View-All-Btn" onClick={() => setSliceNum(data?.getHotels.length)}>
           View all
         </Button>
       </div>
