@@ -9,6 +9,7 @@ jest.mock('@/components/providers/AuthProvider');
 const mockHandleSignUp = jest.fn();
 (useAuth as jest.Mock).mockReturnValue({
   handleSignUp: mockHandleSignUp,
+  loading: false,
 });
 
 describe('SignUp Component', () => {
@@ -42,4 +43,12 @@ describe('SignUp Component', () => {
       fireEvent.click(getByTestId('Sign-Up-Submit-Button'));
     });
   });
+});
+it('shows a loading spinner when loading is true', () => {
+  // Mock the useAuth hook to return loading: true
+  (useAuth as jest.Mock).mockReturnValueOnce({
+    handleSignUp: mockHandleSignUp,
+    loading: true,
+  });
+  render(<SignUp />);
 });
