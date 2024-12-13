@@ -1,5 +1,5 @@
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 describe('UserRatig checkbox', () => {
   const setMock = jest.fn();
