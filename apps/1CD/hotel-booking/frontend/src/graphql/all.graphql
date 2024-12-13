@@ -47,3 +47,15 @@ mutation addPayment($input: PaymentInput!) {
     status
   }
 }
+
+mutation AddRoom($input: RoomTypeInput!) {
+  addRoom(input: $input) {
+    _id
+    hotelId
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+  }
+}

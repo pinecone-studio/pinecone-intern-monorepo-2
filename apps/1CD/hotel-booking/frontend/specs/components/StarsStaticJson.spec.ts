@@ -1,4 +1,4 @@
-import { Cards, Countries, RatingStars, ReviewRating } from '@/components/StarsStaticJson';
+import { Cards, Countries, RatingStars, ReviewRating, RoomTypes } from '@/components/StarsStaticJson';
 
 describe('static stars', () => {
   it('Rating stars', () => {
@@ -12,5 +12,8 @@ describe('static stars', () => {
   });
   it('payment Countries', () => {
     expect(Countries).toHaveLength(3);
+  });
+  it('Room general info types', () => {
+    expect(RoomTypes).toHaveLength(3);
   });
 });

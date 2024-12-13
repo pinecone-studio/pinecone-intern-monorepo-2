@@ -3,15 +3,16 @@ import { gql } from 'apollo-server-cloud-functions';
 export const typeDefs = gql`
   type Post {
     _id: ID!
-    user: String!
-    description: String
+    user: User!
+    description: String!
     images: [String!]!
-    lastComments: String
-    commentCount: Int
-    likeCount: Int
-    updatedAt: String
-    createdAt: String
+    lastComments: [String]!
+    commentCount: Int!
+    likeCount: Int!
+    updatedAt: Date!
+    createdAt: Date!
   }
+
   input UpdatePostInput {
     _id: ID!
     description: String
@@ -19,7 +20,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getMyPosts(userID: String!): [Post!]!
+    getMyPosts: [Post!]!
   }
 
   type Mutation {

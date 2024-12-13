@@ -11,19 +11,11 @@ jest.mock('../../../../src/models', () => ({
 
 describe('update attraction', () => {
   const mockUser = {
-    _id: '123',
-    name: 'Sara',
     email: 'sara@gmail.com',
-    bio: 'Traveler',
-    interests: ['Reading', 'Traveling'],
-    profession: 'Developer',
-    schoolWork: ['School', 'Work'],
-    attraction: 'male',
   };
 
   const updatedAttraction = {
-    ...mockUser,
-    attraction: 'female',
+    email: 'sara@gmail.com',
   };
 
   it('should update attraction', async () => {
@@ -38,7 +30,7 @@ describe('update attraction', () => {
       {},
       {} as GraphQLResolveInfo
     );
-    expect(result).toEqual(updatedAttraction.email);
+    expect(result).toEqual(updatedAttraction);
   });
   it('should throw error', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
