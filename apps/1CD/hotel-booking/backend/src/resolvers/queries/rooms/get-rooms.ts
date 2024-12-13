@@ -71,7 +71,7 @@ const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: R
   };
 };
 const filterByAmenities = ({ hotelFilter, hotelAmenities }: { hotelFilter: HotelFilterType; hotelAmenities: string[] | undefined }) => {
-  if (hotelAmenities) {
+  if (hotelAmenities?.length) {
     hotelFilter.hotelAmenities = {
       $in: hotelAmenities,
     };
