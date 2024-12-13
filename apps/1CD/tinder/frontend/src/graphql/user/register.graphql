@@ -3,6 +3,7 @@ mutation registerEmail($input: RegisterEmailInput!) {
     email
   }
 }
+
 mutation verifyOtp($input: VerifyOtpInput!) {
   verifyOtp(input: $input) {
     token

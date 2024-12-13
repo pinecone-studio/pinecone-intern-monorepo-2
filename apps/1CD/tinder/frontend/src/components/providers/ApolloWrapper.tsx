@@ -2,23 +2,28 @@
 
 import { HttpLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
-import { PropsWithChildren } from 'react';
+// import { PropsWithChildren } from 'react';
+import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
 const uri =process.env.LOCAL_BACKEND_URI ?? process.env.BACKEND_URI;
+interface ApolloWrapperProps {
+  children: ReactNode;
+  authToken: string;
+}
 
-const makeClient = () => {
+
+const makeClient = (authToken:string) => {
   const httpLink = new HttpLink({
     uri,
     fetchOptions: { cache: 'no-store' },
   });
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
     return {
       headers: {
         ...headers,
-        authorization: token ?? '',
+        authorization: authToken ?? `Bearer ${authToken}`,
       },
     };
   });
@@ -29,6 +34,6 @@ const makeClient = () => {
   });
 };
 
-export const ApolloWrapper = ({ children }: PropsWithChildren) => {
-  return <ApolloNextAppProvider makeClient={makeClient}>{children}</ApolloNextAppProvider>;
+export const ApolloWrapper = ({ children, authToken }: ApolloWrapperProps) => {
+  return <ApolloNextAppProvider makeClient={()=>makeClient(authToken)}>{children}</ApolloNextAppProvider>;
 };
