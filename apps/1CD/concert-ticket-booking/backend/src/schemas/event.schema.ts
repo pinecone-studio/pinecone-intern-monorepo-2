@@ -11,7 +11,7 @@ export const typeDefs = gql`
     dayTickets: [Ticket!]!
     image: String!
     discount: Float
-    venue: ID!
+    venue: Venue!
     priority: String!
     category: [ID!]!
   }

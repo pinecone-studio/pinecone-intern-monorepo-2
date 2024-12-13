@@ -27,12 +27,26 @@ jest.mock('src/models', () => ({
       ])
       .mockResolvedValueOnce([]),
   },
+  hotelsModel: {
+    find: jest
+      .fn()
+      .mockResolvedValueOnce([
+        {
+          _id: '1',
+          hotelName: 'test',
+        },
+      ])
+      .mockResolvedValueOnce([]),
+  },
 }));
 
 describe('get rooms', () => {
   const input = {
     checkInDate: '2024-12-08',
     checkOutDate: '2024-12-12',
+    starRating: 5,
+    userRating: 4,
+    hotelAmenities: [''],
   };
   it('if succussfylly worked', async () => {
     const result = await getRooms({}, { input });

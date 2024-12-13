@@ -16,9 +16,9 @@ const Page = () => {
           </p>
           <button className="border-2 font-medium text-[14px] text-[#18181B] py-2 px-4 rounded-md">View all</button>
         </div>
-   <div className="grid grid-cols-4 rounded-md gap-2">
+        <div className="grid grid-cols-4 rounded-md gap-2">
           {data?.getHotels.map((hotel) => (
-            <Link href="/HomeDetails" key={hotel._id}>
+            <Link href={`/hotel-detail/${hotel._id}`} key={hotel._id}>
               <HomePageCard hotel={hotel} />
             </Link>
           ))}

@@ -22,9 +22,6 @@ const myPostMock = [
   {
     request: {
       query: GetMyPostsDocument,
-      variables: {
-        userId: '123',
-      },
     },
 
     result: {
@@ -65,9 +62,6 @@ const myPostMockNoImg = [
   {
     request: {
       query: GetMyPostsDocument,
-      variables: {
-        userId: '123',
-      },
     },
 
     result: {
@@ -90,6 +84,34 @@ const myPostMockNoImg = [
   },
 ];
 
+const myPostMockNull = [
+  {
+    request: {
+      query: GetUserDocument,
+    },
+    result: {
+      data: {
+        getUser: {
+          _id: '123',
+          userName: 'test',
+        },
+      },
+    },
+  },
+
+  {
+    request: {
+      query: GetMyPostsDocument,
+    },
+
+    result: {
+      data: {
+        getMyPosts: [],
+      },
+    },
+  },
+];
+
 describe('getMyPost', () => {
   it('should render', async () => {
     const { getByTestId } = render(
@@ -104,18 +126,24 @@ describe('getMyPost', () => {
     const deleteBtn = getByTestId('delete-btn');
     fireEvent.click(deleteBtn);
   });
-
-  it('should render', async () => {
+  it('should render no img', async () => {
     const { getByTestId } = render(
       <MockedProvider mocks={myPostMockNoImg}>
         <PostCard />
       </MockedProvider>
     );
-
     await waitFor(() => expect(getByTestId('post-card')));
     const moreBtn = getByTestId('more-btn');
     fireEvent.keyDown(moreBtn, { key: 'Enter' });
     const deleteBtn = getByTestId('delete-btn');
     fireEvent.click(deleteBtn);
+  });
+  it('should render no data', async () => {
+    const { getByTestId } = render(
+      <MockedProvider mocks={myPostMockNull}>
+        <PostCard />
+      </MockedProvider>
+    );
+    await waitFor(() => expect(getByTestId('post-card')));
   });
 });

@@ -9,6 +9,8 @@ import { useResendOtpMutation, useVerifyOtpMutation } from '@/generated';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+
+
 const COUNTDOWN_DURATION = 15; 
 
 const VerifyOtp = () => {
@@ -36,7 +38,9 @@ const VerifyOtp = () => {
 
   const [verifyOtp] = useVerifyOtpMutation({
 
-    onCompleted: () => {
+    onCompleted: async(data) => {
+      const token=data.verifyOtp.token
+      fetch(`/token?token=${token}`);
       router.push('/register/password');
     },
 
