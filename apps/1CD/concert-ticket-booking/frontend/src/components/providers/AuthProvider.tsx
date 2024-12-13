@@ -1,10 +1,9 @@
 'use client';
 
-import { useLoginMutation, User, useSignUpMutation } from '@/generated';
+import { LoginMutation, useLoginMutation, useSignUpMutation } from '@/generated';
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
-import { toast } from 'react-toastify';
-
+import { toast } from 'sonner';
 type SignUpParams = {
   email: string;
   password: string;
@@ -14,14 +13,14 @@ type AuthContextType = {
   handleSignUp: (_params: SignUpParams) => void;
   handleSignIn: (_params: SignUpParams) => void;
   signout: () => void;
-  user: User | null;
+  user: LoginMutation['login']['user'] | null;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<LoginMutation['login']['user'] | null>(null);
 
   const [signUpMutation] = useSignUpMutation({
     onCompleted: () => {
@@ -44,8 +43,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     onCompleted: (data) => {
       localStorage.setItem('token', data.login.token);
       toast.success('Successfully login');
+
       if (data.login.user.role === 'user') {
-        router.push('/');
+        setUser(data.login.user);
+        router.push('/home');
       }
     },
     onError: (error) => {

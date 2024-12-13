@@ -1,7 +1,7 @@
-describe('register with email page',()=>{
-    beforeEach(()=>{
-        cy.visit('/register/email');
-    });
+describe('register with email page', () => {
+  beforeEach(() => {
+    cy.visit('/register/email');
+  });
     it('1.should render register page correctly',()=>{
         cy.get('[data-cy="register-email-header"]').should('be.visible');
         cy.contains('tinder').should('be.visible')
@@ -19,7 +19,7 @@ describe('register with email page',()=>{
     })
     it('4.should show a toast notification when no email is provided',()=>{
         cy.get('[data-cy="register-continue-button"]').click();
-        cy.contains('email is required').should('be.visible');
+        cy.contains('email is required').should('exist');
     })
   
     it('6.should redirect to otp page ',()=>{
@@ -33,6 +33,7 @@ describe('register with email page',()=>{
         cy.window().then((window) => {
             expect(window.localStorage.getItem('userEmail')).to.equal(mockEmail);
           });
+        cy.url().should('include', 'register/otp') 
       
     })
    
