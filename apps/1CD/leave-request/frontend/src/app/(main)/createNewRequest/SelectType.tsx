@@ -9,7 +9,7 @@ import { FileUpload } from '@/components/static/FileUpload';
 type HourOption = { label: string; value: string };
 import React, { useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
-import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'; // Example library import
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { generateHours } from './generate-hourst';
 
 export const ChooseHourlyOrDaily = ({ formik, data }: { formik: FormikProps<RequestFormValues>; data: CreateRequestQuery | undefined }) => {
