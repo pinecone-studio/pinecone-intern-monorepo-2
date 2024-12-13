@@ -1,4 +1,4 @@
-import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
+import { DatePickerWithRange } from '@/components/DatePicker';
 import { render, act, fireEvent } from '@testing-library/react';
 
 describe('DatePicker', () => {

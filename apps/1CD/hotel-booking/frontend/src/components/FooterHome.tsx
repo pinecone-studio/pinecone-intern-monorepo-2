@@ -2,11 +2,12 @@ import { Copyright } from 'lucide-react';
 import { Mail } from 'lucide-react';
 import { Phone } from 'lucide-react';
 import { Headphones } from 'lucide-react';
+import Image from 'next/image';
 
 const FooterHome = () => {
   return (
-    <div className="container mx-auto max-w-[1920px] h-[280px] bg-yellow-200 flex flex-row justify-around">
-      <div className="pt-10 flex flex-col justify-between">
+    <div className="container mx-auto max-w-[1600px] h-auto flex flex-col md:flex-row justify-around mb-10">
+      <div className="flex flex-col justify-between pt-10">
         <div>
           <div className="flex gap-1">
             <div className="w-5 h-5 bg-black rounded-full"></div>
@@ -19,16 +20,16 @@ const FooterHome = () => {
         </div>
         <div className="pb-10 text-[14px]">
           <div className="flex gap-1">
-            <img src="./images/cards-cc_jcb.png"></img>
-            <img src="./images/cards-cc_visa.png"></img>
-            <img src="./images/cards-cc_master_card.png"></img>
-            <img src="./images/cards-cc_american_express.png"></img>
+            <Image alt="logo" src="./images/cards-cc_jcb.png"></Image>
+            <Image alt="logo" src="./images/cards-cc_visa.png"></Image>
+            <Image alt="logo" src="./images/cards-cc_master_card.png"></Image>
+            <Image alt="logo" src="./images/cards-cc_american_express.png"></Image>
           </div>
           <p className="pt-2">Accepted Payment Methods</p>
         </div>
       </div>
 
-      <div className="pt-10 my-3 w-[168px] text-[14px]">
+      <div className="pt-10 my-3 w-full md:w-[168px] text-[14px]">
         <p>Contact Information</p>
         <div className="flex items-center gap-2 pt-3">
           <Mail />
@@ -45,21 +46,21 @@ const FooterHome = () => {
           <p>Customer Support: Avaiable 24/7</p>
         </div>
       </div>
-      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3">
+      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3 w-full md:w-auto">
         <p>Follow us</p>
         <a href="https://www.facebook.com/">Facebook</a>
         <a href="https://www.instagram.com/">Instagram</a>
         <a href="https://x.com/">Twitter</a>
         <a href="https://www.youtube.com/">Youtube</a>
       </div>
-      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3">
+      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3 w-full md:w-auto">
         <p>Policies</p>
         <a href="/TermsCondition">Terms & Conditions</a>
         <a href="/Privacy">Privacy</a>
         <a href="/Cookies">Cookies</a>
         <a href="/CancelationPolicy">Cancelation Policy</a>
       </div>
-      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3">
+      <div className="flex flex-col pt-10 my-3 text-[14px] gap-3 w-full md:w-auto">
         <p>Other</p>
         <a href="/AboutUs">About us</a>
         <a href="/Careers">Careers</a>
