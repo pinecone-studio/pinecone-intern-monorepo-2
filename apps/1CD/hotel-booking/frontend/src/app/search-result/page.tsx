@@ -1,10 +1,8 @@
 'use client';
-import { Button } from '@/components/ui/button';
 
 import { Input } from '@/components/ui/input';
-import { ComboboxDemo } from '../../app/TravelerSelection';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
 import { useGetHotelsQuery } from '@/generated';
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
@@ -17,19 +15,6 @@ const Page = () => {
   return (
     <>
       <main data-cy="Get-Rooms-Page" className="h-full">
-        <section data-testid="search-result-section" className="flex mx-auto items-center pl-5 gap-4 mt-20 max-w-[1200px] max-h-28 border-[3px] border-orange-200 rounded-xl">
-          <div className="flex flex-col gap-2 my-4">
-            <p>Dates</p>
-            <DatePickerWithRange />
-          </div>
-          <div className="flex flex-col gap-2 my-4">
-            <p>Travels</p>
-            <ComboboxDemo />
-          </div>
-          <Button className="mr-5 bg-blue-700 mt-7" data-testid="search-hotel-room-btn">
-            Search
-          </Button>
-        </section>
         <section className="flex justify-center w-full gap-16">
           <main className="flex flex-col gap-4 w-60">
             <div className="flex flex-col gap-2 mt-12">
