@@ -4,6 +4,7 @@ import { Event, useGetEventsQuery } from '@/generated';
 
 const Page = () => {
   const { data, loading } = useGetEventsQuery();
+  console.log(data?.getEvents);
 
   return (
     <div className="w-full h-screen  bg-black pt-10" data-cy="Home-Page">
