@@ -18,11 +18,15 @@ const Page = () => {
   const [date, setDate] = React.useState<DateRange | undefined>();
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);
+  const [hotelAmenities, setHotelAmenities] = useState<string[]>([]);
   const [getRooms, { loading, data }] = useGetRoomsLazyQuery({
     variables: {
       input: {
         checkInDate: date?.from,
         checkOutDate: date?.to,
+        starRating: starRating,
+        userRating: userReviewRating,
+        hotelAmenities: hotelAmenities,
       },
     },
   });
@@ -67,7 +71,7 @@ const Page = () => {
             <div className="flex flex-col gap-3 pt-3 pl-3">
               <h2>Amenities</h2>
               {AmenitiesMock.map((amenities, index) => (
-                <AmenitiesCheckbox key={index} amenities={amenities} />
+                <AmenitiesCheckbox key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
               ))}
             </div>
           </main>
