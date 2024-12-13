@@ -101,7 +101,7 @@ const SignUp = () => {
             <p className="w-full text-xs text-center text-zinc-400">
               Та бүртгэлтэй хаягтай бол
               <button data-cy="Sign-In-Link-Button" data-testid="Sign-In-Link-Button">
-                <Link href="/sign-in" className="mx-1 underline underline-offset-2 decoration-white hover:text-gray-600 ">
+                <Link href="/user/sign-in" className="mx-1 underline underline-offset-2 decoration-white hover:text-gray-600 ">
                   нэвтрэх
                 </Link>
               </button>

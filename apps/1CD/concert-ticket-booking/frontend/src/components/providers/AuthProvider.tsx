@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [signUpMutation] = useSignUpMutation({
     onCompleted: () => {
       setLoading(false);
-      router.push('/sign-in');
+      router.push('/user/sign-in');
     },
     onError: (error) => {
       setLoading(false);
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       if (data.login.user.role === 'user') {
         setUser(data.login.user);
-        router.push('/home');
+        router.push('/user/home');
       }
     },
     onError: (error) => {

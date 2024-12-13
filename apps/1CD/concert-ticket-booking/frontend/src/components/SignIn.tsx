@@ -93,7 +93,7 @@ const SignIn = () => {
             <p className="w-full text-sm text-center text-zinc-400 ">
               Та бүртгэлтэй хаяггүй бол
               <button data-cy="Sign-Up-Link-Button" data-testid="Sign-Up-Link-Button">
-                <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
+                <Link href="/user/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
                   бүртгүүлэх
                 </Link>
               </button>
