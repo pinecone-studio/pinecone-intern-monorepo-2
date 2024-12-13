@@ -1,9 +1,8 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ComboboxDemo } from '../../app/TravelerSelection';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
 import { useGetRoomsLazyQuery } from '@/generated';
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
@@ -13,6 +12,8 @@ import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
+import { ComboboxDemo } from '../header-filter/TravelerSelection';
+import { DatePickerWithRange } from '@/components/DatePicker';
 
 const Page = () => {
   const [date, setDate] = React.useState<DateRange | undefined>();

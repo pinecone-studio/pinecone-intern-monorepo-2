@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { format } from 'date-fns';
-import { DatePickerWithRange } from '@/components/search-hotel/DatePicker';
+import { DatePickerWithRange } from '@/components/DatePicker';
 
 jest.mock('@/components/ui/calendar', () => ({
   Calendar: ({ onSelect }: { selected: any; onSelect: (_date: any) => void }) => (

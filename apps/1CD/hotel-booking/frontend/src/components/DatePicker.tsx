@@ -20,7 +20,7 @@ type DatePickerProps = {
 type DatePickerWithRangeType = DatePickerProps & React.HTMLAttributes<HTMLDivElement>;
 export const DatePickerWithRange = ({ className, date, setDate }: DatePickerWithRangeType) => {
   return (
-    <div data-testid="date-picker-modal" className={cn('grid gap-2', className)}>
+    <div data-testid="date-picker-modal" className={cn('grid gap-2 xl:min-w-[500px]', className)}>
       <Popover>
         <PopoverTrigger data-testid="trigger-test" asChild>
           <Button data-testid="date-picker-btn" id="date" variant={'outline'} className={cn('w-[500px] justify-between text-left font-normal')}>
@@ -33,11 +33,13 @@ export const DatePickerWithRange = ({ className, date, setDate }: DatePickerWith
                 {format(new Date(), 'LLL dd, y')} - {format(new Date(), 'LLL dd, y')}
               </>
             )}
-            <CalendarIcon />
+
+            <CalendarIcon className="w-4 h-4 ml-2 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={2} />
+        <PopoverContent className={cn('w-auto p-0', 'max-w-[500px]', 'overflow-x-auto')} align="start">
+          <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={2} className={cn('max-w-full', 'overflow-x-auto', 'hidden md:block')} />
+          <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={1} className={cn('max-w-full', 'overflow-x-auto', 'block md:hidden')} />
         </PopoverContent>
       </Popover>
     </div>
