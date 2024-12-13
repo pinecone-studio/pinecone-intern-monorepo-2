@@ -21,9 +21,7 @@ describe('Create Employee', () => {
     cy.get('input[name="position"]').type('Software Engineer');
     cy.get('input[name="email"]').type('test@example.com');
     cy.get('input[name="hireDate"]').type('2024-01-01');
-
     cy.get('[role="combobox"]').click();
-    cy.get('[role="option"]').contains('Ажилтан').click();
     cy.get('button[type="submit"]').contains('Нэмэх').click();
 
     cy.contains('Ажилтан амжилттай бүртгэгдлээ').should('be.visible');
@@ -62,12 +60,7 @@ describe('Create Employee', () => {
     cy.get('input[name="position"]').type('Software Engineer');
     cy.get('input[name="email"]').type('test@example.com');
     cy.get('input[name="hireDate"]').type('2024-01-01');
-
-    cy.get('[role="combobox"]').click();
-    cy.get('[role="option"]').contains('Ажилтан').click();
-
     cy.get('button[type="submit"]').contains('Нэмэх').click();
-
     cy.contains('Server error occurred').should('be.visible');
   });
 });
