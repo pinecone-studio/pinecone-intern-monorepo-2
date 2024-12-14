@@ -23,3 +23,17 @@ mutation Login($input: LoginInput!) {
     token
   }
 }
+query GetArena {
+  getArena {
+    _id
+    capacity
+    image
+    name
+  }
+}
+query GetCategories {
+  getCategories {
+    _id
+    name
+  }
+}
