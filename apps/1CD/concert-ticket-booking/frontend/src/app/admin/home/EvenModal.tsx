@@ -12,12 +12,12 @@ import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { EventInputSchema } from '@/utils/validation-schema';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import InputArtists from './InputArtists';
+import InputArtists from './InputArtist';
+import InputForm from './TicketInputs';
+import InputImage from '@/app/admin/home/InputImage';
+import InputGenreWithLocation from './GenreWithLocation';
 import { DatePickerWithRange } from './DateRangePicker';
 import TimePicker from './TimePicker';
-import InputForm from './TicketInputs';
-import InputGenreWithLocation from '@/app/admin/home/InputGenreWithLocation';
-import InputImage from '@/app/admin/home/InputImage';
 
 const CreateEventModal = () => {
   const form = useForm<z.infer<typeof EventInputSchema>>({
