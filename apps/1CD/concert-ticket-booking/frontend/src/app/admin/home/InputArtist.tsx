@@ -10,7 +10,7 @@ import { UseFormReturn } from 'react-hook-form';
 type FormProps = {
   form: UseFormReturn<EventInputType>;
 };
-const InputArtists = ({ form }: FormProps) => {
+const InputArtist = ({ form }: FormProps) => {
   const {
     fields: mainArtistsFields,
     append: appendMainArtist,
@@ -126,4 +126,4 @@ const InputArtists = ({ form }: FormProps) => {
     </div>
   );
 };
-export default InputArtists;
+export default InputArtist;

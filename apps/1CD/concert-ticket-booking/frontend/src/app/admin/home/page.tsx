@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateEventModal from './EventModal';
+import CreateEventModal from './EvenModal';
 
 const homePage = () => {
   return (
