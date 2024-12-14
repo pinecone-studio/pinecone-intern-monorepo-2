@@ -23,6 +23,10 @@ export const typeDefs = gql`
     getMyPosts: [Post!]!
   }
 
+  type Query {
+    getMyFollowingsPosts: [Post!]!
+  }
+
   type Mutation {
     createPost(user: String!, description: String, images: [String!]!): Post!
     updatePost(input: UpdatePostInput!): Post!
