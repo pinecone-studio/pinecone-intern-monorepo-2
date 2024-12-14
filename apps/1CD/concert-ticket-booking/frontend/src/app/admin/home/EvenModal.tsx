@@ -16,8 +16,9 @@ import InputArtists from './InputArtist';
 import InputForm from './TicketInputs';
 import InputImage from '@/app/admin/home/InputImage';
 import InputGenreWithLocation from './GenreWithLocation';
-import { DatePickerWithRange } from './DateRangePicker';
+
 import TimePicker from './TimePicker';
+import { DatePickerWithRange } from './DatePicker';
 
 const CreateEventModal = () => {
   const form = useForm<z.infer<typeof EventInputSchema>>({
