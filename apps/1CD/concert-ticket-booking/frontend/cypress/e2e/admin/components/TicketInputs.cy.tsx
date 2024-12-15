@@ -26,7 +26,7 @@ describe('InputForm Component', () => {
   });
 
   it('should show validation error if required fields are left empty', () => {
-    cy.get('[data-testid="submit-button"]').click(); //
+    cy.get('[data-testid="submit-button"]').click();
     cy.get('[data-testid="unit-price-message-0"]').should('have.class', 'text-destructive');
     cy.get('[data-testid="total-quantity-message-0"]').should('have.class', 'text-destructive');
   });
