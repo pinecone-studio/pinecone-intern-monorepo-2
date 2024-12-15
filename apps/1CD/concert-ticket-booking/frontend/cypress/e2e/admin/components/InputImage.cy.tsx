@@ -46,10 +46,8 @@ describe('InputImage Component', () => {
         input.files = dataTransfer.files;
         cy.wrap($input).trigger('change', { force: true });
       });
-
-      // cy.get('[data-testid="image-preview"]').should('be.visible');
+      cy.get('[data-testid="image-preview"]').should('be.visible');
       cy.get('[data-testid="delete-image-button"]').click();
-
       cy.get('[data-testid="image-preview"]').should('not.exist');
     });
   });

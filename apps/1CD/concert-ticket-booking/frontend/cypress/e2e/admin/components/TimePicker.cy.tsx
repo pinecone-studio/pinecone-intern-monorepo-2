@@ -1,6 +1,5 @@
 describe('TimePicker Component', () => {
   beforeEach(() => {
-    // Visiting the page where the TimePicker is rendered
     cy.visit('/admin/home');
     cy.get('[data-testid="create-event-button"]').click();
   });
