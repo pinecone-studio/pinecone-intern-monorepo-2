@@ -53,9 +53,11 @@ export const typeDefs = gql`
     profileImg: String
     accountVisibility: AccountVisibility
   }
+
   input ForgetpasswordInput {
     email: String!
   }
+
   input VerifyNewPassInput {
     password: String!
     resetToken: String!
@@ -63,6 +65,10 @@ export const typeDefs = gql`
 
   type Query {
     getUser: User!
+  }
+
+  type Query {
+    searchUsers(searchTerm: String!): [User!]!
   }
 
   type Mutation {

@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { GraphQLError } from 'graphql';
 import { sendOtpMail } from '../../../src/utils/user/send-otp-email';
 
+
 jest.mock('nodemailer');
 
 describe('sendOtpMail', () => {
@@ -17,8 +18,8 @@ describe('sendOtpMail', () => {
 
   it('should send an email successfully', async () => {
     // Arrange
-    const testEmail = 'test@example.com';
-    const testOtp = 123456;
+    const testEmail = 'cypress@gmail.com';
+    const testOtp = '0000';
 
     mockTransporter.sendMail.mockResolvedValue({
       messageId: 'test-message-id'
@@ -49,7 +50,7 @@ describe('sendOtpMail', () => {
   it('should throw a GraphQLError when email sending fails', async () => {
 
     const testEmail = 'test@example.com';
-    const testOtp = 123456;
+    const testOtp = '123456';
 
 
     mockTransporter.sendMail.mockRejectedValue(new Error('SMTP Error'));

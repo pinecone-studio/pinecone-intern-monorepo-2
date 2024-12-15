@@ -3,6 +3,15 @@ import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards
 
 describe('Searched hotel room cards', () => {
   it('should render', async () => {
-    render(<SearchedHotelCards />);
+    render(
+      <SearchedHotelCards
+        roomData={{
+          id: '1',
+          roomService: {
+            bedroom: ['test'],
+          },
+        }}
+      />
+    );
   });
 });

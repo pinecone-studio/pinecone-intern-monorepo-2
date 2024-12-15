@@ -1,13 +1,25 @@
 import gql from 'graphql-tag';
 
 export const ticketTypeDefs = gql`
-  type Ticket {
-    _id: ID!
-    scheduledDay: Date!
-    ticketType: [TicketType!]!
+  input RequestTypeInput {
+    eventId: ID!
+    bankAccount: String!
+    bankName: String!
+    accountOwner: String!
+    phoneNumber: String!
+    totalPrice: Int!
+  }
+
+  input CancelTicketTypeInput {
+    orderId: ID!
+    bankDatas: RequestTypeInput!
+  }
+
+  type CancelTicketResponse {
+    message: String!
   }
 
   type Mutation {
-    createTicket(scheduledDay: Date!, input: [TicketTypeInput!]!): Ticket!
+    cancelTicket(input: CancelTicketTypeInput!): CancelTicketResponse!
   }
 `;

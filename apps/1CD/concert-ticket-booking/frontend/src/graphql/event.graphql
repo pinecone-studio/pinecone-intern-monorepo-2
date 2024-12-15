@@ -1,0 +1,33 @@
+query GetEvents($filter: EventsFilter) {
+  getEvents(filter: $filter) {
+    _id
+    category
+    description
+    discount
+    guestArtists
+    image
+    mainArtists
+    name
+    scheduledDays
+
+    dayTickets {
+      _id
+      scheduledDay
+      ticketType {
+        _id
+        discount
+        soldQuantity
+        unitPrice
+        zoneName
+      }
+    }
+    venue {
+      _id
+      name
+      location
+      image
+      capacity
+      size
+    }
+  }
+}

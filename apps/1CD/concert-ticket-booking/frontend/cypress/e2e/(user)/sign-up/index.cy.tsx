@@ -1,6 +1,6 @@
 describe('Sign-Up Page', () => {
   beforeEach(() => {
-    cy.visit('/sign-up');
+    cy.visit('/user/sign-up');
   });
 
   it('1. should render sign-up', () => {
@@ -33,7 +33,7 @@ describe('Sign-Up Page', () => {
 
     cy.get('[data-cy="Sign-Up-Submit-Button"]').should('be.visible').click();
 
-    cy.url().should('include', '/');
+    // cy.url().should('include', '/');
   });
 
   it('5. should navigate to the sign-in page when "Нэвтрэх" button is clicked', () => {

@@ -1,7 +1,17 @@
 query Query {
   sampleQuery
 }
-
+query GetHotels {
+  getHotels {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+  }
+}
 mutation Mutation {
   sampleMutation
 }
@@ -35,5 +45,40 @@ mutation addPayment($input: PaymentInput!) {
     amount
     paymentMethod
     status
+  }
+}
+
+query GetRooms($input: RoomFilterType!) {
+  getRooms(input: $input) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    hotelId {
+      createdAt
+      _id
+      hotelName
+      description
+      starRating
+      userRating
+      phoneNumber
+      images
+    }
+  }
+}
+mutation AddRoom($input: RoomTypeInput!) {
+  addRoom(input: $input) {
+    _id
+    hotelId
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
   }
 }
