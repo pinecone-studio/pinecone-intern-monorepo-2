@@ -84,10 +84,10 @@ describe('CreateEventModal Component', () => {
         input.files = dataTransfer.files;
 
         cy.wrap($input).trigger('change', { force: true });
+        cy.get('[data-testid="image-upload-loading"]').should('be.visible');
+        cy.get('[data-testid="image-preview"]').should('be.visible');
       });
     });
-    cy.get('[data-testid="image-upload-loading"]').should('be.visible');
-    cy.get('[data-testid="image-preview"]').should('be.visible');
 
     // Fill in the ticket zone
     cy.get('[data-testid="ticket-type-0"] [data-testid="discount-input-0"]').type('10%').should('have.value', '10%');

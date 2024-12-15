@@ -28,9 +28,9 @@ describe('InputImage Component', () => {
 
         cy.wrap($input).trigger('change', { force: true });
       });
+      cy.get('[data-testid="image-upload-loading"]').should('be.visible');
+      cy.get('[data-testid="image-preview"]').should('be.visible');
     });
-    cy.get('[data-testid="image-upload-loading"]').should('be.visible');
-    cy.get('[data-testid="image-preview"]').should('be.visible');
   });
 
   it('should delete the uploaded image', () => {
