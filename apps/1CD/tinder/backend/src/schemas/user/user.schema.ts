@@ -31,8 +31,6 @@ export const typeDefs = gql`
     otp: String!
   }
   input createPasswordInput {
-    email: String!
-    otp: String!
     password: String!
   }
 
@@ -40,56 +38,32 @@ export const typeDefs = gql`
     email: String!
   }
 
-  input CreateUserInput {
-    name: String!
-    email: String!
-    bio: String!
-    age: Int!
-    gender: String!
-    interests: [String!]
-    photos: [String!]
-    profession: String!
-    schoolWork: [String!]
-    createdAt: Date!
-    updatedAt: Date!
-  }
-
   input CreatePassInput {
-
-    email: String!
     password: String!
   }
 
   input BirthdaySubmitInput {
-    email: String!
     age: Int!
   }
 
+  type ResponseWithtoken {
+    token: String!
+  }
 
   type Mutation {
+    # sign up
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
-    verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
-
+    verifyOtp(input: VerifyOtpInput!): ResponseWithtoken!
     createPassword(input: CreatePassInput!): RegisterEmailResponse!
-
-    createUser(input: CreateUserInput!): User!
-
-
-    resendOtp(input:RegisterEmailInput!): RegisterEmailResponse!
-
-
-
+    resendOtp(input: RegisterEmailInput!): RegisterEmailResponse!
+    # sign in
+    signIn(email:String!, password:String!):ResponseWithtoken!
+    # forget password
     checkEmail(input: checkEmailInput!): RegisterEmailResponse!
+    # details
+    birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
+    updateUser(email:String!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
+    updateAttraction(attraction: String!): RegisterEmailResponse!
 
-
-    updateUser(email: String!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): User!
-
-
- 
-
-    updateAttraction(email: String!, attraction: String!): User!
-
-
-    birthdaySubmit(input: BirthdaySubmitInput!): User!
   }
 `;

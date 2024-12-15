@@ -47,3 +47,38 @@ mutation addPayment($input: PaymentInput!) {
     status
   }
 }
+
+query GetRooms($input: RoomFilterType!) {
+  getRooms(input: $input) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    hotelId {
+      createdAt
+      _id
+      hotelName
+      description
+      starRating
+      userRating
+      phoneNumber
+      images
+    }
+  }
+}
+mutation AddRoom($input: RoomTypeInput!) {
+  addRoom(input: $input) {
+    _id
+    hotelId
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+  }
+}

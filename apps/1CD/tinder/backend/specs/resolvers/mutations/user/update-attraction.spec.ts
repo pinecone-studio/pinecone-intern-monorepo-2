@@ -2,6 +2,7 @@ import { updateAttraction } from '../../../../src/resolvers/mutations';
 import { GraphQLResolveInfo } from 'graphql';
 import { userModel } from '../../../../src/models';
 
+
 jest.mock('../../../../src/models', () => ({
   userModel: {
     findOne: jest.fn(),
@@ -10,42 +11,23 @@ jest.mock('../../../../src/models', () => ({
 }));
 
 describe('update attraction', () => {
-  const mockUser = {
-    _id: '123',
-    name: 'Sara',
-    email: 'sara@gmail.com',
-    bio: 'Traveler',
-    interests: ['Reading', 'Traveling'],
-    profession: 'Developer',
-    schoolWork: ['School', 'Work'],
-    attraction: 'male',
-  };
-
-  const updatedAttraction = {
-    ...mockUser,
-    attraction: 'female',
-  };
+  const mockEmail = 'cypress@gmail.com';
+const userId='675675e84bd85fce3de34006'
 
   it('should update attraction', async () => {
-    (userModel.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(updatedAttraction);
+    (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue({email:mockEmail});
     const result = await updateAttraction!(
       {},
       {
-        email: 'nara@gmail.com',
         attraction: 'female',
       },
-      {},
+      {userId},
       {} as GraphQLResolveInfo
     );
-    expect(result).toEqual(updatedAttraction.email);
+    expect(result).toEqual({email:mockEmail});
   });
+  
   it('should throw error', async () => {
-    (userModel.findOne as jest.Mock).mockResolvedValue(null);
-
-    expect(updateAttraction!({}, { email: 'nara@gmail.com', attraction: 'female' }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('user not found');
-  });
-  it('should throw error', async () => {
-    expect(updateAttraction!({}, { email: 'nara@gmail.com', attraction: '' }, {}, {} as GraphQLResolveInfo)).rejects.toThrow('attraction is empty');
+    expect(updateAttraction!({}, { attraction: '' }, {userId}, {} as GraphQLResolveInfo)).rejects.toThrow('Please enter or choose an attraction.');
   });
 });

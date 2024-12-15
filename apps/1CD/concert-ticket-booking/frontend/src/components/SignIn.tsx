@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
+import LoadingSpinner from './loading/Loading';
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -29,7 +30,7 @@ const inputs = [
 ] as const;
 
 const SignIn = () => {
-  const { handleSignIn } = useAuth();
+  const { handleSignIn, loading } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +46,7 @@ const SignIn = () => {
       password: values.password,
     });
   };
-
+  if (loading) return <LoadingSpinner />;
   return (
     <div data-cy="Sign-In-Page" className="flex min-h-[calc(100vh-314px)] bg-black align-center px-4 py-6">
       <Form {...form}>
@@ -92,7 +93,7 @@ const SignIn = () => {
             <p className="w-full text-sm text-center text-zinc-400 ">
               Та бүртгэлтэй хаяггүй бол
               <button data-cy="Sign-Up-Link-Button" data-testid="Sign-Up-Link-Button">
-                <Link href="/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
+                <Link href="/user/sign-up" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
                   бүртгүүлэх
                 </Link>
               </button>

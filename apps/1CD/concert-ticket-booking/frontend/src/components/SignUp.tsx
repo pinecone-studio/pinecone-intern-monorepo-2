@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { z } from 'zod';
+import LoadingSpinner from './loading/Loading';
 
 const inputs = [
   {
@@ -28,7 +29,7 @@ const inputs = [
 ] as const;
 
 const SignUp = () => {
-  const { handleSignUp } = useAuth();
+  const { handleSignUp, loading } = useAuth();
 
   const formSchema = z
     .object({
@@ -66,7 +67,7 @@ const SignUp = () => {
       password: values.password,
     });
   };
-
+  if (loading) return <LoadingSpinner />;
   return (
     <div data-cy="Sign-Up-Page" className="flex min-h-[calc(100vh-314px)] bg-black align-center px-4 py-6">
       <Form {...form}>
@@ -100,7 +101,7 @@ const SignUp = () => {
             <p className="w-full text-xs text-center text-zinc-400">
               Та бүртгэлтэй хаягтай бол
               <button data-cy="Sign-In-Link-Button" data-testid="Sign-In-Link-Button">
-                <Link href="/sign-in" className="mx-1 underline underline-offset-2 decoration-white hover:text-gray-600 ">
+                <Link href="/user/sign-in" className="mx-1 underline underline-offset-2 decoration-white hover:text-gray-600 ">
                   нэвтрэх
                 </Link>
               </button>

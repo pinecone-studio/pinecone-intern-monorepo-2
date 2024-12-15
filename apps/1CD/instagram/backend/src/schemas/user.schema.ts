@@ -67,6 +67,10 @@ export const typeDefs = gql`
     getUser: User!
   }
 
+  type Query {
+    searchUsers(searchTerm: String!): [User!]!
+  }
+
   type Mutation {
     signup(input: SignupInput!): AuthResponse!
     updateUserData(input: UpdateInput!): User!

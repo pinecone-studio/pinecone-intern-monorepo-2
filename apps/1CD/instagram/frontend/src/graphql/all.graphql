@@ -6,8 +6,8 @@ mutation Mutation {
   sampleMutation
 }
 query GetUser {
-  getUser{
- _id
+  getUser {
+    _id
     userName
     fullName
     email
@@ -44,4 +44,28 @@ mutation ForgetPassword($input: ForgetpasswordInput!) {
 
 mutation ResetPassword($input: VerifyNewPassInput!) {
   verifyNewPass(input: $input)
+}
+
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      _id
+      userName
+      fullName
+      email
+      profileImg
+    }
+    token
+  }
+}
+
+mutation ConfirmFollowReq($id: ID!) {
+  confirmFollowReq(_id: $id) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
+  }
 }

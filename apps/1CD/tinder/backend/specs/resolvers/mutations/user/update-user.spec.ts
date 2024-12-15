@@ -19,7 +19,7 @@ describe('find user by email', () => {
     profession: 'Developer',
     schoolWork: ['School', 'Work'],
   };
-
+  const userId='675675e84bd85fce3de34006'
   const updatedUser = {
     ...mockUser,
     name: 'Sarah',
@@ -34,7 +34,7 @@ describe('find user by email', () => {
     const updateduser = await updateUser!(
       {},
       {  email: 'anna@gmail.com', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
-      {},
+      {userId},
       {} as GraphQLResolveInfo
     );
     expect(updateduser).toEqual(updatedUser);
@@ -47,7 +47,7 @@ describe('find user by email', () => {
       await expect( updateUser!(
         {},
         {  email: 'anna@gmail.com', name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
-        {},
+        {userId},
         {} as GraphQLResolveInfo
       )).rejects.toThrow("Could not find user") 
    
@@ -68,7 +68,7 @@ describe('find user by email', () => {
           profession: 'Software Engineer', 
           schoolWork: ['university', 'school'] 
         },
-        {},
+        {userId},
         {} as GraphQLResolveInfo
       )
     ).rejects.toThrow('Internal server error');

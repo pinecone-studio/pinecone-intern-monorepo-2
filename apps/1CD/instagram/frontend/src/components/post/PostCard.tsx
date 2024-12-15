@@ -15,11 +15,7 @@ import { useGetMyPostsQuery, useGetUserQuery } from '@/generated';
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { data: user } = useGetUserQuery();
-  const { data, loading } = useGetMyPostsQuery({
-    variables: {
-      userId: user?.getUser._id || '',
-    },
-  });
+  const { data, loading } = useGetMyPostsQuery();
 
   if (loading) {
     return <div data-testid="post-load">Loading...</div>;

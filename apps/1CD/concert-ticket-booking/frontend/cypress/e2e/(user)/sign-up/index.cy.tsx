@@ -1,6 +1,6 @@
 describe('Sign-Up Page', () => {
   beforeEach(() => {
-    cy.visit('/sign-up');
+    cy.visit('/user/sign-up');
   });
 
   it('1. should render sign-up', () => {

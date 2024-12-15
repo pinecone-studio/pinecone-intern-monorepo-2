@@ -17,12 +17,7 @@ export const UPDATE_USER = gql`
       schoolWork: $schoolWork, 
       interests: $interests
     ) {
-      email,
-      name,
-      bio,
-      profession,
-      schoolWork,
-      interests,
+      email
     }
   }
 `;
