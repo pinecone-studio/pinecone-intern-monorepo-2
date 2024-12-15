@@ -46,7 +46,6 @@ const CreateEventModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof EventInputSchema>) => {
-    console.log('values', values);
     await createEvent({
       variables: {
         input: values,
