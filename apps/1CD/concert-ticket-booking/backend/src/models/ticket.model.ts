@@ -45,7 +45,6 @@ const ticketSchema = new Schema<Ticket>(
         },
         additional: {
           type: String,
-          default: 'nothing',
         },
       },
     ],
