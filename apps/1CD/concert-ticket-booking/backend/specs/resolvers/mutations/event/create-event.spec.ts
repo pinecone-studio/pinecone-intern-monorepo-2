@@ -64,17 +64,24 @@ describe('createEvent mutation', () => {
   it('should create an event and return a success message', async () => {
     (Ticket.insertMany as jest.Mock).mockResolvedValueOnce([{ _id: 'ticket1' }, { _id: 'ticket2' }]);
     (Event.create as jest.Mock).mockResolvedValueOnce(mockEvent);
+
     const result = await createEvent!({}, { input }, { userId: null }, {} as GraphQLResolveInfo);
+
+    // Adjust the expected scheduledDay times to match UTC format
     expect(Ticket.insertMany).toHaveBeenCalledWith([
-      { scheduledDay: new Date('2024-12-25T15:00:00+08:00'), ticketType: input.ticketType },
-      { scheduledDay: new Date('2024-12-26T15:00:00+08:00'), ticketType: input.ticketType },
-      { scheduledDay: new Date('2024-12-27T15:00:00+08:00'), ticketType: input.ticketType },
+      { scheduledDay: new Date('2024-12-25T07:00:00.000Z'), ticketType: input.ticketType }, // Adjusted expected date
+      { scheduledDay: new Date('2024-12-26T07:00:00.000Z'), ticketType: input.ticketType }, // Adjusted expected date
+      { scheduledDay: new Date('2024-12-27T07:00:00.000Z'), ticketType: input.ticketType }, // Adjusted expected date
     ]);
 
     expect(Event.create).toHaveBeenCalledWith({
       name: input.name,
       description: input.description,
-      scheduledDays: [new Date('2024-12-25T15:00:00+08:00'), new Date('2024-12-26T15:00:00+08:00'), new Date('2024-12-27T15:00:00+08:00')],
+      scheduledDays: [
+        new Date('2024-12-25T07:00:00.000Z'), // Adjusted expected date
+        new Date('2024-12-26T07:00:00.000Z'), // Adjusted expected date
+        new Date('2024-12-27T07:00:00.000Z'), // Adjusted expected date
+      ],
       mainArtists: input.mainArtists,
       guestArtists: input.guestArtists,
       products: ['ticket1', 'ticket2'],
@@ -82,6 +89,7 @@ describe('createEvent mutation', () => {
       venue: input.venue,
       category: input.category,
     });
+
     expect(result).toEqual({
       message: 'success',
     });
