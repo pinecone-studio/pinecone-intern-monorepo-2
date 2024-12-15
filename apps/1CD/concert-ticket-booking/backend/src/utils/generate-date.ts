@@ -17,11 +17,11 @@ export const combineDateAndTime = (dateRange: DateRange, time: Time): Date[] => 
     return newDate;
   };
   const result: Date[] = [];
-  let currentDate = new Date(from);
+  const currentDate = new Date(from);
   currentDate.setHours(0, 0, 0, 0);
   result.push(setTime(currentDate, hour, minute));
   if (to) {
-    let endDate = new Date(to);
+    const endDate = new Date(to);
     endDate.setHours(23, 59, 59, 999);
     while (currentDate < endDate) {
       currentDate.setDate(currentDate.getDate() + 1);
