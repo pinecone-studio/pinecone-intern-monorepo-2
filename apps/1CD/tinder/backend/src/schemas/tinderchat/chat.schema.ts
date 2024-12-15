@@ -5,11 +5,13 @@ export const typeDefs = gql`
     participants: [ID!]!
     content: String
     senderId: ID
+    chatId:ID
   }
   type TinderChatresponse {
     _id: ID!
     content: String
     senderId: ID
+    createdAt:Date
   }
   input GetChat {
     _id: ID!
