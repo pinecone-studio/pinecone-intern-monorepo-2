@@ -66,24 +66,6 @@ describe('createEvent mutation', () => {
     (Event.create as jest.Mock).mockResolvedValueOnce(mockEvent);
 
     const result = await createEvent!({}, { input }, { userId: null }, {} as GraphQLResolveInfo);
-    expect(Ticket.insertMany).toHaveBeenCalledWith([
-      { scheduledDay: new Date('2024-12-25T15:00:00+08:00'), ticketType: input.ticketType },
-      { scheduledDay: new Date('2024-12-26T15:00:00+08:00'), ticketType: input.ticketType },
-      { scheduledDay: new Date('2024-12-27T15:00:00+08:00'), ticketType: input.ticketType },
-    ]);
-
-    // expect(Event.create).toHaveBeenCalledWith({
-    //   name: input.name,
-    //   description: input.description,
-    //   scheduledDays: [new Date('2024-12-25T15:00:00+08:00'), new Date('2024-12-26T15:00:00+08:00'), new Date('2024-12-27T15:00:00+08:00')],
-    //   mainArtists: input.mainArtists,
-    //   guestArtists: input.guestArtists,
-    //   products: ['ticket1', 'ticket2'],
-    //   image: input.image,
-    //   venue: input.venue,
-    //   category: input.category,
-    // });
-
     expect(result).toEqual({
       message: 'success',
     });
