@@ -1,12 +1,16 @@
 describe('CreateEventModal Component', () => {
   beforeEach(() => {
+    cy.visit('/admin/home');
+    // cy.intercept('POST', '/example/api', {
+    //   statusCode: 200,
+    //   body: { success: true },
+    // }).as('createEventRequest');
     cy.intercept('POST', `https://api.cloudinary.com/v1_1/${Cypress.env('NEXT_PUBLIC_CLOUD_NAME')}/image/upload`, {
       statusCode: 200,
       body: {
         secureUrl: 'https://example.com/test-image.jpg',
       },
     }).as('imageUpload');
-    cy.visit('/admin/home');
   });
 
   it('should open modal when "Тасалбар нэмэх" button is clicked', () => {
@@ -77,18 +81,24 @@ describe('CreateEventModal Component', () => {
         cy.get('[data-testid="image-preview"]').should('be.visible');
       });
     });
+    //arena
+    cy.get('[data-testid="venue-select"]').click();
+    cy.get('[data-testid="arena-item-1"]').click();
+    // category
+    cy.get('[data-testid="category-button"]').click();
+    cy.get('[data-testid="category-item-0"]').click();
 
     // Fill in the ticket zone
     //VIP
-    cy.get('[data-testid="ticket-type-0"] [data-testid="discount-input-0"]').type('10%').should('have.value', '10%');
+    cy.get('[data-testid="ticket-type-0"] [data-testid="discount-input-0"]').type('10').should('have.value', '10');
     cy.get('[data-testid="ticket-type-0"] [data-testid="unit-price-input-0"]').type('1000').should('have.value', '1000');
     cy.get('[data-testid="ticket-type-0"] [data-testid="total-quantity-input-0"]').type('50').should('have.value', '50');
     //Backstage
-    cy.get('[data-testid="ticket-type-1"] [data-testid="discount-input-1"]').type('10%').should('have.value', '10%');
+    cy.get('[data-testid="ticket-type-1"] [data-testid="discount-input-1"]').type('10').should('have.value', '10');
     cy.get('[data-testid="ticket-type-1"] [data-testid="unit-price-input-1"]').type('1000').should('have.value', '1000');
     cy.get('[data-testid="ticket-type-1"] [data-testid="total-quantity-input-1"]').type('50').should('have.value', '50');
     //Regular
-    cy.get('[data-testid="ticket-type-2"] [data-testid="discount-input-2"]').type('10%').should('have.value', '10%');
+    cy.get('[data-testid="ticket-type-2"] [data-testid="discount-input-2"]').type('10').should('have.value', '10');
     cy.get('[data-testid="ticket-type-2"] [data-testid="unit-price-input-2"]').type('1000').should('have.value', '1000');
     cy.get('[data-testid="ticket-type-2"] [data-testid="total-quantity-input-2"]').type('50').should('have.value', '50');
     // Simulate selecting a date
@@ -108,13 +118,9 @@ describe('CreateEventModal Component', () => {
     //artist
     cy.get('[data-testid="main-artist-name-input-0"]').type('Main Artist 1');
     cy.get('[data-testid="guest-artist-name-input-0"]').type('Guest Artist 1');
-    //arena
-    cy.get('[data-testid="venue-select"]').click();
-    cy.get('[data-testid="arena-item-1"]').click();
-    // category
-    cy.get('[data-testid="category-button"]').click();
-    cy.get('[data-testid="category-item-0"]').click();
+
     // Submit the form
     cy.get('[data-testid="submit-button"]').click();
+    cy.get('.toast').should('contain.text', 'Successfully created');
   });
 });

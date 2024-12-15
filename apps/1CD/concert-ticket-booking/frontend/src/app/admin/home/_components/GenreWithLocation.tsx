@@ -6,7 +6,6 @@ import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Check, ChevronsDown } from 'lucide-react';
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-
 import { Button } from '@/components/ui/button';
 import { EventInputType } from '@/utils/validation-schema';
 import { UseFormReturn } from 'react-hook-form';
@@ -64,7 +63,7 @@ const InputGenreWithLocation = ({ form }: FormProps) => {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button variant="outline" role="combobox" className={cn('w-[250px] justify-between', field.value?.length === 0 && 'text-muted-foreground')} data-testid="category-button">
-                      {field.value.length > 0 ? field.value.map((genre) => categoryData?.getCategories.find((l) => l.name === genre)?.name).join(', ') : 'Тоглолтын төрөл'}
+                      {field.value.length > 0 ? field.value.map((id) => categoryData?.getCategories.find((category) => category._id === id)?.name).join(', ') : 'Тоглолтын төрөл'}
                       <ChevronsDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -77,7 +76,8 @@ const InputGenreWithLocation = ({ form }: FormProps) => {
                           <CommandItem
                             key={item._id}
                             onSelect={() => {
-                              const newCategory = field.value.includes(item.name) ? field.value.filter((genre) => genre !== item.name) : [...field.value, item.name];
+                              // Update the field with category _id instead of the name
+                              const newCategory = field.value.includes(item._id) ? field.value.filter((id) => id !== item._id) : [...field.value, item._id];
                               field.onChange(newCategory);
                             }}
                             data-testid={`category-item-${index}`}
@@ -85,7 +85,7 @@ const InputGenreWithLocation = ({ form }: FormProps) => {
                             <label className="flex items-center space-x-2">
                               <span className="text-sm">{item.name}</span>
                             </label>
-                            <Check className={cn('ml-auto', field.value.includes(item.name) ? 'opacity-100' : 'opacity-0')} />
+                            <Check className={cn('ml-auto', field.value.includes(item._id) ? 'opacity-100' : 'opacity-0')} />
                           </CommandItem>
                         ))}
                       </CommandGroup>

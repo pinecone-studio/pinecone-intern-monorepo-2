@@ -15,10 +15,11 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import InputForm from './TicketInputs';
 import InputImage from '@/app/admin/home/_components/InputImage';
 import InputGenreWithLocation from './GenreWithLocation';
-
 import TimePicker from './TimePicker';
 import { DatePickerWithRange } from './DatePicker';
 import InputArtist from './InputArtist';
+import { useCreateEventMutation } from '@/generated';
+import { toast } from 'sonner';
 
 const CreateEventModal = () => {
   const form = useForm<z.infer<typeof EventInputSchema>>({
@@ -35,8 +36,22 @@ const CreateEventModal = () => {
       ],
     },
   });
+  const [createEvent, { loading }] = useCreateEventMutation({
+    onCompleted: () => {
+      toast.success('Successfully created');
+    },
+    // onError: (error) => {
+    //   toast.error(error.message);
+    // },
+  });
+
   const onSubmit = async (values: z.infer<typeof EventInputSchema>) => {
     console.log('values', values);
+    await createEvent({
+      variables: {
+        input: values,
+      },
+    });
   };
   return (
     <Dialog>
@@ -56,7 +71,7 @@ const CreateEventModal = () => {
             </DialogClose>
           </DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[80vh] overflow-auto">
+        <ScrollArea className="h-[80vh]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-4 p-2">
               <div className="flex flex-col gap-1">
@@ -96,8 +111,8 @@ const CreateEventModal = () => {
                   <TimePicker form={form} />
                 </div>
                 <InputForm form={form} />
-                <Button data-cy="Create-Event-Submit-Button" className="p-2 text-white bg-black rounded-sm" type="submit" data-testid="submit-button">
-                  Үүсгэх
+                <Button data-cy="Create-Event-Submit-Button" className="p-2 text-white bg-black rounded-sm" type="submit" data-testid="submit-button" disabled={loading}>
+                  {loading ? 'loading' : 'Үүсгэх'}
                 </Button>
               </div>
             </form>
