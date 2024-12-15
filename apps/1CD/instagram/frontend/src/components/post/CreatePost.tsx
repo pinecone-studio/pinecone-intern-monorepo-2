@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { IoMdArrowBack } from 'react-icons/io';
+
 export const CreatePost = ({ openCreatePostModal, setOpenCreatePostModal }: { openCreatePostModal: boolean; setOpenCreatePostModal: Dispatch<SetStateAction<boolean>> }) => {
   const [images, setImages] = useState<string[]>([]);
   const [step, setStep] = useState(1);
@@ -27,7 +27,7 @@ export const CreatePost = ({ openCreatePostModal, setOpenCreatePostModal }: { op
       return setImages((prevImages) => [...prevImages, uploadedImageUrl]), setStep(step + 1);
     });
   };
-
+  console.log(images);
   return (
     <Dialog open={openCreatePostModal}>
       {step === 1 && (
@@ -47,26 +47,6 @@ export const CreatePost = ({ openCreatePostModal, setOpenCreatePostModal }: { op
             <button className="font-sans text-gray-300 border-none " onClick={() => setOpenCreatePostModal(false)}>
               x
             </button>
-          </div>
-        </DialogContent>
-      )}
-      {step === 2 && (
-        <DialogContent className=" w-[638px] h-[678px] [&>button]:hidden p-0  ">
-          <DialogTitle className="text-center text-[16px] h-[35px] py-3 ">
-            <div className="flex justify-between text-center text-[16px] px-1">
-              {' '}
-              <button onClick={() => setStep(1)}>
-                <IoMdArrowBack />
-              </button>
-              <p>Crop</p>
-              <button className="text-[#2563EB]">Next</button>
-            </div>
-          </DialogTitle>
-
-          <div className="h-[626px] w-full m-o">
-            <div className="relative w-full h-full">
-              <Image src={images[0]} alt="img" fill={true} className="object-cover w-auto h-auto rounded-b-xl" />
-            </div>
           </div>
         </DialogContent>
       )}
