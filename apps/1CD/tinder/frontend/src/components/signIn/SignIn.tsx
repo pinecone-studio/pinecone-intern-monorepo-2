@@ -90,7 +90,7 @@ const SignIn = () => {
         <div className="flex justify-center">
           <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline">Terms of Service </div>
           <div className="text-[#71717A] font-normal text-sm text-center mx-1"> and</div>
-          <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline"> Privacy Policy.</div>
+          <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline"> Privacy Policy</div>
         </div>
       </div>
     </div>
