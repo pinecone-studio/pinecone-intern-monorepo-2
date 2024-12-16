@@ -11,7 +11,7 @@ export type Request = {
   supervisorEmail: string;
   result: string;
   comment: string;
-  optionalFile: string[]
+  optionalFile: string
 };
 
 const RequstSchema = new Schema<Request>(

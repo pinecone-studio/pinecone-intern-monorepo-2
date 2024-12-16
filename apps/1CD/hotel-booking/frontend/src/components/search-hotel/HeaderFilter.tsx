@@ -1,8 +1,11 @@
 import { ComboboxDemo } from '@/app/header-filter/TravelerSelection';
 import { DatePickerWithRange } from '../DatePicker';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
 const HeaderFilter = () => {
+  const [date, setDate] = useState<DateRange | undefined>();
   return (
     <section
       data-testid="search-result-section"
@@ -10,7 +13,7 @@ const HeaderFilter = () => {
     >
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Dates</p>
-        <DatePickerWithRange />
+        <DatePickerWithRange setDate={setDate} date={date} />
       </div>
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Guest</p>

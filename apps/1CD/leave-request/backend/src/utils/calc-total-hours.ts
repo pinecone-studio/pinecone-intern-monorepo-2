@@ -18,4 +18,5 @@ export const totalHours = (list: Request[]) => {
   }
 
   return totalHours;
+
 };

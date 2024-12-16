@@ -5,9 +5,9 @@ type Event = {
   name: string;
   scheduledDays: string[];
   description: string;
-  mainArtists: string[];
-  guestArtists: string[];
-  dayTickets: Schema.Types.ObjectId[];
+  mainArtists: object[];
+  guestArtists: object[];
+  products: Schema.Types.ObjectId[];
   image: string;
   discount: number;
   venue: Schema.Types.ObjectId;
@@ -33,14 +33,17 @@ const eventSchema = new Schema<Event>(
     ],
     mainArtists: [
       {
-        type: String,
-        required: true,
+        name: {
+          type: String,
+          required: true,
+        },
       },
     ],
     guestArtists: [
       {
-        type: String,
-        required: true,
+        name: {
+          type: String,
+        },
       },
     ],
     image: {
@@ -51,7 +54,7 @@ const eventSchema = new Schema<Event>(
       type: Number,
       default: 0,
     },
-    dayTickets: [
+    products: [
       {
         type: Schema.Types.ObjectId,
         required: true,

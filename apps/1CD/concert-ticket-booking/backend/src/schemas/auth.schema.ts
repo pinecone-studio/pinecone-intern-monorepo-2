@@ -37,6 +37,9 @@ export const typeDefs = gql`
     password: String!
     resetToken: String!
   }
+  type Query {
+    getMe: User!
+  }
   type Mutation {
     signUp(email: String!, password: String!): User!
     login(input: LoginInput!): AuthResponse!
