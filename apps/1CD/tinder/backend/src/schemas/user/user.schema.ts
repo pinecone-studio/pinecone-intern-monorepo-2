@@ -15,19 +15,22 @@ export const typeDefs = gql`
     schoolWork: [String!]
     createdAt: Date!
     updatedAt: Date!
+    attraction: String!
   }
 
   input RegisterEmailInput {
     email: String!
   }
 
+  input checkEmailInput {
+    email: String!
+  }
+
   input VerifyOtpInput {
     email: String!
-    otp: Int!
+    otp: String!
   }
   input createPasswordInput {
-    email: String!
-    otp: Int!
     password: String!
   }
 
@@ -35,39 +38,32 @@ export const typeDefs = gql`
     email: String!
   }
 
-
-  input CreateUserInput {
-    name: String!
-    email: String!
-    bio: String!
-    age: Int!
-    gender: String!
-    interests: [String!]
-    photos: [String!]
-    profession: String!
-    schoolWork: [String!]
-    createdAt: Date!
-    updatedAt: Date!
-  }
-
- 
-
   input CreatePassInput {
-    email:String!
-    password:String!
+    password: String!
   }
-  
+
+  input BirthdaySubmitInput {
+    age: Int!
+  }
+
+  type ResponseWithtoken {
+    token: String!
+  }
 
   type Mutation {
-
+    # sign up
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
-    verifyOtp(input: VerifyOtpInput!): RegisterEmailResponse!
-    createPassword(input:CreatePassInput!):RegisterEmailResponse!
-
-  
-    createUser(input: CreateUserInput!):User!
-    updateUser(_id: ID!, name: String!, bio: String!, interests: [String!], profession: String!,schoolWork: [String!]):User!
+    verifyOtp(input: VerifyOtpInput!): ResponseWithtoken!
+    createPassword(input: CreatePassInput!): RegisterEmailResponse!
+    resendOtp(input: RegisterEmailInput!): RegisterEmailResponse!
+    # sign in
+    signIn(email:String!, password:String!):ResponseWithtoken!
+    # forget password
+    checkEmail(input: checkEmailInput!): RegisterEmailResponse!
+    # details
+    birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
+    updateUser(name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
+    updateAttraction(attraction: String!): RegisterEmailResponse!
 
   }
 `;
-

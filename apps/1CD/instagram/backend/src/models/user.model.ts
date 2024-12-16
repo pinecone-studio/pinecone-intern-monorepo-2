@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { AccountVisibility } from 'src/generated';
 
 export type UserType = {
   _id: string;
@@ -9,7 +10,7 @@ export type UserType = {
   bio: string;
   gender: string;
   profileImg: string;
-  accountVisibility: string;
+  accountVisibility: AccountVisibility;
   followerCount: number;
   followingCount: number;
   password: string;
@@ -49,8 +50,8 @@ const userSchema = new Schema<UserType>({
   },
   accountVisibility: {
     type: String,
-    enum: ['PUBLIC', 'PRIVATE'],
-    default: 'PUBLIC',
+    enum: [AccountVisibility.Private, AccountVisibility.Public],
+    default: AccountVisibility.Public,
   },
   followerCount: {
     type: Number,

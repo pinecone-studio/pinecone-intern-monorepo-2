@@ -6,60 +6,109 @@ export const typeDefs = gql`
     name: String!
     description: String!
     scheduledDays: [String!]!
-    mainArtists: [String!]!
-    guestArtists: [String!]!
-    dayTickets: [Ticket!]!
+    mainArtists: [Artist!]!
+    guestArtists: [Artist]
+    products: [Product!]!
     image: String!
-    discount: Float
-    venue: ID!
+    discount: Int!
+    venue: Venue!
     priority: String!
     category: [ID!]!
   }
-  type Ticket {
+
+  type Product {
     _id: ID!
     scheduledDay: Date!
-    ticketType: [ticketType!]!
+    ticketType: [TicketType!]!
+  }
+  type Artist {
+    name: String!
   }
 
-  type ticketType {
+  type TicketType {
     _id: ID!
     zoneName: String!
-    soldQuantity: Int!
-    totalQuantity: Int!
-    unitPrice: Float!
-    discount: Float
-    additional: String!
+    soldQuantity: String!
+    totalQuantity: String!
+    unitPrice: String!
+    discount: String
+    additional: String
   }
-  input TicketInput {
-    scheduledDay: Date!
-    ticketType: [ticketsTypeInput!]!
-  }
+  scalar Date
 
-  input ticketsTypeInput {
+  input TicketTypeInput {
     zoneName: String!
-    soldQuantity: Int!
-    totalQuantity: Int!
-    unitPrice: Float!
-    discount: Float
-    additional: String!
+    totalQuantity: String!
+    unitPrice: String!
+    discount: String
+    additional: String
   }
 
   input EventInput {
     name: String!
     description: String!
-    mainArtists: [String!]!
-    guestArtists: [String!]!
-    dayTickets: [TicketInput!]!
+    mainArtists: [ArtistInput!]!
+    guestArtists: [ArtistInput]
+    ticketType: [TicketTypeInput!]!
     image: String!
-    discount: Int
+    discount: String
     venue: ID!
     category: [ID!]!
+    dateRange: DateRangeInput!
+    time: TimeInput!
+  }
+  input ArtistInput {
+    name: String!
+  }
+  input DateRangeInput {
+    from: Date!
+    to: Date
+  }
+
+  input TimeInput {
+    hour: String!
+    minute: String!
+  }
+
+  input EventPriorityUpdateInput {
+    priority: String!
+  }
+  input EventUpdateInput {
+    name: String
+    description: String
+    mainArtists: [String]
+    guestArtists: [String]
+    products: [ProductInput]
+    image: String
+    discount: String
+    venue: ID
+    category: [ID]
+  }
+  input ProductInput {
+    _id: ID!
+    scheduledDay: Date!
+    ticketType: [TicketTypeInput!]!
+  }
+
+  type Response {
+    message: String!
+  }
+  input EventsFilter {
+    q: String
+    date: String
+    artist: String
+  }
+
+  type Query {
+    getEventById(_id: ID!): Event!
+    getEvents(filter: EventsFilter): [Event]!
+    getSpecialEvent: [Event!]!
   }
 
   type Mutation {
-    createEvent(input: EventInput!): Event!
-  }
-  type Query {
-    getSpecialEvent: [Event!]!
+    createEvent(input: EventInput!): Response!
+    updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
+    deleteEvent(_id: ID!): Response!
+    updateEvent(_id: ID!, event: EventUpdateInput): Event!
   }
 `;

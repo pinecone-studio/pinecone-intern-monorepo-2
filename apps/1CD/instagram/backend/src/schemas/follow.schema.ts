@@ -16,7 +16,27 @@ export const typeDefs = gql`
     status: FollowStatus!
   }
 
+  type FollowingInfo {
+    followingId: User!
+  }
+
+  type FollowerInfo {
+    followerId: User!
+  }
+
   type Mutation {
     sendFollowReq(followerId: ID!, followingId: ID!): FollowInfo!
+  }
+
+  type Mutation {
+    confirmFollowReq(_id: ID!): FollowInfo!
+  }
+
+  type Query {
+    seeFollowings(followerId: ID!): [FollowingInfo!]!
+  }
+
+  type Query {
+    seeFollowers(followingId: ID!): [FollowerInfo!]!
   }
 `;
