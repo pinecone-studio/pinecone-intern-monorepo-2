@@ -19,13 +19,13 @@ export const CreatePost = ({
   setStep: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [handleDesc, setHandleDesc] = useState('');
+
   const [createPost] = useCreatePostMutation();
   const { data: user } = useGetUserQuery();
 
   const handleCreatePost = async () => {
     await createPost({
       variables: {
-        user: user?.getUser._id || '',
         images: images,
         description: handleDesc,
       },

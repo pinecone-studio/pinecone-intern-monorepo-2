@@ -10,12 +10,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
-import { useGetMyPostsQuery, useGetUserQuery } from '@/generated';
+import { useGetMyFollowingsPostsQuery } from '@/generated';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const { data: user } = useGetUserQuery();
-  const { data, loading } = useGetMyPostsQuery();
+  const { data, loading } = useGetMyFollowingsPostsQuery();
 
   if (loading) {
     return <div data-testid="post-load">Loading...</div>;
@@ -23,17 +22,17 @@ export const PostCard = () => {
 
   return (
     <div className="md:w-[484px] md:px-[40px] px-5" data-testid="post-card">
-      {data?.getMyPosts?.map((post) => {
+      {data?.getMyFollowingsPosts?.map((post) => {
         return (
           <div key={post._id} className="md:border-b-[1px] md:pb-5">
             <div className="flex items-center justify-between py-[12px]">
               <div className="flex items-center gap-2">
                 <div className="relative flex rounded-full w-9 h-9">
-                  <Image fill={true} src={user?.getUser.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
+                  <Image fill={true} src={post.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                 </div>
 
                 <h1 className="flex items-center font-bold ">
-                  {user?.getUser.userName}
+                  {post.user.userName}
                   <span className="flex items-center font-normal text-gray-600">
                     {' '}
                     <LuDot className="text-2xl" />
@@ -90,7 +89,8 @@ export const PostCard = () => {
             <p>741,368 likes</p>
             <div>
               <h1 className="text-base font-normal text-gray-600">
-                <span className="pr-1 font-bold text-black">defavours</span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti, et.
+                <span className="pr-1 font-bold text-black">{post.user.userName}</span>
+                {post.description}
               </h1>
             </div>
             <button className="py-1 text-sm text-gray-500">View all 13,384 comments</button>
