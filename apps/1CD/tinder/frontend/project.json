@@ -18,7 +18,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:testing",
           "params": "forward"
         }
       ]
@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress example-frontend"],
+        "commands": ["npx nx cypress tinder-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -191,36 +191,6 @@
         },
         {
           "target": "export-env"
-        },
-        {
-          "target": "codegen:testing",
-          "params": "forward"
-        }
-      ]
-    },
-    "deploy-dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "clean"
-        },
-        {
-          "target": "get-secrets:dev"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen:dev",
-          "params": "forward"
         }
       ]
     },

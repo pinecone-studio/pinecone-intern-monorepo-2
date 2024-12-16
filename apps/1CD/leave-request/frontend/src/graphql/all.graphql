@@ -1,7 +1,30 @@
 query Query {
   sampleQuery
 }
+query getAllUsers {
+  getAllUsers {
+    _id
+    email
+    userName
+    profile
+    role
+    position
+    supervisor
+    hireDate
+  }
+}
 
 mutation Mutation {
   sampleMutation
+}
+
+mutation CreatesOTP($email: String!) {
+  createsOTP(email: $email) {
+    email
+    expirationDate
+  }
+}
+
+mutation CheckOTP($email: String!, $otp: String!) {
+  checkOTP(email: $email, OTP: $otp)
 }
