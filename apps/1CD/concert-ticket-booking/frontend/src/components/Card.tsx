@@ -10,13 +10,13 @@ const CardTicket = ({ event }: { event: Event }) => {
   const unitPrice = Number(event.products[0].ticketType[1].unitPrice);
   const discountPrice = (unitPrice * (100 - discount)) / 100;
   return (
-    <Card className="max-w-[345px] h-[380px] overflow-hidden relative" data-cy="Card-Component">
-      {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[48%] left-6"> {event.products[0].ticketType[1].discount}%</div>}
+    <Card className="max-w-[345px] h-full overflow-hidden relative" data-cy="Card-Component">
+      {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[175px] left-6"> {event.products[0].ticketType[1].discount}%</div>}
 
       <div className="w-full aspect-video overflow-hidden">
         <Image src={event.image} width={500} height={500} alt="" className="object-contain" />
       </div>
-      <div className="w-full bg-[#18181B] overflow-hidden p-6 text-[#FAFAFA] flex flex-col justify-between">
+      <div className="w-full bg-[#18181B] h-full overflow-hidden p-6 text-[#FAFAFA] flex flex-col gap-2">
         <div>
           <p className="font-normal text-xl">{event.name}</p>
           {event.mainArtists.map((artist, index) => (
@@ -37,7 +37,7 @@ const CardTicket = ({ event }: { event: Event }) => {
           </div>
         )}
 
-        <div className="flex justify-between text-muted-foreground">
+        <div className="flex justify-between text-muted-foreground items-end">
           <div className="items-center gap-1 ">
             {event.scheduledDays.map((day, index) => (
               <span className="flex items-center" key={index}>
@@ -46,7 +46,7 @@ const CardTicket = ({ event }: { event: Event }) => {
               </span>
             ))}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 absolute bottom-6 right-6">
             <CiLocationOn className="w-4" />
             {event.venue.name}
           </div>
