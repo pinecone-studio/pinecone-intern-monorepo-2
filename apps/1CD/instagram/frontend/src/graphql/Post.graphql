@@ -19,6 +19,18 @@ query GetMyPosts {
       userName
       fullName
       email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
     }
     description
     images
@@ -30,9 +42,58 @@ query GetMyPosts {
   }
 }
 
-mutation CreatePost($user: String!, $images: [String!]!, $description: String) {
-  createPost(user: $user, images: $images, description: $description) {
+mutation CreatePost($description: String, $images: [String!]!) {
+  createPost(description: $description, images: $images) {
     _id
+    user {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
+
+query GetMyFollowingsPosts {
+  getMyFollowingsPosts {
+    _id
+    user {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
     description
     images
     lastComments
