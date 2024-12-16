@@ -11,7 +11,6 @@ import { NoPost } from '@/components/user-profile/NoPost';
 
 const UserProfile = () => {
   const { user } = useAuth();
-
   const { data, error } = useGetMyPostsQuery();
 
   return (
