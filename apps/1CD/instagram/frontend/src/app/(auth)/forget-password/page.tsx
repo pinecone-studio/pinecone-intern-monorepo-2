@@ -67,7 +67,7 @@ const Forgetpassword = () => {
                 Create new account
               </Button>
             </Link>
-            <Link href="/login" className="w-full">
+            <Link href="/" className="w-full">
               <Button className="w-full bg-gray-200 text-black text-base hover:text-white" data-cy="forget-password-jump-login">
                 Back to login
               </Button>
