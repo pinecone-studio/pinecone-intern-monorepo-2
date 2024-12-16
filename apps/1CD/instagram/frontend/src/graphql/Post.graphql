@@ -29,3 +29,16 @@ query GetMyPosts {
     createdAt
   }
 }
+
+mutation CreatePost($user: String!, $images: [String!]!, $description: String) {
+  createPost(user: $user, images: $images, description: $description) {
+    _id
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
