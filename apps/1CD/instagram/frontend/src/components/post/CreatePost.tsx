@@ -30,7 +30,10 @@ export const CreatePost = ({
         description: handleDesc,
       },
     });
-    // setOpenModal(false);
+  };
+  const createPostBtn = () => {
+    handleCreatePost();
+    setOpenModal(false);
   };
   const closeModal = () => {
     setOpenModal(false);
@@ -48,7 +51,7 @@ export const CreatePost = ({
                   <IoMdArrowBack />
                 </button>
                 <p>Create new post</p>
-                <button data-testid="createBtn" className="text-[#2563EB]" onClick={() => handleCreatePost()}>
+                <button data-testid="createBtn" className="text-[#2563EB]" onClick={() => createPostBtn()}>
                   Share
                 </button>
               </div>
