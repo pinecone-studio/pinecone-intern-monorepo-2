@@ -2,6 +2,16 @@ import { uploadFilesInCloudinary } from '../../../src/utils/user/cloudinary';
 
 global.fetch = jest.fn();
 
+global.File = jest.fn().mockImplementation((...args) => {
+  return {
+    size: args[0].length,
+    name: args[1],
+    type: args[2],
+    lastModified: Date.now(),
+    ...args,
+  };
+});
+
 describe('uploadFilesInCloudinary', () => {
   it('should upload file and return the secure URL', async () => {
     const mockFile = new File(['mockBlob'], 'mock-image.jpg', { type: 'image/jpg' });
@@ -36,6 +46,7 @@ describe('uploadFilesInCloudinary', () => {
     const result = await uploadFilesInCloudinary(mockFile);
 
     expect(fetch).toHaveBeenCalled();
+
     expect(result).toBe('');
   });
 });
