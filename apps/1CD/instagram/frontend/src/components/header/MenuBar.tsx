@@ -11,8 +11,10 @@ import Image from 'next/image';
 import { CiImageOn } from 'react-icons/ci';
 import { LuBookOpenCheck } from 'react-icons/lu';
 import { UpdateImagesStep1 } from '../post/UpdateImagesStep1';
+import { useAuth } from '../providers';
 
 export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<SetStateAction<boolean>> }) => {
+  const { user } = useAuth();
   const items = [
     {
       name: 'Search',
