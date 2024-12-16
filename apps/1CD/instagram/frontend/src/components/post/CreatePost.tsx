@@ -2,54 +2,50 @@
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { IoMdArrowBack } from 'react-icons/io';
+import { CiFaceSmile } from 'react-icons/ci';
 
-export const CreatePost = ({ openCreatePostModal, setOpenCreatePostModal }: { openCreatePostModal: boolean; setOpenCreatePostModal: Dispatch<SetStateAction<boolean>> }) => {
-  const [images, setImages] = useState<string[]>([]);
-  const [step, setStep] = useState(1);
-  const handleUploadImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target?.files;
-    if (!files) return;
+export const CreatePost = ({ openModal, setOpenModal, images }: { images: string[]; openModal: boolean; setOpenModal: Dispatch<SetStateAction<boolean>> }) => {
+  console.log('images new modal', images, setOpenModal);
 
-    const filesArr = Array.from(files);
-    return filesArr.map(async (file) => {
-      const data = new FormData();
-      data.append('file', file);
-      data.append('upload_preset', 'instagram-intern');
-      data.append('cloud_name', 'dka8klbhn');
-
-      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-        method: 'POST',
-        body: data,
-      });
-      const uploadedImage = await res.json();
-      const uploadedImageUrl: string = uploadedImage.secure_url;
-      return setImages((prevImages) => [...prevImages, uploadedImageUrl]), setStep(step + 1);
-    });
-  };
-  console.log(images);
   return (
-    <Dialog open={openCreatePostModal}>
-      {step === 1 && (
-        <DialogContent className=" w-[638px] h-[678px] [&>button]:hidden p-0  ">
-          <DialogTitle className="text-center text-[16px]">Create new post</DialogTitle>
-
-          <div className="flex flex-col gap-2">
-            <label className="flex flex-col items-center gap-4 cursor-pointer" htmlFor="file-upload">
-              <div className="relative w-[96px] h-[77px]">
-                <Image src="/images/Frame.png" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
+    <Dialog open={openModal}>
+      <DialogContent className="[&>button]:hidden p-0 m-0 ">
+        <div className="bg-white rounded-lg w-[997px] h-[679px] [&>button]:hidden p-0 flex flex-col gap-4  ">
+          <div>
+            <DialogTitle className="text-center text-[16px] h-[35px] py-3  ">
+              <div className="flex justify-between text-center text-[16px] px-1">
+                {' '}
+                <button>
+                  <IoMdArrowBack />
+                </button>
+                <p>Create new post</p>
+                <button className="text-[#2563EB]">Share</button>
               </div>
-              <p className="text-[20px]">Drag photos and videos here</p>
-              <p className="bg-[#2563EB] text-sm px-4 py-[10px]   text-white rounded-lg">Select from computer</p>
-            </label>
-
-            <input id="file-upload" type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleUploadImg} />
-            <button className="font-sans text-gray-300 border-none " onClick={() => setOpenCreatePostModal(false)}>
-              x
-            </button>
+            </DialogTitle>
           </div>
-        </DialogContent>
-      )}
+
+          <div className="flex w-full h-full m-0">
+            <div className="relative w-[654px] h-[628px]">
+              <Image src="/images/img1.avif" alt="img" fill={true} className="object-cover w-auto h-auto rounded-bl-lg" />
+            </div>
+            <div className="w-[343px] p-4 gap-2 flex flex-col border-t-[1px] ">
+              <div className="flex items-center gap-2">
+                <div className="relative flex w-8 h-8 rounded-full">
+                  <Image fill={true} src="/images/img.avif" alt="Photo1" className="w-auto h-auto rounded-full" />
+                </div>
+                <h1 className="text-sm font-bold ">defavours_11</h1>
+              </div>
+              <input type="text" className="w-full h-[132px] border rounded-lg" placeholder="Description ..." />
+              <div className="flex justify-between border-t-[1px]">
+                <CiFaceSmile />
+                <p>0/200</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
     </Dialog>
   );
 };
