@@ -25,7 +25,7 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
       href: '/',
     },
   ];
-  const [openCreatePostModal, setOpenCreatePostModal] = useState(true);
+  const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
   return (
     <nav className="grid items-start gap-2" data-testid="MenuBar">
       <TooltipProvider>
@@ -74,7 +74,7 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
           })}
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild data-testid="moreCreateBtn">
               <div className={'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground cursor-pointer'}>
                 <p>
                   <MdOutlineAddBox />
@@ -85,11 +85,7 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
-              <DropdownMenuItem
-                className="flex items-center justify-between"
-                // data-testid="CreatePostBtn"
-                onClick={() => setOpenCreatePostModal(true)}
-              >
+              <DropdownMenuItem className="flex items-center justify-between" data-testid="CreatePostBtn" onClick={() => setOpenCreatePostModal(true)}>
                 <p>Post</p>
                 <p>
                   <CiImageOn />
