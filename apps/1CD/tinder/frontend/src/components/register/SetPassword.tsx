@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -29,11 +30,10 @@ const passwordSchema = z
   });
 type ValidationSchemaType = z.infer<typeof passwordSchema>;
 
-const Password = ({authToken}:{authToken:string}) => {
+const SetPassword = ({authToken}:{authToken:string}) => {
     console.log(authToken)
-
+ 
   const router=useRouter();
-  
   const {
     register,
     handleSubmit,
@@ -48,7 +48,7 @@ const Password = ({authToken}:{authToken:string}) => {
       toast.error(error.message);
     },
     onCompleted:()=>{
-      router.push('/account/attraction');
+      router.push('/home');
     }
   });
 
@@ -69,7 +69,7 @@ const Password = ({authToken}:{authToken:string}) => {
           <Image src="../logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
           <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
-        <div className="text-[#09090B] font-semibold text-2xl pt-6 ">Create password</div>
+        <div className="text-[#09090B] font-semibold text-2xl pt-6 ">Set new password</div>
         <div className="text-[#71717A] w-[330px] text-sm font-normal pt-1 text-center">Use a minimum of 10 characters, including uppercase letters, lowercase letters, and numbers</div>
         <div className="pt-6">
           <div className="text-[#09090B] font-medium text-sm pb-2">Password</div>
@@ -86,4 +86,4 @@ const Password = ({authToken}:{authToken:string}) => {
     </form>
   );
 };
-export default Password;
+export default SetPassword;
