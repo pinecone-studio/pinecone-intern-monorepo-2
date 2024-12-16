@@ -54,7 +54,7 @@ describe('Signup page', () => {
 
     cy.get('button[type="submit"]').click();
     cy.wait('@signupMutation');
-    cy.url().should('eq', Cypress.config().baseUrl + '/login');
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
   });
 
   it('4. should show toast error when user already exists', () => {

@@ -23,3 +23,22 @@ mutation Login($input: LoginInput!) {
     token
   }
 }
+mutation CreateEvent($input: EventInput!) {
+  createEvent(input: $input) {
+    message
+  }
+}
+query GetArena {
+  getArena {
+    _id
+    capacity
+    image
+    name
+  }
+}
+query GetCategories {
+  getCategories {
+    _id
+    name
+  }
+}

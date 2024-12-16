@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { Button } from '@/components/ui/button';
@@ -13,27 +13,25 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
-
+type DatePickerProps = {
+  date: DateRange | undefined;
+  setDate: (_value: DateRange | undefined) => void;
+};
+type DatePickerWithRangeType = DatePickerProps & React.HTMLAttributes<HTMLDivElement>;
+export const DatePickerWithRange = ({ className, date, setDate }: DatePickerWithRangeType) => {
   return (
     <div data-testid="date-picker-modal" className={cn('grid gap-2 xl:min-w-[500px]', className)}>
       <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            data-testid="date-picker-btn"
-            id="date"
-            variant={'outline'}
-            className={cn('w-full max-w-[500px] justify-between text-left font-normal', 'flex items-center', 'text-xs sm:text-sm md:text-base', 'px-2 sm:px-4')}
-          >
-            {date?.to && date.from && (
-              <span className="truncate">
+        <PopoverTrigger data-testid="trigger-test" asChild>
+          <Button data-testid="date-picker-btn" id="date" variant={'outline'} className={cn('w-[500px] justify-between text-left font-normal')}>
+            {date?.from && date.to ? (
+              <>
                 {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
-              </span>
+              </>
+            ) : (
+              <>
+                {format(new Date(), 'LLL dd, y')} - {format(new Date(), 'LLL dd, y')}
+              </>
             )}
 
             <CalendarIcon className="w-4 h-4 ml-2 opacity-50" />

@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     onCompleted: (data) => {
       localStorage.setItem('token', data.signup.token);
       setUser(data.signup.user as User);
-      router.push('/login');
+      router.push('/');
     },
   });
   const signup = async ({ email, password, fullName, userName }: SignUp) => {
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     onCompleted: (data) => {
       localStorage.setItem('token', data.login.token);
       setUser(data.login.user as User);
-      router.push('/');
+      router.push('/home');
     },
   });
 
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signout = () => {
     localStorage.removeItem('token');
     setUser(null);
-    router.push('/login');
+    router.push('/');
   };
 
   useEffect(() => {
