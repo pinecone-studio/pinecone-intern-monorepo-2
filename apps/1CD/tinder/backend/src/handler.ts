@@ -22,11 +22,11 @@ export const handler = startServerAndCreateNextHandler<NextRequest, Context>(ser
   context: async (req)=> {
     const authHeader=`${req.headers.get('authorization')}`;
     const authToken=authHeader?.replace('Bearer ','');
-    const isNodeEnv=process.env.NODE_ENV;
+    const isDev=process.env.NODE_ENV ==="development";
     
 
     
-    if(isNodeEnv==="production" && authToken){
+    if(!isDev && authToken){
       const userId=getUserId(authToken)||'';
       return {req,userId}
     }
