@@ -67,6 +67,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     onCompleted: (data) => {
       setUser(data.getUser);
     },
+    // onError: (error) => {
+    //   toast({ variant: 'destructive', title: 'Error in fetch user information', description: `${error.message}` });
+    // },
   });
 
   const login = async ({ email, password }: LogIn) => {
@@ -85,10 +88,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setUser(null);
     router.push('/');
   };
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
 
   const [ForgetPasswordMutation] = useForgetPasswordMutation({
     onCompleted: () => {
@@ -118,7 +117,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     await resetPasswordMutatuion({ variables: { input: { password, resetToken } } });
   };
 
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
   return <AuthContext.Provider value={{ signup, user, forgetPassword, resetPassword, login, signout }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
