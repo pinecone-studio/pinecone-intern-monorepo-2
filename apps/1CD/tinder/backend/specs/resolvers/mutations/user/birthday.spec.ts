@@ -9,9 +9,10 @@ jest.mock('../../../../src/models', () => ({
 }));
 
 describe('submit birthday of user', () => {
-  const mockEmail = 'test@gmail.com';
+  const mockEmail = 'cypress@gmail.com';
   const mockAge = 18;
   const info = {} as GraphQLResolveInfo;
+  const userId='675675e84bd85fce3de34006';
 
   it('should return updated user when update is successful', async () => {
     const mockUser = {
@@ -21,13 +22,13 @@ describe('submit birthday of user', () => {
 
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(mockUser);
 
-    const result = await birthdaySubmit!({}, { input: { email: mockEmail, age: mockAge } }, {}, info);
+    const result = await birthdaySubmit!({}, { input: { age: mockAge } }, {userId}, info);
     expect(result).toEqual({ email: mockUser.email });
   });
 
   it('should throw an error when user is not found', async () => {
     (userModel.findOneAndUpdate as jest.Mock).mockResolvedValue(null);
 
-    await expect(birthdaySubmit!({}, { input: { email: mockEmail, age: mockAge } }, {}, info)).rejects.toThrow('Could not find user');
+    await expect(birthdaySubmit!({}, { input: {  age: mockAge } }, {userId}, info)).rejects.toThrow('Could not find user');
   });
 });

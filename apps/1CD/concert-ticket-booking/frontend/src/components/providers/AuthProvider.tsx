@@ -4,6 +4,7 @@ import { LoginMutation, useLoginMutation, useSignUpMutation } from '@/generated'
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { toast } from 'sonner';
+
 type SignUpParams = {
   email: string;
   password: string;
@@ -49,14 +50,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setLoading(false);
       localStorage.setItem('token', data.login.token);
       toast.success('Successfully login');
-
-      if (data.login.user.role === 'user') {
-        setUser(data.login.user);
-        router.push('/user/home');
+      if (data.login.user.role === 'admin') {
+        router.push('/home');
+      } else {
+        router.push('/');
       }
     },
     onError: (error) => {
-      setLoading(false);
       toast.error(error.message);
     },
   });

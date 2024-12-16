@@ -6,12 +6,12 @@ import { CiLocationOn } from 'react-icons/ci';
 import dayjs from 'dayjs';
 
 const CardTicket = ({ event }: { event: Event }) => {
-  const discount = event.dayTickets[0].ticketType[1].discount || 0;
-  const unitPrice = event.dayTickets[0].ticketType[1].unitPrice;
+  const discount = Number(event.products[0].ticketType[1].discount) || 0; // Default to 0 if discount is falsy
+  const unitPrice = Number(event.products[0].ticketType[1].unitPrice);
   const discountPrice = (unitPrice * (100 - discount)) / 100;
   return (
-    <Card className="max-w-[345px] overflow-hidden relative" data-cy="Card-Component">
-      {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[48%] left-6"> {event.dayTickets[0].ticketType[1].discount}%</div>}
+    <Card className="max-w-[345px] h-[380px] overflow-hidden relative" data-cy="Card-Component">
+      {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[48%] left-6"> {event.products[0].ticketType[1].discount}%</div>}
 
       <div className="w-full aspect-video overflow-hidden">
         <Image src={event.image} width={500} height={500} alt="" className="object-contain" />
@@ -21,7 +21,7 @@ const CardTicket = ({ event }: { event: Event }) => {
           <p className="font-normal text-xl">{event.name}</p>
           {event.mainArtists.map((artist, index) => (
             <span className="text-muted-foreground text-[16px] font-light mr-2" key={index}>
-              {artist}
+              {artist.name}
             </span>
           ))}
         </div>

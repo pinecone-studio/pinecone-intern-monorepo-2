@@ -6,8 +6,8 @@ export type Request = {
   requestType: string;
   message: string;
   requestDate: Date;
-  startTime: Date;
-  endTime: Date;
+  startTime?: Date;
+  endTime?: Date;
   supervisorEmail: string;
   result: string;
   comment: string;
