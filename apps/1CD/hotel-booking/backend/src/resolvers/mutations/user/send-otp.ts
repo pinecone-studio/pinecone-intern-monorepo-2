@@ -19,11 +19,7 @@ export const sendOtp = async (_: unknown, { input }: { input: SignUpInput }) => 
 
   await otpModel.create({ email, otp: rndOtp, expiresAt: Date.now() + 5 * 60 * 1000 });
 
-  try {
-    await sendEmail(email, rndOtp);
-  } catch (error) {
-    throw new Error('Failed to send OTP. Please try again later.');
-  }
+  await sendEmail(email, rndOtp);
 
   return { email, message: 'OTP sent successfully' };
 };

@@ -42,4 +42,16 @@ describe('sendOtp', () => {
     expect(otpModel.create).not.toHaveBeenCalled();
     expect(sendEmail).not.toHaveBeenCalled();
   });
+  it('should throw an error if there is no email input', async () => {
+    await expect(
+      sendOtp(
+        {},
+        {
+          input: {
+            email: '',
+          },
+        }
+      )
+    ).rejects.toThrow('Email is required');
+  });
 });

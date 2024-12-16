@@ -11,5 +11,5 @@ export const setPassword = async (_: unknown, { input }: { input: { email: strin
 
   await newUser.save();
 
-  return { email: newUser.email, _id: newUser._id, createdAt: newUser, message: 'Profile created successful' };
+  return { email: newUser.email, _id: newUser._id, createdAt: newUser.createdAt };
 };
