@@ -17,7 +17,7 @@ export type RoomsType = {
     entertaiment: [];
     foodDrink: [];
     other: [];
-    bedroom:[]
+    bedroom: [];
   };
 
   rating: number;
@@ -53,7 +53,7 @@ const roomsSchema = new Schema<RoomsType>({
     entertaiment: [String],
     foodDrink: [String],
     other: [String],
-    bedroom:[String]
+    bedroom: [String],
   },
 
   rating: {
