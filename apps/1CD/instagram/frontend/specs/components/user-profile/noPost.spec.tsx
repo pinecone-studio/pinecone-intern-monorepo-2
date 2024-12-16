@@ -1,4 +1,5 @@
-import { NoPost } from '@/components/user-profile/Nopost';
+import { NoPost } from '@/components/user-profile/NoPost';
+
 import { render } from '@testing-library/react';
 
 describe('NoPostComponent', () => {

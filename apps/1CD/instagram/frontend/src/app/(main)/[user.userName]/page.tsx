@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { IoIosSettings } from 'react-icons/io';
 
 import { useGetMyPostsQuery } from '@/generated';
-import { NoPost } from '@/components/user-profile/Nopost';
+import { NoPost } from '@/components/user-profile/NoPost';
 
 const UserProfile = () => {
   const { user } = useAuth();
