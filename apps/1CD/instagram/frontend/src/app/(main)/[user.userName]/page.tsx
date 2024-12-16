@@ -3,7 +3,6 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { FaTableCells } from 'react-icons/fa6';
 import { HiSave } from 'react-icons/hi';
-import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { IoIosSettings } from 'react-icons/io';
 
