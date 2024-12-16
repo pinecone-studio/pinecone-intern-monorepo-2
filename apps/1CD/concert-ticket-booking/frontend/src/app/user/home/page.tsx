@@ -1,9 +1,28 @@
 'use client';
+
+import { useQueryState } from 'nuqs';
 import CardTicket from '@/components/Card';
-import { Event, useGetEventsQuery } from '@/generated';
+import { Event, useGetEventsLazyQuery, useGetEventsQuery } from '@/generated';
+import { useEffect } from 'react';
+import { useDebounce } from '@uidotdev/usehooks';
 
 const Page = () => {
-  const { data, loading } = useGetEventsQuery();
+  const [q, setQ] = useQueryState('q', { defaultValue: '' });
+
+  const debouncedQ = useDebounce(q, 300);
+
+  const [getEvents1, { data, loading }] = useGetEventsLazyQuery();
+
+  useEffect(() => {
+    getEvents1({
+      variables: {
+        filter: {
+          q: debouncedQ,
+        },
+      },
+    });
+  }, [debouncedQ]);
+
   console.log(data?.getEvents);
 
   return (
