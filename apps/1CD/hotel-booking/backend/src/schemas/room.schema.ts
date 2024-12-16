@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export const typeDefs = gql`
   scalar Date
+
   type RoomServiceType {
     bathroom: [String]
     accessability: [String]
@@ -49,6 +50,7 @@ export const typeDefs = gql`
     price: Int
     roomInformation: String
     createdAt: Date
+    images: [String]
   }
 
   input RoomTypeInput {
