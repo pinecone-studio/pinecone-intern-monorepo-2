@@ -16,7 +16,7 @@ const AlreadyHaveAnAcc = () => {
           data-testid="push-login-lage-btn"
           className="text-sm text-[#2563EB] p-0 h-auto font-semibold"
           onClick={() => {
-            router.push('/');
+            router.push('/login');
           }}
         >
           Login
