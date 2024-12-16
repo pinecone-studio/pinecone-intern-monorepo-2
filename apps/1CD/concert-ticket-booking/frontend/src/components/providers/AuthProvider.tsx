@@ -49,11 +49,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     onCompleted: (data) => {
       setLoading(false);
       localStorage.setItem('token', data.login.token);
+      setUser(data.login.user);
       toast.success('Successfully login');
       if (data.login.user.role === 'admin') {
-        router.push('/home');
+        router.push('/admin/user');
       } else {
-        router.push('/');
+        router.push('/user/home');
       }
     },
     onError: (error) => {

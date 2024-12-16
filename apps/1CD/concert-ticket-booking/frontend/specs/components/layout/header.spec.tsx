@@ -22,12 +22,12 @@ describe('Header Component', () => {
 
   it('displays the SignOut button when user is present', () => {
     (useAuth as jest.Mock).mockReturnValue({
-      user: { name: 'Test User' },
+      user: { email: 'test@example.com' },
       signout: mockSignout,
     });
-
     const { getByTestId } = render(<Header />);
 
+    expect(getByTestId('UserEmail'));
     expect(getByTestId('SignOutBtn'));
   });
 });
