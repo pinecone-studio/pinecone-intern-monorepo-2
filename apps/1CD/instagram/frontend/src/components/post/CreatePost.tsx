@@ -3,9 +3,8 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { IoMdArrowBack } from 'react-icons/io';
-import { CiFaceSmile } from 'react-icons/ci';
 import { useCreatePostMutation, useGetUserQuery } from '@/generated';
+import { ArrowLeft, SmileIcon } from 'lucide-react';
 
 export const CreatePost = ({
   openModal,
@@ -48,7 +47,7 @@ export const CreatePost = ({
               <div className="flex justify-between text-center text-[16px] px-1">
                 {' '}
                 <button data-testid="closeModalBtn" onClick={closeModal}>
-                  <IoMdArrowBack />
+                  <ArrowLeft width={16} height={16} />
                 </button>
                 <p>Create new post</p>
                 <button data-testid="createBtn" className="text-[#2563EB]" onClick={() => createPostBtn()}>
@@ -70,8 +69,8 @@ export const CreatePost = ({
                 <h1 className="text-sm font-bold ">{user?.getUser.userName}</h1>
               </div>
               <input data-testid="input" type="text" className="w-full h-[132px] border rounded-lg p-2" placeholder="Description ..." onChange={(e) => setHandleDesc(e.target.value)} />
-              <div className="flex justify-between border-t-[1px]">
-                <CiFaceSmile />
+              <div className="flex justify-between border-b-[1px] py-3 text-[12px] text-[#71717A] ">
+                <SmileIcon width={20} height={20} />
                 <p>{handleDesc.length}/200</p>
               </div>
             </div>
