@@ -1,106 +1,38 @@
 // 'use client';
-
-// import { useRouter } from 'next/navigation';
-// import { createContext, PropsWithChildren, useContext, useState, useEffect } from 'react';
-// import { User, useSignupMutation, useGetUserLazyQuery, useLoginMutation, useConfirmFollowReqMutation, FollowStatus } from 'src/generated';
-
-// type SignUp = {
-//   email: string;
-//   fullName: string;
-//   userName: string;
-//   password: string;
-// };
-
-// type LogIn = {
-//   email: string;
-//   password: string;
-// };
-
-// type ConfirmFollowRequest = {
-//   status: string;
-// };
+// import { SearchUsersDocument, SearchUsersQuery, SearchUsersQueryVariables } from '@/generated';
+// import { useLazyQuery } from '@apollo/client';
+// import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 // type AuthContextType = {
-//   signup: (_params: SignUp) => void;
-//   login: (_params: LogIn) => void;
-//   confirmFollowReq: (_params: ConfirmFollowRequest) => void;
-//   confirmReq: FollowStatus;
-
-//   user: User | null;
+//   searchHandleChange: (_e:React.ChangeEvent<HTMLInputElement>) => void;
+//   searchTerm: string;
+//   setSearchTerm: (_searchTerm: string) => void;
+//   data: SearchUsersQuery | undefined;
+//   loading: boolean;
 // };
 
 // const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 // export const AuthProvider = ({ children }: PropsWithChildren) => {
-//   const router = useRouter();
-//   const [user, setUser] = useState<User | null>(null);
-//   const [status, setStatus] = useState(FollowStatus.Pending);
+//   const [searchTerm, setSearchTerm] = useState('');
+//   const [searchUsers, { data, loading, refetch }] = useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument);
 
-//   const [signupMutation] = useSignupMutation({
-//     onCompleted: (data) => {
-//       localStorage.setItem('token', data.signup.token);
-//       setUser(data.signup.user as User);
-//       router.push('/login');
-//     },
-//   });
-//   const signup = async ({ email, password, fullName, userName }: SignUp) => {
-//     await signupMutation({
-//       variables: {
-//         input: {
-//           email,
-//           password,
-//           fullName,
-//           userName,
-//         },
-//       },
-//     });
+//   const refresh = async () => {
+//     await refetch();
 //   };
 
-//   const [confirmFollowReqMutation] = useConfirmFollowReqMutation({
-//     onCompleted: (data) => {
-//       setStatus(FollowStatus.Approved);
-//     },
-//   });
-
-//   const confirmFollowReq = async ({ status }: ConfirmFollowRequest) => {
-//     await confirmFollowReqMutation({
-//       variables: {
-//         status,
-//       },
-//     });
+//   const searchHandleChange = async (e:) => {
+//     setSearchTerm(e.target.value);
+//     if (searchTerm.trim()) {
+//       searchUsers({ variables: { searchTerm } });
+//     }
+//     await refresh;
 //   };
 
-//   const [signinMutation] = useLoginMutation({
-//     onCompleted: (data) => {
-//       localStorage.setItem('token', data.login.token);
-//       setUser(data.login.user as User);
-//       router.push('/');
-//     },
-//   });
+//   //   console.log('data', searchTerm);
+//   //   console.log('loading', loading);
 
-//   const [getUser] = useGetUserLazyQuery({
-//     onCompleted: (data) => {
-//       setUser(data.getUser);
-//     },
-//   });
-
-//   const login = async ({ email, password }: LogIn) => {
-//     await signinMutation({
-//       variables: {
-//         input: {
-//           email,
-//           password,
-//         },
-//       },
-//     });
-//   };
-//console.log("a")
-
-//   useEffect(() => {
-//     getUser();
-//   }, [getUser]);
-
-//   return <AuthContext.Provider value={{ signup, user, login, confirmReq, confirmFollowReq }}>{children}</AuthContext.Provider>;
+//   return <AuthContext.Provider value={{ searchHandleChange, searchTerm, setSearchTerm, data, loading }}>{children}</AuthContext.Provider>;
 // };
 
 // export const useAuth = () => useContext(AuthContext);
