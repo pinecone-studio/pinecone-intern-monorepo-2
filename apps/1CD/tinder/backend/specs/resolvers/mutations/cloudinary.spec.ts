@@ -14,8 +14,8 @@ global.File = jest.fn().mockImplementation((...args) => {
 
 describe('uploadFilesInCloudinary', () => {
   beforeAll(() => {
-    process.env.CLOUD_NAME = 'test-cloud';
-    process.env.UPLOAD_PRESET = 'test-preset';
+    process.env.CLOUD_NAME = 'dkylvahwz';
+    process.env.UPLOAD_PRESET = 'tinder_image';
   });
 
   it('should upload file and return the secure URL', async () => {
@@ -33,7 +33,7 @@ describe('uploadFilesInCloudinary', () => {
     const result = await uploadFilesInCloudinary(mockFile);
 
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('https://api.cloudinary.com/v1_1/test-cloud/upload'),
+      expect.stringContaining('https://api.cloudinary.com/v1_1/dkylvahwz/upload'),
       expect.objectContaining({
         method: 'POST',
         body: expect.any(FormData),
