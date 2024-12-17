@@ -45,24 +45,6 @@ query GetMyPosts {
 mutation CreatePost($description: String, $images: [String!]!) {
   createPost(description: $description, images: $images) {
     _id
-    user {
-      _id
-      userName
-      fullName
-      email
-      phone
-      bio
-      gender
-      profileImg
-      accountVisibility
-      followerCount
-      followingCount
-      createdAt
-      updatedAt
-      otp
-      resetPasswordToken
-      resetPasswordTokenExpire
-    }
     description
     images
     lastComments
