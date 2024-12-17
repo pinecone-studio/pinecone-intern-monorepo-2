@@ -13,6 +13,11 @@ global.File = jest.fn().mockImplementation((...args) => {
 });
 
 describe('uploadFilesInCloudinary', () => {
+  beforeAll(() => {
+    process.env.CLOUD_NAME = 'test-cloud';
+    process.env.UPLOAD_PRESET = 'test-preset';
+  });
+
   it('should upload file and return the secure URL', async () => {
     const mockFile = new File(['mockBlob'], 'mock-image.jpg', { type: 'image/jpg' });
 
