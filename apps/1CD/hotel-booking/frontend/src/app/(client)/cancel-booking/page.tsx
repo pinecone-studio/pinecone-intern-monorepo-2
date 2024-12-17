@@ -14,7 +14,7 @@ const Page = () => {
         <DialogContent>
           <div data-cy={`open-dialog`}>
             <DialogTitle data-cy="Cancel-booking-text" className="text-[20px] font-semibold">
-              <div>Cancel booking?</div>
+              Cancel booking?
             </DialogTitle>
             <DialogDescription>The property won't change you.</DialogDescription>
           </div>
