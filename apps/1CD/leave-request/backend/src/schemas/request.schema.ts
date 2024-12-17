@@ -12,6 +12,7 @@ export const RequestTypeDefs = gql`
     supervisorEmail: String
     result: String
     comment: String
+    optionalFile: String
   }
 
   type AvailablePaidLeaves {
@@ -24,7 +25,7 @@ export const RequestTypeDefs = gql`
   }
 
   type Mutation {
-    createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!): RequestType
+    createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!, startTime:String, endTime:String, optionalFile: String): RequestType
   }
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves

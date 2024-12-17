@@ -10,6 +10,9 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
   images: {
     remotePatterns: [
       {
@@ -17,6 +20,9 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    BACKEND_URI: process.env.BACKEND_URI 
+  }
 };
 
 const plugins = [withNx];

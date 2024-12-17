@@ -5,6 +5,7 @@ export type UserType = {
   firstName: string;
   lastName: string;
   email: string;
+  otp: string;
   password: string;
   phoneNumber?: number;
   role: 'user' | 'admin';
@@ -14,21 +15,20 @@ export type UserType = {
 const userSchema = new Schema<UserType>({
   firstName: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нэрийг оруулах'],
   },
 
   lastName: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нэрийг оруулах'],
   },
   email: {
     type: String,
     required: [true, 'Хэрэглэгчийн имейл оруулах'],
     unique: true,
   },
+  otp: { type: String },
   password: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нууц үг оруулах'],
+    // required: [true, 'Хэрэглэгчийн нууц үг оруулах'],
   },
   phoneNumber: {
     type: Number,

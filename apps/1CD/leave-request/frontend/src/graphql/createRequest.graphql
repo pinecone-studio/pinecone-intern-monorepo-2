@@ -1,0 +1,21 @@
+query CreateRequest($email: String!) {
+  getAllSupervisors {
+    email
+    userName
+  }
+  checkAvailablePaidLeaveInGivenYear(email: $email) {
+    thisYear
+    nextYear
+  }
+  checkAvailavleRemoteLeaveInGivenMonth(email: $email) {
+    thisMonth
+    nextMonth
+  }
+}
+
+mutation CreatesRequest($email: String!, $requestType: String!, $message: String!, $supervisorEmail: String!, $requestDate: Date!, $startTime: String, $endTime: String, $optionalFile: String) {
+  createsRequest(email: $email, requestType: $requestType, message: $message, supervisorEmail: $supervisorEmail, requestDate: $requestDate, startTime: $startTime, endTime: $endTime, optionalFile: $optionalFile) {
+    email
+    requestType
+  }
+}

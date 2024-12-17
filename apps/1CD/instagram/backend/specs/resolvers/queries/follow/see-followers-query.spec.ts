@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
 import { FollowStatus } from 'src/generated';
 import { seeFollowers } from 'src/resolvers/queries';

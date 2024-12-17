@@ -23,6 +23,10 @@ const nextConfig = {
   },
   env: {
     MONGO_URI: process.env.MONGO_URI ?? '',
+    SEND_GRID_EMAIL_KEY: process.env.SEND_GRID_EMAIL_KEY ?? '',
+    SEND_GRID_API_ID: process.env.SEND_GRID_API_ID ?? '',
+    JWT_SECRET: process.env.JWT_SECRET ?? '',
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN ?? ''
   },
   nx: {
     svgr: false,

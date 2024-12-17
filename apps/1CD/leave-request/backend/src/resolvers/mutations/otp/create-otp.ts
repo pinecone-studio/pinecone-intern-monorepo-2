@@ -16,7 +16,7 @@ export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) 
   const oldOTP = await OTPModel.findOne({ email });
   if (oldOTP) {
     if (oldOTP.expirationDate > new Date()){
-      throw new Error('Old OTP is not expired');
+      return oldOTP
     }
     await OTPModel.deleteOne({email})
   }

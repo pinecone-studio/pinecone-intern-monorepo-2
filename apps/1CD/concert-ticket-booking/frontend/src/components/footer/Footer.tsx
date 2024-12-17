@@ -8,7 +8,7 @@ export const Footer = () => {
     <div className="px-4 bg-black border-t border-gray-600 md:px-8 lg:px-20">
       <div className="flex flex-col gap-8 py-8 text-white lg:flex-row lg:justify-around lg:py-16 lg:gap-0">
         <div className="flex flex-col gap-3">
-          <Link href="/" className="flex gap-2">
+          <Link href="/user/home" className="flex gap-2">
             <Image src="/images/logo.png" alt="logo" width={181} height={28} />
           </Link>
           <p className="text-sm text-gray-600">© 2024 Booking Mongolia. All Rights Reserved.</p>
@@ -23,9 +23,7 @@ export const Footer = () => {
                 </div>
                 <div>
                   <p className="text-gray-600">Email:</p>
-                  <p className="text-sm group-hover:underline group-hover:underline-offset-4 lg:text-base">
-                    support@ticketinbooking.mn
-                  </p>
+                  <p className="text-sm group-hover:underline group-hover:underline-offset-4 lg:text-base">support@ticketinbooking.mn</p>
                 </div>
               </div>
             </Link>
