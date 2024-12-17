@@ -9,8 +9,8 @@ export const typeDefs = gql`
 
   type FollowInfo {
     _id: ID!
-    followerId: User!
-    followingId: User!
+    followerId: ID!
+    followingId: ID!
     createdAt: Date!
     updatedAt: Date!
     status: FollowStatus!
@@ -26,6 +26,10 @@ export const typeDefs = gql`
 
   type Mutation {
     sendFollowReq(followerId: ID!, followingId: ID!): FollowInfo!
+  }
+
+  type Mutation {
+    confirmFollowReq(_id: ID!): FollowInfo!
   }
 
   type Query {

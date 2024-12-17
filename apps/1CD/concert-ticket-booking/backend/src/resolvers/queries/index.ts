@@ -5,3 +5,4 @@ export * from './category';
 export * from './event/get-event';
 export * from './event/get-events';
 export * from './order/get-order';
+export * from './user';

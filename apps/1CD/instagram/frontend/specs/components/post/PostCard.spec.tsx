@@ -1,38 +1,24 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import { GetMyPostsDocument, GetUserDocument } from '@/generated';
+import { GetMyFollowingsPostsDocument } from '@/generated';
 import { PostCard } from '@/components/post/PostCard';
 
 const myPostMock = [
   {
     request: {
-      query: GetUserDocument,
-    },
-    result: {
-      data: {
-        getUser: {
-          _id: '123',
-          userName: 'test',
-          profileImg: 'http://img1',
-        },
-      },
-    },
-  },
-
-  {
-    request: {
-      query: GetMyPostsDocument,
-      variables: {
-        userId: '123',
-      },
+      query: GetMyFollowingsPostsDocument,
     },
 
     result: {
       data: {
-        getMyPosts: [
+        getMyFollowingsPosts: [
           {
             _id: '1',
-            user: '123',
+            user: {
+              _id: 'user1',
+              userName: 'User',
+              profileImg: 'http://img',
+            },
             description: "Test's des",
             images: ['http://img'],
             lastComments: 'String',
@@ -50,32 +36,18 @@ const myPostMock = [
 const myPostMockNoImg = [
   {
     request: {
-      query: GetUserDocument,
-    },
-    result: {
-      data: {
-        getUser: {
-          _id: '123',
-          userName: 'test',
-        },
-      },
-    },
-  },
-
-  {
-    request: {
-      query: GetMyPostsDocument,
-      variables: {
-        userId: '123',
-      },
+      query: GetMyFollowingsPostsDocument,
     },
 
     result: {
       data: {
-        getMyPosts: [
+        getMyFollowingsPosts: [
           {
             _id: '1',
-            user: '123',
+            user: {
+              _id: 'user1',
+              userName: 'User',
+            },
             description: "Test's des",
             images: ['http://img'],
             lastComments: 'String',
@@ -85,6 +57,20 @@ const myPostMockNoImg = [
             createdAt: '2024',
           },
         ],
+      },
+    },
+  },
+];
+
+const myPostMockNull = [
+  {
+    request: {
+      query: GetMyFollowingsPostsDocument,
+    },
+
+    result: {
+      data: {
+        getMyFollowingsPosts: [],
       },
     },
   },
@@ -104,18 +90,24 @@ describe('getMyPost', () => {
     const deleteBtn = getByTestId('delete-btn');
     fireEvent.click(deleteBtn);
   });
-
-  it('should render', async () => {
+  it('should render no img', async () => {
     const { getByTestId } = render(
       <MockedProvider mocks={myPostMockNoImg}>
         <PostCard />
       </MockedProvider>
     );
-
     await waitFor(() => expect(getByTestId('post-card')));
     const moreBtn = getByTestId('more-btn');
     fireEvent.keyDown(moreBtn, { key: 'Enter' });
     const deleteBtn = getByTestId('delete-btn');
     fireEvent.click(deleteBtn);
+  });
+  it('should render no data', async () => {
+    const { getByTestId } = render(
+      <MockedProvider mocks={myPostMockNull}>
+        <PostCard />
+      </MockedProvider>
+    );
+    await waitFor(() => expect(getByTestId('post-card')));
   });
 });

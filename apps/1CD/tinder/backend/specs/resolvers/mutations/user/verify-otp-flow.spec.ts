@@ -25,6 +25,7 @@ describe('verifying the otp', () => {
   const mockOtp = '1234';
   const mockInfo = {} as GraphQLResolveInfo;
   const mockToken='secret1234';
+  const userId=null
 
 
   it('should return email when otp is verified', async () => {
@@ -38,20 +39,20 @@ describe('verifying the otp', () => {
     (checkOtpDate as jest.Mock).mockReturnValue('otp is valid');
     (createToken as jest.Mock).mockResolvedValue(mockToken);
 
-    const res = await verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {}, mockInfo);
+    const res = await verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {userId}, mockInfo);
     expect(checkOtpDate).toHaveBeenCalledWith(mockUser);
     expect(createToken).toHaveBeenCalledWith(mockUser);
     expect(res).toEqual({ token: mockToken });
   });
 
   it('should throw error when input is empty', async () => {
-    await expect(verifyOtp!({}, { input: { email: '', otp:mockOtp} }, {}, mockInfo)).rejects.toThrow(GraphQLError);
-    await expect(verifyOtp!({}, { input: { email: '', otp: mockOtp } }, {}, mockInfo)).rejects.toThrow('Email or Otp are required');
+    await expect(verifyOtp!({}, { input: { email: '', otp:mockOtp} }, {userId}, mockInfo)).rejects.toThrow(GraphQLError);
+    await expect(verifyOtp!({}, { input: { email: '', otp: mockOtp } }, {userId}, mockInfo)).rejects.toThrow('Email or Otp are required');
   });
 
   it('should throw error when user is not found', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
-    await expect(verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {}, mockInfo)).rejects.toThrow(GraphQLError);
-    await expect(verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {}, mockInfo)).rejects.toThrow('USER_NOT_FOUND');
+    await expect(verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {userId}, mockInfo)).rejects.toThrow(GraphQLError);
+    await expect(verifyOtp!({}, { input: { email: mockEmail, otp: mockOtp } }, {userId}, mockInfo)).rejects.toThrow('USER_NOT_FOUND');
   });
 });

@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/card';
 import { Hotel } from '@/generated';
 import { Wifi } from 'lucide-react';
 import { Flower } from 'lucide-react';
@@ -7,16 +8,14 @@ import Image from 'next/image';
 
 const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
   return (
-    <div>
-      <div className="max-w-[380px] w-full h-auto border-2 rounded-md">
-        <div>{hotel.hotelName}</div>
-
-        <div className="w-full h-[216px] bg-pink-100">
+    <div className="flex justify-center">
+      <Card className="max-w-[360px] w-full h-auto border-2 rounded-md md:max-w-[400px] lg:max-w-[500px]">
+        <div className="w-full h-[200px] bg-pink-100">
           <Image className="object-cover w-full h-full" src={'/'} alt="image" height={1000} width={1000} />
         </div>
         <div className="p-4">
           <div className="pb-3">
-            <p className="font-bold">Economy Double Room, City View</p>
+            <p className="text-lg font-bold md:text-lg">{hotel.hotelName}</p>
             <div className="flex gap-1">
               <Star className="w-[16px] text-[#F97316] fill-[#F97316]" />
               <Star className="w-[16px] text-[#F97316] fill-[#F97316]" />
@@ -25,22 +24,22 @@ const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
           </div>
           <div className="flex gap-1.5 items-center pb-3">
             <Wifi className="w-[16px]" />
-            <p className="text-[14px]">Free WIFI</p>
+            <p className="text-[14px] md:text-[16px]">Free WIFI</p>
           </div>
           <div className="flex gap-1.5 items-center pb-3">
             <Flower className="w-[16px]" />
-            <p className="text-[14px]">Spa access</p>
+            <p className="text-[14px] md:text-[16px]">Spa access</p>
           </div>
           <div className="flex gap-1.5 items-center pb-3">
             <CircleParking className="w-[16px]" />
-            <p className="text-[14px]">Free self parking</p>
+            <p className="text-[14px] md:text-[16px]">Free self parking</p>
           </div>
           <div className="flex gap-1.5 items-center pb-3">
-            <div className="bg-[#18BA51] text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold">8.6</div>
-            <p className="text-[14px]">Excellent</p>
+            <div className="bg-blue-600 text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold md:text-[14px]">8.6</div>
+            <p className="text-[14px] md:text-[16px]">Excellent</p>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

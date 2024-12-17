@@ -5,17 +5,17 @@ import { SuggestUser } from '../SuggestUser';
 import { useAuth } from '../providers';
 
 export const UserBar = () => {
-  const { signout } = useAuth();
+  const { signout, user } = useAuth();
   return (
-    <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4">
+    <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4  pt-10 ">
       <div className="flex items-center justify-between w-full ">
         <div className="flex items-center gap-2">
           <div className="relative flex rounded-full w-14 h-14">
-            <Image fill={true} src="/images/img.avif" alt="Photo1" className="w-auto h-auto rounded-full" />
+            <Image fill={true} src={user?.profileImg || '/images/img.avif'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
           </div>
           <div className="">
-            <h1 className="text-sm font-bold ">defavours_11</h1>
-            <p className="text-[12px] text-gray-500 ">quuppp</p>
+            <h1 className="text-sm font-bold ">{user?.userName}</h1>
+            <p className="text-[12px] text-gray-500 ">{user?.fullName}</p>
           </div>
         </div>
         <div>

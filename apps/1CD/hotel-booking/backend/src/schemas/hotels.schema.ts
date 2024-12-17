@@ -4,7 +4,7 @@ export const typeDefs = gql`
   scalar Date
   type Hotel {
     createdAt: Date
-    _id: ID!
+    _id: ID
     hotelName: String
     description: String
     starRating: Int

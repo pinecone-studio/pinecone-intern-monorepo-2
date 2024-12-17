@@ -31,7 +31,7 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
     findFilter.$and.push({ $or: [{ mainArtists: { $elemMatch: { $regex: new RegExp(artist, 'i') } } }, { guestArtists: { $elemMatch: { $regex: new RegExp(artist, 'i') } } }] });
   }
 
-  const events: EventType[] = await Event.find(findFilter).populate(['dayTickets', 'venue']);
+  const events: EventType[] = await Event.find(findFilter).populate(['products', 'venue']);
 
   return events;
 };

@@ -1,15 +1,81 @@
 mutation DeletePost($_id: String!) {
   deletePost(_id: $_id) {
     _id
-    user
+    user {
+      _id
+      userName
+      fullName
+      email
+    }
     description
   }
 }
 
-query GetMyPosts($userId: String!) {
-  getMyPosts(userID: $userId) {
+query GetMyPosts {
+  getMyPosts {
     _id
-    user
+    user {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
+
+mutation CreatePost($description: String, $images: [String!]!) {
+  createPost(description: $description, images: $images) {
+    _id
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
+
+query GetMyFollowingsPosts {
+  getMyFollowingsPosts {
+    _id
+    user {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
     description
     images
     lastComments
