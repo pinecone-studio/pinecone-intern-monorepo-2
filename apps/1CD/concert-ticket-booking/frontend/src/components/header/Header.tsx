@@ -22,7 +22,7 @@ export const Header = () => {
       </div>
 
       <div className="relative flex items-center w-full px-2 md:px-6 md:w-auto">
-        <Input type="text" placeholder="Хайлт" className="relative w-full bg-black border-gray-600 md:w-80" value={q} onChange={(e) => setQ(e.target.value)} />
+        <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="relative w-full bg-black border-gray-600 md:w-80" value={q} onChange={(e) => setQ(e.target.value)} />
         <IoSearch className="absolute w-4 h-4 right-4 md:right-16 color-white" />
       </div>
 
