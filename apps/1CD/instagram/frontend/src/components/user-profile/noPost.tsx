@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 export const NoPost = () => {
   return (
     <div className="flex flex-col items-center space-y-8 mt-32" data-testid="NoPostComponent">
