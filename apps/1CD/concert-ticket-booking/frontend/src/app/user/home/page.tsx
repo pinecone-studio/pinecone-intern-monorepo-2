@@ -2,12 +2,12 @@
 
 import { useQueryState } from 'nuqs';
 import CardTicket from '@/components/Card';
-import { Event, useGetEventsLazyQuery, useGetEventsQuery } from '@/generated';
+import { Event, useGetEventsLazyQuery } from '@/generated';
 import { useEffect } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 
 const Page = () => {
-  const [q, setQ] = useQueryState('q', { defaultValue: '' });
+  const [q] = useQueryState('q', { defaultValue: '' });
 
   const debouncedQ = useDebounce(q, 300);
 
@@ -24,7 +24,7 @@ const Page = () => {
   }, [debouncedQ]);
 
   return (
-    <div className="w-full   bg-black pt-10" data-cy="Home-Page">
+    <div className="w-full   bg-black py-10" data-cy="Home-Page">
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
         {loading && <div className="flex w-full h-full justify-center items-center">Loading...</div>}
         {data?.getEvents?.map((event) => (
