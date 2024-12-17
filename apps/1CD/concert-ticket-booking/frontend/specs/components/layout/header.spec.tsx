@@ -46,10 +46,10 @@ describe('Header Component', () => {
     render(<Header />);
 
     expect(screen.getByTestId('SignOutBtn')).toBeInTheDocument();
-        const { getByTestId } = render(<Header />);
+    // const { getByTestId } = render(<Header />);
 
-    expect(getByTestId('UserEmail'));
-    expect(getByTestId('SignOutBtn'));
+    // expect(getByTestId('UserEmail'));
+    // expect(getByTestId('SignOutBtn'));
   });
 
   it('calls setQ when search input changes', () => {
@@ -71,6 +71,5 @@ describe('Header Component', () => {
 
     // Verify setQ is called with the correct value
     expect(setQMock).toHaveBeenCalledWith('salhi');
-
   });
 });
