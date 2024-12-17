@@ -5,7 +5,7 @@ import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleI
 
 const RoomCard = ({ room }: { room: RoomType }) => {
     return (
-        <div className="border border-solid 1px rounded-md w-[349px]">
+        <div  className="border border-solid 1px rounded-md w-[349px]">
             <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
             </div>
             <div className="p-4">

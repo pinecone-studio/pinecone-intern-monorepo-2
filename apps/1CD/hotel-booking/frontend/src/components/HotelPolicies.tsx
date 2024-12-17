@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 
 const HotelPolicies = () => {
@@ -12,7 +11,7 @@ const HotelPolicies = () => {
                 <div className="flex gap-2">
                     <div className="flex flex-1 flex-col gap-2">
                         <h4 className="text-xl font-semibold text-[#09090B]">Check-in</h4>
-                        <p className="text-sm font-normal text-[#09090B]">Check-in start time: noon; Check-in end time: 5:30 AM</p>
+                        <p className="text-sm font-normal text-[#09090B]">Check-in start time: noon Check-in end time: 5:30 AM</p>
                         <p className="text-sm font-normal text-[#09090B]">Minimum check-in age: 16</p>
                     </div>
                     <div className="flex flex-1 flex-col gap-2">
@@ -25,7 +24,7 @@ const HotelPolicies = () => {
                     <h4 className="text-xl font-semibold">Special check-in instructions</h4>
                     <p className="text-sm font-normal">This property offers transfers from the airport (surcharges may apply); guests must contact the property with arrival details before travel, using the contact information on the booking confirmation</p>
                     <p className="text-sm font-normal">Front desk staff will greet guests on arrival</p>
-                    <p className="text-sm font-normal">This property doesn't offer after-hours check-in</p>
+                    <p className="text-sm font-normal">{"This property doesn't offer after-hours check-in"}</p>
                 </div>
                 <div className="flex flex-col gap-2">
                     <h4 className="text-xl font-semibold">Access methods</h4>
@@ -43,10 +42,10 @@ const HotelPolicies = () => {
                 <div className="flex flex-col gap-2">
                     <h4 className="text-xl font-semibold">Property payment types</h4>
                     <div className="flex">
-                        <img src={"./images/cards-cc_jcb.png"} width={76} height={48} className="w-[76px] h-12"/>
-                        <img src="./images/cards-cc_visa.png" className="w-[76px] h-12"></img>
-                        <img src="./images/cards-cc_master_card.png" className="w-[76px] h-12"></img>
-                        <img src="./images/cards-cc_american_express.png" className="w-[76px] h-12"></img>
+                        <Image alt="logo" src="/images/cards-cc_jcb.png" width={500} height={500} className="w-20 h-12"/>
+                        <Image alt="logo" src="/images/cards-cc_visa.png" width={500} height={500} className="w-20 h-12"/>
+                        <Image alt="logo" src="/images/cards-cc_master_card.png" width={500} height={500} className="w-20 h-12"/>
+                        <Image alt="logo" src="/images/cards-cc_american_express.png" width={500} height={500} className="w-20 h-12"/>
                     </div>
                 </div>
             </div>
