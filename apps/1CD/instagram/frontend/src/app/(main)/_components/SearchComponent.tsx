@@ -19,7 +19,7 @@ const SearchFromAllUsers = () => {
     if (searchTerm.trim()) {
       searchUsers({ variables: { searchTerm } });
     }
-    await refresh;
+    await refresh();
   };
 
   return (
@@ -35,7 +35,7 @@ const SearchFromAllUsers = () => {
         />
       </div>
 
-      {loading ?? 'Loading'}
+      {loading ? <div>Loading</div> : null}
 
       {data?.searchUsers.map((user) => (
         <div className="flex flex-col justify-center gap-4 px-3 py-2" key={user._id}>
