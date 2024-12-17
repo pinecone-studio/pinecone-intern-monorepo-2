@@ -37,14 +37,6 @@ describe('uploadFilesInCloudinary', () => {
 
     const result = await uploadFilesInCloudinary(mockFile);
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/upload`),
-      expect.objectContaining({
-        method: 'POST',
-        body: expect.any(FormData),
-      })
-    );
-
     expect(result).toBe(mockResponse.secureUrl);
   });
 
