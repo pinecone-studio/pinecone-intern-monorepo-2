@@ -1,6 +1,4 @@
-import SignIn from "@/components/signIn/SignIn";
-
-
+import SignIn from "./_feature/SignIn";
 
 const signInPage=async()=>{
   return (

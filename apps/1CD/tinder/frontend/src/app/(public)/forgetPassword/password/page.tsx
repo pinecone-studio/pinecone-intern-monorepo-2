@@ -1,13 +1,14 @@
-import SetPassword from "@/components/register/SetPassword";
-import { cookies } from "next/headers";
+
+
+import SetPassword from "./_feature/SetPassword";
 
 
 const PasswordPage = async() => {
 
-  const authToken=await cookies().get('authToken')?.value ||'';
+
   return (
     <div>
-      <SetPassword authToken={authToken}/>
+      <SetPassword />
     </div>
   );
 };

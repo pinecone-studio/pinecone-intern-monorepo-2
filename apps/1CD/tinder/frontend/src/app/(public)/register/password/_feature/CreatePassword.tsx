@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 const passwordSchema = z
@@ -29,9 +28,7 @@ const passwordSchema = z
   });
 type ValidationSchemaType = z.infer<typeof passwordSchema>;
 
-const Password = ({authToken}:{authToken:string}) => {
-    console.log(authToken)
-
+const Password = () => {
   const router=useRouter();
   
   const {
@@ -44,9 +41,7 @@ const Password = ({authToken}:{authToken:string}) => {
 
 
   const [createPassword] = useCreatePasswordMutation({
-    onError: (error) => {
-      toast.error(error.message);
-    },
+
     onCompleted:()=>{
       router.push('/account/attraction');
     }
