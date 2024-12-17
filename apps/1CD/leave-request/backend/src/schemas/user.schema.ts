@@ -21,5 +21,7 @@ export const UserTypeDefs = gql`
 
   type Query {
     findUserByEmail(email: String!): User
+    getAllUsers: [User]
+    getAllSupervisors: [User]
   }
 `;

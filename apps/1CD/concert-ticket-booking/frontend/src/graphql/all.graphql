@@ -5,3 +5,40 @@ query Query {
 mutation Mutation {
   sampleMutation
 }
+mutation SignUp($email: String!, $password: String!) {
+  signUp(email: $email, password: $password) {
+    _id
+    email
+    role
+    phoneNumber
+  }
+}
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      email
+      role
+      phoneNumber
+    }
+    token
+  }
+}
+mutation CreateEvent($input: EventInput!) {
+  createEvent(input: $input) {
+    message
+  }
+}
+query GetArena {
+  getArena {
+    _id
+    capacity
+    image
+    name
+  }
+}
+query GetCategories {
+  getCategories {
+    _id
+    name
+  }
+}

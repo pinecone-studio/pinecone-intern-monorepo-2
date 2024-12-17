@@ -1,5 +1,5 @@
 'use client';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { AuthProvider } from '@/components/providers/AuthProvider';
@@ -14,12 +14,14 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
       <body>
-        <ApolloWrapper>
-          <AuthProvider>
-            {children}
-            <Toaster />
-          </AuthProvider>
-        </ApolloWrapper>
+        <Suspense>
+          <ApolloWrapper>
+            <AuthProvider>
+              {children}
+              <Toaster />
+            </AuthProvider>
+          </ApolloWrapper>
+        </Suspense>
       </body>
     </html>
   );

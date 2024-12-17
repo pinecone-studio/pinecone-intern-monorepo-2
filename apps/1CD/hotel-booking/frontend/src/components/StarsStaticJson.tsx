@@ -48,3 +48,13 @@ export const ReviewRating = [
     text: '10 ⭐',
   },
 ];
+
+export const Cards = ['/images/cards-cc_american_express.png', '/images/cards-cc_jcb.png', '/images/cards-cc_master_card.png', '/images/cards-cc_visa.png'];
+
+export const Countries = [
+  { text: 'Mongolia 🇲🇳', value: 'Mongolia' },
+  { value: 'HongKong', text: 'Hong Kong 🇭🇰' },
+  { text: 'English 🇬🇧', value: 'English' },
+];
+
+export const RoomTypes = ['Single', 'Deluxe', 'Standart'];

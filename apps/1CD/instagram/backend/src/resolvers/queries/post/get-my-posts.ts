@@ -1,7 +1,10 @@
 import { QueryResolvers } from '../../../generated';
-import { PostModel } from '../../../models/post.model';
+import { PostModel, PostPopulatedType } from '../../../models/post.model';
 
-export const getMyPosts: QueryResolvers['getMyPosts'] = async (_, { userID }) => {
-  const posts = await PostModel.find({ user: userID });
+export const getMyPosts: QueryResolvers['getMyPosts'] = async (_, __, { userId }) => {
+  if (!userId) throw new Error('Unauthorized');
+
+  const posts = await PostModel.find({ user: userId }).populate<PostPopulatedType>('user');
+
   return posts;
 };

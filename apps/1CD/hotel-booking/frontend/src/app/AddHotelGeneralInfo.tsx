@@ -64,7 +64,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   });
   const formik = useFormik({
     initialValues,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       await addHotelGeneralInfo({
         variables: {
           input: {
@@ -76,6 +76,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
           },
         },
       });
+      resetForm();
 
       setOpen(false);
     },
