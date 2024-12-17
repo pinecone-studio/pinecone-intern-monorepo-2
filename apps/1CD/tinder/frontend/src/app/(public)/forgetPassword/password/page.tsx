@@ -1,9 +1,14 @@
-import Password from "./_feature/CreatePassword";
+
+
+import SetPassword from "./_feature/SetPassword";
+
+
 const PasswordPage = async() => {
+
 
   return (
     <div>
-      <Password />
+      <SetPassword />
     </div>
   );
 };
