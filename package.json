@@ -65,6 +65,7 @@
     "@testing-library/jest-dom": "6.6.2",
     "@types/bcrypt": "5.0.2",
     "@types/bcryptjs": "^2.4.6",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vercel/kv": "1.0.0",
     "apollo-graphql": "0.9.7",
     "axios": "1.6.0",

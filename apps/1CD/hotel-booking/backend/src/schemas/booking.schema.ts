@@ -47,6 +47,6 @@ export const typeDefs = gql`
     addNewBooking(input: BookingInput!): BookingType!
   }
   type Query {
-    getBooking(_id: ID): ReturnBooking
+    getBooking(_id: ID): ReturnBooking!
   }
 `;

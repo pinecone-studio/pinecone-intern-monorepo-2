@@ -2,6 +2,7 @@ import { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper, AuthProvider } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -14,7 +15,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       <body>
         <ApolloWrapper>
           <AuthProvider>
-            <div>{children}</div>
+            <NuqsAdapter>
+              <div>{children}</div>
+            </NuqsAdapter>
+
             <Toaster />
           </AuthProvider>
         </ApolloWrapper>
