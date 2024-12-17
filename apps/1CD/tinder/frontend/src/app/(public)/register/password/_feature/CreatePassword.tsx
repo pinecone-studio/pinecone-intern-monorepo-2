@@ -45,6 +45,7 @@ const Password = () => {
     onCompleted:()=>{
       router.push('/account/attraction');
     }
+  
   });
 
 

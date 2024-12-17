@@ -1,16 +1,18 @@
 describe('creating the password', () => {
+   
   beforeEach(() => {
-    cy.clearAllLocalStorage();
+    
+    // cy.clearAllLocalStorage();
     cy.visit('/register/password');
-    cy.intercept('POST', '/graphql', (req) => {
-        if (req.body.operationName === 'createPassword') {
-          req.headers['authToken'] = process.env.mockToken||''
-          req.continue();
-        }
-      }).as('graphqlCreatePassword');
-    });
+    
+   
+  });
+    
+
 
   it('1.should accept the password input and redirect to other page',()=>{
+    const AUTH_TOKEN_SECRET = Cypress.env().env['MOCK_TOKEN'] as string;
+    cy.setCookie('authorization', AUTH_TOKEN_SECRET);
     cy.contains('tinder').should('be.visible');
     cy.contains('Create password').should('be.visible');
     cy.contains('Use a minimum of 10 characters, including uppercase letters, lowercase letters, and numbers').should('be.visible');
