@@ -5,15 +5,11 @@ describe('Searched hotel room cards', () => {
   it('should render', async () => {
     render(
       <SearchedHotelCards
-        hotelData={{
-          __typename: undefined,
-          _id: '',
-          createdAt: undefined,
-          description: undefined,
-          hotelName: undefined,
-          phoneNumber: undefined,
-          starRating: undefined,
-          userRating: undefined,
+        roomData={{
+          id: '1',
+          roomService: {
+            bedroom: ['test'],
+          },
         }}
       />
     );

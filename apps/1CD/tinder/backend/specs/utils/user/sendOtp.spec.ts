@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { GraphQLError } from 'graphql';
 import { sendOtpMail } from '../../../src/utils/user/send-otp-email';
 
+
 jest.mock('nodemailer');
 
 describe('sendOtpMail', () => {

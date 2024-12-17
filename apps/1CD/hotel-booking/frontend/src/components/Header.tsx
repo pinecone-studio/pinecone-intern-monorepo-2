@@ -1,5 +1,3 @@
-import HeaderFilter from './search-hotel/HeaderFilter';
-
 const Header = () => {
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
@@ -21,9 +19,7 @@ const Header = () => {
             <p className="text-xs font-light sm:text-sm text-gray-50">Book from a wide selection of hotels for your next trip</p>
           </div>
 
-          <div className="mt-4 sm:absolute sm:transform sm:-translate-x-1/2 sm:-translate-y-4 sm:top-1/2 sm:left-1/2">
-            <HeaderFilter />
-          </div>
+          <div className="mt-4 sm:absolute sm:transform sm:-translate-x-1/2 sm:-translate-y-4 sm:top-1/2 sm:left-1/2">{/* <HeaderFilter /> */}</div>
         </div>
       </div>
     </div>

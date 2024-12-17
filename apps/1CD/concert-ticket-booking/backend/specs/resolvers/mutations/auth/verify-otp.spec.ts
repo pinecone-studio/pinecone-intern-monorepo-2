@@ -7,7 +7,7 @@ import { sendEmailWithLink } from '../../../..//src/utils/sent-recover-link';
 jest.mock('../../../../src/models/user.model', () => ({
   findOne: jest.fn(),
 }));
-jest.mock('../../../..//src/utils/sent-recover-link', () => ({
+jest.mock('../../../../src/utils/sent-recover-link', () => ({
   sendEmailWithLink: jest.fn(),
 }));
 jest.mock('crypto', () => ({

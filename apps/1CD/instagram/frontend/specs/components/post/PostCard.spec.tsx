@@ -1,35 +1,24 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import { GetMyPostsDocument, GetUserDocument } from '@/generated';
+import { GetMyFollowingsPostsDocument } from '@/generated';
 import { PostCard } from '@/components/post/PostCard';
 
 const myPostMock = [
   {
     request: {
-      query: GetUserDocument,
-    },
-    result: {
-      data: {
-        getUser: {
-          _id: '123',
-          userName: 'test',
-          profileImg: 'http://img1',
-        },
-      },
-    },
-  },
-
-  {
-    request: {
-      query: GetMyPostsDocument,
+      query: GetMyFollowingsPostsDocument,
     },
 
     result: {
       data: {
-        getMyPosts: [
+        getMyFollowingsPosts: [
           {
             _id: '1',
-            user: '123',
+            user: {
+              _id: 'user1',
+              userName: 'User',
+              profileImg: 'http://img',
+            },
             description: "Test's des",
             images: ['http://img'],
             lastComments: 'String',
@@ -47,29 +36,18 @@ const myPostMock = [
 const myPostMockNoImg = [
   {
     request: {
-      query: GetUserDocument,
-    },
-    result: {
-      data: {
-        getUser: {
-          _id: '123',
-          userName: 'test',
-        },
-      },
-    },
-  },
-
-  {
-    request: {
-      query: GetMyPostsDocument,
+      query: GetMyFollowingsPostsDocument,
     },
 
     result: {
       data: {
-        getMyPosts: [
+        getMyFollowingsPosts: [
           {
             _id: '1',
-            user: '123',
+            user: {
+              _id: 'user1',
+              userName: 'User',
+            },
             description: "Test's des",
             images: ['http://img'],
             lastComments: 'String',
@@ -87,26 +65,12 @@ const myPostMockNoImg = [
 const myPostMockNull = [
   {
     request: {
-      query: GetUserDocument,
-    },
-    result: {
-      data: {
-        getUser: {
-          _id: '123',
-          userName: 'test',
-        },
-      },
-    },
-  },
-
-  {
-    request: {
-      query: GetMyPostsDocument,
+      query: GetMyFollowingsPostsDocument,
     },
 
     result: {
       data: {
-        getMyPosts: [],
+        getMyFollowingsPosts: [],
       },
     },
   },

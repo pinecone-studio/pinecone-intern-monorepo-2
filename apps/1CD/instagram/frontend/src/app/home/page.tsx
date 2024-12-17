@@ -1,17 +1,16 @@
 'use client';
 
 import { UserBar } from '@/components/header/UserBar';
-import Notification from '@/components/notification';
 import { PostCard } from '@/components/post/PostCard';
 
 const Page = () => {
   return (
     <>
-      <Notification />
-      <div className="flex justify-between w-3/5 p-10 m-auto">
-        <div className="flex flex-col items-center ">
+      <div className="flex items-start justify-center w-full gap-20 md:pl-[276px] md:pr-[356px] px-10  ">
+        <div className="w-2/3">
           <PostCard />
         </div>
+
         <UserBar />
       </div>
     </>
