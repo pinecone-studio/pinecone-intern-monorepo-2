@@ -18,6 +18,11 @@ describe('uploadFilesInCloudinary', () => {
     process.env.UPLOAD_PRESET = 'tinder_image';
   });
 
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
+
   it('should upload file and return the secure URL', async () => {
     const mockFile = new File(['mockBlob'], 'mock-image.jpg', { type: 'image/jpg' });
 
@@ -33,7 +38,7 @@ describe('uploadFilesInCloudinary', () => {
     const result = await uploadFilesInCloudinary(mockFile);
 
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('https://api.cloudinary.com/v1_1/dkylvahwz/upload'),
+      expect.stringContaining(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/upload`),
       expect.objectContaining({
         method: 'POST',
         body: expect.any(FormData),
