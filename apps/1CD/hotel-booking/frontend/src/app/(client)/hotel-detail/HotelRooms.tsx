@@ -1,7 +1,7 @@
 "use client"
 import { useHotelDetailQuery } from '@/generated';
-import RoomCard from '../../components/RoomCard';
 import { Button } from '@/components/ui/button';
+import RoomCard from '@/components/RoomCard';
 const HotelRooms = () => {
     const { data } = useHotelDetailQuery({ variables: { hotelId: '674bfbd6a111c70660b55541' } });
     return (

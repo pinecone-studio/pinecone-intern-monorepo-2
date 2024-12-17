@@ -4,8 +4,8 @@ import { PhoneCall } from "lucide-react";
 import HotelRooms from "./HotelRooms";
 import { useGetHotelQuery } from "@/generated";
 import Image from "next/image";
-import HotelPolicies from "../../components/HotelPolicies";
 import HotelImportant from "@/components/HotelImportant";
+import HotelPolicies from "@/components/HotelPolicies";
 
 const HotelDetail = () => {
     const { data, loading } = useGetHotelQuery({
