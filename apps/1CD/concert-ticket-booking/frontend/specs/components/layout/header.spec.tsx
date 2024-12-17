@@ -39,13 +39,17 @@ describe('Header Component', () => {
     // Mock useQueryState
     (useQueryState as jest.Mock).mockReturnValue(['mocked-query', setQMock]);
     (useAuth as jest.Mock).mockReturnValue({
-      user: { name: 'Test User' },
+      user: { email: 'test@example.com' },
       signout: mockSignout,
     });
 
     render(<Header />);
 
     expect(screen.getByTestId('SignOutBtn')).toBeInTheDocument();
+        const { getByTestId } = render(<Header />);
+
+    expect(getByTestId('UserEmail'));
+    expect(getByTestId('SignOutBtn'));
   });
 
   it('calls setQ when search input changes', () => {
@@ -67,5 +71,6 @@ describe('Header Component', () => {
 
     // Verify setQ is called with the correct value
     expect(setQMock).toHaveBeenCalledWith('salhi');
+
   });
 });

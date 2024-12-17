@@ -9,7 +9,9 @@ type FilterType = {
   };
 };
 type HotelFilterType = {
-  userRating?: number;
+  userRating?: {
+    $gt: number;
+  };
   starRating?: number;
   hotelAmenities?: {
     $in: string[];
@@ -53,7 +55,9 @@ const filterHotelInfo = async ({ filter, input }: { filter: FilterType; input: R
   const { starRating, userRating, hotelAmenities } = input;
   filterByAmenities({ hotelFilter, hotelAmenities });
   if (userRating) {
-    hotelFilter.userRating = userRating;
+    hotelFilter.userRating = {
+      $gt: userRating,
+    };
   }
   if (starRating) {
     hotelFilter.starRating = starRating;
