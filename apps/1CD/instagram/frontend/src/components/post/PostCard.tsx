@@ -18,6 +18,11 @@ export const PostCard = () => {
       </div>
     );
   }
+  // console.log(
+  //   'object',
+  //   data?.getMyFollowingsPosts.sort((a, b) => a?.createdAt - b?.createdAt)
+  // );
+
   return (
     <div className="w-full md:px-[40px] px-5" data-testid="post-card">
       {data?.getMyFollowingsPosts?.map((post) => {
