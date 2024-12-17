@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
