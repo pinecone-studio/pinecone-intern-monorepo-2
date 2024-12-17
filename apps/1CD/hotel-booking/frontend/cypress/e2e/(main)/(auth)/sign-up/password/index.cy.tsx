@@ -1,6 +1,6 @@
 describe('Set-Password Page', () => {
   beforeEach(() => {
-    cy.visit('/password');
+    cy.visit('/signup/password');
   });
 
   it('1. Should render set password page', () => {

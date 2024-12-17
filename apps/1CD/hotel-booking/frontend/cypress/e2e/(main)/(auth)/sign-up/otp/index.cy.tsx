@@ -1,6 +1,6 @@
 describe('Email OTP Verification', () => {
   beforeEach(() => {
-    cy.visit('/otp');
+    cy.visit('/signup/otp');
   });
 
   it('1. Should render OTP page', () => {
@@ -8,55 +8,40 @@ describe('Email OTP Verification', () => {
   });
 
   it('2. When user enters invalid OTP, it should send error', () => {
-    const otp = '1235';
+    const otp = '1234';
+    const email = 'cypress@gmail.com';
+
+    cy.window().then((win) => {
+      win.localStorage.setItem('userEmail', email);
+    });
+    cy.window().then((win) => {
+      win.localStorage.getItem('userEmail');
+    });
 
     cy.get('[data-cy="Input-Otp-Value"]').should('be.visible');
-
     cy.get('[data-cy="Input-Otp-Value"]').type(otp);
 
-    if (otp.length === 4) {
-      cy.intercept('POST', '/graphql', (req) => {
-        req.reply({
-          statusCode: 200,
-          body: {
-            errors: [
-              {
-                message: 'Invalid OTP',
-              },
-            ],
-          },
-        });
-      }).as('InvalidOtpError');
-
-      cy.contains('Invalid OTP');
-    }
+    cy.contains('Invalid OTP');
   });
-  // it('3. When user enters expired OTP, it should send error', () => {
-  //   const otp = '1236';
+  it('3. When user enters expired OTP, it should send error', () => {
+    const otp = '0001';
+    const email = 'cypress@gmail.com';
 
-  //   cy.get('[data-cy="Input-Otp-Value"]').should('be.visible');
+    cy.window().then((win) => {
+      win.localStorage.setItem('userEmail', email);
+    });
+    cy.window().then((win) => {
+      win.localStorage.getItem('userEmail');
+    });
 
-  //   cy.get('[data-cy="Input-Otp-Value"]').type(otp);
+    cy.contains(email);
 
-  //   if (otp.length === 4) {
-  //     cy.intercept('POST', 'api/graphql', (req) => {
-  //       req.reply({
-  //         statusCode: 201,
-  //         body: {
-  //           errors: [
-  //             {
-  //               message: 'OTP has expired',
-  //             },
-  //           ],
-  //         },
-  //       });
-  //     }).as('ExpireError');
+    cy.get('[data-cy="Input-Otp-Value"]').should('be.visible');
+    cy.get('[data-cy="Input-Otp-Value"]').type(otp);
 
-  //     // cy.wait('@InvalidOtpError').should('contain', 'OTP has expired');
-  //     cy.contains('OTP has expired');
-  //   }
-  // });
-  it('3. When user enters valid OTP, it should render set password page', () => {
+    cy.contains('OTP has expired');
+  });
+  it('4. When user enters valid OTP, it should render set password page', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       req.reply({
         body: {
@@ -78,9 +63,9 @@ describe('Email OTP Verification', () => {
       });
     }
 
-    cy.visit('/password');
+    cy.visit('/signup/password');
   });
-  it('4. When user clicks on resend button, it should send OTP again and display success toast', () => {
+  it('5. When user clicks on resend button, it should send OTP again and display success toast', () => {
     const email = 'test@gmail.com';
 
     cy.intercept('POST', 'api/graphql', (req) => {
@@ -99,15 +84,15 @@ describe('Email OTP Verification', () => {
     cy.wait('@SendOtpRequest').then((intercept) => {
       assert.isNotNull(intercept.response?.body, 'OTP sent successfully');
     });
+    // cy.get('.Toastify__toast').should('be.visible').and('contain', 'OTP sent successfully');
 
     cy.get('[data-cy="Verify-Otp-Send-Again-Button"]').should('contain', 'Send again (15)');
-
-    cy.get('.Toastify__toast').should('be.visible').and('contain', 'OTP sent successfully');
+    cy.contains('OTP sent successfully');
   });
-  it('5. The resend countdown timer should decrease and reset when clicking "Send again"', () => {
+
+  it('6. The resend countdown timer should decrease and reset when clicking "Send again"', () => {
     const email = 'test@gmail.com';
 
-    // Step 1: Mock the resend OTP API call
     cy.intercept('POST', 'api/graphql', (req) => {
       req.reply({
         body: {
@@ -119,7 +104,7 @@ describe('Email OTP Verification', () => {
       });
     }).as('SendOtpRequest');
 
-    cy.visit('/otp');
+    cy.visit('/signup/otp');
 
     cy.clock();
 

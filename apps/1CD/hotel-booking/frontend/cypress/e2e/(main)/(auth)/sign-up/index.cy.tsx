@@ -42,7 +42,7 @@ describe('Sign-Up Page', () => {
         message: 'OTP sent successfully',
       },
     }).as('sendOtp');
-    cy.visit('/otp');
+    cy.visit('/signup/otp');
     cy.url().should('include', 'otp');
   });
 

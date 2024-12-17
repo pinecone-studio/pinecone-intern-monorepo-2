@@ -82,8 +82,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         },
       },
       onCompleted: () => {
-        router.push('/otp');
-        toast.success('OTP sent successfully', { toastId: 'OTP-sent' });
+        router.push('/signup/otp');
+        localStorage.setItem('userEmail', email);
+        toast.success('OTP sent successfully');
       },
       onError: (error) => {
         toast.error(error.message, { toastId: 'error-toast' });
@@ -100,8 +101,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         },
       },
       onCompleted: () => {
-        router.push('/password');
-        toast.success('Email verified successfully', { toastId: 'success-verify-otp' });
+        router.push('/signup/password');
+        toast.success('Email verified successfully');
       },
       onError: (error) => {
         toast.error(error.message, { toastId: 'Verify-Otp-Error' });

@@ -13,7 +13,7 @@ const VerifyOtp = () => {
   const [emailOtp, setEmailOtp] = useState<string>('');
 
   useEffect(() => {
-    const email = localStorage.getItem('email')!;
+    const email = localStorage.getItem('userEmail')!;
 
     setEmailOtp(email);
   }, []);
