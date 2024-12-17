@@ -33,7 +33,7 @@ describe('uploadFilesInCloudinary', () => {
     const result = await uploadFilesInCloudinary(mockFile);
 
     expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('https://api.cloudinary.com/v1_1/dkylvahwz/upload'),
+      expect.stringContaining('https://api.cloudinary.com/v1_1/test-cloud/upload'),
       expect.objectContaining({
         method: 'POST',
         body: expect.any(FormData),
