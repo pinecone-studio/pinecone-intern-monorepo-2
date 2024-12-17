@@ -13,17 +13,9 @@ query CreateRequest($email: String!) {
   }
 }
 
-mutation CreatesRequest($email: String!, $requestType: String!, $message: String!, $supervisorEmail: String!, $requestDate: Date!) {
-  createsRequest(email: $email, requestType: $requestType, message: $message, supervisorEmail: $supervisorEmail, requestDate: $requestDate) {
-    _id
+mutation CreatesRequest($email: String!, $requestType: String!, $message: String!, $supervisorEmail: String!, $requestDate: Date!, $startTime: String, $endTime: String, $optionalFile: String) {
+  createsRequest(email: $email, requestType: $requestType, message: $message, supervisorEmail: $supervisorEmail, requestDate: $requestDate, startTime: $startTime, endTime: $endTime, optionalFile: $optionalFile) {
     email
     requestType
-    message
-    requestDate
-    startTime
-    endTime
-    supervisorEmail
-    result
-    comment
   }
 }

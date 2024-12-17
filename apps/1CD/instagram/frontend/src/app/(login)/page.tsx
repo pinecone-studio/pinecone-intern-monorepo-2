@@ -83,7 +83,7 @@ const LogInPage = () => {
                     </FormItem>
                   )}
                 />
-                <Link href="/forget">
+                <Link href="/forget-password">
                   <Button type="reset" variant="link" className="w-full text-sm text-blue-500" data-cy="login-forgot-password">
                     Forgot password?
                   </Button>

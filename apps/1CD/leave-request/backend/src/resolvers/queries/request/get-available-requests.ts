@@ -11,11 +11,11 @@ export const checkAvailablePaidLeaveInGivenYear: QueryResolvers['checkAvailableP
 
   const { thisYearDate, lastYearDate, nextYearDate } = getHireDateThisAndLastYear(user.hireDate);
 
-  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [thisYearDate, lastYearDate] } });
+  const thisYearAcceptedRequests = await RequestModel.find({ email, requestType: 'paid', requestDate: { $gte: lastYearDate, $lt: thisYearDate } });
 
   const totalLastYear = totalHours(thisYearAcceptedRequests);
 
-  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: 'paid', requestDate: { $in: [nextYearDate, thisYearDate] } });
+  const nextYearAcceptedRequests = await RequestModel.find({ email, requestType: 'paid', requestDate: { $gte: thisYearDate, $lt: nextYearDate } });
 
   const totalThisYear = totalHours(nextYearAcceptedRequests);
 
@@ -46,9 +46,9 @@ export const checkAvailavleRemoteLeaveInGivenMonth: QueryResolvers['checkAvailav
   }
   const { thisMonthDate, lastMonthDate, nextMonthDate } = getHireDateThisAndLastMonth(user.hireDate);
 
-  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote",requestDate: { $in: [thisMonthDate, lastMonthDate] } }).countDocuments();
+  const thisYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote",requestDate: { $gte: thisMonthDate, $lt: lastMonthDate } }).countDocuments();
 
-  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote", requestDate: { $in: [nextMonthDate, thisMonthDate] } }).countDocuments();
+  const nextYearAcceptedRequests = await RequestModel.find({ email, result: 'success', requestType: "remote", requestDate: { $gte: nextMonthDate, $lt: thisMonthDate } }).countDocuments();
 
   return { thisMonth: 5 - thisYearAcceptedRequests, nextMonth: 5 - nextYearAcceptedRequests };
 };

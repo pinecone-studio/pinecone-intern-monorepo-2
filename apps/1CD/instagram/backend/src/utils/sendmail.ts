@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 export const sendResetPassUrlToMail = async (email: string, resetToken: string) => {
-  const resetUrl = `http://localhost:4201/resetpassword?resetToken=${resetToken}`;
+  const resetUrl = `https://intern-1cd-instagram-frontend-prod.vercel.app/resetpassword?resetToken=${resetToken}`;
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
