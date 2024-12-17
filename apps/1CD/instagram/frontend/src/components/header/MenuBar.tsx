@@ -104,7 +104,7 @@ export const MenuBar = ({ hide, setHide }: { hide: boolean; setHide: Dispatch<Se
 
           <TooltipTrigger>
             <Link
-              href="/"
+              href={`${user?.userName}`}
               className={'flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground'}
               data-testid="menuBtn2"
               onClick={() => {
