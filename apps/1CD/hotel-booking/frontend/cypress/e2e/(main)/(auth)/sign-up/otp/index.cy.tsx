@@ -39,7 +39,7 @@ describe('Email OTP Verification', () => {
     cy.get('[data-cy="Input-Otp-Value"]').should('be.visible');
     cy.get('[data-cy="Input-Otp-Value"]').type(otp);
 
-    cy.contains('OTP has expired');
+    cy.contains('Invalid OTP');
   });
   it('4. When user enters valid OTP, it should render set password page', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
