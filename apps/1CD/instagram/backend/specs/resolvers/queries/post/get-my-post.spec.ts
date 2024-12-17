@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { getMyPosts } from '../../../../src/resolvers/queries';
 import { GraphQLResolveInfo } from 'graphql';
 

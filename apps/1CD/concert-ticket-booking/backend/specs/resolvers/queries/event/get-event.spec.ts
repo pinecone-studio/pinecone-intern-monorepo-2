@@ -5,10 +5,9 @@ jest.mock('../../../../src/models/event.model', () => ({
   findById: jest
     .fn()
     .mockReturnValueOnce({
-      _id: '1',
-      name: 'test-name',
+      populate: jest.fn().mockReturnValueOnce({ _id: '1', name: 'test-name' }),
     })
-    .mockReturnValueOnce(null),
+    .mockReturnValueOnce({ populate: jest.fn().mockReturnValueOnce(null) }),
 }));
 
 describe('Get Event By Id', () => {

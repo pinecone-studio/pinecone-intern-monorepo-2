@@ -13,7 +13,12 @@ jest.mock('src/models', () => ({
         ]),
       })
       .mockReturnValueOnce({
-        populate: jest.fn().mockRejectedValueOnce(new Error('aldaa')),
+        populate: jest.fn().mockReturnValueOnce([
+          {
+            _id: '1',
+            roomCount: 5,
+          },
+        ]),
       }),
   },
   bookingModel: {
@@ -25,6 +30,7 @@ jest.mock('src/models', () => ({
           checkOutDate: '2024-12-12',
         },
       ])
+
       .mockResolvedValueOnce([]),
   },
   hotelsModel: {
@@ -36,7 +42,6 @@ jest.mock('src/models', () => ({
           hotelName: 'test',
         },
       ])
-
       .mockResolvedValueOnce([]),
   },
 }));
@@ -49,7 +54,7 @@ describe('get rooms', () => {
         input: {
           checkInDate: '2024-12-08',
           checkOutDate: '2024-12-12',
-          starRating: 5,
+          starRating: 4,
           userRating: 4,
           hotelAmenities: ['a'],
         },
@@ -62,23 +67,19 @@ describe('get rooms', () => {
       },
     ]);
   });
-
-  it('if unsuccussfylly worked', async () => {
-    try {
-      await getRooms(
-        {},
-        {
-          input: {
-            checkInDate: '2024-12-08',
-            checkOutDate: '2024-12-12',
-            starRating: 5,
-            userRating: 4,
-            hotelAmenities: [],
-          },
-        }
-      );
-    } catch (err) {
-      expect(err).toEqual(new Error('aldaa'));
-    }
+  it('if succussfylly worked', async () => {
+    const result = await getRooms(
+      {},
+      {
+        input: {
+          checkInDate: '2024-12-08',
+          checkOutDate: '2024-12-12',
+          starRating: 4,
+          userRating: 4,
+          hotelAmenities: ['a'],
+        },
+      }
+    );
+    expect(result).toEqual([]);
   });
 });

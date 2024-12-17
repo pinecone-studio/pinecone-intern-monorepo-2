@@ -5,10 +5,18 @@ export const typeDefs = gql`
   type User {
     _id: ID!
     email: String!
-    firstName: String!
-    lastName: String!
-    phoneNumber: String!
+    firstName: String
+    lastName: String
+    phoneNumber: String
     createdAt: Date!
+  }
+
+  type Password {
+    password: String!
+  }
+
+  type OtpResponse {
+    email: String!
   }
 
   type AuthResponse {
@@ -22,10 +30,16 @@ export const typeDefs = gql`
   }
 
   input SignUpInput {
-    firstName: String!
-    lastName: String!
-    email: String!
-    phoneNumber: String!
+    email: String
+    otp: String
+  }
+
+  input OtpInput {
+    otp: String!
+  }
+
+  input PasswordInput {
+    email: String
     password: String!
   }
 
@@ -35,6 +49,8 @@ export const typeDefs = gql`
 
   type Mutation {
     login(input: LoginInput!): AuthResponse!
-    signUp(input: SignUpInput!): AuthResponse!
+    verifyOtp(input: SignUpInput!): OtpResponse!
+    sendOtp(input: SignUpInput!): OtpResponse!
+    setPassword(input: PasswordInput!): User!
   }
 `;

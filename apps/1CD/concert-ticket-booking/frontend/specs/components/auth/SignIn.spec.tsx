@@ -11,6 +11,7 @@ const mockHandleSignIn = jest.fn();
 
 (useAuth as jest.Mock).mockReturnValue({
   handleSignIn: mockHandleSignIn,
+  loading: false,
 });
 
 describe('SignIn Component', () => {
@@ -44,6 +45,15 @@ describe('SignIn Component', () => {
 
       fireEvent.click(screen.getByTestId('Sign-In-Submit-Button'));
     });
+  });
+  it('shows a loading spinner when loading is true', () => {
+    // Mock the useAuth hook to return loading: true
+    (useAuth as jest.Mock).mockReturnValueOnce({
+      handleSignIn: mockHandleSignIn,
+      loading: true,
+    });
+
+    render(<SignIn />);
   });
 
   it('navigates to the sign-up page when the "бүртгүүлэх" link is clicked', () => {
