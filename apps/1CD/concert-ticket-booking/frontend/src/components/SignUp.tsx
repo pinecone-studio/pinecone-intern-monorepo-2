@@ -69,7 +69,13 @@ const SignUp = () => {
   };
   if (loading) return <LoadingSpinner />;
   return (
-    <div data-cy="Sign-Up-Page" className="flex min-h-[calc(100vh-314px)] bg-black align-center px-4 py-6">
+    <div
+      data-cy="Sign-Up-Page"
+      className="flex min-h-[calc(100vh-1px)] bg-black align-center px-4 py-6"
+      style={{
+        background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
+      }}
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-[446px] flex flex-col gap-6 m-auto align-center border border-gray-600 rounded-lg py-6 px-6 sm:py-8 sm:px-12">
           <h1 className="text-xl text-center text-white sm:text-2xl">Бүртгүүлэх</h1>
