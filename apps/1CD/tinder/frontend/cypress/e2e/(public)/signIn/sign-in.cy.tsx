@@ -26,8 +26,8 @@ describe('should sign in', () => {
   });
 
   it('4.should show toast when password is incorrect',()=>{
-    cy.get('[data-cy="signIn-email-input"]').type('test@gmail.com');
-    cy.get('[data-cy="signIn-password-input"]').type('tinder12');
+    cy.get('[data-cy="signIn-email-input"]').type('existinguser@example.com');
+    cy.get('[data-cy="signIn-password-input"]').type('tinder129999');
     cy.contains('Continue').click();
     cy.contains('Your password is incorrect. Don’t worry—try again.').should('exist');
   });
