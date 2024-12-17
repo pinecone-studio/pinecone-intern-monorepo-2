@@ -82,3 +82,36 @@ mutation AddRoom($input: RoomTypeInput!) {
     createdAt
   }
 }
+
+mutation SendOtp($input: SignUpInput!) {
+  sendOtp(input: $input) {
+    email
+  }
+}
+mutation VerifyOtp($input: SignUpInput!) {
+  verifyOtp(input: $input) {
+    email
+  }
+}
+
+mutation SetPassword($input: PasswordInput!) {
+  setPassword(input: $input) {
+    email
+    _id
+    createdAt
+  }
+}
+
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      email
+      _id
+      firstName
+      lastName
+      phoneNumber
+      createdAt
+    }
+    token
+  }
+}
