@@ -16,7 +16,7 @@ const Page = () => {
             <DialogTitle data-cy="Cancel-booking-text" className="text-[20px] font-semibold">
               Cancel booking?
             </DialogTitle>
-            <DialogDescription>The property won't change you.</DialogDescription>
+            <DialogDescription>{"The property won't change you."}</DialogDescription>
           </div>
           <div className="flex gap-3 justify-end">
             <Button data-cy="Keep-booking-button" onClick={() => setOpen(false)} className="bg-white text-black border-2">
@@ -39,7 +39,7 @@ const Page = () => {
             Cancellation rules
           </p>
           <p>Free cancellation until Jun 30 at 4:00 pm (Pacific Standard Time (US & Canada); Tijuana).</p>
-          <p className="py-3">f you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge.</p>
+          <p className="py-3">{"If you cancel or change your plans, please cancel your reservation in accordance with the property's cancellation policies to avoid a no-show charge."}</p>
           <p className="pb-3">I There is no charge for cancellations made before 4:00 pm (property local time) on Jun 30, 2024.</p>
           <p>
             Cancellations or changes made after 4:00 pm (property local time) on Jun 30, 2024, or no-shows are subject to a property fee equal to 100% of the total amount paid for the reservation.
