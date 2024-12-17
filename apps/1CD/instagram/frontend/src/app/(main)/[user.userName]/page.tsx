@@ -5,9 +5,8 @@ import { FaTableCells } from 'react-icons/fa6';
 import { HiSave } from 'react-icons/hi';
 import Image from 'next/image';
 import { IoIosSettings } from 'react-icons/io';
-
 import { useGetMyPostsQuery } from '@/generated';
-import { NoPost } from '@/components/user-profile/NoPost';
+import { NoPost } from '@/components/user-profile/noPost';
 
 const UserProfile = () => {
   const { user } = useAuth();
