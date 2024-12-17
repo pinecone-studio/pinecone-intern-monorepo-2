@@ -3,9 +3,8 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { IoMdArrowBack } from 'react-icons/io';
 import { useCreatePostMutation, useGetUserQuery } from '@/generated';
-import { SmileIcon } from 'lucide-react';
+import { ArrowLeft, SmileIcon } from 'lucide-react';
 
 export const CreatePost = ({
   openModal,
@@ -48,7 +47,7 @@ export const CreatePost = ({
               <div className="flex justify-between text-center text-[16px] px-1">
                 {' '}
                 <button data-testid="closeModalBtn" onClick={closeModal}>
-                  <IoMdArrowBack />
+                  <ArrowLeft width={16} height={16} />
                 </button>
                 <p>Create new post</p>
                 <button data-testid="createBtn" className="text-[#2563EB]" onClick={() => createPostBtn()}>

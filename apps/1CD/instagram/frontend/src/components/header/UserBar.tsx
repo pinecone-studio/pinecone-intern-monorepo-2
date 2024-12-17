@@ -7,7 +7,7 @@ import { useAuth } from '../providers';
 export const UserBar = () => {
   const { signout, user } = useAuth();
   return (
-    <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4 pt-10">
+    <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4  pt-10 ">
       <div className="flex items-center justify-between w-full ">
         <div className="flex items-center gap-2">
           <div className="relative flex rounded-full w-14 h-14">
