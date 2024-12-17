@@ -6,7 +6,11 @@ import { HiSave } from 'react-icons/hi';
 import Image from 'next/image';
 import { IoIosSettings } from 'react-icons/io';
 import { useGetMyPostsQuery } from '@/generated';
+<<<<<<< HEAD
 import { NoPost } from '@/components/user-profile/noPost';
+=======
+import { NoPost } from '@/components/user-profile/NoPost';
+>>>>>>> dca7732336b1d7fc60bcdd99dac555d60b71310c
 
 const UserProfile = () => {
   const { user } = useAuth();
