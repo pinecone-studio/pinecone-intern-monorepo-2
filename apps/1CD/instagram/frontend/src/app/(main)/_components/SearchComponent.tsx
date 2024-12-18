@@ -1,26 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { CiSearch } from 'react-icons/ci';
 import { LuDot } from 'react-icons/lu';
-import { useLazyQuery } from '@apollo/client';
-import { SearchUsersDocument, SearchUsersQuery, SearchUsersQueryVariables } from '@/generated';
+import { useUser } from '@/components/providers/UserProvider';
 
 const SearchFromAllUsers = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchUsers, { data, loading, refetch }] = useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument);
-
-  const refresh = async () => {
-    await refetch();
-  };
-
-  const searchHandleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    if (searchTerm.trim()) {
-      searchUsers({ variables: { searchTerm } });
-    }
-    await refresh();
-  };
+  const { searchTerm, searchHandleChange, data, loading } = useUser();
 
   return (
     <div className="px-4 py-8 border max-w-[470px]" data-testid="search-users-component">
