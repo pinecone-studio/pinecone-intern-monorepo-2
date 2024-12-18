@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useGetMyPostsQuery } from '@/generated';
 import { NoPost } from '@/components/user-profile/NoPost';
 import { Grid3x3, Save, Settings } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 const UserProfile = () => {
