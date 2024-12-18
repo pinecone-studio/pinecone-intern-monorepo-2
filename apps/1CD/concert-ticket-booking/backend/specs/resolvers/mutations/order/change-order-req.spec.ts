@@ -1,8 +1,7 @@
-import Order from 'apps/1CD/concert-ticket-booking/backend/src/models/order.model';
-import Request from 'apps/1CD/concert-ticket-booking/backend/src/models/request.model';
-import { changeStatus } from 'apps/1CD/concert-ticket-booking/backend/src/resolvers/mutations/order/change-order-req';
+import Order from '../../../../src/models/order.model';
+import Request from '../../../../src/models/request.model';
+import { changeStatus } from '../../../../src/resolvers/mutations/order/change-order-req';
 import { GraphQLResolveInfo } from 'graphql';
-import { types } from 'util';
 
 jest.mock('apps/1CD/concert-ticket-booking/backend/src/models/order.model');
 jest.mock('apps/1CD/concert-ticket-booking/backend/src/models/request.model');
@@ -10,11 +9,6 @@ jest.mock('apps/1CD/concert-ticket-booking/backend/src/models/request.model');
 describe('changeStatus Mutation', () => {
   const orderId = '674fe695ce75d25e68377676';
   const requestId = '67528850b109b254f4e33b13';
-
-
-  beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
 
   afterAll(() => {
     jest.restoreAllMocks();

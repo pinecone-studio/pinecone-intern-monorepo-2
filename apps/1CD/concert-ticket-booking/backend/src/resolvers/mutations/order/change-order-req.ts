@@ -2,7 +2,7 @@ import { MutationResolvers } from '../../../generated';
 import Order from '../../../models/order.model';
 import Request from '../../../models/request.model';
 
-export const changeStatus: MutationResolvers['changeStatus'] = async (_, { input },{userId}) => {
+export const changeStatus: MutationResolvers['changeStatus'] = async (_, { input }) => {
   const { orderId, requestId } = input;
 
   try {
