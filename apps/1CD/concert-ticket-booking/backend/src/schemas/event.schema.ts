@@ -109,11 +109,18 @@ export const typeDefs = gql`
     getSpecialEvent: [Event!]!
     getRelatedEvents(eventId: String!): RelatedEventResponse!
   }
+  type RelatedEventResponse {
+    eventDetail: Event!
+    relatedEvents: [Event!]!
+  }
 
   type Mutation {
     createEvent(input: EventInput!): Response!
     updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
     deleteEvent(_id: ID!): Response!
     updateEvent(_id: ID!, event: EventUpdateInput): Event!
+  }
+  type Query {
+    getRelatedEvents(eventId: String!): RelatedEventResponse!
   }
 `;
