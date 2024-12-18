@@ -47,14 +47,12 @@ const Birthday = () => {
     birthdaySubmit({
       variables: {
         input: {
-          email: 'sara@gmail.com',
           age: age,
         },
       },
     });
     router.push('/');
   };
-
 
   const handleBack = () => {
     router.push('/');
