@@ -1,61 +1,95 @@
 'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import clsx from 'clsx';
 import Image from 'next/image';
-
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRouter } from 'next/navigation';
 import { useBirthdaySubmitMutation } from '@/generated';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 const Birthday = () => {
-  const FormSchema = z.object({
-    dob: z.date({
-      message: 'A date of birth is required.',
-    }),
-  });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
-
   const router = useRouter();
+
+  const [day, setDay] = useState<string>('');
+  const [month, setMonth] = useState<string>('');
+  const [year, setYear] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const [birthdaySubmit] = useBirthdaySubmitMutation({
     onCompleted: () => {
       router.push('/');
     },
+    onError: () => {
+      setError('An error occurred while submitting your birthday. Please try again.');
+    },
   });
+  const currentYear = new Date().getFullYear();
 
-  const onSubmit = (formData: { dob: Date }) => {
+  const isValidInput = () => {
+    if (!day || !month || !year) {
+      setError('Please complete the date of birth');
+      return false;
+    }
+    return true;
+  };
+
+  const calculateAge = (birthDate: Date) => {
     const today = new Date();
-    const birthDate = new Date(formData.dob);
-
     let age = today.getFullYear() - birthDate.getFullYear();
 
-    const month = today.getMonth();
-    const day = today.getDate();
-    if (month < birthDate.getMonth() || (month === birthDate.getMonth() && day < birthDate.getDate())) {
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       age--;
+    }
+    return age;
+  };
+
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setError('');
+
+    if (!isValidInput()) {
+      return;
+    }
+
+    const birthDate = new Date(`${year}-${month}-${day}`);
+    const age = calculateAge(birthDate);
+
+    if (age < 18) {
+      toast.error("We'll meet when you turn 18.");
+      return;
     }
     birthdaySubmit({
       variables: {
-        input: {
-          age: age,
-        },
+        input: { age },
       },
     });
-    router.push('/');
   };
 
   const handleBack = () => {
     router.push('/');
+  };
+
+  const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,2}$/.test(value) && (parseInt(value) <= 31 || value === '')) {
+      setDay(value);
+    }
+  };
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,2}$/.test(value) && (parseInt(value) <= 12 || value === '')) {
+      setMonth(value);
+    }
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,4}$/.test(value) && (parseInt(value) <= currentYear || value === '')) {
+      setYear(value);
+    }
   };
 
   return (
@@ -74,55 +108,50 @@ const Birthday = () => {
           </p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="dob"
-              render={({ field }) => (
-                <FormItem className="flex flex-col" data-cy="dob-field">
-                  <FormLabel data-cy="dob-label">Date of birth</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button variant="outline" className={clsx('w-[400px]', 'pl-3', 'text-left', 'font-normal', !field.value && 'text-muted-foreground')} data-cy="dob-picker-button">
-                          {field.value ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span className="text-[#71717A]" data-cy="dob-placeholder">
-                              Pick a date
-                            </span>
-                          )}
-                          <CalendarIcon className="w-4 h-4 ml-auto opacity-50" data-cy="calendar-icon" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start" data-cy="calendar-popover">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-                        initialFocus
-                        data-cy="calendar"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription data-cy="dob-description">Your date of birth is used to calculate your age.</FormDescription>
-                  <FormMessage data-cy="dob-message" />
-                </FormItem>
-              )}
+        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+          <div className="flex gap-2 justify-center" data-cy="input-field">
+            <input
+              type="number"
+              min="1"
+              max="31"
+              value={day}
+              onChange={handleDayChange}
+              placeholder="DD"
+              className="px-4 py-2 border rounded-lg w-20"
+              maxLength={2}
+              autoFocus
+              required
+              data-cy="day-input"
             />
-            <div className="flex justify-between w-[400px]" data-cy="navigation-buttons">
-              <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
-                Back
-              </button>
-              <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
-                Next
-              </button>
-            </div>
-          </form>
-        </Form>
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={month}
+              onChange={handleMonthChange}
+              placeholder="MM"
+              className="px-4 py-2 border rounded-lg w-20"
+              maxLength={2}
+              required
+              data-cy="month-input"
+            />
+            <input type="number" min="1900" value={year} onChange={handleYearChange} placeholder="YYYY" className="px-4 py-2 border rounded-lg w-32" maxLength={4} required data-cy="year-input" />
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm mt-2" data-cy="type-error">
+              {error}
+            </p>
+          )}
+          <div className="flex justify-between w-[296px]" data-cy="navigation-buttons">
+            <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
+              Back
+            </button>
+            <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
+              Next
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
