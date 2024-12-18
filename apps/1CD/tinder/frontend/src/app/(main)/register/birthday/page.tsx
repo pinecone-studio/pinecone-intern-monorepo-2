@@ -3,16 +3,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useBirthdaySubmitMutation } from '@/generated';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 const Birthday = () => {
   const router = useRouter();
-
   const [day, setDay] = useState<string>('');
   const [month, setMonth] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [error, setError] = useState<string>('');
-
   const [birthdaySubmit] = useBirthdaySubmitMutation({
     onCompleted: () => {
       router.push('/');
@@ -22,15 +19,9 @@ const Birthday = () => {
     },
   });
   const currentYear = new Date().getFullYear();
-
   const isValidInput = () => {
-    if (!day || !month || !year) {
-      setError('Please complete the date of birth');
-      return false;
-    }
-    return true;
+    return day && month && year;
   };
-
   const calculateAge = (birthDate: Date) => {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -43,13 +34,13 @@ const Birthday = () => {
     }
     return age;
   };
-
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     setError('');
 
     if (!isValidInput()) {
+      setError('Please complete the date of birth');
       return;
     }
 
@@ -57,9 +48,10 @@ const Birthday = () => {
     const age = calculateAge(birthDate);
 
     if (age < 18) {
-      toast.error("We'll meet when you turn 18.");
+      setError("We'll meet when you turn 18.");
       return;
     }
+
     birthdaySubmit({
       variables: {
         input: { age },
@@ -91,7 +83,6 @@ const Birthday = () => {
       setYear(value);
     }
   };
-
   return (
     <div className="mx-auto flex justify-center w-full max-w-4xl mt-[200px]" data-cy="birthday-page">
       <div className="flex flex-col items-center w-full gap-6">
@@ -117,7 +108,7 @@ const Birthday = () => {
               value={day}
               onChange={handleDayChange}
               placeholder="DD"
-              className="px-4 py-2 border rounded-lg w-20"
+              className={`px-4 py-2 border rounded-lg w-20 ${!day ? 'border-red-500' : ''}`}
               maxLength={2}
               autoFocus
               required
@@ -130,12 +121,22 @@ const Birthday = () => {
               value={month}
               onChange={handleMonthChange}
               placeholder="MM"
-              className="px-4 py-2 border rounded-lg w-20"
+              className={`px-4 py-2 border rounded-lg w-20 ${!month ? 'border-red-500' : ''}`}
               maxLength={2}
               required
               data-cy="month-input"
             />
-            <input type="number" min="1900" value={year} onChange={handleYearChange} placeholder="YYYY" className="px-4 py-2 border rounded-lg w-32" maxLength={4} required data-cy="year-input" />
+            <input
+              type="number"
+              min="1900"
+              value={year}
+              onChange={handleYearChange}
+              placeholder="YYYY"
+              className={`px-4 py-2 border rounded-lg w-32 ${!year ? 'border-red-500' : ''}`}
+              maxLength={4}
+              required
+              data-cy="year-input"
+            />
           </div>
 
           {error && (
@@ -156,5 +157,4 @@ const Birthday = () => {
     </div>
   );
 };
-
 export default Birthday;
