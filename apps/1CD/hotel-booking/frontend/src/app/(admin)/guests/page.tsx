@@ -17,7 +17,7 @@ const Page = () => {
             <StatusSelect />
           </div>
         </div>
-        <DataTable />
+        <DataTable />;
       </section>
     </section>
   );
