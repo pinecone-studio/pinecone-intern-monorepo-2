@@ -77,3 +77,10 @@ mutation ConfirmFollowReq($id: ID!) {
     updatedAt
   }
 }
+
+mutation ChangeProImg($input: UpdateInput!) {
+  updateUserData(input: $input) {
+    _id
+    profileImg
+  }
+}
