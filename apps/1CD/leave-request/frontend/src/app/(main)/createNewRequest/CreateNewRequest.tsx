@@ -63,7 +63,7 @@ export const CreateNewRequest = ({ email }: { email: string }) => {
   });
 
   return (
-    <div className="w-[600px] mx-auto p-8">
+    <div className="w-[600px] mx-auto p-8 mt-12">
       <div className="border rounded-lg">
         <div className="p-7 grid gap-8">
           <div className="grid gap-1.5">
