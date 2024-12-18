@@ -109,10 +109,6 @@ export const typeDefs = gql`
     getSpecialEvent: [Event!]!
     getRelatedEvents(eventId: String!): RelatedEventResponse!
   }
-  type RelatedEventResponse {
-    eventDetail: Event!
-    relatedEvents: [Event!]!
-  }
 
   type Mutation {
     createEvent(input: EventInput!): Response!
