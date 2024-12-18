@@ -6,7 +6,7 @@ export const birthdaySubmit: MutationResolvers['birthdaySubmit'] = async (_, { i
   const { age } = input;
   console.log(userId);
 
-  const updateUser = await userModel.findByIdAndUpdate(
+  const updateUser = await userModel.findOneAndUpdate(
     { _id: userId },
     {
       $set: {
@@ -18,5 +18,5 @@ export const birthdaySubmit: MutationResolvers['birthdaySubmit'] = async (_, { i
 
   if (!updateUser) throw new Error('Could not find user');
 
-  return { email: updateUser.email };
+  return { age: updateUser.age, email: updateUser.email };
 };
