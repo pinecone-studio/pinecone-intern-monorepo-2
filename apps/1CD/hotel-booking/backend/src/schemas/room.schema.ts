@@ -71,7 +71,7 @@ export const typeDefs = gql`
   type Query {
     getRooms(input: RoomFilterType): [Room!]!
     hotelDetail(hotelId: ID!): [RoomType!]!
-    hotelService(roomId: ID!): [RoomServiceType!]!
+    hotelService(roomId: ID!): [Room!]!
   }
   type Mutation {
     addRoom(input: RoomTypeInput!): RoomType!
