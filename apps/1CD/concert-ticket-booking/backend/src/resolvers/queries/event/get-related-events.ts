@@ -6,10 +6,6 @@ export const getRelatedEvents: QueryResolvers['getRelatedEvents'] = async (_, { 
   console.log('id', eventId);
   const today = new Date().toISOString();
   const eventDetail = await Event.findById(eventId).populate(['products', 'venue']);
-  if (!eventDetail) {
-    throw new Error('Event not found');
-  }
-
   const categories = eventDetail.category; //array
   const relatedEvents: EventType[] = await Event.find({
     category: { $in: categories },
