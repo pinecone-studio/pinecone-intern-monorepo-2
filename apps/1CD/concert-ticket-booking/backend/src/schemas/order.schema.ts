@@ -30,8 +30,8 @@ input MyTicketTypeInput {
     additional: String!
   }
   input ChangeStatusInput {
-     orderId:ID!
-    requestId:ID!
+        orderId:ID!
+        requestId:ID!
 }
 
 type Query {
