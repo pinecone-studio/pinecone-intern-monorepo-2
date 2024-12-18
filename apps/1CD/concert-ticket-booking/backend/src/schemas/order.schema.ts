@@ -29,14 +29,21 @@ input MyTicketTypeInput {
     discount: Int!
     additional: String!
   }
+  input ChangeStatusInput {
+        orderId:ID!
+        requestId:ID!
+}
 
 type Query {
     getOrder: [Order]!
 }
+type ChangeStatusResponse {
+  message:String!
+}
 
 type Mutation {
+    changeStatus(input: ChangeStatusInput!): ChangeStatusResponse!
     addToCarts(input: OrderInput!): Order!
     deleteOrder(_id: ID!): Order!
 }
-`;
-
+`
