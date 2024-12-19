@@ -1,8 +1,9 @@
 describe('Create Request', () => {
   beforeEach(() => {
+    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
     cy.setCookie(
       'authtoken',
-      process.env.ANNUAL_TOKEN as string
+      token
     );
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'CreatesRequest') {
