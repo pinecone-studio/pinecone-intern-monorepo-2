@@ -9,7 +9,7 @@ const SearchFromAllUsers = () => {
   const { searchTerm, searchHandleChange, data, loading } = useUser();
 
   return (
-    <div className="px-4 py-8 border max-w-[470px]" data-testid="search-users-component">
+    <div className="px-4 py-8 border w-[350px] h-screen" data-testid="search-users-component">
       <div className="flex items-center">
         <CiSearch />
         <Input
