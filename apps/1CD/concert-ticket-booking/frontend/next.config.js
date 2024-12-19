@@ -21,8 +21,10 @@ const nextConfig = {
     ],
   },
   env: {
-    BACKEND_URI: process.env.BACKEND_URI 
-  }
+    BACKEND_URI: process.env.BACKEND_URI,
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    NEXT_PUBLIC_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
+  },
 };
 
 const plugins = [withNx];
