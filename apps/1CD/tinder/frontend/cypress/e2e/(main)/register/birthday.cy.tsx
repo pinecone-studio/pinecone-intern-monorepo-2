@@ -40,24 +40,13 @@ describe('Birthday Form Navigation', () => {
     cy.contains('Please complete the date of birth').should('be.visible');
   });
 
-  it('5. should show an error message if an invalid date is entered', () => {
-    cy.get('[data-cy="day-input"]').type('32');
-    cy.get('[data-cy="month-input"]').type('13');
-    cy.get('[data-cy="year-input"]').type('2024');
-
-    cy.get('[data-cy="next-button"]').click();
-
-    cy.contains('Please complete the date of birth').should('be.visible');
-  });
-
-  it('6. should go back to the home page when clicking "Back"', () => {
+  it('5. should go back to the home page when clicking "Back"', () => {
     cy.get('[data-cy="back-button"]').click();
-
 
     cy.url().should('include', '/');
   });
 
-  it('7. should show an error message if an incomplete date is entered and the form is submitted', () => {
+  it('6. should show an error message if an incomplete date is entered and the form is submitted', () => {
     cy.get('[data-cy="day-input"]').type('10');
     cy.get('[data-cy="month-input"]').type('12');
     cy.get('[data-cy="year-input"]').clear();

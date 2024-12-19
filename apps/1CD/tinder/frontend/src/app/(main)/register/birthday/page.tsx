@@ -111,7 +111,6 @@ const Birthday = () => {
               className={`px-4 py-2 border rounded-lg w-20 ${!day ? 'border-red-500' : ''}`}
               maxLength={2}
               autoFocus
-              required
               data-cy="day-input"
             />
             <input
@@ -123,7 +122,6 @@ const Birthday = () => {
               placeholder="MM"
               className={`px-4 py-2 border rounded-lg w-20 ${!month ? 'border-red-500' : ''}`}
               maxLength={2}
-              required
               data-cy="month-input"
             />
             <input
@@ -134,7 +132,6 @@ const Birthday = () => {
               placeholder="YYYY"
               className={`px-4 py-2 border rounded-lg w-32 ${!year ? 'border-red-500' : ''}`}
               maxLength={4}
-              required
               data-cy="year-input"
             />
           </div>
