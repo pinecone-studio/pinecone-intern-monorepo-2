@@ -99,7 +99,7 @@ describe('InputImage Component', () => {
 
   it('should delete the uploaded image', () => {
     const imagePath = 'mock-image.png'; // Ensure this path is correct for your fixtures
-
+    cy.get('[data-testid="image-upload-button"]').should('be.visible');
     cy.get('[data-testid="image-upload-button"]').click();
     cy.fixture(imagePath, 'base64').then((fileContent) => {
       const blob = Cypress.Blob.base64StringToBlob(fileContent, 'image/jpeg');
@@ -117,6 +117,7 @@ describe('InputImage Component', () => {
       cy.get('[data-testid="image-preview"]').should('be.visible');
       cy.get('[data-testid="delete-image-button"]').click();
       cy.get('[data-testid="image-upload-loading"]').should('be.visible');
+      cy.get('[data-testid="image-upload-loading"]').should('not.exist');
       cy.get('[data-testid="image-preview"]').should('not.exist');
     });
   });
