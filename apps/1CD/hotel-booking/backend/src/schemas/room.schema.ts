@@ -22,6 +22,7 @@ export const typeDefs = gql`
     roomInformation: String
     createdAt: Date
     amenities: [String]
+    images: [String]
   }
 
   input RoomServiceInput {
