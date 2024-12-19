@@ -113,7 +113,7 @@ export const Header = () => {
       </aside>
 
       {showSearchComponent && (
-        <div className="p-4" data-testid="search-users-component">
+        <div className="" data-testid="search-users-component">
           <SearchFromAllUsers />
         </div>
       )}
