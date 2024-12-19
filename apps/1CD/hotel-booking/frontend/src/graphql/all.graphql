@@ -83,40 +83,45 @@ mutation AddRoom($input: RoomTypeInput!) {
   }
 }
 
-
-mutation SendOtp($input: SignUpInput!) {
-  sendOtp(input: $input) {
-    email
-  }
-}
-mutation VerifyOtp($input: SignUpInput!) {
-  verifyOtp(input: $input) {
-    email
-  }
-}
-
-mutation SetPassword($input: PasswordInput!) {
-  setPassword(input: $input) {
-    email
+query GetBooking($id: ID) {
+  getBooking(_id: $id) {
     _id
-    createdAt
-  }
-}
-
-mutation Login($input: LoginInput!) {
-  login(input: $input) {
-    user {
-      email
-      _id
-      firstName
-      lastName
-      phoneNumber
+    userId
+    roomId {
+      id
+      roomService {
+        bathroom
+        accessability
+        entertaiment
+        foodDrink
+        bedroom
+        other
+      }
+      hotelId {
+        createdAt
+        _id
+        hotelName
+        description
+        starRating
+        userRating
+        phoneNumber
+        images
+        hotelAmenities
+      }
+      roomName
+      roomType
+      price
+      roomInformation
       createdAt
     }
-    token
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
   }
 }
-=======
+
 query HotelDetail($hotelId: ID!) {
   hotelDetail(hotelId: $hotelId) {
     _id
@@ -141,3 +146,31 @@ query GetHotel($id: ID!) {
   }
 }
 
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      email
+      _id
+      firstName
+      lastName
+      phoneNumber
+      createdAt
+    }
+    token
+  }
+}
+
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input)
+}
+
+mutation SendOtp($input: SignUpInput!) {
+  sendOtp(input: $input)
+}
+
+mutation SetPassword($input: PasswordInput!) {
+  setPassword(input: $input) {
+    _id
+    email
+  }
+}

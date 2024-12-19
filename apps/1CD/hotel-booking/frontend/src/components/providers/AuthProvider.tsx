@@ -3,11 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useLoginMutation, User, useSendOtpMutation, useSetPasswordMutation, useVerifyOtpMutation } from 'src/generated';
+import { Response, useLoginMutation, User, useSendOtpMutation, useSetPasswordMutation, useVerifyOtpMutation } from 'src/generated';
 
 type OtpParams = {
   otp: string;
-  email: string | undefined;
+  email: string;
 };
 
 type SendOtpParams = {
@@ -38,30 +38,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
-  const [signinMutation] = useLoginMutation({
-    onCompleted: (data) => {
-      localStorage.setItem('token', data.login.token);
-      setUser(data.login.user);
-      router.push('/');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const [signinMutation] = useLoginMutation();
   const [sendOtpMutation] = useSendOtpMutation();
-
   const [verifyOtpMutation] = useVerifyOtpMutation();
-
-  const [setPasswordMutation] = useSetPasswordMutation({
-    onCompleted: () => {
-      router.push('/login');
-      toast.success('Profile created successfully');
-      localStorage.removeItem('email');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const [setPasswordMutation] = useSetPasswordMutation();
 
   const signin = async ({ email, password }: SignInParams) => {
     await signinMutation({
@@ -70,6 +50,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           email,
           password,
         },
+      },
+      onCompleted: (data) => {
+        localStorage.setItem('token', data.login.token);
+        setUser(data.login.user);
+        router.push('/');
+      },
+      onError: (error) => {
+        toast.error(error.message);
       },
     });
   };
@@ -84,10 +72,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       onCompleted: () => {
         router.push('/signup/otp');
         localStorage.setItem('userEmail', email);
-        toast.success('OTP sent successfully');
+        toast.success(Response.Success);
       },
       onError: (error) => {
-        toast.error(error.message, { toastId: 'error-toast' });
+        toast.error(error.message);
       },
     });
   };
@@ -102,10 +90,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
       onCompleted: () => {
         router.push('/signup/password');
-        toast.success('Email verified successfully');
+        toast.success(Response.Success);
       },
       onError: (error) => {
-        toast.error(error.message, { toastId: 'Verify-Otp-Error' });
+        toast.error(error.message);
+        console.log('error message', error.message);
       },
     });
   };
@@ -117,6 +106,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           password,
           email,
         },
+      },
+      onCompleted: () => {
+        router.push('/login');
+        toast.success('Profile created successfully');
+        localStorage.removeItem('email');
+      },
+      onError: (error) => {
+        toast.error(error.message);
       },
     });
   };

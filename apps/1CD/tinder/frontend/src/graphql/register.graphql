@@ -20,3 +20,8 @@ mutation createPassword($input: CreatePassInput!) {
     email
   }
 }
+mutation birthdaySubmit($input: BirthdaySubmitInput!) {
+  birthdaySubmit(input: $input) {
+    email
+  }
+}

@@ -13,6 +13,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useRouter } from 'next/navigation';
+import { useBirthdaySubmitMutation } from '@/generated';
 
 const Birthday = () => {
   const FormSchema = z.object({
@@ -26,7 +27,30 @@ const Birthday = () => {
 
   const router = useRouter();
 
-  const onSubmit = () => {
+  const [birthdaySubmit] = useBirthdaySubmitMutation({
+    onCompleted: () => {
+      router.push('/');
+    },
+  });
+
+  const onSubmit = (formData: { dob: Date }) => {
+    const today = new Date();
+    const birthDate = new Date(formData.dob);
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const month = today.getMonth();
+    const day = today.getDate();
+    if (month < birthDate.getMonth() || (month === birthDate.getMonth() && day < birthDate.getDate())) {
+      age--;
+    }
+    birthdaySubmit({
+      variables: {
+        input: {
+          age: age,
+        },
+      },
+    });
     router.push('/');
   };
 
@@ -81,7 +105,6 @@ const Birthday = () => {
                         disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                         initialFocus
                         data-cy="calendar"
-                        
                       />
                     </PopoverContent>
                   </Popover>
@@ -91,17 +114,15 @@ const Birthday = () => {
               )}
             />
             <div className="flex justify-between w-[400px]" data-cy="navigation-buttons">
-          <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
-            Back
-          </button>
-          <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
-            Next
-          </button>
-        </div>
+              <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
+                Back
+              </button>
+              <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
+                Next
+              </button>
+            </div>
           </form>
         </Form>
-
-        
       </div>
     </div>
   );

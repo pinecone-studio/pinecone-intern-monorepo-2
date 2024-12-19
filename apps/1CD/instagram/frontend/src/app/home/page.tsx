@@ -1,5 +1,3 @@
-'use client';
-
 import { UserBar } from '@/components/header/UserBar';
 import { PostCard } from '@/components/post/PostCard';
 
