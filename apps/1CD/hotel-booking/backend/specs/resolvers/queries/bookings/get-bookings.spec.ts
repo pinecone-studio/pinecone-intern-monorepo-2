@@ -4,12 +4,14 @@ import { getBookings } from 'src/resolvers/queries';
 
 jest.mock('src/models', () => ({
   bookingModel: {
-    find: jest.fn().mockReturnValueOnce([
-      {
-        _id: '674ad1f265ca6d2c473739b7',
-        userId: '1',
-      },
-    ]),
+    find: jest.fn().mockReturnValueOnce({
+      populate: jest.fn().mockResolvedValue([
+        {
+          _id: '674ad1f265ca6d2c473739b7',
+          userId: '1',
+        },
+      ]),
+    }),
   },
 }));
 
