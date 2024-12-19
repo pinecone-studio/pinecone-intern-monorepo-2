@@ -12,7 +12,9 @@ export const typeDefs = gql`
     phoneNumber: Int
     images: [String]
     hotelAmenities: [String]
+    location: String
   }
+
   input HotelInput {
     hotelName: String!
     description: String!
@@ -21,6 +23,7 @@ export const typeDefs = gql`
     phoneNumber: Int!
     images: [String]
   }
+
   input HotelFilterInput {
     starRating: Int
     userRating: Int
