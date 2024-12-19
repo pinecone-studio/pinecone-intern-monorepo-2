@@ -12,6 +12,7 @@ export const typeDefs = gql`
     content: String
     senderId: ID
     createdAt:Date
+    chatId:ID
   }
   input GetChat {
     _id: ID
@@ -35,13 +36,23 @@ export const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date!
     attraction: String!
+    hasChatted: Boolean!
+  }
+  type MatchResponse{
+    _id:ID!,
+    matched:Boolean!
+  }
+  type UpdateMatchResponse {
+    matched:Boolean!
   }
 
   type Mutation {
-    createChat(input: TinderChatinput!): TinderChatresponse!
+    createChat(input:TinderChatinput!): TinderChatresponse!
+    updateMatch(input:GetChatInput!):UpdateMatchResponse!
   }
   type Query {
-    getChat(input: GetChatInput!): [TinderChatresponse!]!
-    getMatch(input: GetChat!): [MatchedUser!]
+    getChat(input:GetChatInput!): [TinderChatresponse!]!
+    getMatch(input:GetChat!): [MatchedUser]
+    getOneUser(input:GetChat!):MatchedUser!
   }
 `;

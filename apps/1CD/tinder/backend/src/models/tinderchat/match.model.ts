@@ -1,9 +1,9 @@
 import{model, models, Schema} from 'mongoose'
 
 export type Matchmodel = {
-    user1 : String
-    user2: String
-    matched: Boolean
+    user1 : string
+    user2: string
+    matched: boolean
 }
 const Matchschema= new Schema<Matchmodel>({
     user1:{

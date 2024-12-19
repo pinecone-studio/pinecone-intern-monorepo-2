@@ -1,116 +1,57 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CREATE_CHAT, GET_CHAT } from '@/graphql/chatgraphql';
-import { useMutation, useQuery } from '@apollo/client';
-import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
-import { Unmatch } from './Dialog';
-import { useParams } from 'next/navigation'
+import { Oneuser } from './Oneuser';
+import { Loader } from './Loader';
 
-export const Chatpart = () => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState<string>('');
-  const handledialog = () => {
-    setOpen(true);
-  };
-  const params = useParams<{ id: string }>()
-  const {id} = params
-  const user2 = id
-  const user1 = '6747be56eef691c549c23461';
-  const closeDialog = () => {
-    setOpen(false);
-  };
-  const [createChat] = useMutation(CREATE_CHAT);
+type Props= {
+  chatloading :boolean, 
+  response:any, 
+  errormessage:any, 
+  handleMessageChange:any, 
+  sendMessage:any, 
+  message:string, 
+  user1:string
+}
 
-  const { loading, error, data, refetch } = useQuery(GET_CHAT, {
-    variables: {
-      input: {
-        user1: user1,
-        user2:user2
-      },
-    },
-    // pollInterval:5
-  });
-
-  const response = data?.getChat;
-  const errormessage = error?.message
-  const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setMessage(e.target.value);
-  };
-
-  const sendMessage = async () => {
-    try {
-      await createChat({
-        variables: {
-          input: {
-            content: message,
-            participants: [user1, user2],
-            senderId: user1,
-            chatId: '',
-          },
-        },
-      });
-      setMessage('');
-      refetch();
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
-
-
+export const Chatpart = ({chatloading, response, errormessage, handleMessageChange, sendMessage, message, user1}:Props) => {
   return (
-    <div className="border-t border-b border-r flex-1" data-cy="Chat-Part-Page">
-      <div className="flex flex-col h-full">
-        <div className="flex justify-between border-b items-center py-[22px] px-6">
-          <div className="flex justify-center items-center gap-3">
-            <div className="rounded-full w-12 h-12 overflow-hidden">
-              <Image src="/profile.jpeg" alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-sm text-black">Leslie Alexander, 24</p>
-              <p className="text-sm text-muted-foreground">Software Engineer</p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <Button variant="outline">View Profile</Button>
-            <Button variant="outline" onClick={() => handledialog()}>
-              Unmatch
-            </Button>
-          </div>
-          <Unmatch open={open} closeDialog={closeDialog} />
-        </div>
-        {loading ? (
-          <div className="text-center flex-1 flex flex-col justify-center items-center">
-            <p className="text-sm text-foreground">Loading...</p>
-          </div>
-        ) : errormessage?(
-          <div className="text-center flex-1 flex flex-col justify-center items-center text-red-500">
-            {errormessage === "Error occured: Could not find chat" ? (
-               <div className="text-center flex-1 flex flex-col justify-center items-center">
-               <p className="text-sm text-foreground">Say Hi!</p>
-               <p className="text-sm text-muted-foreground">You’ve got a match! Send a message to start chatting.</p>
-             </div>
-            ) : (
-              <p className="text-sm">Error loading chat data!</p>
-            )}
-          </div>
-        ) : !response || response.length === 0 ? (
-          <div className="text-center flex-1 flex flex-col justify-center items-center">
-            <p className="text-sm text-foreground">Say Hi!</p>
-            <p className="text-sm text-muted-foreground">You’ve got a match! Send a message to start chatting.</p>
-          </div>
-        ) : (
-          <div className="flex-1 overflow-y-auto p-4 flex flex-col">
-            {response.map((resp: { content: string; senderId: string }, index: number) => {
-              return (
-                <div key={index} className={`${user1 == resp.senderId ? 'bg-[#E11D48] self-end max-w-[320px] text-white' : 'bg-[#F4F4F5] max-w-[220px] text-foreground'}  p-4 rounded-lg  mb-4`}>
-                  {resp.content}
+    <div className="flex flex-col h-full border-t border-b border-r w-full" data-cy="Chat-Part-Page">
+  {chatloading ? (
+    <Loader />
+  ) : (
+    <div className="flex flex-col flex-1 h-full">
+      <Oneuser />
+      <div className="flex flex-col flex-1 h-full">
+        <div className="flex-1">
+          {errormessage ? (
+            <div className="text-center flex flex-col justify-center items-center text-red-500 h-full">
+              {errormessage === 'Error occured: Could not find chat' ? (
+                <div className="text-center flex flex-col justify-center items-center">
+                  <p className="text-sm text-foreground">Say Hi!</p>
+                  <p className="text-sm text-muted-foreground">You’ve got a match! Send a message to start chatting.</p>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              ) : (
+                <p className="text-sm">Error loading chat data!</p>
+              )}
+            </div>
+          ) : !response || response.length === 0 ? (
+            <div className="flex flex-col justify-center items-center flex-1">
+              <p className="text-sm text-foreground">Say Hi!</p>
+              <p className="text-sm text-muted-foreground">You’ve got a match! Send a message to start chatting.</p>
+            </div>
+          ) : (
+            <div className="overflow-y-auto p-4 flex flex-col max-h-[400px]">
+              {response.map((resp: { content: string; senderId: string }, index: number) => {
+                return (
+                  <div key={index} className={`${user1 == resp.senderId ? 'bg-[#E11D48] self-end max-w-[320px] text-white' : 'bg-[#F4F4F5] max-w-[220px] text-foreground'} p-4 rounded-lg mb-4`}>
+                    {resp.content}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
         <div className="py-5 px-6 flex gap-4 border-t">
           <Input placeholder="Say something nice" value={message} onChange={handleMessageChange} data-cy="Chat-Part-Message-Input" />
           <Button variant="destructive" className="rounded-full" onClick={sendMessage} data-cy="Chat-Part-Send-Button">
@@ -119,5 +60,8 @@ export const Chatpart = () => {
         </div>
       </div>
     </div>
+  )}
+</div>
+
   );
 };

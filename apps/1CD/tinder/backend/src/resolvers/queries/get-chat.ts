@@ -2,9 +2,10 @@ import { GraphQLError } from "graphql";
 import { QueryResolvers } from "../../generated";
 import { Messagemodel } from "../../models/tinderchat/message.model";
 import { Chatmodel } from "../../models";
+import { Context } from "../../types";
 
 
-export const getChat:QueryResolvers['getChat']= async (_, {input})=>{
+export const getChat:QueryResolvers['getChat']= async (_, {input}, {userId}:Context)=>{
     const user1= input.user1
     const user2 = input.user2
    try{

@@ -1,11 +1,39 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle} from '@/components/ui/dialog';
+import { UPDATE_MATCH } from '@/graphql/chatgraphql';
+import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/navigation';
+import { useMatchedUsersContext } from './providers/MatchProvider';
 type Props = {
   open:boolean,
   closeDialog: () => void
+  user1:string
+  user2:string
 }
 
-export const Unmatch = ({ open, closeDialog }: Props ) => {
+export const Unmatch = ({ open, closeDialog, user1, user2 }: Props ) => {
+  const [updateMatch] = useMutation(UPDATE_MATCH)
+  const { refetchmatch } = useMatchedUsersContext()
+  const router = useRouter();
+  const afterunmatch = ()=>{
+    router.push('/chat')
+    refetchmatch()
+  }
+  const unmatch =async ()=>{
+    try{
+      await updateMatch ({
+        variables:{
+          input:{
+            user1,
+            user2
+          }
+        }
+      }).finally(()=> afterunmatch())
+    }
+    catch(error){
+      console.error('Error sending message:', error);
+    }
+  }
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[425px]">
@@ -15,7 +43,7 @@ export const Unmatch = ({ open, closeDialog }: Props ) => {
         </DialogHeader>
         <DialogFooter>
           <Button variant='outline' className='rounded-full' onClick={()=>closeDialog()}>Keep match</Button>
-          <Button variant='destructive' className='rounded-full'>Unmatch</Button>
+          <Button variant='destructive' className='rounded-full' onClick={()=>unmatch()}>Unmatch</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
