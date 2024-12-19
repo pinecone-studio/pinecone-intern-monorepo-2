@@ -19,7 +19,7 @@ type LogIn = {
 type ForgetPassword = { email: string };
 
 type ResetPassword = { password: string; resetToken: string };
-type ChangeProImage = { _id: string | undefined; profileImg: string };
+type ChangeProImage = { _id: string; profileImg: string };
 
 type AuthContextType = {
   signup: (_params: SignUp) => void;
@@ -123,6 +123,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     },
     onError: (error) => {
       toast({ variant: 'destructive', title: 'Can not find user', description: `${error.message}` });
+      console.log('change pro image iin error iig harah', error);
     },
   });
 

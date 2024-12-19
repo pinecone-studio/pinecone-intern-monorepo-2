@@ -2,12 +2,24 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-// interface proImgProps {
-//   proImgData: string;
-//   setProImgData: React.Dispatch<React.SetStateAction<string>>;
-// }
-const ProImg = ({ proImgData, setProImgData }: { proImgData: string; setProImgData: React.Dispatch<React.SetStateAction<string>> }) => {
+type ChangeProImage = { _id: string; profileImg: string };
+type ChangeProfileImg = ({ _id }: ChangeProImage) => void;
+
+const ProImg = ({
+  proImgData,
+  setProImgData,
+  changeProfileImg,
+  _id,
+  prevProImg,
+}: {
+  proImgData: string;
+  setProImgData: React.Dispatch<React.SetStateAction<string>>;
+  changeProfileImg: ChangeProfileImg;
+  _id: string | undefined;
+  prevProImg: string;
+}) => {
   const [image, setImage] = useState<string>(proImgData);
+
   const handleUploadImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event?.target?.files;
     if (!files || files.length === 0) return;
@@ -22,19 +34,22 @@ const ProImg = ({ proImgData, setProImgData }: { proImgData: string; setProImgDa
       method: 'POST',
       body: data,
     });
+    // if (!res.ok) throw new Error('upload image failed');
+
     const uploadedImage = await res.json();
+    await changeProfileImg({ _id: _id || '', profileImg: uploadedImage.secure_url });
     setImage(uploadedImage.secure_url);
+
     setProImgData(image);
   };
-  console.log('imageiin urliig harah', image);
   return (
     <div>
       <label htmlFor="file-upload">
         <div className="relative w-36 h-36 rounded-full">
-          <Image src={proImgData} alt="profilezurag" fill className="absolute rounded-full" />
+          <Image data-testid="proImage" src={prevProImg} alt="profilezurag" fill className="absolute rounded-full" />
         </div>
       </label>
-      <input id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleUploadImg} />
+      <input data-testid="inputImage" id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleUploadImg} />
     </div>
   );
 };

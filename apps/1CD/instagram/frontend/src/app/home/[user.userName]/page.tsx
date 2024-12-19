@@ -2,50 +2,22 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { useGetMyPostsQuery } from '@/generated';
-import { NoPost } from '@/components/user-profile/NoPost';
+
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
-import Image from 'next/image';
+import ProImg from '@/components/user-profile/ChangeProImg';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
   const { data, error } = useGetMyPostsQuery();
-  const [image, setImage] = useState<string>('');
-  const handleUploadImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event?.target?.files;
-    if (!files || files.length === 0) return;
-
-    const file = files[0];
-    const data = new FormData();
-    data.append('file', file);
-    data.append('upload_preset', 'instagram-intern');
-    data.append('cloud_name', 'dka8klbhn');
-    try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-        method: 'POST',
-        body: data,
-      });
-      const uploadedImage = await res.json();
-      setImage(uploadedImage.secure_url);
-      await changeProfileImg({ _id: user?._id, profileImg: uploadedImage.secure_url });
-      if (!res.ok) throw new Error('upload image failed');
-    } catch (error) {
-      return error;
-    }
-  };
-  console.log('profile image iig harah', image);
+  const [proImgData, setProImgData] = useState<string>('');
 
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
         <div className="flex flex-row justify-evenly mb-10">
           <section>
-            <label htmlFor="file-upload">
-              <div className="relative w-36 h-36 rounded-full">
-                <Image src={user?.profileImg ? user?.profileImg : image} alt="profilezurag" fill className="absolute rounded-full" data-cy="pro-image" />
-              </div>
-            </label>
-            <input data-cy="image-upload-input" id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleUploadImg} />
+            <ProImg changeProfileImg={changeProfileImg} proImgData={proImgData} setProImgData={setProImgData} _id={user?._id} prevProImg={user?.profileImg || ''} />
           </section>
           <div className="flex flex-col justify-between">
             <div className="flex flex-row items-center space-x-4">
@@ -111,7 +83,7 @@ const UserProfile = () => {
               Something wrong
             </p>
           )}
-          {data?.getMyPosts.length === 0 && <NoPost />}
+          {/* {data?.getMyPosts.length === 0 && <NoPost />} */}
         </div>
       </div>
     </div>
