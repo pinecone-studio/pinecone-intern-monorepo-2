@@ -3,10 +3,10 @@ import { QueryResolvers } from '../../generated';
 import { Matchmodel } from '../../models/tinderchat/match.model';
 import { Chatmodel, userModel } from '../../models';
 import { ObjectId } from 'mongodb'
+import { Context } from '../../types';
 
-export const getMatch: QueryResolvers['getMatch'] = async (_, { input }) => {
-  const userId = input._id;
-  const objectId = new ObjectId(userId)
+export const getMatch: QueryResolvers['getMatch'] = async (_, { input }, {userId}:Context) => {
+  const objectId = new ObjectId(userId ||"")
   
   try {
     const matches = await Matchmodel.find({

@@ -5,7 +5,7 @@ import { Context } from '../../../types';
 
 export const updateMatch: MutationResolvers['updateMatch'] = async (_, { input },{userId}:Context) => {
  const user1 = input.user1
- const user2 = input.user2
+ const user2 = userId
  try{
     await Matchmodel.updateOne(
         {

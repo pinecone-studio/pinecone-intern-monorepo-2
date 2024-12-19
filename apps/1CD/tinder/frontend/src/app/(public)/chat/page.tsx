@@ -25,7 +25,7 @@ const Chat = () => {
           </div>
         </div>
       ) : (
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 flex justify-center items-center h-screen">
           <p>No Matches Yet</p>
           <p>Keep swiping, your next match could be just around the corner!</p>
         </div>

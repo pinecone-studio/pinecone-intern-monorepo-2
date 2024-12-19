@@ -43,7 +43,7 @@ const Chat = () => {
         variables: {
           input: {
             content: message,
-            participants: [user1, user2],
+            user2:user2,
             senderId: user1
           },
         },
@@ -70,7 +70,7 @@ const Chat = () => {
         </div>
       </div>
       ) : (
-        <div>
+        <div className='flex flex-col justify-center items-center h-screen'>
           <p>No Matches Yet</p>
           <p>Keep swiping, your next match could be just around the corner!</p>
         </div>

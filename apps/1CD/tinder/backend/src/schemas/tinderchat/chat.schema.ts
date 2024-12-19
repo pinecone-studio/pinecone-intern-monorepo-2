@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const typeDefs = gql`
   input TinderChatinput {
-    participants: [ID!]!
+    user2: ID!
     content: String
     senderId: ID
     chatId:ID

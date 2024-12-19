@@ -6,8 +6,9 @@ import { Context } from "../../types";
 
 
 export const getChat:QueryResolvers['getChat']= async (_, {input}, {userId}:Context)=>{
-    const user1= input.user1
+    const user1= userId
     const user2 = input.user2
+    console.log(userId, 'hello')
    try{
     const existingcChat = await Chatmodel.findOne({
         participants: { $all: [user1, user2] }})
