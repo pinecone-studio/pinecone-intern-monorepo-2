@@ -9,6 +9,10 @@ export const typeDefs = gql`
     createdAt: Date
   }
 
+  type Query {
+    getPostLikes(postId: ID!): [PostLike!]!
+  }
+
   type Mutation {
     createPostLike(postId: ID!, isLike: Boolean!): PostLike!
     deletePostLike(postLikeId: ID!): PostLike!

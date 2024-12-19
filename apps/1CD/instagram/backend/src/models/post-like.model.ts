@@ -30,8 +30,8 @@ const PostLikeSchema = new Schema<PostLikeType>({
   },
 });
 
-export type PostLikePopulatedType = Omit<PostLikeType, 'user'> & {
+export type PostLikeUserPopulatedType = Omit<PostLikeType, 'user'> & {
   user: UserType;
 };
 
-export const PostLikeModel = models['PostLikeModel'] || model('PostLikeModel', PostLikeSchema);
+export const PostLikeModel = models.PostLikeModel || model<PostLikeType>('PostLikeModel', PostLikeSchema);
