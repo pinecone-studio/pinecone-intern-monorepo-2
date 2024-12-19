@@ -1,6 +1,7 @@
 import React from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
+import { expect } from '@jest/globals';
 
 describe('ProImg component', () => {
   const changeProfileImg = jest.fn();
@@ -15,7 +16,7 @@ describe('ProImg component', () => {
       <ProImg proImgData="http://www.example.com/prevproimg.jpg" setProImgData={setProImgData} changeProfileImg={changeProfileImg} _id="userID" prevProImg="http://www.example.com/prevproimg.jpg" />
     );
 
-    global.fetch = jest.fn().mockResolvedValue({ ok: jest.fn().mockResolvedValue(true), json: jest.fn().mockResolvedValue('http://www.example.com/newproimg.jpg') });
+    global.fetch = jest.fn().mockResolvedValue({ json: jest.fn().mockResolvedValue({ secureUrl: 'http://www.example.com/newproimg.jpg' }) });
     fireEvent.click(screen.getByTestId('proImage'));
     const proImgInput = screen.getByTestId('inputImage') as HTMLInputElement;
     const file = new File(['(⌐□_□)'], 'test-image.jpg', { type: 'image/jpg' });
@@ -23,11 +24,28 @@ describe('ProImg component', () => {
       fireEvent.change(proImgInput, { target: { files: [file] } });
     });
 
-    // await waitFor(() => {
-    //   expect(changeProfileImg).calledWith({ _id: 'userID', profileImg: 'http://www.example.com/newproimg.jpg' });
-    // });
+    await waitFor(() => {
+      expect(changeProfileImg).toHaveBeenCalledWith({ _id: 'userID', profileImg: 'http://www.example.com/newproimg.jpg' });
+    });
+    const proImage = screen.getByTestId('proImage');
+    // expect(proImage).toHaveA('src', 'http://www.example.com/newproimg.jpg');
   });
 
+  it('Should handle upload profile image when user id is null id', async () => {
+    render(
+      <ProImg proImgData="http://www.example.com/prevproimg.jpg" setProImgData={setProImgData} changeProfileImg={changeProfileImg} _id="userID" prevProImg="http://www.example.com/prevproimg.jpg" />
+    );
+    global.fetch = jest.fn().mockResolvedValue({ json: jest.fn().mockResolvedValue('http://www.example.com/newproimg.jpg') });
+    fireEvent.click(screen.getByTestId('proImage'));
+    const proImgInput = screen.getByTestId('inputImage') as HTMLInputElement;
+    const file = new File(['(⌐□_□)'], 'test-image.jpg', { type: 'image/jpg' });
+    await act(async () => {
+      fireEvent.change(proImgInput, { target: { files: [file] } });
+    });
+    await waitFor(() => {
+      expect(changeProfileImg).toHaveBeenCalledWith({ _id: '', profileImg: 'http://www.example.com/newproimg.jpg' });
+    });
+  });
   it('Should do nothing when no file uploaded', () => {
     render(
       <ProImg proImgData="http://www.example.com/prevproimg.jpg" setProImgData={setProImgData} changeProfileImg={changeProfileImg} _id="userID" prevProImg="http://www.example.com/prevproimg.jpg" />
