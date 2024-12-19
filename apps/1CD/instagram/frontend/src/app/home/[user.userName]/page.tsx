@@ -9,7 +9,7 @@ import { Grid3x3, Save, Settings } from 'lucide-react';
 const UserProfile = () => {
   const { user } = useAuth();
   const { data, error } = useGetMyPostsQuery();
-
+  console.log('postuudiig harah', data?.getMyPosts);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -39,7 +39,7 @@ const UserProfile = () => {
                       Something wrong
                     </p>
                   )}
-                  <h1 className="font-normal" data-cy="PostNumberDone">
+                  <h1 className="font-semibold" data-cy="PostNumberDone">
                     {data?.getMyPosts.length}
                   </h1>
                 </div>
@@ -63,11 +63,11 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="border-t-4 border-t-gray-200 flex relative">
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2 hover:border-t-black hover:text-black absolute -top-1 left-[40%]">
+          <div className="text-black pt-4 flex flex-row space-x-1 items-center border-t-2 border-black absolute -top-1 left-[40%]">
             <Grid3x3 />
             <p>POSTS</p>
           </div>
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2 hover:border-t-black hover:text-black absolute -top-1 right-[40%]">
+          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2 absolute -top-1 right-[40%]">
             <Save />
             <p>SAVED</p>
           </div>
@@ -80,6 +80,13 @@ const UserProfile = () => {
             </p>
           )}
           {data?.getMyPosts.length === 0 && <NoPost data-cy="postNoData" />}
+          <div className="grid grid-cols-3 h-full gap-3">
+            {data?.getMyPosts.map((onePost, index) => (
+              <section key={index} className="relative h-[300px]">
+                <Image src={onePost.images[0]} alt="postImage" fill className="absolute hover:cursor-pointer" />
+              </section>
+            ))}
+          </div>
         </div>
       </div>
     </div>
