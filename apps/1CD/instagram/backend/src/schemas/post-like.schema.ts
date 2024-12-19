@@ -11,5 +11,6 @@ export const typeDefs = gql`
 
   type Mutation {
     createPostLike(postId: ID!, isLike: Boolean!): PostLike!
+    deletePostLike(postLikeId: ID!): PostLike!
   }
 `;
