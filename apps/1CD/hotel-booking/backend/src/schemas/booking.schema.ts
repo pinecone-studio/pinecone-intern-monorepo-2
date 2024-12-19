@@ -50,5 +50,6 @@ export const typeDefs = gql`
   type Query {
     getBooking(_id: ID): ReturnBooking!
     getBookingFindByUserId(userId: ID): [ReturnBooking!]!
+    getBookings: [BookingType!]
   }
 `;
