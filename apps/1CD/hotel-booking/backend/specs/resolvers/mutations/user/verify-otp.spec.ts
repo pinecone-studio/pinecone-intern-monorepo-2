@@ -33,7 +33,7 @@ describe('verifyOtp', () => {
     const expiredOtpRecord = {
       email: mockEmail,
       otp: mockOtp,
-      createdAt: new Date(Date.now() - 10 * 60 * 1000), // 10 minutes ago
+      createdAt: new Date(Date.now() - 10 * 60 * 1000),
     };
 
     (otpModel.findOne as jest.Mock).mockResolvedValue(expiredOtpRecord);
@@ -50,7 +50,7 @@ describe('verifyOtp', () => {
     const validOtpRecord = {
       email: mockEmail,
       otp: mockOtp,
-      createdAt: new Date(), // current time
+      createdAt: new Date(),
     };
 
     (otpModel.findOne as jest.Mock).mockResolvedValue(validOtpRecord);
@@ -60,7 +60,6 @@ describe('verifyOtp', () => {
 
     expect(result).toEqual(Response.Success);
     expect(otpModel.findOne).toHaveBeenCalledWith({ email: mockEmail, otp: mockOtp });
-
     expect(otpModel.deleteOne).toHaveBeenCalledWith({ email: mockEmail, otp: mockOtp });
   });
 });
