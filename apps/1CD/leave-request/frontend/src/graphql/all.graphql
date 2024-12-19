@@ -28,3 +28,10 @@ mutation CreatesOTP($email: String!) {
 mutation CheckOTP($email: String!, $otp: String!) {
   checkOTP(email: $email, OTP: $otp)
 }
+mutation CreateUser($email: String!, $position: String!, $role: String!, $profile: String!, $userName: String!, $supervisor: [ID], $hireDate: Date!) {
+  createUser(email: $email, position: $position, role: $role, profile: $profile, userName: $userName, supervisor: $supervisor, hireDate: $hireDate) {
+    _id
+    email
+    userName
+  }
+}
