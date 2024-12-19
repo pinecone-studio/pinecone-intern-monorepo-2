@@ -7,8 +7,10 @@ import Image from 'next/image';
 import { IoSearch } from 'react-icons/io5';
 import { SlBasket } from 'react-icons/sl';
 import { useAuth } from '@/components/providers/AuthProvider';
+import { useQueryState } from 'nuqs';
 
 export const Header = () => {
+  const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const { user, signout } = useAuth();
 
   return (
@@ -20,7 +22,7 @@ export const Header = () => {
       </div>
 
       <div className="relative flex items-center w-full px-2 md:px-6 md:w-auto">
-        <Input type="text" placeholder="Хайлт" className="relative w-full bg-black border-gray-600 md:w-80" />
+        <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="relative w-full bg-black border-gray-600 md:w-80" value={q} onChange={(e) => setQ(e.target.value)} />
         <IoSearch className="absolute w-4 h-4 right-4 md:right-16 color-white" />
       </div>
 

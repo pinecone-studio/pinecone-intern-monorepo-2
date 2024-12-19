@@ -7,8 +7,7 @@ import { useCreatePasswordMutation } from '@/generated';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+
 import { useRouter } from 'next/navigation';
 
 const passwordSchema = z
@@ -29,16 +28,9 @@ const passwordSchema = z
   });
 type ValidationSchemaType = z.infer<typeof passwordSchema>;
 
-const Password = ({authToken}:{authToken:string}) => {
-    console.log(authToken)
-  const [email, setEmail] = useState('');
+const Password = () => {
   const router=useRouter();
-  useEffect(() => {
-    const storedEmail = localStorage.getItem('userEmail');
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
+  
   const {
     register,
     handleSubmit,
@@ -49,12 +41,11 @@ const Password = ({authToken}:{authToken:string}) => {
 
 
   const [createPassword] = useCreatePasswordMutation({
-    onError: (error) => {
-      toast.error(error.message);
-    },
+
     onCompleted:()=>{
       router.push('/account/attraction');
     }
+  
   });
 
 
@@ -62,7 +53,7 @@ const Password = ({authToken}:{authToken:string}) => {
   const onSubmit = async (data: ValidationSchemaType) => {
     await createPassword({
       variables: {
-        input: { password: data.password, email },
+        input: { password: data.password},
       },
     });
   };

@@ -3,8 +3,8 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { IoMdArrowBack } from 'react-icons/io';
 import { CreatePost } from './CreatePost';
+import { ArrowLeft } from 'lucide-react';
 
 export const UpdateImagesStep2 = ({
   step,
@@ -34,7 +34,7 @@ export const UpdateImagesStep2 = ({
           <div className="flex justify-between text-center text-[16px] px-1">
             {' '}
             <button onClick={closeModal} data-testid="Btn1">
-              <IoMdArrowBack />
+              <ArrowLeft width={16} height={16} />
             </button>
             <p>Crop</p>
             <button data-testid="Btn2" className="text-[#2563EB]" onClick={() => modal()}>

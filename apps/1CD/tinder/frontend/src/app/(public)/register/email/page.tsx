@@ -52,7 +52,12 @@ const Register = () => {
 
         <Button className="w-[350px] h-9 bg-white border-[#E4E4E7] rounded-full text-[#18181B] hover:bg-white border-2 text-sm font-medium mt-4">Log in</Button>
         <div className="text-[#71717A] font-normal text-sm pt-6 text-center">By clicking continue, you agree to our</div>
-        <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline">Terms of Service and Privacy Policy.</div>
+        <div className='flex justify-center'>
+        <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline">Terms of Service </div>
+        <div className="text-[#71717A] font-normal text-sm text-center mx-1"> and</div>
+        <div className="text-[#71717A] font-normal text-sm text-center underline-offset-1 underline"> Privacy Policy.</div>
+          
+        </div>
       </div>
     </div>
   );

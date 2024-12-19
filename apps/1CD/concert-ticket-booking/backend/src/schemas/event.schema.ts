@@ -98,11 +98,16 @@ export const typeDefs = gql`
     date: String
     artist: String
   }
+  type RelatedEventResponse {
+    eventDetail: Event!
+    relatedEvents: [Event!]!
+  }
 
   type Query {
     getEventById(_id: ID!): Event!
     getEvents(filter: EventsFilter): [Event]!
     getSpecialEvent: [Event!]!
+    getRelatedEvents(eventId: String!): RelatedEventResponse!
   }
 
   type Mutation {
