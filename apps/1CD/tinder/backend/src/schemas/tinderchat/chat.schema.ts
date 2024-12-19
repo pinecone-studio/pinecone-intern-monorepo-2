@@ -4,7 +4,6 @@ export const typeDefs = gql`
   input TinderChatinput {
     user2: ID!
     content: String
-    senderId: ID
     chatId:ID
   }
   type TinderChatresponse {
@@ -52,7 +51,7 @@ export const typeDefs = gql`
   }
   type Query {
     getChat(input:GetChatInput!): [TinderChatresponse!]!
-    getMatch(input:GetChat!): [MatchedUser]
+    getMatch: [MatchedUser]
     getOneUser(input:GetChat!):MatchedUser!
   }
 `;

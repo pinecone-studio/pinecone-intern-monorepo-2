@@ -5,9 +5,8 @@ import { Chatmodel, userModel } from '../../models';
 import { ObjectId } from 'mongodb'
 import { Context } from '../../types';
 
-export const getMatch: QueryResolvers['getMatch'] = async (_, { input }, {userId}:Context) => {
+export const getMatch: QueryResolvers['getMatch'] = async (_, {}, {userId}:Context) => {
   const objectId = new ObjectId(userId ||"")
-  
   try {
     const matches = await Matchmodel.find({
       $or: [{ user1: userId }, { user2: userId }],

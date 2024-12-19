@@ -18,12 +18,10 @@ const Chat = () => {
   const { id } = params;
   const { oneUserloading} = useOneUserContext();
   const [createChat] = useMutation(CREATE_CHAT);
-  const user1 = '6747be56eef691c549c23461';
   const user2 = id;
   const { loading, error, data, refetch } = useQuery(GET_CHAT, {
     variables: {
       input: {
-        user1: user1,
         user2: user2,
       },
     },
@@ -44,7 +42,6 @@ const Chat = () => {
           input: {
             content: message,
             user2:user2,
-            senderId: user1
           },
         },
       });
@@ -66,7 +63,7 @@ const Chat = () => {
         <Matches />
         <div className="flex flex-1">
           <Chatsidebar />
-          <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} user1={user1} />
+          <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} />
         </div>
       </div>
       ) : (

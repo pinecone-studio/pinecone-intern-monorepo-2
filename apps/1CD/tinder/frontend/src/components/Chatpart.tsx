@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Oneuser } from './Oneuser';
 import { Loader } from './Loader';
+import { useEffect } from 'react';
 
 type Props= {
   chatloading :boolean, 
@@ -11,10 +12,11 @@ type Props= {
   handleMessageChange:any, 
   sendMessage:any, 
   message:string, 
-  user1:string
+
 }
 
-export const Chatpart = ({chatloading, response, errormessage, handleMessageChange, sendMessage, message, user1}:Props) => {
+export const Chatpart = ({chatloading, response, errormessage, handleMessageChange, sendMessage, message}:Props) => {
+  const user1 = '675675e84bd85fce3de34006'
   return (
     <div className="flex flex-col h-full border-t border-b border-r w-full" data-cy="Chat-Part-Page">
   {chatloading ? (
@@ -41,7 +43,7 @@ export const Chatpart = ({chatloading, response, errormessage, handleMessageChan
               <p className="text-sm text-muted-foreground">You’ve got a match! Send a message to start chatting.</p>
             </div>
           ) : (
-            <div className="overflow-y-auto p-4 flex flex-col max-h-[400px]">
+            <div className="overflow-y-auto p-4 flex flex-col max-h-[600px]">
               {response.map((resp: { content: string; senderId: string }, index: number) => {
                 return (
                   <div key={index} className={`${user1 == resp.senderId ? 'bg-[#E11D48] self-end max-w-[320px] text-white' : 'bg-[#F4F4F5] max-w-[220px] text-foreground'} p-4 rounded-lg mb-4`}>

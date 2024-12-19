@@ -20,8 +20,8 @@ export const GET_CHAT = gql`
   }
 `;
 export const GET_MATCHEDUSERS = gql`
-query GetMatchedUsers($input: GetChat!){
-    getMatch(input: $input){
+query GetMatchedUsers{
+    getMatch{
         _id
         name
         profession

@@ -7,18 +7,18 @@ import { Context } from '../../../types';
 export const createChat: MutationResolvers['createChat'] = async (_, { input },{userId}:Context) => {
   try {
     const user1 = userId
-    const { user2, content, senderId} = input;
+    const { user2, content} = input;
       console.log(user1, user2, 'helllooo new')
       const tinderChat = await Chatmodel.findOne({
         participants: { $all: [user1, user2] }});
       if (!tinderChat) {
         const chat = await Chatmodel.create({ participants:[user1, user2]});
         const chatId = chat._id;
-        const message = await Messagemodel.create({ content, senderId, chatId });
+        const message = await Messagemodel.create({ content, senderId:userId, chatId });
         return message;
       }
       const chatId = tinderChat._id;
-      const message = await Messagemodel.create({ content, senderId, chatId });
+      const message = await Messagemodel.create({ content, senderId:userId, chatId });
       return message;
     
     
