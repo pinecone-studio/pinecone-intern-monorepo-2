@@ -12,7 +12,7 @@ const DetailTop = ({ event }: { event: Event }) => {
             <span key={artist.name}>{artist?.name}</span>
           ))}
         </span>
-        {event?.name && <p className="sm:text-4xl text-xl font-bold mb-6">{event.name}</p>}
+        {event?.name && <p className="mb-6 text-xl font-bold sm:text-4xl">{event.name}</p>}
         <div className="flex gap-2">
           <Calendar />
           {event?.scheduledDays.map((day) => (
