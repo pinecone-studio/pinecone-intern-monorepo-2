@@ -2,7 +2,7 @@ describe('Create Request', () => {
   beforeEach(() => {
     cy.setCookie(
       'authtoken',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRlZDc5NGYzN2YzYjJmZmJiMGE5ZDYiLCJ1c2VybmFtZSI6InpvbGphcmdhbCB0c2VuZGRvcmoiLCJyb2xlIjoic3VwZXJ2aXNvciIsInBvc2l0aW9uIjoiRW5naW5lZXIiLCJlbWFpbCI6InpvbG9va29yem9sb29AZ21haWwuY29tIiwiaWF0IjoxNzM0NDEwNTIxLCJleHAiOjE3NjU5NjgxMjF9.e-PNWUte475ttOUpiInbjdntQ-5mCIlG6mAkF8dB9Dk'
+      process.env.ANNUAL_TOKEN as string
     );
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'CreatesRequest') {
