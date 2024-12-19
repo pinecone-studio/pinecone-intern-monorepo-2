@@ -7,7 +7,6 @@ export const getBookings: QueryResolvers['getBookings'] = async () => {
     if (!bookings) throw new Error('Bookings not found');
     return bookings;
   } catch (error) {
-    console.error('Error fetching bookings', error);
     throw new Error((error as Error).message);
   }
 };
