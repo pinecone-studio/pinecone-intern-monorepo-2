@@ -1,25 +1,24 @@
-import { SignUpInput } from '../../../generated';
 import { sendEmail } from 'src/utils/send-email';
 import { otpModel, userModel } from '../../../models';
+import { generateOTP } from 'src/utils/generate-otp';
+import { MutationResolvers, Response } from 'src/generated';
 
-export const sendOtp = async (_: unknown, { input }: { input: SignUpInput }) => {
+export const sendOtp: MutationResolvers['sendOtp'] = async (_, { input }) => {
   const { email } = input;
 
-  if (!email) throw new Error('Email is required');
+  if (!email) throw new Error('email is required');
 
   const user = await userModel.findOne({ email });
 
   if (user) {
-    throw new Error('user exists');
+    throw new Error('Email already exist');
   }
 
-  const rndOtp = Math.floor(Math.random() * 10_000)
-    .toString()
-    .padStart(4, '0');
+  const otp = await generateOTP(email);
 
-  await otpModel.create({ email, otp: rndOtp, expiresAt: Date.now() + 5 * 60 * 1000 });
+  await otpModel.create({ email, otp });
 
-  await sendEmail(email, rndOtp);
+  await sendEmail(email, otp);
 
-  return { email, message: 'OTP sent successfully' };
+  return Response.Success;
 };
