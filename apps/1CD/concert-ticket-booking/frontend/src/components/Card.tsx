@@ -10,7 +10,7 @@ const CardTicket = ({ event }: { event: Event }) => {
   const unitPrice = Number(event.products[0].ticketType[1].unitPrice);
   const discountPrice = (unitPrice * (100 - discount)) / 100;
   return (
-    <Card className="max-w-[345px] h-full overflow-hidden relative" data-cy="Card-Component">
+    <Card className="max-w-[345px] h-full overflow-hidden relative border-none" data-cy="Card-Component">
       {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[175px] left-6"> {event.products[0].ticketType[1].discount}%</div>}
 
       <div className="w-full aspect-video overflow-hidden">
@@ -37,16 +37,25 @@ const CardTicket = ({ event }: { event: Event }) => {
           </div>
         )}
 
-        <div className="flex justify-between text-muted-foreground items-end">
+        <div className="flex justify-between text-muted-foreground flex-col">
           <div className="items-center gap-1 ">
-            {event.scheduledDays.map((day, index) => (
-              <span className="flex items-center" key={index}>
+            {event.scheduledDays.length > 2 ? (
+              <span className="flex items-center gap-1">
                 <CiCalendar className="w-4" />
-                {dayjs(day).format('MM.DD')}
+                {dayjs(event.scheduledDays[0]).format('MM.DD')} - {dayjs(event.scheduledDays[event.scheduledDays.length - 1]).format('MM.DD')}
               </span>
-            ))}
+            ) : (
+              <span className="flex gap-2">
+                {event.scheduledDays.map((day, index) => (
+                  <span className="flex items-center gap-1" key={index}>
+                    <CiCalendar className="w-4" />
+                    {dayjs(day).format('MM.DD')}
+                  </span>
+                ))}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-1 absolute bottom-6 right-6">
+          <div className="flex items-center gap-1 flex-wrap justify-end">
             <CiLocationOn className="w-4" />
             {event.venue.name}
           </div>
