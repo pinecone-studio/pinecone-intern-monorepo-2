@@ -4,12 +4,26 @@ import { getBookings } from 'src/resolvers/queries';
 
 jest.mock('src/models', () => ({
   bookingModel: {
-    find: jest.fn().mockReturnValueOnce([
-      {
-        _id: '674ad1f265ca6d2c473739b7',
-        userId: '1',
-      },
-    ]),
+    find: jest
+      .fn()
+      .mockReturnValueOnce({
+        populate: jest.fn().mockReturnValueOnce({
+          populate: jest.fn().mockResolvedValueOnce([
+            {
+              userId: { id: 'user1' },
+              roomId: {
+                id: 'room1',
+                hotelId: { id: 'hotel1' },
+              },
+            },
+          ]),
+        }),
+      })
+      .mockReturnValueOnce({
+        populate: jest.fn().mockReturnValueOnce({
+          populate: jest.fn().mockResolvedValueOnce([]),
+        }),
+      }),
   },
 }));
 
@@ -26,16 +40,19 @@ describe('getBookings function', () => {
 
     expect(result).toEqual([
       {
-        _id: '674ad1f265ca6d2c473739b7',
-        userId: '1',
+        userId: { id: 'user1' },
+        roomId: {
+          id: 'room1',
+          hotelId: { id: 'hotel1' },
+        },
       },
     ]);
   });
-  it('if bookings not found', async () => {
+  it('No bookings found', async () => {
     try {
       await getBookings!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
     } catch (error) {
-      expect((error as Error).message).toEqual('Bookings not found');
+      expect((error as Error).message).toEqual('No bookings found');
     }
   });
 });
