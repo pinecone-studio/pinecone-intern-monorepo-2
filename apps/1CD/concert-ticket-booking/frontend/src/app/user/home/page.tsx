@@ -27,6 +27,7 @@ const Page = () => {
 
   return (
     <div className="w-full pt-10 bg-black" data-cy="Home-Page">
+      <CarouselMain/>
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
         {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
         {data?.getEvents?.map((event) => (
