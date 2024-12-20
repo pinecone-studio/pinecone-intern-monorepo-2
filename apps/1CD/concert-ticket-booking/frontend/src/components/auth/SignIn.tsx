@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useAuth } from '@/components/providers/AuthProvider';
-import LoadingSpinner from './loading/Loading';
+import LoadingSpinner from '../loading/Loading';
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -106,6 +106,11 @@ const SignIn = () => {
               хэсгээр <br />
               орно уу.
             </p>
+            <button data-cy="Verify-Email-Link-Button" data-testid="Verify-Email-Link-Button" className="text-xs text-center text-zinc-400">
+              <Link href="/user/verify-email" className="mx-1 underline underline-offset-2 decoration-white hover:text-white ">
+                Нууц үг сэргээх
+              </Link>
+            </button>
           </div>
         </form>
       </Form>
