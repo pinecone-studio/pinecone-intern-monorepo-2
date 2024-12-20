@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { AdminHeader } from '@/app/admin/home/_components/adminHeader';
+import { AdminHeader } from '@/app/admin/home/_components/AdminHeader';
 
 
 jest.mock('lucide-react', () => ({
@@ -17,7 +17,7 @@ describe('AdminHeader Component', () => {
   });
 
   it('should render navigation links correctly', () => {
-    render(<AdminHeader />);
+    render(<AdminHeaderr />);
 
     expect(screen.getByText('Тасалбар')).toBeInTheDocument();
     expect(screen.getByText('Цуцлах хүсэлт')).toBeInTheDocument();
