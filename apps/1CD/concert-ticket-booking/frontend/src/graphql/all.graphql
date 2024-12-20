@@ -42,3 +42,8 @@ query GetCategories {
     name
   }
 }
+mutation VerifyUserEmail($email: String!) {
+  verifyUserEmail(email: $email) {
+    message
+  }
+}
