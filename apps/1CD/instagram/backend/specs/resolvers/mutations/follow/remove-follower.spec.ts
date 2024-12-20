@@ -1,22 +1,20 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { FollowStatus } from 'src/generated';
-import { followModel } from 'src/models/follow.model';
+import { followModel } from 'src/models';
 import { removeFollower } from 'src/resolvers/mutations';
 
-jest.mock('../../../../src/models/follow.model.ts', () => ({
+jest.mock('src/models', () => ({
   followModel: {
     findById: jest.fn(),
-    findByIdAndDelete: jest.fn().mockReturnValueOnce({ _id: 'a' }).mockReturnValueOnce(null),
+    findByIdAndDelete: jest.fn(),
   },
 }));
 
 describe('removeFollower Mutation', () => {
-  const mockSave = jest.fn();
   const mockFollowRequest = {
     _id: '123',
     followingId: 'user-1',
     status: FollowStatus.Approved,
-    save: mockSave,
   };
 
   beforeEach(() => {
@@ -51,22 +49,14 @@ describe('removeFollower Mutation', () => {
     await expect(removeFollower!({}, { _id: '123' }, { userId: 'user-1' }, {} as GraphQLResolveInfo)).rejects.toThrow('Failed to remove follower');
   });
 
-  //   it('should successfully delete the follower', async () => {
-  //     (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
-
-  //     const result = await removeFollower!({}, { _id: '123' }, { userId: 'user-1' }, {} as GraphQLResolveInfo);
-
-  //     expect(result).toEqual({
-  //       ...mockFollowRequest,
-  //     });
-  //   });
-
   it('should successfully delete the follower', async () => {
-    (followModel.findByIdAndDelete as jest.Mock).mockReturnValueOnce({ _id: 'a' }).mockReturnValueOnce(null);
-    const response = await removeFollower!({}, { _id: 'a' }, { userId: 'user-1' }, {} as GraphQLResolveInfo);
+    (followModel.findById as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
+    (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
 
-    expect(response).toEqual({
-      _id: 'a',
-    });
+    const result = await removeFollower!({}, { _id: '123' }, { userId: 'user-1' }, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual(mockFollowRequest);
+    expect(followModel.findById).toHaveBeenCalledWith('123');
+    expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('123');
   });
 });
