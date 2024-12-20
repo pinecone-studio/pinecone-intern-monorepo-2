@@ -39,7 +39,7 @@ const UserProfile = () => {
                       Something wrong
                     </p>
                   )}
-                  <h1 className="font-normal" data-cy="postNumberDone">
+                  <h1 className="font-semibold" data-cy="postNumberDone">
                     {data?.getMyPosts.length}
                   </h1>
                 </div>
