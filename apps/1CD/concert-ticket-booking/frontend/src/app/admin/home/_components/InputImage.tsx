@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 'use client';
 import React, { useRef, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
@@ -6,12 +7,14 @@ import { EventInputType } from '@/utils/validation-schema';
 import { Loader, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
+import { generateSHA1, generateSignature } from '@/utils/generate-signature';
 type FormProps = {
   form: UseFormReturn<EventInputType>;
 };
 const InputImage = ({ form }: FormProps) => {
   const [image, setImage] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [publicId, setPublicId] = useState('');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
@@ -20,17 +23,33 @@ const InputImage = ({ form }: FormProps) => {
     setUploading(true);
     const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`, formData);
     setImage(response.data.secure_url);
+    setPublicId(response.data.public_id);
     form.setValue('image', response.data.secure_url);
     setUploading(false);
   };
   const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current!.click();
   };
-  const handleImageDelete = () => {
+
+  const handleImageDelete = async () => {
+    setUploading(true);
     setImage('');
     form.setValue('image', '');
+    const cloudName = process.env.NEXT_PUBLIC_CLOUD_NAME;
+    const timestamp = new Date().getTime();
+    const apiKey = process.env.NEXT_PUBLIC_CLOUD_API_KEY;
+    const apiSecret = process.env.NEXT_PUBLIC_CLOUD_API_SECRET!;
+    const signature = generateSHA1(generateSignature(publicId, apiSecret));
+    const publicIdForRequest = publicId;
+    const apiKeyForRequest = apiKey;
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`;
+    await axios.post(url, {
+      public_id: publicIdForRequest,
+      signature: signature,
+      api_key: apiKeyForRequest,
+      timestamp: timestamp,
+    });
+    setUploading(false);
   };
   return (
     <div>
@@ -79,9 +98,7 @@ const InputImage = ({ form }: FormProps) => {
                   accept="image/*"
                   style={{ display: 'none' }}
                   onChange={(e) => {
-                    if (e.target.files) {
-                      handleImageUpload(e.target.files[0]);
-                    }
+                    handleImageUpload(e.target.files![0]);
                   }}
                   data-testid="file-input"
                 />

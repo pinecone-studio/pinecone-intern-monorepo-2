@@ -28,12 +28,12 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "instagram-frontend:build",
-        "dev": true
+        "dev": false
       },
       "configurations": {
         "development": {
           "buildTarget": "instagram-frontend:build:development",
-          "dev": true,
+          "dev": false,
           "port": 4201
         },
         "production": {
@@ -43,7 +43,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:testing",
           "params": "forward"
         },
         {

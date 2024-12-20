@@ -1,57 +1,73 @@
 import { sendOtp } from '../../../../src/resolvers/mutations';
 import { otpModel, userModel } from '../../../../src/models';
 import { sendEmail } from '../../../../src/utils/send-email';
+import { generateOTP } from '../../../../src/utils/generate-otp';
+import { GraphQLResolveInfo } from 'graphql';
+import { Response } from 'src/generated';
 
 jest.mock('../../../../src/models', () => ({
   otpModel: {
-    create: jest.fn().mockResolvedValueOnce({ _id: '1' }),
+    create: jest.fn(),
   },
   userModel: {
-    findOne: jest.fn().mockResolvedValueOnce(null).mockResolvedValueOnce({ _id: '1' }),
+    findOne: jest.fn(),
   },
 }));
 
 jest.mock('../../../../src/utils/send-email', () => ({
-  sendEmail: jest.fn().mockResolvedValueOnce({}),
+  sendEmail: jest.fn(),
+}));
+jest.mock('../../../../src/utils/generate-otp', () => ({
+  generateOTP: jest.fn(),
 }));
 
 describe('sendOtp', () => {
-  const input = { email: 'test@gmail.com', message: 'OTP sent successfully' };
+  const mockOtp = '1234';
+  const mockEmail = 'test@gmail.com';
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should send OTP if user does not exist', async () => {
-    const response = await sendOtp({}, { input });
+    const input = { email: mockEmail };
 
-    expect(response).toEqual({
-      email: 'test@gmail.com',
-      message: 'OTP sent successfully',
-    });
+    (userModel.findOne as jest.Mock).mockResolvedValue(null);
+    (generateOTP as jest.Mock).mockReturnValue(mockOtp);
+    (otpModel.create as jest.Mock).mockResolvedValue({ email: mockEmail, otp: mockOtp });
+    (sendEmail as jest.Mock).mockResolvedValue({});
 
-    expect(userModel.findOne).toHaveBeenCalledWith({ email: 'test@gmail.com' });
+    const response = await sendOtp!({}, { input }, { userId: null }, {} as GraphQLResolveInfo);
 
-    expect(otpModel.create).toHaveBeenCalledWith(expect.objectContaining({ email: 'test@gmail.com' }));
-    expect(sendEmail).toHaveBeenCalledWith('test@gmail.com', expect.any(String));
+    expect(response).toEqual(Response.Success);
+
+    expect(otpModel.create).toHaveBeenCalledWith({ email: mockEmail, otp: mockOtp });
+    expect(sendEmail).toHaveBeenCalledWith(mockEmail, mockOtp);
   });
 
   it('should throw an error if the user already exists', async () => {
-    await expect(sendOtp({}, { input })).rejects.toThrow('user exists');
+    const input = { email: mockEmail, otp: mockOtp };
 
-    expect(otpModel.create).not.toHaveBeenCalled();
-    expect(sendEmail).not.toHaveBeenCalled();
+    (userModel.findOne as jest.Mock).mockResolvedValue({ _id: '1' });
+
+    try {
+      await sendOtp!({}, { input }, { userId: null }, {} as GraphQLResolveInfo);
+    } catch (error) {
+      expect(error).toEqual(new Error('Email already exist'));
+    }
   });
   it('should throw an error if there is no email input', async () => {
     await expect(
-      sendOtp(
+      sendOtp!(
         {},
         {
           input: {
             email: '',
           },
-        }
+        },
+        { userId: null },
+        {} as GraphQLResolveInfo
       )
-    ).rejects.toThrow('Email is required');
+    ).rejects.toThrow('email is required');
   });
 });

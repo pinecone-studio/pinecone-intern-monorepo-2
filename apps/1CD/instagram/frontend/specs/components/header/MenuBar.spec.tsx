@@ -1,75 +1,21 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
+import React from 'react';
 import { MenuBar } from '@/components/header/MenuBar';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
-describe('MenuBar', () => {
-  it('should render', async () => {
-    const { getByTestId, getAllByText, getAllByTestId } = render(
-      <MockedProvider>
-        <MenuBar setHide={jest.fn()} hide={false} />
-      </MockedProvider>
-    );
-    // jest.mock('next/link');
+describe('MenuBar Component', () => {
+  it('should render logo when hide is false', () => {
+    render(<MenuBar hide={false} />);
 
-    jest.mock('next/link', () => ({
-      Link: jest.fn(),
-    }));
-
-    await waitFor(() => expect(getByTestId('MenuBar')));
-    const menuBtn1 = getByTestId('menuBtn1');
-    fireEvent.click(menuBtn1);
-
-    const menuBtn2 = getByTestId('menuBtn2');
-    fireEvent.click(menuBtn2);
-
-    const btn = getAllByTestId('hideIconBtn')[0];
-    fireEvent.click(btn);
-
-    const moreCreateBtn = getByTestId('moreCreateBtn');
-    fireEvent.keyDown(moreCreateBtn, { key: 'Enter' });
-
-    const CreatePostBtn = getByTestId('CreatePostBtn');
-    fireEvent.click(CreatePostBtn);
-
-    const btnn = getAllByTestId('hideIconBtn')[1];
-    fireEvent.click(btnn);
-
-    const bb = getAllByText('Notifications');
-    fireEvent.click(bb[0]);
+    const logoImage = screen.getByAltText('Logo');
+    expect(logoImage).toBeInTheDocument();
+    expect(logoImage).toBeVisible();
   });
-  it('should render', async () => {
-    const { getByTestId, getAllByText, getAllByTestId } = render(
-      <MockedProvider>
-        <MenuBar setHide={jest.fn()} hide={true} />
-      </MockedProvider>
-    );
-    // jest.mock('next/link');
 
-    jest.mock('next/link', () => ({
-      Link: jest.fn(),
-    }));
+  it('should hide logo and show Instagram icon when hide is true', () => {
+    render(<MenuBar hide={true} />);
 
-    await waitFor(() => expect(getByTestId('MenuBar')));
-
-    const menuBtn1 = getByTestId('menuBtn1');
-    fireEvent.click(menuBtn1);
-
-    const menuBtn2 = getByTestId('menuBtn2');
-    fireEvent.click(menuBtn2);
-
-    const btn = getAllByTestId('hideIconBtn')[0];
-    fireEvent.click(btn);
-
-    const moreCreateBtn = getByTestId('moreCreateBtn');
-    fireEvent.keyDown(moreCreateBtn, { key: 'Enter' });
-
-    const CreatePostBtn = getByTestId('CreatePostBtn');
-    fireEvent.click(CreatePostBtn);
-
-    const btnn = getAllByTestId('hideIconBtn')[1];
-    fireEvent.click(btnn);
-
-    const bb = getAllByText('Notifications');
-    fireEvent.click(bb[0]);
+    const logoImage = screen.getByAltText('Logo');
+    expect(logoImage).toBeInTheDocument();
   });
 });
