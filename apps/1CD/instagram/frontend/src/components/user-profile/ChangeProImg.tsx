@@ -37,7 +37,7 @@ const ProImg = ({
     // if (!res.ok) throw new Error('upload image failed');
 
     const uploadedImage = await res.json();
-    await changeProfileImg({ _id: _id || '', profileImg: uploadedImage.secure_url });
+    await changeProfileImg({ _id: _id!, profileImg: uploadedImage.secure_url });
     setImage(uploadedImage.secure_url);
 
     setProImgData(image);
