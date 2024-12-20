@@ -3,7 +3,7 @@ import { QueryResolvers } from '../../generated';
 import { Chatmodel, Matchmodel, userModel } from '../../models';
 import { Context } from '../../types';
 
-export const getMatch: QueryResolvers['getMatch'] = async (_, {}, {userId}:Context) => {
+export const getMatch: QueryResolvers['getMatch'] = async (_, __, {userId}:Context) => {
   try {
     const matches = await Matchmodel.find({
       $or: [{ user1: userId }, { user2: userId }],

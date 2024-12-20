@@ -1,6 +1,6 @@
 import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 import { Matchmodel } from '../../../../src/models';
-import { updateMatch } from 'apps/1CD/tinder/backend/src/resolvers/mutations';
+import { updateMatch } from '../../../../src/resolvers/mutations';
 
 jest.mock('../../../../src/models', () => ({
   Matchmodel: {
