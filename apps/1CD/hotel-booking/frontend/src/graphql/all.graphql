@@ -83,7 +83,6 @@ mutation AddRoom($input: RoomTypeInput!) {
   }
 }
 
-
 query GetBooking($id: ID) {
   getBooking(_id: $id) {
     _id
@@ -108,10 +107,12 @@ query GetBooking($id: ID) {
         phoneNumber
         images
         hotelAmenities
+        location
       }
       roomName
       roomType
       price
+      amenities
       roomInformation
       createdAt
     }
@@ -132,6 +133,7 @@ query HotelDetail($hotelId: ID!) {
     price
     roomInformation
     createdAt
+    images
   }
 }
 query GetHotel($id: ID!) {

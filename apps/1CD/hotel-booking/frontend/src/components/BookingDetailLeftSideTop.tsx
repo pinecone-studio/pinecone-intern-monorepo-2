@@ -26,7 +26,6 @@ const BookingDetailLeftSideTop = ({ booking }: BookingType) => {
           {booking?.checkInDate && (
             <div className="flex gap-1 text-base">
               <div>{format(booking?.checkInDate, 'EEEE, MMM d,')}</div>
-
               <div>{format(booking?.checkInDate, 'h:mma')}</div>
             </div>
           )}
