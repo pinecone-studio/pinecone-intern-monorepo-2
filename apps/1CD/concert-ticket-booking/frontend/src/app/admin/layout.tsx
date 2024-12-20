@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { AdminHeader } from './home/_components/adminHeader';
+import { AdminHeader } from './home/_components/AdminHeader';
 import { AdminFooter } from './home/_components/AdminFooter';
 
 export const metadata = {

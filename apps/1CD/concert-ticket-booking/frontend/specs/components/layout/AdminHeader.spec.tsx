@@ -17,7 +17,7 @@ describe('AdminHeader Component', () => {
   });
 
   it('should render navigation links correctly', () => {
-    render(<AdminHeaderr />);
+    render(<AdminHeader />);
 
     expect(screen.getByText('Тасалбар')).toBeInTheDocument();
     expect(screen.getByText('Цуцлах хүсэлт')).toBeInTheDocument();
