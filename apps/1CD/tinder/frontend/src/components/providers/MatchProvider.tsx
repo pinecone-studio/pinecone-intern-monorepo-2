@@ -7,16 +7,18 @@ type Matchcontexttype = {
   matchedData:any[]
   refetchmatch:any
   matchloading:boolean
+  matcherror:any
 };
 const Matchcontext = createContext<Matchcontexttype>({} as Matchcontexttype);
 export const MatchProvider = ({ children }: PropsWithChildren) => {
-  const {data, refetch, loading } = useQuery(GET_MATCHEDUSERS);
+  const {data, refetch, loading, error } = useQuery(GET_MATCHEDUSERS);
   const matchedData = data?.getMatch
   const matchloading = loading
+  const matcherror = error
   const refetchmatch = ()=>{
     refetch()
   }
-  return <Matchcontext.Provider value={{ matchedData,refetchmatch, matchloading}}>{children}</Matchcontext.Provider>;
+  return <Matchcontext.Provider value={{ matchedData,refetchmatch, matchloading, matcherror}}>{children}</Matchcontext.Provider>;
 };
 
 export const useMatchedUsersContext = () => useContext(Matchcontext);

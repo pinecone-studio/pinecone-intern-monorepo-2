@@ -21,7 +21,7 @@ export const Chatsidebar = () => {
              <Image src="/profile.jpeg" alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
            </div>
            <div className="flex flex-col gap-1">
-             <p className={`text-sm  ${id==matchedUser._id?"text-red-500":"text-black"}`}>{matchedUser.name} ,{matchedUser.age}</p>
+             <p className={`text-sm  ${id==matchedUser._id?"text-[#E11D48]":"text-black"}`}>{matchedUser.name} ,{matchedUser.age}</p>
              <p className="text-sm text-muted-foreground">{matchedUser.profession}</p>
            </div>
          </button>

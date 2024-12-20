@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Oneuser } from './Oneuser';
 import { Loader } from './Loader';
-import { useEffect } from 'react';
 
 type Props= {
   chatloading :boolean, 

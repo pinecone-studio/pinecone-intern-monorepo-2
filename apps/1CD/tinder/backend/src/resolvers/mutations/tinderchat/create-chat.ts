@@ -8,7 +8,6 @@ export const createChat: MutationResolvers['createChat'] = async (_, { input },{
   try {
     const user1 = userId
     const { user2, content} = input;
-      console.log(user1, user2, 'helllooo new')
       const tinderChat = await Chatmodel.findOne({
         participants: { $all: [user1, user2] }});
       if (!tinderChat) {

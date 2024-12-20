@@ -1,12 +1,9 @@
 import { GraphQLError } from 'graphql';
 import { QueryResolvers } from '../../generated';
-import { Matchmodel } from '../../models/tinderchat/match.model';
-import { Chatmodel, userModel } from '../../models';
-import { ObjectId } from 'mongodb'
+import { Chatmodel, Matchmodel, userModel } from '../../models';
 import { Context } from '../../types';
 
 export const getMatch: QueryResolvers['getMatch'] = async (_, {}, {userId}:Context) => {
-  const objectId = new ObjectId(userId ||"")
   try {
     const matches = await Matchmodel.find({
       $or: [{ user1: userId }, { user2: userId }],
@@ -34,12 +31,12 @@ export const getMatch: QueryResolvers['getMatch'] = async (_, {}, {userId}:Conte
     });
    
     const chats = await Chatmodel.find({
-      participants: { $in: [objectId] , $elemMatch: { $in: uniqueUserIds } }
+      participants: { $in: [userId] , $elemMatch: { $in: uniqueUserIds } }
   
     })
     const usersWithChatStatus = users.map(user => {
       const hasChatted = chats.some(chat => 
-        chat.participants.includes(objectId) && chat.participants.includes(user._id)
+        chat.participants.includes(userId) && chat.participants.includes(user._id)
       );
       return {
         ...user.toObject(),

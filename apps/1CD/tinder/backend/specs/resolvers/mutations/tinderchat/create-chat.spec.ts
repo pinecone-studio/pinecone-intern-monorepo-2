@@ -18,82 +18,71 @@ jest.mock('../../../../src/models/tinderchat/message.model', () => ({
 
 describe('createChat Mutation', () => {
   const mockChatResponse = {
-    _id: '1234567',
-    participants: ['123', '1234'],
+    _id: '6747bf86eef691c549c23463',
+    participants: ['6747bf86eef691c549c23464', '6747bf86eef691c549c23465'],
   };
 
   const mockMessageResponse = {
-    _id: '123456',
-    chatId: '1234567',
+    _id: '6747bf86aaf691c549c23463',
+    chatId: '6747bf86eef691c549c23463',
     content: 'Hi, untaach!',
-    senderId: '123',
+    senderId: '6747bf86eef691c549c23464',
   };
 
-  const mockParticipants = ['123', '1234'];
+  const user2 = '6747bf86eef691c549c23465';
   const mockContent = 'Hi, untaach!';
-  const mockSenderId = '123';
 
-  it('should create a new chat and return the message when no chatId is provided', async () => {
+  it('should create a new chat and message when previously has not chatted', async () => {
+    (Chatmodel.findOne as jest.Mock).mockResolvedValue(null);
     (Chatmodel.create as jest.Mock).mockResolvedValue(mockChatResponse);
     (Messagemodel.create as jest.Mock).mockResolvedValue(mockMessageResponse);
 
     const input = {
-      participants: mockParticipants,
-      content: mockContent,
-      senderId: mockSenderId,
+      user2: user2,
+      content: mockContent
     };
+    const userId ='6747bf86eef691c549c23464'
 
-    const message = await createChat!({}, { input }, {}, {} as GraphQLResolveInfo);
+    const message = await createChat!({}, {input}, {userId}, {} as GraphQLResolveInfo);
 
-    expect(Chatmodel.create).toHaveBeenCalledWith({ participants: mockParticipants });
+    expect(Chatmodel.create).toHaveBeenCalledWith({ participants: [userId, user2] });
     expect(Messagemodel.create).toHaveBeenCalledWith({
       content: mockContent,
-      senderId: mockSenderId,
+      senderId: userId,
       chatId: mockChatResponse._id,
     });
 
     expect(message).toEqual(mockMessageResponse);
   });
-  it('should add a message to an existing chat when chatId is provided', async () => {
-    const mockExistingChat = { _id: '1234567' };
-    const result = await createChat!({}, { input: { participants: ['123', '1234'], content: 'Hi, untaach', senderId: '123', chatId: '1234567' } }, {}, {} as GraphQLResolveInfo);
-    expect(result).toEqual(mockMessageResponse);
-    expect(Chatmodel.findOne).toHaveBeenCalledWith(mockExistingChat);
-    expect(Messagemodel.create).toHaveBeenCalledWith({ content: 'Hi, untaach', senderId: '123', chatId: '1234567' });
-  });
 
-  it('should create a new chat and message if no chat is found for the provided chatId', async () => {
-    (Chatmodel.findOne as jest.Mock).mockResolvedValue({});
-    (Chatmodel.create as jest.Mock).mockResolvedValue(mockChatResponse);
+  it('should create a new message when previously has chatted', async () => {
+    (Chatmodel.findOne as jest.Mock).mockResolvedValue(mockChatResponse);
     (Messagemodel.create as jest.Mock).mockResolvedValue(mockMessageResponse);
 
     const input = {
-      content: mockContent,
-      senderId: mockSenderId,
-      chatId: mockChatResponse._id,
-      participants: mockParticipants,
+      user2: user2,
+      content: mockContent
     };
+    const userId ='6747bf86eef691c549c23464'
 
-    const message = await createChat!({}, { input }, {}, {} as GraphQLResolveInfo);
+    const message = await createChat!({}, {input}, {userId}, {} as GraphQLResolveInfo);
 
-    expect(Chatmodel.findOne).toHaveBeenCalledWith({ _id: mockChatResponse._id });
-    expect(Chatmodel.create).toHaveBeenCalledWith({ participants: mockParticipants });
     expect(Messagemodel.create).toHaveBeenCalledWith({
       content: mockContent,
-      senderId: mockSenderId,
+      senderId: userId,
       chatId: mockChatResponse._id,
     });
+
     expect(message).toEqual(mockMessageResponse);
   });
 
   it('should throw an error when there is an internal server error', async () => {
-    (Chatmodel.create as jest.Mock).mockRejectedValue(new Error('Internal server error'));
-
+    (Chatmodel.findOne as jest.Mock).mockRejectedValue(new Error('Internal server error'));
+    const userId ='6747bf86eef691c549c23464'
     const input = {
-      participants: mockParticipants,
-      content: mockContent,
-      senderId: mockSenderId,
+      user2:user2,
+      content: mockContent
     };
-    await expect(createChat!({}, { input }, {}, {} as GraphQLResolveInfo)).rejects.toThrowError(new GraphQLError('Error occurred while creating the chat or message: Error: Internal server error'));
+    await expect(createChat!({}, { input }, {userId}, {} as GraphQLResolveInfo)).rejects.toThrowError(new GraphQLError('Error occurred while creating the chat or message: Error: Internal server error'));
   });
 });

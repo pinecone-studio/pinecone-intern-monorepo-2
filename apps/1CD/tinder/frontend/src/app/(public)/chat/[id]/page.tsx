@@ -12,11 +12,11 @@ import { useParams } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
 
 const Chat = () => {
-  const { matchedData, matchloading,refetchmatch } = useMatchedUsersContext();
+  const { matchedData, matchloading, refetchmatch, matcherror } = useMatchedUsersContext();
   const [message, setMessage] = useState<string>('');
   const params = useParams<{ id: string }>();
   const { id } = params;
-  const { oneUserloading} = useOneUserContext();
+  const { oneUserloading, oneusererror } = useOneUserContext();
   const [createChat] = useMutation(CREATE_CHAT);
   const user2 = id;
   const { loading, error, data, refetch } = useQuery(GET_CHAT, {
@@ -34,14 +34,13 @@ const Chat = () => {
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
-
   const sendMessage = async () => {
     try {
       await createChat({
         variables: {
           input: {
             content: message,
-            user2:user2,
+            user2: user2,
           },
         },
       });
@@ -54,22 +53,30 @@ const Chat = () => {
   };
   return (
     <>
-      {pageloading? (
+      {pageloading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader />
         </div>
-      ) : matchedData? (
+      ) : matchedData ? (
         <div className="max-w-[1000px] m-auto h-screen flex flex-col">
-        <Matches />
-        <div className="flex flex-1">
-          <Chatsidebar />
-          <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} />
+          <Matches />
+          <div className="flex flex-1">
+            <Chatsidebar />
+            <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} />
+          </div>
         </div>
-      </div>
-      ) : (
-        <div className='flex flex-col justify-center items-center h-screen'>
+      ) : matcherror.message === 'Error occurred: No matches found' ? (
+        <div className="flex flex-col justify-center items-center h-screen">
           <p>No Matches Yet</p>
           <p>Keep swiping, your next match could be just around the corner!</p>
+        </div>
+      ) : oneusererror || error ? (
+        <div className="flex flex-col justify-center items-center h-screen">
+          <p>Error occured try again</p>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center h-screen">
+          <p>Error occured try again</p>
         </div>
       )}
     </>

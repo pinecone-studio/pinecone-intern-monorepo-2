@@ -1,11 +1,12 @@
 import{model, models, Schema} from 'mongoose'
 
-export type Matchmodel = {
+export type MatchmodelType = {
     user1 : string
     user2: string
     matched: boolean
 }
-const Matchschema= new Schema<Matchmodel>({
+
+const Matchschema= new Schema<MatchmodelType>({
     user1:{
         type:String,
         required:true
@@ -18,4 +19,5 @@ const Matchschema= new Schema<Matchmodel>({
         type: Boolean
     }
 })
+
 export const Matchmodel = models ['match'] || model ('Match', Matchschema)
