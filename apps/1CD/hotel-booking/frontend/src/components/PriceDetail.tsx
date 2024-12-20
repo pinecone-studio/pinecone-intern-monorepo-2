@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+"use client"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 
@@ -16,22 +16,22 @@ const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean
             </button>
           </DialogTitle>
         </DialogHeader>
-
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm font-normal">2 night</p>
-              <p className="text-sm font-normal text-muted-foreground">₮{room?.price} per night</p>
-            </div>
-            <div className="text-sm font-medium">₮ 150,000</div>
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-sm font-normal">2 night</p>
+            <p className="text-sm font-normal text-muted-foreground">₮{room?.price} per night</p>
           </div>
-          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-          <div className="flex justify-between">
-            <div className="text-sm font-medium">Total price</div>
-            <div className="text-lg font-semibold">₮ 300,000</div>
-          </div>
-
-        <div className='w-full items-center'>
-          <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">Reserve</Link>
+          <div className="text-sm font-medium">₮ 150,000</div>
+        </div>
+        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+        <div className="flex justify-between">
+          <div className="text-sm font-medium">Total price</div>
+          <div className="text-lg font-semibold">₮ 300,000</div>
+        </div>
+        <div className="w-full bg-[#2563EB] rounded-md py-2 px-3">
+          <Link href={`/checkout/${room._id}`} className="text-white flex justify-center">
+            Reserve
+          </Link>
         </div>
       </DialogContent>
     </Dialog>
