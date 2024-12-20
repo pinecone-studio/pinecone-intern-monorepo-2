@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AdminHeader } from '@/app/admin/home/_components/adminHeader';
 
+
 jest.mock('lucide-react', () => ({
   User: () => <div data-testid="user-icon">User</div>,
 }));
