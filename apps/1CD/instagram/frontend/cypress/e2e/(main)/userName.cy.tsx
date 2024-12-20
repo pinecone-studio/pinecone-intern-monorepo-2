@@ -31,20 +31,46 @@ describe('user profile page', () => {
           },
         });
       }
-    }).as('GetMyPostsQuery');
+    }).as('GetMyPosts');
     cy.visit('/home/erdek');
   });
 
-  it('4. Should display no posts infos when something wrong', () => {
+  // it('4. Should display nopost components when have zero post', () => {
+  //   cy.intercept('GET', 'api/graphql', (req) => {
+  //     if (req.body.operationName === 'getMyPosts') {
+  //       req.reply({
+  //         statusCode: 200,
+  //         body: {
+  //           data: {
+  //             MyPosts: [],
+  //           },
+  //         },
+  //       });
+  //     }
+  //   }).as('GetMyPosts');
+  //   cy.visit('/home/erdek');
+  //   cy.get('[data-cy="zeroPost"]').should('be.visible');
+  // });
+
+  it('5. Should display error statements when something wrong', () => {
     cy.intercept('GET', 'api/graphql', (req) => {
       if (req.body.operationName === 'getMyPosts') {
         req.reply({ statusCode: 400, body: { errors: { message: 'Something wrong' } } });
       }
-    }).as('GetMyPostsQuery');
+    }).as('GetMyPosts');
     cy.visit('/home/erdek');
     // cy.wait('@getMyPosts');
 
     cy.get('[data-cy="postnumberError"]').contains('Something wrong').should('be.visible');
     cy.get('[data-cy="postsError"]').contains('Something wrong').should('be.visible');
+  });
+  it('6. Should handle image then upload and save data', () => {
+    cy.intercept('POST', 'https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', (req) => {
+      if (req.body.operationName === 'changeProfileImg') {
+        req.reply({ statusCode: 200, body: { secureUrl: 'http://example.com/profileImage11.jpg' } });
+      }
+    }).as('changeProfileImg');
+
+    cy.visit('/home/erdek');
   });
 });

@@ -107,10 +107,12 @@ query GetBooking($id: ID) {
         phoneNumber
         images
         hotelAmenities
+        location
       }
       roomName
       roomType
       price
+      amenities
       roomInformation
       createdAt
     }
@@ -132,6 +134,7 @@ query HotelDetail($hotelId: ID!) {
     images
     roomInformation
     createdAt
+    images
   }
 }
 query GetHotel($id: ID!) {
@@ -146,6 +149,7 @@ query GetHotel($id: ID!) {
     images
   }
 }
+
 
 mutation Login($input: LoginInput!) {
   login(input: $input) {
@@ -175,3 +179,5 @@ mutation SetPassword($input: PasswordInput!) {
     email
   }
 }
+
+
