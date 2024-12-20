@@ -1,8 +1,8 @@
 import React from 'react';
 import ChangePassword from '../_components/ChangePassword';
 
-const Page = () => {
+const ChangePasswordPage = () => {
   return <ChangePassword />;
 };
 
-export default Page;
+export default ChangePasswordPage;
