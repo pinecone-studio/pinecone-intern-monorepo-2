@@ -129,6 +129,7 @@ query HotelDetail($hotelId: ID!) {
     roomName
     roomType
     price
+    images
     roomInformation
     createdAt
   }
