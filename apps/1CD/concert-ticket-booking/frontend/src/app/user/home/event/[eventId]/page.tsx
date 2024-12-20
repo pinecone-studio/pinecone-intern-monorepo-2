@@ -25,12 +25,12 @@ const Page = () => {
         {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
         <DetailTop event={data?.getEventById as Event} />
       </div>
-      <div className="flex justify-around py-12 m-auto px-52">
-        <div data-cy="Detail-Page">
+      <div className="flex justify-around py-12 m-auto px-52 max-w-[1400px]">
+        <div data-cy="Event-Detail">
           {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
           <EventDetail event={data?.getEventById as Event} />
         </div>
-        <div data-cy="Detail-Page">
+        <div data-cy="Ticket-Detail">
           {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
           <TicketDetail event={data?.getEventById as Event} />
         </div>
