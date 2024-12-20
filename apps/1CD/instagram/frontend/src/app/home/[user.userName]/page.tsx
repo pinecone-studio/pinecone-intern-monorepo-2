@@ -76,7 +76,7 @@ const UserProfile = () => {
           {/* {loading && <Skeleton className="h-[75vh] w-full" />} */}
           {error && (
             <p className="font-normal" data-cy="postsError">
-              Something wrong
+              Something wrong.
             </p>
           )}
           {data?.getMyPosts.length === 0 && <NoPost data-cy="postNoData" />}
