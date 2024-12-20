@@ -36,6 +36,10 @@ export const typeDefs = gql`
     removeFollower(_id: ID!): FollowInfo!
   }
 
+  type Mutation {
+    unfollow(_id: ID!): FollowInfo!
+  }
+
   type Query {
     seeFollowings(followerId: ID!): [FollowingInfo!]!
   }
