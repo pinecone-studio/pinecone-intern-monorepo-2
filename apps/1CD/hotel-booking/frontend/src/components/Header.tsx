@@ -1,4 +1,10 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+
 const Header = () => {
+  const router = useRouter();
+
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
       <div className="bg-[#013B94] py-4 min-h-[230px] md:min-h-[250px]">
@@ -9,8 +15,20 @@ const Header = () => {
               <p className="text-lg font-medium text-white">Pedia</p>
             </div>
             <div className="flex gap-4">
-              <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Register</p>
-              <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Sign in</p>
+              <button
+                onClick={() => {
+                  router.push('/signup');
+                }}
+              >
+                <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Register</p>
+              </button>
+              <button
+                onClick={() => {
+                  router.push('/login');
+                }}
+              >
+                <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Sign in</p>
+              </button>
             </div>
           </div>
 
