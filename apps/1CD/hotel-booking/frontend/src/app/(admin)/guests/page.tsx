@@ -1,11 +1,20 @@
+'use client';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 import { Input } from '@/components/ui/input';
 
-import DataTable from './_components/DataTable';
 import StatusSelect from './_components/Select';
+import React from 'react';
+import { useGetBookingsQuery } from '@/generated';
+import DataTable from './_components/DataTable';
 
 const Page = () => {
+  const { data } = useGetBookingsQuery();
+  // const [foundBookings, setFoundBookings] = useState([]);
+
+  // const searchedData = getBookings?.filter((data) => (
+
+  // ));
   return (
     <section className="w-screen bg-gray-50">
       <SidebarTrigger />
@@ -17,7 +26,9 @@ const Page = () => {
             <StatusSelect />
           </div>
         </div>
-        <DataTable />;
+        {data?.getBookings?.map((bookingsData) => (
+          <DataTable key={bookingsData._id} bookingsData={bookingsData} />
+        ))}
       </section>
     </section>
   );

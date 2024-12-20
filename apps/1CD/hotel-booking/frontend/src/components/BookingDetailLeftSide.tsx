@@ -5,6 +5,7 @@ import BookingDetailLeftSideBottom from './BookingDetailLeftSideBottom';
 import BookingDetailLeftSideMid from './BookingDetailLeftSideMid';
 import BookingDetailLeftSideTop from './BookingDetailLeftSideTop';
 export type BookingType = {
+  _id: ReactNode;
   booking: ReturnBooking | undefined | null;
 };
 const BookingDetailLeftSide = ({ booking }: BookingType) => {
