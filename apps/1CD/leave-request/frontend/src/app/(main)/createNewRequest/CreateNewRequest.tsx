@@ -7,6 +7,23 @@ import { SelectRequestType } from './SelectRequestType';
 import { useFormik } from 'formik';
 import { ChooseHourlyOrDaily } from './SelectType';
 import { uploadFilesInCloudinary } from '@/utils/upload-files';
+import { useMessage } from '@/context/MessageContext';
+import Image from 'next/image';
+
+const RequestSuccessDiv = () => {
+  return (
+    <div className='fixed inset-0 flex justify-center items-center bg-[#0000004D]'>
+    
+      <div className="max-w-[608px] text-center w-full flex flex-col items-center gap-8 p-8 broder-[1px] border-[#E4E4E7] rounded-[8px] inset-x-auto bg-[#FFFFFF]">
+        <Image src={'/sent.png'} alt="Success" width={80} height={80} />
+        <div>
+          <h1 className='text-2xl text-center'>Амжилттай илгээгдлээ </h1>
+          <span className=' text-sm text-[#71717A]'>Таны хүсэлттэй ахлах ажилтан танилцсаны дараа хариуг танд Teams Chat-аар мэдэгдэх болно.</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export interface RequestFormValues {
   requestType: string;
@@ -20,6 +37,7 @@ export interface RequestFormValues {
 
 export const CreateNewRequest = ({ email }: { email: string }) => {
   const { data } = useCreateRequestQuery({ variables: { email } });
+  const { setMessage } = useMessage();
   const [createRequest] = useCreatesRequestMutation();
   const formik = useFormik<RequestFormValues>({
     initialValues: {
@@ -33,16 +51,11 @@ export const CreateNewRequest = ({ email }: { email: string }) => {
     },
     onSubmit: async () => {
       try {
-        const optionalFileUrl = formik.values.optionalFile
-          ? await uploadFilesInCloudinary(formik.values.optionalFile)
-          : '';
-    
+        const optionalFileUrl = formik.values.optionalFile ? await uploadFilesInCloudinary(formik.values.optionalFile) : '';
+
         const { requestType, requestDate, startTime, endTime, supervisorEmail, message } = formik.values;
 
-        console.log(formik.values)
-    
-        
-    
+
         const variables = {
           requestType,
           requestDate,
@@ -53,13 +66,16 @@ export const CreateNewRequest = ({ email }: { email: string }) => {
           email,
           optionalFile: optionalFileUrl,
         };
-    
+
         await createRequest({ variables });
+
+        formik.resetForm()
+
+        setMessage(<RequestSuccessDiv />);
       } catch (error) {
         console.error('Submission error:', error);
       }
-    }
-    
+    },
   });
 
   return (

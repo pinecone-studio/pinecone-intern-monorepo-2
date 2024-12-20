@@ -1,3 +1,4 @@
+'use client';
 import { ComboboxDemo } from '@/app/header-filter/TravelerSelection';
 import { DatePickerWithRange } from '../DatePicker';
 import { Button } from '@/components/ui/button';

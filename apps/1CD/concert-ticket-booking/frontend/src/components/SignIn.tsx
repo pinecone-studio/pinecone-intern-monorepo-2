@@ -48,7 +48,13 @@ const SignIn = () => {
   };
   if (loading) return <LoadingSpinner />;
   return (
-    <div data-cy="Sign-In-Page" className="flex min-h-[calc(100vh-314px)] bg-black align-center px-4 py-6">
+    <div
+      data-cy="Sign-In-Page"
+      className="flex min-h-[calc(100vh-1px)] bg-black align-center px-4 py-6"
+      style={{
+        background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
+      }}
+    >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

@@ -1,6 +1,6 @@
 describe('checkout page', () => {
   beforeEach(() => {
-    cy.visit('/checkout');
+    cy.visit('/checkout/6757dfb4687cb83ca69ff3cb');
   });
   it('1. Checkout-Home-Page is render', () => {
     cy.get('[data-cy=Checkout-Home-Page]').should('be.visible');
