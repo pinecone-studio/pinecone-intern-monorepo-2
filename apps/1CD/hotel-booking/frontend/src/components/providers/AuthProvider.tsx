@@ -30,6 +30,8 @@ type AuthContextType = {
   sendOtp: (_params: SendOtpParams) => void;
   setPassword: (_params: PasswordParams) => void;
   user: User | null;
+  loginButton: () => void;
+  signupButton: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -37,6 +39,13 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+
+  const loginButton = () => {
+    router.push('/login');
+  };
+  const signupButton = () => {
+    router.push('/signup');
+  };
 
   const [signinMutation] = useLoginMutation();
   const [sendOtpMutation] = useSendOtpMutation();
@@ -118,7 +127,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, user }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
