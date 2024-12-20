@@ -65,6 +65,7 @@ export const typeDefs = gql`
 
   type Query {
     getUser: User!
+    getOneUser(_id: ID!): User!
   }
 
   type Query {
