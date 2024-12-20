@@ -8,15 +8,15 @@ type DateRange = {
   to?: Date;
 };
 
-export const combineDateAndTime = (dateRange: DateRange, time: Time): Date[] => {
+export const combineDateAndTime = (dateRange: DateRange, time: Time): string[] => {
   const { from, to } = dateRange;
   const { hour, minute } = time;
-  const setTime = (date: Date, hour: string, minute: string): Date => {
+  const setTime = (date: Date, hour: string, minute: string): string => {
     const newDate = new Date(date);
     newDate.setHours(parseInt(hour, 10), parseInt(minute, 10), 0, 0);
-    return newDate;
+    return newDate.toISOString();
   };
-  const result: Date[] = [];
+  const result: string[] = [];
   const currentDate = new Date(from);
   currentDate.setHours(0, 0, 0, 0);
   result.push(setTime(currentDate, hour, minute));
