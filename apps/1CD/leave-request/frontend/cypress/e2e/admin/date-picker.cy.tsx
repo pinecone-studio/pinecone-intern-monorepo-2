@@ -1,5 +1,11 @@
 describe('DatePicker Component', () => {
+  
   beforeEach(() => {
+    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
+    cy.setCookie(
+      'authtoken',
+      token
+    );
     cy.visit('/admin');
   });
   it('should navigate to previous month when clicking previous button', () => {
