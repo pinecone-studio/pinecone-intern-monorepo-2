@@ -1,4 +1,4 @@
-import { AdminFooter } from '@/app/admin/home/_components/adminFooter';
+import { AdminFooter } from '@/app/admin/home/_components/AdminFooter';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 

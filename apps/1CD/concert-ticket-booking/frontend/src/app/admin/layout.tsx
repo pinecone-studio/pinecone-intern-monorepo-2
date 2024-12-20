@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { AdminHeader } from './home/_components/adminHeader';
-import { AdminFooter } from './home/_components/adminFooter';
+import { AdminFooter } from './home/_components/AdminFooter';
 
 export const metadata = {
   title: 'Welcome to example-frontend',

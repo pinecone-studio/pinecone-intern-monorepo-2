@@ -31,7 +31,7 @@ export const AdminHeader = () => {
       <div className="flex justify-between w-[1600px] mb-5">
         <div className="flex items-center justify-between md:justify-start gap-3">
           <div className="size-8 bg-sky-400 rounded-full"></div>
-          <p className="text-4xl">TICKET BOOKING</p>
+          <p className="text-4xl ">TICKET BOOKING</p>
         </div>
         <div>
           <User />
