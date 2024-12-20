@@ -10,7 +10,6 @@ describe('getOneUser', () => {
     _id: mockUserId,
     userName: 'testUser',
     fullName: 'Test User',
-    email: 'test@example.com',
   };
 
   beforeEach(() => {

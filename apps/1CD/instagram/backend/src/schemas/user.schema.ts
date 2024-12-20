@@ -26,6 +26,19 @@ export const typeDefs = gql`
     resetPasswordTokenExpire: Date
   }
 
+  type OtherUser {
+    _id: ID!
+    userName: String!
+    fullName: String!
+    bio: String
+    profileImg: String
+    accountVisibility: AccountVisibility!
+    followerCount: Int!
+    followingCount: Int!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
   type AuthResponse {
     user: User!
     token: String!
@@ -65,7 +78,7 @@ export const typeDefs = gql`
 
   type Query {
     getUser: User!
-    getOneUser(_id: ID!): User!
+    getOneUser(_id: ID!): OtherUser!
   }
 
   type Query {
