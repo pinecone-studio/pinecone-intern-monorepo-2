@@ -1,23 +1,23 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { useGetMyPostsQuery } from '@/generated';
-import { NoPost } from '@/components/user-profile/NoPost';
+
 import { Grid3x3, Save, Settings } from 'lucide-react';
+import { useState } from 'react';
+import ProImg from '@/components/user-profile/ChangeProImg';
 
 const UserProfile = () => {
-  const { user } = useAuth();
+  const { user, changeProfileImg } = useAuth();
   const { data, error } = useGetMyPostsQuery();
+  const [proImgData, setProImgData] = useState<string>('');
 
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
         <div className="flex flex-row justify-evenly mb-10">
           <section>
-            <div className="relative w-36 h-36 rounded-full">
-              <Image src={user?.profileImg ? user.profileImg : '/images/Logo.png'} alt="profilezurag" fill className="absolute rounded-full" data-cy="proImage" />
-            </div>
+            <ProImg changeProfileImg={changeProfileImg} proImgData={proImgData} setProImgData={setProImgData} _id={user?._id} prevProImg={user?.profileImg || ''} />
           </section>
           <div className="flex flex-col justify-between">
             <div className="flex flex-row items-center space-x-4">
@@ -39,18 +39,22 @@ const UserProfile = () => {
                       Something wrong
                     </p>
                   )}
-                  <h1 className="font-normal" data-cy="PostNumberDone">
+                  <h1 className="font-normal" data-cy="postNumberDone">
                     {data?.getMyPosts.length}
                   </h1>
                 </div>
                 <p>posts</p>
               </div>
-              <div className="flex flex-row space-x-2" data-cy="followerNumber">
-                <h1 className="font-semibold">{user?.followerCount}</h1>
+              <div className="flex flex-row space-x-2">
+                <h1 className="font-semibold" data-cy="followerNumber">
+                  {user?.followerCount}
+                </h1>
                 <p>followers</p>
               </div>
-              <div className="flex flex-row space-x-2" data-cy="followingNumber">
-                <h1 className="font-semibold">{user?.followingCount}</h1>
+              <div className="flex flex-row space-x-2">
+                <h1 className="font-semibold" data-cy="followingNumber">
+                  {user?.followingCount}
+                </h1>
                 <p>following</p>
               </div>
             </div>
@@ -72,14 +76,14 @@ const UserProfile = () => {
             <p>SAVED</p>
           </div>
         </div>
-        <div className="mt-14" data-cy="posts">
+        <div className="mt-14">
           {/* {loading && <Skeleton className="h-[75vh] w-full" />} */}
           {error && (
             <p className="font-normal" data-cy="postsError">
               Something wrong
             </p>
           )}
-          {data?.getMyPosts.length === 0 && <NoPost data-cy="postNoData" />}
+          {/* {data?.getMyPosts.length === 0 && <NoPost />} */}
         </div>
       </div>
     </div>

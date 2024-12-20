@@ -31,7 +31,7 @@ const InputArtist = ({ form }: FormProps) => {
     <div className="flex justify-between my-4">
       <div>
         {mainArtistsFields.map((item, index) => (
-          <div key={item.id || index}>
+          <div key={index || item.id}>
             {index === 0 && (
               <FormField
                 control={form.control}
@@ -79,7 +79,7 @@ const InputArtist = ({ form }: FormProps) => {
       </div>
       <div>
         {guestArtistsFields.map((item, index) => (
-          <div key={item.id || index} className="flex items-end gap-3">
+          <div key={index || item.id} className="flex items-end gap-3">
             {index === 0 && (
               <FormField
                 control={form.control}

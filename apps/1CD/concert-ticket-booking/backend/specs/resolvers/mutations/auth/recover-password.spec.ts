@@ -40,7 +40,7 @@ describe('update user info', () => {
 
     const result = await recoverPassword!({}, { input: { password: 'newpassword', resetToken: 'resetToken' } }, { userId: '1' }, {} as GraphQLResolveInfo);
 
-    expect(result).toEqual(mockUser);
+    expect(result).toEqual({ message: 'success' });
 
     expect(crypto.createHash).toHaveBeenCalledWith('sha256');
   });
