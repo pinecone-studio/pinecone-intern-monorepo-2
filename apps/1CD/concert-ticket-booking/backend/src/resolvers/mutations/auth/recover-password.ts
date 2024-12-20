@@ -17,5 +17,5 @@ export const recoverPassword: MutationResolvers['recoverPassword'] = async (_, {
   );
   if (!user) throw new Error('Invalid or expired reset token');
 
-  return user;
+  return { message: 'success' };
 };

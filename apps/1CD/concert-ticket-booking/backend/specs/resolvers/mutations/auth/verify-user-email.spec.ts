@@ -18,8 +18,7 @@ jest.mock('../../../../src/utils/generate-email', () => ({
 describe('verify user email mutation', () => {
   it('should verify user email and sent otp to email ', async () => {
     (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
-      _id: '1',
-      email: 'test@gmail.com',
+      message: 'success',
     });
     (generateOtp as jest.Mock).mockReturnValue('1234');
     (generateEmail as jest.Mock).mockResolvedValueOnce('accepted');
@@ -27,8 +26,7 @@ describe('verify user email mutation', () => {
     const result = await verifyUserEmail!({}, { email: 'test@gmail.com' }, { userId: null }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      _id: '1',
-      email: 'test@gmail.com',
+      message: 'success',
     });
   });
   it('should throw an error if user is not found', async () => {
