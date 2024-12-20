@@ -51,9 +51,7 @@ describe('user change password', () => {
     const result = await changePassword!({}, { input: { oldPassword: 'correctPass', newPassword: 'test1234' } }, { userId: '1' }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual({
-      email: 'test@gmail.com',
-      _id: '1',
-      password: 'newHashedPassword',
+      message: 'success',
     });
     expect(mockUser.save).toHaveBeenCalled();
   });

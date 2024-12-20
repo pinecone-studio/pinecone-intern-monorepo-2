@@ -1,20 +1,27 @@
 'use client';
 import { Cards } from '@/components/StarsStaticJson';
 import Image from 'next/image';
-import CardInformation from './CardInformation';
+import CardInformation from '../CardInformation';
 import BookingImportantInformation from '@/components/BookingImportantInformation';
 import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import BookingInformationInput from './BookingInformationInput';
-import { PaymentStatus, useAddPaymentMutation } from '@/generated';
+import BookingInformationInput from '../BookingInformationInput';
+import { PaymentStatus, useAddPaymentMutation, useGetBookingQuery } from '@/generated';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { BookingPageRightSide } from '@/components/BookingPageRightSide';
+import { useRouter } from 'next/navigation';
 
-const Page = () => {
-  const [addPayment, { loading }] = useAddPaymentMutation();
+const Page = ({ params }: { params: { id: string } }) => {
+  const [addPayment, { loading: mutationLoading }] = useAddPaymentMutation();
+  const { data, loading } = useGetBookingQuery({
+    variables: {
+      id: params.id,
+    },
+  });
+  const router = useRouter();
   const validationSchema = yup.object({
     cardNumber: yup.string().required('card information is all required'),
     cardName: yup.string().required('card information is all required'),
@@ -60,10 +67,12 @@ const Page = () => {
           borderColor: 'green',
         },
       });
+      router.push(`/booking-confirm/${params.id}`);
     },
 
     validationSchema,
   });
+  if (loading) return <div>loading...</div>;
   return (
     <form data-cy="Checkout-Home-Page" onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-[60px] flex gap-16">
       <div className="max-w-[581px] w-full">
@@ -85,13 +94,13 @@ const Page = () => {
         <div className="h-[1px] w-full bg-[#E4E4E7] my-[40px]"></div>
         <BookingImportantInformation />
         <div className="flex justify-end mt-8">
-          <Button data-cy="Complete-Booking-Button" disabled={loading} type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-300">
-            {loading ? <Loader2 /> : 'Complete Booking'}
+          <Button data-cy="Complete-Booking-Button" disabled={mutationLoading} type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-300">
+            {mutationLoading ? <Loader2 /> : 'Complete Booking'}
           </Button>
         </div>
       </div>
       <Toaster />
-      <BookingPageRightSide />
+      <BookingPageRightSide booking={data?.getBooking} />
     </form>
   );
 };
