@@ -19,7 +19,7 @@ const TinderSwipe = () => {
   const [duration, setDuration] = useState(0.3);
 
   const swipeLeft = () => {
-    setDuration(0.3);
+    setDuration(0.5);
     setRotate(-30);
     currentPosition.current = { x: -1500, y: 0 };
     removeTopCard();
@@ -29,7 +29,7 @@ const TinderSwipe = () => {
   };
 
   const swipeRight = () => {
-    setDuration(0.3);
+    setDuration(0.5);
     setRotate(30);
     currentPosition.current = { x: 1500, y: 0 };
     removeTopCard();
@@ -45,7 +45,7 @@ const TinderSwipe = () => {
         cards.shift();
         setCards(cards);
       }, 300);
-    }, 298);
+    }, 299);
   };
 
   const handleDrag = (event: any, info: any) => {
@@ -105,7 +105,7 @@ const TinderSwipe = () => {
             onDrag={handleDrag}
             dragSnapToOrigin
             dragMomentum={false}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
+            dragTransition={{ bounceStiffness: 800, bounceDamping: 20 }}
             onDragEnd={handleDragEnd}
             animate={{
               x: currentPosition.current.x,
