@@ -35,3 +35,43 @@ query GetEvents($filter: EventsFilter) {
     }
   }
 }
+
+query GetEventById($id: ID!) {
+  getEventById(_id: $id) {
+    _id
+    category
+    description
+    discount
+    image
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    guestArtists {
+      name
+    }
+    priority
+    venue {
+      _id
+      capacity
+      image
+      location
+      name
+      size
+    }
+    products {
+      _id
+      scheduledDay
+      ticketType {
+        _id
+        additional
+        discount
+        soldQuantity
+        totalQuantity
+        unitPrice
+        zoneName
+      }
+    }
+  }
+}

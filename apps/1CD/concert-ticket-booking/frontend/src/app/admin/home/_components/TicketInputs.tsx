@@ -19,7 +19,7 @@ const InputForm = ({ form }: FormProps) => {
     <Form {...form}>
       <div className="flex gap-2 my-4" data-testid="ticket-type-fields">
         {ticketsFields.map((item, index) => (
-          <div key={item.id || index} className="flex flex-col gap-2" data-testid={`ticket-type-${index}`}>
+          <div key={index} className="flex flex-col gap-2" data-testid={`ticket-type-${index}`}>
             <FormField
               control={form.control}
               name={`ticketType.${index}.zoneName`}

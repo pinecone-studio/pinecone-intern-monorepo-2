@@ -1,7 +1,37 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Image from 'next/image';
 
-const Header = () => {
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import WhoAmI from '@/utils/decode-token';
+import Image from 'next/image';
+import Link from 'next/link';
+
+const adminHeader = [
+  { label: 'Employee List', value: 'emloyeeList' },
+  { label: 'Leave Calendar', value: 'leaveCalendar' },
+  { label: 'Leave requests', value: 'leaveRequests' },
+];
+const supervisorHeader = [
+  { label: 'Pending Requests', value: 'pendingRequests' },
+  { label: 'Leave Calendar', value: 'leaveCalendar' },
+  { label: 'My requests', value: 'myRequests' },
+  { label: 'Request Form', value: 'requestForm' },
+];
+const superviseeHeader = [
+  { label: 'My requests', value: 'myRequests' },
+  { label: 'Request Form', value: 'requestForm' },
+  { label: 'Leave Calendar', value: 'leaveCalendar' },
+];
+
+const getCorrectNavBar = async () => {
+  const decoded = await WhoAmI();
+  const { role } = decoded as { role: string };
+  return (role == 'supervisee' && superviseeHeader) || (role == 'supervisor' && supervisorHeader) || adminHeader;
+};
+
+const Header = async () => {
+
+
+
+  const NavBar = await getCorrectNavBar();
   return (
     <header className="flex flex-col h-16 gap-4 px-6 pt-4">
       <div className="flex items-center justify-between gap-4">
@@ -22,10 +52,10 @@ const Header = () => {
         </div>
       </div>
       <nav className="hidden md:flex gap-6 text-sm font-medium text-[#09090B]">
-        {['Employee List', 'Leave Calendar', 'Leave Requests'].map((item, index) => (
-          <a key={index} href={item.replace(' ', '')} className="px-3 py-2 border-b-gray-500 hover:border-b-black hover:text-blue-600">
-            {item}
-          </a>
+        {NavBar.map((item) => (
+          <Link key={item.value} href={`/${item.value}`} className={`px-3 py-2 pb-3.5 `}>
+            {item.label}
+          </Link>
         ))}
       </nav>
     </header>

@@ -48,6 +48,6 @@ describe('update user info', () => {
 
     expect(sendEmailWithLink).toHaveBeenCalledWith('test@email.com', 'reset-token');
 
-    expect(result).toEqual(mockUser);
+    expect(result).toEqual({ message: 'success' });
   });
 });

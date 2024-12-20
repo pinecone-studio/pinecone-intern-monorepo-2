@@ -1,5 +1,6 @@
 'use client';
-import * as React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -22,6 +23,7 @@ import { useCreateEventMutation } from '@/generated';
 import { toast } from 'sonner';
 
 const CreateEventModal = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm<z.infer<typeof EventInputSchema>>({
     resolver: zodResolver(EventInputSchema),
     defaultValues: {
@@ -39,10 +41,11 @@ const CreateEventModal = () => {
   const [createEvent, { loading }] = useCreateEventMutation({
     onCompleted: () => {
       toast.success('Successfully created');
+      setDialogOpen(false);
     },
-    // onError: (error) => {
-    //   toast.error(error.message);
-    // },
+    onError: () => {
+      toast.error('An error occurred');
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof EventInputSchema>) => {
@@ -53,7 +56,7 @@ const CreateEventModal = () => {
     });
   };
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="default" className="inline-flex items-center justify-center" data-testid="create-event-button">
           Тасалбар нэмэх <CirclePlus className="w-5 h-5 ml-2" />
