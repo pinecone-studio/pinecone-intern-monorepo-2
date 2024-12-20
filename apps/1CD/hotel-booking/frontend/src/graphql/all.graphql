@@ -12,36 +12,6 @@ query GetHotels {
     phoneNumber
   }
 }
-getBookings {
-    _id
-    userId{
-      _id
-      email
-      firstName
-      lastName
-      phoneNumber
-    } 
-    roomId {
-      id
-      hotelId {
-        _id
-        hotelName
-        description
-      }
-      roomName
-      roomType
-      price
-      roomInformation
-      createdAt
-      amenities
-      images
-    }
-    hotelId
-    checkInDate
-    checkOutDate
-    totalPrice
-    status
-  }
 mutation Mutation {
   sampleMutation
 }
