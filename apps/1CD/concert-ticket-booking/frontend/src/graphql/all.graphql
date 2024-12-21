@@ -47,3 +47,8 @@ mutation VerifyUserEmail($email: String!) {
     message
   }
 }
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    message
+  }
+}
