@@ -1,7 +1,7 @@
-import { userModel } from '../../../../src/models';
+import { userModel } from '../../../../../src/models';
 import { setPassword } from 'src/resolvers/mutations';
 
-jest.mock('../../../../src/models', () => ({
+jest.mock('../../../../../src/models', () => ({
   userModel: {
     create: jest
       .fn()
