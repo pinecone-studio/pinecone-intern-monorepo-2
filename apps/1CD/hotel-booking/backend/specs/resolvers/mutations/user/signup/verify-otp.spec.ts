@@ -1,9 +1,9 @@
 import { otpModel } from 'src/models';
-import { verifyOtp } from '../../../../src/resolvers/mutations';
+import { verifyOtp } from '../../../../../src/resolvers/mutations';
 import { GraphQLResolveInfo } from 'graphql';
 import { Response } from 'src/generated';
 
-jest.mock('../../../../src/models', () => ({
+jest.mock('../../../../../src/models', () => ({
   otpModel: {
     findOne: jest.fn(),
     deleteOne: jest.fn(),
