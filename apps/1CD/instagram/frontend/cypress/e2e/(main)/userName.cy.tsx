@@ -33,26 +33,27 @@ describe('user profile page', () => {
       }
     }).as('GetMyPosts');
     cy.visit('/home/erdek');
+    cy.get('[data-cy="myPosts"]').should('be.visible');
   });
 
-  // it('4. Should display nopost components when have zero post', () => {
-  //   cy.intercept('GET', 'api/graphql', (req) => {
-  //     if (req.body.operationName === 'getMyPosts') {
-  //       req.reply({
-  //         statusCode: 200,
-  //         body: {
-  //           data: {
-  //             MyPosts: [],
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }).as('GetMyPosts');
-  //   cy.visit('/home/erdek');
-  //   cy.get('[data-cy="zeroPost"]').should('be.visible');
-  // });
+  it('4. Should display nopost components when have zero post', () => {
+    cy.intercept('GET', 'api/graphql', (req) => {
+      if (req.body.operationName === 'getMyPosts') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              MyPosts: [],
+            },
+          },
+        });
+      }
+    }).as('GetMyPosts');
+    cy.visit('/home/erdek');
+    cy.get('[data-cy="zeroPost"]').should('be.visible');
+  });
 
-  it('5. Should display error statements when something wrong', () => {
+  it('5. Should display error statements when something wrong in get posts', () => {
     cy.intercept('GET', 'api/graphql', (req) => {
       if (req.body.operationName === 'getMyPosts') {
         req.reply({ statusCode: 400, body: { errors: { message: 'Something wrong' } } });
