@@ -17,7 +17,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body className="">
         <ApolloWrapper authToken={authToken}>
-          <MatchProvider>
+          <MatchProvider >
             <OneUserProvider>
               <div className="max-w-[1280px] mx-auto">
                 {children}

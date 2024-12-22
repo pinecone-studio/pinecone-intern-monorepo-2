@@ -4,6 +4,7 @@ import { UPDATE_MATCH } from '@/graphql/chatgraphql';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { useMatchedUsersContext } from './providers/MatchProvider';
+import { toast } from 'sonner';
 type Props = {
   open:boolean,
   closeDialog: () => void
@@ -18,6 +19,7 @@ export const Unmatch = ({ open, closeDialog, user1, user2 }: Props ) => {
   const afterunmatch = ()=>{
     router.push('/chat')
     refetchmatch()
+    
   }
   const unmatch =async ()=>{
     try{
@@ -31,7 +33,7 @@ export const Unmatch = ({ open, closeDialog, user1, user2 }: Props ) => {
       }).finally(()=> afterunmatch())
     }
     catch(error){
-      console.error('Error sending message:', error);
+      toast.error('Error occured. Please try again');
     }
   }
   return (

@@ -26,6 +26,14 @@ query GetUser {
   }
 }
 
+query SearchUsers($searchTerm: String!) {
+  searchUsers(searchTerm: $searchTerm) {
+    _id
+    userName
+    fullName
+  }
+}
+
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
     user {
@@ -67,5 +75,12 @@ mutation ConfirmFollowReq($id: ID!) {
     followingId
     status
     updatedAt
+  }
+}
+
+mutation ChangeProImg($input: UpdateInput!) {
+  updateUserData(input: $input) {
+    _id
+    profileImg
   }
 }

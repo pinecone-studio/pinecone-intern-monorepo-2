@@ -62,7 +62,11 @@ const Forgetpassword = () => {
             <p className="bg-white px-5 z-50 font-bold">OR</p>
           </div>
           <div className="w-full flex flex-col items-center space-y-5">
-            <p className="">Create new account</p>
+            <Link href="/signup">
+              <Button variant="link" className="">
+                Create new account
+              </Button>
+            </Link>
             <Link href="/" className="w-full">
               <Button className="w-full bg-gray-200 text-black text-base hover:text-white" data-cy="forget-password-jump-login">
                 Back to login

@@ -1,18 +1,17 @@
-// import '@testing-library/jest-dom';
 // import { render, screen, waitFor } from '@testing-library/react';
-// import { useMatchedUsersContext, MatchProvider } from '@/components/providers/MatchProvider';
-
-
 // import { MockedProvider } from '@apollo/client/testing';
+// import { useMatchedUsersContext, MatchProvider } from '../../src/components/providers/MatchProvider';
+// import { useQuery } from '@apollo/client';
 // import { GET_MATCHEDUSERS } from '@/graphql/chatgraphql';
 
-// // Mock the useQuery hook from Apollo Client
+
+
 // jest.mock('@apollo/client', () => ({
 //   ...jest.requireActual('@apollo/client'),
 //   useQuery: jest.fn(),
 // }));
 
-// // Helper component to wrap the useMatchedUsersContext hook and render the UI
+
 // const TestComponent = () => {
 //   const { matchedData, matchloading, matcherror } = useMatchedUsersContext();
   
@@ -55,6 +54,12 @@
 //       },
 //     };
 
+//     (useQuery as jest.Mock).mockReturnValueOnce({
+//       loading: false,
+//       data: mockedData.result.data,
+//       error: null,
+//     });
+
 //     render(
 //       <MockedProvider mocks={[mockedData]} addTypename={false}>
 //         <MatchProvider>
@@ -63,43 +68,29 @@
 //       </MockedProvider>
 //     );
 
-//     // Wait for the data to load
 //     await waitFor(() => screen.getByText('Matched Users'));
 
-//     // Ensure the matched users are displayed
-//     expect(screen.getByText('User 1')).toBeInTheDocument();
-//     expect(screen.getByText('User 2')).toBeInTheDocument();
+//     expect(screen.getByText('User 1'));
+//     expect(screen.getByText('User 2'));
 //   });
 
 //   it('shows loading state when data is loading', () => {
 //     // Mock loading state
-//     const mockedLoading = {
-//       request: {
-//         query: GET_MATCHEDUSERS,
-//       },
-//       result: {
-//         data: null,
-//       },
-//       error: new Error('Data not loaded'),
-//     };
-
-//     useQuery.mockReturnValue({
+//     (useQuery as jest.Mock).mockReturnValueOnce({
 //       loading: true,
 //       data: null,
 //       error: null,
-//       refetch: jest.fn(),
 //     });
 
 //     render(
-//       <MockedProvider mocks={[mockedLoading]} addTypename={false}>
+//       <MockedProvider mocks={[]} addTypename={false}>
 //         <MatchProvider>
 //           <TestComponent />
 //         </MatchProvider>
 //       </MockedProvider>
 //     );
 
-//     // Ensure that loading state is shown
-//     expect(screen.getByText('Loading...')).toBeInTheDocument();
+//     expect(screen.getByText('Loading...'));
 //   });
 
 //   it('shows error message when there is an error', async () => {
@@ -111,11 +102,10 @@
 //       error: new Error('Error occurred'),
 //     };
 
-//     useQuery.mockReturnValue({
+//     (useQuery as jest.Mock).mockReturnValueOnce({
 //       loading: false,
 //       data: null,
 //       error: { message: 'Error occurred' },
-//       refetch: jest.fn(),
 //     });
 
 //     render(
@@ -126,9 +116,8 @@
 //       </MockedProvider>
 //     );
 
-//     // Ensure that error message is shown
 //     await waitFor(() => screen.getByText('Error occurred: Error occurred'));
-//     expect(screen.getByText('Error occurred: Error occurred')).toBeInTheDocument();
+//     expect(screen.getByText('Error occurred: Error occurred'));
 //   });
 
 //   it('shows no matches found when matchedData is empty or null', async () => {
@@ -143,6 +132,12 @@
 //       },
 //     };
 
+//     (useQuery as jest.Mock).mockReturnValueOnce({
+//       loading: false,
+//       data: mockedEmptyData.result.data,
+//       error: null,
+//     });
+
 //     render(
 //       <MockedProvider mocks={[mockedEmptyData]} addTypename={false}>
 //         <MatchProvider>
@@ -151,8 +146,7 @@
 //       </MockedProvider>
 //     );
 
-//     // Ensure that "No matches found" is displayed
 //     await waitFor(() => screen.getByText('No matches found'));
-//     expect(screen.getByText('No matches found')).toBeInTheDocument();
+//     expect(screen.getByText('No matches found'));
 //   });
 // });

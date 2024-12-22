@@ -1,8 +1,9 @@
 'use client';
 import Image from 'next/image';
-import { useMatchedUsersContext } from './providers/MatchProvider';
+
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import { useMatchedUsersContext } from './providers/MatchProvider';
 
 
 export const Matches = () => {

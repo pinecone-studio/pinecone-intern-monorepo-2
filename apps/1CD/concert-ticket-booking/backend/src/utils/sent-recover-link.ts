@@ -40,7 +40,7 @@ export const sendEmailWithLink = async (email: string, resetToken: string): Prom
               border-radius: 4px;
             "
           >
-            <a href="${process.env.EMAIL_API}/recover-password?resetToken=${resetToken}">Нууц үг сэргээх холбоос</a>
+            <a href="${process.env.PASSWORD_RESET_API}/user/recover-password?resetToken=${resetToken}">Нууц үг сэргээх холбоос</a>
           </h2>
           <p style="margin: 0 auto; width: max-content; padding: 0 10px;">
             энэхүү код нь 5 мин хүчинтэй болно.
