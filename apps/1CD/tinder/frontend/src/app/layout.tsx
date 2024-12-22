@@ -3,8 +3,6 @@ import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
-import { MatchProvider } from '@/components/providers/MatchProvider';
-import { OneUserProvider } from '@/components/providers/OneuserProvider';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -17,14 +15,10 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body className="">
         <ApolloWrapper authToken={authToken}>
-          <MatchProvider>
-            <OneUserProvider>
-              <div className="max-w-[1280px] mx-auto">
-                {children}
-                <Toaster />
-              </div>
-            </OneUserProvider>
-          </MatchProvider>
+          <div className="max-w-[1280px] mx-auto">
+            {children}
+            <Toaster />
+          </div>
         </ApolloWrapper>
       </body>
     </html>
