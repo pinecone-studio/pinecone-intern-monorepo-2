@@ -93,7 +93,7 @@ const SignIn = () => {
             ))}
           </div>
           <div className="flex flex-col gap-6">
-            <Button data-testid="Sign-In-Submit-Button" className="p-2 w-full text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
+            <Button data-testid="Sign-In-Submit-Button" className="p-2 w-full hover:text-white text-black bg-[#00B7f4] rounded-sm" type="submit" data-cy="Sign-In-Submit-Button">
               Нэвтрэх
             </Button>
             <p className="w-full text-sm text-center text-zinc-400 ">
