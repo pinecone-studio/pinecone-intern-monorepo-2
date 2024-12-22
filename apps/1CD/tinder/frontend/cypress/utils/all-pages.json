@@ -1,8 +1,1 @@
-<<<<<<< HEAD
-["///","///chat/chatstart","///register/email"]
-=======
-
-["///", "///sign-up/all-set", "///sign-up/image", "///register/birthday", "///register/email", "///register/otp", "///register/password"]
-
-
->>>>>>> main
+["///","///register/birthday","///sign-up/all-set","///sign-up/image","///chat","///chat/[id]","///register/email","///register/otp","///register/password"]

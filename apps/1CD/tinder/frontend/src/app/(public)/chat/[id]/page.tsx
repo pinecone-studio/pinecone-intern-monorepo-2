@@ -35,7 +35,6 @@ const Chat = () => {
     setMessage(e.target.value);
   };
   const sendMessage = async () => {
-    try {
       await createChat({
         variables: {
           input: {
@@ -47,12 +46,9 @@ const Chat = () => {
       setMessage('');
       refetch();
       refetchmatch();
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
   };
   return (
-    <>
+    <div data-cy='Chat-Page-With-Id'>
       {pageloading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader />
@@ -62,7 +58,7 @@ const Chat = () => {
           <Matches />
           <div className="flex flex-1">
             <Chatsidebar />
-            <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} />
+            <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} loading={loading} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} />
           </div>
         </div>
       ) : matcherror.message === 'Error occurred: No matches found' ? (
@@ -79,7 +75,7 @@ const Chat = () => {
           <p>Error occured try again</p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default Chat;

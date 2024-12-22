@@ -8,7 +8,7 @@ import { useMatchedUsersContext } from '@/components/providers/MatchProvider';
 const Chat = () => {
   const { matchedData, matchloading, matcherror } = useMatchedUsersContext();
   return (
-    <>
+    <div data-cy="Chat-Page">
       {matchloading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader />
@@ -34,7 +34,7 @@ const Chat = () => {
           <p>Error occured try again</p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default Chat;

@@ -16,9 +16,9 @@ export const Chatsidebar = () => {
       {matchedData?.map((matchedUser)=>
       matchedUser.hasChatted==true &&
 
-         <button className="py-6 pl-6 pr-[114px] flex justify-center items-center  gap-3 border-b border-t" onClick={()=> handlechat(matchedUser._id)} key={matchedUser._id}>
+         <button className="py-6 pl-6 pr-[114px] flex justify-center items-center  gap-3 border-b border-t" onClick={()=> handlechat(matchedUser._id)} key={matchedUser._id} data-cy={`Matched-User-${matchedUser._id}`}>
            <div className="rounded-full w-12 h-12 overflow-hidden">
-             <Image src="/profile.jpeg" alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
+             <Image src={matchedUser.photos[0]} alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
            </div>
            <div className="flex flex-col gap-1">
              <p className={`text-sm  ${id==matchedUser._id?"text-[#E11D48]":"text-black"}`}>{matchedUser.name} ,{matchedUser.age}</p>

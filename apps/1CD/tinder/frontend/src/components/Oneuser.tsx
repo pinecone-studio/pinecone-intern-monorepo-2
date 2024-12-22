@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Unmatch } from './Dialog';
-import { Loader } from './Loader';
 import { useOneUserContext } from './providers/OneuserProvider';
 
 export const Oneuser = () => {
@@ -19,8 +18,7 @@ export const Oneuser = () => {
 
   return (
     <>
-      <div className="border-t" data-cy="Chat-Part-Page">
-        
+      <div className="border-t" data-cy="Chat-Oneuser-Part">
           <div className="flex justify-between border-b items-center py-[22px] px-6">
             <div className="flex justify-center items-center gap-3">
               <div className="rounded-full w-12 h-12 overflow-hidden">
