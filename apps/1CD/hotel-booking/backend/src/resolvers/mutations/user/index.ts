@@ -1,2 +1,5 @@
 export * from './login';
-export * from './sign-up';
+export * from './signup/verify-otp';
+export * from './signup/send-otp';
+export * from './signup/set-password';
+export * from './forgetPassword/verify-email';

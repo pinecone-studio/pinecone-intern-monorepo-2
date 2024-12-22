@@ -39,9 +39,20 @@ const config: Cypress.ConfigOptions<unknown> = {
       },
     },
     env: {
-      env: {},
+      CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
+      CLOUDINARY_API_KEY: process.env.NEXT_PUBLIC_API_KEY,
+      CLOUDINARY_API_SECRET: process.env.NEXT_PUBLIC_API_SECRET,
     },
   },
 };
 
-export default defineConfig(config);
+export default {
+  ...defineConfig(config),
+
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'webpack',
+    },
+  },
+};

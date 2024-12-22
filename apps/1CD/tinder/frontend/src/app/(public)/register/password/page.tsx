@@ -1,13 +1,9 @@
-import Password from "@/components/register/CreatePassword";
-import { cookies } from "next/headers";
-
-
+import Password from "./_feature/CreatePassword";
 const PasswordPage = async() => {
 
-  const authToken=await cookies().get('authToken')?.value ||'';
   return (
     <div>
-      <Password authToken={authToken}/>
+      <Password />
     </div>
   );
 };

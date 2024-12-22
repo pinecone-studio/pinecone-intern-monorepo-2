@@ -1,0 +1,27 @@
+mutation registerEmail($input: RegisterEmailInput!) {
+  registerEmail(input: $input) {
+    email
+  }
+}
+
+mutation verifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    token
+  }
+}
+
+mutation resendOtp($input: RegisterEmailInput!) {
+  resendOtp(input: $input) {
+    email
+  }
+}
+mutation createPassword($input: CreatePassInput!) {
+  createPassword(input: $input) {
+    email
+  }
+}
+mutation birthdaySubmit($input: BirthdaySubmitInput!) {
+  birthdaySubmit(input: $input) {
+    email
+  }
+}

@@ -10,5 +10,5 @@ export const verifyUserEmail: MutationResolvers['verifyUserEmail'] = async (_, {
 
   generateEmail(email, user.otp);
 
-  return user;
+  return { message: 'success' };
 };

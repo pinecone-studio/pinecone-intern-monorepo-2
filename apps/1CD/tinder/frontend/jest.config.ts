@@ -1,7 +1,5 @@
 /* eslint-disable */
 export default {
-  ...require('@nx/react/plugins/jest'), 
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
   displayName: 'tinder-frontend',
   preset: '../../../../jest.preset.js',
   transform: {

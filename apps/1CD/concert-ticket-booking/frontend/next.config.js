@@ -10,6 +10,9 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
   images: {
     remotePatterns: [
       {
@@ -18,8 +21,12 @@ const nextConfig = {
     ],
   },
   env: {
-    BACKEND_URI: process.env.BACKEND_URI 
-  }
+    BACKEND_URI: process.env.BACKEND_URI,
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    NEXT_PUBLIC_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
+    NEXT_PUBLIC_CLOUD_API_KEY: process.env.NEXT_PUBLIC_CLOUD_API_KEY,
+    NEXT_PUBLIC_CLOUD_API_SECRET: process.env.NEXT_PUBLIC_CLOUD_API_SECRET,
+  },
 };
 
 const plugins = [withNx];
