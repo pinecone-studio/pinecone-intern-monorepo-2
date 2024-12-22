@@ -68,9 +68,6 @@ export const typeDefs = gql`
     birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
     updateUser(name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
     updateAttraction(attraction: String!): RegisterEmailResponse!
-<<<<<<< HEAD
-=======
     imageSubmit(input: ImageSubmitInput!): RegisterEmailResponse!
->>>>>>> main
   }
 `;
