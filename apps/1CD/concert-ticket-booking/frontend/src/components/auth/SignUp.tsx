@@ -101,7 +101,7 @@ const SignUp = () => {
             ))}
           </div>
           <div className="flex flex-col gap-6">
-            <Button data-cy="Sign-Up-Submit-Button" data-testid="Sign-Up-Submit-Button" className="w-full p-2 text-white rounded-sm bg-sky-500" type="submit">
+            <Button data-cy="Sign-Up-Submit-Button" data-testid="Sign-Up-Submit-Button" className="w-full p-2 text-black hover:text-white rounded-sm bg-sky-500" type="submit">
               Бүртгүүлэх
             </Button>
             <p className="w-full text-xs text-center text-zinc-400">
