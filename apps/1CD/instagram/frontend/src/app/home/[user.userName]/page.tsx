@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetMyPostsQuery } from '@/generated';
+import { useGetFollowersQuery, useGetMyPostsQuery } from '@/generated';
 
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -10,11 +10,12 @@ import { NoPost } from '@/components/user-profile/NoPost';
 import Image from 'next/image';
 
 const UserProfile = () => {
-  const { user, changeProfileImg } = useAuth();
+  const { user, changeProfileImg, getFollowings } = useAuth();
   const { data, error } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  console.log('zurag harah', data?.getMyPosts);
-  console.log('useriigharah', user?._id);
+  const followings = async () => {
+    await getFollowings({ followerId: user?._id! });
+  };
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -50,7 +51,7 @@ const UserProfile = () => {
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followerNumber">
-                  {user?.followerCount}
+                  {followers?.length ? followers.length : 0}
                 </h1>
                 <p>followers</p>
               </div>
@@ -70,11 +71,11 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="border-t-4 border-t-gray-200 flex relative">
-          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 left-[40%]">
+          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 left-[40%]">
             <Grid3x3 />
             <p>POSTS</p>
           </div>
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 right-[40%]">
+          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 right-[40%]">
             <Save />
             <p>SAVED</p>
           </div>
