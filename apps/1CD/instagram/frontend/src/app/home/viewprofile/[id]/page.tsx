@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+// import PrivateProfile from '@/components/visit-profile/PrivateProfile';
 import { useGetOneUserQuery } from '@/generated';
 import { Ellipsis, Grid3x3 } from 'lucide-react';
 import Image from 'next/image';
@@ -86,6 +87,20 @@ const ViewProfile = () => {
             </div>
           </div>
         </div>
+        {/* {user?.accountVisibility === 'PUBLIC' ? (
+          <div className="relative flex mb-10 border-t border-t-gray-200" data-cy="public-user">
+            <div className=" border-t border-t-black hover:text-black absolute left-[50%]">
+              <div className="flex items-center mt-3">
+                <Grid3x3 />
+                <p>POSTS</p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center p-10 border-t border-t-gray-200">
+            <PrivateProfile />
+          </div>
+        )} */}
         {/* <div className="mt-14">
           {error && (
             <p className="font-normal" data-cy="postsError">
