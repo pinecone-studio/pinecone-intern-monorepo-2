@@ -47,3 +47,20 @@ mutation VerifyUserEmail($email: String!) {
     message
   }
 }
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    message
+  }
+}
+mutation RecoverPassword($input: RecoverPasswordInput!) {
+  recoverPassword(input: $input) {
+    message
+  }
+}
+query GetMe {
+  getMe {
+    email
+    role
+    phoneNumber
+  }
+}
