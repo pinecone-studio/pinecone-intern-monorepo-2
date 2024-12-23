@@ -20,4 +20,4 @@ const Matchschema= new Schema<MatchmodelType>({
     }
 })
 
-export const Matchmodel = models ['match'] || model ('Match', Matchschema)
+export const Matchmodel = models ['match'] || model ('match', Matchschema)
