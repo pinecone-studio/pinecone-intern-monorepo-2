@@ -57,5 +57,6 @@ export const typeDefs = gql`
     verifyOtp(input: VerifyOtpInput!): Response!
     sendOtp(input: SignUpInput!): Response!
     setPassword(input: PasswordInput!): User!
+    verifyEmail(input: SignUpInput!): Response!
   }
 `;

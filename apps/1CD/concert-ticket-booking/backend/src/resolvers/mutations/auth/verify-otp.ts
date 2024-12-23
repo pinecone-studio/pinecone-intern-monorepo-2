@@ -15,5 +15,5 @@ export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) =>
   user.passwordResetTokenExpire = new Date(Date.now() + 5 * 60 * 1000);
   await user.save();
   await sendEmailWithLink(email, resetToken);
-  return user;
+  return { message: 'success' };
 };

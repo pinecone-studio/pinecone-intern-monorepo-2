@@ -1,6 +1,6 @@
 // SignIn.test.js
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import SignIn from '../../../src/components/SignIn';
+import SignIn from '../../../src/components/auth/SignIn';
 import { useAuth } from '@/components/providers/AuthProvider';
 import '@testing-library/jest-dom';
 

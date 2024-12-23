@@ -25,10 +25,13 @@ const verifyToken = (token: string): JwtPayload | null => {
   }
 };
 
-export const checkToken = async (role: string): Promise<boolean> => {
+export const checkToken = (roles: string[]) => {
+  console.log("obj")
+
   const token = getTokenFromCookies();
+
   if (!token) return false;
 
   const decoded = verifyToken(token);
-  return decoded?.role === role || false;
+  return roles.includes(decoded?.role as string) || false;
 };

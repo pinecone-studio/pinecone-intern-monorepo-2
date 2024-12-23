@@ -1,0 +1,5 @@
+mutation updateAttraction($attraction: String!) {
+  updateAttraction(attraction: $attraction) {
+    email
+  }
+}
