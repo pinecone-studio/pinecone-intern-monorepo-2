@@ -33,5 +33,6 @@ export const RequestTypeDefs = gql`
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
     getAllRequestsBySupervisor(supervisorEmail: String!): [RequestType]
     getRequestById(_id: ID): RequestType
+    getRequests(email: String, startDate: Date, endDate: Date, status: String): [RequestType]
   }
 `;
