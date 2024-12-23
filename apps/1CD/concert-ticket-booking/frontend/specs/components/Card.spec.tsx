@@ -12,7 +12,7 @@ const mockEvent: Event = {
   image: 'https://example.com/images/rockit-bay-concert.jpg',
   mainArtists: [{ name: 'Rockit Bay' }],
   name: 'Rockit Bay Concert',
-  scheduledDays: ['2024-06-10', '2024-06-11'],
+  scheduledDays: ['2024-06-10', '2024-06-11', '2024-06-12'],
   priority: 'high', // Added priority field as string
 
   products: [
@@ -112,5 +112,13 @@ describe('Card', () => {
       ],
     };
     render(<CardTicket event={noDiscountEvent} />);
+  });
+
+  it('displays correct single days when fewer than two days are scheduled', () => {
+    const singleDayEvent: Event = {
+      ...mockEvent,
+      scheduledDays: ['2024-06-10'],
+    };
+    render(<CardTicket event={singleDayEvent} />);
   });
 });
