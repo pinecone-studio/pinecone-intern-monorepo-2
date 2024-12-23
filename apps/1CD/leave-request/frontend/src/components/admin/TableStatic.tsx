@@ -8,7 +8,7 @@ const TableStatic: FC = () => {
   const { data, loading, error } = useGetAllUsersQuery();
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
 
-  const onConfirm = (id: string) => {
+  const onConfirm = () => {
     setOpenDialogId(null);
   };
   if (loading) return <p>Уншиж байна...</p>;
@@ -66,7 +66,7 @@ const TableStatic: FC = () => {
                       <Button variant="outline" onClick={() => setIsOpen(false)} className="px-6">
                         Буцах
                       </Button>
-                      <Button onClick={() => employee?._id && onConfirm(employee._id)} className="px-6 bg-black hover:bg-gray-800">
+                      <Button onClick={onConfirm} className="px-6 bg-black hover:bg-gray-800">
                         Зөвшөөрөх
                       </Button>
                     </div>
