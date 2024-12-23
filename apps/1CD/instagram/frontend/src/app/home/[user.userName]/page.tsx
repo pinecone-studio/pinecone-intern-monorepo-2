@@ -6,12 +6,15 @@ import { useGetMyPostsQuery } from '@/generated';
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
+import { NoPost } from '@/components/user-profile/NoPost';
+import Image from 'next/image';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
   const { data, error } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-
+  console.log('zurag harah', data?.getMyPosts);
+  console.log('useriigharah', user?._id);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -20,12 +23,12 @@ const UserProfile = () => {
             <ProImg changeProfileImg={changeProfileImg} proImgData={proImgData} setProImgData={setProImgData} _id={user?._id} prevProImg={user?.profileImg || ''} />
           </section>
           <div className="flex flex-col justify-between">
-            <div className="flex flex-row items-center space-x-4">
+            <div className="flex flex-row items-center space-x-8">
               <h1 className="font-bold text-2xl" data-cy="username">
                 {user?.userName}
               </h1>
               <Button className="text-black bg-gray-200 hover:bg-gray-300 h-8">Edit Profile</Button>
-              <Button className="text-black bg-gray-200 hover:bg-gray-300 h-8">Add tools</Button>
+              {/* <Button className="text-black bg-gray-200 hover:bg-gray-300 h-8">Add tools</Button> */}
               <div>
                 <Settings />
               </div>
@@ -39,7 +42,7 @@ const UserProfile = () => {
                       Something wrong
                     </p>
                   )}
-                  <h1 className="font-normal" data-cy="postNumberDone">
+                  <h1 className="font-semibold" data-cy="postNumberDone">
                     {data?.getMyPosts.length}
                   </h1>
                 </div>
@@ -62,28 +65,35 @@ const UserProfile = () => {
               <h1 className="font-bold" data-cy="fullname">
                 {user?.fullName}
               </h1>
-              <p>{user?.bio}энэ хэсэг дээр био дэлгэрэнгүй байна</p>
+              <p>{user?.bio}</p>
             </div>
           </div>
         </div>
         <div className="border-t-4 border-t-gray-200 flex relative">
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2 hover:border-t-black hover:text-black absolute -top-1 left-[40%]">
+          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 left-[40%]">
             <Grid3x3 />
             <p>POSTS</p>
           </div>
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2 hover:border-t-black hover:text-black absolute -top-1 right-[40%]">
+          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 right-[40%]">
             <Save />
             <p>SAVED</p>
           </div>
         </div>
-        <div className="mt-14">
+        <div className="mt-16">
           {/* {loading && <Skeleton className="h-[75vh] w-full" />} */}
           {error && (
             <p className="font-normal" data-cy="postsError">
               Something wrong
             </p>
           )}
-          {/* {data?.getMyPosts.length === 0 && <NoPost />} */}
+          {data?.getMyPosts.length === 0 && <NoPost />}
+          <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
+            {data?.getMyPosts.map((myOnePost) => (
+              <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
+                <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
+              </section>
+            ))}
+          </div>
         </div>
       </div>
     </div>
