@@ -1,56 +1,84 @@
 'use client';
-
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useGetAllUsersQuery } from '@/generated';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
-interface TableStaticProps {
-  onSelectEmployee?: (_id: number) => void;
-}
-
-const TableStatic: FC<TableStaticProps> = () => {
+const TableStatic: FC = () => {
   const { data, loading, error } = useGetAllUsersQuery();
+  const [openDialogId, setOpenDialogId] = useState<string | null>(null);
 
+  const onConfirm = (id: string) => {
+    setOpenDialogId(null);
+  };
   if (loading) return <p>Уншиж байна...</p>;
-  if (error) return <p>Алдаа гарлаа: {error.message} </p>;
+  if (error) return <p>Алдаа гарлаа: {error.message}</p>;
 
+  const setIsOpen = (isOpen: boolean) => {
+    if (!isOpen) {
+      setOpenDialogId(null);
+    }
+  };
   return (
-    <div className="w-full mx-8 bg-white border border-gray-200 rounded-lg">
-      <table className="w-full bg-white border-collapse">
+    <div className="mx-[43px] mr-[37px] overflow-hidden rounded-lg">
+      <table className="w-full rounded-lg shadow-lg border bg-[#F4F4F5]">
         <thead>
-          <tr className="text-left border-b border-gray-200">
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">№</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Нэр, Овог</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Албан тушаал</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Имэйл</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Ажилд орсон огноо</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Зайнаас ажилласан өдөр</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Чөлөө авсан цаг</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black border-r border-gray-200">Цалинтай чөлөө авсан өдөр</th>
-            <th className="px-6 py-4 text-xs font-semibold text-black">Хүсэлт батлах ажилтан болгох</th>
+          <tr className="text-left">
+            {['№', 'Нэр, Овог', 'Албан тушаал', 'Имэйл', 'Ажилд орсон огноо', 'Зайнаас ажилласан өдөр', 'Чөлөө авсан цаг', 'Цалинтай чөлөө авсан өдөр', 'Хүсэлт батлах ажилтан болгох'].map(
+              (header, index) => (
+                <th key={index} className={`px-4 py-2 text-xs font-semibold text-black border border-[#E4E4E7] ${index === 0 ? 'rounded-tl-lg' : index === 8 ? 'rounded-tr-lg' : ''}`}>
+                  {header}
+                </th>
+              )
+            )}
           </tr>
         </thead>
         <tbody>
           {data?.getAllUsers?.map((employee, index) => (
-            <tr key={employee?._id} className="border-b border-gray-200 hover:bg-gray-50">
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200">{index + 1}</td>
-              <td className="px-6 py-4 border-r border-gray-200">
-                <span className="text-sm font-medium text-gray-900">{employee?.userName}</span>
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200">{employee?.position}</td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200">{employee?.email}</td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200">{employee?.hireDate}</td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200"> өдөр</td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200"> цаг</td>
-              <td className="px-6 py-4 text-sm text-gray-600 border-r border-gray-200"> өдөр</td>
-              <td className="flex justify-center px-6 py-4">
-                <input type="checkbox" checked={employee?.role === 'admin'} className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+            <tr key={employee?._id} className="bg-white hover:bg-gray-100">
+              <td className="text-center px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]">{index + 1}</td>
+              <td className="px-4 py-2 text-sm font-medium text-gray-900 border border-[#E4E4E7]">{employee?.userName}</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]">{employee?.position}</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]">{employee?.email}</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]">{new Date(employee?.hireDate).toLocaleDateString('en-CA')}</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]"> 0 өдөр</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]"> 0 цаг</td>
+              <td className="px-4 py-2 text-sm text-gray-600 border border-[#E4E4E7]"> 0 өдөр</td>
+              <td className="px-4 py-2 text-center border border-[#E4E4E7]">
+                <input
+                  type="checkbox"
+                  defaultChecked={employee?.role === 'admin'}
+                  className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black"
+                  readOnly
+                  onClick={() => setOpenDialogId(employee?._id ?? null)}
+                />
+                <Dialog open={openDialogId === employee?._id} onOpenChange={setIsOpen}>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle className="text-xl font-medium">{employee?.role === 'admin' ? 'Ахлах ажилтныг хасах' : 'Ахлах ажилтныг баталгаажуулах'}</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4">
+                      <p className="text-gray-600">
+                        Та {employee?.userName} -ийг {employee?.role === 'admin' ? 'ахлах ажилтны эрхийг хасах' : 'ахлах ажилтан болгох'} гэж байна. Баталгаажуулна уу.
+                      </p>
+                    </div>
+                    <div className="flex justify-end gap-3">
+                      <Button variant="outline" onClick={() => setIsOpen(false)} className="px-6">
+                        Буцах
+                      </Button>
+                      <Button onClick={() => employee?._id && onConfirm(employee._id)} className="px-6 bg-black hover:bg-gray-800">
+                        Зөвшөөрөх
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="mt-4 text-sm text-gray-600">{`1-${data?.getAllUsers?.length} ажилтан харуулж байна (Нийт: ${data?.getAllUsers?.length})`}</div>
     </div>
   );
 };
-
 export default TableStatic;
