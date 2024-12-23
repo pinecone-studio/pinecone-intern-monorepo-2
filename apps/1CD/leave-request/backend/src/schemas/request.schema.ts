@@ -15,6 +15,11 @@ export const RequestTypeDefs = gql`
     optionalFile: String
   }
 
+  type GroupedRequests {
+    _id: String!
+    requests: [RequestType]
+  }
+
   type AvailablePaidLeaves {
     thisYear: Int
     nextYear: Int
@@ -31,8 +36,8 @@ export const RequestTypeDefs = gql`
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
-    getAllRequestsBySupervisor(supervisorEmail: String!): [RequestType]
+    getAllRequestsBySupervisor(supervisorEmail: String!): [RequestType!]
     getRequestById(_id: ID): RequestType
-    getRequests(email: String, startDate: Date, endDate: Date, status: String): [RequestType]
+    getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
   }
 `;
