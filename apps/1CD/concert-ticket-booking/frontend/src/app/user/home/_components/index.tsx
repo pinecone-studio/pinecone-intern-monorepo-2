@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Image from "next/image";
@@ -17,6 +17,16 @@ const CarouselMain = ({event}:{event:GetSpecialEventQuery ["getSpecialEvent"]}) 
     setCurrent(nextIndex);
     api?.scrollTo(nextIndex);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (current + 1) % event.length; 
+      setCurrent(nextIndex);
+      api?.scrollTo(nextIndex);
+    }, 3000); 
+
+    return () => clearInterval(interval);
+  }, [current, api, event.length]);
   return (
     <div className="flex w-full bg-black">
       <Carousel setApi={setApi} opts={{ loop: true }} className="w-full h-[450px] relative"
@@ -32,7 +42,7 @@ const CarouselMain = ({event}:{event:GetSpecialEventQuery ["getSpecialEvent"]}) 
         </Button>
         <div >
       
-          <CarouselContent className="h-[450px] relative mx-0" data-cy="eventId"
+          <CarouselContent className="h-[450px] relative mx-0"
         >
             {event?.map((prod) =>  (<CarouselItem className="relative w-full h-full " key={prod._id} >
                 <div className="relative flex items-center justify-center w-full h-full">
