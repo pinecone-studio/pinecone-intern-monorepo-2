@@ -14,7 +14,7 @@ export const Header = () => {
   const { user, signout } = useAuth();
 
   return (
-    <div className=" z-10 flex justify-between gap-4 px-4 py-4 text-white bg-black border-b border-gray-600 md:flex-row md:px-12 md:py-6 md:gap-0">
+    <div className="z-10 flex justify-between gap-4 px-4 py-4 text-white bg-black border-b border-gray-600 md:flex-row md:px-12 md:py-6 md:gap-0">
       <div className="flex items-center justify-center md:justify-start">
         <Link href="/user/home" className="flex gap-2">
           <Image src="/images/logo.png" alt="HeaderLogo" width={212} height={48} className="w-auto h-8 md:h-12" />
