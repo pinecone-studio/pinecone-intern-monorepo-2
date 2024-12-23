@@ -14,5 +14,12 @@ describe('Home Page', () => {
     cy.get('[data-cy="prev-button"]').click();
   });
 
+  it('should auto-scroll after a few seconds', () => {
+    cy.wait(3000); 
+    cy.get('[data-cy="events"]');
+    cy.wait(3000);
+    cy.get('[data-cy="events"]'); 
+  });
+
   
 });
