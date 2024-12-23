@@ -22,4 +22,6 @@ export type AuthContextType = {
   setPassword: (_params: PasswordParams) => void;
   verifyEmail: (_params: SendOtpParams) => void;
   user: User | null;
+  loginButton: () => void;
+  signupButton: () => void;
 };

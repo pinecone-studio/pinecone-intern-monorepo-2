@@ -18,6 +18,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [setPasswordMutation] = useSetPasswordMutation();
   const [verifyEmailMutation] = useVerifyEmailMutation();
 
+  const loginButton = () => {
+    router.push('/login');
+  };
+  const signupButton = () => {
+    router.push('/signup');
+  };
+
   const signin = async ({ email, password }: SignInParams) => {
     await signinMutation({
       variables: {
@@ -111,7 +118,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, verifyEmail, user }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, verifyEmail, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
