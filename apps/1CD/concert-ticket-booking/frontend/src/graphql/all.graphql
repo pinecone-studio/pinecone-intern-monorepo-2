@@ -1,6 +1,18 @@
 query Query {
   sampleQuery
 }
+query GetSpecialEvent {
+  getSpecialEvent {
+    _id
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    image
+    priority
+  }
+}
 
 mutation Mutation {
   sampleMutation
