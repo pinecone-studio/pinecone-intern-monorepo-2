@@ -1,8 +1,8 @@
 import React from 'react';
-import VerifyEmail from '../_components/VerifyEmail';
+import ForgetPasswordVerifyEmail from '../_components/ForgetPasswordVerifyEmail';
 
 const Page = () => {
-  return <VerifyEmail />;
+  return <ForgetPasswordVerifyEmail />;
 };
 
 export default Page;
