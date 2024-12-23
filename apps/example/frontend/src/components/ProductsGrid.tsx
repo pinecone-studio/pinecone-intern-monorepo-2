@@ -4,8 +4,6 @@ import { ProductGridCard, Container } from './';
 import { useGetProductsQuery } from '../generated';
 import Image from 'next/image';
 
-
-
 export const ProductsGrid = () => {
   const { data } = useGetProductsQuery();
 
