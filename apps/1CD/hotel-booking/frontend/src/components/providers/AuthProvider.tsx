@@ -3,36 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Response, useLoginMutation, User, useSendOtpMutation, useSetPasswordMutation, useVerifyOtpMutation } from 'src/generated';
-
-type OtpParams = {
-  otp: string;
-  email: string;
-};
-
-type SendOtpParams = {
-  email: string;
-};
-
-type PasswordParams = {
-  email: string | null;
-  password: string;
-};
-
-type SignInParams = {
-  email: string;
-  password: string;
-};
-
-type AuthContextType = {
-  signin: (_params: SignInParams) => void;
-  verifyOtp: (_params: OtpParams) => void;
-  sendOtp: (_params: SendOtpParams) => void;
-  setPassword: (_params: PasswordParams) => void;
-  user: User | null;
-  loginButton: () => void;
-  signupButton: () => void;
-};
+import { Response, useLoginMutation, User, useSendOtpMutation, useSetPasswordMutation, useVerifyEmailMutation, useVerifyOtpMutation } from 'src/generated';
+import { AuthContextType, OtpParams, PasswordParams, SendOtpParams, SignInParams } from './types/AuthTypes';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
@@ -40,17 +12,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
 
-  const loginButton = () => {
-    router.push('/login');
-  };
-  const signupButton = () => {
-    router.push('/signup');
-  };
-
   const [signinMutation] = useLoginMutation();
   const [sendOtpMutation] = useSendOtpMutation();
   const [verifyOtpMutation] = useVerifyOtpMutation();
   const [setPasswordMutation] = useSetPasswordMutation();
+  const [verifyEmailMutation] = useVerifyEmailMutation();
 
   const signin = async ({ email, password }: SignInParams) => {
     await signinMutation({
@@ -127,7 +93,25 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
+  const verifyEmail = async ({ email }: SendOtpParams) => {
+    await verifyEmailMutation({
+      variables: {
+        input: {
+          email,
+        },
+      },
+      onCompleted: () => {
+        router.push('/forget-password/otp');
+        localStorage.setItem('userEmail', email);
+        toast.success(Response.Success);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
+  };
+
+  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, verifyEmail, user }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

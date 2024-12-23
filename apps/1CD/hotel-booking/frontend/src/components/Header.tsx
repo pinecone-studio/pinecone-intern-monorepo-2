@@ -1,9 +1,15 @@
 'use client';
 
-import { useAuth } from './providers';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
-  const { loginButton, signupButton } = useAuth();
+  const router = useRouter();
+  const loginButton = () => {
+    router.push('/login');
+  };
+  const signupButton = () => {
+    router.push('/signup');
+  };
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
       <div className="bg-[#013B94] py-4 min-h-[230px] md:min-h-[250px]">
