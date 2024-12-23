@@ -25,7 +25,7 @@
     },
     "serve": {
       "executor": "@nx/next:server",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "testing",
       "options": {
         "buildTarget": "instagram-frontend:build",
         "dev": true

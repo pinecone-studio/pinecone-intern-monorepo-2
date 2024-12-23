@@ -1,5 +1,5 @@
 const CLOUDINARY_CLOUD_NAME = 'dn1bg3uxr';
-const CLOUDINARY_UPLOAD_PRESET = 'human resource';
+const CLOUDINARY_UPLOAD_PRESET = 'human-resource';
 
 export const uploadFilesInCloudinary = async (file: File) => {
   console.log(`Uploading: `, file);

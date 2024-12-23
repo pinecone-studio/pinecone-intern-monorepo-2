@@ -42,7 +42,9 @@ const config: Cypress.ConfigOptions<unknown> = {
       },
     },
     env: {
-      env: {},
+      env: {
+        ANNUAL_TOKEN : process.env.ANNUAL_TOKEN
+      },
     },
   },
 };

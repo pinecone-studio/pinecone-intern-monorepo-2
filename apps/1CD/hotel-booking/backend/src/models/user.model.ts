@@ -14,12 +14,10 @@ export type UserType = {
 const userSchema = new Schema<UserType>({
   firstName: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нэрийг оруулах'],
   },
 
   lastName: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нэрийг оруулах'],
   },
   email: {
     type: String,
@@ -28,7 +26,7 @@ const userSchema = new Schema<UserType>({
   },
   password: {
     type: String,
-    required: [true, 'Хэрэглэгчийн нууц үг оруулах'],
+    // required: [true, 'Хэрэглэгчийн нууц үг оруулах'],
   },
   phoneNumber: {
     type: Number,

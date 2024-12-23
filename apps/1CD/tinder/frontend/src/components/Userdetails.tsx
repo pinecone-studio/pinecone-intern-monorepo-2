@@ -9,8 +9,11 @@ import { useUseDetails } from './providers/UserDetailsProvider';
 import { UserdetailsBio } from './UserdetailsBio';
 import { UserdetailsName } from './UserdetailsName';
 import { UserdetailsProfession } from './UserdetailsProfession';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import { toast } from 'sonner';
+import Image from 'next/image';
+import { useRouter} from 'next/navigation';
+import { UserdetailsSchool } from './UserdetailsSchool';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required').min(2, 'Name length must be at least 2 characters'),
@@ -23,114 +26,103 @@ const validationSchema = Yup.object({
 const initialValues = {
   name: '',
   bio: '',
-  interests: '',  
+  interests: '',
   profession: '',
-  schoolWork: '', 
+  schoolWork: '',
 };
 
 export const Userdetails = () => {
-  const [email, setEmail]= useState('')
-  useEffect (()=>{
-   const localemail = localStorage.getItem('userEmail')
-   const email = localemail? JSON.parse(localemail) :""
-   setEmail(email)
-  },[])
-  const { updateUser,data, error} = useUseDetails();
-
-
+  const router = useRouter();
+  const { updateUser, data, error } = useUseDetails();
+  const back=()=>{
+    router.push('/register/birthday')
+  }
   useEffect(() => {
-    if(data){
-     toast.success("Successfully added your information");
+    if (data) {
+      toast.success('Successfully added your information');
+      router.push('/sign-up/image')
       return;
     }
-    const message = error.cause?.message
-    if (message === "Could not find user") {
-      toast.error("Your email is not valid");
+    const message = error.cause?.message;
+    if (message) {
+      toast.error('Error occured. Try again');
       return;
     }
-
-  }, [data,error]);
+  }, [data, error]);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const arrayofInterests = formik.values.interests.split(',').map(item => item.trim())
-        const arrayofSchool = formik.values.schoolWork.split(',').map(item => item.trim())
+        const arrayofInterests = formik.values.interests.split(',').map((item) => item.trim());
+        const arrayofSchool = formik.values.schoolWork.split(',').map((item) => item.trim());
         await updateUser({
-          variables:{
-            email: email,
+          variables: {
             name: values.name,
             bio: values.bio,
             profession: values.profession,
             schoolWork: arrayofSchool,
-            interests:arrayofInterests
-          }
-        })
-       
+            interests: arrayofInterests,
+          },
+        });
       } catch (error) {
-        if(error){
-          toast.error("Internal server error. Try again")
+        if (error) {
+          toast.error('Internal server error. Try again');
         }
       }
-      formik.resetForm()
-    
+      formik.resetForm();
     },
   });
+  
   return (
-    <div className="flex justify-center" data-cy="User-Details-Page">
-      <form className="flex flex-col gap-6 max-w-sm" onSubmit={formik.handleSubmit}>
-        <div className="text-center">
-          <p className="text-[#09090B] font-semibold text-2xl">Your Details</p>
-          <p className="text-[#71717A] font-normal text-sm">Please provide the following information to help us get to know you better.</p>
+    <div className=" flex flex-col justify-between items-center mt-10 h-screen" data-cy="User-Details-Page">
+      <div className="flex flex-col justify-center items-center gap-6">
+        <div data-cy="register-email-header" className="flex items-center gap-1">
+          <Image src="../logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+          <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
-        <div className="flex flex-col gap-6">
-          <UserdetailsName formik={formik}/>
-          <UserdetailsBio formik={formik}/>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="interests" className="text-[#09090B] font-medium text-sm">Interests</Label>
-            <Input
-              type="text"
-              id="interests"
-              placeholder="Enter your interests (comma separated)"
-              value={formik.values.interests}
-              onChange={formik.handleChange} 
-              data-cy="User-Details-Interests-Input"
-            />
-            {formik.errors.interests && formik.touched.interests && (
-              <span className="text-red-600" data-cy="User-Details-Interests-Input-Error-Message">
-                {formik.errors.interests}
-              </span>
-            )}
+        <form className="flex flex-col gap-6 max-w-sm" onSubmit={formik.handleSubmit}>
+          <div className="text-center">
+            <p className="text-[#09090B] font-semibold text-2xl">Your Details</p>
+            <p className="text-[#71717A] font-normal text-sm">Please provide the following information to help us get to know you better.</p>
           </div>
-          <UserdetailsProfession formik={formik}/>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="schoolWork" className="text-[#09090B] font-medium text-sm">School/Work</Label>
-            <Input
-              type="text"
-              id="schoolWork"
-              placeholder="Enter your school/work"
-              value={formik.values.schoolWork} 
-              onChange={formik.handleChange} 
-              data-cy="User-Details-schoolWork-Input"
-            />
-            {formik.errors.schoolWork && formik.touched.schoolWork && (
-              <span className="text-red-600" data-cy="User-Details-SchoolWork-Input-Error-Message">
-                {formik.errors.schoolWork}
-              </span>
-            )}
+          <div className="flex flex-col gap-6">
+            <UserdetailsName formik={formik} />
+            <UserdetailsBio formik={formik} />
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="interests" className="text-[#09090B] font-medium text-sm">
+                Interests
+              </Label>
+              <Input
+                type="text"
+                id="interests"
+                placeholder="Enter your interests (comma separated)"
+                value={formik.values.interests}
+                onChange={formik.handleChange}
+                data-cy="User-Details-Interests-Input"
+              />
+              {formik.errors.interests && formik.touched.interests && (
+                <span className="text-red-600" data-cy="User-Details-Interests-Input-Error-Message">
+                  {formik.errors.interests}
+                </span>
+              )}
+            </div>
+            <UserdetailsProfession formik={formik} />
+            <UserdetailsSchool formik={formik}/>
           </div>
-        </div>
-        <div className="flex justify-between max-w-sm">
-          <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button">
-            Back
-          </Button>
-          <Button variant="destructive" type="submit" className="text-[#FAFAFA] font-medium text-sm rounded-full" disabled={!formik.dirty} data-cy="User-Details-Next-Button">
-            Next
-          </Button>
-        </div>
-      </form>
+          <div className="flex justify-between max-w-sm">
+            <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={()=>back()}>
+              Back
+            </Button>
+            <Button variant="destructive" type="submit" className="text-[#FAFAFA] font-medium text-sm rounded-full" disabled={!formik.dirty || !formik.isValid} data-cy="User-Details-Next-Button">
+              Next
+            </Button>
+          </div>
+        </form>
+      </div>
+
+      <p className="text-[#71717A] text-sm pb-[24px]">©2024 Tinder</p>
     </div>
   );
 };

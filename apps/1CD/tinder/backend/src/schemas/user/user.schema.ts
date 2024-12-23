@@ -9,13 +9,13 @@ export const typeDefs = gql`
     bio: String!
     age: Int!
     gender: String!
-    interests: [String!]
-    photos: [String!]
+    interests: [String!]!
+    photos: [String!]!
     profession: String!
     schoolWork: [String!]
     createdAt: Date!
     updatedAt: Date!
-    attraction: String!
+    attraction: String
   }
 
   input RegisterEmailInput {
@@ -46,6 +46,10 @@ export const typeDefs = gql`
     age: Int!
   }
 
+  input ImageSubmitInput {
+    photos: [String!]
+  }
+
   type ResponseWithtoken {
     token: String!
   }
@@ -57,13 +61,13 @@ export const typeDefs = gql`
     createPassword(input: CreatePassInput!): RegisterEmailResponse!
     resendOtp(input: RegisterEmailInput!): RegisterEmailResponse!
     # sign in
-    signIn(email:String!, password:String!):ResponseWithtoken!
+    signIn(email: String!, password: String!): ResponseWithtoken!
     # forget password
     checkEmail(input: checkEmailInput!): RegisterEmailResponse!
     # details
     birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
-    updateUser(email:String!, name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
+    updateUser(name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
     updateAttraction(attraction: String!): RegisterEmailResponse!
-
+    imageSubmit(input: ImageSubmitInput!): RegisterEmailResponse!
   }
 `;

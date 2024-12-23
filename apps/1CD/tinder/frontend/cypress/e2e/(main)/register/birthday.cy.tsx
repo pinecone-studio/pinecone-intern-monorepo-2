@@ -2,34 +2,57 @@ describe('Birthday Form Navigation', () => {
   beforeEach(() => {
     cy.visit('/register/birthday');
   });
+
   it('1. should display the logo and header', () => {
     cy.get('[data-cy="logo-container"]').should('be.visible');
     cy.contains('tinder').should('be.visible');
     cy.contains('How old are you?').should('be.visible');
     cy.contains('Please enter your age to continue').should('be.visible');
   });
-  it('2. should select December 1st, 2024 and display it in the input', () => {
-    cy.get('[data-cy="dob-picker-button"]').should('be.visible').click();
-    cy.get('[data-cy="calendar-popover"]').should('be.visible');
-    cy.get('.rdp-button_reset').contains('1').click();
-    cy.get('[data-cy="next-button"]').should('be.visible').click();
-    cy.url().should('include', '/');
-  });
 
-  it('3. should interact with the next button', () => {
-    cy.get('[data-cy="dob-picker-button"]').click();
-    cy.get('[data-cy="next-button"]').should('be.visible').click();
-    cy.url().should('include', '/');
-  });
+  it('2. should allow entering December 1st, 2024, and submit the form', () => {
+    cy.get('[data-cy="day-input"]').type('01');
+    cy.get('[data-cy="month-input"]').type('12');
+    cy.get('[data-cy="year-input"]').type('2024');
 
-  it('4. should show an error if no date is selected', () => {
-    cy.visit('/register/birthday');
     cy.get('[data-cy="next-button"]').click();
+
     cy.url().should('include', '/');
   });
+
+  it('3. should show an error if the user is under 18 years old', () => {
+    cy.get('[data-cy="day-input"]').type('01');
+    cy.get('[data-cy="month-input"]').type('12');
+    cy.get('[data-cy="year-input"]').type('2010');
+
+    cy.get('[data-cy="next-button"]').click();
+
+    cy.contains("We'll meet when you turn 18.").should('be.visible');
+  });
+
+  it('4. should show an error message if no date is entered and "Next" is clicked', () => {
+    cy.get('[data-cy="day-input"]').clear();
+    cy.get('[data-cy="month-input"]').clear();
+    cy.get('[data-cy="year-input"]').clear();
+
+    cy.get('[data-cy="next-button"]').click();
+
+    cy.contains('Please complete the date of birth').should('be.visible');
+  });
+
   it('5. should go back to the home page when clicking "Back"', () => {
-    cy.visit('/register/birthday');
     cy.get('[data-cy="back-button"]').click();
+
     cy.url().should('include', '/');
+  });
+
+  it('6. should show an error message if an incomplete date is entered and the form is submitted', () => {
+    cy.get('[data-cy="day-input"]').type('10');
+    cy.get('[data-cy="month-input"]').type('12');
+    cy.get('[data-cy="year-input"]').clear();
+
+    cy.get('[data-cy="next-button"]').click();
+
+    cy.contains('Please complete the date of birth').should('be.visible');
   });
 });

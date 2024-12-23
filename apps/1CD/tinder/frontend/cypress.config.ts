@@ -39,7 +39,9 @@ const config: Cypress.ConfigOptions<unknown> = {
       },
     },
     env: {
-      env: {},
+      env: {
+        MOCK_TOKEN:process.env.MOCK_TOKEN
+      },
     },
   },
 };

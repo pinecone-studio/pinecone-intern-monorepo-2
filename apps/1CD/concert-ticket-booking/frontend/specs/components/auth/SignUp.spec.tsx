@@ -1,6 +1,6 @@
 import { render, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SignUp from '../../../src/components/SignUp';
+import SignUp from '../../../src/components/auth/SignUp';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { jest } from '@jest/globals';
 

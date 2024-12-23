@@ -1,6 +1,18 @@
 query Query {
   sampleQuery
 }
+query GetSpecialEvent {
+  getSpecialEvent {
+    _id
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    image
+    priority
+  }
+}
 
 mutation Mutation {
   sampleMutation
@@ -21,5 +33,46 @@ mutation Login($input: LoginInput!) {
       phoneNumber
     }
     token
+  }
+}
+mutation CreateEvent($input: EventInput!) {
+  createEvent(input: $input) {
+    message
+  }
+}
+query GetArena {
+  getArena {
+    _id
+    capacity
+    image
+    name
+  }
+}
+query GetCategories {
+  getCategories {
+    _id
+    name
+  }
+}
+mutation VerifyUserEmail($email: String!) {
+  verifyUserEmail(email: $email) {
+    message
+  }
+}
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    message
+  }
+}
+mutation RecoverPassword($input: RecoverPasswordInput!) {
+  recoverPassword(input: $input) {
+    message
+  }
+}
+query GetMe {
+  getMe {
+    email
+    role
+    phoneNumber
   }
 }

@@ -6,12 +6,12 @@ export type Request = {
   requestType: string;
   message: string;
   requestDate: Date;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: string;
+  endTime?: string;
   supervisorEmail: string;
   result: string;
   comment: string;
-  files: string[]
+  optionalFile: string
 };
 
 const RequstSchema = new Schema<Request>(
@@ -23,7 +23,7 @@ const RequstSchema = new Schema<Request>(
     requestType: {
         type: String,
         required: true,
-        enum: ['paid, unpaid, remote']
+        enum: ['paid', 'unpaid', 'remote']
     },
     message: {
       type: String
@@ -32,15 +32,16 @@ const RequstSchema = new Schema<Request>(
         type: Date,
         required: true
     },
-    startTime: Date,
-    endTime: Date,
+    startTime: String,
+    endTime: String,
     supervisorEmail: String,
     result: {
         type: String,
-        enum: ['fail', 'success', 'sent', 'pending']
+        enum: ['fail', 'success', 'sent', 'pending'],
+        default: 'pending'
     },
     comment: String,
-    files: [String]
+    optionalFile: String
   },
   {
     timestamps: true,
