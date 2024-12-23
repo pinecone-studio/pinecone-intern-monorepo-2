@@ -2,21 +2,24 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import CarouselImg from './_feature/page';
 
 const TinderSwipe = () => {
   const [cards, setCards] = useState([
-    'https://placehold.co/600x800?text=1',
-    'https://placehold.co/600x800?text=2',
-    'https://placehold.co/600x800?text=3',
-    'https://placehold.co/600x800?text=4',
-    'https://placehold.co/600x800?text=5',
-    'https://placehold.co/600x800?text=6',
+   
+    ['https://placehold.co/600x800?text=2A', 'https://placehold.co/600x800?text=2B', 'https://placehold.co/600x800?text=2C'],
+    ['https://placehold.co/600x800?text=3A', 'https://placehold.co/600x800?text=3B', 'https://placehold.co/600x800?text=3C'],
+    ['https://placehold.co/600x800?text=4A', 'https://placehold.co/600x800?text=4B', 'https://placehold.co/600x800?text=4C'],
+    ['https://placehold.co/600x800?text=5A', 'https://placehold.co/600x800?text=5B', 'https://placehold.co/600x800?text=5C'],
+    ['https://placehold.co/600x800?text=6A', 'https://placehold.co/600x800?text=6B', 'https://placehold.co/600x800?text=6C'],
+    ['https://placehold.co/600x800?text=7A', 'https://placehold.co/600x800?text=7B', 'https://placehold.co/600x800?text=7C'],
   ]);
 
   const [rotate, setRotate] = useState(0);
-  const [swiping, setSwiping] = useState('https://placehold.co/600x800?text=0');
+  const [swiping, setSwiping] = useState( ['https://placehold.co/600x800?text=1A', 'https://placehold.co/600x800?text=1B', 'https://placehold.co/600x800?text=1C'],);
   const currentPosition = useRef({ x: 0, y: 0 });
   const [duration, setDuration] = useState(0.3);
+  const[open,setOpen]=useState(false);
 
   const swipeLeft = () => {
     setDuration(0.5);
@@ -49,6 +52,7 @@ const TinderSwipe = () => {
   };
 
   const handleDrag = (event: any, info: any) => {
+    setOpen(true);
     const newX = currentPosition.current.x + info.delta.x;
     const newY = currentPosition.current.y + info.delta.y;
     currentPosition.current = { x: newX, y: newY };
@@ -62,6 +66,7 @@ const TinderSwipe = () => {
   };
 
   const handleDragEnd = () => {
+    setOpen(!open);
     if (currentPosition.current.x > 150) {
       swipeRight();
     } else if (currentPosition.current.x < -150) {
@@ -77,7 +82,7 @@ const TinderSwipe = () => {
       <div className="relative flex justify-center mt-4 ">
         {cards.map((card, index) => (
           <div
-            key={card}
+            key={card[0]}
             style={{
               width: '375px',
               height: '592px',
@@ -89,7 +94,7 @@ const TinderSwipe = () => {
               fontSize: '24px',
               fontWeight: 'bold',
               color: '#333',
-              backgroundImage: `url(${card})`,
+              backgroundImage: `url(${card[0]})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               position: 'absolute',
@@ -100,7 +105,7 @@ const TinderSwipe = () => {
 
         {swiping && (
           <motion.div
-            key={swiping}
+            key={swiping[0]}
             drag
             onDrag={handleDrag}
             dragSnapToOrigin
@@ -125,14 +130,15 @@ const TinderSwipe = () => {
               fontSize: '24px',
               fontWeight: 'bold',
               color: '#333',
-              backgroundImage: `url(${swiping})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              backgroundImage: `url(${swiping[0]})`,
               position: 'absolute',
               zIndex: cards.length + 1000,
             }}
           >
-            Swipe Me
+            {!open && <CarouselImg swiping={swiping}/>}
+            
           </motion.div>
         )}
       </div>
