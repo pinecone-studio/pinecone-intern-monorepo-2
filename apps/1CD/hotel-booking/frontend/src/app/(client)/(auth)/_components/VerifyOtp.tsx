@@ -8,7 +8,7 @@ import { useAuth } from '@/components/providers';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyOtp = () => {
-  const { verifyOtp, sendOtp } = useAuth();
+  const { verifyOtp, verifyEmail } = useAuth();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 
@@ -29,7 +29,7 @@ const VerifyOtp = () => {
     }
   };
   const handleResendOtp = async () => {
-    await sendOtp({ email: emailOtp });
+    await verifyEmail({ email: emailOtp });
     setCountDown(15);
   };
 
