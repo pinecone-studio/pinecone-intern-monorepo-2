@@ -3,7 +3,7 @@ import { getRequests } from 'src/resolvers/queries';
 
 jest.mock('../../../../src/models/request', () => ({
   RequestModel: {
-    find: jest.fn().mockResolvedValueOnce([
+    aggregate: jest.fn().mockResolvedValueOnce([
       {
         email: 'zolookorzoloo@gmail.com',
       },
