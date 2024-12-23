@@ -14,6 +14,7 @@ const UserProfile = () => {
   const { data, error } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
   console.log('zurag harah', data?.getMyPosts);
+  console.log('useriigharah', user?._id);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -64,7 +65,7 @@ const UserProfile = () => {
               <h1 className="font-bold" data-cy="fullname">
                 {user?.fullName}
               </h1>
-              <p>{user?.bio}энэ хэсэг дээр био дэлгэрэнгүй байна</p>
+              <p>{user?.bio}</p>
             </div>
           </div>
         </div>
@@ -86,9 +87,9 @@ const UserProfile = () => {
             </p>
           )}
           {data?.getMyPosts.length === 0 && <NoPost />}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
             {data?.getMyPosts.map((myOnePost) => (
-              <section key={myOnePost._id} className="relative h-[292px] " data-cy="myPosts">
+              <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
                 <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
               </section>
             ))}
