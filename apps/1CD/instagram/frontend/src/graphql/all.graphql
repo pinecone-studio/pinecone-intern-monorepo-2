@@ -26,6 +26,21 @@ query GetUser {
   }
 }
 
+query GetOneUser($id: ID!) {
+  getOneUser(_id: $id) {
+    _id
+    accountVisibility
+    bio
+    createdAt
+    followerCount
+    followingCount
+    fullName
+    profileImg
+    updatedAt
+    userName
+  }
+}
+
 query SearchUsers($searchTerm: String!) {
   searchUsers(searchTerm: $searchTerm) {
     _id
