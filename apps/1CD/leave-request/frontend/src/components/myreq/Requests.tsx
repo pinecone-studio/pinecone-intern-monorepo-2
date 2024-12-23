@@ -1,3 +1,6 @@
+'use client';
+
+import { GetRequestsQuery, QueryCheckAvailablePaidLeaveInGivenYearArgs, useGetAvailableRequestQuery } from '@/generated';
 import { BadgeInfo } from 'lucide-react';
 type RequestCardProps = {
   title: string;
@@ -5,6 +8,7 @@ type RequestCardProps = {
   description: string;
   icon?: React.ReactNode;
 };
+
 const RequestCard = ({ title, availableTime, description, icon }: RequestCardProps) => {
   return (
     <div className="w-[214px] h-[112px] border border-1 rounded-lg bg-white p-4 pl-6 m-0 relative" data-testid="work-from-distance">
@@ -19,15 +23,20 @@ const RequestCard = ({ title, availableTime, description, icon }: RequestCardPro
     </div>
   );
 };
-const Requests = () => {
+const Requests = ({email}: {email:string}) => {
+
+  const {data, loading} = useGetAvailableRequestQuery({variables: {email}})
+  if(loading) return null
+  const {checkAvailablePaidLeaveInGivenYear, checkAvailavleRemoteLeaveInGivenMonth} = data!
+
   return (
     <>
       <div className="w-[684PX] bg-[#F4F4F5] mx-auto flex justify-items-stretch gap-5 ">
         <div >
-          <RequestCard title="Зайнаас ажиллах" availableTime="3 хоног" description="боломжтой байна." icon={<BadgeInfo size={16} />} data-testid="work-from-distance" />
+          <RequestCard title="Зайнаас ажиллах" availableTime={`${checkAvailavleRemoteLeaveInGivenMonth?.thisMonth || '-'} хоног`} description="боломжтой байна." icon={<BadgeInfo size={16} />} data-testid="work-from-distance" />
         </div>
         <div>
-          <RequestCard title="Цалинтай чөлөө" availableTime="4 хоног" description="боломжтой байна." icon={<BadgeInfo size={16} />} data-testid="paid-leave"/>
+          <RequestCard title="Цалинтай чөлөө" availableTime={`${checkAvailablePaidLeaveInGivenYear?.thisYear || '-'} цаг `} description="боломжтой байна." icon={<BadgeInfo size={16} />} data-testid="paid-leave"/>
         </div>
         <div >
           <RequestCard title="Чөлөө" availableTime="4 цагийн" description="чөлөө авсан байна" data-testid="leave" />
