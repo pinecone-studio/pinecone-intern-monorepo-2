@@ -78,6 +78,7 @@
     "commitizen": "4.3.0",
     "cypress-wait-until": "3.0.2",
     "date-fns": "4.1.0",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.13",
     "dotenv": "16.0.3",
     "dotenv-esbuild": "1.1.0",

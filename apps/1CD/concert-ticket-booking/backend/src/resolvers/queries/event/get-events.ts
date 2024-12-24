@@ -31,6 +31,9 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
     endDate.setMinutes(59);
     const endIsoDate = new TZDate(endDate, 'UTC').toISOString();
 
+    console.log({ startIsoDate });
+    console.log({ endIsoDate });
+
     findFilter.$and.push({
       scheduledDays: {
         $elemMatch: {
@@ -48,6 +51,5 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
   }
 
   const events: EventType[] = await Event.find(findFilter).populate(['products', 'venue']);
-
   return events;
 };

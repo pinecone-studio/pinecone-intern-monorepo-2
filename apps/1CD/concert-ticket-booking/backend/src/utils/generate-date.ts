@@ -1,3 +1,4 @@
+import { TZDate } from '@date-fns/tz';
 type Time = {
   hour: string;
   minute: string;
@@ -14,27 +15,21 @@ export const combineDateAndTime = (dateRange: DateRange, time: Time): string[] =
 
   const setTime = (date: Date, hour: string, minute: string): string => {
     console.log({ date });
-    const newDate = new Date(date);
-<<<<<<< HEAD
-    console.log('newDateehnii', newDate);
-    newDate.setUTCHours(parseInt(hour, 10), parseInt(minute, 10), 0, 0);
-=======
-    console.log({ newDate });
-    newDate.setHours(parseInt(hour, 10), parseInt(minute, 10), 0, 0);
-    console.log({ newDate });
->>>>>>> 8a48c7e (feat(concert-frontend): filter frontend)
-    return newDate.toISOString();
+    date.setHours(parseInt(hour, 10), parseInt(minute, 10), 0, 0);
+    console.log({ date });
+
+    const timeInMongolia = new TZDate(date, 'Asia/Ulaanbaatar');
+    console.log({ timeInMongolia });
+    const timeInMongoliaIso = new TZDate(timeInMongolia, 'UTC');
+    const result = timeInMongoliaIso.toISOString();
+    console.log({ result });
+    return result;
   };
 
   const result: string[] = [];
   const currentDate = new Date(from);
-<<<<<<< HEAD
-
-  currentDate.setUTCHours(currentDate.getUTCHours() + 8);
-=======
   currentDate.setHours(0, 0, 0, 0);
-
->>>>>>> 8a48c7e (feat(concert-frontend): filter frontend)
+  currentDate.setUTCHours(currentDate.getUTCHours() + 8);
   result.push(setTime(currentDate, hour, minute));
 
   if (to) {

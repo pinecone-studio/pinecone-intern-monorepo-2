@@ -18,7 +18,6 @@ const RootLayout = ({ children }: PropsWithChildren) => {
             <NuqsAdapter>
               <div>{children}</div>
             </NuqsAdapter>
-
             <Toaster />
           </AuthProvider>
         </ApolloWrapper>

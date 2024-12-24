@@ -12,7 +12,10 @@ const DatePicker = () => {
 
   const handleSelect = (day: Date | undefined) => {
     if (day) {
+      console.log(day);
       setDate(day.toISOString());
+      const date = day.toISOString();
+      console.log(date);
     } else {
       setDate(null);
     }
