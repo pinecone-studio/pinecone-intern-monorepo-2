@@ -1,6 +1,6 @@
 'use client';
 
-import { GetRequestsQuery, QueryCheckAvailablePaidLeaveInGivenYearArgs, useGetAvailableRequestQuery } from '@/generated';
+import {  useGetAvailableRequestQuery } from '@/generated';
 import { BadgeInfo } from 'lucide-react';
 type RequestCardProps = {
   title: string;
@@ -43,7 +43,7 @@ const Requests = ({ email }: { email: string }) => {
         <div>
           <RequestCard
             title="Цалинтай чөлөө"
-            availableTime={`${checkAvailablePaidLeaveInGivenYear?.thisYear || '-'} цаг `}
+            availableTime={`${checkAvailablePaidLeaveInGivenYear?.thisYear || '-'} цаг`}
             description="боломжтой байна."
             icon={<BadgeInfo size={16} />}
             data-testid="paid-leave"
