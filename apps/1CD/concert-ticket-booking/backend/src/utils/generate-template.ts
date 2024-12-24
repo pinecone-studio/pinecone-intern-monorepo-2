@@ -29,7 +29,7 @@ export const generateTemplate = (OTP: string) => {
           <p style="font-size: 0.9em;">
             Хүндэтгэсэн,
             <br />
-            E-Commerce ХХК
+           Concert-Ticket LLC
           </p>
           <hr style="border: none; border-top: 1px solid #eee;" />
         </div>

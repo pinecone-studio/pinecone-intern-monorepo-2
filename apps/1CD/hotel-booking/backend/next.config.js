@@ -23,6 +23,10 @@ const nextConfig = {
   },
   env: {
     MONGO_URI: process.env.MONGO_URI,
+    VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+    JWT_SECRET: process.env.JWT_SECRET,
+    GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   },
   nx: {
     svgr: false,

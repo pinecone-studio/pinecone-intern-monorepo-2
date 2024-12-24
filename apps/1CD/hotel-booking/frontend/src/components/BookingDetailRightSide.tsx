@@ -2,17 +2,9 @@ import { Button } from '@/components/ui/button';
 
 import Image from 'next/image';
 import { BookingType } from './BookingDetailLeftSide';
+import { ReturnBooking } from '@/generated';
 
 const BookingDetailRightSide = ({ booking }: BookingType) => {
-  const HotelReveiwRating = () => {
-    if (booking?.roomId?.hotelId?.userRating) {
-      if (booking.roomId.hotelId.userRating >= 6) {
-        return <div data-testid="Hotel-Review-Rating-Value1">Excellent</div>;
-      } else {
-        return <div data-testid="Hotel-Review-Rating-Value2">Bad</div>;
-      }
-    }
-  };
   return (
     <div className="max-w-[480px] w-full text-[#09090B]">
       <div className="w-full h-auto">
@@ -28,7 +20,7 @@ const BookingDetailRightSide = ({ booking }: BookingType) => {
           </div>
           <div className="flex items-center gap-2 text-sm">
             <div className="bg-[#2563EB] w-[39px] h-[20px] text-center text-[#FAFAFA] rounded-full">{booking?.roomId?.hotelId?.userRating}</div>
-            <div>{HotelReveiwRating()}</div>
+            <HotelReveiwRating booking={booking} />
           </div>
         </div>
         <div className="my-5 w-full bg-[#E4E4E7] h-[1px]"></div>
@@ -38,3 +30,13 @@ const BookingDetailRightSide = ({ booking }: BookingType) => {
   );
 };
 export default BookingDetailRightSide;
+
+export const HotelReveiwRating = ({ booking }: { booking: ReturnBooking | null | undefined }) => {
+  if (booking?.roomId?.hotelId?.userRating) {
+    if (booking.roomId.hotelId.userRating >= 6) {
+      return <div data-testid="Hotel-Review-Rating-Value1">Excellent</div>;
+    } else {
+      return <div data-testid="Hotel-Review-Rating-Value2">Bad</div>;
+    }
+  }
+};

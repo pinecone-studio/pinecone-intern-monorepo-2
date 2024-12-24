@@ -2,6 +2,7 @@ import { recoverPassword } from '../../../../src/resolvers/mutations/auth/recove
 import { GraphQLResolveInfo } from 'graphql';
 import crypto from 'crypto';
 import User from '../../../../src/models/user.model';
+import bcrypt from 'bcrypt';
 
 jest.mock('../../../../src/models/user.model', () => ({
   findOneAndUpdate: jest.fn(),
@@ -12,6 +13,9 @@ jest.mock('crypto', () => ({
     update: jest.fn().mockReturnThis(),
     digest: jest.fn().mockReturnValue('hashed-reset-token'),
   }),
+}));
+jest.mock('bcrypt', () => ({
+  hash: jest.fn().mockResolvedValue('hashed-password'),
 }));
 
 describe('update user info', () => {
@@ -24,6 +28,7 @@ describe('update user info', () => {
       expect(error).toEqual(new Error('Invalid or expired reset token'));
     }
     expect(crypto.createHash).toHaveBeenCalledWith('sha256');
+    expect(bcrypt.hash).toHaveBeenCalledWith('newpassword', 10);
   });
 
   it('should update user with reset token and return updated user', async () => {
@@ -40,8 +45,9 @@ describe('update user info', () => {
 
     const result = await recoverPassword!({}, { input: { password: 'newpassword', resetToken: 'resetToken' } }, { userId: '1' }, {} as GraphQLResolveInfo);
 
-    expect(result).toEqual(mockUser);
+    expect(result).toEqual({ message: 'success' });
 
     expect(crypto.createHash).toHaveBeenCalledWith('sha256');
+    expect(bcrypt.hash).toHaveBeenCalledWith('newpassword', 10);
   });
 });

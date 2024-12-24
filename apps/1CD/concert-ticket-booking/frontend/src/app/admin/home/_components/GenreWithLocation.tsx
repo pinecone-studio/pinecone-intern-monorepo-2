@@ -40,7 +40,7 @@ const InputGenreWithLocation = ({ form }: FormProps) => {
                 </FormControl>
                 <SelectContent>
                   {arenaData?.getArena?.map((item, index) => (
-                    <SelectItem key={item?._id} value={item?._id ?? ''} data-testid={`arena-item-${index}`}>
+                    <SelectItem key={item?._id} value={item!._id} data-testid={`arena-item-${index}`}>
                       {item?.name}
                     </SelectItem>
                   ))}

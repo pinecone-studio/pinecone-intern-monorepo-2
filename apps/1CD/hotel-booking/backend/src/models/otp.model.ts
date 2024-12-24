@@ -3,7 +3,6 @@ import { Schema, model, models } from 'mongoose';
 export type OtpType = {
   email: string;
   otp: string;
-  expiresAt: Date;
   createdAt: Date;
 };
 
@@ -23,14 +22,10 @@ const otpSchema = new Schema<OtpType>(
       type: String,
       required: true,
     },
-    expiresAt: {
-      type: Date,
-      required: true,
-    },
+
     createdAt: {
       type: Date,
       default: Date.now,
-      expires: 300,
     },
   },
   {

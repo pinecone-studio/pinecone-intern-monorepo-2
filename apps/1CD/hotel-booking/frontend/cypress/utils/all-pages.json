@@ -1,3 +1,1 @@
-
-["///add-hotel","///add-hotel/home-page","//","///booking-detail","///checkout","///search-result"]
-
+["///add-hotel","///add-hotel/home-page","///forget-password","///forget-password/change-password","///forget-password/otp","///login","///signup","///signup/otp","///signup/password","///booking-confirm/[id]","///booking-detail","///cancel-booking","///checkout/[id]","//","///hotel-detail","///search-result"]

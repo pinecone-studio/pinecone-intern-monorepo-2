@@ -37,7 +37,8 @@ const RequstSchema = new Schema<Request>(
     supervisorEmail: String,
     result: {
         type: String,
-        enum: ['fail', 'success', 'sent', 'pending']
+        enum: ['fail', 'success', 'sent', 'pending'],
+        default: 'pending'
     },
     comment: String,
     optionalFile: String

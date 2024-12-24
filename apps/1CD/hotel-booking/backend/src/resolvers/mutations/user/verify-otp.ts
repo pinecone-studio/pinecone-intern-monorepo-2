@@ -1,6 +1,8 @@
+import { MutationResolvers, Response } from '../../../generated';
 import { otpModel } from '../../../models';
+import { isBefore, subMinutes } from 'date-fns';
 
-export const verifyOtp = async (_: unknown, { input }: { input: { otp: string; email: string | undefined } }) => {
+export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) => {
   const { otp, email } = input;
 
   const otpRecord = await otpModel.findOne({ email, otp });
@@ -9,11 +11,13 @@ export const verifyOtp = async (_: unknown, { input }: { input: { otp: string; e
     throw new Error('Invalid OTP');
   }
 
-  if (otpRecord.expiresAt.getTime() < Date.now()) {
+  const fiveMinutesAgo = subMinutes(new Date(), 5);
+
+  if (isBefore(otpRecord.createdAt, fiveMinutesAgo)) {
     throw new Error('OTP has expired');
   }
 
   await otpModel.deleteOne({ email, otp });
 
-  return { email, message: 'Email verified successfully' };
+  return Response.Success;
 };

@@ -1,6 +1,10 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
+  enum Response {
+    Success
+  }
+
   scalar Date
   type User {
     _id: ID!
@@ -15,10 +19,6 @@ export const typeDefs = gql`
     password: String!
   }
 
-  type OtpResponse {
-    email: String!
-  }
-
   type AuthResponse {
     user: User!
     token: String!
@@ -30,8 +30,13 @@ export const typeDefs = gql`
   }
 
   input SignUpInput {
-    email: String
+    email: String!
     otp: String
+  }
+
+  input VerifyOtpInput {
+    email: String!
+    otp: String!
   }
 
   input OtpInput {
@@ -39,7 +44,7 @@ export const typeDefs = gql`
   }
 
   input PasswordInput {
-    email: String
+    email: String!
     password: String!
   }
 
@@ -49,8 +54,10 @@ export const typeDefs = gql`
 
   type Mutation {
     login(input: LoginInput!): AuthResponse!
-    verifyOtp(input: SignUpInput!): OtpResponse!
-    sendOtp(input: SignUpInput!): OtpResponse!
-    setPassword(input: PasswordInput!): User!
+    verifyOtp(input: VerifyOtpInput!): Response!
+    sendOtp(input: SignUpInput!): Response!
+    setPassword(input: PasswordInput!): Response!
+    verifyEmail(input: SignUpInput!): Response!
+    updatePassword(input: PasswordInput!): Response!
   }
 `;

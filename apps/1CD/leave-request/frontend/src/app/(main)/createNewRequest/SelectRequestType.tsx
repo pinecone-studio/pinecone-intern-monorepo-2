@@ -16,11 +16,11 @@ export const SelectRequestType = ({ formik, data }: { formik: FormikProps<Reques
           formik.setFieldValue('requestType', e);
         }}
       >
-        <SelectTrigger>
+        <SelectTrigger id='requestTypeInput'>
           <SelectValue placeholder="Сонгоно уу" />
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup>
+          <SelectGroup id='requestTypeOptions'>
             <SelectItem value="unpaid">Чөлөө</SelectItem>
             <SelectItem value="paid">Цалинтай чөлөө</SelectItem>
             <SelectItem value="remote">Зайнаас ажиллах</SelectItem>
