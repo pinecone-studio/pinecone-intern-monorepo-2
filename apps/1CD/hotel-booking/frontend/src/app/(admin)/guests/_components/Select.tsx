@@ -8,6 +8,7 @@ const StatusSelect = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
+          <SelectItem value="all">All</SelectItem>
           <SelectItem value="apple">Booked</SelectItem>
           <SelectItem value="banana">Completed</SelectItem>
           <SelectItem value="blueberry">Cancelled</SelectItem>
