@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { User } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 const navigation = [
   {
@@ -34,7 +35,10 @@ export const AdminHeader = () => {
           <p className="text-4xl ">TICKET BOOKING</p>
         </div>
         <div>
-          <User />
+          {/* <User /> */}
+          <Button>
+            Гарах
+          </Button>
         </div>
       </div>
 
