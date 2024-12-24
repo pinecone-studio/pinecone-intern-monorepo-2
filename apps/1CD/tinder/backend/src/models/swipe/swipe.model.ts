@@ -8,7 +8,7 @@ type SwipeType = {
     swipedUser:string,
     type:string,
     createdAt: Date;
-    updatedAt: Date;
+   
   };
 
 const swipeSchema=new Schema<SwipeType>({
