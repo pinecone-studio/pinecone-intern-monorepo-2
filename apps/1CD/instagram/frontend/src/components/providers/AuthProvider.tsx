@@ -2,18 +2,7 @@
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState, useEffect } from 'react';
-import {
-  useForgetPasswordMutation,
-  User,
-  useSignupMutation,
-  useResetPasswordMutation,
-  useGetUserLazyQuery,
-  useLoginMutation,
-  useChangeProImgMutation,
-  useGetFollowersLazyQuery,
-  FollowerInfo,
-  useGetFollowingsLazyQuery,
-} from 'src/generated';
+import { useForgetPasswordMutation, User, useSignupMutation, useResetPasswordMutation, useGetUserLazyQuery, useLoginMutation, useChangeProImgMutation } from 'src/generated';
 
 type SignUp = {
   email: string;
@@ -31,8 +20,6 @@ type ForgetPassword = { email: string };
 
 type ResetPassword = { password: string; resetToken: string };
 type ChangeProImage = { _id: string; profileImg: string };
-type Followers = { followingId: string };
-type Followings = { followerId: string };
 
 type AuthContextType = {
   signup: (_params: SignUp) => void;
@@ -42,8 +29,6 @@ type AuthContextType = {
   forgetPassword: (_params: ForgetPassword) => void;
   resetPassword: (_params: ResetPassword) => void;
   changeProfileImg: (_params: ChangeProImage) => void;
-  getFollowers: (_params: Followers) => void;
-  getFollowings: (_params: Followings) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -130,7 +115,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const resetPassword = async ({ password, resetToken }: ResetPassword) => {
     await resetPasswordMutatuion({ variables: { input: { password, resetToken } } });
   };
-
   const [changeProImg] = useChangeProImgMutation({
     onCompleted: (data) => {
       setUser(data.updateUserData as User);
@@ -141,32 +125,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log('change pro image iin error iig harah', error);
     },
   });
-
   const changeProfileImg = async ({ _id, profileImg }: ChangeProImage) => {
     await changeProImg({ variables: { input: { _id, profileImg } } });
-  };
-
-  const [seeFollowers] = useGetFollowersLazyQuery({
-    onCompleted: (dataFollowers) => {
-      const myFollowers = dataFollowers.seeFollowers.map((oneFollower) => oneFollower.followerId);
-    },
-  });
-  const getFollowers = async ({ followingId }: Followers) => {
-    await seeFollowers({ variables: { followingId } });
-  };
-
-  const [seeFollowings] = useGetFollowingsLazyQuery({
-    onCompleted: (dataFollowings) => {
-      const myFollowings = dataFollowings.seeFollowings.map((oneFollowing) => oneFollowing.followingId);
-    },
-  });
-  const getFollowings = async ({ followerId }: Followings) => {
-    await seeFollowings({ variables: { followerId: user?._id! } });
   };
   useEffect(() => {
     getUser();
   }, [user]);
-  return <AuthContext.Provider value={{ signup, user, forgetPassword, resetPassword, login, signout, changeProfileImg, getFollowers, getFollowings }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signup, user, forgetPassword, resetPassword, login, signout, changeProfileImg }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

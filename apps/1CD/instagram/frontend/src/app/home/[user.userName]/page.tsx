@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetFollowersQuery, useGetMyPostsQuery } from '@/generated';
+import { useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
 
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -10,12 +10,11 @@ import { NoPost } from '@/components/user-profile/NoPost';
 import Image from 'next/image';
 
 const UserProfile = () => {
-  const { user, changeProfileImg, getFollowings } = useAuth();
-  const { data, error } = useGetMyPostsQuery();
+  const { user, changeProfileImg } = useAuth();
+  const { data: postData, error } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  const followings = async () => {
-    await getFollowings({ followerId: user?._id! });
-  };
+  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: user?._id! } });
+  console.log('followings iig harah', followingData?.seeFollowings);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -44,20 +43,20 @@ const UserProfile = () => {
                     </p>
                   )}
                   <h1 className="font-semibold" data-cy="postNumberDone">
-                    {data?.getMyPosts.length}
+                    {postData?.getMyPosts.length}
                   </h1>
                 </div>
                 <p>posts</p>
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followerNumber">
-                  {followers?.length ? followers.length : 0}
+                  {/* {followers?.length ? followers.length : 0} */}
                 </h1>
                 <p>followers</p>
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followingNumber">
-                  {user?.followingCount}
+                  {followingData?.seeFollowings.length}
                 </h1>
                 <p>following</p>
               </div>
@@ -87,9 +86,9 @@ const UserProfile = () => {
               Something wrong
             </p>
           )}
-          {data?.getMyPosts.length === 0 && <NoPost />}
+          {postData?.getMyPosts.length === 0 && <NoPost />}
           <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
-            {data?.getMyPosts.map((myOnePost) => (
+            {postData?.getMyPosts.map((myOnePost) => (
               <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
                 <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
               </section>
