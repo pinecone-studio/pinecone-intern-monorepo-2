@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 
 const Page = () => {
+  // eslint-disable-next-line no-unused-vars
   const [date, setDate] = React.useState<DateRange | undefined>();
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);
