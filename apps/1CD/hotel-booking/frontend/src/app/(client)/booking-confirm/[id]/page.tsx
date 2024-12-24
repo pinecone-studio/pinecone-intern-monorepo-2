@@ -12,7 +12,24 @@ const Page = ({ params }: { params: { id: string } }) => {
       id: params.id,
     },
   });
-
+  const CheckIndate = () => {
+    if (!data?.getBooking.checkInDate) return null;
+    return (
+      <div className="flex gap-1">
+        <div>{format(data?.getBooking?.checkOutDate, 'EEEE, MMM d,')}</div>
+        <div>{format(data?.getBooking?.checkInDate, 'h:mma')}</div>
+      </div>
+    );
+  };
+  const CheckOutDate = () => {
+    if (!data?.getBooking.checkOutDate) return null;
+    return (
+      <div className="flex gap-1">
+        <div>{format(data?.getBooking?.checkOutDate, 'EEEE, MMM d,')}</div>
+        <div>{format(data?.getBooking?.checkOutDate, 'h:mma')}</div>
+      </div>
+    );
+  };
   if (loading) return <div>loading...</div>;
 
   return (
@@ -45,16 +62,12 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col gap-1">
           <div className="text-[#71717A]">Check in</div>
           <div className="flex gap-1">
-            <div>{format(data?.getBooking?.checkInDate, 'EEEE, MMM d,')}</div>
-            <div>{format(data?.getBooking?.checkInDate, 'h:mma')}</div>
+            <CheckIndate />
           </div>
         </div>
         <div className="flex flex-col gap-1">
           <div className="text-[#71717A]">Check out</div>
-          <div className="flex gap-1">
-            <div>{format(data?.getBooking?.checkOutDate, 'EEEE, MMM d,')}</div>
-            <div>{format(data?.getBooking?.checkOutDate, 'h:mma')}</div>
-          </div>
+          <CheckOutDate />
         </div>
         <div className="my-4 w-full bg-[#E4E4E7] h-[1px]"></div>
         <div>{data?.getBooking.roomId?.roomInformation}</div>
