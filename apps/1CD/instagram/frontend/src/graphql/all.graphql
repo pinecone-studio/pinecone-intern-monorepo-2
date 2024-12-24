@@ -26,11 +26,62 @@ query GetUser {
   }
 }
 
+query GetOneUser($id: ID!) {
+  getOneUser(_id: $id) {
+    _id
+    accountVisibility
+    bio
+    createdAt
+    followerCount
+    followingCount
+    fullName
+    profileImg
+    updatedAt
+    userName
+  }
+}
+
 query SearchUsers($searchTerm: String!) {
   searchUsers(searchTerm: $searchTerm) {
     _id
     userName
     fullName
+  }
+}
+
+query GetFollowings($followerId: ID!) {
+  seeFollowings(followerId: $followerId) {
+    followingId {
+      _id
+      accountVisibility
+      bio
+      createdAt
+      followerCount
+      followingCount
+      fullName
+      profileImg
+      updatedAt
+      userName
+      email
+    }
+  }
+}
+
+query GetFollowers($followingId: ID!) {
+  seeFollowers(followingId: $followingId) {
+    followerId {
+      _id
+      accountVisibility
+      bio
+      createdAt
+      followerCount
+      followingCount
+      fullName
+      profileImg
+      updatedAt
+      userName
+      email
+    }
   }
 }
 

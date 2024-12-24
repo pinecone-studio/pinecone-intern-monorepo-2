@@ -27,7 +27,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2 md:justify-end md:gap-4">
-        <Link href="/user/order">
+        <Link href="/user/home/user-profile">
           <SlBasket className="w-5 h-5 mx-2 md:mx-4" />
         </Link>
         {!user && (
@@ -39,7 +39,7 @@ export const Header = () => {
             </Link>
 
             <Link href="/user/sign-in">
-              <Button data-cy="SignInBtn" data-testid="SignInBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36">
+              <Button data-cy="SignInBtn" data-testid="SignInBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-28 md:w-36 hover:text-white">
                 Нэвтрэх
               </Button>
             </Link>
@@ -50,7 +50,7 @@ export const Header = () => {
             <span data-cy="UserEmail" data-testid="UserEmail" className="text-sm font-medium text-gray-300">
               {user.email}
             </span>
-            <Button data-cy="SignOutBtn" data-testid="SignOutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28" onClick={signout}>
+            <Button data-cy="SignOutBtn" data-testid="SignOutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white" onClick={signout}>
               Гарах
             </Button>
           </div>

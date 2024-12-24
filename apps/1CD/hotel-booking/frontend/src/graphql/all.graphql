@@ -131,6 +131,7 @@ query HotelDetail($hotelId: ID!) {
     roomName
     roomType
     price
+    images
     roomInformation
     createdAt
     images
@@ -148,6 +149,7 @@ query GetHotel($id: ID!) {
     images
   }
 }
+
 query GetBookingFindByUserId($userId: ID) {
   getBookingFindByUserId(userId: $userId) {
     _id
@@ -185,4 +187,33 @@ query GetBookingFindByUserId($userId: ID) {
     totalPrice
     status
   }
+}
+
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    user {
+      email
+      _id
+      firstName
+      lastName
+      phoneNumber
+      createdAt
+    }
+    token
+  }
+}
+
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input)
+}
+
+mutation SendOtp($input: SignUpInput!) {
+  sendOtp(input: $input)
+}
+
+mutation SetPassword($input: PasswordInput!) {
+  setPassword(input: $input)
+}
+mutation verifyEmail($input: SignUpInput!) {
+  verifyEmail(input: $input)
 }

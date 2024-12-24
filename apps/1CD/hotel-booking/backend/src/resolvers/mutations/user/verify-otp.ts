@@ -1,4 +1,4 @@
-import { MutationResolvers, Response } from '../../../../src/generated';
+import { MutationResolvers, Response } from '../../../generated';
 import { otpModel } from '../../../models';
 import { isBefore, subMinutes } from 'date-fns';
 

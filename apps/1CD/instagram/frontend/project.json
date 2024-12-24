@@ -25,15 +25,15 @@
     },
     "serve": {
       "executor": "@nx/next:server",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "testing",
       "options": {
         "buildTarget": "instagram-frontend:build",
-        "dev": false
+        "dev": true
       },
       "configurations": {
         "development": {
           "buildTarget": "instagram-frontend:build:development",
-          "dev": false,
+          "dev": true,
           "port": 4201
         },
         "production": {
@@ -43,7 +43,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:testing",
+          "target": "codegen:dev",
           "params": "forward"
         },
         {

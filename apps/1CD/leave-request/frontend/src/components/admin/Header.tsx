@@ -1,4 +1,3 @@
-
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import WhoAmI from '@/utils/decode-token';
 import Image from 'next/image';
@@ -23,14 +22,16 @@ const superviseeHeader = [
 
 const getCorrectNavBar = async () => {
   const decoded = await WhoAmI();
-  const { role } = decoded as { role: string };
+  const role: string = getRole(decoded as { role: string });
   return (role == 'supervisee' && superviseeHeader) || (role == 'supervisor' && supervisorHeader) || adminHeader;
 };
 
+const getRole = (decoded: { role: string }) => {
+  const { role } = decoded || '';
+  return role;
+};
+
 const Header = async () => {
-
-
-
   const NavBar = await getCorrectNavBar();
   return (
     <header className="flex flex-col h-16 gap-4 px-6 pt-4">
