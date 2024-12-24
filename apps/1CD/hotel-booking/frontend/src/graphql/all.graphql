@@ -173,8 +173,8 @@ mutation SendOtp($input: SignUpInput!) {
 }
 
 mutation SetPassword($input: PasswordInput!) {
-  setPassword(input: $input) {
-    _id
-    email
-  }
+  setPassword(input: $input)
+}
+mutation verifyEmail($input: SignUpInput!) {
+  verifyEmail(input: $input)
 }

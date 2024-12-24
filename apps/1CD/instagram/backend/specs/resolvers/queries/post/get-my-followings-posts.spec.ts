@@ -46,6 +46,7 @@ jest.mock('../../../../src/models/post.model.ts', () => ({
           },
           description: 'Post 1',
           images: ['img1'],
+               createdAt: '2024-12-20T06:11:30.947Z',
         },
         {
           _id: '12',
@@ -55,6 +56,7 @@ jest.mock('../../../../src/models/post.model.ts', () => ({
           },
           description: 'Post 1',
           images: ['img1'],
+          createdAt: '2024-12-20T06:11:30.947Z',
         },
       ]),
     }),
@@ -74,6 +76,7 @@ describe('getMyFollowingsPosts', () => {
         },
         description: 'Post 1',
         images: ['img1'],
+        createdAt: '2024-12-20T06:11:30.947Z',
       },
       {
         _id: '12',
@@ -83,6 +86,7 @@ describe('getMyFollowingsPosts', () => {
         },
         description: 'Post 1',
         images: ['img1'],
+        createdAt: '2024-12-20T06:11:30.947Z',
       },
     ]);
   });

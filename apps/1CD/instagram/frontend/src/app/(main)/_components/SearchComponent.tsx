@@ -1,15 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { CiSearch } from 'react-icons/ci';
-import { LuDot } from 'react-icons/lu';
 import { useUser } from '@/components/providers/UserProvider';
+import { Dot } from 'lucide-react';
 
 const SearchFromAllUsers = () => {
   const { searchTerm, searchHandleChange, data, loading } = useUser();
 
   return (
-    <div className="px-4 py-8 border-y border-r  w-[350px] h-screen" data-testid="search-users-component">
+    <div className="px-4 py-8 border-y border-r w-[350px] h-screen" data-testid="search-users-component">
       <div className="flex items-center">
         <CiSearch />
         <Input
@@ -21,24 +22,25 @@ const SearchFromAllUsers = () => {
         />
       </div>
 
-      {loading ? <div>Loading</div> : null}
+      {loading ? <div>Loading...</div> : null}
 
       {data?.searchUsers.map((user) => (
-        <div className="flex flex-col justify-center gap-4 px-3 py-2" key={user._id}>
+        <Link href={`/home/viewprofile/${user._id}`} key={user._id} className="flex flex-col justify-center gap-4 px-3 py-2">
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src="/images/img.avif" alt="Photo1" className="h-full rounded-full w-fit" />
+              <Image fill={true} src="/images/img.avif" alt="User Profile" className="h-full rounded-full w-fit" />
             </div>
             <div className="flex flex-col text-[#09090B]">
               <span className="text-sm font-[550]">{user.userName}</span>
               <div className="flex items-center text-xs">
                 <span className="mr-1">{user.fullName}</span>
-                <LuDot />
-                <span className="text-[#71717A]">follower</span>
+                <Dot className="w-3" />
+
+                <span className="text-[#71717A]">Follower</span>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

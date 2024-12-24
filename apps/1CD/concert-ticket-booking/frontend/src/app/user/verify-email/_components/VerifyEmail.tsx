@@ -5,38 +5,37 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { toast } from 'sonner';
-import { useVerifyUserEmailMutation } from '@/generated';
 import { Loader } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
 
 const formSchema = z.object({
   email: z.string().min(2, {
     message: 'Email must be at least 2 characters.',
   }),
 });
-const VerifyEmail = () => {
+type VerifyEmailParams = {
+  variables: {
+    email: string;
+  };
+};
+type VerifyEmail = {
+  setEmail: Dispatch<SetStateAction<string>>;
+  verifyUserEmail: (_params: VerifyEmailParams) => void;
+  loading: boolean;
+};
+const VerifyEmail = ({ setEmail, verifyUserEmail, loading }: VerifyEmail) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
     },
   });
-  const [VerifyUserEmail, { loading }] = useVerifyUserEmailMutation({
-    onCompleted: () => {
-      toast.success('Successfully sent otp to email');
-    },
-    onError: (error: any) => {
-      toast.error(error.message);
-    },
-  });
-
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
-    VerifyUserEmail({ variables: value });
+    setEmail(value.email);
+    verifyUserEmail({ variables: value });
   };
-
   return (
     <div
-      data-cy="Verify-Email-Page"
       className="flex min-h-[calc(100vh-1px)] bg-black align-center px-4 py-6"
       style={{
         background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
