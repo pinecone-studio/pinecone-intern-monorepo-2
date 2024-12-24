@@ -28,16 +28,19 @@ const Page = () => {
     <div className="w-full pt-10 bg-black" data-cy="Home-Page">
       {firstEvent && <CarouselMain event={firstEvent} />}
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
-        {loading && <div className="flex w-full h-full justify-center items-center">Loading...</div>}
-        {data?.getEvents?.map((event) => (
-          <div key={event?._id}>
-            {event && (
-              <Link href={`/user/home/event/${event._id}`}>
-                <CardTicket event={event as Event} />
-              </Link>
-            )}
-          </div>
-        ))}
+        {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
+        <div className="relative flex items-center w-[200px] px-2 md:px-6 md:w-auto text-white">
+          {loading && <div className="flex w-full h-full justify-center items-center">Loading...</div>}
+          {data?.getEvents?.map((event) => (
+            <div key={event?._id}>
+              {event && (
+                <Link href={`/user/home/event/${event._id}`}>
+                  <CardTicket event={event as Event} />
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
