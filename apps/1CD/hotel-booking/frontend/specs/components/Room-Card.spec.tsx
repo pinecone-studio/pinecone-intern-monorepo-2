@@ -1,4 +1,4 @@
-import RoomCard from "@/components/RoomCard";
+import RoomCard from "@/app/(public)/hotel-detail/RoomCard";
 import { render } from "@testing-library/react";
 
 describe('RoomCard', ()=> {

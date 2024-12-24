@@ -13,6 +13,8 @@ describe('HotelDetail', () => {
     it('3. should render', () => {
         cy.get('[data-cy="Show-More"]').first().click();
         cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
+        // cy.get('[data-cy="Price-Detail"]').first().click();
+        // cy.get('[data-cy="Price-Detail"]').should('be.visible');
     });
 
 })

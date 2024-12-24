@@ -1,10 +1,10 @@
 'use client';
 import { RoomType } from '@/generated';
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from 'lucide-react';
-import HotelRoomDetail from './HotelRoomDetail';
+import HotelRoomDetail from '../../../components/HotelRoomDetail';
 import { useCallback, useState } from 'react';
 import Image from 'next/image';
-import PriceDetail from './PriceDetail';
+import PriceDetail from '../../../components/PriceDetail';
 import Link from 'next/link';
 
 const RoomCard = ({ room }: { room: RoomType }) => {
@@ -26,9 +26,9 @@ const RoomCard = ({ room }: { room: RoomType }) => {
     }
   }, [isOn]);
   return (
-    <div className="border border-solid 1px rounded-md w-[349px]">
+    <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-[349px]">
       <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
-        <Image src={`${room?.images}`} alt="room image" width={500} height={500} />
+        <Image src={`${room?.images}`} alt="room image" width={500} height={500} data-cy="Room-image" />
       </div>
       <div className="p-4">
         <div className="flex flex-col gap-4">
@@ -87,19 +87,19 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
             </div>
             <div className="flex gap-2 items-center py-2">
-              <div className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
+              <div data-cy="Price-Detail-Button" className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
                 Price detail
               </div>
               <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
           <div className="pt-14">
-            <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">
+            <Link href={`/checkout/${room?._id}`} data-cy="Reserve-button" className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
               Reserve
             </Link>
           </div>
         </div>
-        <HotelRoomDetail isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
+        <HotelRoomDetail data-cy="Hotel-Room-Detail" isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
         <PriceDetail isOn={isOn} handleOpen={() => handleOpen()} room={room} />
       </div>
     </div>

@@ -1,4 +1,4 @@
-"use client"
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 import { X } from 'lucide-react';
@@ -6,7 +6,7 @@ import Link from 'next/link';
 const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean; handleOpen: () => void }) => {
   return (
     <Dialog open={isOn}>
-      <DialogContent className="p-6 max-w-screen-sm">
+      <DialogContent className="p-6 max-w-screen-sm"  data-cy="Price-Detail-Dialog">
         <DialogHeader>
           <DialogTitle className="flex justify-between">
             <div className="text-xl font-semibold">Price Detail</div>
@@ -27,8 +27,8 @@ const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean
           <div className="text-sm font-medium">Total price</div>
           <div className="text-lg font-semibold">₮ 300,000</div>
         </div>
-        <div className="w-full bg-[#2563EB] rounded-md py-2 px-3">
-          <Link href={`/checkout/${room._id}`} className="text-white flex justify-center">
+        <div className="w-full bg-[#2563EB] rounded-md py-2 px-3 hover:bg-[#264689]">
+          <Link href={`/checkout/${room._id}`} data-cy="Reserve-button"  className="text-white flex justify-center">
             Reserve
           </Link>
         </div>

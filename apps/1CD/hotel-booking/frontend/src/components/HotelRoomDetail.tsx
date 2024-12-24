@@ -1,8 +1,7 @@
-'use client';
 
 import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
-import RoomCarousel from './HotelRoomCarousel';
+import RoomCarousel from '../app/(public)/hotel-detail/HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
 import Link from 'next/link';
 
@@ -14,7 +13,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold flex justify-between">
               <div>Room information</div>
-              <button className="outline-none" onClick={handleState}>
+              <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
                 <X />
               </button>
             </DialogTitle>
@@ -92,7 +91,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">
+              <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
                 Reserve
               </Link>
             </div>
