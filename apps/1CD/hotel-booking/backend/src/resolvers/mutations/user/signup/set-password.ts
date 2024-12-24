@@ -1,15 +1,22 @@
 import { userModel } from 'src/models';
+import bcrypt from 'bcrypt';
+import { Response } from 'src/generated';
 
 export const setPassword = async (_: unknown, { input }: { input: { email: string; password: string } }) => {
   const { email, password } = input;
 
-  const info = { email, password };
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const newUser = await userModel.create({
-    ...info,
+    email,
+    password: hashedPassword,
   });
+
+  if (!newUser) {
+    throw new Error('Database error');
+  }
 
   await newUser.save();
 
-  return { email: newUser.email, _id: newUser._id, createdAt: newUser.createdAt };
+  return Response.Success;
 };
