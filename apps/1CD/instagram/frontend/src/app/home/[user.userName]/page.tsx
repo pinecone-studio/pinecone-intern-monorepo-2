@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
+import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
 
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -11,10 +11,11 @@ import Image from 'next/image';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
-  const { data: postData, error } = useGetMyPostsQuery();
+  const userId: string = user?._id as string;
+  const { data: postData, error: postError } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: user?._id! } });
-  console.log('followings iig harah', followingData?.seeFollowings);
+  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
+  const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -37,7 +38,7 @@ const UserProfile = () => {
               <div className="flex flex-row items-center space-x-2">
                 <div className="font-semibold">
                   {/* {loading && <Skeleton className="h-4 w-10" />} */}
-                  {error && (
+                  {postError && (
                     <p className="font-normal" data-cy="postnumberError">
                       Something wrong
                     </p>
@@ -50,12 +51,13 @@ const UserProfile = () => {
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followerNumber">
-                  {/* {followers?.length ? followers.length : 0} */}
+                  {followerData?.seeFollowers.length}
                 </h1>
                 <p>followers</p>
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followingNumber">
+                  {/* {followingData?.seeFollowings.length} */}
                   {followingData?.seeFollowings.length}
                 </h1>
                 <p>following</p>
@@ -81,7 +83,7 @@ const UserProfile = () => {
         </div>
         <div className="mt-16">
           {/* {loading && <Skeleton className="h-[75vh] w-full" />} */}
-          {error && (
+          {postError && (
             <p className="font-normal" data-cy="postsError">
               Something wrong
             </p>
