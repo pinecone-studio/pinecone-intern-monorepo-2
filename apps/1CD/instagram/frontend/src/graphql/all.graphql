@@ -99,3 +99,14 @@ mutation ChangeProImg($input: UpdateInput!) {
     profileImg
   }
 }
+
+mutation SendFollowReq($followerId: ID!, $followingId: ID!) {
+  sendFollowReq(followerId: $followerId, followingId: $followingId) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
+  }
+}
