@@ -1,6 +1,18 @@
 query Query {
   sampleQuery
 }
+query GetSpecialEvent {
+  getSpecialEvent {
+    _id
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    image
+    priority
+  }
+}
 
 mutation Mutation {
   sampleMutation
@@ -62,5 +74,10 @@ query GetMe {
     email
     role
     phoneNumber
+  }
+}
+mutation UpdateUser($input: UpdateInput!) {
+  updateUser(input: $input) {
+    role
   }
 }

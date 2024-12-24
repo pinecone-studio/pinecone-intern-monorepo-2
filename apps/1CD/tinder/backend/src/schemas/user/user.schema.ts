@@ -9,13 +9,13 @@ export const typeDefs = gql`
     bio: String!
     age: Int!
     gender: String!
-    interests: [String!]
-    photos: [String!]
+    interests: [String!]!
+    photos: [String!]!
     profession: String!
     schoolWork: [String!]
     createdAt: Date!
     updatedAt: Date!
-    attraction: String!
+    attraction: String
   }
 
   input RegisterEmailInput {

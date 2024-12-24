@@ -1,6 +1,6 @@
 'use client';
-import AddRoomGeneralInfo from '@/app/AddRoomGeneralInfo';
-import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+import AddRoomGeneralInfo from '@/app/(admin)/AddRoomGeneralInfo';
+import AddHotelGeneralInfo from '../AddHotelGeneralInfo';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 const Page = () => {

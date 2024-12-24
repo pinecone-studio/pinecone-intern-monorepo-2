@@ -2,7 +2,7 @@
 
 import { LoginMutation, useGetMeLazyQuery, useLoginMutation, useSignUpMutation } from '@/generated';
 import { useRouter } from 'next/navigation';
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 type SignUpParams = {
@@ -15,10 +15,12 @@ type AuthContextType = {
   signout: () => void;
   user: LoginMutation['login']['user'] | null;
   loading: boolean;
+  setRefresh: Dispatch<SetStateAction<boolean>>;
 };
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const [refresh, setRefresh] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<LoginMutation['login']['user'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -89,9 +91,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     } else {
       setToken(localStorage.getItem('token'));
     }
-  }, [token]);
+  }, [token, refresh]);
 
-  return <AuthContext.Provider value={{ handleSignUp, handleSignIn, user, signout, loading }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ setRefresh, handleSignUp, handleSignIn, user, signout, loading }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

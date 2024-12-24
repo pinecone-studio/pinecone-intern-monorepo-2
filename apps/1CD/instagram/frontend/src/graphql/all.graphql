@@ -49,6 +49,42 @@ query SearchUsers($searchTerm: String!) {
   }
 }
 
+query GetFollowings($followerId: ID!) {
+  seeFollowings(followerId: $followerId) {
+    followingId {
+      _id
+      accountVisibility
+      bio
+      createdAt
+      followerCount
+      followingCount
+      fullName
+      profileImg
+      updatedAt
+      userName
+      email
+    }
+  }
+}
+
+query GetFollowers($followingId: ID!) {
+  seeFollowers(followingId: $followingId) {
+    followerId {
+      _id
+      accountVisibility
+      bio
+      createdAt
+      followerCount
+      followingCount
+      fullName
+      profileImg
+      updatedAt
+      userName
+      email
+    }
+  }
+}
+
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
     user {
@@ -97,5 +133,16 @@ mutation ChangeProImg($input: UpdateInput!) {
   updateUserData(input: $input) {
     _id
     profileImg
+  }
+}
+
+mutation SendFollowReq($followerId: ID!, $followingId: ID!) {
+  sendFollowReq(followerId: $followerId, followingId: $followingId) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
   }
 }

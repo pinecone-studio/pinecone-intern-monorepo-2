@@ -47,4 +47,8 @@ export const typeDefs = gql`
   type Query {
     seeFollowers(followingId: ID!): [FollowerInfo!]!
   }
+
+  type Query {
+    getFollowStatus(_id: ID!, followerId: ID!): FollowInfo!
+  }
 `;
