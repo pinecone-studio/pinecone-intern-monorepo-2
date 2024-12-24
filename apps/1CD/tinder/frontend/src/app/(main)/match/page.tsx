@@ -29,7 +29,7 @@ const Match = () => {
             <button className="text-gray-400" data-cy="messages-icon">
               <MessageSquare className="w-6 h-6" />
             </button>
-            <Image src="/my-profile.jpg" alt="Profile" className="w-8 h-8 rounded-full" data-cy="profile-picture" />
+            <Image src="/my-profile.jpg" alt="Profile" className="w-8 h-8 rounded-full" width={32} height={32} data-cy="profile-picture" />
           </div>
         </div>
       </div>
