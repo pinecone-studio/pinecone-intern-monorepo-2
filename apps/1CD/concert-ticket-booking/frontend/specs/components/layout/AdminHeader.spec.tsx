@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AdminHeader } from '@/app/admin/home/_components/AdminHeader';
-import { useAuth } from 'src/components/providers/AuthProvider'; // Adjust if necessary
 
 jest.mock('src/components/providers/AuthProvider', () => ({
   useAuth: jest.fn(),
