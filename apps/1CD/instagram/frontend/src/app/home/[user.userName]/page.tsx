@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetMyPostsQuery } from '@/generated';
+import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
 
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -11,10 +11,11 @@ import Image from 'next/image';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
-  const { data, error } = useGetMyPostsQuery();
+  const userId: string = user?._id as string;
+  const { data: postData, error: postError } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  console.log('zurag harah', data?.getMyPosts);
-  console.log('useriigharah', user?._id);
+  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
+  const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -37,26 +38,27 @@ const UserProfile = () => {
               <div className="flex flex-row items-center space-x-2">
                 <div className="font-semibold">
                   {/* {loading && <Skeleton className="h-4 w-10" />} */}
-                  {error && (
+                  {postError && (
                     <p className="font-normal" data-cy="postnumberError">
                       Something wrong
                     </p>
                   )}
                   <h1 className="font-semibold" data-cy="postNumberDone">
-                    {data?.getMyPosts.length}
+                    {postData?.getMyPosts.length}
                   </h1>
                 </div>
                 <p>posts</p>
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followerNumber">
-                  {user?.followerCount}
+                  {followerData?.seeFollowers.length}
                 </h1>
                 <p>followers</p>
               </div>
               <div className="flex flex-row space-x-2">
                 <h1 className="font-semibold" data-cy="followingNumber">
-                  {user?.followingCount}
+                  {/* {followingData?.seeFollowings.length} */}
+                  {followingData?.seeFollowings.length}
                 </h1>
                 <p>following</p>
               </div>
@@ -70,25 +72,25 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="border-t-4 border-t-gray-200 flex relative">
-          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 left-[40%]">
+          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 left-[40%]">
             <Grid3x3 />
             <p>POSTS</p>
           </div>
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-2  absolute -top-1 right-[40%]">
+          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 right-[40%]">
             <Save />
             <p>SAVED</p>
           </div>
         </div>
         <div className="mt-16">
           {/* {loading && <Skeleton className="h-[75vh] w-full" />} */}
-          {error && (
+          {postError && (
             <p className="font-normal" data-cy="postsError">
               Something wrong
             </p>
           )}
-          {data?.getMyPosts.length === 0 && <NoPost />}
+          {postData?.getMyPosts.length === 0 && <NoPost />}
           <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
-            {data?.getMyPosts.map((myOnePost) => (
+            {postData?.getMyPosts.map((myOnePost) => (
               <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
                 <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
               </section>

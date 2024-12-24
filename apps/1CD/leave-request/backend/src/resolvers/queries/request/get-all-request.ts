@@ -23,10 +23,14 @@ const calculateFilter = (email?: string, startDate?: Date, endDate?: Date, statu
     matchQuery.email = email;
   }
   if (startDate) {
-    matchQuery.requestDate = { $gte: startDate, $lte: endDate };
+    matchQuery.requestDate = dateFilter(startDate, endDate);
   }
   if (status) {
     matchQuery.result = status;
   }
   return matchQuery;
 };
+
+const dateFilter = (startDate: Date, endDate?:Date) => {
+  if(endDate) return { $gte: new Date(startDate), $lte: new Date(endDate) }
+}
