@@ -26,10 +26,9 @@ const bookingSchema = new Schema<BookingType>({
     type: Number,
     required: true,
   },
-
   status: {
     type: String,
-    enum: ['booked', 'checked-in', 'checked-out', 'cancelled'],
+    enum: ['Booked', 'Cancelled', 'Completed'],
   },
 });
 
