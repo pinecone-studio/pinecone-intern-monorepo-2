@@ -20,6 +20,10 @@ export const typeDefs = gql`
     status: bookingStatus
   }
   input BookingInput {
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
     userId: String
     roomId: String
     hotelId: String
