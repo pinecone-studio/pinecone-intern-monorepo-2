@@ -1,10 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AdminHeader } from '@/app/admin/home/_components/AdminHeader';
-
-jest.mock('lucide-react', () => ({
-  User: () => <div data-testid="user-icon">User</div>,
-}));
+import { useAuth } from 'src/components/providers/AuthProvider'; // Adjust if necessary
 
 jest.mock('src/components/providers/AuthProvider', () => ({
   useAuth: jest.fn(),
@@ -23,9 +20,31 @@ describe('AdminHeader Component', () => {
     expect(screen.getByText('Артист')).toBeInTheDocument();
   });
 
-  it('should display the user icon', () => {
+  it('should render the "Exit Account" button with text "Гарах"', () => {
+    render(<AdminHeader />);
+    
+    const exitButton = screen.getByRole('button', { name: /гарах/i });
+    expect(exitButton).toBeInTheDocument();
+  });
+
+  it('should call the onExit function when the "Гарах" button is clicked', () => {
+    const mockExit = jest.fn();
+
+    render(<AdminHeader onExit={mockExit} />);
+
+    const exitButton = screen.getByRole('button', { name: /гарах/i });
+    fireEvent.click(exitButton);
+
+    expect(mockExit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should highlight the active link correctly', () => {
     render(<AdminHeader />);
 
-    expect(screen.getByTestId('user-icon')).toBeInTheDocument();
+    // Click on "Цуцлах хүсэлт"
+    fireEvent.click(screen.getByText('Цуцлах хүсэлт'));
+
+    expect(screen.getByText('Цуцлах хүсэлт')).toHaveClass('font-bold text-black');
+    expect(screen.getByText('Тасалбар')).not.toHaveClass('font-bold text-black');
   });
 });
