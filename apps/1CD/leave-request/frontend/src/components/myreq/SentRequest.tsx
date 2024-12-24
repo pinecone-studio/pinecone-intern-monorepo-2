@@ -1,105 +1,143 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Calendar1, Tag } from 'lucide-react';
 import { ClientDatePicker } from './DatePicker';
 import { useGetRequestsQuery } from '@/generated';
+import { Calendar, Tag } from 'lucide-react';
+import { addDays, format } from 'date-fns';
+import { useRef } from 'react';
 
-type RequestThatIsent = {
-  MongolDate: string;
-  Date: Date;
-  description: string;
-  status: string;
-  icon1?: React.ReactNode;
-  icon2?: React.ReactNode;
-  yearDate: string;
-};
-const RequestThatIsent = ({ Date, description, icon1, MongolDate, status, icon2, yearDate }: RequestThatIsent) => {
+interface requestProps {
+  _id: string;
+  email?: string | null;
+  requestType?: string | null;
+  message?: string | null;
+  requestDate?: string | null;
+  startTime?: string | null;
+  endTime?: string | null;
+  supervisorEmail?: string | null;
+  result?: string | null;
+  comment?: string | null;
+  optionalFile?: string | null;
+}
+
+const RequestGroup = ({ date, requests }: { date?: string; requests: Array<requestProps | null> | null }) => {
+  if (!requests || !date) {
+    return null;
+  }
+
+  const formatedDate = date?.split('-').slice(1).join('-');
+  const dateObj = new Date(date).setHours(0, 0, 0, 0);
+  const today = new Date().setHours(0, 0, 0, 0);
+  const gap = Math.abs(dateObj - today) / (1000 * 60 * 60 * 24);
   return (
-    <div className="w-[684px] ">
+    <div className="w-[684px]">
       <div className="flex gap-2 mb-1">
-        <h1 className="font-bold">{Date.toString()}</h1>
-        <p className=" text-[#71717A]">{MongolDate}</p>
+        <h1 className="text-[#09090B] text-[16px]">{formatedDate}</h1>
+        <span>
+          <RelativeDateNote gap={gap} />
+        </span>
       </div>
-      <div className="bg-white p-6 mb-4 rounded-md">
-        <div className="flex gap-3 ml-1">
-          <div className=" text-sm">{icon1 && <div className="text-sm">{icon1}</div>}</div>
-          <div>{description}</div>
-          <div className="rounded-full bg-[#F9731633] p-2 text-sm">{status}</div>
-        </div>
-        <div className="flex gap-2 ml-1">
-          <div className=" text-sm">{icon2 && <div className="text-sm">{icon2}</div>}</div>
-          <div>{yearDate}</div>
-        </div>
+      {requests?.map((request, index) => {
+        if (!request) return null;
+        return <RequestItem key={index} {...request} />;
+      })}
+    </div>
+  );
+};
+
+const RelativeDateNote = ({ gap }: { gap: number }) => {
+  if (gap == 1) return 'Маргааш';
+  if (gap == 0) return 'Өнөөдөр';
+  if (gap == -1) return 'Өчигдөр';
+  return;
+};
+
+const RequestItem = ({ requestType, result, startTime, endTime, requestDate }: requestProps) => {
+  if (!requestDate) return null;
+  return (
+    <div className="bg-white flex flex-col gap-2 mb-4 rounded-[8px] border-[1px] border-[#E4E4E7] p-6">
+      <div className="flex gap-2 items-center">
+        <Tag size={16} />
+        <span className="text-[#09090B] text-sm">
+          <RequestType requestType={requestType} /> <RequestTimeCal startTime={startTime} endTime={endTime} />
+        </span>
+        <Status result={result} />
+      </div>
+      <div className="flex gap-2 items-center">
+        <Calendar size={16} />
+        <span className="text-[#09090B] text-sm">
+          {format(new Date(requestDate), 'yyyy/MM/dd')} {startTime && `(${startTime} - ${endTime})`}
+        </span>
       </div>
     </div>
   );
 };
 
+const RequestType = ({ requestType }: { requestType?: string | null }) => {
+  return (requestType == 'paid' && 'Цалинтай чөлөө') || (requestType == 'remote' && 'Зайнаас ажиллах') || 'Чөлөө';
+};
+
+const RequestTimeCal = ({ startTime, endTime }: { startTime: requestProps['startTime']; endTime: requestProps['endTime'] }) => {
+  if (!startTime || !endTime) return '(1 хоног)';
+  const findHourGap = (hour1: string, hour2: string) => {
+    const gap = Number(hour1.split(':')[0]) - Number(hour2.split(':')[0]);
+    return gap;
+  };
+  const hours = findHourGap(endTime, startTime);
+  return `(${hours} цаг)`;
+};
+
+const Status = ({ result }: { result?: string | null }) => {
+  const colorPicker = () => {
+    return (result == 'success' && '#18BA5133') || (result == 'fail' && '#E11D4833') || '#F9731633';
+  };
+  const textPicker = () => {
+    return (result == 'success' && 'Баталгаажсан') || (result == 'fail' && 'Татгалзсан') || 'Хүлээгдэж байна';
+  };
+  const text = textPicker();
+  const color = colorPicker();
+  return <div className={`rounded-full px-[10px] py-[2px] text-[12px] text-[#18181B] bg-[${color}]`}>{text}</div>;
+};
+
 const SentRequest = ({ email }: { email: string }) => {
-  const {data, loading} = useGetRequestsQuery({variables: {email}})
-  if(loading){
-    return
+  const dateRange = useRef({
+    startDate: addDays(new Date(), -30),
+    endDate: new Date(),
+  });
+  const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });
+
+  if (loading) {
+    return null;
   }
-  console.log(data)
+
+  const refresh = async () => {
+    await refetch({ email, ...dateRange.current });
+  };
+
   return (
-    <>
-      <div className="w-[684PX] bg-[#F4F4F5] mx-auto pt-10">
-        <div>
-          <h1 className="font-bold text-2xl">Миний явуулсан хүсэлтүүд:</h1>
-          <div className="mt-6 flex justify-between">
-            <ClientDatePicker />
-            <Button> + Чөлөө хүсэх</Button>
-          </div>
-        </div>
-        <div className="py-6 rounded-lg text=[#71717A]">
-          <RequestThatIsent
-            Date="10/15"
-            MongolDate="Өнөөдөр"
-            description="Чөлөө (1 хоног)"
-            status="Хүлээгдэж байна."
-            icon1={<Tag size={14} color="#71717A" />}
-            icon2={<Calendar1 size={14} color="#71717A" />}
-            yearDate="2024/10/25"
-          />
-          <RequestThatIsent
-            Date="10/14"
-            MongolDate="Өчигдөр"
-            description="Чөлөө (1 хоног)"
-            status="Хүлээгдэж байна."
-            icon1={<Tag size={14} color="#71717A" />}
-            icon2={<Calendar1 size={14} color="#71717A" />}
-            yearDate="2024/10/25"
-          />
-          <RequestThatIsent
-            Date="10/13"
-            MongolDate="2 хоногийн өмнө"
-            description="Чөлөө (1 хоног)"
-            status="Хүлээгдэж байна."
-            icon1={<Tag size={14} color="#71717A" />}
-            icon2={<Calendar1 size={14} color="#71717A" />}
-            yearDate="2024/10/25"
-          />
-          <RequestThatIsent
-            Date="10/12"
-            description="Чөлөө (1 хоног)"
-            status="Хүлээгдэж байна."
-            icon1={<Tag size={14} color="#71717A" />}
-            icon2={<Calendar1 size={14} color="#71717A" />}
-            yearDate="2024/10/25"
-            MongolDate={''}
-          />
-          <RequestThatIsent
-            description="Чөлөө (1 хоног)"
-            status={'Хүлээгдэж байна.'}
-            icon1={<Tag size={14} />}
-            icon2={<Calendar1 size={14} color="#71717A" />}
-            yearDate="2024/10/25"
-            MongolDate={''}
-            Date={''}
-          />
-        </div>
+    <div className="w-[684PX] bg-[#F4F4F5] mx-auto pt-10">
+      <h1 className="font-bold text-2xl">Миний явуулсан хүсэлтүүд:</h1>
+      <div className="mt-6 flex justify-between">
+        <ClientDatePicker
+          onChange={(e) => {
+            if (e?.to && e?.from) {
+              dateRange.current = { startDate: e?.from, endDate: e?.to };
+              refresh();
+            }
+          }}
+        />
+        <Button>+ Чөлөө хүсэх</Button>
       </div>
-    </>
+
+      <div className="py-6 rounded-lg text-[#71717A]">
+        {data?.getRequests?.map((group, index) => {
+          if (!group || !group.requests) {
+            return null;
+          }
+          return <RequestGroup key={index} date={group._id} requests={group.requests} />;
+        })}
+      </div>
+    </div>
   );
 };
 
