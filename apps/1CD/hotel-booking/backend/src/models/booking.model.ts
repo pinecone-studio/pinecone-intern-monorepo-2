@@ -15,7 +15,7 @@ export type BookingType = {
   status: 'booked' | 'checked-in' | 'checked-out' | 'cancelled';
 };
 
-const bookingSchema = new Schema<BookingType>({
+const bookingSchema = new Schema({
   createdAt: Date,
   userId: { type: String, ref: userModel },
   roomId: { type: String, ref: roomsModel },
@@ -26,6 +26,10 @@ const bookingSchema = new Schema<BookingType>({
     type: Number,
     required: true,
   },
+  firtName: String,
+  lastName: String,
+  email: String,
+  phoneNumber: String,
   status: {
     type: String,
     enum: ['Booked', 'Cancelled', 'Completed'],
