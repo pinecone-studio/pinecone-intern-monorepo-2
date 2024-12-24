@@ -51,12 +51,12 @@ export const typeDefs = gql`
   }
   enum bookingStatus {
     booked
-    checkedIn
-    checkedOut
     cancelled
+    completed
   }
   type Mutation {
     addNewBooking(input: BookingInput!): BookingType!
+    updateBookingStatus(_id: ID!): bookingStatus!
   }
 
   type Query {

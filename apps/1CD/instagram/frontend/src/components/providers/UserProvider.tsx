@@ -1,6 +1,6 @@
 'use client';
-import { SearchUsersDocument, SearchUsersQuery, SearchUsersQueryVariables } from '@/generated';
-import { useLazyQuery } from '@apollo/client';
+import { SearchUsersDocument, SearchUsersQuery, SearchUsersQueryVariables, SendFollowReqMutation, useSendFollowReqMutation } from '@/generated';
+import { ApolloError, FetchResult, MutationFunctionOptions, useLazyQuery } from '@apollo/client';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 type UserContextType = {
@@ -10,12 +10,21 @@ type UserContextType = {
   data: SearchUsersQuery | undefined;
   loading: boolean;
   refresh: () => void;
+  sendFollowReq: (_options?: MutationFunctionOptions<SendFollowReqMutation, { followerId: string; followingId: string }>) => Promise<FetchResult<SendFollowReqMutation>>;
+  followLoading: boolean;
+  followError: ApolloError | undefined;
 };
+
+// type FollowRequest = {
+//   followerId: string;
+//   followingId: string;
+// };
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [searchTerm, setSearchTerm] = useState('');
+  // const [sendFollowRequest, setSendFollowRequest] = useState<FollowInfo | null>(null);
   const [searchUsers, { data, loading, refetch }] = useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument);
 
   const refresh = async () => {
@@ -30,10 +39,26 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     await refresh();
   };
 
-  //   console.log('data', searchTerm);
-  //   console.log('loading', loading);
+  // const [sendFollowReqMutation] = useSendFollowReqMutation({
+  //   onCompleted: (data) => {
+  //     setSendFollowRequest(data.sendFollowReq);
+  //   },
+  // });
 
-  return <UserContext.Provider value={{ searchHandleChange, searchTerm, setSearchTerm, data, loading, refresh }}>{children}</UserContext.Provider>;
+  const [sendFollowReq, { loading: followLoading, error: followError }] = useSendFollowReqMutation();
+
+  
+
+  // const sendRequest = async ({ followerId, followingId }: FollowRequest) => {
+  //   await sendFollowReqMutation({
+  //     variables: {
+  //       followerId,
+  //       followingId,
+  //     },
+  //   });
+  // };
+
+  return <UserContext.Provider value={{ searchHandleChange, searchTerm, setSearchTerm, data, loading, refresh, sendFollowReq, followLoading, followError }}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => useContext(UserContext);
