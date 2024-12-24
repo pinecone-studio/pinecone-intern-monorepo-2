@@ -1,4 +1,4 @@
-import DetailTop from '@/components/detail/DetailTop';
+import DetailTop from '@/components/DetailTop';
 import { Event } from '@/generated';
 import { render } from '@testing-library/react';
 

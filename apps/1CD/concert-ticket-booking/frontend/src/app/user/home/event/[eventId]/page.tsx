@@ -1,7 +1,7 @@
 'use client';
-import DetailTop from '@/components/detail/DetailTop';
-import EventDetail from '@/components/detail/EventDetail';
-import TicketDetail from '@/components/detail/TicketDetail';
+import DetailTop from '@/components/DetailTop';
+import EventDetail from '@/app/user/home/event/[eventId]/_components/EventDetail';
+import TicketDetail from '@/app/user/home/event/[eventId]/_components/TicketDetail';
 
 import { Event, useGetEventByIdLazyQuery } from '@/generated';
 import { useParams } from 'next/navigation';
