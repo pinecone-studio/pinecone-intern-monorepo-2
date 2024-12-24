@@ -5,6 +5,7 @@ import { useGetRequestsQuery } from '@/generated';
 import { Calendar, Tag } from 'lucide-react';
 import { addDays, format } from 'date-fns';
 import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface requestProps {
   _id: string;
@@ -104,6 +105,7 @@ const SentRequest = ({ email }: { email: string }) => {
     startDate: addDays(new Date(), -30),
     endDate: new Date(),
   });
+  const router = useRouter()
   const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });
 
   if (loading) {
@@ -126,7 +128,7 @@ const SentRequest = ({ email }: { email: string }) => {
             }
           }}
         />
-        <Button>+ Чөлөө хүсэх</Button>
+        <Button onClick={()=>{router.push('/createNewRequest')}}>+ Чөлөө хүсэх</Button>
       </div>
 
       <div className="py-6 rounded-lg text-[#71717A]">
