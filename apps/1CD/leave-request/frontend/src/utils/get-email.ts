@@ -3,14 +3,13 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
-export const getEmail = async() => {
+export const getEmail = () => {
   const cookieStore = cookies();
   const token = cookieStore.get('authtoken')?.value || '';
-  const decoded = await jwt.decode(token);
+  const decoded =  jwt.decode(token);
 
   if (decoded && typeof decoded === 'object') {
     const { email } = decoded;
-    console.log(email)
     return email;
   }
 };

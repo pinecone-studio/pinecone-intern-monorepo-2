@@ -1,5 +1,9 @@
 describe('DatePicker Component', () => {
   beforeEach(() => {
+    const token = Cypress.env().env['ANNUAL_TOKEN'] as string;
+    cy.setCookie('authtoken', token);
+  });
+  beforeEach(() => {
     cy.visit('/MyRequest');
   });
   it('should render Calendar component', () => {
