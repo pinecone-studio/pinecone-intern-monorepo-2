@@ -16,7 +16,6 @@ const Match = () => {
   const closeModal = () => {
     setIsMatchOpen(false);
   };
-
   return (
     <div className="min-h-screen w-full flex flex-col bg-gray-50" data-cy="match-page">
       <div className="border-b bg-white">
@@ -30,7 +29,7 @@ const Match = () => {
             <button className="text-gray-400" data-cy="messages-icon">
               <MessageSquare className="w-6 h-6" />
             </button>
-            <img src="/my-profile.jpg" alt="Profile" className="w-8 h-8 rounded-full" data-cy="profile-picture" />
+            <Image src="/my-profile.jpg" alt="Profile" className="w-8 h-8 rounded-full" data-cy="profile-picture" />
           </div>
         </div>
       </div>
@@ -68,7 +67,7 @@ const Match = () => {
           <DialogContent className="sm:max-w-md">
             <div className="space-y-6" data-cy="modal-content">
               <div className="text-center" data-cy="modal-header">
-                <h3 className="text-2xl font-semibold text-pink-500">It's a Match!</h3>
+                <h3 className="text-2xl font-semibold text-pink-500">It is a Match!</h3>
                 <p className="text-gray-600">You matched with Baatarvan</p>
               </div>
 
