@@ -2,12 +2,13 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
-
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
 import Image from 'next/image';
+import FollowerDialog from '@/components/user-profile/FollowerDialog';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
@@ -16,6 +17,7 @@ const UserProfile = () => {
   const [proImgData, setProImgData] = useState<string>('');
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
+
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -44,24 +46,32 @@ const UserProfile = () => {
                     </p>
                   )}
                   <h1 className="font-semibold" data-cy="postNumberDone">
-                    {postData?.getMyPosts.length}
+                    {postData?.getMyPosts.length || 0}
                   </h1>
                 </div>
                 <p>posts</p>
               </div>
-              <div className="flex flex-row space-x-2">
-                <h1 className="font-semibold" data-cy="followerNumber">
-                  {followerData?.seeFollowers.length}
-                </h1>
-                <p>followers</p>
-              </div>
-              <div className="flex flex-row space-x-2">
-                <h1 className="font-semibold" data-cy="followingNumber">
-                  {/* {followingData?.seeFollowings.length} */}
-                  {followingData?.seeFollowings.length}
-                </h1>
-                <p>following</p>
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="flex flex-row space-x-2">
+                    <h1 className="font-semibold" data-cy="followerNumber">
+                      {followerData?.seeFollowers.length || 0}
+                    </h1>
+                    <p>followers</p>
+                  </div>
+                </DialogTrigger>
+                <FollowerDialog />
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="flex flex-row space-x-2">
+                    <h1 className="font-semibold" data-cy="followingNumber">
+                      {followingData?.seeFollowings.length || 0}
+                    </h1>
+                    <p>following</p>
+                  </div>
+                </DialogTrigger>
+              </Dialog>
             </div>
             <div>
               <h1 className="font-bold" data-cy="fullname">
