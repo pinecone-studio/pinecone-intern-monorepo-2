@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const RoomCarousel = ({ roomImages }: { roomImages: Maybe<string>[] }) => {
   return (
-    <div>
+    <div data-cy="HotelRoomCarousel">
       <Carousel>
         <CarouselContent className="max-w-xl">
           {roomImages?.map(

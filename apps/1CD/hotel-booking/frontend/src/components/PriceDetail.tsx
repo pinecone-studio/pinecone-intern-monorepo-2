@@ -1,7 +1,6 @@
 "use client"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
-
 import { X } from 'lucide-react';
 import Link from 'next/link';
 const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean; handleOpen: () => void }) => {

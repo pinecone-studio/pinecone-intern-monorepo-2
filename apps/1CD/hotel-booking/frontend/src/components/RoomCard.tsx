@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+'use client';
 import { RoomType } from '@/generated';
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from 'lucide-react';
 import HotelRoomDetail from './HotelRoomDetail';
@@ -10,22 +10,21 @@ import Link from 'next/link';
 const RoomCard = ({ room }: { room: RoomType }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleState = useCallback(() => {
-    if(isOpen){
+    if (isOpen) {
       setIsOpen(false);
-    }else{
-      setIsOpen(true)
+    } else {
+      setIsOpen(true);
     }
-
   }, [isOpen]);
   const [isOn, setIsOn] = useState(false);
-  const handleOpen = useCallback(()=>{
-    setIsOpen(false)
-    if(isOn){
+  const handleOpen = useCallback(() => {
+    setIsOpen(false);
+    if (isOn) {
       setIsOn(false);
-    }else{
-      setIsOn(true)
+    } else {
+      setIsOn(true);
     }
-  },[isOn]);
+  }, [isOn]);
   return (
     <div className="border border-solid 1px rounded-md w-[349px]">
       <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
@@ -69,9 +68,9 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-sm font-normal">Room cleaning service</div>
             </div>
             <div className="flex gap-2 items-center py-2">
-              <div onClick={handleState} className="text-sm font-medium text-[#2563EB] hover:font-semibold cursor-pointer">
+              <button data-cy="Show-More" onClick={handleState} className="text-sm font-medium text-[#2563EB] hover:font-semibold ">
                 Show more
-              </div>
+              </button>
               <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
@@ -88,16 +87,20 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
             </div>
             <div className="flex gap-2 items-center py-2">
-              <div className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>Price detail</div>
+              <div className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
+                Price detail
+              </div>
               <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
           <div className="pt-14">
-            <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">Reserve</Link>
+            <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">
+              Reserve
+            </Link>
           </div>
         </div>
-        <HotelRoomDetail isOpen={isOpen} handleOpen={()=>handleOpen()} handleState={()=>handleState()} room={room} />
-        <PriceDetail isOn={isOn} handleOpen={()=>handleOpen()} room={room} />
+        <HotelRoomDetail isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
+        <PriceDetail isOn={isOn} handleOpen={() => handleOpen()} room={room} />
       </div>
     </div>
   );

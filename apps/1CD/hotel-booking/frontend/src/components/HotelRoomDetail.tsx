@@ -4,14 +4,12 @@ import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } f
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { isObject } from 'cypress/types/lodash';
 import Link from 'next/link';
 
-const HotelRoomDetail = ({ room, handleState,  handleOpen,isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void ,handleOpen:() => void}) => {
+const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void; handleOpen: () => void }) => {
   return (
-    <div className="container mx-auto items-center">
-      <Dialog open={isOpen}>
+    <div data-cy="Hotel-Room-Detail" className="container mx-auto items-center">
+      <Dialog open={isOpen} data-cy="RoomDetailDialog">
         <DialogContent className="flex flex-col gap-5">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold flex justify-between">
@@ -21,7 +19,7 @@ const HotelRoomDetail = ({ room, handleState,  handleOpen,isOpen }: { room: Room
               </button>
             </DialogTitle>
           </DialogHeader>
-          {room?.images && <RoomCarousel roomImages={room.images} />}
+          {room?.images && <RoomCarousel roomImages={room.images} data-cy="HotelRoomCarousel" />}
           <DialogTitle>{room?.roomName}</DialogTitle>
           <div className="grid grid-cols-3 col-span-3 gap-8">
             {room?.amenities?.map((amenity) => (
@@ -94,7 +92,9 @@ const HotelRoomDetail = ({ room, handleState,  handleOpen,isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">Reserve</Link>
+              <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white">
+                Reserve
+              </Link>
             </div>
           </div>
         </DialogContent>
