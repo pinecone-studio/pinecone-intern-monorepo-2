@@ -29,18 +29,7 @@ const Page = () => {
         <div className="flex flex-col gap-3">
           {confirmed.map((booking) => (
             <div key={booking._id}>
-              <ConfirmedBooking
-                booking={{
-                  id: booking._id,
-                  roomName: booking.roomId?.roomName,
-                  roomType: booking.roomId?.roomType,
-                  checkInDate: booking.checkInDate,
-                  checkOutDate: booking.checkOutDate,
-                  totalPrice: booking.totalPrice,
-                  status: booking.status,
-                  images: booking.roomId?.hotelId?.images,
-                }}
-              />
+              <ConfirmedBooking booking={booking} />
             </div>
           ))}
         </div>

@@ -23,7 +23,7 @@ const Page = () => {
       <section className="max-w-[1400px] mx-auto md:mx-auto">
         <div className="grid grid-cols-1 gap-4 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, sliceNum).map((hotel) => (
-            <Link href="/HomeDetails" key={hotel._id}>
+            <Link href={`/HomeDetails/${hotel._id}`} key={hotel._id}>
               <HomePageCard hotel={hotel} />
             </Link>
           ))}
