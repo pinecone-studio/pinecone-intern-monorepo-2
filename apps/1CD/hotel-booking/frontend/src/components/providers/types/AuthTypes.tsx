@@ -8,7 +8,7 @@ export type SendOtpParams = {
   email: string;
 };
 export type PasswordParams = {
-  email: string | null;
+  email: string;
   password: string;
 };
 export type SignInParams = {
