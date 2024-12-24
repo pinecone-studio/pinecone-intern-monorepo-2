@@ -27,7 +27,7 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2 md:justify-end md:gap-4">
-        <Link href="/user/order">
+        <Link href="/user/home/user-profile">
           <SlBasket className="w-5 h-5 mx-2 md:mx-4" />
         </Link>
         {!user && (

@@ -9,7 +9,6 @@ export const getMyFollowingsPosts: QueryResolvers['getMyFollowingsPosts'] = asyn
   const approvedFollowings = followings.filter((following) => {
     return following.status === FollowStatus.Approved;
   });
-  // console.log('approvedFollowings', approvedFollowings);
 
   const posts = await PostModel.find({
     user: approvedFollowings.map((item) => {
@@ -17,5 +16,7 @@ export const getMyFollowingsPosts: QueryResolvers['getMyFollowingsPosts'] = asyn
     }),
   }).populate<PostPopulatedType>('user');
 
-  return posts;
+  return posts.sort((a, b) => {
+    return b.createdAt.valueOf() - a.createdAt.valueOf();
+  });
 };

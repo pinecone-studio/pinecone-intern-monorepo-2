@@ -90,7 +90,7 @@ export const Header = () => {
 
                 <TooltipTrigger>
                   <Link
-                    href="/home"
+                    href={`/home/${user?.userName}`}
                     className="flex items-center gap-4 py-2 overflow-hidden text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
                     data-testid="menuBtn2"
                     onClick={() => {

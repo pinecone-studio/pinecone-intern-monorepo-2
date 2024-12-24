@@ -16,7 +16,7 @@ jest.mock('../../../../src/utils/generate-email', () => ({
 }));
 
 describe('verify user email mutation', () => {
-  it('should verify user email and sent otp to email ', async () => {
+  it('should verify user email and send otp to email', async () => {
     (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
       message: 'success',
     });
@@ -29,12 +29,29 @@ describe('verify user email mutation', () => {
       message: 'success',
     });
   });
+
   it('should throw an error if user is not found', async () => {
     (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce(null);
+
     try {
       await verifyUserEmail!({}, { email: 'test@email.com' }, { userId: '1' }, {} as GraphQLResolveInfo);
-    } catch (error) {
-      expect(error).toEqual(new Error('User not found'));
+    } catch (error: any) {
+      expect(error.message).toEqual('Failed to verify user email');
+    }
+  });
+
+  it('should handle internal errors and throw generic message', async () => {
+    // Mock a failing `generateEmail` function
+    (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
+      otp: '1234',
+    });
+    (generateOtp as jest.Mock).mockReturnValue('1234');
+    (generateEmail as jest.Mock).mockRejectedValueOnce(new Error('Email generation failed'));
+
+    try {
+      await verifyUserEmail!({}, { email: 'test@email.com' }, { userId: '1' }, {} as GraphQLResolveInfo);
+    } catch (error: any) {
+      expect(error.message).toEqual('Failed to verify user email');
     }
   });
 });
