@@ -1,57 +1,67 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import HeadingSection from '@/components/visit-profile/HeadingSection';
-import { AccountVisibility } from '@/generated';
 import '@testing-library/jest-dom';
+import HeadingSection from '@/components/visit-profile/HeadingSection';
+import { AccountVisibility, FollowStatus } from '@/generated';
 
 describe('HeadingSection Component', () => {
   const mockHandleFollowClick = jest.fn();
 
-  const mockProfileUser = {
-    userName: 'testuser',
-    profileImg: 'https://example.com/image.png',
-    followerCount: 10,
-    followingCount: 5,
-    fullName: 'Test User',
-    bio: 'This is a test bio',
-    _id: '123',
-    accountVisibility: AccountVisibility.Public,
-    createdAt: '2024-12-12',
-    updatedAt: '2024-12-12',
+  const defaultProps = {
+    profileUser: {
+      _id: '123',
+      userName: 'testuser',
+      profileImg: '',
+      followerCount: 10,
+      followingCount: 5,
+      fullName: 'Test User',
+      bio: 'This is a test bio',
+      accountVisibility: AccountVisibility.Public,
+      createdAt: '2023-01-01T00:00:00Z',
+      updatedAt: '2023-01-01T00:00:00Z',
+    },
+    followLoading: false,
+    buttonState: 'Follow',
+    handleFollowClick: mockHandleFollowClick,
+    followData: undefined,
   };
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders the component with user data', () => {
-    render(<HeadingSection profileUser={mockProfileUser} followLoading={false} buttonState="Follow" handleFollowClick={mockHandleFollowClick} />);
+  it('renders the component correctly with default props', () => {
+    render(<HeadingSection {...defaultProps} />);
 
-    // expect(screen.getByTestId('proImage')).toHaveAttribute('src', mockProfileUser.profileImg);
     expect(screen.getByText('testuser')).toBeInTheDocument();
+    expect(screen.getByText('Follow')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
-    expect(screen.getByText('followers')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('following')).toBeInTheDocument();
+    expect(screen.getByText('Test User')).toBeInTheDocument();
     expect(screen.getByText('This is a test bio')).toBeInTheDocument();
   });
 
+  it('renders "Following" if followData status is APPROVED', () => {
+    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
+
+    expect(screen.getByText('Following')).toBeInTheDocument();
+  });
+
+  it('renders "Requested" if followData status is PENDING', () => {
+    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Pending } }} />);
+
+    expect(screen.getByText('Requested')).toBeInTheDocument();
+  });
+
   it('disables the follow button when loading', () => {
-    render(<HeadingSection profileUser={mockProfileUser} followLoading={true} buttonState="Follow" handleFollowClick={mockHandleFollowClick} />);
+    render(<HeadingSection {...defaultProps} followLoading={true} />);
 
-    const followButton = screen.getByText('Loading...');
+    const followButton = screen.getByText('Follow');
     expect(followButton).toBeDisabled();
   });
 
-  it('disables the follow button if the state is not "Follow"', () => {
-    render(<HeadingSection profileUser={mockProfileUser} followLoading={false} buttonState="Requested" handleFollowClick={mockHandleFollowClick} />);
-
-    const followButton = screen.getByText('Requested');
-    expect(followButton).toBeDisabled();
-  });
-
-  it('triggers the follow button click when enabled', () => {
-    render(<HeadingSection profileUser={mockProfileUser} followLoading={false} buttonState="Follow" handleFollowClick={mockHandleFollowClick} />);
+  it('calls handleFollowClick when follow button is clicked', () => {
+    render(<HeadingSection {...defaultProps} />);
 
     const followButton = screen.getByText('Follow');
     fireEvent.click(followButton);
@@ -59,21 +69,27 @@ describe('HeadingSection Component', () => {
     expect(mockHandleFollowClick).toHaveBeenCalledTimes(1);
   });
 
-  it('renders a default profile image if no profile image is provided', () => {
-    render(<HeadingSection profileUser={{ ...mockProfileUser, profileImg: undefined }} followLoading={false} buttonState="Follow" handleFollowClick={mockHandleFollowClick} />);
+  it('disables the follow button when buttonText is not "Follow"', () => {
+    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
 
-    const defaultImage = screen.getByTestId('proImage');
-    expect(defaultImage).toHaveAttribute(
+    const followButton = screen.getByText('Following');
+    expect(followButton).toBeDisabled();
+  });
+
+  it('renders a default profile image if no profile image is provided', () => {
+    render(<HeadingSection {...defaultProps} />);
+
+    const profileImage = screen.getByTestId('proImage');
+    expect(profileImage).toHaveAttribute(
       'src',
-      expect.stringContaining(
-        'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
-      )
+      'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
     );
   });
 
-  it('renders "0 posts" by default', () => {
-    render(<HeadingSection profileUser={mockProfileUser} followLoading={false} buttonState="Follow" handleFollowClick={mockHandleFollowClick} />);
+  it('renders the user-provided profile image when available', () => {
+    render(<HeadingSection {...defaultProps} profileUser={{ ...defaultProps.profileUser, profileImg: 'https://example.com/profile.jpg' }} />);
 
-    expect(screen.getByText('0 posts')).toBeInTheDocument();
+    const profileImage = screen.getByTestId('proImage');
+    expect(profileImage).toHaveAttribute('src', 'https://example.com/profile.jpg');
   });
 });

@@ -15,17 +15,12 @@ type UserContextType = {
   followError: ApolloError | undefined;
 };
 
-// type FollowRequest = {
-//   followerId: string;
-//   followingId: string;
-// };
-
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [searchTerm, setSearchTerm] = useState('');
-  // const [sendFollowRequest, setSendFollowRequest] = useState<FollowInfo | null>(null);
   const [searchUsers, { data, loading, refetch }] = useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument);
+
 
   const refresh = async () => {
     await refetch();
@@ -39,24 +34,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     await refresh();
   };
 
-  // const [sendFollowReqMutation] = useSendFollowReqMutation({
-  //   onCompleted: (data) => {
-  //     setSendFollowRequest(data.sendFollowReq);
-  //   },
-  // });
-
   const [sendFollowReq, { loading: followLoading, error: followError }] = useSendFollowReqMutation();
-
-  
-
-  // const sendRequest = async ({ followerId, followingId }: FollowRequest) => {
-  //   await sendFollowReqMutation({
-  //     variables: {
-  //       followerId,
-  //       followingId,
-  //     },
-  //   });
-  // };
 
   return <UserContext.Provider value={{ searchHandleChange, searchTerm, setSearchTerm, data, loading, refresh, sendFollowReq, followLoading, followError }}>{children}</UserContext.Provider>;
 };
