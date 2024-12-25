@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
-
 import { interceptGraphql } from 'cypress/utils/intercept-graphql';
-
 describe('UserInfo Component', () => {
   beforeEach(() => {
     const mockToken = {
@@ -98,16 +96,12 @@ describe('UserInfo Component', () => {
     cy.get('[data-cy="password-state-button"]').click();
     cy.get('[data-cy="password-info-heading"]').should('exist').and('contain.text', 'Нууц үг сэргээх');
   });
-
   it('should validate fields and show error messages', () => {
     cy.get('[data-cy="info-state-button"]').click();
     cy.get('[data-cy="Info-Submit-Button"]').click();
     cy.get('[data-cy="form-message-phoneNumber"]').should('contain.text', 'Must be a valid mobile number');
     cy.get('[data-cy="form-message-email"]').should('contain.text', 'Email must be at least 2 characters.');
   });
-
-//passwordReset
-
   it('should fill in the form and submit successfully', () => {
     interceptGraphql({
       state: 'success',
@@ -125,7 +119,6 @@ describe('UserInfo Component', () => {
     cy.get('[data-cy="Info-Submit-Button"]').click();
     cy.get('.toast').should('contain', 'Password successfully updated');
   });
-
   it('should show an error if the passwords do not match', () => {
     interceptGraphql({
       state: 'error',
@@ -145,27 +138,17 @@ describe('UserInfo Component', () => {
     cy.get('[data-cy="input-confirm-password"]').type('differentPassword@123');
     cy.get('[data-cy="Info-Submit-Button"]').click();
   });
-
   it('should show an error if the new password does not meet criteria', () => {
     interceptGraphql({
       state: 'error',
       operationName: 'ChangePassword',
-      data: {
-        errors: [
-          {
-            message: 'New password does not meet criteria',
-          },
-        ],
-        data: null,
-      },
-    });
+      data: { errors: [ {message: 'New password does not meet criteria',}, ],  data: null, }, });
     cy.get('[data-cy="password-state-button"]').click();
     cy.get('[data-cy="input-current-password"]').type('oldPassword123');
     cy.get('[data-cy="input-new-password"]').type('short');
     cy.get('[data-cy="input-confirm-password"]').type('short');
     cy.get('[data-cy="Info-Submit-Button"]').click();
   });
-
   it('should disable the submit button while loading', () => {
     cy.get('[data-cy="password-state-button"]').click();
     cy.get('[data-cy="input-current-password"]').type('oldPassword123');

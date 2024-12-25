@@ -5,16 +5,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/components/providers/AuthProvider';
-import { useUpdateUserMutation } from '@/generated';
 import { toast } from 'sonner';
 import { Loader } from 'lucide-react';
-import { useEffect } from 'react';
 import { useChangePasswordMutation } from '@/generated';
-
-
-
-
 const PasswordReset = () => {
   const formSchema = z
     .object({
@@ -45,7 +38,6 @@ const PasswordReset = () => {
       confirmPassword: '',
     },
   });
-
   const [updateUser, { loading }] = useChangePasswordMutation({
     onCompleted: () => {
       toast.success('Password successfully updated');
@@ -55,7 +47,6 @@ const PasswordReset = () => {
       toast.error(error.message);
     },
   });
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Proceed with password update (ensure you securely handle this on the back-end)
     updateUser({
@@ -67,9 +58,6 @@ const PasswordReset = () => {
       },
     });
   };
-
-
-
   return (
     <Form {...form}>
       <form
@@ -83,7 +71,6 @@ const PasswordReset = () => {
           Нууц үг сэргээх
         </h1>
         <div className="flex flex-col w-full gap-4">
-          {/* Current Password Field */}
           <FormField
             control={form.control}
             name="currentPassword"
@@ -108,8 +95,6 @@ const PasswordReset = () => {
               </FormItem>
             )}
           />
-
-          {/* New Password Field */}
           <FormField
             control={form.control}
             name="newPassword"
@@ -134,8 +119,6 @@ const PasswordReset = () => {
               </FormItem>
             )}
           />
-
-          {/* Confirm New Password Field */}
           <FormField
             control={form.control}
             name="confirmPassword"
@@ -179,5 +162,4 @@ const PasswordReset = () => {
     </Form>
   );
 };
-
 export default PasswordReset;
