@@ -10,7 +10,7 @@ const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean
         <DialogHeader>
           <DialogTitle className="flex justify-between">
             <div className="text-xl font-semibold">Price Detail</div>
-            <button className="outline-none" onClick={handleOpen}>
+            <button data-cy="Price-Detail-Dialog-Close" className="outline-none" onClick={handleOpen}>
               <X className="w-4 h-4" />
             </button>
           </DialogTitle>

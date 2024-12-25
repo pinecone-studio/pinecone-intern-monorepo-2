@@ -7,22 +7,22 @@ interface RoomCarouselProps {
 }
 
 const RoomCarousel = ({ roomImages }: RoomCarouselProps) => {
-  const images = roomImages || [];
+
 
   return (
     <Carousel>
       <CarouselContent data-cy="HotelRoomCarousel" className="max-w-xl">
-        {images.map(
+        {roomImages.map(
           (image, index) =>
             image && (
-              <CarouselItem key={image + index}>
+              <CarouselItem data-cy={`carousel-item${index}`} key={image + index}>
                 <Image src={image} alt="hotel room image" width={580} height={433} className="w-full object-cover h-full" />
               </CarouselItem>
             )
         )}
       </CarouselContent>
-      <CarouselPrevious className="left-0" variant="secondary" />
-      <CarouselNext className="right-0" variant="secondary" />
+      <CarouselPrevious data-cy="previos-image" className="left-0" variant="secondary" />
+      <CarouselNext data-cy="next-image" className="right-0" variant="secondary" />
     </Carousel>
   );
 };

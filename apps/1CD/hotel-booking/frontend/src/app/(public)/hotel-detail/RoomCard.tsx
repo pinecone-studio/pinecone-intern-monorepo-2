@@ -1,7 +1,7 @@
 'use client';
 import { RoomType } from '@/generated';
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from 'lucide-react';
-import HotelRoomDetail from '../../../components/HotelRoomDetail';
+import HotelRoomDetail from './HotelRoomDetail';
 import { useCallback, useState } from 'react';
 import Image from 'next/image';
 import PriceDetail from '../../../components/PriceDetail';
@@ -100,7 +100,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
           </div>
         </div>
         <HotelRoomDetail data-cy="Hotel-Room-Detail" isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
-        <PriceDetail isOn={isOn} handleOpen={() => handleOpen()} room={room} />
+        <PriceDetail data-cy="Price-Detail-Dialog" isOn={isOn} handleOpen={() => handleOpen()} room={room} />
       </div>
     </div>
   );

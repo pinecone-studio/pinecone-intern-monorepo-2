@@ -1,6 +1,6 @@
 'use client';
 import HomePageCard from '@/components/HomePageCard';
-import Loading from '@/components/Loading';
+import Loading from '@/app/(public)/hotel-detail/Loading';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';

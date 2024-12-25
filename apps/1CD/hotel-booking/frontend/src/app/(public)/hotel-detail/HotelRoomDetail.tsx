@@ -1,7 +1,7 @@
 
 import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
-import RoomCarousel from '../app/(public)/hotel-detail/HotelRoomCarousel';
+import RoomCarousel from './HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
 import Link from 'next/link';
 
@@ -91,7 +91,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <Link href={`/checkout/${room._id}`} className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
+              <Link href={`/checkout/${room._id}`} data-cy="Reserve-button-1" className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
                 Reserve
               </Link>
             </div>
