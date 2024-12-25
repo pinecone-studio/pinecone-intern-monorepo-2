@@ -81,3 +81,10 @@ mutation UpdateUser($input: UpdateInput!) {
     role
   }
 }
+
+mutation ChangePassword($input: ChangePasswordInput!) {
+  changePassword(input: $input) {
+    message
+  }
+}
+
