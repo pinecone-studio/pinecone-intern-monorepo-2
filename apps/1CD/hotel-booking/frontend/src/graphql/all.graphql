@@ -183,6 +183,15 @@ query HotelDetail($hotelId: ID!) {
     roomInformation
     createdAt
     images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    amenities
   }
 }
 query GetHotel($id: ID!) {
@@ -228,4 +237,23 @@ mutation verifyEmail($input: SignUpInput!) {
 }
 mutation UpdatePassword($input: PasswordInput!) {
   updatePassword(input: $input)
+}
+query HotelService($roomId: ID!) {
+  hotelService(roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+  }
 }
