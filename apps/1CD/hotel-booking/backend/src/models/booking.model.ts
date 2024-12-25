@@ -32,7 +32,7 @@ const bookingSchema = new Schema({
   phoneNumber: String,
   status: {
     type: String,
-    enum: ['Booked', 'Cancelled', 'Completed'],
+    enum: ['booked', 'cancelled', 'completed'],
   },
 });
 
