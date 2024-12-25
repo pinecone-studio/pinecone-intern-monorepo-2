@@ -2,6 +2,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { updateUser } from '../../../../src/resolvers/mutations';
 import { userModel } from '../../../../src/models';
 
+
 jest.mock('../../../../src/models', () => ({
   userModel: {
     findById: jest.fn(),
@@ -28,7 +29,7 @@ describe('find user by ID', () => {
     (userModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
     const updateduser = await updateUser!(
       {},
-      {  name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
+      {name: 'Sarah', bio: 'singer', interests: ['Dancing', 'Traveling'], profession: 'Software Engineer', schoolWork: ['university', 'school'] },
       {userId},
       {} as GraphQLResolveInfo
     );
