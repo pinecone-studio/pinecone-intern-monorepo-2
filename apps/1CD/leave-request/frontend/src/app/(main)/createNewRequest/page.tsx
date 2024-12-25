@@ -1,5 +1,5 @@
 import { getEmail } from '@/utils/get-email';
-import { CreateNewRequest } from './CreateNewRequest';
+import { CreateNewRequest } from '../../../components/createNewRequest/CreateNewRequest';
 import { MessageContextWrapper } from '@/context/MessageContext';
 import { SecureWrapper } from '@/context/SecurePageWrapper';
 
