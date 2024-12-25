@@ -8,6 +8,7 @@ describe('getFollowStatus Resolver', () => {
   const mockUserId = '123';
   const mockFollowerId = '123';
   const mockFollowId = '456';
+  const mockFollowingId = '1234';
 
   const mockFollowStatus = {
     _id: mockFollowId,
@@ -25,28 +26,28 @@ describe('getFollowStatus Resolver', () => {
   });
 
   it('throws an error if user is not signed in', async () => {
-    await expect(getFollowStatus!({}, { _id: mockFollowId, followerId: mockFollowerId }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Sign in first');
+    await expect(getFollowStatus!({}, { followingId: mockFollowingId, followerId: mockFollowerId }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Sign in first');
   });
 
   it('throws an error if followerId does not match userId', async () => {
-    await expect(getFollowStatus!({}, { _id: mockFollowId, followerId: 'invalidId' }, context, {} as GraphQLResolveInfo)).rejects.toThrow('Unauthorized');
+    await expect(getFollowStatus!({}, { followingId: mockFollowingId, followerId: 'invalidId' }, context, {} as GraphQLResolveInfo)).rejects.toThrow('Unauthorized');
   });
 
   it('returns follow status if user is authorized', async () => {
     (followModel.findOne as jest.Mock).mockResolvedValue(mockFollowStatus);
 
-    const result = await getFollowStatus!({}, { _id: mockFollowId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
+    const result = await getFollowStatus!({}, { followingId: mockFollowingId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
 
-    expect(followModel.findOne).toHaveBeenCalledWith({ _id: mockFollowId });
+    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId });
     expect(result).toEqual(mockFollowStatus);
   });
 
   it('returns null if no follow status is found', async () => {
     (followModel.findOne as jest.Mock).mockResolvedValue(null);
 
-    const result = await getFollowStatus!({}, { _id: mockFollowId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
+    const result = await getFollowStatus!({}, { followingId: mockFollowingId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
 
-    expect(followModel.findOne).toHaveBeenCalledWith({ _id: mockFollowId });
+    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId });
     expect(result).toBeNull();
   });
 });
