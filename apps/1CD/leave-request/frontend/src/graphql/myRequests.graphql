@@ -1,0 +1,29 @@
+query GetRequests($email: String, $startDate: Date, $endDate: Date, $status: String) {
+  getRequests(email: $email, startDate: $startDate, endDate: $endDate, status: $status) {
+    _id
+    requests {
+      _id
+      email
+      requestType
+      message
+      requestDate
+      startTime
+      endTime
+      supervisorEmail
+      result
+      comment
+      optionalFile
+    }
+  }
+}
+
+query GetAvailableRequest($email: String!) {
+  checkAvailavleRemoteLeaveInGivenMonth(email: $email) {
+    thisMonth
+    nextMonth
+  }
+  checkAvailablePaidLeaveInGivenYear(email: $email) {
+    thisYear
+    nextYear
+  }
+}

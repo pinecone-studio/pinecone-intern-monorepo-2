@@ -22,4 +22,15 @@ export const ticketTypeDefs = gql`
   type Mutation {
     cancelTicket(input: CancelTicketTypeInput!): CancelTicketResponse!
   }
+  input BuyTicket {
+    ticketId: String!
+    venueId: String!
+  }
+  type BuyTicketResponse {
+    findVenue: Venue!
+    findTicket: Product!
+  }
+  type Query {
+    getTicketWithVenue(input: BuyTicket!): BuyTicketResponse!
+  }
 `;
