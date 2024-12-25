@@ -1,7 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
+import { useGetFollowersQuery, useGetMyPostsQuery } from '@/generated';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -16,34 +16,35 @@ const UserProfile = () => {
   const userId: string = user?._id as string;
   const { data: postData, loading: postLoading } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
+  // const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
-  const fetchedFollowerData = followerData?.seeFollowers.map((oneFollower) => ({
+  if (!followerData || !postData) return;
+  const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({
     _id: oneFollower.followerId._id,
     userName: oneFollower.followerId.userName,
     profileImg:
       oneFollower.followerId.profileImg ||
       'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png',
     fullName: oneFollower.followerId.fullName,
-  }))!;
+  }));
   const postNumberDiv = () => {
-    if (postData?.getMyPosts.length! > 0) return postData?.getMyPosts.length;
+    if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
     else if (postLoading) return <Skeleton className="h-4 w-4" />;
-    if (postData?.getMyPosts.length != 0) return 0;
+    else if (postData?.getMyPosts.length != 0) return 0;
   };
   const postDiv = () => {
-    if (postLoading) return <Skeleton className="h-[75vh] w-full" />;
-    else if (postData?.getMyPosts.length! > 0)
+    if (postLoading) return <Skeleton className="h-full w-full" />;
+    else if (postData.getMyPosts.length > 0)
       return (
         <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
-          {postData?.getMyPosts.map((myOnePost) => (
+          {postData.getMyPosts.map((myOnePost) => (
             <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
               <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
             </section>
           ))}
         </div>
       );
-    else if (postData?.getMyPosts.length === 0) return <NoPost />;
+    else if (postData.getMyPosts.length === 0) return <NoPost />;
   };
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
@@ -84,7 +85,7 @@ const UserProfile = () => {
                 <DialogTrigger asChild>
                   <div className="flex flex-row space-x-2">
                     <h1 className="font-semibold" data-cy="followingNumber">
-                      {followingData?.seeFollowings.length || 0}
+                      {/* {followingData?.seeFollowings.length || 0} */}
                     </h1>
                     <p>following</p>
                   </div>

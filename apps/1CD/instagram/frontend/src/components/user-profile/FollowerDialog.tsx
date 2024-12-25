@@ -21,7 +21,7 @@ interface FollowerDialogProps {
   followerData: Follower[];
   followerDataCount: number;
 }
-const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData = [], followerDataCount }) => {
+const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerDataCount }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
