@@ -17,7 +17,6 @@ const UserProfile = () => {
   const [proImgData, setProImgData] = useState<string>('');
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
-
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
@@ -40,28 +39,18 @@ const UserProfile = () => {
               <div className="flex flex-row items-center space-x-2">
                 <div className="font-semibold">
                   {/* {loading && <Skeleton className="h-4 w-10" />} */}
-                  {postError && (
+                  {/* {postError && (
                     <p className="font-normal" data-cy="postnumberError">
                       Something wrong
                     </p>
-                  )}
+                  )} */}
                   <h1 className="font-semibold" data-cy="postNumberDone">
-                    {postData?.getMyPosts.length || 0}
+                    {/* {postData?.getMyPosts.length || 0} */}
                   </h1>
                 </div>
                 <p>posts</p>
               </div>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="flex flex-row space-x-2">
-                    <h1 className="font-semibold" data-cy="followerNumber">
-                      {followerData?.seeFollowers.length || 0}
-                    </h1>
-                    <p>followers</p>
-                  </div>
-                </DialogTrigger>
-                <FollowerDialog />
-              </Dialog>
+              <FollowerDialog followerDataCount={followerData?.seeFollowers.length || 0} followerData={followerData?.seeFollowers} />
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="flex flex-row space-x-2">
@@ -98,7 +87,7 @@ const UserProfile = () => {
               Something wrong
             </p>
           )}
-          {postData?.getMyPosts.length === 0 && <NoPost />}
+          {/* {postData?.getMyPosts.length === 0 && <NoPost />} */}
           <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
             {postData?.getMyPosts.map((myOnePost) => (
               <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
