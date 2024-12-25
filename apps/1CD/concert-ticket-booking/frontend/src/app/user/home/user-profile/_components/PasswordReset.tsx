@@ -29,7 +29,6 @@ const PasswordReset = () => {
       message: 'Passwords do not match',
       path: ['confirmPassword'],
     });
-  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,8 +39,7 @@ const PasswordReset = () => {
   });
   const [updateUser, { loading }] = useChangePasswordMutation({
     onCompleted: () => {
-      toast.success('Password successfully updated');
-      
+      toast.success('Password successfully updated');  
     },
     onError: (error: any) => {
       toast.error(error.message);
@@ -51,10 +49,8 @@ const PasswordReset = () => {
     // Proceed with password update (ensure you securely handle this on the back-end)
     updateUser({
       variables: {
-        input: {
-          oldPassword: values.currentPassword,
-          newPassword: values.newPassword,
-        },
+        input: { oldPassword: values.currentPassword,
+          newPassword: values.newPassword,},
       },
     });
   };
@@ -159,7 +155,5 @@ const PasswordReset = () => {
           )}
         </div>
       </form>
-    </Form>
-  );
-};
+    </Form>  );};
 export default PasswordReset;
