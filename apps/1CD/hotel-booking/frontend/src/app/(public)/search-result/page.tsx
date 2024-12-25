@@ -1,5 +1,4 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -12,10 +11,9 @@ import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
-import { ComboboxDemo } from '../header-filter/TravelerSelection';
-import { DatePickerWithRange } from '@/components/DatePicker';
 
 const Page = () => {
+  // eslint-disable-next-line no-unused-vars
   const [date, setDate] = React.useState<DateRange | undefined>();
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);
@@ -38,19 +36,6 @@ const Page = () => {
   return (
     <>
       <main data-cy="Get-Rooms-Page" className="h-full">
-        <section data-testid="search-result-section" className="flex mx-auto items-center pl-5 gap-4 mt-20 max-w-[1200px] max-h-28 border-[3px] border-orange-200 rounded-xl">
-          <div className="flex flex-col gap-2 my-4">
-            <p>Dates</p>
-            <DatePickerWithRange date={date} setDate={setDate} />
-          </div>
-          <div className="flex flex-col gap-2 my-4">
-            <p>Travels</p>
-            <ComboboxDemo />
-          </div>
-          <Button className="mr-5 bg-blue-700 mt-7" data-testid="search-hotel-room-btn">
-            Search
-          </Button>
-        </section>
         <section className="flex justify-center w-full gap-16 pb-20">
           <main className="flex flex-col gap-4 w-60">
             <div className="flex flex-col gap-2 mt-12">
