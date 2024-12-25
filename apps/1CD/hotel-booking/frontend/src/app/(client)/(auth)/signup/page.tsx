@@ -1,8 +1,8 @@
 import React from 'react';
-import VerifyEmail from '../_components/VerifyEmail';
+import SignupVerifyEmail from '../_components/SignupVerifyEmail';
 
 const Page = () => {
-  return <VerifyEmail />;
+  return <SignupVerifyEmail />;
 };
 
 export default Page;

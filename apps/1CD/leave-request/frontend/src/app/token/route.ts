@@ -10,3 +10,9 @@ export const GET = (req: Request) => {
     
     return Response.json({msg: 'hello'}) 
 }
+
+export const DELETE = () => {
+    const cookieStore = cookies()
+    cookieStore.delete("authtoken")
+    return Response.json({msg: "deleted"})
+} 

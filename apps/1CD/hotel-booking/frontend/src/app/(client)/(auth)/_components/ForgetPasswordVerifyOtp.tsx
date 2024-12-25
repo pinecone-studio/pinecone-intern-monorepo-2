@@ -7,14 +7,13 @@ import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { useAuth } from '@/components/providers';
 import 'react-toastify/dist/ReactToastify.css';
 
-const VerifyOtp = () => {
-  const { verifyOtp, verifyEmail } = useAuth();
+const ForgetPasswordVerifyOtp = () => {
+  const { forgetPassVerifyOtp, verifyEmail } = useAuth();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 
   useEffect(() => {
     const email = localStorage.getItem('userEmail')!;
-
     setEmailOtp(email);
   }, []);
 
@@ -25,7 +24,7 @@ const VerifyOtp = () => {
   const handleConfirmOtp = async (value: string) => {
     setOtpValue(value);
     if (value.length === 4) {
-      await verifyOtp({ otp: value, email: emailOtp });
+      await forgetPassVerifyOtp({ otp: value, email: emailOtp });
     }
   };
   const handleResendOtp = async () => {
@@ -67,4 +66,4 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default ForgetPasswordVerifyOtp;

@@ -1,7 +1,9 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import WhoAmI from '@/utils/decode-token';
+import { getEmail } from '@/utils/get-email';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ProfilePic } from '../layout-components/ProfilePic';
 
 const adminHeader = [
   { label: 'Employee List', value: 'emloyeeList' },
@@ -33,6 +35,7 @@ const getRole = (decoded: { role: string }) => {
 
 const Header = async () => {
   const NavBar = await getCorrectNavBar();
+  const email = await getEmail()
   return (
     <header className="flex flex-col h-16 gap-4 px-6 pt-4">
       <div className="flex items-center justify-between gap-4">
@@ -48,9 +51,7 @@ const Header = async () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center">
-          <button className="w-8 h-8 overflow-hidden bg-gray-300 rounded-full"></button>
-        </div>
+        <ProfilePic email={email}/>
       </div>
       <nav className="hidden md:flex gap-6 text-sm font-medium text-[#09090B]">
         {NavBar.map((item) => (
