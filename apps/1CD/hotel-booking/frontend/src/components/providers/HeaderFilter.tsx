@@ -4,9 +4,13 @@ import { DatePickerWithRange } from '../DatePicker';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { DateRange } from 'react-day-picker';
+import { useRouter } from 'next/navigation';
 
 const HeaderFilter = () => {
   const [date, setDate] = useState<DateRange | undefined>();
+
+  const router = useRouter();
+
   return (
     <section
       data-testid="search-result-section"
@@ -20,7 +24,7 @@ const HeaderFilter = () => {
         <p className="text-sm">Guest</p>
         <ComboboxDemo />
       </div>
-      <Button className="mt-4 bg-blue-700 md:w-48 md:mt-7" data-testid="search-hotel-room-btn">
+      <Button onClick={() => router.push('/search-result')} className="mt-4 bg-blue-700 md:w-48 md:mt-7" data-testid="search-hotel-room-btn">
         Search
       </Button>
     </section>

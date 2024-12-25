@@ -44,7 +44,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div>samlee.mobbin@gmail.com</div>
         </div>
         <div>
-          <Link href={'/'} className="bg-[#2563EB] text-white py-3 px-8 rounded-md">
+          <Link href={'/booking'} className="bg-[#2563EB] text-white py-3 px-8 rounded-md">
             View your booking
           </Link>
         </div>
