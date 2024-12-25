@@ -148,7 +148,7 @@ const PasswordReset = () => {
               disabled={loading}
               className="p-2 hover:text-white w-[95px] text-black bg-[#00B7f4] rounded-sm"
               type="submit"
-              data-cy="Info-Submit-Button"
+              data-cy="Password-Submit-Button"
             >
               Хадгалах
             </Button>
