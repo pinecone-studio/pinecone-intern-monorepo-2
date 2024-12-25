@@ -9,13 +9,11 @@ export const metadata = {
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
-      <body>
-        <AdminHeader/>
-        <div>{children}</div>
-        <AdminFooter/>
-      </body>
-    </html>
+    <div>
+      <AdminHeader />
+      <div>{children}</div>
+      <AdminFooter />
+    </div>
   );
 };
 
