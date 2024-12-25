@@ -14,7 +14,7 @@ jest.mock('../../../../src/models/order.model', () => ({
   create: jest.fn(),
 }));
 
-jest.mock('../../../../src/models/unitTicket.model', () => ({
+jest.mock('../../../../src/models/unit-ticket.model', () => ({
   insertMany: jest.fn(),
 }));
 
