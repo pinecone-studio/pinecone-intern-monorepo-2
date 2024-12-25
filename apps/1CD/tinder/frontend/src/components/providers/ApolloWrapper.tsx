@@ -2,7 +2,6 @@
 
 import { HttpLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
-// import { PropsWithChildren } from 'react';
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 

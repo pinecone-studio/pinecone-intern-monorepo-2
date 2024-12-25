@@ -4,21 +4,25 @@ query GetEvents($filter: EventsFilter) {
     category
     description
     discount
-    guestArtists
+    mainArtists {
+      name
+    }
+    guestArtists {
+      name
+    }
     image
-    mainArtists
     name
     scheduledDays
-
-    dayTickets {
+    products {
       _id
       scheduledDay
       ticketType {
         _id
-        discount
+        zoneName
         soldQuantity
         unitPrice
-        zoneName
+        discount
+        additional
       }
     }
     venue {
@@ -28,6 +32,46 @@ query GetEvents($filter: EventsFilter) {
       image
       capacity
       size
+    }
+  }
+}
+
+query GetEventById($id: ID!) {
+  getEventById(_id: $id) {
+    _id
+    category
+    description
+    discount
+    image
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    guestArtists {
+      name
+    }
+    priority
+    venue {
+      _id
+      capacity
+      image
+      location
+      name
+      size
+    }
+    products {
+      _id
+      scheduledDay
+      ticketType {
+        _id
+        additional
+        discount
+        soldQuantity
+        totalQuantity
+        unitPrice
+        zoneName
+      }
     }
   }
 }

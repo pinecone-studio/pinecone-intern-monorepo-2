@@ -18,7 +18,7 @@ jest.mock('src/models', () => ({
 
 describe('get-hotels', () => {
   it('should return hotels', async () => {
-    const response = await getHotels!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
+    const response = await getHotels?.({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
     expect(response).toEqual([
       {
         _id: '1',
@@ -28,7 +28,7 @@ describe('get-hotels', () => {
   });
   it('should return hotels', async () => {
     try {
-      await getHotels!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
+      await getHotels?.({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
     } catch (err) {
       expect((err as Error).message).toEqual('Hotels not found');
     }

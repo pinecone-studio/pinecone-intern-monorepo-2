@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
@@ -20,7 +20,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
           <MatchProvider>
             <OneUserProvider>
               <div className="max-w-[1280px] mx-auto">
-                {children}
+              {React.cloneElement(children as React.ReactElement, { authToken })}
                 <Toaster />
               </div>
             </OneUserProvider>

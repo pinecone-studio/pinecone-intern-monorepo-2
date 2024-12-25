@@ -2,9 +2,16 @@
 import { GET_MATCHEDUSERS } from '@/graphql/chatgraphql';
 import { useQuery } from '@apollo/client';
 import { createContext, PropsWithChildren, useContext} from 'react';
-
+type User ={
+  _id:string,
+  hasChatted:boolean,
+  photos:string[],
+  name:string,
+  profession:string,
+  age:number
+}
 type Matchcontexttype = {
-  matchedData:any[]
+  matchedData:User[]
   refetchmatch:any
   matchloading:boolean
   matcherror:any

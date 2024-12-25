@@ -22,7 +22,7 @@ export const Oneuser = () => {
           <div className="flex justify-between border-b items-center py-[22px] px-6">
             <div className="flex justify-center items-center gap-3">
               <div className="rounded-full w-12 h-12 overflow-hidden">
-                <Image src="/profile.jpeg" alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
+                <Image src={oneUser.photos[0]} alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-black">

@@ -1,7 +1,7 @@
 'use client'
 import { GET_ONEUSER } from '@/graphql/chatgraphql';
 import { useQuery } from '@apollo/client';
-import { createContext, PropsWithChildren, useContext, useState} from 'react';
+import { createContext, PropsWithChildren, useContext} from 'react';
 import { useParams } from 'next/navigation';
 
 type Oneusercontexttype = {

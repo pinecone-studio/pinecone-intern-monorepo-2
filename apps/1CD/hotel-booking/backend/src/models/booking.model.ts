@@ -1,4 +1,7 @@
 import { Schema, model, models } from 'mongoose';
+import { roomsModel } from './rooms.model';
+import { hotelsModel } from './hotels.model';
+import { userModel } from './user.model';
 
 export type BookingType = {
   createdAt: Date;
@@ -14,9 +17,9 @@ export type BookingType = {
 
 const bookingSchema = new Schema<BookingType>({
   createdAt: Date,
-  userId: String,
-  roomId: String,
-  hotelId: String,
+  userId: { type: String, ref: userModel },
+  roomId: { type: String, ref: roomsModel },
+  hotelId: { type: String, ref: hotelsModel },
   checkInDate: Date,
   checkOutDate: Date,
   totalPrice: {
