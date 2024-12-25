@@ -1,6 +1,9 @@
 import { addToCarts } from '../../../../src/resolvers/mutations/order/add-to-cart';
 import Order from '../../../../src/models/order.model';
 import Ticket from '../../../../src/models/ticket.model';
+import UnitTicket from '../../../../src/models/unit-ticket.model';
+import { qrCodes } from '../../../../src/utils/generate-qr';
+import { sendEmailWithQr } from '../../../../src/utils/sent-to-qr';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/ticket.model', () => ({
@@ -9,6 +12,18 @@ jest.mock('../../../../src/models/ticket.model', () => ({
 
 jest.mock('../../../../src/models/order.model', () => ({
   create: jest.fn(),
+}));
+
+jest.mock('../../../../src/models/unitTicket.model', () => ({
+  insertMany: jest.fn(),
+}));
+
+jest.mock('../../../../src/utils/generate-qr', () => ({
+  qrCodes: jest.fn(),
+}));
+
+jest.mock('../../../../src/utils/sent-to-qr', () => ({
+  sendEmailWithQr: jest.fn(),
 }));
 
 describe('addToCarts mutation', () => {
@@ -29,6 +44,9 @@ describe('addToCarts mutation', () => {
   beforeEach(() => {
     (Ticket.findById as jest.Mock).mockClear();
     (Order.create as jest.Mock).mockClear();
+    (UnitTicket.insertMany as jest.Mock).mockClear();
+    (qrCodes as jest.Mock).mockClear();
+    (sendEmailWithQr as jest.Mock).mockClear();
   });
 
   it('should order a ticket successfully and update soldQuantity', async () => {
@@ -43,11 +61,20 @@ describe('addToCarts mutation', () => {
       ],
       save: jest.fn().mockResolvedValue(true),
     };
+
     (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
 
     const mockCreateOrder = { userId, ...input };
     (Order.create as jest.Mock).mockResolvedValueOnce(mockCreateOrder);
-    const result = await addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo);
+
+    const mockUnitTicket = [{ _id: 'unitTicketId1' }, { _id: 'unitTicketId2' }];
+    (UnitTicket.insertMany as jest.Mock).mockResolvedValueOnce(mockUnitTicket);
+
+    const mockQrCodeDataUrl = 'data:image/png;base64,abc123';
+    (qrCodes as jest.Mock).mockResolvedValueOnce(mockQrCodeDataUrl);
+
+    await addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo);
+
     expect(Ticket.findById).toHaveBeenCalledWith(input.ticketId);
     expect(Order.create).toHaveBeenCalledWith({
       userId,
@@ -63,7 +90,13 @@ describe('addToCarts mutation', () => {
         },
       ],
     });
-    expect(result).toEqual({ message: 'success' });
+    expect(UnitTicket.insertMany).toHaveBeenCalledWith([
+      {
+        ticketId: '1122334455',
+        eventId: input.eventId,
+      },
+    ]);
+    expect(sendEmailWithQr).toHaveBeenCalledWith(input.email, mockQrCodeDataUrl);
   });
 
   it('should throw an error if seats are full', async () => {
@@ -78,11 +111,9 @@ describe('addToCarts mutation', () => {
       ],
       save: jest.fn().mockResolvedValue(true),
     };
-
     (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
     await expect(addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo)).rejects.toThrow('Seats are full');
   });
-
   it('should throw an Unauthorized error if no userId is provided', async () => {
     await expect(addToCarts!({}, { input }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Unauthorized');
   });

@@ -17,8 +17,8 @@ export const sendEmailWithLink = async (email: string, resetToken: string): Prom
   await transporter.sendMail({
     from: process.env.EMAIL_USER, // sender address
     to: email, // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Reset password', // plain text body
+    subject: 'Hello ✔',
+    text: 'Reset password',
     html: `<div style="overflow: auto;">
         <div style="margin: 50px auto; width: 70%; padding: 20px 0;">
           <hr style="border: none; border-top: 1px solid #eee;" />
