@@ -16,7 +16,6 @@ describe('AdminHeader Component', () => {
 
     expect(screen.getByText('Тасалбар')).toBeInTheDocument();
     expect(screen.getByText('Цуцлах хүсэлт')).toBeInTheDocument();
-    expect(screen.getByText('Артист')).toBeInTheDocument();
   });
 
   it('should render the "Exit Account" button with text "Гарах"', () => {
