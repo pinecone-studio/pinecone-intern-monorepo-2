@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
-
 import { Label } from '@radix-ui/react-label';
 import { useAuth } from '@/components/providers';
 

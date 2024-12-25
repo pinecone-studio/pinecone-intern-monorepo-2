@@ -1,8 +1,8 @@
 import React from 'react';
-import VerifyOtp from '../../_components/VerifyOtp';
+import ForgetPasswordVerifyOtp from '../../_components/ForgetPasswordVerifyOtp';
 
 const Page = () => {
-  return <VerifyOtp />;
+  return <ForgetPasswordVerifyOtp />;
 };
 
 export default Page;
