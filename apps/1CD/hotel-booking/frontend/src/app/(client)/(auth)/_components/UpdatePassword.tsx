@@ -7,15 +7,14 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { z } from 'zod';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '@/components/providers';
 
 const inputs = [
   {
     name: 'password',
-    label: 'Password',
-    inputPlaceholder: 'Password',
+    label: 'New Password',
+    inputPlaceholder: 'New Password',
   },
   {
     name: 'rePassword',
@@ -24,7 +23,7 @@ const inputs = [
   },
 ] as const;
 
-const ChangePassword = () => {
+const UpdatePassword = () => {
   const formSchema = z
     .object({
       password: z.string().min(6, {
@@ -43,13 +42,12 @@ const ChangePassword = () => {
         });
       }
     });
-  const { setPassword } = useAuth();
+  const { updatePassword } = useAuth();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 
   useEffect(() => {
-    const email = localStorage.getItem('email')!;
-
+    const email = localStorage.getItem('userEmail')!;
     setEmailOtp(email);
   }, []);
 
@@ -61,7 +59,7 @@ const ChangePassword = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await setPassword({
+    await updatePassword({
       password: values.password,
       email: emailOtp,
     });
@@ -85,7 +83,7 @@ const ChangePassword = () => {
                   <FormItem>
                     <FormLabel className="text-sm ">{input.label}</FormLabel>
                     <FormControl>
-                      <Input className="p-2 rounded-sm" placeholder={input.inputPlaceholder} {...field} />
+                      <Input className="p-2 rounded-sm" placeholder={input.inputPlaceholder} type="password" {...field} />
                     </FormControl>
                     <FormMessage className="text-xs text-red-500" />
                   </FormItem>
@@ -103,4 +101,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default UpdatePassword;

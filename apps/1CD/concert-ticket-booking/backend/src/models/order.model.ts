@@ -13,8 +13,9 @@ type Order = {
   userId: Schema.Types.ObjectId;
   ticketId: Schema.Types.ObjectId;
   eventId: Schema.Types.ObjectId;
+  phoneNumber: string;
+  email: string;
   status: string;
-  orderNumber: number;
   ticketType: TicketType[];
 };
 
@@ -34,6 +35,14 @@ const orderSchema = new Schema<Order>(
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Event',
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,

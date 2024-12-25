@@ -105,13 +105,12 @@ const SentRequest = ({ email }: { email: string }) => {
     startDate: addDays(new Date(), -30),
     endDate: new Date(),
   });
-  const router = useRouter()
+  const router = useRouter();
   const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });
 
   if (loading) {
     return null;
   }
-
   const refresh = async () => {
     await refetch({ email, ...dateRange.current });
   };
@@ -128,19 +127,33 @@ const SentRequest = ({ email }: { email: string }) => {
             }
           }}
         />
-        <Button onClick={()=>{router.push('/createNewRequest')}}>+ Чөлөө хүсэх</Button>
+        <Button
+          onClick={() => {
+            router.push('/createNewRequest');
+          }}
+        >
+          + Чөлөө хүсэх
+        </Button>
       </div>
 
       <div className="py-6 rounded-lg text-[#71717A]">
-        {data?.getRequests?.map((group, index) => {
-          if (!group || !group.requests) {
-            return null;
-          }
-          return <RequestGroup key={index} date={group._id} requests={group.requests} />;
-        })}
+        {data?.getRequests?.length ? (
+          data.getRequests.map((group, index) => {
+            if (!group || !group.requests) {
+              return null;
+            }
+            return <RequestGroup key={index} date={group._id} requests={group.requests} />;
+          })
+        ) : (
+          <div className="mt-28">
+              <p className=" font-bold text-center text-black"> Чөлөөний хүсэлт байхгүй байна.</p>
+              <p className="text-center">Чөлөөний хүсэлтээ үүсгэхээр энд харагдана. </p>
+         </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default SentRequest;
+

@@ -1,13 +1,35 @@
 'use client';
-
-import { Button } from '@/components/ui/button';
 import { RoomType } from '@/generated';
 import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleIcon, Utensils, WifiIcon } from 'lucide-react';
+import HotelRoomDetail from './HotelRoomDetail';
+import { useCallback, useState } from 'react';
+import Image from 'next/image';
+import PriceDetail from '../../../components/PriceDetail';
+import Link from 'next/link';
 
 const RoomCard = ({ room }: { room: RoomType }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleState = useCallback(() => {
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+    }
+  }, [isOpen]);
+  const [isOn, setIsOn] = useState(false);
+  const handleOpen = useCallback(() => {
+    setIsOpen(false);
+    if (isOn) {
+      setIsOn(false);
+    } else {
+      setIsOn(true);
+    }
+  }, [isOn]);
   return (
-    <div className="border border-solid 1px rounded-md w-[349px]">
-      <div className="bg-[#EBEBEB] w-[349px] h-[216px]"></div>
+    <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-[349px]">
+      <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
+        <Image src={`${room?.images}`} alt="room image" width={500} height={500} data-cy="Room-image" />
+      </div>
       <div className="p-4">
         <div className="flex flex-col gap-4">
           <div className="text-base font-bold">
@@ -45,8 +67,10 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <DoorClosed className="w-4 h-4" />
               <div className="text-sm font-normal">Room cleaning service</div>
             </div>
-            <div className="flex items-center gap-2 py-2">
-              <div className="text-sm font-medium text-[#2563EB]">Show more</div>
+            <div className="flex gap-2 items-center py-2">
+              <button data-cy="Show-More" onClick={handleState} className="text-sm font-medium text-[#2563EB] hover:font-semibold ">
+                Show more
+              </button>
               <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
@@ -62,15 +86,21 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-xs font-normal text-[#000000]">75000</div>
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
             </div>
-            <div className="flex items-center gap-2 py-2">
-              <div className="text-sm font-medium text-[#2563EB]">Price detail</div>
+            <div className="flex gap-2 items-center py-2">
+              <div data-cy="Price-Detail-Button" className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
+                Price detail
+              </div>
               <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
           <div className="pt-14">
-            <Button className="bg-[#2563EB] rounded-md py-2 px-3">Reserve</Button>
+            <Link href={`/checkout/${room?._id}`} data-cy="Reserve-button" className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
+              Reserve
+            </Link>
           </div>
         </div>
+        <HotelRoomDetail data-cy="Hotel-Room-Detail" isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
+        <PriceDetail data-cy="Price-Detail-Dialog" isOn={isOn} handleOpen={() => handleOpen()} room={room} />
       </div>
     </div>
   );
