@@ -24,7 +24,7 @@ const inputs = [
   },
 ] as const;
 
-const VerifyEmail = () => {
+const SignupVerifyEmail = () => {
   const { sendOtp } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -90,4 +90,4 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+export default SignupVerifyEmail;

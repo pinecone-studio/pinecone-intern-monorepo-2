@@ -178,3 +178,6 @@ mutation SetPassword($input: PasswordInput!) {
 mutation verifyEmail($input: SignUpInput!) {
   verifyEmail(input: $input)
 }
+mutation UpdatePassword($input: PasswordInput!) {
+  updatePassword(input: $input)
+}
