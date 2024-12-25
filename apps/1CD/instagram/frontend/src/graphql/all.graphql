@@ -85,6 +85,12 @@ query GetFollowers($followingId: ID!) {
   }
 }
 
+query GetFollowStatus($followingId: ID!, $followerId: ID!) {
+  getFollowStatus(followingId: $followingId, followerId: $followerId) {
+    status
+  }
+}
+
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
     user {
