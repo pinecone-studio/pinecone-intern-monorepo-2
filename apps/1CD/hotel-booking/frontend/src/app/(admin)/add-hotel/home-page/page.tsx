@@ -27,7 +27,7 @@ const Page = () => {
               </Button>
             </div>
           </div>
-          <div className="flex gap-1 w-full px-4 py-3">
+          <div className="flex w-full gap-1 px-4 py-3">
             <div className="flex-1">
               <Input placeholder="Search" />
             </div>
@@ -79,7 +79,7 @@ const Page = () => {
             </Select>
           </div>
           <div className="px-4">
-            <Table className="border-2 bg-white">
+            <Table className="bg-white border-2">
               <TableRow className="border-2">
                 <TableCell className="border-2 w-[82px]">ID</TableCell>
                 <TableCell className="border-2">Name</TableCell>

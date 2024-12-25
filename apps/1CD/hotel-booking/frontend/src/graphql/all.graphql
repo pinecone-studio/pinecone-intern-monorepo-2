@@ -12,6 +12,54 @@ query GetHotels {
     phoneNumber
   }
 }
+query GetBookings {
+  getBookings {
+    _id
+    userId {
+      _id
+      email
+      firstName
+      lastName
+      phoneNumber
+      createdAt
+    }
+    roomId {
+      id
+      roomService {
+        bathroom
+        accessability
+        entertaiment
+        foodDrink
+        bedroom
+        other
+      }
+      hotelId {
+        createdAt
+        _id
+        hotelName
+        description
+        starRating
+        userRating
+        phoneNumber
+        images
+        hotelAmenities
+        location
+      }
+      roomName
+      roomType
+      price
+      roomInformation
+      createdAt
+      amenities
+      images
+    }
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+  }
+}
 mutation Mutation {
   sampleMutation
 }
@@ -135,6 +183,15 @@ query HotelDetail($hotelId: ID!) {
     roomInformation
     createdAt
     images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    amenities
   }
 }
 query GetHotel($id: ID!) {
@@ -173,11 +230,30 @@ mutation SendOtp($input: SignUpInput!) {
 }
 
 mutation SetPassword($input: PasswordInput!) {
-  setPassword(input: $input) {
-    _id
-    email
-  }
+  setPassword(input: $input)
 }
 mutation verifyEmail($input: SignUpInput!) {
   verifyEmail(input: $input)
+}
+mutation UpdatePassword($input: PasswordInput!) {
+  updatePassword(input: $input)
+}
+query HotelService($roomId: ID!) {
+  hotelService(roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+  }
 }

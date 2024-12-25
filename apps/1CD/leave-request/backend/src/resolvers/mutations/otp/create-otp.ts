@@ -1,15 +1,15 @@
-import { GraphQLResolveInfo } from 'graphql';
+
 import { MutationResolvers } from '../../../generated';
 import { OTPModel } from '../../../models/otp';
-import { findUserByEmail } from '../../queries';
 import nodemailer from 'nodemailer';
 import { generateHtmlTemplate } from 'src/utils/generate-html-template';
+import { UserModel } from 'src/models';
 
 export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) => {
 
   
 
-  const user = await findUserByEmail!({}, { email }, {}, {} as GraphQLResolveInfo);
+  const user = await UserModel.findOne({email})
   if (!user) {
     throw new Error('User not found');
   }

@@ -44,7 +44,7 @@ export const typeDefs = gql`
   }
 
   input PasswordInput {
-    email: String
+    email: String!
     password: String!
   }
 
@@ -56,7 +56,8 @@ export const typeDefs = gql`
     login(input: LoginInput!): AuthResponse!
     verifyOtp(input: VerifyOtpInput!): Response!
     sendOtp(input: SignUpInput!): Response!
-    setPassword(input: PasswordInput!): User!
+    setPassword(input: PasswordInput!): Response!
     verifyEmail(input: SignUpInput!): Response!
+    updatePassword(input: PasswordInput!): Response!
   }
 `;

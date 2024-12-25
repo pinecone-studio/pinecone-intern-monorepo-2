@@ -1,7 +1,7 @@
-import { addToCarts } from "../../../../src/resolvers/mutations/order/add-to-cart";
-import Order from "../../../../src/models/order.model";
-import Ticket from "../../../../src/models/ticket.model";
-import { GraphQLResolveInfo } from "graphql";
+import { addToCarts } from '../../../../src/resolvers/mutations/order/add-to-cart';
+import Order from '../../../../src/models/order.model';
+import Ticket from '../../../../src/models/ticket.model';
+import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/ticket.model', () => ({
   findById: jest.fn(),
@@ -12,21 +12,16 @@ jest.mock('../../../../src/models/order.model', () => ({
 }));
 
 describe('addToCarts mutation', () => {
-  const userId = "2233445566";
+  const userId = '2233445566';
   const input = {
-    eventId: "eventid12",
-    ticketId: "ticketid12",
-    status: "available",
-    orderNumber: 1,
+    eventId: 'eventid12',
+    ticketId: 'ticketid12',
+    phoneNumber: '+976 90909090',
+    email: 'example@email.com',
     ticketType: [
       {
-        _id: "1122334455",
-        zoneName: "VIP",
-        soldQuantity: 3,
-        totalQuantity: 300,
-        unitPrice: 90000,
-        discount: 10,
-        additional: "uuh ym unegei",
+        _id: '1122334455',
+        buyQuantity: '3',
       },
     ],
   };
@@ -36,71 +31,59 @@ describe('addToCarts mutation', () => {
     (Order.create as jest.Mock).mockClear();
   });
 
-  it('should order a ticket successfully', async () => {
-    const mockOrder = {
-      eventId: input.eventId,
-      ticketId: input.ticketId,
-      status: "available",
-      orderNumber: 1,
+  it('should order a ticket successfully and update soldQuantity', async () => {
+    const mockTicket = {
+      _id: 'ticketid12',
       ticketType: [
         {
-          _id: "1122334455",
-          zoneName: 'VIP',
+          _id: '1122334455',
           soldQuantity: 3,
-          totalQuantity: 300,
-          unitPrice: 90000,
-          discount: 10,
-          additional: 'uuh ym unegei',
+          totalQuantity: 10,
         },
       ],
       save: jest.fn().mockResolvedValue(true),
     };
-    (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockOrder);
+    (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
 
-    (Order.create as jest.Mock).mockResolvedValueOnce({ userId, ...input });
-
-
+    const mockCreateOrder = { userId, ...input };
+    (Order.create as jest.Mock).mockResolvedValueOnce(mockCreateOrder);
     const result = await addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo);
-
-
     expect(Ticket.findById).toHaveBeenCalledWith(input.ticketId);
-    expect(mockOrder.ticketType[0].soldQuantity).toBe(6); 
     expect(Order.create).toHaveBeenCalledWith({
       userId,
       eventId: input.eventId,
       ticketId: input.ticketId,
-      status: "available",
-      orderNumber: 1,
-      ticketType: input.ticketType,
+      phoneNumber: input.phoneNumber,
+      email: input.email,
+      ticketType: [
+        {
+          _id: '1122334455',
+          soldQuantity: '3',
+          totalQuantity: 10,
+        },
+      ],
     });
-
-    expect(result).toEqual({ userId, ...input });
+    expect(result).toEqual({ message: 'success' });
   });
 
   it('should throw an error if seats are full', async () => {
-    const mockOrder = {
-      eventId: input.eventId,
-      ticketId: input.ticketId,
-      status: "available",
-      orderNumber: 1,
+    const mockTicket = {
+      _id: 'ticketid12',
       ticketType: [
         {
-          _id: "1122334455",
-          zoneName: 'VIP',
-          soldQuantity: 299, 
+          _id: '1122334455',
+          soldQuantity: 299,
           totalQuantity: 300,
-          unitPrice: 90000,
-          discount: 10,
-          additional: 'uuh ym unegei',
         },
       ],
       save: jest.fn().mockResolvedValue(true),
     };
 
-    (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockOrder);
+    (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
+    await expect(addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo)).rejects.toThrow('Seats are full');
+  });
 
-    await expect(addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo))
-      .rejects
-      .toThrow('Seats are full');
+  it('should throw an Unauthorized error if no userId is provided', async () => {
+    await expect(addToCarts!({}, { input }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Unauthorized');
   });
 });

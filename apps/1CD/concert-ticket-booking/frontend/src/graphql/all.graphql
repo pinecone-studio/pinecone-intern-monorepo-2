@@ -76,3 +76,15 @@ query GetMe {
     phoneNumber
   }
 }
+mutation UpdateUser($input: UpdateInput!) {
+  updateUser(input: $input) {
+    role
+  }
+}
+
+mutation ChangePassword($input: ChangePasswordInput!) {
+  changePassword(input: $input) {
+    message
+  }
+}
+

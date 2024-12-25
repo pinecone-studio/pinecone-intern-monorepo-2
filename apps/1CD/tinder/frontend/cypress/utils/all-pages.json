@@ -1,1 +1,3 @@
-["///","///chat","///chat/[id]","///register/attraction","///register/birthday","///sign-up/all-set","///sign-up/image","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn"]
+
+["///","///match","///register/attraction","///register/birthday","///register/userdetails","///sign-up/all-set","///sign-up/image","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn","///chat","///chat/[id]"]
+

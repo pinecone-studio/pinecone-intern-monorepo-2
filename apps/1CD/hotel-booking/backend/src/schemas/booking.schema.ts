@@ -20,6 +20,10 @@ export const typeDefs = gql`
     status: bookingStatus
   }
   input BookingInput {
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
     userId: String
     roomId: String
     hotelId: String
@@ -51,12 +55,12 @@ export const typeDefs = gql`
   }
   enum bookingStatus {
     booked
-    checkedIn
-    checkedOut
     cancelled
+    completed
   }
   type Mutation {
     addNewBooking(input: BookingInput!): BookingType!
+    updateBookingStatus(_id: ID!): bookingStatus!
   }
 
   type Query {
