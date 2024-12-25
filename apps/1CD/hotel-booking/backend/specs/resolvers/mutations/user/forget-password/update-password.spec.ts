@@ -19,7 +19,7 @@ describe('updatePassword', () => {
   });
 
   it('should hash the password, update the user, and return Response.Success', async () => {
-    const input = { email: 'test@gmail.com', newPassword: 'securePassword123' };
+    const input = { email: 'test@gmail.com', password: 'securePassword123' };
     const hashedPassword = 'hashedPassword';
 
     (bcrypt.hash as jest.Mock).mockResolvedValueOnce(hashedPassword);
@@ -32,14 +32,14 @@ describe('updatePassword', () => {
 
     const result = await updatePassword({}, { input });
 
-    expect(bcrypt.hash).toHaveBeenCalledWith(input.newPassword, 10);
+    expect(bcrypt.hash).toHaveBeenCalledWith(input.password, 10);
     expect(userModel.findOneAndUpdate).toHaveBeenCalledWith({ email: input.email }, { password: hashedPassword });
     expect(mockedUser.save).toHaveBeenCalled();
     expect(result).toEqual(Response.Success);
   });
 
   it('should throw an error if no user is found', async () => {
-    const input = { email: 'nonexistent@gmail.com', newPassword: 'securePassword123' };
+    const input = { email: 'nonexistent@gmail.com', password: 'securePassword123' };
 
     (bcrypt.hash as jest.Mock).mockResolvedValueOnce('hashedPassword');
 
@@ -47,7 +47,7 @@ describe('updatePassword', () => {
 
     await expect(updatePassword({}, { input })).rejects.toThrow('User not found');
 
-    expect(bcrypt.hash).toHaveBeenCalledWith(input.newPassword, 10);
+    expect(bcrypt.hash).toHaveBeenCalledWith(input.password, 10);
     expect(userModel.findOneAndUpdate).toHaveBeenCalledWith({ email: input.email }, { password: 'hashedPassword' });
   });
 });
