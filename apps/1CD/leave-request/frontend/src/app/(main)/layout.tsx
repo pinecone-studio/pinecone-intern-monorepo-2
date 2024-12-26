@@ -1,4 +1,6 @@
-import Header from '@/components/admin/Header';
+
+
+import Header from '@/components/layout-components/Header';
 import { PropsWithChildren } from 'react';
 
 const MainLayout = ({ children }: PropsWithChildren) => {

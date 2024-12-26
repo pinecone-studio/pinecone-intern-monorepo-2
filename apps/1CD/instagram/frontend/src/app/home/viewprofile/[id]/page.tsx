@@ -4,7 +4,7 @@ import { useAuth } from '@/components/providers';
 import { useUser } from '@/components/providers/UserProvider';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
 import PrivateProfile from '@/components/visit-profile/PrivateProfile';
-import { useGetOneUserQuery } from '@/generated';
+import { useGetFollowStatusQuery, useGetOneUserQuery } from '@/generated';
 import { Grid3x3 } from 'lucide-react';
 
 import { useParams } from 'next/navigation';
@@ -16,7 +16,6 @@ const ViewProfile = () => {
 
   const [buttonState, setButtonState] = useState<'Follow' | 'Requested' | 'Following'>('Follow');
 
-  // const [sendFollowReq, { loading: followLoading }] = useSendFollowReqMutation();
   const { sendFollowReq, followLoading } = useUser();
   const { data } = useGetOneUserQuery({
     variables: { id: id as string },
@@ -24,7 +23,13 @@ const ViewProfile = () => {
   });
 
   const profileUser = data?.getOneUser;
-  console.log('userrr', profileUser);
+
+  const { data: followData } = useGetFollowStatusQuery({
+    variables: {
+      followerId: user?._id as string,
+      followingId: profileUser?._id as string,
+    },
+  });
 
   const handleFollowClick = async () => {
     try {
@@ -45,12 +50,10 @@ const ViewProfile = () => {
     }
   };
 
-  console.log('button state', buttonState);
-
   return (
     <div className="mx-auto my-10" data-cy="visit-profile-page">
       <div className="w-[900px]">
-        <HeadingSection profileUser={profileUser}  followLoading={followLoading} buttonState={buttonState} handleFollowClick={handleFollowClick} />
+        <HeadingSection profileUser={profileUser} followLoading={followLoading} buttonState={buttonState} handleFollowClick={handleFollowClick} followData={followData} />
         {profileUser?.accountVisibility === 'PUBLIC' ? (
           <div className="relative flex mb-10 border-t border-t-gray-200" data-cy="public-user">
             <div className=" border-t border-t-black hover:text-black absolute left-[50%]">

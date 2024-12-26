@@ -21,16 +21,23 @@ export const ComboboxDemo = () => {
   };
 
   return (
-    <div data-cy="Adult-Select-Modal" className="w-full mx-auto xl:min-w-[500px]">
+    <div data-cy="Adult-Select-Modal" className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button data-testid="traveler-select-btn" variant="outline" role="combobox" className="justify-between w-full max-w-md" onClick={() => setOpen(!open)} data-cy="Adult-Select-Modal-Button">
+          <Button
+            data-testid="traveler-select-btn"
+            variant="outline"
+            role="combobox"
+            className="justify-between xl:min-w-[500px] max-w-md"
+            onClick={() => setOpen(!open)}
+            data-cy="Adult-Select-Modal-Button"
+          >
             {adultQuantity} traveler{adultQuantity > 1 ? 's' : ''}, 1 room
             <ChevronDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="relative xl:min-w-[450px] p-0  min-h-44">
+        <PopoverContent className="relative xl:min-w-[500px] p-0  min-h-44">
           <h3 className="mt-5 ml-4 text-lg font-bold sm:ml-6 sm:text-xl">Travels</h3>
           <div className="flex items-center justify-between px-4 sm:pr-6 border-b-[1px] mx-2 sm:mx-4 pb-3">
             <p className="mt-5 ml-2 sm:ml-6">Adult</p>

@@ -1,4 +1,5 @@
 'use client';
+
 import BookingDetailLeftSide from '@/components/BookingDetailLeftSide';
 import BookingDetailRightSide from '@/components/BookingDetailRightSide';
 import { useGetBookingQuery } from '@/generated';

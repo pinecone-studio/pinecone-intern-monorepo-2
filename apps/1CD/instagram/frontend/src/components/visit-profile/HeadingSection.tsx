@@ -1,19 +1,23 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
-import { OtherUser } from '@/generated';
+import { GetFollowStatusQuery, OtherUser } from '@/generated';
 
 const HeadingSection = ({
   profileUser,
   followLoading,
   buttonState,
   handleFollowClick,
+  followData,
 }: {
   profileUser: OtherUser | undefined;
   followLoading: boolean;
   buttonState: string;
   handleFollowClick: () => Promise<void>;
+  followData: GetFollowStatusQuery | undefined;
 }) => {
+  const buttonText = followData?.getFollowStatus.status === 'APPROVED' ? 'Following' : followData?.getFollowStatus.status === 'PENDING' ? 'Requested' : buttonState;
+
   return (
     <div className="flex flex-row mb-10 justify-evenly">
       <section>
@@ -23,7 +27,7 @@ const HeadingSection = ({
             profileUser?.profileImg ||
             'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
           }
-          alt="profilezurag"
+          alt="profile image"
           width="140"
           height="140"
           className="rounded-full w-[140px] h-[140px]"
@@ -35,11 +39,13 @@ const HeadingSection = ({
             {profileUser?.userName}
           </h1>
           <Button
-            className={`h-8 text-black ${buttonState === 'Follow' ? 'bg-gray-200 hover:bg-gray-300' : 'bg-gray-300'}`}
+            className={`h-8 text-black  bg-gray-200
+            
+              `}
             onClick={handleFollowClick}
-            disabled={followLoading || buttonState !== 'Follow'}
+            disabled={followLoading || buttonText !== 'Follow'}
           >
-            {followLoading ? 'Loading...' : buttonState}
+            {buttonText}
           </Button>
           <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Message</Button>
           <div>
