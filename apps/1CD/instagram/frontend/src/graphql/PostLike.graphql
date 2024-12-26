@@ -26,3 +26,11 @@ query GetPostLikes($postId: ID!) {
     }
   }
 }
+
+query GetPostLike($postId: ID!) {
+  getPostLike(postId: $postId) {
+    _id
+    createdAt
+    isLike
+  }
+}
