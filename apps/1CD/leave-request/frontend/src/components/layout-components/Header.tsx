@@ -37,7 +37,7 @@ const Header = async () => {
   const NavBar = await getCorrectNavBar();
   const email = await getEmail()
   return (
-    <header className="flex flex-col h-16 gap-4 px-6 pt-4">
+    <div className="flex flex-col gap-4 px-6 pt-4 ">
       <div className="flex items-center justify-between gap-4">
         <div className="flex gap-4">
           <Image src="/Logo/Vector.svg" width={32} height={28} alt="Logo" />
@@ -53,14 +53,14 @@ const Header = async () => {
         </div>
         <ProfilePic email={email}/>
       </div>
-      <nav className="hidden md:flex gap-6 text-sm font-medium text-[#09090B]">
+      <nav className=" md:flex gap-6 text-sm font-medium text-[#09090B]">
         {NavBar.map((item) => (
           <Link key={item.value} href={`/${item.value}`} className={`px-3 py-2 pb-3.5 `}>
             {item.label}
           </Link>
         ))}
       </nav>
-    </header>
+    </div>
   );
 };
 

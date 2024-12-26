@@ -24,6 +24,7 @@ export const login: MutationResolvers['login'] = async (_, { input }) => {
       expiresIn: '2h',
     }
   );
+  console.log('sdarararara', token);
 
   return {
     user,

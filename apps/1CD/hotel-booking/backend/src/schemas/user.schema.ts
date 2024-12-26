@@ -5,13 +5,26 @@ export const typeDefs = gql`
     Success
   }
 
+  enum emergencyStatusEnum {
+    Spouse
+    Parents
+    Sibling
+    Friend
+    Partner
+    Child
+    Neighbor
+    Roommate
+  }
+
   scalar Date
   type User {
     _id: ID!
     email: String!
     firstName: String
     lastName: String
+    dateOfBirth: Date
     phoneNumber: String
+    emergencyContact: String
     createdAt: Date!
   }
 
@@ -48,6 +61,15 @@ export const typeDefs = gql`
     password: String!
   }
 
+  input ProfileInput {
+    firstName: String
+    lastName: String
+    dateOfBirth: Date
+    phoneNumber: String
+    emergencyContact: String
+    emergencyStatus: emergencyStatusEnum
+  }
+
   type Query {
     getUser: User!
   }
@@ -59,5 +81,6 @@ export const typeDefs = gql`
     setPassword(input: PasswordInput!): Response!
     verifyEmail(input: SignUpInput!): Response!
     updatePassword(input: PasswordInput!): Response!
+    updateProfile(input: ProfileInput!): User!
   }
 `;

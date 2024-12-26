@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import BookingInformationInput from '../BookingInformationInput';
-import { PaymentStatus, useAddPaymentMutation, useGetBookingQuery } from '@/generated';
+import { BookingStatus, useAddNewBookingMutation, useGetBookingQuery } from '@/generated';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -15,7 +15,7 @@ import { BookingPageRightSide } from '@/components/BookingPageRightSide';
 import { useRouter } from 'next/navigation';
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const [addPayment, { loading: mutationLoading }] = useAddPaymentMutation();
+  const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
   const { data, loading } = useGetBookingQuery({
     variables: {
       id: params.id,
@@ -48,14 +48,20 @@ const Page = ({ params }: { params: { id: string } }) => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { resetForm }) => {
-      await addPayment({
+      await addBooking({
         variables: {
           input: {
-            amount: 5000,
-            bookingId: '1',
-            userId: '2',
-            paymentMethod: 'card',
-            status: PaymentStatus.Pending,
+            totalPrice: 50000,
+            lastName: values.lastName,
+            firstName: values.firstName,
+            email: values.email,
+            phoneNumber: String(values.phoneNumber),
+            userId: '1',
+            roomId: '2',
+            hotelId: '3',
+            checkInDate: '2024-12-12',
+            checkOutDate: '2024-12-15',
+            status: BookingStatus.Booked,
           },
         },
       });

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { FormikProps } from 'formik';
-import { RequestFormValues } from '@/app/(main)/createNewRequest/CreateNewRequest';
+import { RequestFormValues } from '@/components/createNewRequest/CreateNewRequest';
 
 export const DatePickerDemo = ({ formik }: { formik: FormikProps<RequestFormValues> }) => {
   const { requestDate } = formik.values;

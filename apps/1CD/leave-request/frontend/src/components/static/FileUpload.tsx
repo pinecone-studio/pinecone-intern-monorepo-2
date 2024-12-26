@@ -1,4 +1,4 @@
-import { RequestFormValues } from '@/app/(main)/createNewRequest/CreateNewRequest';
+import { RequestFormValues } from '@/components/createNewRequest/CreateNewRequest';
 import { FormikProps } from 'formik';
 import { Input } from '@/components/ui/input';
 
