@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@/components/providers';
+import { useSignup } from '@/components/providers';
 
 const inputs = [
   {
@@ -42,7 +42,7 @@ const UpdatePassword = () => {
         });
       }
     });
-  const { updatePassword } = useAuth();
+  const { updatePassword } = useSignup();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 

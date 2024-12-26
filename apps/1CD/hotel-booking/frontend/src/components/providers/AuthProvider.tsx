@@ -1,10 +1,11 @@
+/* eslint-disable-max-line */
 'use client';
 
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Response, useLoginMutation, User, useSendOtpMutation, useSetPasswordMutation, useUpdatePasswordMutation, useVerifyEmailMutation, useVerifyOtpMutation } from 'src/generated';
-import { AuthContextType, OtpParams, PasswordParams, SendOtpParams, SignInParams } from './types/AuthTypes';
+import { useLoginMutation, User } from 'src/generated';
+import { AuthContextType, SignInParams } from './types/AuthTypes';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
@@ -12,11 +13,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [signinMutation] = useLoginMutation();
-  const [sendOtpMutation] = useSendOtpMutation();
-  const [verifyOtpMutation] = useVerifyOtpMutation();
-  const [setPasswordMutation] = useSetPasswordMutation();
-  const [verifyEmailMutation] = useVerifyEmailMutation();
-  const [updatePasswordMutation] = useUpdatePasswordMutation();
 
   const loginButton = () => {
     router.push('/login');
@@ -43,116 +39,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  const sendOtp = async ({ email }: SendOtpParams) => {
-    await sendOtpMutation({
-      variables: {
-        input: {
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/signup/otp');
-        localStorage.setItem('userEmail', email);
-        toast.success(Response.Success);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+  const signout = () => {
+    localStorage.removeItem('token');
+    setUser(null);
   };
 
-  const verifyOtp = async ({ otp, email }: OtpParams) => {
-    await verifyOtpMutation({
-      variables: {
-        input: {
-          otp,
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/signup/password');
-        toast.success(Response.Success);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-        console.log('error message', error.message);
-      },
-    });
-  };
-
-  const setPassword = async ({ email, password }: PasswordParams) => {
-    await setPasswordMutation({
-      variables: {
-        input: {
-          password,
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/login');
-        toast.success('Profile created successfully');
-        localStorage.removeItem('userEmail');
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
-  };
-  const forgetPassVerifyOtp = async ({ otp, email }: OtpParams) => {
-    await verifyOtpMutation({
-      variables: {
-        input: {
-          otp,
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/forget-password/update-password');
-        toast.success(Response.Success);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-        console.log('error message', error.message);
-      },
-    });
-  };
-
-  const verifyEmail = async ({ email }: SendOtpParams) => {
-    await verifyEmailMutation({
-      variables: {
-        input: {
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/forget-password/otp');
-        localStorage.setItem('userEmail', email);
-        toast.success(Response.Success);
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
-  };
-  const updatePassword = async ({ email, password }: PasswordParams) => {
-    await updatePasswordMutation({
-      variables: {
-        input: {
-          password,
-          email,
-        },
-      },
-      onCompleted: () => {
-        router.push('/login');
-        toast.success('Password updated successfully');
-        localStorage.removeItem('userEmail');
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
-  };
-  return <AuthContext.Provider value={{ signin, verifyOtp, sendOtp, setPassword, verifyEmail, user, loginButton, forgetPassVerifyOtp, signupButton, updatePassword }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signin, signout, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);

@@ -1,11 +1,13 @@
-import dotenv from 'dotenv';
+/* eslint-disable camelcase */
+const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUD_NAME;
+const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET as string;
 
-dotenv.config();
-const CLOUD_NAME = process.env.CLOUD_NAME;
-const UPLOAD_PRESET = process.env.UPLOAD_PRESET as string;
+if (!CLOUD_NAME || !UPLOAD_PRESET) {
+  console.error('Missing Cloudinary environment variables.');
+}
 
 type CloudinaryResponse = {
-  secureUrl?: string;
+  secure_url?: string;
   [key: string]: any;
 };
 
@@ -24,13 +26,11 @@ const uploadFileRequest = async (data: FormData): Promise<Response> => {
 };
 
 const extractSecureUrl = (info: CloudinaryResponse): string => {
-  return info && info.secureUrl ? info.secureUrl : '';
+  return info && info.secure_url ? info.secure_url : '';
 };
 
 export const uploadFilesInCloudinary = async (file: File): Promise<string> => {
   try {
-    console.log(`Uploading: `, file);
-
     const data = createFormData(file);
 
     const res = await uploadFileRequest(data);
@@ -39,8 +39,8 @@ export const uploadFilesInCloudinary = async (file: File): Promise<string> => {
     const info: CloudinaryResponse = await res.json();
 
     if (!res.ok) {
-      console.error('Failed to upload:', res.statusText, info);
-      throw new Error(`Failed to upload: ${res.statusText}`);
+      console.error('Failed to upload:', res.statusText, info.error.message);
+      throw new Error(`Failed to upload: ${res.statusText} - ${info.error.message}`);
     }
 
     console.log('Cloudinary JSON response:', info);
