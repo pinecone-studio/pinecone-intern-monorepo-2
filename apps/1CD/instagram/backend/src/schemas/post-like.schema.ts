@@ -11,6 +11,7 @@ export const typeDefs = gql`
 
   type Query {
     getPostLikes(postId: ID!): [PostLike!]!
+    getPostLike(postId: ID!): PostLike!
   }
 
   type Mutation {
