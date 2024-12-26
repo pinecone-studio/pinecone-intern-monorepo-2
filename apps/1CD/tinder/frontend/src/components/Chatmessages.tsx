@@ -17,7 +17,7 @@ export const Chatmessages =({errormessage, response,user1}:Props)=>{
     }
   }, []); 
     return (
-        <div className="flex-1">
+        <div className="flex-1" data-cy="Chat-Part-Page">
         {errormessage ? (
           <div className="text-center flex flex-col justify-center items-center  h-full">
             {errormessage === 'Error occured: Could not find chat' ? (

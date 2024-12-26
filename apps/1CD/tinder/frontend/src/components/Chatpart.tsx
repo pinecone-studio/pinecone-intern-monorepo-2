@@ -6,7 +6,7 @@ import { Loader } from './Loader';
 import { Chatmessages } from './Chatmessages';
 import { Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
-var jwt = require('jsonwebtoken');
+import jwt , { JwtPayload } from 'jsonwebtoken';
 
 type Props = {
   chatloading: boolean;
@@ -21,7 +21,7 @@ type Props = {
 
 export const Chatpart = ({ chatloading, response, errormessage, handleMessageChange, sendMessage, message, loading, authToken }: Props) => {
   const [userid, setUserid] = useState('')
-  const decoded = jwt.decode(authToken)
+  const decoded = jwt.decode(authToken) as JwtPayload | null
   const userId = decoded?._id
   useEffect (()=>{
     if (userId){
@@ -39,13 +39,13 @@ export const Chatpart = ({ chatloading, response, errormessage, handleMessageCha
     }
 
   return (
-    <div className="flex flex-col h-full border-t border-b border-r w-full" data-cy="Chat-Part-Page">
+    <div className="flex flex-col h-full border-t border-b border-r w-full" data-cy="Chat-Part-Big-Page" >
       {chatloading ? (
         <Loader />
       ) : (
         <div className="flex flex-col flex-1 h-full">
           <Oneuser />
-          <div className="flex flex-col flex-1 h-full">
+          <div className="flex flex-col flex-1 h-full" >
 
             <Chatmessages errormessage={errormessage} response={response} user1={userid} />
             

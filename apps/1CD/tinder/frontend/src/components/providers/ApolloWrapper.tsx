@@ -5,7 +5,7 @@ import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/expe
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
-const uri =process.env.LOCAL_BACKEND_URI ?? process.env.BACKEND_URI;
+const uri =process.env.LOCAL_BACKEND_URI 
 interface ApolloWrapperProps {
   children: ReactNode;
   authToken: string;

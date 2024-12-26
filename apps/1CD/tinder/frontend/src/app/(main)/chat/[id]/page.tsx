@@ -9,11 +9,8 @@ import { CREATE_CHAT } from '@/graphql/chatgraphql';
 import { useMutation } from '@apollo/client';
 import { useParams } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
-import { HeartOff } from 'lucide-react';
-interface SomeChildProps {
-  authToken: string;
-}
-const Chat = ({ authToken }: SomeChildProps) => {
+
+const Chat = ({ authToken }: any) => {
   const [message, setMessage] = useState<string>('');
   const params = useParams<{ id: string }>();
   const { id } = params;
@@ -37,32 +34,36 @@ const Chat = ({ authToken }: SomeChildProps) => {
       refetch();
       refetchmatch();
   };
-  return (
-    <div data-cy='Chat-Page-With-Id'>
-      {pageloading ? (
-        <div className="flex justify-center items-center h-screen">
-          <Loader />
+  if (pageloading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
+  if (matchedData) {
+    return (
+      <div className="max-w-[1000px] m-auto h-screen flex flex-col" data-cy="Chat-Matches-Part">
+        <Matches />
+        <div className="flex flex-1">
+          <Chatsidebar />
+          <Chatpart
+            chatloading={chatloading}
+            response={response}
+            errormessage={errormessage}
+            loading={loading}
+            handleMessageChange={handleMessageChange}
+            sendMessage={sendMessage}
+            message={message}
+            authToken={authToken}
+          />
         </div>
-      ) : matchedData ? (
-        <div className="max-w-[1000px] m-auto h-screen flex flex-col" data-cy="Chat-Matches-Part">
-          <Matches />
-          <div className="flex flex-1">
-            <Chatsidebar />
-            <Chatpart chatloading={chatloading} response={response} errormessage={errormessage} loading={loading} handleMessageChange={handleMessageChange} sendMessage={sendMessage} message={message} authToken={authToken} />
-          </div>
-        </div>
-      ) : matcherror.message === 'Error occurred: No matches found' ? (
-        <div className="flex flex-col justify-center items-center h-screen" data-cy="No-Matches-Found">
-           <HeartOff size={40}/>
-          <p>No Matches Yet</p>
-          <p>Keep swiping, your next match could be just around the corner!</p>
-        </div>
-      ) :  (
-        <div className="flex flex-col justify-center items-center h-screen" data-cy="Error occured">
-          <p>Error occurred, try again</p>
-        </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+  
+  <div className="flex flex-col justify-center items-center h-screen" data-cy="Error occured">
+      <p>Error occurred, try again</p>
+  </div>
 };
 export default Chat;

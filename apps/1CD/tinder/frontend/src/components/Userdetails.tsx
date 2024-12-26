@@ -49,7 +49,6 @@ export const Userdetails = () => {
       return;
     }
   }, [data, error]);
-
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -74,7 +73,7 @@ export const Userdetails = () => {
       formik.resetForm();
     },
   });
-  
+  console.log(formik.values)
   return (
     <div className=" flex flex-col justify-between items-center mt-10 h-screen" data-cy="User-Details-Page">
       <div className="flex flex-col justify-center items-center gap-6">
