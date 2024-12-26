@@ -10,6 +10,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getUnitTicket(ticketId: String!): UnitTicket!
+    getUnitTicket(unitId: String!): UnitTicket!
   }
 `;
