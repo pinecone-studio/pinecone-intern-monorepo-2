@@ -1,4 +1,1 @@
-
-["///","///home","///match","///register/attraction","///register/birthday","///register/userdetails","///sign-up/all-set","///sign-up/image","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn","///chat","///chat/[id]"]
-
-
+["///","///chat","///chat/[id]","///home","///match","///register/attraction","///register/birthday","///register/userdetails","///sign-up/all-set","///sign-up/image","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn"]
