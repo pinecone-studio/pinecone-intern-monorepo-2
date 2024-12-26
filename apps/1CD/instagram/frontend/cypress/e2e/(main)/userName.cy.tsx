@@ -15,22 +15,7 @@ describe('user profile page', () => {
     //     });
     //   }
     // });
-    // cy.intercept('POST', '/api/graphql', (req) => {
-    //   if (req.body.operationName === 'GetUser') {
-    //     req.reply({
-    //       statusCode: 200,
-    //       body: {
-    //         data: {
-    //           getUser: {
-    //             userName: 'TestUser',
-    //             fullName: 'Test User Full Name',
-    //             profileImg: 'http://example.com/profile.jpg',
-    //           },
-    //         },
-    //       },
-    //     });
-    //   }
-    // });
+
     // cy.intercept('POST', '/api/graphql', (req) => {
     //   if (req.body.operationName === 'GetFollowers') {
     //     req.reply({
@@ -48,12 +33,56 @@ describe('user profile page', () => {
     //     });
     //   }
     // });
+    cy.visit('/');
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'Login') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              login: {
+                token: 'fake-token',
+                user: {
+                  id: '1',
+                  email: 'test@example.com',
+                },
+              },
+            },
+          },
+        });
+      }
+    }).as('loginMutation');
+
+    cy.get('[data-cy="login-input-email"]').type('test@example.com');
+    cy.get('[data-cy="login-input-password"]').type('password123');
+    cy.get('[data-cy="login-submit"]').click();
+    cy.wait('@loginMutation');
+    cy.url().should('eq', Cypress.config().baseUrl + '/home');
+    cy.get('[data-cy="userProfileButton"]').click();
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetUser') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              getUser: {
+                userName: 'TestUser',
+                fullName: 'Test User Full Name',
+                profileImg: 'http://example.com/profile.jpg',
+              },
+            },
+          },
+        });
+      }
+    }).as('GetUserQuery');
+    cy.wait('@GetUserQuery');
+    // cy.url().should('eq', Cypress.config().baseUrl + '/home/TestUser');
     cy.visit('/home/TestUser');
   });
 
   it.only('1. Should render user profile page', () => {
     // cy.get('[data-cy="user-profile-page"]').should('be.visible');
-    cy.get('[data-cy="username"]').should('contain.text', 'TestUser');
+    cy.get('[data-cy="username"]').should('contain.text', 'erdek');
     cy.get('[data-cy="fullname"]').should('contain.text', 'Test User Full Name');
     cy.get('[data-cy="postNumberDone"]').should('contain.text', '2');
     cy.get('[data-cy="followerNum"]').should('contain.text', '2');
