@@ -1,7 +1,6 @@
 'use client';
 
-import ConfirmedBooking from '@/components/ConfirmedBooking';
-import PriviousBooking from '@/components/PreviousBooking';
+import BookingCard from '@/components/BookingCard';
 import { Button } from '@/components/ui/button';
 import { BookingStatus, ReturnBooking, useGetBookingFindByUserIdQuery } from '@/generated';
 import { ClockArrowUp } from 'lucide-react';
@@ -12,7 +11,7 @@ const Page = () => {
   const router = useRouter();
   const { data, loading } = useGetBookingFindByUserIdQuery({
     variables: {
-      userId: '123',
+      userId: '6746fe2b288837dc694368dc',
     },
   });
 
@@ -24,18 +23,22 @@ const Page = () => {
 
   return (
     <div className="container mx-auto max-w-[960px] flex flex-col gap-8">
-      <div className="text-2xl font-semibold p-4">Confirmed Booking</div>
+      <div data-cy="confirmed-booking" className="text-2xl font-semibold p-4">
+        Confirmed Booking
+      </div>
       {confirmed.length ? (
         <div className="flex flex-col gap-3">
           {confirmed.map((booking) => (
             <div key={booking._id}>
-              <ConfirmedBooking booking={booking} />
+              <BookingCard booking={booking} />
             </div>
           ))}
         </div>
       ) : (
         <div>
-          <div className="text-2xl font-semibold p-4">Booking</div>
+          <div data-cy="booking-div" className="text-2xl font-semibold p-4">
+            Booking
+          </div>
           <div className="max-w-[896px] flex flex-col items-center gap-4">
             <div className="w-[123.22px] h-[131.45px]">
               <Image src="/images/Frame.png" alt="image" width={140} height={140} />
@@ -44,7 +47,7 @@ const Page = () => {
               <p>Shagai, you have no upcoming trips.</p>
               <p>Where are you going next?</p>
             </div>
-            <Button onClick={() => router.push('/')} className="bg-[#2563EB] text-sm font-medium text-[#FAFAFA]">
+            <Button data-cy="start-exploring-button" onClick={() => router.push('/')} className="bg-[#2563EB] text-sm font-medium text-[#FAFAFA]">
               Start Exploring
             </Button>
           </div>
@@ -55,7 +58,7 @@ const Page = () => {
         <div className="flex flex-col gap-3">
           {previous.map((booking) => (
             <div key={booking._id}>
-              <PriviousBooking booking={booking} />
+              <BookingCard booking={booking} />
             </div>
           ))}
         </div>
