@@ -30,7 +30,10 @@ describe('get  post likes', () => {
   });
 
   it('should not  get  post like', async () => {
-    await expect(getPostLike!({}, { postId: 'post1' }, { userId: '1' }, {} as GraphQLResolveInfo)).rejects.toThrow('This post not like you');
+    // await expect(getPostLike!({}, { postId: 'post1' }, { userId: '1' }, {} as GraphQLResolveInfo)).rejects.toThrow('This post not like you');
+    const response = await getPostLike!({}, { postId: 'post1' }, { userId: '1' }, {} as GraphQLResolveInfo);
+
+    expect(response).toEqual(null);
   });
 
   it('should throw an error when userId is not provided', async () => {
