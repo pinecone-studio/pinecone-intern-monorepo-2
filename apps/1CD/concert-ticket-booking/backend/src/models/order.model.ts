@@ -73,7 +73,6 @@ const orderSchema = new Schema<Order>(
         },
         additional: {
           type: String,
-          default: 'nothing',
         },
       },
     ],

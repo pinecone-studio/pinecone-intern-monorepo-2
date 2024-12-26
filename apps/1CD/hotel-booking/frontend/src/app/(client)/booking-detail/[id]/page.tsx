@@ -4,10 +4,10 @@ import BookingDetailRightSide from '@/components/BookingDetailRightSide';
 import { useGetBookingQuery } from '@/generated';
 import { ChevronLeft } from 'lucide-react';
 
-const Page = () => {
+const Page = ({ params }: { params: { id: string } }) => {
   const { data, loading } = useGetBookingQuery({
     variables: {
-      id: '6757dfb4687cb83ca69ff3cb',
+      id: params.id,
     },
   });
   if (loading) return <div className="min-h-screen text-3xl font-bold text-center">loading...</div>;
