@@ -34,6 +34,7 @@ describe('Create Request', () => {
     cy.wait(500);
     cy.contains('div', '15:00').last().click();
     cy.contains('button', 'Select Option...').click();
+    cy.contains('div', 'zoljargal tsenddorj').click();
     cy.get('textarea').type('FML');
     cy.contains('button', 'Хүсэлт илгээх').click();
   });
