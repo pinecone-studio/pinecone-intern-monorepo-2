@@ -16,3 +16,6 @@ query getUsers {
     photos
   }
 }
+mutation swipeUser($input: SwipeInput!) {
+  swipeUser(input: $input)
+}

@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
 import CarouselImg from './Carouselmg';
 import { useRef, useState } from 'react';
-import { User } from '@/generated';
+import { User, useSwipeUserMutation } from '@/generated';
+import Buttons from './Buttons';
 
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
   const [rotate, setRotate] = useState(0);
   const [duration, setDuration] = useState(0.3);
   const [open, setOpen] = useState(false);
-  const currentPosition = useRef({ x: 0, y: 0 });
+  const currentPosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  const [swipeUser] = useSwipeUserMutation();
 
   const swipeLeft = () => {
     setDuration(0.5);
@@ -17,6 +20,15 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       resetCardPosition();
     }, 300);
+    if (swiping)
+      swipeUser({
+        variables: {
+          input: {
+            swipedUser: swiping?._id,
+            type: 'disliked',
+          },
+        },
+      });
   };
 
   const swipeRight = () => {
@@ -27,6 +39,15 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       resetCardPosition();
     }, 300);
+    if (swiping)
+      swipeUser({
+        variables: {
+          input: {
+            swipedUser: swiping?._id,
+            type: 'liked',
+          },
+        },
+      });
   };
 
   const removeTopCard = () => {
@@ -44,6 +65,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     const newX = currentPosition.current.x + info.delta.x;
     const newY = currentPosition.current.y + info.delta.y;
     currentPosition.current = { x: newX, y: newY };
+    console.log(currentPosition.current);
     const rotationAngle = newX / 15;
     setRotate(rotationAngle);
   };
@@ -65,8 +87,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     }
   };
   return (
-    <div >
-      <div className="relative flex justify-center">
+    <div>
+      <div className="relative h-[560px] flex justify-center ">
         {swiping && (
           <motion.div
             key={swiping._id}
@@ -104,6 +126,9 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
             {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
+      </div>
+      <div className='absolute left-0 right-0 z-[10000] flex justify-center'>
+        <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight}/>
       </div>
     </div>
   );

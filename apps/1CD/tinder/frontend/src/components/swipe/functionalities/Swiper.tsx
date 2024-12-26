@@ -5,6 +5,7 @@ import StackImgs from './StackImg';
 import Swiping from './Swiping';
 
 
+
 const Swiper = () => {
   const { data } = useGetUsersQuery();
   const [cards, setCards] = useState<User[]>([]);

@@ -1,4 +1,5 @@
-import Swiper from "./_feature/Swiper";
+import Swiper from "@/components/swipe/functionalities/Swiper";
+
 
 
 const TinderSwipe = () => {
