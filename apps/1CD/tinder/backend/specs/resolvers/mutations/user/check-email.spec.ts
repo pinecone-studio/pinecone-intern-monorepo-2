@@ -72,4 +72,5 @@ describe('check-Emailmutation', () => {
     expect(user.otp).toBe(mockOtp);
     expect(user.save).toHaveBeenCalled();
   });
+
 });
