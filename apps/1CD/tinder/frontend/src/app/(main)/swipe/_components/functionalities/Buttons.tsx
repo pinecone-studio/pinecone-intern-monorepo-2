@@ -31,6 +31,7 @@ const Buttons = ({ currentPosition, open, swipeLeft, swipeRight }: { currentPosi
       </Button>
 
       <Button
+        data-cy='dislikeButton'
         onClick={() => swipeLeft()}
         className={computeButtonStyles({
           open,

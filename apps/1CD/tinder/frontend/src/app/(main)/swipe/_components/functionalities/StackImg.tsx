@@ -4,9 +4,9 @@ const StackImgs = ({cards}: {cards:User[]}) => {
 
   return (
     <div>
-      <div className="relative flex justify-center ">
+      <div className="relative flex justify-center " >
       {cards?.map((card, index) => (
-        <div
+        <div data-cy='stackImgs'
           key={card._id}
           style={{
             width: '375px',

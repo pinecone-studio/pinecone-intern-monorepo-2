@@ -13,7 +13,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
   const authToken = (await cookies().get('authToken')?.value) || '';
   return (
     <html lang="en">
-      <body className="bg-black">
+      <body className="bg-white">
         <ApolloWrapper authToken={authToken}>
           <div className="max-w-[1280px] mx-auto">
             {children}

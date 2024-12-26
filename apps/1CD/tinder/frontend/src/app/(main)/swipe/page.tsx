@@ -1,4 +1,5 @@
-import Swiper from "@/components/swipe/functionalities/Swiper";
+import Swiper from "./_components/functionalities/Swiper";
+
 
 
 

@@ -91,6 +91,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
       <div className="relative h-[560px] flex justify-center ">
         {swiping && (
           <motion.div
+            data-cy="swipingImg"
             key={swiping._id}
             drag
             onDrag={handleDrag}
