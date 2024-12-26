@@ -1,6 +1,6 @@
 'use server'
 
-import SendOtp from "./SendOtp"
+import SendOtp from "../../../components/login/SendOtp"
 
 
 const Page = () => {

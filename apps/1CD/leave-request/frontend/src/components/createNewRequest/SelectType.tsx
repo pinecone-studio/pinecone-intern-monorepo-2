@@ -1,15 +1,15 @@
 'use client';
 
 import { RequestFormValues } from './CreateNewRequest';
-import { DatePickerDemo } from '../../../components/ui/DatePicker';
-import { ComboboxDemo } from '../../../components/ui/ComboBox';
+import { DatePickerDemo } from '../ui/DatePicker';
+import { ComboboxDemo } from '../ui/ComboBox';
 import { CreateRequestQuery } from '@/generated';
 import { Textarea } from '@/components/ui/textarea';
 import { FileUpload } from '@/components/static/FileUpload';
 import { FormikProps } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { generateHours } from './generate-hourst';
+import { generateHours } from '../../app/(main)/createNewRequest/generate-hourst';
 
 type HourOption = { label: string; value: string };
 
