@@ -8,6 +8,7 @@ import { IoSearch } from 'react-icons/io5';
 import { SlBasket } from 'react-icons/sl';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useQueryState } from 'nuqs';
+import { Filter } from 'lucide-react';
 
 export const Header = () => {
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
@@ -27,6 +28,9 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2 md:justify-end md:gap-4">
+        <Link href="/user/home/detail">
+          <Filter className="w-5 h-5 mx-1" />
+        </Link>
         <Link href="/user/order">
           <SlBasket className="w-5 h-5 mx-2 md:mx-4" />
         </Link>

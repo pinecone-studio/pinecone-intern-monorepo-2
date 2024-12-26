@@ -43,14 +43,14 @@ const CardTicket = ({ event }: { event: Event }) => {
             {event.scheduledDays.length > 2 ? (
               <span className="flex items-center gap-1">
                 <CiCalendar className="w-4" />
-                {dayjs(event.scheduledDays[0]).format('MM.DD:HH:mm')} - {dayjs(event.scheduledDays[event.scheduledDays.length - 1]).format('MM.DD:HH:mm')}
+                {dayjs(event.scheduledDays[0]).format('MM.DD')} - {dayjs(event.scheduledDays[event.scheduledDays.length - 1]).format('MM.DD')}
               </span>
             ) : (
               <span className="flex gap-2">
                 {event.scheduledDays.map((day, index) => (
                   <span className="flex items-center gap-1" key={index}>
                     <CiCalendar className="w-4" />
-                    {dayjs(day).format('MM.DD.HH:mm')} | {day}
+                    {dayjs(day).format('MM.DD')}
                   </span>
                 ))}
               </span>

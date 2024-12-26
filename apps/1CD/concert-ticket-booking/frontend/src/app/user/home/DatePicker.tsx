@@ -12,10 +12,7 @@ const DatePicker = () => {
 
   const handleSelect = (day: Date | undefined) => {
     if (day) {
-      console.log(day);
       setDate(day.toISOString());
-      const date = day.toISOString();
-      console.log(date);
     } else {
       setDate(null);
     }
@@ -23,7 +20,7 @@ const DatePicker = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={'outline'} className="bg-[#27272A] text-muted-foreground w-full border-gray-600 flex justify-between">
+        <Button data-cy="button" variant={'outline'} className="bg-[#27272A] text-muted-foreground w-full border-gray-600 flex justify-between">
           <div className="flex items-center">
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? format(date, 'PPP') : <span>Өдөр сонгох</span>}
@@ -32,7 +29,7 @@ const DatePicker = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={selectedDate} onSelect={handleSelect} initialFocus />
+        <Calendar data-cy="calendar" mode="single" selected={selectedDate} onSelect={handleSelect} initialFocus />
       </PopoverContent>
     </Popover>
   );

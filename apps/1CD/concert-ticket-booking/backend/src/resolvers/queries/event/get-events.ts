@@ -1,7 +1,6 @@
 import { QueryResolvers } from '../../../generated';
 import Event from '../../../models/event.model';
 import { Event as EventType } from '../../../generated';
-import { TZDate } from '@date-fns/tz';
 
 export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} }) => {
   const today = new Date().toISOString();
@@ -22,17 +21,12 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
   }
 
   if (date) {
-    const startDate = new TZDate(date, 'Asia/Ulaanbaatar');
-    startDate.setHours(0);
-    const startIsoDate = new TZDate(startDate, 'UTC').toISOString();
+    const startIsoDate = date;
 
-    const endDate = new TZDate(date, 'Asia/Ulaanbaatar');
-    endDate.setHours(23);
-    endDate.setMinutes(59);
-    const endIsoDate = new TZDate(endDate, 'UTC').toISOString();
-
-    console.log({ startIsoDate });
-    console.log({ endIsoDate });
+    const startDate = new Date(startIsoDate);
+    startDate.setHours(23);
+    startDate.setMinutes(59);
+    const endIsoDate = startDate.toISOString();
 
     findFilter.$and.push({
       scheduledDays: {
