@@ -39,7 +39,7 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
                 <div>{booking?._id}</div>
               </div>
             </div>
-            <Button data-cy="view-button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="bg-white border text-black p-2 rounded-md">
+            <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="bg-white border text-black p-2 rounded-md">
               View Detail
             </Button>
           </div>

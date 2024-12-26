@@ -1,6 +1,6 @@
 'use client';
 
-import BookingCard from '@/components/BookingCard';
+import BookingCard from '@/app/(client)/_components/BookingCard';
 import { Button } from '@/components/ui/button';
 import { BookingStatus, ReturnBooking, useGetBookingFindByUserIdQuery } from '@/generated';
 import { ClockArrowUp } from 'lucide-react';
@@ -22,12 +22,10 @@ const Page = () => {
   data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Cancelled && previous.push(booking));
 
   return (
-    <div className="container mx-auto max-w-[960px] flex flex-col gap-8">
-      <div data-cy="confirmed-booking" className="text-2xl font-semibold p-4">
-        Confirmed Booking
-      </div>
+    <div className="container mx-auto max-w-[960px] flex flex-col gap-8" data-cy="Confirmed-Booking">
+      <div className="text-2xl font-semibold p-4">Confirmed Booking</div>
       {confirmed.length ? (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" data-cy="Booking-Card-Status">
           {confirmed.map((booking) => (
             <div key={booking._id}>
               <BookingCard booking={booking} />
