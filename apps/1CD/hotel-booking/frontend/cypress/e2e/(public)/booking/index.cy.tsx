@@ -1,5 +1,4 @@
 describe('booking page e2e test', () => {
-  const mockBooking = {};
   beforeEach(() => {
     cy.visit('/booking');
   });
