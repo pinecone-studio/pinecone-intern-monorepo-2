@@ -2,10 +2,11 @@
 
 import { HttpLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
+// import { PropsWithChildren } from 'react';
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
-const uri =process.env.LOCAL_BACKEND_URI 
+const uri =process.env.LOCAL_BACKEND_URI ?? process.env.BACKEND_URI;
 interface ApolloWrapperProps {
   children: ReactNode;
   authToken: string;

@@ -7,7 +7,7 @@ import Requests from '@/components/myreq/Requests';
 const Page = async() => {
   const email = await getEmail()
   return (
-    <div data-cy="myRequest-page">
+    <div data-cy="myRequest-page" className='mt-10'>
       <Requests email={email}/>
       <SentRequest email={email}/>
     </div>

@@ -17,7 +17,7 @@ const Chat = ({ authToken }: any) => {
   const user2 = id;
   const [createChat] = useMutation(CREATE_CHAT);
 
-  const { chatloading, response, pageloading, errormessage,matchedData, refetchmatch, matcherror, refetch, loading} = useLoadingstates(user2)
+  const { chatloading, response, pageloading, errormessage,matchedData, refetchmatch, refetch, loading} = useLoadingstates(user2)
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };

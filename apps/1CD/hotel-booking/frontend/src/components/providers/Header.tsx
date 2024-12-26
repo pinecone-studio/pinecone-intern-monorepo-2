@@ -1,7 +1,7 @@
 'use client';
 
-import { useAuth } from './providers';
-import HeaderFilter from './search-hotel/HeaderFilter';
+import { useAuth } from '.';
+import HeaderFilter from './HeaderFilter';
 
 const Header = () => {
   const { loginButton, signupButton } = useAuth();

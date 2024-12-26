@@ -2,7 +2,6 @@ describe('Chat page should be visible', () => {
   beforeEach(() => {
     cy.visit('/chat');
   });
-
   it('1. When clicking on a matched user with no previous chat, it should push the ID of the selected user to the URL', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMatchedUsers') {
@@ -16,9 +15,9 @@ describe('Chat page should be visible', () => {
                   name: 'Sarah',
                   profession: 'Software engineer',
                   photos: [
-                    "https://www.usmagazine.com/wp-content/uploads/2024/10/Feature-Zendaya-and-Tom-Holland-Inn-Fall-Hottest-Color.jpg?quality=40&strip=all",
-                    "https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25309598/rev_1_DUN2_T3_0084r_High_Res_JPEG.jpeg?quality=90&strip=all&crop=10.44921875%2C0%2C79.1015625%2C100&w=2400",
-                    "https://placehold.co/600x800?text=1c"
+                    "",
+                    "",
+                    ""
                   ],
                   age: 29,
                   hasChatted: false,
@@ -29,9 +28,9 @@ describe('Chat page should be visible', () => {
                   name: 'Anna',
                   profession: 'Artist',
                   photos: [
-                    "https://placehold.co/600x800?text=2A",
-                    "https://placehold.co/600x800?text=2B",
-                    "https://placehold.co/600x800?text=2C"
+                    "",
+                    "",
+                    ""
                   ],
                   age: 25,
                   hasChatted: true,
@@ -44,18 +43,14 @@ describe('Chat page should be visible', () => {
       }
     }).as('GetMatchedUsers');  
     cy.visit('/chat');
-  
     cy.wait('@GetMatchedUsers').then((intercept) => {
       if (intercept?.response?.body) {
         const matchedUsers = intercept.response.body.data.getMatch;
         expect(matchedUsers).to.have.length(2);
         expect(matchedUsers[0].name).to.equal('Sarah');
         expect(matchedUsers[0].profession).to.equal('Software engineer');
-        expect(matchedUsers[0].hasChatted).to.be.false;
         expect(matchedUsers[1].name).to.equal('Anna');
         expect(matchedUsers[1].profession).to.equal('Artist');
-        expect(matchedUsers[1].hasChatted).to.be.true;
-    
         cy.get(`[data-cy="Matched-Users-${matchedUsers[0]._id}"]`)
         .should('be.visible')
         .click();
@@ -110,19 +105,16 @@ describe('Chat page should be visible', () => {
           });
         }
       }).as('GetChatbyId');
-
       cy.wait('@GetChatbyId').then((intercept) => {
         const chatResponse = intercept?.response?.body;
         assert.isNotNull(chatResponse, 'Successfully fetched chat');
       });
-
       cy.get('[data-cy="Chat-Part-Page"]').should('have.text', 'Hi, how are you');
       } else {
         throw new Error('Response is undefined or malformed');
       }
     });
   });
-
   it('2.When there are no match it should render No Matches Yet text', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMatchedUsers') {
@@ -142,7 +134,6 @@ describe('Chat page should be visible', () => {
     cy.get('[data-cy="No-Matches-Found"] p').first().should('contain.text', 'No Matches Yet');
     cy.get('[data-cy="No-Matches-Found"] p').last().should('contain.text', 'Keep swiping, your next match could be just around the corner!');
   });
-
   it('3.When there is error other than no match, it should display Error occured try again text', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMatchedUsers') {

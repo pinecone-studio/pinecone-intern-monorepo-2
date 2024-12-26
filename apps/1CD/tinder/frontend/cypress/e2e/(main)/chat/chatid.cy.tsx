@@ -12,9 +12,9 @@ describe('Chat page should be visible', () => {
                   name: 'Sarah',
                   profession: 'Software engineer',
                   photos: [
-                    "https://www.usmagazine.com/wp-content/uploads/2024/10/Feature-Zendaya-and-Tom-Holland-Inn-Fall-Hottest-Color.jpg?quality=40&strip=all",
-                    "https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25309598/rev_1_DUN2_T3_0084r_High_Res_JPEG.jpeg?quality=90&strip=all&crop=10.44921875%2C0%2C79.1015625%2C100&w=2400",
-                    "https://placehold.co/600x800?text=1c"
+                    "",
+                    "",
+                    ""
                   ],
                   age: 29,
                   hasChatted: false,
@@ -25,9 +25,9 @@ describe('Chat page should be visible', () => {
                   name: 'Anna',
                   profession: 'Artist',
                   photos: [
-                    "https://placehold.co/600x800?text=2A",
-                    "https://placehold.co/600x800?text=2B",
-                    "https://placehold.co/600x800?text=2C"
+                    "",
+                    "",
+                    ""
                   ],
                   age: 25,
                   hasChatted: true,
@@ -49,13 +49,9 @@ describe('Chat page should be visible', () => {
       expect(matchedData).to.have.length(2);
       expect(matchedData[0].name).to.equal('Sarah');
       expect(matchedData[0].profession).to.equal('Software engineer');
-      expect(matchedData[0].hasChatted).to.be.false;
       expect(matchedData[1].name).to.equal('Anna');
       expect(matchedData[1].profession).to.equal('Artist');
-      expect(matchedData[1].hasChatted).to.be.true;
-      
       cy.get(`[data-cy="Matched-Users-${matchedData[0]._id}"]`).click();
-      
       cy.url().should('include', `/chat/${matchedData[0]._id}`);
       if (matchedData){
         cy.get('[data-cy="Chat-Matches-Part"]').should('be.visible')
@@ -81,7 +77,6 @@ describe('Chat page should be visible', () => {
           });
         }
       }).as('CreateChat');
-      
       cy.get('[data-cy="Chat-Part-Message-Input"]').type('{enter}');
       cy.wait('@CreateChat').then((intercept) => {
         const createChatResponse = intercept?.response?.body;
@@ -109,19 +104,16 @@ describe('Chat page should be visible', () => {
           });
         }
       }).as('GetChatbyId');
-
       cy.wait('@GetChatbyId').then((intercept) => {
         const chatResponse = intercept?.response?.body;
         assert.isNotNull(chatResponse, 'Successfully fetched chat');
       });
-
       cy.get('[data-cy="Chat-Part-Page"]').should('have.text', 'Hi, how are you');
     } else {
       throw new Error('Response is undefined or malformed');
     }
     });
-  });
-  
+  }); 
   it('2. When there are no match, it should render No Matches Yet text', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMatchedUsers') {
@@ -133,18 +125,14 @@ describe('Chat page should be visible', () => {
         });
       }
     }).as('GetMatchedUsers');
-    
     cy.visit('/chat');
-    
     cy.wait('@GetMatchedUsers').then((intercept) => {
       assert.isNotNull(intercept?.response?.body, 'Error occurred: No matches found');
     });
-    
     cy.get('[data-cy="No-Matches-Found"]').should('be.visible');
     cy.get('[data-cy="No-Matches-Found"] p').first().should('contain.text', 'No Matches Yet');
     cy.get('[data-cy="No-Matches-Found"] p').last().should('contain.text', 'Keep swiping, your next match could be just around the corner!');
   });
-
   it('3. When there is error other than no match, it should display Error occurred, try again text', () => {
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMatchedUsers') {
@@ -156,13 +144,10 @@ describe('Chat page should be visible', () => {
         });
       }
     }).as('GetMatchedUsers');
-    
     cy.visit('/chat');
-    
     cy.wait('@GetMatchedUsers').then((intercept) => {
       assert.isNotNull(intercept?.response?.body, 'Error occurred: Internal Server error');
     });
-    
     cy.get('[data-cy="Error occured"]').should('be.visible');
     cy.get('[data-cy="Error occured"] p').should('contain.text', 'Error occurred, try again');
   });

@@ -21,18 +21,13 @@ const SendOtp = () => {
 
   const login = useCallback(async () => {
     if (otp.length !== 4) return;
-    try {
-      const response = await checkOtp({ variables: { email, otp } });
-      if (response?.data?.checkOTP) {
-        setIsVerified(true);
-        toast.success('OTP Verified Successfully');
-        setToken(response.data.checkOTP);
-        router.push('./');
-      } else {
-        toast.error('Invalid OTP. Please try again.');
-      }
-    } catch (e) {
-      toast.error('An error occurred while verifying the OTP.');
+
+    const response = await checkOtp({ variables: { email, otp } });
+    if (response?.data?.checkOTP) {
+      setIsVerified(true);
+      toast.success('OTP Verified Successfully');
+      setToken(response.data.checkOTP);
+      router.push('./');
     }
   }, [email, otp, checkOtp]);
 
