@@ -1,19 +1,12 @@
 describe('Create Request', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
-    cy.setCookie(
-      'authtoken',
-      token
-    );
+    const token = Cypress.env().env['ANNUAL_TOKEN'] as string;
+    cy.setCookie('authtoken', token);
     cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'CreatesRequest') {
+      if (req.body.operationName === 'CreateRequest') {
         req.reply({
           data: {
-            createsReqest: {
-              createsRequest: {
-                email: 'zolookorzoloo@gmail.com',
-              },
-            },
+            getAllSupervisors: [{ email: 'zolookorzoloo@gmail.com', userName: 'zoljargal tsenddorj' }],
           },
         });
       }
@@ -36,10 +29,10 @@ describe('Create Request', () => {
     cy.contains('button', '00:00').click();
     cy.wait(500);
     cy.contains('div', '15:00').last().click();
-    cy.contains('button', 'Select Option...').click()
-    cy.contains('div', 'zoljargal tsenddorj').click()
-    cy.get('textarea').type('FML')
+    cy.contains('button', 'Select Option...').click();
+    cy.contains('div', 'zoljargal tsenddorj').click();
+    cy.get('textarea').type('FML');
 
-    cy.contains('button', 'Хүсэлт илгээх').click()
+    cy.contains('button', 'Хүсэлт илгээх').click();
   });
 });

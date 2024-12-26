@@ -7,6 +7,9 @@ export type UserType = {
   email: string;
   password: string;
   phoneNumber?: number;
+  emergencyContact: string;
+  emergencyStatus: 'spouse' | 'parents' | 'sibling' | 'friend' | 'partner' | 'child' | 'neighbor' | 'roommate';
+  dateOfBirth: Date;
   role: 'user' | 'admin';
   createdAt: Date;
 };
@@ -26,10 +29,15 @@ const userSchema = new Schema<UserType>({
   },
   password: {
     type: String,
-    // required: [true, 'Хэрэглэгчийн нууц үг оруулах'],
   },
   phoneNumber: {
     type: Number,
+  },
+  emergencyContact: {
+    type: String,
+  },
+  dateOfBirth: {
+    type: Date,
   },
   role: {
     type: String,

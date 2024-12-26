@@ -1,17 +1,18 @@
-'use client';
+"use server"
 
-import Requests from '@/components/myreq/Requests';
+import { getEmail } from '@/utils/get-email';
 import SentRequest from '@/components/myreq/SentRequest';
-import UserHeader from '@/components/myreq/UserHeader';
+import Requests from '@/components/myreq/Requests';
 
-const Page = () => {
+const Page = async() => {
+  const email = await getEmail()
   return (
     <div data-cy="myRequest-page">
-      <UserHeader />
-      <Requests />
-      <SentRequest />
+      <Requests email={email}/>
+      <SentRequest email={email}/>
     </div>
   );
 };
+
 
 export default Page;

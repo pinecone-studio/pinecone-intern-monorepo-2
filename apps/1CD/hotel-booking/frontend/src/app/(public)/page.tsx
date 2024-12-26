@@ -1,6 +1,6 @@
 'use client';
 import HomePageCard from '@/components/HomePageCard';
-import Loading from '@/components/Loading';
+import Loading from '@/app/(public)/hotel-detail/Loading';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';
@@ -24,7 +24,7 @@ const Page = () => {
       <section className="max-w-[1400px] mx-auto md:mx-auto">
         <div className="grid grid-cols-1 gap-4 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, sliceNum).map((hotel) => (
-            <Link href={`/HomeDetails/${hotel._id}`} key={hotel._id}>
+            <Link href="/hotel-detail" key={hotel._id}>
               <HomePageCard hotel={hotel} />
             </Link>
           ))}
@@ -35,7 +35,7 @@ const Page = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 mb-20 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, 4).map((hotel) => (
-            <Link href="/HomeDetails" key={hotel._id}>
+            <Link href="/hotel-detail" key={hotel._id}>
               <HomePageCard hotel={hotel} />
             </Link>
           ))}
