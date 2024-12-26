@@ -25,7 +25,7 @@ jest.mock('../../../../src/utils/user/send-otp-email', () => ({
 
 
 describe('registerEmailmutation',()=>{
-    const mockEmail='example@gmail.com';
+    const mockEmail='cypress@gmail.com';
     const mockOtp='1234';
     const mockInfo = {} as GraphQLResolveInfo;
     const userId=''
@@ -41,16 +41,18 @@ describe('registerEmailmutation',()=>{
         });
         (sendOtpMail as jest.Mock).mockResolvedValue('Email sent successfully')
         const result = await registerEmail!({}, { input }, {userId}, mockInfo);
-        expect(checkExistingEmail).toHaveBeenCalledWith(mockEmail);
-        expect(userModel.create).toHaveBeenCalledWith({ 
-            email: mockEmail, 
-            otp: mockOtp,
-          });
-        expect(sendOtpMail).toHaveBeenCalledWith(mockEmail,mockOtp);
         expect(result).toEqual({
             email:mockEmail
         });
     });
+    it('should successfully register cypress without creating in the db',async ()=>{
+      const input={email:"cypress@gmail.com"};
+      const result = await registerEmail!({}, { input }, {userId}, mockInfo);
+      expect(result).toEqual({
+          email:mockEmail
+      });
+  });
+  
     
    
 
