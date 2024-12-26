@@ -50,18 +50,17 @@ const UserProfile = () => {
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
         <div className="flex flex-row justify-evenly mb-10">
-          <section>
-            <ProImg
-              changeProfileImg={changeProfileImg}
-              proImgData={proImgData}
-              setProImgData={setProImgData}
-              _id={user?._id}
-              prevProImg={
-                user?.profileImg ||
-                'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
-              }
-            />
-          </section>
+          <ProImg
+            changeProfileImg={changeProfileImg}
+            proImgData={proImgData}
+            setProImgData={setProImgData}
+            _id={user?._id}
+            prevProImg={
+              user?.profileImg ||
+              'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
+            }
+          />
+
           <div className="flex flex-col justify-between">
             <div className="flex flex-row items-center space-x-8">
               <h1 className="font-bold text-2xl" data-cy="username">

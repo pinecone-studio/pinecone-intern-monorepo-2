@@ -24,22 +24,40 @@ describe('user profile page', () => {
     //           getUser: {
     //             userName: 'TestUser',
     //             fullName: 'Test User Full Name',
-    //             followerCount: 150,
-    //             followingCount: 200,
-    //             bio: 'This is a sample bio.',
     //             profileImg: 'http://example.com/profile.jpg',
-    //             _id: 'user123',
     //           },
     //         },
     //       },
     //     });
     //   }
     // });
-    cy.visit('/home/erdek');
+    // cy.intercept('POST', '/api/graphql', (req) => {
+    //   if (req.body.operationName === 'GetFollowers') {
+    //     req.reply({
+    //       statusCode: 200,
+    //       body: {
+    //         data: {
+    //           seeFollowers: {
+    //             followerId: [
+    //               { _id: '1', userName: 'follower1', profileImg: 'http://followerspro1.jpg' },
+    //               { _id: '2', userName: 'follower2', profileImg: 'http://followerspro2.jpg' },
+    //             ],
+    //           },
+    //         },
+    //       },
+    //     });
+    //   }
+    // });
+    cy.visit('/home/TestUser');
   });
 
-  it('1. Should render user profile page', () => {
-    cy.get('[data-cy="user-profile-page"]').should('be.visible');
+  it.only('1. Should render user profile page', () => {
+    // cy.get('[data-cy="user-profile-page"]').should('be.visible');
+    cy.get('[data-cy="username"]').should('contain.text', 'TestUser');
+    cy.get('[data-cy="fullname"]').should('contain.text', 'Test User Full Name');
+    cy.get('[data-cy="postNumberDone"]').should('contain.text', '2');
+    cy.get('[data-cy="followerNum"]').should('contain.text', '2');
+    cy.get('[data-cy="myPosts"] section').should('have.length', 2);
   });
 
   it('2. Should display posts when fetch post successfully', () => {

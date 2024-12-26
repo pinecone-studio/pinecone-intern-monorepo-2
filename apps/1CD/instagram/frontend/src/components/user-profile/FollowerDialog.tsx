@@ -26,7 +26,7 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="font-semibold" data-testid="followerNumber">
+          <h1 className="font-semibold" data-testid="followerNumber" data-cy="followerNum">
             {followerDataCount}
           </h1>
           <p>followers</p>
