@@ -32,10 +32,10 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
           <p>followers</p>
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 min-w-96 min-h-96 flex flex-col gap-2">
+      <DialogContent className="p-0 min-w-96 min-h-96 flex flex-col gap-2" data-cy="dialogFollower">
         <DialogHeader className="relative px-4 py-6 flex flex-row h-10 justify-center items-center border-b-2">
           <DialogTitle>Followers</DialogTitle>
-          <DialogTrigger className="absolute right-3 top-1 flex flex-row items-center" data-testid="closeButton">
+          <DialogTrigger className="absolute right-3 top-1 flex flex-row items-center" data-testid="closeButton" data-cy="buttonClose">
             <X />
           </DialogTrigger>
         </DialogHeader>
@@ -52,10 +52,10 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
           </div>
           <div className="w-full space-y-2">
             {followerData.map((oneFollower) => (
-              <div key={oneFollower._id} className="w-11/12  mx-auto flex flex-row justify-between items-center">
+              <div key={oneFollower._id} className="w-11/12  mx-auto flex flex-row justify-between items-center" data-cy="followerCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollower.profileImg} alt="proZurag" fill className="absolute rounded-full object-cover" />
+                    <Image src={oneFollower.profileImg!} alt="proZurag" fill className="absolute rounded-full object-cover" data-cy="followerCardImg" />
                   </section>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg text-gray-700 font-semibold">{oneFollower.userName}</h1>

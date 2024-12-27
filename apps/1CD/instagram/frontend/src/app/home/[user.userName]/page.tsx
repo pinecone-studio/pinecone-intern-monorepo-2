@@ -9,12 +9,12 @@ import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
 import Image from 'next/image';
 import FollowerDialog from '@/components/user-profile/FollowerDialog';
-import { Skeleton } from '@/components/ui/skeleton';
+// import { Skeleton } from '@/components/ui/skeleton';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
   const userId: string = user?._id as string;
-  const { data: postData, loading: postLoading } = useGetMyPostsQuery();
+  const { data: postData } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
   // const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
@@ -22,19 +22,17 @@ const UserProfile = () => {
   const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({
     _id: oneFollower.followerId._id,
     userName: oneFollower.followerId.userName,
-    profileImg:
-      oneFollower.followerId.profileImg ||
-      'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png',
+    profileImg: oneFollower.followerId.profileImg || '/images/profileImg.webp',
     fullName: oneFollower.followerId.fullName,
   }));
-  const postNumberDiv = () => {
-    if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
-    else if (postLoading) return <Skeleton className="h-4 w-4" />;
-    else if (postData?.getMyPosts.length != 0) return 0;
-  };
+  // const postNumberDiv = () => {
+  //   if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
+  //   else if (postLoading) return <Skeleton className="h-4 w-4" data-cy="postNumLoading" />;
+  //   else if (postData.getMyPosts.length === 0) return 0;
+  // };
   const postDiv = () => {
-    if (postLoading) return <Skeleton className="h-full w-full" />;
-    else if (postData.getMyPosts.length > 0)
+    // if (postLoading) return <Skeleton className="h-full w-full" data-cy="postDivLoading" />;
+    if (postData.getMyPosts.length)
       return (
         <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
           {postData.getMyPosts.map((myOnePost) => (
@@ -44,23 +42,14 @@ const UserProfile = () => {
           ))}
         </div>
       );
-    else if (postData.getMyPosts.length === 0) return <NoPost />;
+    else return <NoPost data-cy="zeroPost" />;
   };
   console.log('useriig harah', user);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
         <div className="flex flex-row justify-evenly mb-10">
-          <ProImg
-            changeProfileImg={changeProfileImg}
-            proImgData={proImgData}
-            setProImgData={setProImgData}
-            _id={user?._id}
-            prevProImg={
-              user?.profileImg ||
-              'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
-            }
-          />
+          <ProImg changeProfileImg={changeProfileImg} proImgData={proImgData} setProImgData={setProImgData} _id={user?._id} prevProImg={user?.profileImg || '/images/profileImg.webp'} />
 
           <div className="flex flex-col justify-between">
             <div className="flex flex-row items-center space-x-8">
@@ -76,11 +65,11 @@ const UserProfile = () => {
             <div className="flex flex-row space-x-8">
               <div className="flex flex-row items-center space-x-2">
                 <h1 className="font-semibold flex justify-center" data-cy="postNumberDone">
-                  {postNumberDiv()}
+                  {postData.getMyPosts.length}
                 </h1>
                 <p>posts</p>
               </div>
-              <FollowerDialog followerDataCount={followerData?.seeFollowers.length || 0} followerData={fetchedFollowerData} />
+              <FollowerDialog followerDataCount={followerData?.seeFollowers.length} followerData={fetchedFollowerData} />
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="flex flex-row space-x-2">
@@ -110,7 +99,9 @@ const UserProfile = () => {
             <p>SAVED</p>
           </div>
         </div>
-        <div className="mt-16">{postDiv()}</div>
+        <div className="mt-16" data-cy="postSection">
+          {postDiv()}
+        </div>
       </div>
     </div>
   );
