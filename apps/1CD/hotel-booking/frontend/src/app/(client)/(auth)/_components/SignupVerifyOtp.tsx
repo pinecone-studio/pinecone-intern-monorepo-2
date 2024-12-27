@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { Button } from '@/components/ui/button';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
-import { useAuth } from '@/components/providers';
+import { useSignup } from '@/components/providers';
 import 'react-toastify/dist/ReactToastify.css';
 
 const SignupVerifyOtp = () => {
-  const { verifyOtp, sendOtp } = useAuth();
+  const { verifyOtp, sendOtp } = useSignup();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 

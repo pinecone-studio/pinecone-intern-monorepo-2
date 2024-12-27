@@ -9,6 +9,7 @@ const CardTicket = ({ event }: { event: Event }) => {
   const discount = Number(event.products[0].ticketType[1].discount) || 0; // Default to 0 if discount is falsy
   const unitPrice = Number(event.products[0].ticketType[1].unitPrice);
   const discountPrice = (unitPrice * (100 - discount)) / 100;
+
   return (
     <Card className="max-w-[345px] h-full overflow-hidden relative border-none" data-cy="Card-Component">
       {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[175px] left-6"> {event.products[0].ticketType[1].discount}%</div>}

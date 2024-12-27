@@ -1,6 +1,5 @@
 'use client';
 import HomePageCard from '@/components/HomePageCard';
-import Loading from '@/app/(public)/hotel-detail/Loading';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';
@@ -10,7 +9,7 @@ import { useState } from 'react';
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
   const [sliceNum, setSliceNum] = useState<number | undefined>(8);
-  if (loading) return <Loading />;
+  if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
   return (
     <div data-cy="Home-Page" className="w-full">
       <div className="flex flex-col md:flex-row justify-between pt-8 pb-4 mx-auto max-w-[1400px]">
