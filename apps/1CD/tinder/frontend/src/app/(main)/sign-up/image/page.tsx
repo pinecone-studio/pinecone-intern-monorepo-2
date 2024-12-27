@@ -27,7 +27,7 @@ const ImageUpload = () => {
           Upload your image
         </p>
         <p className="text-[#71717A] text-sm" data-cy="question-description">
-          Please choose an image that represents you
+          Please choose an image that represents you.
         </p>
         <div className="grid grid-rows-2 grid-cols-3 gap-6 mt-[24px]">
           <div
