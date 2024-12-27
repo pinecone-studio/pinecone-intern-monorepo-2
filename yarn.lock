@@ -7797,6 +7797,11 @@ cypress-multi-reporters@1.6.4:
     debug "^4.3.4"
     lodash "^4.17.21"
 
+cypress-real-events@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.13.0.tgz#6b7cd32dcac172db1493608f97a2576c7d0bd5af"
+  integrity sha512-LoejtK+dyZ1jaT8wGT5oASTPfsNV8/ClRp99ruN60oPj8cBJYod80iJDyNwfPAu4GCxTXOhhAv9FO65Hpwt6Hg==
+
 cypress-wait-until@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-3.0.2.tgz#c90dddfa4c46a2c422f5b91d486531c560bae46e"
@@ -14839,6 +14844,11 @@ swap-case@^2.0.2:
   integrity sha512-kc6S2YS/2yXbtkSMunBtKdah4VFETZ8Oh6ONSmSd9bRxhqTrtARUCBUiWXH3xVPpvR7tz2CSnkuXVE42EcGnMw==
   dependencies:
     tslib "^2.0.3"
+
+swiper@^11.1.15:
+  version "11.1.15"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.1.15.tgz#e2258c8d38282e2f115ca463d6e8c5b84cdcf1ca"
+  integrity sha512-IzWeU34WwC7gbhjKsjkImTuCRf+lRbO6cnxMGs88iVNKDwV+xQpBCJxZ4bNH6gSrIbbyVJ1kuGzo3JTtz//CBw==
 
 symbol-observable@^4.0.0:
   version "4.0.0"
