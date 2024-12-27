@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const typeDefs = gql`
   type UnitTicket {
     _id: ID!
+    productId: Product!
     ticketId: ID!
     eventId: Event!
     orderId: Order!
@@ -10,6 +11,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getUnitTicket(ticketId: String!): UnitTicket!
+    getUnitTicket(unitId: String!): UnitTicket!
   }
 `;
