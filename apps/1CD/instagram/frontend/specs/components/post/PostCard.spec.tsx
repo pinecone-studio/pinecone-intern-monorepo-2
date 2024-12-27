@@ -32,6 +32,35 @@ const myPostMock = [
     },
   },
 ];
+const myPostInmagesMock = [
+  {
+    request: {
+      query: GetMyFollowingsPostsDocument,
+    },
+
+    result: {
+      data: {
+        getMyFollowingsPosts: [
+          {
+            _id: '1',
+            user: {
+              _id: 'user1',
+              userName: 'User',
+              profileImg: 'http://img',
+            },
+            description: "Test's des",
+            images: ['http://img', 'http://img'],
+            lastComments: 'String',
+            commentCount: 1,
+            likeCount: 2,
+            updatedAt: '2024',
+            createdAt: '2024',
+          },
+        ],
+      },
+    },
+  },
+];
 
 const myPostMockNoImg = [
   {
@@ -85,11 +114,28 @@ describe('getMyPost', () => {
     );
 
     await waitFor(() => expect(getByTestId('post-card')));
+
     const moreBtn = getByTestId('more-btn');
     fireEvent.keyDown(moreBtn, { key: 'Enter' });
     const deleteBtn = getByTestId('delete-btn');
     fireEvent.click(deleteBtn);
   });
+  it('should render images', async () => {
+    const { getByTestId } = render(
+      <MockedProvider mocks={myPostInmagesMock}>
+        <PostCard />
+      </MockedProvider>
+    );
+
+    await waitFor(() => expect(getByTestId('post-card')));
+    await waitFor(() => expect(getByTestId('moreImgBtnSection')));
+
+    const moreBtn = getByTestId('more-btn');
+    fireEvent.keyDown(moreBtn, { key: 'Enter' });
+    const deleteBtn = getByTestId('delete-btn');
+    fireEvent.click(deleteBtn);
+  });
+
   it('should render no img', async () => {
     const { getByTestId } = render(
       <MockedProvider mocks={myPostMockNoImg}>

@@ -13,12 +13,8 @@ import { PostLikes } from '@/app/(main)/_components/PostLikes';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [prev, setPrev] = useState(0);
   const { data, loading } = useGetMyFollowingsPostsQuery();
 
-  const imageNext = () => {
-    return setPrev(prev + 1);
-  };
   if (loading) {
     return (
       <div className="flex justify-center items-center w-full h-[300px]">
@@ -64,12 +60,12 @@ export const PostCard = () => {
               </DropdownMenu>
             </div>
             <div className="relative flex w-full h-[585px]  ">
-              <Image fill={true} src={post.images[prev]} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
+              <Image fill={true} src={post.images[0]} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
               {post.images.length === 1 ? (
                 ''
               ) : (
-                <div className="relative flex items-center justify-between w-full px-1 ">
-                  <p onClick={imageNext} className="bg-[#F4F4F5] p-2 rounded-full text-gray-600 cursor-pointer ">
+                <div data-testid="moreImgBtnSection" className="relative flex items-center justify-between w-full px-1 ">
+                  <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600 cursor-pointer ">
                     <ChevronLeft width={16} height={16} />
                   </p>
                   <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600">
