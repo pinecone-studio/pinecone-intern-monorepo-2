@@ -3,6 +3,7 @@ describe('HotelDetail', () => {
     cy.visit('/hotel-detail');
   });
   it('1. should render', () => {
+    cy.scrollTo('bottom').should('exist', '[data-cy="Show-More"]');
     cy.get('[data-cy="Show-More"]').first().click();
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
     cy.get('[data-cy="Room-Dialog-Close" ]').first().click().should('not.exist');
