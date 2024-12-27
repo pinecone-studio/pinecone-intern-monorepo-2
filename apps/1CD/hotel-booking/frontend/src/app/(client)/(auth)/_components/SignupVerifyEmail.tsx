@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
-import { useAuth } from 'src/components/providers';
+import { useSignup } from 'src/components/providers';
 import { Label } from '@radix-ui/react-label';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -25,7 +25,7 @@ const inputs = [
 ] as const;
 
 const SignupVerifyEmail = () => {
-  const { sendOtp } = useAuth();
+  const { sendOtp } = useSignup();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

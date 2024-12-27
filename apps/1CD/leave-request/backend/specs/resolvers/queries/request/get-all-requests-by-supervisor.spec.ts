@@ -3,7 +3,7 @@ import { getAllRequestsBySupervisor } from '../../../../src/resolvers/queries/re
 
 jest.mock('../../../../src/models/request', () => ({
   RequestModel: {
-    find: jest.fn().mockResolvedValueOnce(null).mockResolvedValueOnce({
+    aggregate: jest.fn().mockResolvedValueOnce(null).mockResolvedValueOnce({
       supervisor: 'amarjargal.ts01@gmail.com',
     }),
   },
