@@ -57,6 +57,7 @@ describe('get rooms', () => {
           starRating: 4,
           userRating: 4,
           hotelAmenities: ['a'],
+          hotelName: 'test',
         },
       }
     );
