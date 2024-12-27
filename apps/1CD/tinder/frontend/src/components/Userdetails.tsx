@@ -9,10 +9,10 @@ import { useUseDetails } from './providers/UserDetailsProvider';
 import { UserdetailsBio } from './UserdetailsBio';
 import { UserdetailsName } from './UserdetailsName';
 import { UserdetailsProfession } from './UserdetailsProfession';
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import Image from 'next/image';
-import { useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { UserdetailsSchool } from './UserdetailsSchool';
 
 const validationSchema = Yup.object({
@@ -34,13 +34,13 @@ const initialValues = {
 export const Userdetails = () => {
   const router = useRouter();
   const { updateUser, data, error } = useUseDetails();
-  const back=()=>{
-    router.push('/register/birthday')
-  }
+  const back = () => {
+    router.push('/register/birthday');
+  };
   useEffect(() => {
     if (data) {
       toast.success('Successfully added your information');
-      router.push('/sign-up/image')
+      router.push('/sign-up/image');
       return;
     }
     const message = error.cause?.message;
@@ -74,7 +74,7 @@ export const Userdetails = () => {
       formik.resetForm();
     },
   });
-  
+
   return (
     <div className=" flex flex-col justify-between items-center mt-10 h-screen" data-cy="User-Details-Page">
       <div className="flex flex-col justify-center items-center gap-6">
@@ -109,10 +109,10 @@ export const Userdetails = () => {
               )}
             </div>
             <UserdetailsProfession formik={formik} />
-            <UserdetailsSchool formik={formik}/>
+            <UserdetailsSchool formik={formik} />
           </div>
           <div className="flex justify-between max-w-sm">
-            <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={()=>back()}>
+            <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={() => back()}>
               Back
             </Button>
             <Button variant="destructive" type="submit" className="text-[#FAFAFA] font-medium text-sm rounded-full" disabled={!formik.dirty || !formik.isValid} data-cy="User-Details-Next-Button">

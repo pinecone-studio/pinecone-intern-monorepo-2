@@ -18,7 +18,7 @@ describe('HomePage', () => {
 
   it('should navigate to login and register pages', () => {
     cy.get('[data-cy="create-account-link"]').click();
-    cy.url().should('include', '/login');
+    cy.url().should('include', '/signIn');
 
     cy.visit('/home');
     cy.get('[data-cy="login-link"]').click();

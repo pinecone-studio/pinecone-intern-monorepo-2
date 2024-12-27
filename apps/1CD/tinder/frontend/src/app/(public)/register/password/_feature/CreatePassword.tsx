@@ -29,31 +29,24 @@ const passwordSchema = z
 type ValidationSchemaType = z.infer<typeof passwordSchema>;
 
 const Password = () => {
-  const router=useRouter();
-  
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ValidationSchemaType>({ resolver: zodResolver(passwordSchema) });
 
-
-
-
   const [createPassword] = useCreatePasswordMutation({
-
-    onCompleted:()=>{
-      router.push('/account/attraction');
-    }
-  
+    onCompleted: () => {
+      router.push('/register/attraction');
+    },
   });
-
-
 
   const onSubmit = async (data: ValidationSchemaType) => {
     await createPassword({
       variables: {
-        input: { password: data.password},
+        input: { password: data.password },
       },
     });
   };
@@ -72,7 +65,14 @@ const Password = () => {
           <Input data-cy="register-password-input" placeholder="password1234@" id="password" type="password" {...register('password')} className="w-[350px] border-[#E4E4E7] border-2" />
           {errors.password?.message && <p className="pt-2 text-sm text-red-600">{errors.password?.message}</p>}
           <div className="text-[#09090B] font-medium text-sm pb-2 pt-4">Confirm Password</div>
-          <Input data-cy="register-confirm-password-input" placeholder="password1234@" className="w-[350px] border-[#E4E4E7] border-2" id="confirmPassword" type="password" {...register('confirmPassword')} />
+          <Input
+            data-cy="register-confirm-password-input"
+            placeholder="password1234@"
+            className="w-[350px] border-[#E4E4E7] border-2"
+            id="confirmPassword"
+            type="password"
+            {...register('confirmPassword')}
+          />
           {errors.confirmPassword?.message && <p className="pt-2 text-sm text-red-600">{errors.confirmPassword?.message}</p>}
           <Button data-cy="register-continue-button" className="w-[350px] h-9 bg-[#E11D48E5] rounded-full text-[#FAFAFA] text-sm font-medium mt-4" type="submit">
             Continue

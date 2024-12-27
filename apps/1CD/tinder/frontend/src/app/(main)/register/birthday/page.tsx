@@ -12,7 +12,7 @@ const Birthday = () => {
   const [error, setError] = useState<string>('');
   const [birthdaySubmit] = useBirthdaySubmitMutation({
     onCompleted: () => {
-      router.push('/');
+      router.push('/register/userdetails');
     },
     onError: () => {
       setError('An error occurred while submitting your birthday. Please try again.');
@@ -60,7 +60,7 @@ const Birthday = () => {
   };
 
   const handleBack = () => {
-    router.push('/');
+    router.push('/register/attraction');
   };
 
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {

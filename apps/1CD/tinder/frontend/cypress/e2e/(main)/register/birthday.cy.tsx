@@ -17,7 +17,7 @@ describe('Birthday Form Navigation', () => {
 
     cy.get('[data-cy="next-button"]').click();
 
-    cy.url().should('include', '/');
+    cy.url().should('include', '/register/userdetails');
   });
 
   it('3. should show an error if the user is under 18 years old', () => {
@@ -43,7 +43,7 @@ describe('Birthday Form Navigation', () => {
   it('5. should go back to the home page when clicking "Back"', () => {
     cy.get('[data-cy="back-button"]').click();
 
-    cy.url().should('include', '/');
+    cy.url().should('include', '/register/attraction');
   });
 
   it('6. should show an error message if an incomplete date is entered and the form is submitted', () => {
