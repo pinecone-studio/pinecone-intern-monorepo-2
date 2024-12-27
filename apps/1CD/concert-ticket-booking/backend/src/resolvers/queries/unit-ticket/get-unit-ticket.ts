@@ -1,11 +1,9 @@
 import { QueryResolvers } from '../../../generated';
 import UnitTicket from '../../../models/unit-ticket.model';
 
-export const getUnitTicket: QueryResolvers['getUnitTicket'] = async (_, { ticketId }) => {
-  console.log('ticketId', ticketId);
-  const findTicket = await UnitTicket.findOne({ ticketId }).populate(['orderId', 'eventId']);
+export const getUnitTicket: QueryResolvers['getUnitTicket'] = async (_, { unitId }) => {
+  const findTicket = await UnitTicket.findById(unitId).populate(['orderId', 'eventId', 'productId']);
 
-  console.log('findticket', findTicket);
   if (!findTicket) {
     throw new Error('Ticket not found');
   }

@@ -1,6 +1,5 @@
 'use client';
-
-import BookingCard from '@/app/(client)/_components/BookingCard';
+import BookingCard from '@/app/(user)/(client)/_components/BookingCard';
 import { Button } from '@/components/ui/button';
 import { BookingStatus, ReturnBooking, useGetBookingFindByUserIdQuery } from '@/generated';
 import { ClockArrowUp } from 'lucide-react';
@@ -23,7 +22,7 @@ const Page = () => {
 
   return (
     <div className="container mx-auto max-w-[960px] flex flex-col gap-8" data-cy="Confirmed-Booking">
-      <div className="text-2xl font-semibold p-4">Confirmed Booking</div>
+      <div className="p-4 text-2xl font-semibold">Confirmed Booking</div>
       {confirmed.length ? (
         <div className="flex flex-col gap-3" data-cy="Booking-Card-Status">
           {confirmed.map((booking) => (
@@ -34,7 +33,7 @@ const Page = () => {
         </div>
       ) : (
         <div>
-          <div data-cy="booking-div" className="text-2xl font-semibold p-4">
+          <div data-cy="booking-div" className="p-4 text-2xl font-semibold">
             Booking
           </div>
           <div className="max-w-[896px] flex flex-col items-center gap-4">
@@ -51,7 +50,7 @@ const Page = () => {
           </div>
         </div>
       )}
-      <div className="text-2xl font-semibold p-4">Previous Booking</div>
+      <div className="p-4 text-2xl font-semibold">Previous Booking</div>
       {previous.length ? (
         <div className="flex flex-col gap-3">
           {previous.map((booking) => (

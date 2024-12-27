@@ -64,10 +64,12 @@ describe('addToCarts mutation', () => {
 
     (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
 
-    const mockCreateOrder = { userId, ...input };
+    // Simulate the creation of an order, which includes the _id (orderId)
+    const mockCreateOrder = { _id: 'orderid12345', userId, ...input };
     (Order.create as jest.Mock).mockResolvedValueOnce(mockCreateOrder);
 
-    const mockUnitTicket = [{ _id: 'unitTicketId1' }, { _id: 'unitTicketId2' }];
+    const mockUnitTicket = [{ _id: 'unitTicketId1' }, { _id: 'unitTicketId2' }, { _id: 'unitTicketId3' }];
+    // Update this to check that insertMany gets the correct orderId
     (UnitTicket.insertMany as jest.Mock).mockResolvedValueOnce(mockUnitTicket);
 
     const mockQrCodeDataUrl = 'data:image/png;base64,abc123';
@@ -75,7 +77,10 @@ describe('addToCarts mutation', () => {
 
     await addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo);
 
+    // Verifying that Ticket.findById is called
     expect(Ticket.findById).toHaveBeenCalledWith(input.ticketId);
+
+    // Verifying that Order.create is called with the correct parameters
     expect(Order.create).toHaveBeenCalledWith({
       userId,
       eventId: input.eventId,
@@ -90,9 +95,24 @@ describe('addToCarts mutation', () => {
         },
       ],
     });
+
     expect(UnitTicket.insertMany).toHaveBeenCalledWith([
       {
+        productId: 'ticketid12',
         ticketId: '1122334455',
+        orderId: 'orderid12345',
+        eventId: input.eventId,
+      },
+      {
+        productId: 'ticketid12',
+        ticketId: '1122334455',
+        orderId: 'orderid12345',
+        eventId: input.eventId,
+      },
+      {
+        productId: 'ticketid12',
+        ticketId: '1122334455',
+        orderId: 'orderid12345',
         eventId: input.eventId,
       },
     ]);
@@ -114,6 +134,7 @@ describe('addToCarts mutation', () => {
     (Ticket.findById as jest.Mock).mockResolvedValueOnce(mockTicket);
     await expect(addToCarts!({}, { input }, { userId }, {} as GraphQLResolveInfo)).rejects.toThrow('Seats are full');
   });
+
   it('should throw an Unauthorized error if no userId is provided', async () => {
     await expect(addToCarts!({}, { input }, { userId: null }, {} as GraphQLResolveInfo)).rejects.toThrow('Unauthorized');
   });

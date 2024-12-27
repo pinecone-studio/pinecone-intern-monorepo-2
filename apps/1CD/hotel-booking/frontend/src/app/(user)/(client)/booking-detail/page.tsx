@@ -1,8 +1,7 @@
 'use client';
-
-import BookingDetailLeftSide from '@/components/BookingDetailLeftSide';
-import BookingDetailRightSide from '@/components/BookingDetailRightSide';
-import { useGetBookingQuery } from '@/generated';
+import BookingDetailLeftSide from '../../../../components/BookingDetailLeftSide';
+import BookingDetailRightSide from '../../../../components/BookingDetailRightSide';
+import { useGetBookingQuery } from '../../../../generated';
 import { ChevronLeft } from 'lucide-react';
 
 const Page = () => {
