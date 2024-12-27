@@ -19,10 +19,10 @@ import InputGenreWithLocation from './GenreWithLocation';
 import TimePicker from './TimePicker';
 import { DatePickerWithRange } from './DatePicker';
 import InputArtist from './InputArtist';
-import { useCreateEventMutation } from '@/generated';
+import { EventInput, TicketTypeInput, useCreateEventMutation } from '@/generated';
 import { toast } from 'sonner';
 
-const CreateEventModal = () => {
+const CreateEventModal = ({refetch} : {refetch : () => void}) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm<z.infer<typeof EventInputSchema>>({
     resolver: zodResolver(EventInputSchema),
@@ -42,6 +42,7 @@ const CreateEventModal = () => {
     onCompleted: () => {
       toast.success('Successfully created');
       setDialogOpen(false);
+      refetch()
     },
     onError: () => {
       toast.error('An error occurred');
@@ -49,12 +50,35 @@ const CreateEventModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof EventInputSchema>) => {
+    const eventInput: EventInput = {
+      category: values.category,
+      dateRange: values.dateRange,
+      description: values.description,
+      guestArtists: values.guestArtists,
+      image: values.image,
+      mainArtists: values.mainArtists,
+      name: values.name,
+      ticketType: values.ticketType.map((type) => {
+        const item: TicketTypeInput = {
+          additional: type.additional,
+          discount: type.discount ,
+          totalQuantity: type.totalQuantity,
+          unitPrice: type.unitPrice ,
+          zoneName: type.zoneName
+        };
+        return item;
+      }),
+      time: values.time,
+      venue: values.venue,
+    };
+
     await createEvent({
       variables: {
-        input: values,
+        input: eventInput,
       },
     });
   };
+
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
