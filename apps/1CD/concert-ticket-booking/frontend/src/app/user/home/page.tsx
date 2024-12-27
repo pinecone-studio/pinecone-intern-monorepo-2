@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import Link from 'next/link';
 
-
 const Page = () => {
   const [q] = useQueryState('q', { defaultValue: '' });
 
@@ -16,8 +15,8 @@ const Page = () => {
 
   const [getEvents1, { data, loading }] = useGetEventsLazyQuery();
 
-    const {data:eventData}  = useGetSpecialEventQuery();
-    const firstEvent = eventData?.getSpecialEvent;
+  const { data: eventData } = useGetSpecialEventQuery();
+  const firstEvent = eventData?.getSpecialEvent;
 
   useEffect(() => {
     getEvents1({
@@ -30,8 +29,8 @@ const Page = () => {
   }, [debouncedQ]);
 
   return (
-    <div className="w-full pt-10 bg-black" data-cy="Home-Page">
-     {firstEvent && (<CarouselMain event={firstEvent}/>)} 
+    <div className="w-full pt-10bg-zinc-950" data-cy="Home-Page">
+      {firstEvent && <CarouselMain event={firstEvent} />}
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
         {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
         {data?.getEvents?.map((event) => (
