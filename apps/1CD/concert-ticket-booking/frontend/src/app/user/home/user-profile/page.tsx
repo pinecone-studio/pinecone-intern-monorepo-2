@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import UserInfo from './_components/UserInfo';
 import PasswordReset from './_components/PasswordReset';
-
+import OrderInfo from './_components/OrderInfo';
 
 const UserInfoPage = () => {
   const [state, setState] = useState(1);
@@ -35,20 +35,14 @@ const UserInfoPage = () => {
         </div>
         <div>
           {state === 1 && <UserInfo />}
-          {state === 2 && 
-          (
-            <div className="text-white w-[841px]">
-              <h1 data-cy="order-info-heading"> Захиалгын түүх</h1>
-            </div>
-          )
-          
-          }
-          {state === 3 && <PasswordReset/> 
-          // (
-          //   <div className="text-white w-[841px]">
-          //     <h1 data-cy="password-info-heading"> Нууц үг сэргээх</h1>
-          //   </div>
-          // )
+          {state === 2 && <OrderInfo />}
+          {
+            state === 3 && <PasswordReset />
+            // (
+            //   <div className="text-white w-[841px]">
+            //     <h1 data-cy="password-info-heading"> Нууц үг сэргээх</h1>
+            //   </div>
+            // )
           }
         </div>
       </div>
