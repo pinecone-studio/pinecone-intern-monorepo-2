@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/components/providers';
+import { useSignup } from '@/components/providers';
 
 const formSchema = z
   .object({
@@ -25,7 +25,7 @@ const formSchema = z
   });
 
 const SetPassword = () => {
-  const { setPassword } = useAuth();
+  const { setPassword } = useSignup();
 
   const [emailOtp, setEmailOtp] = useState<string>('');
 

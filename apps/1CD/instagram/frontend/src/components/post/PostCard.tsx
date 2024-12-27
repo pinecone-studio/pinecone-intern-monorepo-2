@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Bookmark, ChevronLeft, ChevronRight, Dot, Heart, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
+import { Bookmark, ChevronLeft, ChevronRight, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
+import { PostLike } from '@/app/(main)/_components/PostLike';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -36,6 +37,7 @@ export const PostCard = () => {
 
                 <h1 className="flex items-center font-bold ">
                   {post.user.userName}
+                  {post._id}
                   <span className="flex items-center font-normal text-gray-600">
                     <Dot />
                     4h
@@ -77,9 +79,7 @@ export const PostCard = () => {
             </div>
             <div className="flex items-center justify-between px-1 py-3 text-xl">
               <div className="flex gap-3">
-                <p>
-                  <Heart />{' '}
-                </p>
+                <PostLike id={post?._id} />
                 <p>
                   <MessageCircle />
                 </p>

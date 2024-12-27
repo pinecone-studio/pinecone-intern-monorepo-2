@@ -31,11 +31,17 @@ export const addToCarts: MutationResolvers['addToCarts'] = async (_, { input }, 
   });
   await findTicket.save();
   const order = await Order.create({ userId, ticketId, eventId, phoneNumber, email, ticketType: updatedTicketTypes });
-  const unitTicketArr = ticketType.map((item) => ({
-    ticketId: item._id,
-    orderId: order._id,
-    eventId,
-  }));
+  const unitTicketArr = ticketType.flatMap((item) =>
+    Array(Number(item.buyQuantity))
+      .fill(null)
+      .map(() => ({
+        productId: ticketId,
+        ticketId: item._id,
+        orderId: order._id,
+        eventId,
+      }))
+  );
+
   const newUnitTicket = await UnitTicket.insertMany(unitTicketArr);
   const ids = newUnitTicket.map((item) => item._id);
   const qrCodeDataUrl = await qrCodes(ids);
