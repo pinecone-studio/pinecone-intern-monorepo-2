@@ -1,3 +1,4 @@
+'use client';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Maybe } from '@/generated';
 import Image from 'next/image';
@@ -7,8 +8,6 @@ interface RoomCarouselProps {
 }
 
 const RoomCarousel = ({ roomImages }: RoomCarouselProps) => {
-
-
   return (
     <Carousel>
       <CarouselContent data-cy="HotelRoomCarousel" className="max-w-xl">

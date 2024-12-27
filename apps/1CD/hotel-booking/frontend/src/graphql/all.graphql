@@ -204,6 +204,7 @@ query GetHotel($id: ID!) {
     userRating
     phoneNumber
     images
+    location
   }
 }
 

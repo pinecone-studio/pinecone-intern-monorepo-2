@@ -15,7 +15,6 @@ describe('HotelDetail', () => {
     cy.get("[data-cy=carousel-item1]").should("be.visible")
     cy.get('[data-cy="previos-image"]').click();
     cy.get("[data-cy=carousel-item0]").should("be.visible")
-
   });
   it('3. should render', () => {
     cy.get('[data-cy="Room-Card"]').should('be.visible');

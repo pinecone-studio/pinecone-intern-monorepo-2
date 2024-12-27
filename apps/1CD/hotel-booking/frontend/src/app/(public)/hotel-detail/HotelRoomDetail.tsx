@@ -1,4 +1,4 @@
-
+'use client';
 import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';

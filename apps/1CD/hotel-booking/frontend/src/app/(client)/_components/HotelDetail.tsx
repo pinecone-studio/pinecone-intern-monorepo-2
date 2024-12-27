@@ -6,6 +6,8 @@ import { useGetHotelQuery } from '@/generated';
 import Image from 'next/image';
 import HotelImportant from '@/components/HotelImportant';
 import HotelPolicies from '@/components/HotelPolicies';
+import HotelAbout from '@/app/(public)/hotel-detail/HotelAbout';
+import HotelAsked from '@/app/(public)/hotel-detail/HotelAsked';
 
 const HotelDetail = () => {
   const { data, loading } = useGetHotelQuery({
@@ -20,7 +22,6 @@ const HotelDetail = () => {
       {data?.getHotel.images?.length && data?.getHotel?.images?.length > 0 && (
         <div data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1">
           <div className="flex-1">{<Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={580} height={433} className="object-cover w-full h-full" />}</div>
-
           <div className="flex flex-col flex-1 gap-1">
             <div className="flex flex-1 gap-1">
               <Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={286} height={214} className="flex-1" />
@@ -68,10 +69,13 @@ const HotelDetail = () => {
         </div>
         <HotelRooms />
         <div className="flex flex-col gap-20">
+          <HotelAbout />
+          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
           <HotelPolicies />
           <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
           <HotelImportant />
           <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+          <HotelAsked />
         </div>
       </div>
     </div>
