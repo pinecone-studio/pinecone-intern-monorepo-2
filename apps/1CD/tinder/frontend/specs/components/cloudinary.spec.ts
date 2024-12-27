@@ -5,13 +5,13 @@ import { expect } from '@jest/globals';
 
 global.fetch = jest.fn();
 
-global.File = jest.fn().mockImplementation((...args) => {
+global.File = jest.fn().mockImplementation((fileBits: BlobPart[], fileName: string, options: FilePropertyBag) => {
   return {
-    size: args[0].length,
-    name: args[1],
-    type: args[2],
+    ...options,
+    size: fileBits.length,
+    name: fileName,
+    type: options.type,
     lastModified: Date.now(),
-    ...args,
   };
 });
 
@@ -40,6 +40,13 @@ describe('uploadFilesInCloudinary', () => {
     const result = await uploadFilesInCloudinary(mockFile);
 
     expect(result).toBe(mockResponse.secure_url);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('https://api.cloudinary.com/v1_1/dkylvahwz/upload'),
+      expect.objectContaining({
+        method: 'POST',
+        body: expect.any(FormData),
+      })
+    );
   });
 
   it('should handle error and return an empty string if upload fails', async () => {
@@ -52,5 +59,29 @@ describe('uploadFilesInCloudinary', () => {
     expect(fetch).toHaveBeenCalled();
 
     expect(result).toBe('');
+  });
+  it('should handle non-OK responses and return an empty string', async () => {
+    const mockFile = new File(['mockBlob'], 'mock-image.jpg', { type: 'image/jpg' });
+
+    const mockResponse = { error: { message: 'Cloudinary error' } };
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      statusText: 'Bad Request',
+      json: jest.fn().mockResolvedValueOnce(mockResponse),
+    });
+
+    const result = await uploadFilesInCloudinary(mockFile);
+
+    expect(fetch).toHaveBeenCalled();
+    expect(result).toBe('');
+  });
+
+  it('should log error when upload fails', async () => {
+    const mockFile = new File(['mockBlob'], 'mock-image.jpg', { type: 'image/jpg' });
+
+    (fetch as jest.Mock).mockRejectedValueOnce(new Error('Upload failed'));
+
+    await uploadFilesInCloudinary(mockFile);
   });
 });
