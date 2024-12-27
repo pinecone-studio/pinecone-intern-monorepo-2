@@ -1,3 +1,4 @@
+'use client';
 import { FormikErrors, FormikTouched } from 'formik';
 import { BookingInformationInput, BookingInformationInputFormikValues } from './BookingInformationInput';
 type ErrorMessageType = {

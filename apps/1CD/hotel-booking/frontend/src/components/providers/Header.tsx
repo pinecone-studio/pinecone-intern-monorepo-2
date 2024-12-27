@@ -1,10 +1,10 @@
 'use client';
 
-import { useAuth } from '.';
+import { useRouter } from 'next/navigation';
 import HeaderFilter from './HeaderFilter';
 
 const Header = () => {
-  const { loginButton, signupButton } = useAuth();
+  const router = useRouter();
 
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
@@ -16,11 +16,21 @@ const Header = () => {
               <p className="text-lg font-medium text-white">Pedia</p>
             </div>
             <div className="flex gap-4">
-              <button onClick={signupButton}>
-                <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Register</p>
+              <button
+                className="text-sm font-medium text-[#FAFAFA] hover:opacity-80"
+                onClick={() => {
+                  router.push('/signup');
+                }}
+              >
+                Register
               </button>
-              <button onClick={loginButton}>
-                <p className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80">Sign in</p>
+              <button
+                className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80"
+                onClick={() => {
+                  router.push('/login');
+                }}
+              >
+                Sign in
               </button>
             </div>
           </div>
