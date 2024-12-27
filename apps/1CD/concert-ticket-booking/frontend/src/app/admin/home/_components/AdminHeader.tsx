@@ -42,8 +42,8 @@ export const AdminHeader = () => {
               <MenubarTrigger>
                 <User />
               </MenubarTrigger>
-              <MenubarContent data-cy="AdminHeader-MenuBar-Content-Button-One">
-                <MenubarItem data-cy="">
+              <MenubarContent>
+                <MenubarItem data-cy="AdminHeader-MenuBar-Content-Button-One">
                   <div>
                     Profile
                     {user?.email}
