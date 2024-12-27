@@ -44,6 +44,7 @@ const Buttons = ({ currentPosition, open, swipeLeft, swipeRight }: { currentPosi
       </Button>
 
       <Button
+        data-cy='starButton'
         className={computeButtonStyles({
           open,
           isActive: isSwipingUp,

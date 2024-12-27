@@ -87,8 +87,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     }
   };
   return (
-    <div>
-      <div className="relative h-[560px] flex justify-center ">
+    <div  data-cy="swipingImgDiv">
+      <div className="relative h-[560px] flex justify-center" data-cy='swipingImg-2'>
         {swiping && (
           <motion.div
             data-cy="swipingImg"
@@ -124,7 +124,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
               zIndex: cards?.length ? cards?.length + 1000 : 1000,
             }}
           >
-            {!open && <CarouselImg swiping={swiping} />}
+            {!open &&  <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
       </div>

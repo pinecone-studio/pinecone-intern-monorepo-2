@@ -16,4 +16,5 @@
 // Import commands.ts using ES2015 syntax:
 import '@cypress/code-coverage/support';
 import 'cypress-wait-until';
+import "cypress-real-events";
 import './commands';
