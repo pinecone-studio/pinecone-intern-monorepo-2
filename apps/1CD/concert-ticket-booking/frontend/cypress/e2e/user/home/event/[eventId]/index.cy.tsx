@@ -41,10 +41,10 @@ describe('Detail Page', () => {
     });
 
     cy.get('[data-cy="Scheduled-Days"]').should('be.visible');
-    cy.get('[data-cy="Scheduled-Day-0"]').should('contain.text', '25.06.08'); // Зөв огноо шалгах
+    cy.get('[data-cy="Scheduled-Day-0"]').should('contain.text', '25.06.07'); // Зөв огноо шалгах
     cy.get('[data-cy="select-day-button"]').click();
-    cy.get('[data-cy="select-day-item"]').contains('06.08').click();
-    cy.get('[data-cy="select-day-button"]').should('contain.text', 'Сонгосон өдөр: 06.08');
+    cy.get('[data-cy="select-day-item"]').contains('06.07').click();
+    cy.get('[data-cy="select-day-button"]').should('contain.text', 'Сонгосон өдөр: 06.07');
     cy.get('[data-cy="unit-price-0"]').should('contain.text', '500000');
   });
 });
