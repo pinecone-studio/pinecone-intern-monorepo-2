@@ -46,6 +46,7 @@ const UserProfile = () => {
       );
     else if (postData.getMyPosts.length === 0) return <NoPost />;
   };
+  console.log('useriig harah', user);
   return (
     <div className="my-10 mx-auto" data-cy="user-profile-page">
       <div className="w-[900px]">
