@@ -11,7 +11,7 @@ export type Request = {
   supervisorEmail: string;
   result: string;
   comment: string;
-  optionalFile: string
+  optionalFile: string;
 };
 
 const RequstSchema = new Schema<Request>(
@@ -21,31 +21,31 @@ const RequstSchema = new Schema<Request>(
       required: true,
     },
     requestType: {
-        type: String,
-        required: true,
-        enum: ['paid', 'unpaid', 'remote']
+      type: String,
+      required: true,
+      enum: ['paid', 'unpaid', 'remote'],
     },
     message: {
-      type: String
+      type: String,
     },
     requestDate: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     startTime: String,
     endTime: String,
     supervisorEmail: String,
     result: {
-        type: String,
-        enum: ['fail', 'success', 'sent', 'pending'],
-        default: 'pending'
+      type: String,
+      enum: ['pending', 'sent', 'failed', 'success'],
+      default: 'sent',
     },
     comment: String,
-    optionalFile: String
+    optionalFile: String,
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const RequestModel = models.Request || model<Request>('Request', RequstSchema);

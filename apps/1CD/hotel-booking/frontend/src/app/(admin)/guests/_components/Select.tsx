@@ -1,18 +1,27 @@
-import React from 'react';
+'use client';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-const StatusSelect = () => {
+const StatusSelect = ({ setSelectedStatus }: { setSelectedStatus: Dispatch<SetStateAction<string>> }) => {
   return (
     <div data-cy="Status-Filter-Modal">
-      <Select>
+      <Select onValueChange={(value) => setSelectedStatus(value)}>
         <SelectTrigger className="w-full md:w-[180px]">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="apple">Booked</SelectItem>
-            <SelectItem value="banana">Completed</SelectItem>
-            <SelectItem value="blueberry">Cancelled</SelectItem>
+          <SelectGroup data-cy="Select-Modal-Content">
+            <SelectItem data-cy="Select-All" value="all">
+              All
+            </SelectItem>
+            <SelectItem data-cy="Select-Booked" value="booked">
+              Booked
+            </SelectItem>
+            <SelectItem data-cy="Select-Completed" value="completed">
+              Completed
+            </SelectItem>
+            <SelectItem data-cy="Select-Cancelled" value="cancelled">
+              Cancelled
+            </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
