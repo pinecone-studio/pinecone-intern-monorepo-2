@@ -61,6 +61,9 @@ export const typeDefs = gql`
     starRating: Int
     userRating: Int
     hotelAmenities: [String]
+    hotelName: String
+    price: Int
+    roomType: String
   }
 
   type Query {
