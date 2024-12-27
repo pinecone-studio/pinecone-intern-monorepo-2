@@ -6,8 +6,8 @@ import Link from 'next/link';
 
 const SideBar = () => {
   const item = [
-    { title: 'Hotels', icon: <Hotel /> },
-    { title: 'Guests', icon: <Users /> },
+    { title: 'Hotels', icon: <Hotel />, link: '/add-hotel/home-page' },
+    { title: 'Guests', icon: <Users />, link: '/guests' },
   ];
   return (
     <Sidebar>
@@ -26,7 +26,7 @@ const SideBar = () => {
         {item.map((item) => (
           <SidebarMenu key={item.title}>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Link href={item.link}>
                 <span className="pl-2.5">{item.icon}</span>
                 <span className="pl-2.5">{item.title}</span>
               </Link>

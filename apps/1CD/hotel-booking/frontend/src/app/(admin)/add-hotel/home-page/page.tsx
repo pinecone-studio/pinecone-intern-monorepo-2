@@ -7,11 +7,17 @@ import { TableBody, TableCell, TableRow, Table } from '@mui/material';
 import { Select } from '@radix-ui/react-select';
 import { Star } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
+  const router = useRouter();
+
   if (loading) return <div>Loading...</div>;
   return (
-    <div data-cy="home-page-div" className="max-w-[1920px] container mx-auto">
+    <div data-cy="Home-Page-Div" className="max-w-[1920px] container mx-auto">
       <div className="container max-w-[1640px] bg-slate-100 flex">
         <div className="bg-[#F4F4F5] w-[1640px] h-full">
           <div className="flex items-center gap-2 px-4 py-5">
@@ -21,7 +27,7 @@ const Page = () => {
           <div>
             <div className="flex justify-between px-4 pt-5">
               <div className="text-[24px] text-[#020617] font-bold">Hotels</div>
-              <Button className="bg-[#2563EB] rounded-md py-2 px-8 gap-3">
+              <Button onClick={() => router.push('/add-hotel')} className="bg-[#2563EB] rounded-md py-2 px-8 gap-3">
                 <p>+</p>
                 <p>Add Hotel</p>
               </Button>
@@ -91,7 +97,14 @@ const Page = () => {
                 {data?.getHotels.map((hotel) => (
                   <TableRow key={hotel._id}>
                     <TableCell className="border-2 w-[82px]">{hotel._id}</TableCell>
-                    <TableCell className="border-2 w-[892px]">{hotel.hotelName}</TableCell>
+                    <TableCell className="border-2 w-[892px]">
+                      <Link className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
+                        <div className="w-12 h-12">
+                          <Image className="w-full h-full object-cover" src={`${hotel?.images}`} alt="image" width={1000} height={1000} />
+                        </div>
+                        {hotel.hotelName}
+                      </Link>
+                    </TableCell>
                     <TableCell className="border-2 w-[160px]">{hotel.description}</TableCell>
                     <TableCell className="border-2 w-[160px]">
                       <div className="flex items-center gap-2">
