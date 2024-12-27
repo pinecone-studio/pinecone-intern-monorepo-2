@@ -1,4 +1,4 @@
-import DateRangeButton from './DateRangeButton';
+import { ClientDatePicker } from '../myreq/DatePicker';
 import RequestCategory from './RequestCategory';
 import { CiSearch } from 'react-icons/ci';
 
@@ -15,7 +15,7 @@ const RequestHeader = () => {
           <RequestCategory />
         </div>
         <div>
-          <DateRangeButton />
+          <ClientDatePicker onChange={() => {}} />
         </div>
       </div>
     </div>
