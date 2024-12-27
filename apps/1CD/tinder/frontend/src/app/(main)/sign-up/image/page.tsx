@@ -15,8 +15,6 @@ const ImageUpload = () => {
     router.push('/');
   };
 
-
-  
   return (
     <div className="mx-auto flex justify-center w-full max-w-4xl">
       <div className="flex flex-col items-center w-full">

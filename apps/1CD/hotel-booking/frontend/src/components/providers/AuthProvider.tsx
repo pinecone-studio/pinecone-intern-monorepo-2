@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const loginButton = () => {
     router.push('/login');
   };
-  const signupButton = () => {
+  const signupButton = () => () => {
     router.push('/signup');
   };
   const signin = async ({ email, password }: SignInParams) => {

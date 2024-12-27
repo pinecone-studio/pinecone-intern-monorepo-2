@@ -38,7 +38,7 @@ describe('getFollowStatus Resolver', () => {
 
     const result = await getFollowStatus!({}, { followingId: mockFollowingId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
 
-    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId });
+    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId, followerId: mockFollowerId });
     expect(result).toEqual(mockFollowStatus);
   });
 
@@ -47,7 +47,7 @@ describe('getFollowStatus Resolver', () => {
 
     const result = await getFollowStatus!({}, { followingId: mockFollowingId, followerId: mockFollowerId }, context, {} as GraphQLResolveInfo);
 
-    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId });
+    expect(followModel.findOne).toHaveBeenCalledWith({ followingId: mockFollowingId, followerId: mockFollowerId });
     expect(result).toBeNull();
   });
 });

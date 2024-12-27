@@ -1,5 +1,4 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
 import { BookingStatus, ReturnBooking } from '@/generated';
 import Image from 'next/image';
@@ -15,11 +14,11 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
           {booking.roomId?.hotelId?.images && <Image src={booking.roomId?.hotelId?.images[0] || '/'} alt="image" width={1000} height={1000} className="object-cover w-full h-full" />}
         </div>
         <div className="flex-1 gap-2">
-          <div className="px-5 py-5 gap-2">
+          <div className="gap-2 px-5 py-5">
             <div>
               <BookedStatus status={booking.status} />
             </div>
-            <div className="text-base font-bold py-2">{booking.roomId?.hotelId?.hotelName}</div>
+            <div className="py-2 text-base font-bold">{booking.roomId?.hotelId?.hotelName}</div>
             <div className="text-sm font-normal text-[#71717A]">{booking.roomId?.roomType}</div>
             <ul className="flex gap-2 py-3">
               <li>1 night</li>
@@ -27,7 +26,7 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
               <li>1 room</li>
             </ul>
           </div>
-          <div className="flex justify-between px-5 py-5 items-center">
+          <div className="flex items-center justify-between px-5 py-5">
             <div>
               <div className="flex gap-2">
                 <div className="text-[#71717A] font-normal">Check in:</div>
@@ -39,7 +38,7 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
                 <div>{booking?._id}</div>
               </div>
             </div>
-            <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="bg-white border text-black p-2 rounded-md">
+            <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="p-2 text-black bg-white border rounded-md">
               View Detail
             </Button>
           </div>

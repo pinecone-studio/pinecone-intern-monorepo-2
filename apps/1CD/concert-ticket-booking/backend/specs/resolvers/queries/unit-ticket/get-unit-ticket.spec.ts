@@ -3,7 +3,7 @@ import UnitTicket from '../../../../src/models/unit-ticket.model';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/unit-ticket.model', () => ({
-  findOne: jest
+  findById: jest
     .fn()
     .mockReturnValueOnce({
       populate: jest.fn().mockReturnValueOnce([
@@ -22,10 +22,10 @@ jest.mock('../../../../src/models/unit-ticket.model', () => ({
 
 describe('getUnitTicket query', () => {
   beforeEach(() => {
-    (UnitTicket.findOne as jest.Mock).mockClear();
+    (UnitTicket.findById as jest.Mock).mockClear();
   });
   it('should return the unit ticket with populated fields', async () => {
-    const result = await getUnitTicket!({}, { ticketId: 'ticketid123' }, { userId: null }, {} as GraphQLResolveInfo);
+    const result = await getUnitTicket!({}, { unitId: 'ticketid123' }, { userId: null }, {} as GraphQLResolveInfo);
     expect(result).toEqual([
       {
         _id: '1',
@@ -39,7 +39,7 @@ describe('getUnitTicket query', () => {
   });
   it('should throw an error if no unit ticket is found', async () => {
     try {
-      await getUnitTicket!({}, { ticketId: 'ticketid123' }, { userId: null }, {} as GraphQLResolveInfo);
+      await getUnitTicket!({}, { unitId: 'ticketid123' }, { userId: null }, {} as GraphQLResolveInfo);
     } catch (error) {
       expect(error).toEqual(new Error('Ticket not found'));
     }

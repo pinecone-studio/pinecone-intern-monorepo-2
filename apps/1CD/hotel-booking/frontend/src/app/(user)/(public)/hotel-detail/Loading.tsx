@@ -1,3 +1,4 @@
+'use client';
 import { Loader2Icon } from 'lucide-react';
 
 const Loading = () => {

@@ -15,6 +15,33 @@ export const RequestTypeDefs = gql`
     optionalFile: String
   }
 
+  type User {
+    _id: ID!
+    email: String!
+    userName: String!
+    profile: String!
+    role: String!
+    position: String!
+    supervisor: [ID]!
+    hireDate: Date!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type RequestTypePop {
+    _id: ID!
+    email: User!
+    requestType: String!
+    message: String!
+    requestDate: Date!
+    startTime: Date!
+    endTime: Date!
+    supervisorEmail: String!
+    result: String!
+    comment: String!
+    optionalFile: String!
+  }
+
   type GroupedRequests {
     _id: String!
     requests: [RequestType]
@@ -36,7 +63,7 @@ export const RequestTypeDefs = gql`
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
-    getAllRequestsBySupervisor(supervisorEmail: String!): [RequestType!]
+    getAllRequestsBySupervisor(supervisorEmail: String!, status: String, page: Int, startDate: Date, endDate: Date, search: String): [RequestTypePop!]
     getRequestById(_id: ID): RequestType
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
   }

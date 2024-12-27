@@ -1,7 +1,8 @@
-import { QueryResolvers } from "../../../generated";
-import Order from "../../../models/order.model";
+import { QueryResolvers } from '../../../generated';
+import Order from '../../../models/order.model';
 
-export const getOrder: QueryResolvers['getOrder']=async()=>{
-    const getOrder=await Order.find({});
-    return getOrder;
-}
+export const getOrder: QueryResolvers['getOrder'] = async (_, __, { userId }) => {
+  if (!userId) throw new Error('Unauthorized');
+  const getOrder = await Order.find({ userId });
+  return getOrder;
+};
