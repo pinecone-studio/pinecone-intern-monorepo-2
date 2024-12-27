@@ -1,14 +1,19 @@
 import { PropsWithChildren } from 'react';
-import '.././global.css';
+import '../.././global.css';
 import FooterHome from '@/components/FooterHome';
 import Header from '@/components/providers/Header';
+import { AuthProvider, SignupProvider } from '@/components/providers';
 
 const PublicLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <Header />
-      {children}
-      <FooterHome />
+      <AuthProvider>
+        <SignupProvider>
+          <Header />
+          {children}
+          <FooterHome />
+        </SignupProvider>
+      </AuthProvider>
     </>
   );
 };

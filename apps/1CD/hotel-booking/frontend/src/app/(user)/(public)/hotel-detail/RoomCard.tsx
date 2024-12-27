@@ -4,8 +4,9 @@ import { Car, ChevronRight, DoorClosed, DumbbellIcon, FlowerIcon, ParkingCircleI
 import HotelRoomDetail from './HotelRoomDetail';
 import { useCallback, useState } from 'react';
 import Image from 'next/image';
-import PriceDetail from '../../../components/PriceDetail';
+
 import Link from 'next/link';
+import PriceDetail from '@/components/PriceDetail';
 
 const RoomCard = ({ room }: { room: RoomType }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +68,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <DoorClosed className="w-4 h-4" />
               <div className="text-sm font-normal">Room cleaning service</div>
             </div>
-            <div className="flex gap-2 items-center py-2">
+            <div className="flex items-center gap-2 py-2">
               <button data-cy="Show-More" onClick={handleState} className="text-sm font-medium text-[#2563EB] hover:font-semibold ">
                 Show more
               </button>
@@ -86,7 +87,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-xs font-normal text-[#000000]">75000</div>
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
             </div>
-            <div className="flex gap-2 items-center py-2">
+            <div className="flex items-center gap-2 py-2">
               <div data-cy="Price-Detail-Button" className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
                 Price detail
               </div>
