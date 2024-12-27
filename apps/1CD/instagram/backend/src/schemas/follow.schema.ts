@@ -37,7 +37,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    unfollow(_id: ID!): FollowInfo!
+    unfollow(_id: ID!, followerId: ID!): FollowInfo!
   }
 
   type Query {
