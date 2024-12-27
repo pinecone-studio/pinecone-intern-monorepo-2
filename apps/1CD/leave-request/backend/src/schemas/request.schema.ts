@@ -19,27 +19,27 @@ export const RequestTypeDefs = gql`
     _id: ID!
     email: String!
     userName: String!
-    profile: String
-    role: String
+    profile: String!
+    role: String!
     position: String!
-    supervisor: [ID]
-    hireDate: Date
-    createdAt: Date
-    updatedAt: Date
+    supervisor: [ID]!
+    hireDate: Date!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
   type RequestTypePop {
     _id: ID!
     email: User!
-    requestType: String
-    message: String
-    requestDate: Date
-    startTime: Date
-    endTime: Date
-    supervisorEmail: String
-    result: String
-    comment: String
-    optionalFile: String
+    requestType: String!
+    message: String!
+    requestDate: Date!
+    startTime: Date!
+    endTime: Date!
+    supervisorEmail: String!
+    result: String!
+    comment: String!
+    optionalFile: String!
   }
 
   type GroupedRequests {
