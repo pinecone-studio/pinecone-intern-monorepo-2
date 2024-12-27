@@ -1,5 +1,4 @@
 'use client';
-
 import { PhoneCall } from 'lucide-react';
 import HotelRooms from './HotelRooms';
 import { useGetHotelQuery } from '@/generated';

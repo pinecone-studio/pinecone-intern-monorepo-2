@@ -1,4 +1,4 @@
-
+'use client';
 import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';
@@ -7,11 +7,11 @@ import Link from 'next/link';
 
 const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void; handleOpen: () => void }) => {
   return (
-    <div data-cy="Hotel-Room-Detail" className="container mx-auto items-center">
+    <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
         <DialogContent className="flex flex-col gap-5">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold flex justify-between">
+            <DialogTitle className="flex justify-between text-xl font-semibold">
               <div>Room information</div>
               <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
                 <X />
@@ -30,7 +30,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
           </div>
           <DialogDescription>
             <div className="flex flex-col gap-5">
-              <div className="grid grid-cols-2 gap-y-5 col-span-1">
+              <div className="grid grid-cols-2 col-span-1 gap-y-5">
                 <div>
                   <ul className="text-base font-bold text-foreground">Accessability</ul>
                   {room.roomService?.accessability?.map((item) => (
@@ -85,7 +85,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
                 <div className="text-xs font-normal text-[#000000]">75000</div>
                 <div className="text-xs font-normal text-[#000000]">Price per night</div>
               </div>
-              <div className="flex gap-2 items-center py-2" onClick={handleOpen}>
+              <div className="flex items-center gap-2 py-2" onClick={handleOpen}>
                 <div className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer">Price detail</div>
                 <ChevronRight className="w-4 h-4 text-[#2563EB]" />
               </div>
