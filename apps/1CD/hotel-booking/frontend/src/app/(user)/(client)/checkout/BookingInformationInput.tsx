@@ -1,6 +1,6 @@
+'use client';
 import { Input } from '@/components/ui/input';
 import WhoChecking from '@/components/WhoChecking';
-
 import { ChangeEvent } from 'react';
 import { EmailErrorMessage, FirstNameErrorMessage, PhoneNumberErrorMessage } from './BookingErrorMessages';
 import { FormikErrors, FormikTouched } from 'formik';

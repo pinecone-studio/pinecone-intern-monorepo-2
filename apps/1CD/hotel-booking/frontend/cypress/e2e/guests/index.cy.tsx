@@ -21,4 +21,20 @@ describe('Guest page in admin folder', () => {
     cy.get('[placeholder="Search"]').should('exist');
     cy.get('[data-cy="Status-Filter-Modal"]').should('exist');
   });
+  it('4.Should filter by status', () => {
+    cy.get('[data-cy=Status-Filter-Modal]').should('be.visible').click();
+    cy.get('[data-cy=Select-Modal-Content]').should('be.visible');
+    cy.get('[data-cy=Select-All]').should('exist').click();
+    cy.get('[data-cy=Select-Modal-Content]').should('not.exist');
+    cy.get('[data-cy=Status-Filter-Modal]').should('be.visible').click();
+    cy.get('[data-cy=Select-Modal-Content]').should('exist');
+
+    cy.get('[data-cy=Select-Booked]').should('exist').click();
+    cy.get('[data-cy=Select-Modal-Content]').should('not.exist');
+    cy.get('[data-cy=Status-Filter-Modal]').should('be.visible').click();
+    cy.get('[data-cy=Select-Completed').should('exist').click();
+    cy.get('[data-cy=Select-Modal-Content]').should('not.exist');
+    cy.get('[data-cy=Status-Filter-Modal]').should('be.visible').click();
+    cy.get('[data-cy=Select-Cancelled]').should('be.visible').click();
+  });
 });
