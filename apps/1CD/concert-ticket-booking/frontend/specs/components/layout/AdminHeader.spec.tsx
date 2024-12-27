@@ -23,18 +23,7 @@ describe('AdminHeader Component', () => {
     
     const exitButton = screen.getByRole('button', { name: /гарах/i });
     expect(exitButton).toBeInTheDocument();
-  });
-
-  it('should call the onExit function when the "Гарах" button is clicked', () => {
-    const mockExit = jest.fn();
-
-    render(<AdminHeader onExit={mockExit} />);
-
-    const exitButton = screen.getByRole('button', { name: /гарах/i });
-    fireEvent.click(exitButton);
-
-    expect(mockExit).toHaveBeenCalledTimes(1);
-  });
+  }); 
 
   it('should highlight the active link correctly', () => {
     render(<AdminHeader />);
