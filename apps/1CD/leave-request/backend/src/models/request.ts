@@ -37,7 +37,7 @@ const RequstSchema = new Schema<Request>(
     supervisorEmail: String,
     result: {
       type: String,
-      enum: ['fail', 'success', 'sent', 'pending'],
+      enum: ['pending', 'sent', 'failed', 'success'],
       default: 'sent',
     },
     comment: String,
@@ -45,7 +45,7 @@ const RequstSchema = new Schema<Request>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const RequestModel = models.Request || model<Request>('Request', RequstSchema);

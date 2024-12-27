@@ -1,24 +1,58 @@
 import { QueryResolvers } from 'src/generated';
 import { RequestModel } from 'src/models';
 
-export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervisor'] = async (_, { supervisorEmail }) => {
+// eslint-disable-next-line complexity
+export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervisor'] = async (_, { supervisorEmail, status, page = 1, startDate, endDate, search }) => {
+  const query: any = {};
+  
+  // Add status filter
+  if (status) {
+    query.status = status;
+  }
+
+  // Add date range filter
+  if (startDate && endDate) {
+    query.requestDate = {
+      $gte: new Date(startDate),
+      $lte: new Date(endDate),
+    };
+  }
+
+  // Aggregation pipeline
   const results = await RequestModel.aggregate([
     {
-      $match: { supervisorEmail },
+      $match: { supervisorEmail, ...query },
     },
     {
       $lookup: {
-        from: 'users', // The name of the collection to join (lowercase and plural by default)
-        localField: 'email', // Field in the `Requests` collection
-        foreignField: 'email', // Field in the `Users` collection
-        as: 'email', // The output array field for the joined data
+        from: 'users', 
+        localField: 'email', 
+        foreignField: 'email', 
+        as: 'email',
       },
     },
     {
-      $unwind: '$email', // Flatten the joined data (optional, if you want a single object per document)
+      $unwind: '$email', 
     },
+    {
+      $match: search
+        ? {
+            'email.userName': { $regex: search, $options: 'i' }, // Case-insensitive search
+          }
+        : {},
+    },
+    {
+      $skip: (page - 1) * 4,
+    },
+    {
+      $limit: 4, 
+    },
+    {
+      $sort: {
+        status: 1, 
+      },
+    }
   ]);
 
-  // console.log(bag)
   return results;
 };
