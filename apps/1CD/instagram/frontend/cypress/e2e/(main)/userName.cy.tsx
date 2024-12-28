@@ -6,14 +6,13 @@ describe('user profile page', () => {
       { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
     ],
   };
-  beforeEach(() => {
+  beforeEach(() => {});
+
+  it('1. Should render user profile page with posts and followers', () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
     const location = 'http://localhost:4201/home/mery';
     cy.loginWithFakeToken(location, token);
-    cy.visit('http://localhost:4201/home/mery');
-  });
 
-  it('1. Should render user profile page with posts and followers', () => {
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'GetMyPosts') {
         req.reply({
@@ -36,7 +35,7 @@ describe('user profile page', () => {
         req.reply({ statusCode: 200, body: { data: mockApiFollowersRes } });
       }
     });
-
+    cy.visit('http://localhost:4201/home/mery');
     cy.get('[data-cy="username"]').should('contain.text', 'mery');
     cy.get('[data-cy="fullname"]').should('contain.text', 'mery');
     cy.get('[data-cy="postNumberDone"]').should('contain.text', '1');
@@ -50,6 +49,9 @@ describe('user profile page', () => {
   });
 
   it('2. Should display nopost components when have zero post', () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
+    const location = 'http://localhost:4201/home/mery';
+    cy.loginWithFakeToken(location, token);
     cy.intercept('POST', 'api/graphql', (req) => {
       if (req.body.operationName === 'GetMyPosts') {
         req.reply({
@@ -62,11 +64,16 @@ describe('user profile page', () => {
         });
       }
     });
+    cy.visit('http://localhost:4201/home/mery');
     cy.get('[data-cy="postNumberDone"]').should('contain', 0);
     cy.get('[data-cy="zeroPost"]').should('exist').and('be.visible');
   });
 
   it('3. Should handle image then upload and save data', () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
+    const location = 'http://localhost:4201/home/mery';
+    cy.loginWithFakeToken(location, token);
+    cy.visit('http://localhost:4201/home/mery');
     cy.intercept('POST', 'https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', (req) => {
       if (req.body.operationName === 'changeProfileImg') {
         req.reply({ statusCode: 200, body: { secureUrl: 'http://example.com/profileImage11.jpg' } });
@@ -75,6 +82,10 @@ describe('user profile page', () => {
   });
 
   it('4. Should open followers dialog when click on followers then click close button should unvisible', () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
+    const location = 'http://localhost:4201/home/mery';
+    cy.loginWithFakeToken(location, token);
+    cy.visit('http://localhost:4201/home/mery');
     cy.get('[data-cy="followerNum"]').click();
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'GetFollowers') {
