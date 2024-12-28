@@ -1,3 +1,4 @@
+/* eslint-disable no-secrets/no-secrets */
 describe('user profile page', () => {
   beforeEach(() => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
@@ -11,13 +12,7 @@ describe('user profile page', () => {
       { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
     ],
   };
-  const mockApiNonFollowersRes = {
-    seeFollowers: [],
-  };
-  const mappedMockApiFollowersRes = [
-    { _id: 'followerNum1', userName: 'Follower1', fullName: 'Mock Follower', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1734946251/dv4cj1pzsfb04tngsvq7.jpg' },
-    { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' },
-  ];
+
   it('1. Should render user profile page with posts and followers', () => {
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'GetMyPosts') {
@@ -103,23 +98,4 @@ describe('user profile page', () => {
   it('5. post section should visible', () => {
     cy.get('[data-cy="postSection"]').should('be.visible');
   });
-  // it('5. Should display skeleton when its loading', () => {
-  //   // cy.window().then((win) => {
-  //   //   win.__mockPostLoading = true;
-  //   // });
-  //   cy.intercept('POST', 'api/graphql', (req) => {
-  //     if (req.body.operationName === 'GetMyPosts') {
-  //       req.reply({
-  //         statusCode: 200,
-  //         body: {
-  //           data: {
-  //             loading: true,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   });
-  //   cy.get('[data-cy="postNumLoading"]').should('exist');
-  //   cy.get('[data-cy="postDivLoading"]').should('exist');
-  // });
 });
