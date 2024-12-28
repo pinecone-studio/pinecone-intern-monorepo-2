@@ -72,7 +72,6 @@ const CarouselMain = ({ event }: { event: GetSpecialEventQuery['getSpecialEvent'
             ))}
           </CarouselContent>
         </div>
-
         <Button
           onClick={() => handleScroll('next')}
           className="absolute z-10 transform -translate-y-1/2 bg-transparent right-5 top-1/2 hover:bg-transparent hover:border hover:border-2-slate"

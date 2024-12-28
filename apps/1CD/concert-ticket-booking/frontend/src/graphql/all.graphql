@@ -157,3 +157,34 @@ query GetRelatedEvents($eventId: String!) {
     }
   }
 }
+
+query GetUnitTicket($unitId: String!) {
+  getUnitTicket(unitId: $unitId) {
+    _id
+    orderId {
+      ticketType {
+        _id
+        zoneName
+        soldQuantity
+        totalQuantity
+        unitPrice
+        discount
+        additional
+      }
+      status
+    }
+    status
+    productId {
+      scheduledDay
+    }
+    eventId {
+      name
+      description
+      image
+      mainArtists {
+        name
+      }
+    }
+    ticketId
+  }
+}

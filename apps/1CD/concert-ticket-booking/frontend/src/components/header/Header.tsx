@@ -29,9 +29,6 @@ export const Header = () => {
         <Link href="/user/home/filter">
           <Filter className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 sm:block" />
         </Link>
-        <Link href="/user/home/user-profile">
-          <ShoppingCart className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:mx-4 sm:block" />
-        </Link>
         {!user && (
           <div className="flex items-center gap-2 md:gap-4">
             <Link href="/user/sign-up">
@@ -53,6 +50,9 @@ export const Header = () => {
         )}
         {user && (
           <div className="flex items-center gap-2 ">
+            <Link href="/user/home/user-profile">
+              <ShoppingCart className="xl:w-5 xl:h-5 w-4 h-4 mx-1 md:mx-4 sm:block hidden" />
+            </Link>
             <span data-cy="UserEmail" data-testid="UserEmail" className="text-sm font-medium text-gray-300">
               {user.email}
             </span>
