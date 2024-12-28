@@ -6,6 +6,7 @@ import { AccountVisibility, FollowStatus } from '@/generated';
 
 describe('HeadingSection Component', () => {
   const mockHandleFollowClick = jest.fn();
+  const mockHandleUnfollow = jest.fn();
 
   const defaultProps = {
     profileUser: {
@@ -24,6 +25,7 @@ describe('HeadingSection Component', () => {
     buttonState: 'Follow',
     handleFollowClick: mockHandleFollowClick,
     followData: undefined,
+    unfollowUser: mockHandleUnfollow,
   };
 
   afterEach(() => {
@@ -42,13 +44,37 @@ describe('HeadingSection Component', () => {
   });
 
   it('renders "Following" if followData status is APPROVED', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
+    render(
+      <HeadingSection
+        {...defaultProps}
+        followData={{
+          getFollowStatus: {
+            status: FollowStatus.Approved,
+            _id: '12345',
+            followerId: 'user1',
+            followingId: 'user2',
+          },
+        }}
+      />
+    );
 
     expect(screen.getByText('Following')).toBeInTheDocument();
   });
 
   it('renders "Requested" if followData status is PENDING', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Pending } }} />);
+    render(
+      <HeadingSection
+        {...defaultProps}
+        followData={{
+          getFollowStatus: {
+            status: FollowStatus.Pending,
+            _id: '12345',
+            followerId: 'user1',
+            followingId: 'user2',
+          },
+        }}
+      />
+    );
 
     expect(screen.getByText('Requested')).toBeInTheDocument();
   });
@@ -60,7 +86,7 @@ describe('HeadingSection Component', () => {
     expect(followButton).toBeDisabled();
   });
 
-  it('calls handleFollowClick when follow button is clicked', () => {
+  it('calls handleFollowClick when follow button is clicked', async () => {
     render(<HeadingSection {...defaultProps} />);
 
     const followButton = screen.getByText('Follow');
@@ -69,11 +95,35 @@ describe('HeadingSection Component', () => {
     expect(mockHandleFollowClick).toHaveBeenCalledTimes(1);
   });
 
-  it('disables the follow button when buttonText is not "Follow"', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
+  it('calls unfollowUser when unfollow button is clicked', async () => {
+    render(
+      <HeadingSection
+        {...defaultProps}
+        followData={{
+          getFollowStatus: {
+            status: FollowStatus.Approved,
+            _id: '12345',
+            followerId: 'user1',
+            followingId: 'user2',
+          },
+        }}
+      />
+    );
 
-    const followButton = screen.getByText('Following');
-    expect(followButton).toBeDisabled();
+    const unfollowButton = screen.getByText('Following');
+    fireEvent.click(unfollowButton);
+
+    expect(mockHandleUnfollow).toHaveBeenCalledTimes(1);
+    expect(mockHandleUnfollow).toHaveBeenCalledWith({ _id: '12345' });
+  });
+
+  it('calls handleFollowClick when the follow button displays "Follow" and is clicked', () => {
+    render(<HeadingSection {...defaultProps} buttonState="Follow" followData={undefined} />);
+
+    const followButton = screen.getByText('Follow');
+    fireEvent.click(followButton);
+
+    expect(mockHandleFollowClick).toHaveBeenCalledTimes(1);
   });
 
   it('renders a default profile image if no profile image is provided', () => {
@@ -87,7 +137,15 @@ describe('HeadingSection Component', () => {
   });
 
   it('renders the user-provided profile image when available', () => {
-    render(<HeadingSection {...defaultProps} profileUser={{ ...defaultProps.profileUser, profileImg: 'https://example.com/profile.jpg' }} />);
+    render(
+      <HeadingSection
+        {...defaultProps}
+        profileUser={{
+          ...defaultProps.profileUser,
+          profileImg: 'https://example.com/profile.jpg',
+        }}
+      />
+    );
 
     const profileImage = screen.getByTestId('proImage');
     expect(profileImage).toHaveAttribute('src', 'https://example.com/profile.jpg');
