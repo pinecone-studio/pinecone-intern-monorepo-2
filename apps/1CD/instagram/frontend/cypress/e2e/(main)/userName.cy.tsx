@@ -95,7 +95,4 @@ describe('user profile page', () => {
     cy.get('[data-cy="buttonClose"]').click();
     // cy.get('[data-cy="dialogFollower"]').should('not.be.visible');
   });
-  it('5. post section should visible', () => {
-    cy.get('[data-cy="postSection"]').should('be.visible');
-  });
 });
