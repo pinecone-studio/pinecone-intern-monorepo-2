@@ -30,6 +30,7 @@ const UserProfile = () => {
   //   else if (postLoading) return <Skeleton className="h-4 w-4" data-cy="postNumLoading" />;
   //   else if (postData.getMyPosts.length === 0) return 0;
   // };
+
   const postDiv = () => {
     // if (postLoading) return <Skeleton className="h-full w-full" data-cy="postDivLoading" />;
     if (postData.getMyPosts.length)
