@@ -6,10 +6,10 @@ import Image from 'next/image';
 import HotelImportant from '@/components/HotelImportant';
 import HotelPolicies from '@/components/HotelPolicies';
 
-const HotelDetail = () => {
+const HotelDetail = ({ id }: { id: string }) => {
   const { data, loading } = useGetHotelQuery({
     variables: {
-      id: '674bfbd6a111c70660b55541',
+      id: id,
     },
   });
 

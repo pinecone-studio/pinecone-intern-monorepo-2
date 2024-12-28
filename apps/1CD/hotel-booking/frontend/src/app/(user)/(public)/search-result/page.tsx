@@ -9,29 +9,48 @@ import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
-import { DateRange } from 'react-day-picker';
+import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { Context } from '../layout';
+import Link from 'next/link';
 
 const Page = () => {
   // eslint-disable-next-line no-unused-vars
-  const [date, setDate] = React.useState<DateRange | undefined>();
+  const value = useContext(Context);
+  const [price, setPrice] = useState(0);
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);
   const [hotelAmenities, setHotelAmenities] = useState<string[]>([]);
+  const [hotelName, setHotelName] = useState('');
+  const handlePriceSort = useCallback(
+    (value: string) => {
+      setPrice(Number(value));
+    },
+    [price]
+  );
+
   const [getRooms, { loading, data }] = useGetRoomsLazyQuery({
     variables: {
       input: {
-        checkInDate: date?.from,
-        checkOutDate: date?.to,
+        checkInDate: value?.date?.from,
+        checkOutDate: value?.date?.to,
         starRating: starRating,
         userRating: userReviewRating,
         hotelAmenities: hotelAmenities,
+        price: price,
+        roomType: value?.roomType,
+        hotelName: hotelName,
       },
     },
   });
   useEffect(() => {
     getRooms();
-  }, [date, getRooms, starRating, userReviewRating, hotelAmenities]);
+  }, [value?.date, getRooms, starRating, userReviewRating, hotelAmenities, hotelName, price, value?.roomType]);
+  const handlePropertyName = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setHotelName(e.target.value);
+    },
+    [hotelName]
+  );
 
   return (
     <>
@@ -40,7 +59,7 @@ const Page = () => {
           <main className="flex flex-col gap-4 w-60">
             <div className="flex flex-col gap-2 mt-12">
               <p>Search by property name</p>
-              <Input type="text" placeholder="Search" className="max-w-96" data-testid="search-hotel-by-name-input" />
+              <Input data-cy="Search-By-Property-Name" value={hotelName} onChange={handlePropertyName} type="text" placeholder="Search" className="max-w-96" data-testid="search-hotel-by-name-input" />
             </div>
             <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
               <h2>Rating</h2>
@@ -63,16 +82,15 @@ const Page = () => {
           </main>
           <section className="max-w-[872px] w-full h-full  mt-10">
             <div className="flex items-center justify-between">
-              <p>51 properties</p>
-              <Select>
-                <SelectTrigger data-testid="filter-select" className="w-80">
+              <p>{data?.getRooms.length} properties</p>
+              <Select onValueChange={handlePriceSort}>
+                <SelectTrigger data-cy="Sort-By-Price" data-testid="filter-select" className="w-80">
                   <SelectValue placeholder="Recommended" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="light">Recommended</SelectItem>
-                  <SelectItem value="dark">Price: Low to High</SelectItem>
-                  <SelectItem value="system">Price: High to Low</SelectItem>
-                  <SelectItem value="star">Star Rating</SelectItem>
+                  <SelectItem value="0">Recommended</SelectItem>
+                  <SelectItem value="1">Price: Low to High</SelectItem>
+                  <SelectItem value="-1">Price: High to Low</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -84,7 +102,13 @@ const Page = () => {
                 </div>
               </div>
             ) : (
-              data?.getRooms.slice(0, 5).map((roomData) => <SearchedHotelCards key={roomData.id} roomData={roomData} />)
+              <div className="h-full max-h-screen overflow-scroll">
+                {data?.getRooms.map((roomData) => (
+                  <Link key={roomData.id} href={`/hotel-detail/${roomData.hotelId?._id}`}>
+                    <SearchedHotelCards roomData={roomData} />
+                  </Link>
+                ))}
+              </div>
             )}
           </section>
         </section>
