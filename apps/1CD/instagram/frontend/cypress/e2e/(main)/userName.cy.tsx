@@ -6,7 +6,6 @@ describe('user profile page', () => {
       { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
     ],
   };
-  beforeEach(() => {});
 
   it('1. Should render user profile page with posts and followers', () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
