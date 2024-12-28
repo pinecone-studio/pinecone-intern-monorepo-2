@@ -4,7 +4,7 @@ describe('user profile page', () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
     const location = 'http://localhost:4201/home/mery';
     cy.loginWithFakeToken(location, token);
-    cy.visit('/home/mery');
+    // cy.visit('/home/mery');
   });
   const mockApiFollowersRes = {
     seeFollowers: [
