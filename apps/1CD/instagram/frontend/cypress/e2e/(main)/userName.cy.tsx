@@ -1,17 +1,17 @@
 /* eslint-disable no-secrets/no-secrets */
 describe('user profile page', () => {
-  beforeEach(() => {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
-    const location = 'http://localhost:4201/home/mery';
-    cy.loginWithFakeToken(location, token);
-    // cy.visit('/home/mery');
-  });
   const mockApiFollowersRes = {
     seeFollowers: [
       { followerId: { _id: 'followerNum1', userName: 'Follower1', fullName: 'Mock Follower', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1734946251/dv4cj1pzsfb04tngsvq7.jpg' } },
       { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
     ],
   };
+  beforeEach(() => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzUyOTI3OTJ9.VzYQ6x-cfgiFG-BktaI8V7MlTQ19utRmTeUmWGgqEig';
+    const location = 'http://localhost:4201/home/mery';
+    cy.loginWithFakeToken(location, token);
+    cy.visit('http://localhost:4201/home/mery');
+  });
 
   it('1. Should render user profile page with posts and followers', () => {
     cy.intercept('POST', '/api/graphql', (req) => {
