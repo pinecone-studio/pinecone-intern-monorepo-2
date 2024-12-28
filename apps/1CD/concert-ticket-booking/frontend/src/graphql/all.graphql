@@ -81,3 +81,79 @@ mutation UpdateUser($input: UpdateInput!) {
     role
   }
 }
+
+mutation ChangePassword($input: ChangePasswordInput!) {
+  changePassword(input: $input) {
+    message
+  }
+}
+
+query GetRelatedEvents($eventId: String!) {
+  getRelatedEvents(eventId: $eventId) {
+    eventDetail {
+      _id
+      category
+      description
+      discount
+      guestArtists {
+        name
+      }
+      image
+      mainArtists {
+        name
+      }
+      name
+      priority
+      products {
+        ticketType {
+          discount
+          _id
+          soldQuantity
+          totalQuantity
+          unitPrice
+          zoneName
+          additional
+        }
+        scheduledDay
+        _id
+      }
+      scheduledDays
+      venue {
+        _id
+        name
+        location
+        image
+        capacity
+        size
+      }
+    }
+    relatedEvents {
+      _id
+      category
+      discount
+      image
+      mainArtists {
+        name
+      }
+      name
+      priority
+      scheduledDays
+      venue {
+        name
+      }
+      products {
+        _id
+        scheduledDay
+        ticketType {
+          _id
+          zoneName
+          soldQuantity
+          totalQuantity
+          unitPrice
+          discount
+          additional
+        }
+      }
+    }
+  }
+}

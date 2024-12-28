@@ -19,5 +19,6 @@ declare namespace Cypress {
 
   interface Chainable<Subject> {
     interceptGraphql(props: InterceptGraphqlType): void;
+    attachFile(fileName: string | File | Blob, fileType?: string): Chainable<Element>;
   }
 }

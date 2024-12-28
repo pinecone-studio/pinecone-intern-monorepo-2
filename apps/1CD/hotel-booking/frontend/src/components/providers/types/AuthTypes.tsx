@@ -11,17 +11,27 @@ export type PasswordParams = {
   email: string;
   password: string;
 };
+export type UpdatePasswordParams = {
+  email: string;
+  newPassword: string;
+};
 export type SignInParams = {
   email: string;
   password: string;
 };
 export type AuthContextType = {
   signin: (_params: SignInParams) => void;
+  signout: () => void;
+  user: User | null;
+  loginButton: () => void;
+  signupButton: () => void;
+};
+
+export type SignupContextType = {
   verifyOtp: (_params: OtpParams) => void;
   sendOtp: (_params: SendOtpParams) => void;
   setPassword: (_params: PasswordParams) => void;
   verifyEmail: (_params: SendOtpParams) => void;
-  user: User | null;
-  loginButton: () => void;
-  signupButton: () => void;
+  forgetPassVerifyOtp: (_params: OtpParams) => void;
+  updatePassword: (_params: PasswordParams) => void;
 };

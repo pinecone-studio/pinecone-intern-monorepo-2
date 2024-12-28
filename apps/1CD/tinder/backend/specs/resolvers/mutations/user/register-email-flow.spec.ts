@@ -51,6 +51,36 @@ describe('registerEmailmutation',()=>{
             email:mockEmail
         });
     });
+    it('should successfully register cypress without creating in the db',async ()=>{
+      const input={email:mockEmail};
+     
+      (checkExistingEmail as jest.Mock).mockResolvedValue(mockEmail);
+      (generateOTP as jest.Mock).mockReturnValue(mockOtp);
+      (userModel.create as jest.Mock).mockResolvedValue({
+          email:mockEmail,
+          otp:mockOtp,
+      });
+      (sendOtpMail as jest.Mock).mockResolvedValue('Email sent successfully')
+      const result = await registerEmail!({}, { input }, {userId}, mockInfo);
+      expect(checkExistingEmail).toHaveBeenCalledWith(mockEmail);
+      expect(userModel.create).toHaveBeenCalledWith({ 
+          email: mockEmail, 
+          otp: mockOtp,
+        });
+      expect(sendOtpMail).toHaveBeenCalledWith(mockEmail,mockOtp);
+      expect(result).toEqual({
+          email:mockEmail
+      });
+  });
+  it('should successfully register cypress without creating in the db',async ()=>{
+    const input={email:"cypress@gmail.com"};
+    const email="cypress@gmail.com";
+    const result = await registerEmail!({}, { input }, {userId}, mockInfo);
+    expect(result).toEqual({
+        email:email
+    });
+});
+  
     
    
 

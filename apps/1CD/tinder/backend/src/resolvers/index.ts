@@ -8,6 +8,7 @@ export const resolvers = {
     createPassword:authorization(Mutation.createPassword),
     birthdaySubmit:authorization(Mutation.birthdaySubmit),
     updateAttraction:authorization(Mutation.updateAttraction),
+    swipeUser:authorization(Mutation.swipeUser),
   },
   Query,
 };

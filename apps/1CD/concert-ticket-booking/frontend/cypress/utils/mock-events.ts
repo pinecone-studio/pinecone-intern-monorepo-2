@@ -1,0 +1,108 @@
+export const mockEvent = {
+  getRelatedEvents: {
+    eventDetail: {
+      _id: '676e3227bfcceabf9ba09278',
+      category: ['674d411dc644a2350d5598e9'],
+      description: 'Jazz',
+      discount: 0,
+      guestArtists: [
+        {
+          name: 'Jojo',
+          __typename: 'Artist',
+        },
+      ],
+      image: 'https://mock-image.png',
+      mainArtists: [
+        {
+          name: 'Fat Cat',
+          __typename: 'Artist',
+        },
+      ],
+      name: 'Jazz Night',
+      priority: 'low',
+      products: [
+        {
+          ticketType: [
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09270',
+              soldQuantity: '0',
+              totalQuantity: '50',
+              unitPrice: '500000',
+              zoneName: 'VIP',
+              additional: '',
+            },
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09271',
+              soldQuantity: '0',
+              totalQuantity: '200',
+              unitPrice: '200000',
+              zoneName: 'Backstage',
+              additional: '',
+            },
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09272',
+              soldQuantity: '0',
+              totalQuantity: '500',
+              unitPrice: '100000',
+              zoneName: 'Regular',
+              additional: '',
+            },
+          ],
+          scheduledDay: '2025-05-30T18:10:00.000Z',
+          _id: '676e3227bfcceabf9ba0926f',
+          __typename: 'Product',
+        },
+        {
+          ticketType: [
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09274',
+              soldQuantity: '0',
+              totalQuantity: '50',
+              unitPrice: '500000',
+              zoneName: 'VIP',
+              additional: '',
+              __typename: 'TicketType',
+            },
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09275',
+              soldQuantity: '0',
+              totalQuantity: '200',
+              unitPrice: '200000',
+              zoneName: 'Backstage',
+              additional: '',
+              __typename: 'TicketType',
+            },
+            {
+              discount: '10',
+              _id: '676e3227bfcceabf9ba09276',
+              soldQuantity: '0',
+              totalQuantity: '500',
+              unitPrice: '100000',
+              zoneName: 'Regular',
+              additional: '',
+              __typename: 'TicketType',
+            },
+          ],
+          scheduledDay: '2025-05-31T18:10:00.000Z',
+          _id: '676e3227bfcceabf9ba09273',
+          __typename: 'Product',
+        },
+      ],
+      scheduledDays: ['2025-05-30T18:10:00.000Z', '2025-05-31T18:10:00.000Z'],
+      venue: {
+        _id: '67482f4bae5aca4e02a71a30',
+        name: 'Төв цэнгэлдэх хүрээлэн',
+        location: 'Баянгол дүүрэг',
+        image: 'https://mock-image.png',
+        capacity: '12000',
+        size: '11000',
+      },
+    },
+    relatedEvents: [],
+  },
+};

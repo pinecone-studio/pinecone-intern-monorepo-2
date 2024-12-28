@@ -1,15 +1,14 @@
-import { useGetAllUsersQuery } from '@/generated';
+import React from 'react';
 
-const EmployeeList = () => {
-  const { data, loading, error } = useGetAllUsersQuery();
+interface EmployeeProps {
+  employees: Array<{ _id: string; userName: string }>;
+}
 
-  if (loading) return <p>Уншиж байна...</p>;
-  if (error) return <p>Алдаа гарлаа: {error.message} </p>;
-
+const EmployeeList: React.FC<EmployeeProps> = ({ employees }) => {
   return (
     <div>
-      {data?.getAllUsers?.map((employee) => (
-        <div key={employee?._id}>{employee?.userName}</div>
+      {employees.map((employee) => (
+        <div key={employee._id}>{employee.userName}</div>
       ))}
     </div>
   );

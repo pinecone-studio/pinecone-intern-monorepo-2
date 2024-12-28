@@ -85,6 +85,12 @@ query GetFollowers($followingId: ID!) {
   }
 }
 
+query GetFollowStatus($followingId: ID!, $followerId: ID!) {
+  getFollowStatus(followingId: $followingId, followerId: $followerId) {
+    status
+  }
+}
+
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
     user {
@@ -133,5 +139,16 @@ mutation ChangeProImg($input: UpdateInput!) {
   updateUserData(input: $input) {
     _id
     profileImg
+  }
+}
+
+mutation SendFollowReq($followerId: ID!, $followingId: ID!) {
+  sendFollowReq(followerId: $followerId, followingId: $followingId) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
   }
 }

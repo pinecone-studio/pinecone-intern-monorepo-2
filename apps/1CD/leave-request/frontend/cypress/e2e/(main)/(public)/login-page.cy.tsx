@@ -1,6 +1,5 @@
 describe('Login Component', () => {
   beforeEach(() => {
-    // Mock the GraphQL mutation for creating OTP
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'CreatesOTP') {
         req.reply({

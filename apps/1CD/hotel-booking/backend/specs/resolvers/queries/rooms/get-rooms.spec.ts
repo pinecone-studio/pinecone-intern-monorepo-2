@@ -5,20 +5,24 @@ jest.mock('src/models', () => ({
     find: jest
       .fn()
       .mockReturnValueOnce({
-        populate: jest.fn().mockReturnValueOnce([
-          {
-            _id: '1',
-            roomCount: 5,
-          },
-        ]),
+        populate: jest.fn().mockReturnValueOnce({
+          sort: jest.fn().mockReturnValueOnce([
+            {
+              _id: '1',
+              roomCount: 5,
+            },
+          ]),
+        }),
       })
       .mockReturnValueOnce({
-        populate: jest.fn().mockReturnValueOnce([
-          {
-            _id: '1',
-            roomCount: 5,
-          },
-        ]),
+        populate: jest.fn().mockReturnValueOnce({
+          sort: jest.fn().mockReturnValueOnce([
+            {
+              _id: '1',
+              roomCount: 5,
+            },
+          ]),
+        }),
       }),
   },
   bookingModel: {
@@ -57,6 +61,9 @@ describe('get rooms', () => {
           starRating: 4,
           userRating: 4,
           hotelAmenities: ['a'],
+          hotelName: 'test',
+          price: 1,
+          roomType: '1bed',
         },
       }
     );
@@ -77,6 +84,9 @@ describe('get rooms', () => {
           starRating: 4,
           userRating: 4,
           hotelAmenities: ['a'],
+          hotelName: 'flower',
+          price: 1,
+          roomType: '1bed',
         },
       }
     );
