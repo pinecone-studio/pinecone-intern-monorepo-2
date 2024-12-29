@@ -56,6 +56,7 @@ const Buttons = ({ currentPosition, open, swipeLeft, swipeRight }: { currentPosi
       </Button>
 
       <Button
+       data-cy='likeButton'
         onClick={() => swipeRight()}
         className={computeButtonStyles({
           open,

@@ -76,13 +76,13 @@ export const Userdetails = () => {
   });
   
   return (
-    <div className=" flex flex-col justify-between items-center mt-10 h-screen" data-cy="User-Details-Page">
-      <div className="flex flex-col justify-center items-center gap-6">
+    <div className="flex flex-col items-center justify-between h-screen mt-10 " data-cy="User-Details-Page">
+      <div className="flex flex-col items-center justify-center gap-6">
         <div data-cy="register-email-header" className="flex items-center gap-1">
-          <Image src="../logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+          <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
           <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
-        <form className="flex flex-col gap-6 max-w-sm" onSubmit={formik.handleSubmit}>
+        <form className="flex flex-col max-w-sm gap-6" onSubmit={formik.handleSubmit}>
           <div className="text-center">
             <p className="text-[#09090B] font-semibold text-2xl">Your Details</p>
             <p className="text-[#71717A] font-normal text-sm">Please provide the following information to help us get to know you better.</p>

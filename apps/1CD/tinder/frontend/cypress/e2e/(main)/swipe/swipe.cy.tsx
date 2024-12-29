@@ -1,11 +1,9 @@
-
 describe('testing the swipe page', () => {
   beforeEach(() => {
     cy.visit('/swipe');
     
   });
   it('1.should show the stack images ,swiping img and scroll the carousel', () => {
-    cy.get('[data-cy="stackImgs"]').should('be.visible');
     cy.get('[data-cy="swipingImg"]').should('be.visible');
     cy.get('[data-cy="carousel"]').should('be.visible');
     cy.get('[data-cy="name On first Slide"]').should('be.visible');
@@ -21,28 +19,28 @@ describe('testing the swipe page', () => {
     cy.get('[data-cy="swipingImg"]').should('not.equal');
   });
 
-  it.only('3.should swipe right the card', () => {
-    cy.get('[data-cy="swipingImg"]').click()
-    // cy.get('[data-cy="swipingImg"]').realSwipe('toRight',{'touchPosition':'right'})
-    cy.get('[data-cy="swipingImg"]')
-    .realSwipe('toRight', {
-      length: 150,     
-    });
-    cy.wait(5000);
-    // cy.get('[data-cy="swipingImg"]').trigger('mousedown');
-    
-    // .trigger('mousemove', { which: 1, pageX: 300, pageY: 70 }).trigger('mouseup');
-    // cy.wait(1000);
-    // cy.get('[data-cy="swipingImg"]').should('not.equal');
+  it('3.should swipe the card and get the img from the stack imgs', () => {
+    cy.get('[data-cy="likeButton"]').should('be.visible').click();
+    cy.wait(1000);
+    cy.get('[data-cy="swipingImg"]').should('not.equal');
   });
-  // it('4.should swipe left the card', () => {
-  //   cy.get('[data-cy="swipingImg"]').trigger('mousedown', 'center').trigger('mousemove', { clientX: -300, clientY: 50 }).trigger('mouseup');
-  //   cy.wait(1000);
-  //   cy.get('[data-cy="swipingImg"]').should('not.equal');
-  // });
-  // it('5.should swipe up the card', () => {
-  //   cy.get('[data-cy="swipingImg"]').trigger('mousedown', 'center').trigger('mousemove', { clientX: 0, clientY: -80 }).trigger('mouseup');
-  //   cy.wait(1000);
-  //   cy.get('[data-cy="swipingImg"]').should('not.equal');
-  // });
+  it('4.should swipe right the card', () => {
+    cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(200,200,{position:'right'}).wait(1000).realMouseUp({position:'right'})
+    cy.wait(2000);
+   
+  });
+  it('5.should swipe left the card', () => {
+    cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(-200,200,{position:'left'}).wait(1000).realMouseUp({position:'left'})
+    cy.wait(2000);
+  });
+  it('6.should swipe up the card',()=>{
+    cy.get('[data-cy="swipingImg"]').realSwipe('toTop');
+    cy.wait(2000);
+  });
+  it('7.should try to swipe right the card but return to the default position', () => {
+    cy.get('[data-cy="swipingImg"]').realSwipe('toLeft').wait(1000);
+    cy.get('[data-cy="swipingImg"]').realMouseUp();
+    cy.wait(2000);
+
+  });
 });

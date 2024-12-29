@@ -51,7 +51,6 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
   };
 
   const removeTopCard = () => {
-    if (!cards) return;
     setTimeout(() => {
       setSwiping(cards?.[0]);
       setTimeout(() => {
@@ -82,7 +81,6 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     } else if (currentPosition.current.x < -150) {
       swipeLeft();
     } else {
-      console.log(currentPosition.current.x);
       resetCardPosition();
     }
   };
@@ -121,7 +119,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
               backgroundPosition: 'center',
               backgroundImage: `url(${swiping.photos[0]})`,
               position: 'absolute',
-              zIndex: cards?.length ? cards?.length + 1000 : 1000,
+              zIndex: cards?.length + 1000 ,
             }}
           >
             {!open &&  <CarouselImg swiping={swiping} />}
