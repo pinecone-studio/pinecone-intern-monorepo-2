@@ -31,7 +31,7 @@ const Page = () => {
           {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
           <DetailTop event={data?.getRelatedEvents?.eventDetail as Event} />
         </div>
-        <div className="flex justify-around gap-16 py-12 m-auto px-52 max-w-[1400px]">
+        <div className="flex justify-around gap-14 py-12 m-auto px-52 max-w-[1400px]">
           <div data-cy="Event-Detail">
             {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
             <EventDetail event={data?.getRelatedEvents?.eventDetail as Event} />
