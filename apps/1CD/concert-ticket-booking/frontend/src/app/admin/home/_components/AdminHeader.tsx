@@ -29,7 +29,7 @@ export const AdminHeader = ({ onExit }: { onExit?: () => void }) => {
   };
 
   return (
-    <div className="px-4 py-4 text-black bg-white max-w-[1600px] min-w-[310px] mx-auto max-h-[108px] my-5 md:flex flex-col md:px-12 md:py-6 md:gap-6 lg:px-16 lg:gap-8">
+    <div className="px-4 py-4 text-black bg-white max-w-[1600px] min-w-[310px] mx-auto max-h-[108px] my-5 md:flex flex-col md:px-12 md:py-6 md:gap-6 lg:px-16 lg:gap-8 mb-10">
   <div data-cy="AdminHeader-Logo-Text" className="flex justify-between w-full mb-5">
     <div className="flex items-center justify-between md:justify-start gap-3">
       <div className="w-8 h-8 bg-sky-400 rounded-full"></div> 

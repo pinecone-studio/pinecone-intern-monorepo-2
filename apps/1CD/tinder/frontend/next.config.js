@@ -22,6 +22,8 @@ const nextConfig = {
     BACKEND_URI: process.env.BACKEND_URI || '',
     LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI || '',
     MOCK_TOKEN: process.env.MOCK_TOKEN || '',
+    NEXT_PUBLIC_UPLOAD_PRESET: process.env.NEXT_PUBLIC_UPLOAD_PRESET,
+    NEXT_PUBLIC_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUD_NAME,
   },
 };
 

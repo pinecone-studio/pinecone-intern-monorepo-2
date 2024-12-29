@@ -1,14 +1,12 @@
 'use client';
-import { ComboboxDemo } from '@/app/(public)/header-filter/TravelerSelection';
+
 import { DatePickerWithRange } from '../DatePicker';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
+
 import { useRouter } from 'next/navigation';
+import { ComboboxDemo } from '@/app/(user)/(public)/header-filter/TravelerSelection';
 
 const HeaderFilter = () => {
-  const [date, setDate] = useState<DateRange | undefined>();
-
   const router = useRouter();
 
   return (
@@ -18,7 +16,7 @@ const HeaderFilter = () => {
     >
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Dates</p>
-        <DatePickerWithRange setDate={setDate} date={date} />
+        <DatePickerWithRange />
       </div>
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Guest</p>

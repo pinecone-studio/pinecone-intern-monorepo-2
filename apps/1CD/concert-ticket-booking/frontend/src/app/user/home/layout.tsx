@@ -9,10 +9,12 @@ export const metadata = {
 };
 const UserLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div>
-      <Header />
-      <div>{children}</div>
-      <Footer />
+    <div className="bg-black ">
+      <div className="max-w-[1334px] m-auto bg-zinc-950 ">
+        <Header />
+        <div>{children}</div>
+        <Footer />
+      </div>
     </div>
   );
 };
