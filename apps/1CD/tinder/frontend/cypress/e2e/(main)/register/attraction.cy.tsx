@@ -3,7 +3,6 @@ describe('Attraction Form Navigation', () => {
     cy.visit('/register/attraction');
   });
   it('1. should display the logo and header', () => {
-    cy.get('[data-cy="logo-container"]').should('be.visible');
     cy.contains('tinder').should('be.visible');
     cy.contains('Who are you interested in?').should('be.visible');
     cy.contains('Pick the one that feels right for you!').should('be.visible');

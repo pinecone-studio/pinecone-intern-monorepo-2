@@ -8,22 +8,22 @@ const ImageUpload = () => {
   const router = useRouter();
 
   const handleNext = () => {
-    router.push('/');
+    router.push('/recs');
   };
 
   return (
-    <div className="mx-auto flex justify-center w-full max-w-4xl mt-[50px]">
+    <div className="mx-auto flex justify-center w-full max-w-4xl mt-[30px]">
       <div className="flex flex-col items-center w-full">
-        <div className="flex items-center gap-1" data-cy="logo-container">
-          <Image src={'/img/logo.svg'} alt="Tinder logo" width={40} height={40} className="w-[24px] h-[28px]" />
-          <p className="text-3xl text-gray-600 font-semibold">tinder</p>
+        <div data-cy="register-email-header" className="flex items-center gap-1">
+          <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+          <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
-        <div className="flex flex-col w-full h-full justify-center items-center min-h-screen gap-6">
+        <div className="flex flex-col items-center justify-center w-full h-full min-h-[700px] gap-6">
           <div className="rounded-full w-[40px] h-[40px] border border-2 border-[#18BA51] flex justify-center items-center">
             <Check className="text-[#18BA51] w-[15px] h-[15px]" />
           </div>
           <div className="text-center">
-            <p className="text-2xl text-gray-900 font-semibold" data-cy="question-title">
+            <p className="text-2xl font-semibold text-gray-900" data-cy="question-title">
               You&apos;re all set!
             </p>
             <p className="text-[#71717A] text-sm text-center" data-cy="question-description">
@@ -34,6 +34,7 @@ const ImageUpload = () => {
             Start Swiping!
           </button>
         </div>
+        <p className="text-[#71717A] text-sm pb-[5%]">©2024 Tinder</p>
       </div>
     </div>
   );

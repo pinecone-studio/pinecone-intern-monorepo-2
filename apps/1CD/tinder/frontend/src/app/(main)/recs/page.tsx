@@ -1,8 +1,5 @@
 import Swiper from "./_components/functionalities/Swiper";
 
-
-
-
 const TinderSwipe = () => {
   return(
     <div>

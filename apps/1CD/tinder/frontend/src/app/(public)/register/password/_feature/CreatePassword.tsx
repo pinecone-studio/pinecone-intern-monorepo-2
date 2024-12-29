@@ -43,7 +43,7 @@ const Password = () => {
   const [createPassword] = useCreatePasswordMutation({
 
     onCompleted:()=>{
-      router.push('/account/attraction');
+      router.push('/register/attraction');
     }
   
   });
@@ -60,7 +60,7 @@ const Password = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-      <div data-cy="register-page-container" className="pt-[200px] justify-items-center">
+      <div data-cy="register-page-container" className="pt-[150px] justify-items-center">
         <div data-cy="register-email-header" className="flex items-center gap-1">
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
           <div className="text-[#424242] font-bold text-2xl">tinder</div>
@@ -78,6 +78,7 @@ const Password = () => {
             Continue
           </Button>
         </div>
+        <p className="text-[#71717A] text-sm pt-[25%] ">©2024 Tinder</p>
       </div>
     </form>
   );
