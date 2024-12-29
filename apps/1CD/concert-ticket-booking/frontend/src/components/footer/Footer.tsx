@@ -1,12 +1,11 @@
-import { IoCallOutline, IoMailOutline } from 'react-icons/io5';
-import { PiHeadphones } from 'react-icons/pi';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Headphones, Mail, Phone } from 'lucide-react';
 
 export const Footer = () => {
   return (
     <div className="px-4 bg-black border-t border-gray-600 md:px-8 lg:px-20">
-      <div className="flex flex-col gap-8 py-8 text-white lg:flex-row lg:justify-around lg:py-16 lg:gap-0">
+      <div className="flex flex-col gap-8 py-8 text-white lg:flex-row lg:justify-between lg:py-16 lg:gap-0">
         <div className="flex flex-col gap-3">
           <Link href="/user/home" className="flex gap-2">
             <Image src="/images/logo.png" alt="logo" width={181} height={28} />
@@ -19,7 +18,7 @@ export const Footer = () => {
             <Link href="/">
               <div className="flex items-center gap-4 group">
                 <div className="flex items-center justify-center w-12 h-12">
-                  <IoMailOutline className="w-5 h-5" />
+                  <Mail className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-gray-600">Email:</p>
@@ -30,7 +29,7 @@ export const Footer = () => {
             <Link href="/">
               <div className="flex items-center gap-4 group">
                 <div className="flex items-center justify-center w-12 h-12 ">
-                  <IoCallOutline className="w-5 h-5" />
+                  <Phone className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-gray-600">Phone:</p>
@@ -41,7 +40,7 @@ export const Footer = () => {
             <Link href="/">
               <div className="flex items-center gap-4 group">
                 <div className="flex items-center justify-center w-12 h-12 ">
-                  <PiHeadphones className="w-5 h-5" />
+                  <Headphones className="w-5 h-5" />
                 </div>
                 <div>
                   <p className="text-gray-600">Customer Support:</p>
