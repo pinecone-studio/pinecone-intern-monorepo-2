@@ -87,7 +87,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     }
   };
   return (
-    <div  data-cy="swipingImgDiv">
+    <div  >
       <div className="relative h-[560px] flex justify-center" data-cy='swipingImg-2'>
         {swiping && (
           <motion.div
