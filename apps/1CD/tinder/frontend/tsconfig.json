@@ -29,7 +29,6 @@
       "jest",
       "node",
       "cypress-real-events",
-      "cypress"
     ]
   },
   "include": [
