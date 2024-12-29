@@ -83,7 +83,7 @@ const EventDetail = ({ event }: { event: Event }) => {
               Stage plan:
             </h1>
             <div data-cy="Stage-Plan">
-              <Image src="/images/stagePlan.png" alt="Stage Plan" width={533} height={413} />
+              <Image src={event?.venue.image} alt="Stage" width={533} height={413} />
             </div>
           </div>
         </div>
