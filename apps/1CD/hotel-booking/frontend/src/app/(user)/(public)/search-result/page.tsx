@@ -10,12 +10,12 @@ import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-da
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
 import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
-import { Context } from '../layout';
 import Link from 'next/link';
+import { SearchFilter } from '@/components/providers/SearchFilterProvider';
 
 const Page = () => {
   // eslint-disable-next-line no-unused-vars
-  const value = useContext(Context);
+  const value = useContext(SearchFilter);
   const [price, setPrice] = useState(0);
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);

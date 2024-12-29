@@ -5,10 +5,10 @@ import { ChevronDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Context } from '../layout';
+import { SearchFilter } from '@/components/providers/SearchFilterProvider';
 
 export const ComboboxDemo = () => {
-  const value = React.useContext(Context);
+  const value = React.useContext(SearchFilter);
   const [open, setOpen] = React.useState(false);
   const [adultQuantity, setAdultQuantity] = React.useState(1);
 

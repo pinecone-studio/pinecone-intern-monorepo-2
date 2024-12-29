@@ -6,40 +6,45 @@ const HeaderCheckout = () => {
   const { user } = useAuth();
   const router = useRouter();
   return (
-    <div className="flex flex-col max-w-full gap-4">
-      <div className="py-4 bg-background">
-        <div className="max-w-[1280px] w-full mx-auto flex justify-between p-4">
-          <div className="flex gap-2">
-            <div className="w-5 h-5 bg-[#013B94] rounded-full"></div>
-            <p className="text-[#09090B]">Pedia</p>
+    <div className="flex justify-center w-screen p-6">
+      <div className="flex justify-around w-full">
+        <button
+          className="flex gap-2"
+          onClick={() => {
+            router.push('/');
+          }}
+          data-cy="Home-Page-Button"
+        >
+          <div className="w-5 h-5 bg-[#013B94] rounded-full"></div>
+          <p className="text-[#09090B]">Pedia</p>
+        </button>
+        {user ? (
+          <div className="flex gap-4">
+            <p className="text-sm font-medium text-[#09090B">My Booking</p>
+            <p className="text-sm font-medium text-[#09090B">Shagai</p>
           </div>
-          {user ? (
-            <div className="flex gap-4">
-              <button className="text-sm font-medium text-[#09090B">My Booking</button>
-              <button className="text-sm font-medium text-[#09090B">Shagai</button>
-            </div>
-          ) : (
-            <div className="flex gap-4">
-              <button
-                className="text-sm font-medium text-[#09090B"
-                onClick={() => {
-                  router.push('/signup');
-                }}
-              >
-                Register
-              </button>
-              <button
-                className="text-sm font-medium text-[#09090B"
-                onClick={() => {
-                  router.push('/login');
-                }}
-              >
-                Sign in
-              </button>
-            </div>
-          )}
-          <div className="flex gap-4"></div>
-        </div>
+        ) : (
+          <div className="flex gap-4">
+            <button
+              className="text-sm font-medium text-[#09090B"
+              onClick={() => {
+                router.push('/signup');
+              }}
+              data-cy="Signup-Button"
+            >
+              Register
+            </button>
+            <button
+              className="text-sm font-medium text-[#09090B"
+              onClick={() => {
+                router.push('/login');
+              }}
+              data-cy="Login-Button"
+            >
+              Sign in
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
