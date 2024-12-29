@@ -24,7 +24,7 @@
       
     },
     
-    "types": ["jest", "node","cypress", "@4tw/cypress-drag-drop"]
+    "types": ["jest", "node"]
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "../../../apps/example/frontend/.next/types/**/*.ts", "../../../dist/apps/example/frontend/.next/types/**/*.ts", "next-env.d.ts"],
   "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
