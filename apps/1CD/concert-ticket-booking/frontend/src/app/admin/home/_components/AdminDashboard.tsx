@@ -7,10 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { IoStar } from 'react-icons/io5';
 import { TicketType, useGetEventsQuery } from '@/generated';
 import dayjs from 'dayjs';
 import { headers } from './AdminDashboardType';
+import { Star } from 'lucide-react';
 
 type AdminDashboardComponent = {
   searchValue: string;
@@ -44,11 +44,10 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
   const getTotalSoldQuantity = ({ ticketType }: { ticketType: TicketType[] }) => {
     return ticketType.reduce((sum, ticket) => {
       const soldQuantity = Number(ticket.soldQuantity);
-      const unit= Number(ticket.unitPrice);
-      return sum + (soldQuantity*unit);
+      const unit = Number(ticket.unitPrice);
+      return sum + soldQuantity * unit;
     }, 0);
   };
-
 
   return (
     <div className="flex flex-col gap-6 mt-9">
@@ -70,7 +69,7 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                 filteredData?.map((item, index) => (
                   <TableRow key={index} data-cy={`get-events-${index}`}>
                     <TableCell align="center" className="font-medium">
-                      {item?.priority === 'high' && <IoStar />}
+                      {item?.priority === 'high' && <Star className="w-4 h-4" />}
                     </TableCell>
                     <TableCell>{item?.name}</TableCell>
                     <TableCell align="center">
@@ -80,7 +79,7 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                         .join(', ')}
                     </TableCell>
                     <TableCell align="center" className="font-medium">
-                      {item && Number(item?.products[0].ticketType[0].totalQuantity) + Number(item?.products[0].ticketType[1].totalQuantity) + Number(item?.products[0].ticketType[2].totalQuantity) }
+                      {item && Number(item?.products[0].ticketType[0].totalQuantity) + Number(item?.products[0].ticketType[1].totalQuantity) + Number(item?.products[0].ticketType[2].totalQuantity)}
                     </TableCell>
                     <TableCell align="center" className="font-medium">
                       {item?.products.map((q) => q.ticketType[0].soldQuantity)}
@@ -96,13 +95,7 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                     </TableCell>
 
                     <TableCell align="center">
-                      {item &&
-                        item.products.map((data, index) => (
-                          <div key={index}>
-                         
-                            {data.ticketType && <div>{getTotalSoldQuantity({ ticketType: data.ticketType })} ₮</div>}
-                          </div>
-                        ))}
+                      {item && item.products.map((data, index) => <div key={index}>{data.ticketType && <div>{getTotalSoldQuantity({ ticketType: data.ticketType })} ₮</div>}</div>)}
                     </TableCell>
 
                     <TableCell>
