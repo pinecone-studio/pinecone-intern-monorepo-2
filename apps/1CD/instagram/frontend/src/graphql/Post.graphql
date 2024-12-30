@@ -85,3 +85,17 @@ query GetMyFollowingsPosts {
     createdAt
   }
 }
+
+query GetUserPosts($user: ID!) {
+  getUserPosts(user: $user) {
+    commentCount
+    description
+    _id
+    images
+    lastComments
+    likeCount
+    updatedAt
+    user
+    createdAt
+  }
+}
