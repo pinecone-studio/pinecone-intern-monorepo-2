@@ -18,7 +18,7 @@ export const PostLikes = ({ id }: { id: string }) => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="font-semibold" data-testid="followerNumber" data-cy="followerNum">
+          <h1 className="" data-testid="followerNumber" data-cy="followerNum">
             <p className="cursor-pointer">
               {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
             </p>
@@ -42,7 +42,14 @@ export const PostLikes = ({ id }: { id: string }) => {
               <div key={item?._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followerCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
-                    <Image src={item?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followerCardImg" />
+                    <Image
+                      src={item?.user.profileImg || '/images/profileImg.webp'}
+                      alt="proZurag"
+                      fill
+                      className="absolute object-cover rounded-full"
+                      data-cy="followerCardImg"
+                      sizes="w-auto h-auto"
+                    />
                   </section>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg font-semibold text-gray-700">{item?.user.userName}</h1>
