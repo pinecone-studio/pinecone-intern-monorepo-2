@@ -1,0 +1,6 @@
+mutation imageSubmit($input: ImageSubmitInput!) {
+  imageSubmit(input: $input) {
+    photos
+    email
+  }
+}

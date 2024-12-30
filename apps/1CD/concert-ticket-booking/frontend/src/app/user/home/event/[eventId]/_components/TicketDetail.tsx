@@ -1,11 +1,9 @@
 import { Event, Product, TicketType } from '@/generated';
 import React, { useEffect } from 'react';
-import { Check } from 'lucide-react';
+import { Check, ChevronsUpDown, Circle } from 'lucide-react';
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import dayjs from 'dayjs';
-import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import { RxCaretSort } from 'react-icons/rx';
 import Link from 'next/link';
 
 const TicketDetail = ({ event }: { event: Event }) => {
@@ -39,10 +37,10 @@ const TicketDetail = ({ event }: { event: Event }) => {
         <PopoverTrigger asChild>
           <button data-cy="select-day-button" className="flex justify-between p-2 transition rounded-md bg-[#1f1f1f] border-[#27272A] border hover:bg-gray-700 items-center w-full">
             <p className="text-sm font-normal text-zinc-50">{selectedDay ? `Сонгосон өдөр: ${selectedDay}` : 'Өдөр сонгох'}</p>
-            <RxCaretSort className="w-4 h-4 text-zinc-50" />
+            <ChevronsUpDown className="w-4 h-4 text-zinc-50" />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="bg-[#333]" data-testid="day-selector">
+        <PopoverContent className="bg-[#333]" data-cy="day-selector">
           <Command>
             <CommandList>
               <CommandGroup>
@@ -75,35 +73,42 @@ const TicketDetail = ({ event }: { event: Event }) => {
                   const discount = Number(ticket.discount);
                   const unitPrice = Number(ticket.unitPrice);
                   const discountPrice = (unitPrice * (100 - discount)) / 100;
-                  const textClass = `flex justify-between items-center text-white border border-dashed rounded-md text-sm font-semibold border-[#27272a] ${
-                    ticketIndex === 0 ? 'text-[#4651C9]' : ticketIndex === 1 ? 'text-[#C772C4]' : 'text-white'
-                  }`;
+                  const textClass = `${ticketIndex === 0 ? 'text-[#4651C9]' : ticketIndex === 1 ? 'text-[#C772C4]' : 'text-white'}`;
                   return (
-                    <button key={ticketIndex} className={textClass} data-testid={`ticket-${ticketIndex}`}>
-                      <div className="flex gap-1">
-                        <RiCheckboxBlankCircleFill className="w-3 h-3" />
-                        <div className="text-xs font-bold">{ticket.zoneName}</div>
-                        <div className="ml-2 text-xs font-semibold">({remainingQuantity})</div>
-                      </div>
-                      <div>
-                        {discount !== 0 ? (
-                          <div className="flex flex-col items-end gap-1">
-                            <p className="text-base font-bold text-white" data-cy={`discount-price-${ticketIndex}`}>
-                              {discountPrice} <span>₮</span>
-                            </p>
-                            <s className="text-xs font-light text-muted-foreground">
+                    <button key={ticketIndex} className=" flex flex-col px-6 py-4  border border-dashed rounded-md text-sm font-semibold border-[#27272a]" data-testid={`ticket-${ticketIndex}`}>
+                      <div className="flex justify-between w-full">
+                        <div className={textClass}>
+                          <span className="flex items-center h-5">
+                            <Circle className="w-3 h-3 mr-2" />
+                            <div className="text-sm font-bold">{ticket.zoneName}</div>
+                            <div className="ml-2 text-sm font-semibold">({remainingQuantity})</div>
+                          </span>
+                        </div>
+                        <div>
+                          {discount !== 0 ? (
+                            <div className="flex flex-col items-end gap-1">
+                              <p className="text-base font-bold text-white" data-cy={`discount-price-${ticketIndex}`}>
+                                {discountPrice} <span>₮</span>
+                              </p>
+                              <s className="text-xs font-light text-muted-foreground">
+                                {unitPrice} <span>₮</span>
+                              </s>
+                            </div>
+                          ) : (
+                            <p className="text-base font-bold text-white" data-cy={`unit-price-${ticketIndex}`}>
                               {unitPrice} <span>₮</span>
-                            </s>
-                          </div>
-                        ) : (
-                          <p className="text-base font-bold text-white" data-cy={`unit-price-${ticketIndex}`}>
-                            {unitPrice} <span>₮</span>
-                          </p>
-                        )}
+                            </p>
+                          )}
+                        </div>
                       </div>
+                      <div className="text-xs font-light text-muted-foreground">{ticket.additional}</div>
                     </button>
                   );
                 })}
+                <Link href={`/user/${product._id}?event=${event._id}&venue=${event.venue._id}`} className="flex gap-2">
+                  <button className="bg-[#00B7F4] w-full h-9 rounded-md text-sm">Тасалбар захиалах</button>
+                </Link>
+                <div></div>
               </div>
             ))}
           </div>
@@ -112,11 +117,6 @@ const TicketDetail = ({ event }: { event: Event }) => {
             Энэ өдрийн тасалбарууд байхгүй байна.
           </div>
         )}
-      </div>
-      <div>
-        <Link href="/user/home/ticket-book" className="flex gap-2">
-          <button className="bg-[#00B7F4] w-full h-9 rounded-md text-sm">Тасалбар захиалах</button>
-        </Link>
       </div>
     </div>
   );
