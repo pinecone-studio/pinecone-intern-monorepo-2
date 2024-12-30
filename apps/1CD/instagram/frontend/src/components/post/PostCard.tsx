@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/app/(main)/_components/PostLike';
-import { format, formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/app/(main)/_components/PostLikes';
 
 export const PostCard = () => {
@@ -36,7 +36,7 @@ export const PostCard = () => {
 
                 <h1 className="flex items-center font-bold ">
                   {post.user.userName}
-                  {format(post.createdAt, 'yyyy-MM-dd HH:mm')}
+                  {/* {format(post.createdAt, 'yyyy-MM-dd HH:mm')} */}
                   <span className="flex items-center font-normal text-gray-600 ">
                     <Dot />
                     {formatDistanceToNowStrict(new Date(post?.createdAt))}
