@@ -20,7 +20,7 @@ describe('check supervisor if exist', () => {
     expect(supervisor).toBe(null);
   });
   it('filter with status', async () => {
-    const supervisor = await getAllRequestsBySupervisor!({}, { supervisorEmail: 'amarjargal@gmail.com', status: 'pending' }, {}, {} as GraphQLResolveInfo);
+    const supervisor = await getAllRequestsBySupervisor!({}, { supervisorEmail: 'amarjargal@gmail.com', status: ['pending'] }, {}, {} as GraphQLResolveInfo);
     expect(supervisor).toEqual([
       {
         supervisor: 'amarjargal.ts01@gmail.com',

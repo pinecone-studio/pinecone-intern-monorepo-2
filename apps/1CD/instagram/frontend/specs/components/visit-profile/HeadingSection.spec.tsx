@@ -2,82 +2,51 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
-import { AccountVisibility, FollowStatus } from '@/generated';
 
-describe('HeadingSection Component', () => {
-  const mockHandleFollowClick = jest.fn();
+jest.mock('lucide-react', () => ({
+  Ellipsis: jest.fn(() => <div data-testid="ellipsis-icon">...</div>),
+}));
 
-  const defaultProps = {
-    profileUser: {
-      _id: '123',
-      userName: 'testuser',
-      profileImg: '',
-      followerCount: 10,
-      followingCount: 5,
-      fullName: 'Test User',
-      bio: 'This is a test bio',
-      accountVisibility: AccountVisibility.Public,
-      createdAt: '2023-01-01T00:00:00Z',
-      updatedAt: '2023-01-01T00:00:00Z',
-    },
-    followLoading: false,
-    buttonState: 'Follow',
-    handleFollowClick: mockHandleFollowClick,
-    followData: undefined,
+describe('HeadingSection', () => {
+  const mockHandleButtonClick = jest.fn();
+  const profileUser = {
+    profileImg: 'https://example.com/profile.jpg',
+    userName: 'TestUser',
+    followerCount: 123,
+    followingCount: 456,
+    fullName: 'Test User',
+    bio: 'This is a test bio.',
   };
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders the component correctly with default props', () => {
-    render(<HeadingSection {...defaultProps} />);
+  test('renders with profile user data', () => {
+    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
 
-    expect(screen.getByText('testuser')).toBeInTheDocument();
-    expect(screen.getByText('Follow')).toBeInTheDocument();
-    expect(screen.getByText('10')).toBeInTheDocument();
-    expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('Test User')).toBeInTheDocument();
-    expect(screen.getByText('This is a test bio')).toBeInTheDocument();
+    // Profile image
+    const profileImage = screen.getByTestId('proImage');
+    expect(profileImage).toHaveAttribute('src', profileUser.profileImg);
+    expect(profileImage).toHaveAttribute('alt', 'profile image');
+
+    // User info
+    expect(screen.getByText(profileUser.userName)).toBeInTheDocument();
+    expect(screen.getByText(profileUser.fullName)).toBeInTheDocument();
+    expect(screen.getByText(profileUser.bio)).toBeInTheDocument();
+
+    // Followers and following
+    expect(screen.getByText(`${profileUser.followerCount}`)).toBeInTheDocument();
+    expect(screen.getByText('followers')).toBeInTheDocument();
+    expect(screen.getByText(`${profileUser.followingCount}`)).toBeInTheDocument();
+    expect(screen.getByText('following')).toBeInTheDocument();
+
+    // Ellipsis icon
+    expect(screen.getByTestId('ellipsis-icon')).toBeInTheDocument();
   });
 
-  it('renders "Following" if followData status is APPROVED', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
-
-    expect(screen.getByText('Following')).toBeInTheDocument();
-  });
-
-  it('renders "Requested" if followData status is PENDING', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Pending } }} />);
-
-    expect(screen.getByText('Requested')).toBeInTheDocument();
-  });
-
-  it('disables the follow button when loading', () => {
-    render(<HeadingSection {...defaultProps} followLoading={true} />);
-
-    const followButton = screen.getByText('Follow');
-    expect(followButton).toBeDisabled();
-  });
-
-  it('calls handleFollowClick when follow button is clicked', () => {
-    render(<HeadingSection {...defaultProps} />);
-
-    const followButton = screen.getByText('Follow');
-    fireEvent.click(followButton);
-
-    expect(mockHandleFollowClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('disables the follow button when buttonText is not "Follow"', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
-
-    const followButton = screen.getByText('Following');
-    expect(followButton).toBeDisabled();
-  });
-
-  it('renders a default profile image if no profile image is provided', () => {
-    render(<HeadingSection {...defaultProps} />);
+  test('renders default profile image when profileImg is undefined', () => {
+    render(<HeadingSection profileUser={{ ...profileUser, profileImg: undefined }} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
 
     const profileImage = screen.getByTestId('proImage');
     expect(profileImage).toHaveAttribute(
@@ -86,10 +55,35 @@ describe('HeadingSection Component', () => {
     );
   });
 
-  it('renders the user-provided profile image when available', () => {
-    render(<HeadingSection {...defaultProps} profileUser={{ ...defaultProps.profileUser, profileImg: 'https://example.com/profile.jpg' }} />);
+  test('disables Follow button and applies loading styles when followLoading is true', () => {
+    render(<HeadingSection profileUser={profileUser} followLoading={true} buttonText="Following..." handleButtonClick={mockHandleButtonClick} />);
 
-    const profileImage = screen.getByTestId('proImage');
-    expect(profileImage).toHaveAttribute('src', 'https://example.com/profile.jpg');
+    const followButton = screen.getByText('Following...');
+    expect(followButton).toBeDisabled();
+    expect(followButton).toHaveClass('opacity-50 cursor-not-allowed');
+  });
+
+  test('calls handleButtonClick when Follow button is clicked', async () => {
+    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+
+    const followButton = screen.getByText('Follow');
+    fireEvent.click(followButton);
+
+    expect(mockHandleButtonClick).toHaveBeenCalledTimes(1);
+  });
+
+  // test('renders 0 posts when profileUser is undefined', () => {
+  //   render(<HeadingSection profileUser={undefined} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+
+  //   expect(screen.getByText('0 posts')).toBeInTheDocument();
+  //   expect(screen.queryByText('followers')).not.toBeInTheDocument();
+  //   expect(screen.queryByText('following')).not.toBeInTheDocument();
+  // });
+
+  test('renders Message button', () => {
+    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+
+    const messageButton = screen.getByText('Message');
+    expect(messageButton).toBeInTheDocument();
   });
 });

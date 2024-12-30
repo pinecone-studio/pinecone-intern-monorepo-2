@@ -16,8 +16,11 @@
 declare namespace Cypress {
   import { CallQueryProps } from 'cypress/utils/call-query';
   import { InterceptGraphqlType } from 'cypress/utils/intercept-graphql';
+  import "cypress-real-events";
+
 
   interface Chainable<Subject> {
     interceptGraphql(props: InterceptGraphqlType): void;
+    attachFile(fileName: string | File | Blob, fileType?: string): Chainable<Element>;
   }
 }

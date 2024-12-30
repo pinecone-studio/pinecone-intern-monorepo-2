@@ -93,13 +93,14 @@ export const Header = () => {
                     href={`/home/${user?.userName}`}
                     className="flex items-center gap-4 py-2 overflow-hidden text-sm font-medium rounded-md hover:bg-accent hover:text-accent-foreground"
                     data-testid="menuBtn2"
+                    data-cy="userProfileButton"
                     onClick={() => {
                       setShowSearchComponent(false);
                       hideSideBar();
                     }}
                   >
                     <div className="relative w-6 h-6 rounded-full">
-                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="w-auto h-auto rounded-full" alt="Profile-img" priority />
+                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="w-auto h-auto rounded-full object-cover" alt="Profile-img" priority />
                     </div>
                     <p className={`${hide ? 'hidden justify-center' : ''}`}>Profile</p>
                   </Link>
