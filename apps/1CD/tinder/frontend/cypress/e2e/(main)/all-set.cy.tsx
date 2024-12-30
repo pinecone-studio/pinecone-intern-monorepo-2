@@ -1,6 +1,6 @@
 describe('Image upload page', () => {
   beforeEach(() => {
-    cy.visit('/sign-up/all-set');
+    cy.visit('/register/all-set');
   });
   it('1. display the logo and header', () => {
     cy.contains('tinder').should('be.visible');
@@ -9,6 +9,6 @@ describe('Image upload page', () => {
   });
   it('2. should interact with the "Start Swiping!" button', () => {
     cy.get('[data-cy="swipe-button"]').should('be.visible').click();
-    cy.url().should('include', '/');
+    cy.url().should('include', '/recs');
   });
 });
