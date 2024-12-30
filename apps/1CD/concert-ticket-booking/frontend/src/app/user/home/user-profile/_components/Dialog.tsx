@@ -4,27 +4,38 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Order, useCancelTicketMutation } from '@/generated';
+import { calculateTotalAmount } from '@/utils/calculate';
+import { toast } from 'sonner';
 
-const DialogComponent = ({ open, onClose, order }: { open: boolean; onClose: () => void; order: Order }) => {
+const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onClose: () => void; order: Order; refetch: () => void }) => {
   const orderId = order._id;
+  const eventId = order.eventId;
+  const totalAmount = calculateTotalAmount(order?.ticketType);
   const [bank, setBank] = useState<string>('');
   const [accountNumber, setAccountNumber] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [ownerName, setOwnerName] = useState<string>('');
 
-  const [createRequest, { data, loading, error }] = useCancelTicketMutation();
+  const [createRequest, { loading }] = useCancelTicketMutation({
+    onCompleted: () => {
+      refetch();
+      toast.success('Successfully sent cancel request. Wait for admin to approve');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleSubmit = async () => {
     await createRequest({
       variables: {
         input: {
           orderId,
-          bankDatas: { bankName: bank, bankAccount: accountNumber, accountOwner: ownerName, phoneNumber: phoneNumber },
+          bankDatas: { bankName: bank, bankAccount: accountNumber, accountOwner: ownerName, phoneNumber: phoneNumber, eventId: eventId, totalPrice: totalAmount },
         },
       },
     });
-    console.log({ bank, accountNumber, phoneNumber, ownerName });
-    onClose(); // Close dialog after submitting
+    onClose();
   };
 
   return (
@@ -69,7 +80,7 @@ const DialogComponent = ({ open, onClose, order }: { open: boolean; onClose: () 
           </div>
         </div>
         <DialogFooter data-cy="dialog-footer">
-          <Button type="submit" onClick={handleSubmit} data-cy="submit-cancel-request">
+          <Button type="submit" onClick={handleSubmit} data-cy="submit-cancel-request" disabled={loading}>
             Цуцлах хүсэлт илгээх
           </Button>
         </DialogFooter>

@@ -9,10 +9,9 @@ import { isLessThan24Hours } from '@/utils/to-check';
 import { calculateTotalAmount } from '@/utils/calculate';
 
 const OrderInfo = () => {
-  const { data } = useGetOrderQuery();
+  const { data, refetch } = useGetOrderQuery();
   const orders = data?.getOrder;
   const [open, setOpen] = useState(false);
-  console.log('data', data);
 
   const onClose = () => {
     setOpen(false);
@@ -40,7 +39,7 @@ const OrderInfo = () => {
                 <Button className="bg-[#27272A]" onClick={() => setOpen(true)} data-cy={`cancel-button-${order?._id}`}>
                   Цуцлах
                 </Button>
-                <DialogComponent open={open} onClose={onClose} order={order as Order} />
+                <DialogComponent open={open} onClose={onClose} order={order as Order} refetch={refetch} />
               </>
             )}
           </div>
