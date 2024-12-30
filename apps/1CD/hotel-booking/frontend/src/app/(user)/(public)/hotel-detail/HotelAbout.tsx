@@ -1,20 +1,18 @@
 'use client';
-import { useGetHotelQuery } from '@/generated';
 
-const HotelAbout = () => {
-  const { data } = useGetHotelQuery({
-    variables: {
-      id: '674bfbd6a111c70660b55541',
-    },
-  });
+import { Hotel } from "@/generated";
+
+
+const HotelAbout = ({hotel}: {hotel: Hotel | undefined}) => {
+
   return (
     <div className="flex gap-20" data-cy="hotel-about">
       <div className="w-[264px] text-2xl font-semibold">About this property </div>
       <div className="flex-1 flex flex-col gap-10">
         <div className="flex flex-1 flex-col gap-2">
-          <div className="text-xl font-semibold">{data?.getHotel.hotelName}</div>
-          <div className="text-sm font-normal">{data?.getHotel.location}</div>
-          <div className="text-sm font-normal">{data?.getHotel.description}</div>
+          <div className="text-xl font-semibold">{hotel?.hotelName}</div>
+          <div className="text-sm font-normal">{hotel?.location}</div>
+          <div className="text-sm font-normal">{hotel?.description}</div>
         </div>
         <div>
           <ul className="text-sm font-normal">Additional perks include:</ul>
