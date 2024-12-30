@@ -5,8 +5,10 @@ import { ChevronDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Context } from '../layout';
 
 export const ComboboxDemo = () => {
+  const value = React.useContext(Context);
   const [open, setOpen] = React.useState(false);
   const [adultQuantity, setAdultQuantity] = React.useState(1);
 
@@ -16,7 +18,17 @@ export const ComboboxDemo = () => {
     }
   };
 
-  const closeModal = () => {
+  const handleModal = () => {
+    if (adultQuantity <= 1) {
+      value?.setRoomType(`${adultQuantity}bed`);
+    } else {
+      value?.setRoomType(`${adultQuantity}beds`);
+    }
+    setOpen(false);
+  };
+  const cancelRoomTypeFilt = () => {
+    setAdultQuantity(1);
+    value?.setRoomType('');
     setOpen(false);
   };
 
@@ -24,14 +36,7 @@ export const ComboboxDemo = () => {
     <div data-cy="Adult-Select-Modal" className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
-            data-testid="traveler-select-btn"
-            variant="outline"
-            role="combobox"
-            className="justify-between xl:min-w-[500px] max-w-md"
-            onClick={() => setOpen(!open)}
-            data-cy="Adult-Select-Modal-Button"
-          >
+          <Button data-testid="traveler-select-btn" variant="outline" role="combobox" className="justify-between xl:min-w-[500px] max-w-md" data-cy="Adult-Select-Modal-Button">
             {adultQuantity} traveler{adultQuantity > 1 ? 's' : ''}, 1 room
             <ChevronDown className="opacity-50" />
           </Button>
@@ -57,9 +62,18 @@ export const ComboboxDemo = () => {
               </button>
             </div>
           </div>
-          <button data-cy="Modal-Done-Button" className="absolute w-24 px-4 py-2 my-4 text-white bg-blue-700 rounded-md sm:my-5 sm:w-28 right-4 sm:right-5" onClick={closeModal}>
-            Done
-          </button>
+          <div className="flex justify-end gap-2 px-6">
+            <Button
+              data-cy="Modal-Cancel-Button"
+              className="w-24 px-4 py-2 my-4 text-black bg-white border rounded-md hover:bg-slate-50 sm:my-5 sm:w-28 right-4 sm:right-5"
+              onClick={cancelRoomTypeFilt}
+            >
+              Cancel
+            </Button>
+            <button data-cy="Modal-Done-Button" className="w-24 px-4 py-2 my-4 text-white bg-blue-700 rounded-md sm:my-5 sm:w-28 right-4 sm:right-5" onClick={handleModal}>
+              Done
+            </button>
+          </div>
         </PopoverContent>
       </Popover>
     </div>

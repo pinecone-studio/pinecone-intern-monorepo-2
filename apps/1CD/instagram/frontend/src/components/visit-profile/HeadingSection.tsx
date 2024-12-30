@@ -14,6 +14,7 @@ const HeadingSection = ({
   buttonText: string;
   handleButtonClick: () => Promise<void>;
 }) => {
+
   return (
     <div className="flex flex-row mb-10 justify-evenly">
       <section>

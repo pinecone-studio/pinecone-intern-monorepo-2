@@ -19,5 +19,7 @@ declare namespace Cypress {
 
   interface Chainable<Subject> {
     interceptGraphql(props: InterceptGraphqlType): void;
+    setAccessToken(accessToken: string): Chainable<Subject>;
+    loginWithFakeToken(location: string, accessToken: string): Chainable<Subject>;
   }
 }

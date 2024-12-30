@@ -11,6 +11,7 @@ const nextConfig = {
     svgr: false,
   },
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         hostname: '*',

@@ -25,7 +25,7 @@ const Page = () => {
   }, [debouncedQ]);
 
   return (
-    <div className="w-full  bg-black" data-cy="Home-Page">
+    <div className="w-full bg-black" data-cy="Home-Page">
       {firstEvent && <CarouselMain event={firstEvent} />}
       <div className=" py-4 pt-12 xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
         {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}

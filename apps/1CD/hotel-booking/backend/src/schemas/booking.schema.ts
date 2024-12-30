@@ -42,6 +42,10 @@ export const typeDefs = gql`
     checkOutDate: Date
     totalPrice: Int!
     status: BookingStatus
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
   }
   type BookingsType {
     _id: String
