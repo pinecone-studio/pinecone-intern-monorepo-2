@@ -8,6 +8,7 @@ describe('HotelDetail', () => {
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
     cy.get('[data-cy="Room-Dialog-Close"]').first().click().should('not.exist');
   });
+
   it('2. should render', () => {
     cy.get('[data-cy="Show-More"]').first().click();
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
@@ -21,7 +22,7 @@ describe('HotelDetail', () => {
     cy.get('[data-cy="Room-Card"]').should('be.visible');
   });
   it('4. should render', () => {
-    cy.get('[data-cy="Price-Detail-Button"]').last().click({force: true});
+    cy.get('[data-cy="Price-Detail-Button"]').last().click({ force: true });
     cy.get('[data-cy="Price-Detail-Dialog"]').should('exist');
     cy.get('[data-cy="Price-Detail-Dialog-Close"]').last().click().should('not.exist');
   });
