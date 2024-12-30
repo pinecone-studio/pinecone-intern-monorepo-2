@@ -1,23 +1,19 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
-import { GetFollowStatusQuery, OtherUser } from '@/generated';
+import { OtherUser } from '@/generated';
 
 const HeadingSection = ({
   profileUser,
   followLoading,
-  buttonState,
-  handleFollowClick,
-  followData,
+  buttonText,
+  handleButtonClick,
 }: {
   profileUser: OtherUser | undefined;
   followLoading: boolean;
-  buttonState: string;
-  handleFollowClick: () => Promise<void>;
-  followData: GetFollowStatusQuery | undefined;
+  buttonText: string;
+  handleButtonClick: () => Promise<void>;
 }) => {
-  const buttonText = followData?.getFollowStatus!.status === 'APPROVED' ? 'Following' : followData?.getFollowStatus!.status === 'PENDING' ? 'Requested' : buttonState;
-
   return (
     <div className="flex flex-row mb-10 justify-evenly">
       <section>
@@ -38,13 +34,7 @@ const HeadingSection = ({
           <h1 className="text-2xl font-bold" data-cy="username">
             {profileUser?.userName}
           </h1>
-          <Button
-            className={`h-8 text-black  bg-gray-200
-            
-              `}
-            onClick={handleFollowClick}
-            disabled={followLoading || buttonText !== 'Follow'}
-          >
+          <Button className={`h-8 text-black bg-gray-200 ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
             {buttonText}
           </Button>
           <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Message</Button>
