@@ -27,7 +27,8 @@
     },
     "types": [
       "jest",
-      "node"
+      "node",
+      "cypress-real-events",
     ]
   },
   "include": [

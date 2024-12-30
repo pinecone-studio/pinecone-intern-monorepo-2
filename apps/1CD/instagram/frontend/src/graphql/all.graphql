@@ -87,6 +87,9 @@ query GetFollowers($followingId: ID!) {
 
 query GetFollowStatus($followingId: ID!, $followerId: ID!) {
   getFollowStatus(followingId: $followingId, followerId: $followerId) {
+    _id
+    followerId
+    followingId
     status
   }
 }
@@ -144,6 +147,17 @@ mutation ChangeProImg($input: UpdateInput!) {
 
 mutation SendFollowReq($followerId: ID!, $followingId: ID!) {
   sendFollowReq(followerId: $followerId, followingId: $followingId) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
+  }
+}
+
+mutation Unfollow($id: ID!, $followerId: ID!) {
+  unfollow(_id: $id, followerId: $followerId) {
     _id
     createdAt
     followerId

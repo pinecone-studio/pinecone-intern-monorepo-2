@@ -1,6 +1,6 @@
 describe('User-Details Page', ()=>{
     beforeEach(()=>{
-        cy.visit('/register/userdetails')
+        cy.visit('/register/details')
     })
     
     it('1.Should render userdetails page', ()=>{
@@ -47,10 +47,10 @@ describe('User-Details Page', ()=>{
         cy.get('[data-cy="User-Details-Profession-Input"]').should('not.have.value')
         cy.get('[data-cy="User-Details-schoolWork-Input"]').should('not.have.value')
         cy.contains('Successfully added your information')
-        cy.url().should('include','/sign-up/image')
+        cy.url().should('include','/register/photos')
     })
     it('8. When click on back button it should navigate to birthday page', ()=>{
-        cy.visit('/register/userdetails')
+        cy.visit('/register/details')
         cy.get('[data-cy="User-Details-Back-Button"]').click()
         cy.url().should('include','/register/birthday')
     })

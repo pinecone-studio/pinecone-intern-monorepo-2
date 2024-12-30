@@ -1,0 +1,15 @@
+query GetOrder {
+  getOrder {
+    _id
+    createdAt
+    status
+    ticketType {
+      _id
+      additional
+      discount
+      soldQuantity
+      unitPrice
+      zoneName
+    }
+  }
+}

@@ -18,7 +18,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:testing",
+          "target": "codegen:prod",
           "params": "forward"
         }
       ]
@@ -43,7 +43,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:testing",
           "params": "forward"
         },
         {

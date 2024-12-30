@@ -19,7 +19,7 @@ describe('creating the password', () => {
     cy.get('[data-cy="register-password-input"]').should('be.visible').and('have.attr', 'placeholder','password1234@').type('Tinder1234@');
     cy.get('[data-cy="register-confirm-password-input"]').should('be.visible').and('have.attr','placeholder','password1234@').type('Tinder1234@');
     cy.contains('Continue').click();
-    cy.url().should('include','/account/attraction');
+    cy.url().should('include','/register/attraction');
 })
 it('2.should validate requirements of password input',()=>{
     const testCases=[

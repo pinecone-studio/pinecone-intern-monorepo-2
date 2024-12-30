@@ -32,6 +32,7 @@ export const typeDefs = gql`
   type Query {
     getOrder: [Order]!
   }
+
   type ChangeStatusResponse {
     message: String!
   }

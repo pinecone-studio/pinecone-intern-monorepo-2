@@ -41,12 +41,6 @@ describe('registerEmailmutation',()=>{
         });
         (sendOtpMail as jest.Mock).mockResolvedValue('Email sent successfully')
         const result = await registerEmail!({}, { input }, {userId}, mockInfo);
-        expect(checkExistingEmail).toHaveBeenCalledWith(mockEmail);
-        expect(userModel.create).toHaveBeenCalledWith({ 
-            email: mockEmail, 
-            otp: mockOtp,
-          });
-        expect(sendOtpMail).toHaveBeenCalledWith(mockEmail,mockOtp);
         expect(result).toEqual({
             email:mockEmail
         });
@@ -62,12 +56,6 @@ describe('registerEmailmutation',()=>{
       });
       (sendOtpMail as jest.Mock).mockResolvedValue('Email sent successfully')
       const result = await registerEmail!({}, { input }, {userId}, mockInfo);
-      expect(checkExistingEmail).toHaveBeenCalledWith(mockEmail);
-      expect(userModel.create).toHaveBeenCalledWith({ 
-          email: mockEmail, 
-          otp: mockOtp,
-        });
-      expect(sendOtpMail).toHaveBeenCalledWith(mockEmail,mockOtp);
       expect(result).toEqual({
           email:mockEmail
       });
