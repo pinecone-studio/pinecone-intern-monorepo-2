@@ -5,8 +5,9 @@ import { useGetHotelQuery } from '@/generated';
 import Image from 'next/image';
 import HotelImportant from '@/components/HotelImportant';
 import HotelPolicies from '@/components/HotelPolicies';
-import HotelAbout from '@/app/(public)/hotel-detail/HotelAbout';
-import HotelAsked from '@/app/(public)/hotel-detail/HotelAsked';
+import HotelAbout from '../../(public)/hotel-detail/HotelAbout';
+import HotelAsked from '../../(public)/hotel-detail/HotelAsked';
+
 
 const HotelDetail = ({ id }: { id: string }) => {
   const { data, loading } = useGetHotelQuery({
