@@ -6,7 +6,7 @@ import PasswordReset from './_components/PasswordReset';
 import OrderInfo from './_components/OrderInfo';
 
 const UserInfoPage = () => {
-  const [state, setState] = useState(2);
+  const [state, setState] = useState(1);
 
   return (
     <div className="flex min-h-[calc(100vh-1px)] bg-black justify-center px-4 py-6" data-cy="User-Info-Comp">
