@@ -42,10 +42,10 @@ export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervi
         : {},
     },
     {
-      $skip: (page - 1) * 4,
+      $skip: (page - 1) * 10,
     },
     {
-      $limit: 4, 
+      $limit: 10, 
     },
     {
       $sort: {

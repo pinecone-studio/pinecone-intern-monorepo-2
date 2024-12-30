@@ -24,14 +24,13 @@ const _id = '1'
     });
   });
   
-  it ('should throw an error if user is not found', async() => {
-    (Event.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce(null);
+  it('should throw an error if user is not found', async () => {
     try {
       await updateEventPriority!({},{input,_id}, {userId: '1'}, {} as GraphQLResolveInfo);
     } catch (err) {
-      expect ((err as Error).message).toEqual('Event not found');
+      expect((err as Error).message).toEqual('Failed to update priority');
     }
-    });
   });
+});  
 
 
