@@ -66,15 +66,17 @@ const HotelDetail = ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-        <HotelRooms />
-        <div className="flex flex-col gap-20"></div>
-        <HotelAbout hotel={data?.getHotel} />
-        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-        <HotelPolicies />
-        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-        <HotelImportant />
-        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-        <HotelAsked hotel={data?.getHotel} />
+        <div className='flex flex-col gap-14 px-10'>
+          <HotelRooms />
+          <div className="flex flex-col gap-20"></div>
+          <HotelAbout hotel={data?.getHotel} />
+          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+          <HotelPolicies />
+          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+          <HotelImportant />
+          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+          <HotelAsked hotel={data?.getHotel} />
+        </div>
       </div>
     </div>
   );

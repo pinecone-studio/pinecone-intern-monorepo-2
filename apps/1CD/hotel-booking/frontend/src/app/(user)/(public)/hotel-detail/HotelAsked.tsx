@@ -3,14 +3,18 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Hotel } from '@/generated';
 
-const HotelAsked = ({hotel}: {hotel: Hotel | undefined}) => {
+const HotelAsked = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
-    <div className="flex gap-20" >
+    <div className="flex gap-20">
       <div className="w-[264px] text-2xl font-semibold">Frequently asked questions</div>
-      <Accordion type="single" collapsible className="w-full" data-cy="Hotel-Asked">
+      <Accordion type="single" collapsible data-cy="Hotel-Asked" className="w-full flex-1">
         <AccordionItem value="item-1">
-          <AccordionTrigger data-cy="hotel-ask-trigger" className="text-base font-medium">Is {hotel?.hotelName} pet-friendly?</AccordionTrigger>
-          <AccordionContent data-cy="hotel-ask-question" className="text-sm font-normal">Yes. We welcome to pets.</AccordionContent>
+          <AccordionTrigger data-cy="hotel-ask-trigger" className="text-base font-medium">
+            Is {hotel?.hotelName} pet-friendly?
+          </AccordionTrigger>
+          <AccordionContent data-cy="hotel-ask-question" className="text-sm font-normal">
+            Yes. We welcome to pets.
+          </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger className="text-base font-medium">How much is parking at {hotel?.hotelName}?</AccordionTrigger>
