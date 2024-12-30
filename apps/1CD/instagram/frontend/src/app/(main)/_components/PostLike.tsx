@@ -1,5 +1,5 @@
 'use client';
-import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetPostLikeQuery } from '@/generated';
+import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetPostLikeQuery, useGetPostLikesQuery } from '@/generated';
 import { Heart } from 'lucide-react';
 import React from 'react';
 
@@ -7,6 +7,11 @@ export const PostLike = ({ id }: { id: string }) => {
   const [createPostLike] = useCreatePostLikeMutation();
   const [deletePostLike] = useDeletePostLikeMutation();
   const { data, refetch } = useGetPostLikeQuery({
+    variables: {
+      postId: id,
+    },
+  });
+  const { refetch: PostLikesRefetch } = useGetPostLikesQuery({
     variables: {
       postId: id,
     },
@@ -21,6 +26,7 @@ export const PostLike = ({ id }: { id: string }) => {
         },
       });
       await refetch();
+      await PostLikesRefetch();
     }
     if (data?.getPostLike?.isLike) {
       await deletePostLike({
@@ -29,6 +35,7 @@ export const PostLike = ({ id }: { id: string }) => {
         },
       });
       await refetch();
+      await PostLikesRefetch();
     }
   };
 

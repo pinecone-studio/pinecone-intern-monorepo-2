@@ -1,4 +1,4 @@
-
+'use client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 import { X } from 'lucide-react';

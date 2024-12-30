@@ -12,7 +12,7 @@ const Birthday = () => {
   const [error, setError] = useState<string>('');
   const [birthdaySubmit] = useBirthdaySubmitMutation({
     onCompleted: () => {
-      router.push('/');
+      router.push('/register/details');
     },
     onError: () => {
       setError('An error occurred while submitting your birthday. Please try again.');
@@ -60,7 +60,7 @@ const Birthday = () => {
   };
 
   const handleBack = () => {
-    router.push('/');
+    router.push('/register/attraction');
   };
 
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,14 +84,14 @@ const Birthday = () => {
     }
   };
   return (
-    <div className="mx-auto flex justify-center w-full max-w-4xl mt-[200px]" data-cy="birthday-page">
+    <div className=" flex justify-center mt-[80px]" data-cy="birthday-page">
       <div className="flex flex-col items-center w-full gap-6">
-        <div className="flex items-center gap-1" data-cy="logo-container">
-          <Image src={'/img/logo.svg'} alt="Tinder logo" width={40} height={40} className="w-[24px] h-[28px]" />
-          <p className="text-3xl font-semibold text-gray-600">tinder</p>
+        <div data-cy="register-email-header" className="flex items-center gap-1">
+          <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+          <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
         <div>
-          <p className="text-2xl font-semibold text-gray-900" data-cy="question-title">
+          <p className="text-[#09090B] font-semibold text-2xl" data-cy="question-title">
             How old are you?
           </p>
           <p className="text-[#71717A] text-sm" data-cy="question-description">
@@ -100,7 +100,7 @@ const Birthday = () => {
         </div>
 
         <form onSubmit={onSubmit} className="flex flex-col gap-4">
-          <div className="flex gap-2 justify-center" data-cy="input-field">
+          <div className="flex justify-center gap-2" data-cy="input-field">
             <input
               type="number"
               min="1"
@@ -108,7 +108,7 @@ const Birthday = () => {
               value={day}
               onChange={handleDayChange}
               placeholder="DD"
-              className={`px-4 py-2 border rounded-lg w-20 ${!day ? 'border-red-500' : ''}`}
+              className={`px-4 py-2 border rounded-lg w-20  ${!day ? 'border-slate-500' : 'border-red-500'} `}
               maxLength={2}
               autoFocus
               data-cy="day-input"
@@ -120,7 +120,7 @@ const Birthday = () => {
               value={month}
               onChange={handleMonthChange}
               placeholder="MM"
-              className={`px-4 py-2 border rounded-lg w-20 ${!month ? 'border-red-500' : ''}`}
+              className={`px-4 py-2 border rounded-lg w-20 ${!month ? 'border-slate-500' : 'border-red-500'}`}
               maxLength={2}
               data-cy="month-input"
             />
@@ -130,14 +130,14 @@ const Birthday = () => {
               value={year}
               onChange={handleYearChange}
               placeholder="YYYY"
-              className={`px-4 py-2 border rounded-lg w-32 ${!year ? 'border-red-500' : ''}`}
+              className={`px-4 py-2 border rounded-lg w-32  ${!year ? 'border-slate-500' : 'border-red-500'}`}
               maxLength={4}
               data-cy="year-input"
             />
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm mt-2" data-cy="type-error">
+            <p className="mt-2 text-sm text-red-500" data-cy="type-error">
               {error}
             </p>
           )}
@@ -150,7 +150,9 @@ const Birthday = () => {
             </button>
           </div>
         </form>
+        <p className="text-[#71717A] text-sm pt-[43%]">©2024 Tinder</p>
       </div>
+      
     </div>
   );
 };

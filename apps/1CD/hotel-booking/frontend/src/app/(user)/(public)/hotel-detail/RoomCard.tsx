@@ -18,14 +18,15 @@ const RoomCard = ({ room }: { room: RoomType }) => {
     }
   }, [isOpen]);
   const [isOn, setIsOn] = useState(false);
-  const handleOpen = useCallback(() => {
+  const handleOpen = () => {
     setIsOpen(false);
     if (isOn) {
       setIsOn(false);
     } else {
       setIsOn(true);
     }
-  }, [isOn]);
+  };
+
   return (
     <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-[349px]">
       <div className="bg-[#EBEBEB] w-[349px] h-[216px]">
@@ -100,8 +101,8 @@ const RoomCard = ({ room }: { room: RoomType }) => {
             </Link>
           </div>
         </div>
-        <HotelRoomDetail data-cy="Hotel-Room-Detail" isOpen={isOpen} handleOpen={() => handleOpen()} handleState={() => handleState()} room={room} />
-        <PriceDetail data-cy="Price-Detail-Dialog" isOn={isOn} handleOpen={() => handleOpen()} room={room} />
+        <HotelRoomDetail data-cy="Hotel-Room-Detail" isOpen={isOpen} handleOpen={handleOpen} handleState={handleState} room={room} />
+        <PriceDetail data-cy="Price-Detail-Dialog" isOn={isOn} handleOpen={handleOpen} room={room} />
       </div>
     </div>
   );
