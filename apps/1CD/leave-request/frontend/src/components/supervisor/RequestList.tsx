@@ -43,6 +43,7 @@ const RequestList = ({
     __typename?: 'NumberOutput';
     res?: number | null;
   };
+  // eslint-disable-next-line no-unused-vars
   pageChange: (arg0: number) => void;
   page: number;
 }) => {
@@ -82,6 +83,7 @@ const RequestList = ({
   );
 };
 
+// eslint-disable-next-line complexity
 const SingleItem = ({ item }: { item: dataProps }) => {
   const router = useRouter();
   const params = useSearchParams();
