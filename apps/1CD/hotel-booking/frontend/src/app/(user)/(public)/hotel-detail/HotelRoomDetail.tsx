@@ -7,9 +7,9 @@ import Link from 'next/link';
 
 const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void; handleOpen: () => void }) => {
   return (
-    <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto min-h-screen">
+    <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
-        <DialogContent className="flex flex-col gap-5 max-h-[800px] overflow-y-scroll">
+        <DialogContent className="flex flex-col gap-5 max-h-[690px] overflow-y-scroll">
           <DialogHeader>
             <div className="flex justify-between">
               <div className="text-base font-bold text-foreground">Room information</div>
