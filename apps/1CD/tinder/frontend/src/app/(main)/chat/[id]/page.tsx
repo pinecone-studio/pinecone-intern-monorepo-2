@@ -36,7 +36,7 @@ const Chat = ({ authToken }: any) => {
   };
   if (pageloading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex items-center justify-center h-screen">
         <Loader />
       </div>
     );
@@ -62,7 +62,7 @@ const Chat = ({ authToken }: any) => {
     );
   }
   
-  <div className="flex flex-col justify-center items-center h-screen" data-cy="Error occured">
+  <div className="flex flex-col items-center justify-center h-screen" data-cy="Error occured">
       <p>Error occurred, try again</p>
   </div>
 };
