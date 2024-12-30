@@ -21,6 +21,7 @@ interface FollowingDialogProps {
   followingData: Following[];
   followingDataCount: number;
 }
+
 const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
   return (
     <Dialog>
@@ -32,15 +33,15 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
           <p>followings</p>
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 min-w-96 min-h-96 flex flex-col gap-2" data-cy="dialogFollowing">
-        <DialogHeader className="relative px-4 py-6 flex flex-row h-10 justify-center items-center border-b-2">
+      <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogFollowing">
+        <DialogHeader className="relative flex flex-row items-center justify-center h-10 px-4 py-6 border-b-2">
           <DialogTitle>Followings</DialogTitle>
-          <DialogTrigger className="absolute right-3 top-1 flex flex-row items-center" data-testid="closeButtonFollowing" data-cy="buttonCloseFollowing">
+          <DialogTrigger className="absolute flex flex-row items-center right-3 top-1" data-testid="closeButtonFollowing" data-cy="buttonCloseFollowing">
             <X />
           </DialogTrigger>
         </DialogHeader>
-        <DialogDescription className="flex flex-col space-y-2 items-start p-0 m-0" data-testid="followingDialog">
-          <div className="w-11/12 flex items-center mx-auto">
+        <DialogDescription className="flex flex-col items-start p-0 m-0 space-y-2" data-testid="followingDialog">
+          <div className="flex items-center w-11/12 mx-auto">
             <Search size={18} />
             <Input
               type="text"
@@ -52,17 +53,17 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
           </div>
           <div className="w-full space-y-2">
             {followingData.map((oneFollowing) => (
-              <div key={oneFollowing._id} className="w-11/12  mx-auto flex flex-row justify-between items-center" data-cy="followingCard">
+              <div key={oneFollowing._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followingCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollowing.profileImg!} alt="proZurag" fill className="absolute rounded-full object-cover" data-cy="followingCardImg" />
+                    <Image src={oneFollowing.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followingCardImg" />
                   </section>
                   <div className="flex flex-col space-y-0">
-                    <h1 className="text-lg text-gray-700 font-semibold">{oneFollowing.userName}</h1>
+                    <h1 className="text-lg font-semibold text-gray-700">{oneFollowing.userName}</h1>
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </div>
-                <Button className="h-9 bg-gray-200 hover:bg-gray-300 text-black">Remove</Button>
+                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
               </div>
             ))}
           </div>
