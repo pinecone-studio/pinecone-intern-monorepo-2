@@ -6,7 +6,7 @@ import { GoDotFill } from 'react-icons/go';
 import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 import { format, formatDistance } from 'date-fns';
-import { data } from 'cypress/types/jquery';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface dataProps {
   __typename?: 'RequestTypePop';
@@ -32,54 +32,50 @@ interface dataProps {
   };
 }
 
-const RequestList = ({ data }: { data: dataProps[] | null | undefined }) => {
-  if (!data) {
+const RequestList = ({
+  data,
+  length,
+  pageChange,
+  page,
+}: {
+  data: dataProps[] | null | undefined;
+  length: {
+    __typename?: 'NumberOutput';
+    res?: number | null;
+  };
+  pageChange: (arg0: number) => void;
+  page: number;
+}) => {
+  if (!data || !length.res) {
     return null;
   }
+  const maxPage = Number((length.res / 10).toFixed());
   return (
     <div className="flex flex-col w-[414px]">
       <div className="flex flex-col gap-3">
-        <div className="flex px-4 py-3 justify-between bg-white border-[1px] border-[#E4E4E7] rounded-[8px]">
-          <div className="flex items-center">
-            <Image src="/Avatar.png" width={48} height={48} alt="Avatar" />
-            <div className="text-xs text-[#71717A] ml-3">
-              <div className="flex items-center gap-[6px]">
-                <p className="text-sm text-[#09090B]">B.Enkhjin</p>
-                <p className="">23</p>
-              </div>
-              <div className="flex mt-[6px] gap-[2px] items-center">
-                <GoTag size={14} />
-                <div className="flex gap-[2px]">
-                  <p>Чөлөө</p>
-                  <p>(1 цаг)</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-[2px] mt-1">
-                <MdOutlineDateRange size={14} />
-                <div className="flex gap-[2px]">
-                  <p>2024/10/25</p>
-                  <p>(9:00-11:00)</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="bg-[#F97316] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Хүлээгдэж байна</div>
-        </div>
-        {/* map */}
         {data.map((ele) => (
           <SingleItem key={ele._id} item={ele} />
         ))}
-
-        <div className="flex px-4 py-3 justify-between">
-          
-          <div className="bg-[#18BA51] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Баталгаажсан</div>
-        </div>
       </div>
       <div className="flex items-center gap-4 pt-4">
-        <p className="text-xs text-[#71717A]">1-10 хүсэлт (Нийт: 20)</p>
+        <p className="text-xs text-[#71717A]">
+          {(page - 1) * 10 + 1}-{(page - 1) * 10 + ((maxPage == page && length.res % 10) || 10)} хүсэлт (Нийт: {length.res})
+        </p>
         <div className="flex gap-4">
-          <FaAngleLeft size={8} />
-          <FaAngleRight size={8} />
+          <FaAngleLeft
+            className="cursor-pointer"
+            size={8}
+            onClick={() => {
+              if (page > 1) pageChange(page - 1);
+            }}
+          />
+          <FaAngleRight
+            className="cursor-pointer"
+            size={8}
+            onClick={() => {
+              if (page < maxPage) pageChange(page + 1);
+            }}
+          />
         </div>
       </div>
     </div>
@@ -87,16 +83,24 @@ const RequestList = ({ data }: { data: dataProps[] | null | undefined }) => {
 };
 
 const SingleItem = ({ item }: { item: dataProps }) => {
+  const router = useRouter();
+  const params = useSearchParams();
+  const clicked = params.get('id') == item._id;
   return (
-    <div className="flex px-4 py-3 justify-between items-center">
+    <div
+      className={`flex px-4 py-3 justify-between items-center ${clicked && 'bg-white border-[1px] border-[#E4E4E7]'}`}
+      onClick={() => {
+        router.push(`?id=${item._id}`);
+      }}
+    >
       <div className="flex items-center">
         <Image className="rounded-full" src={item.email.profile} width={48} height={48} alt="Avatar" />
         <div className="text-xs text-[#09090B] ml-3">
           <div className="flex items-center gap-[6px]">
             <p className="text-sm text-[#09090B]">{item.email.userName}</p>
-            <p className="text-[#2563EB]">{formatDistance(item.requestDate, new Date())}</p>
+            <p className={`text-[#2563EB] ${clicked && 'text-[#71717A]'}`}>{formatDistance(item.requestDate, new Date())}</p>
           </div>
-          <div className="flex mt-[6px] gap-[2px] items-center">
+          <div className={`flex mt-[6px] gap-[2px] items-center ${clicked && 'text-[#71717A]'}`}>
             <GoTag size={14} />
             <div className="flex gap-[2px]">
               <p className="flex gap-1">
@@ -107,19 +111,28 @@ const SingleItem = ({ item }: { item: dataProps }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-[2px] mt-1">
-            <MdOutlineDateRange size={14} />
+          <div className={`flex mt-[6px] gap-[2px] items-center ${clicked && 'text-[#71717A]'}`}>
+            <MdOutlineDateRange className="text-[#09090B80]" size={14} />
             <p>{format(new Date(item.requestDate), 'yyyy/MM/dd')}</p>
-            {item.startTime && <p>({item.startTime}-{item.endTime})</p>}
+            {item.startTime && (
+              <p>
+                ({item.startTime}-{item.endTime})
+              </p>
+            )}
           </div>
         </div>
       </div>
-      {/* <div className='bg-[#F97316] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5'>Хүлээгдэж байна</div> */}
-      <GoDotFill color="#2563EB" />
+      <Pin result={item.result} />
     </div>
   );
 };
 
+const Pin = ({ result }: { result: string }) => {
+  if (result == 'sent') return <GoDotFill color="#2563EB" />;
+  if (result == 'pending') return <div className="bg-[#F97316] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Хүлээгдэж байна</div>;
+  if (result == 'success') return <div className="bg-[#18BA51] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Баталгаажсан</div>;
+  return <div className="bg-[#E11D4833] rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Татгалзсан</div>;
+};
 const RequestType = ({ requestType }: { requestType?: string | null }) => {
   return (requestType == 'paid' && 'Цалинтай чөлөө') || (requestType == 'remote' && 'Зайнаас ажиллах') || 'Чөлөө';
 };

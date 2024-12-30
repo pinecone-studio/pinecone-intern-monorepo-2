@@ -7,23 +7,33 @@ import { useGetAllRequestsBySupervisorQuery } from '@/generated';
 import RequestDetail from './RequestDetail';
 import RequestHeader from './RequestHeader';
 import RequestList from './RequestList';
+import { useRef, useState } from 'react';
+import { addDays } from 'date-fns';
+
+interface filterProps {
+  status?: string[];
+  startDate: Date;
+  endDate: Date;
+  search?: string;
+}
+
 
 const Requests = ({ email }: { email: string }) => {
-  const { data, loading } = useGetAllRequestsBySupervisorQuery({ variables: { supervisorEmail: email } });
+  const filter = useRef<filterProps>({ endDate: new Date(), startDate: addDays(new Date(), -30) })
+  const [page, setPage] = useState(1)
+  const { data, loading, refetch } = useGetAllRequestsBySupervisorQuery({ variables: { supervisorEmail: email, ...filter, page} });
 
   if (loading) {
     return <>loading</>;
   }
 
-  console.log(data, email)
-
-  const { getAllRequestsBySupervisor } = data!;
+  const { getAllRequestsBySupervisor, getAllRequestLength } = data!;
   return (
     <div className="flex flex-col bg-[#f4f4f5] mt-11">
       <div className="w-[1030px] mx-auto mt-10">
-        <RequestHeader />
+        <RequestHeader onChange={(arg) => {refetch(arg)}}/>
         <div className="mt-5 flex gap-2">
-          <RequestList data={getAllRequestsBySupervisor} />
+          <RequestList data={getAllRequestsBySupervisor} length={getAllRequestLength} pageChange={setPage} page={page} />
           <RequestDetail />
         </div>
       </div>
