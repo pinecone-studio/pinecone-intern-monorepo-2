@@ -90,7 +90,7 @@ describe('UserInfo Component', () => {
 
   it('should display the user info form with initial values', () => {
     cy.get('[data-cy="order-state-button"]').click();
-    cy.get('[data-cy="order-info-heading"]').should('exist').and('contain.text', ' Захиалгын түүх');
+    cy.get('[data-cy="order-info-title"]').should('exist').and('contain.text', 'Захиалгын мэдээлэл');
   });
   it('should display the user info form with initial values', () => {
     cy.get('[data-cy="password-state-button"]').click();
