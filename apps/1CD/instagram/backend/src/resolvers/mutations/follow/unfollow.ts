@@ -1,4 +1,4 @@
-import { FollowStatus, MutationResolvers } from 'src/generated';
+import { MutationResolvers } from 'src/generated';
 import { followModel } from 'src/models';
 
 export const unfollow: MutationResolvers['unfollow'] = async (_, { _id, followerId }, { userId }) => {
@@ -14,9 +14,9 @@ export const unfollow: MutationResolvers['unfollow'] = async (_, { _id, follower
     throw new Error('You are not authorized to unfollow');
   }
 
-  if (followRecord.status === FollowStatus.Pending) {
-    throw new Error('Failed to unfollow');
-  }
+  // if (followRecord.status === FollowStatus.Pending) {
+  //   throw new Error('Failed to unfollow');
+  // }
 
   const unfollowUser = await followModel.findByIdAndDelete(_id);
 

@@ -1,11 +1,9 @@
 import { Event, Product, TicketType } from '@/generated';
 import React, { useEffect } from 'react';
-import { Check } from 'lucide-react';
+import { Check, ChevronsUpDown, Circle } from 'lucide-react';
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import dayjs from 'dayjs';
-import { RiCheckboxBlankCircleFill } from 'react-icons/ri';
-import { RxCaretSort } from 'react-icons/rx';
 import Link from 'next/link';
 
 const TicketDetail = ({ event }: { event: Event }) => {
@@ -39,7 +37,7 @@ const TicketDetail = ({ event }: { event: Event }) => {
         <PopoverTrigger asChild>
           <button data-cy="select-day-button" className="flex justify-between p-2 transition rounded-md bg-[#1f1f1f] border-[#27272A] border hover:bg-gray-700 items-center w-full">
             <p className="text-sm font-normal text-zinc-50">{selectedDay ? `Сонгосон өдөр: ${selectedDay}` : 'Өдөр сонгох'}</p>
-            <RxCaretSort className="w-4 h-4 text-zinc-50" />
+            <ChevronsUpDown className="w-4 h-4 text-zinc-50" />
           </button>
         </PopoverTrigger>
         <PopoverContent className="bg-[#333]" data-cy="day-selector">
@@ -81,7 +79,7 @@ const TicketDetail = ({ event }: { event: Event }) => {
                       <div className="flex justify-between w-full">
                         <div className={textClass}>
                           <span className="flex items-center h-5">
-                            <RiCheckboxBlankCircleFill className="w-3 h-3 mr-2" />
+                            <Circle className="w-3 h-3 mr-2" />
                             <div className="text-sm font-bold">{ticket.zoneName}</div>
                             <div className="ml-2 text-sm font-semibold">({remainingQuantity})</div>
                           </span>
