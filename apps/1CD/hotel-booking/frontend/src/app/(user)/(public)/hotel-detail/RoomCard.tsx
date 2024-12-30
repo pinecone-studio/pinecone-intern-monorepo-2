@@ -30,7 +30,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
   return (
     <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-full max-w-[349px]">
       <div className="bg-[#EBEBEB] w-full h-[216px]">
-        <Image className="object-cover w-full h-full" src={room?.images[0] || '/'} alt="room image" width={500} height={500} data-cy="Room-image" />
+        <Image className="object-cover w-full h-full" src={room?.images[0]} alt="room image" width={500} height={500} data-cy="Room-image" />
       </div>
       <div className="p-4">
         <div className="flex flex-col gap-4">

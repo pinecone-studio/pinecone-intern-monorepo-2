@@ -1,5 +1,5 @@
 'use client';
-import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
+import { DialogDescription, Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
@@ -10,14 +10,13 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
     <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
         <DialogContent className="flex flex-col gap-5">
-          <DialogHeader>
-            <DialogTitle className="flex justify-between text-xl font-semibold">
-              <div>Room information</div>
-              <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
-                <X />
-              </button>
-            </DialogTitle>
-          </DialogHeader>
+          <div className='flex justify-between'>
+            <div className='text-base font-bold text-foreground'>Room information</div>
+            <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
           {room?.images && <RoomCarousel roomImages={room.images} data-cy="HotelRoomCarousel" />}
           <DialogTitle>{room?.roomName}</DialogTitle>
           <div className="grid grid-cols-3 col-span-3 gap-8">
