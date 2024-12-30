@@ -28,7 +28,9 @@ jest.mock('../../../../src/models/post.model', () => ({
           },
         ]),
       })
-      .mockReturnValueOnce(null),
+      .mockReturnValueOnce({
+        populate: jest.fn().mockReturnValueOnce(null),
+      }),
   },
 }));
 
