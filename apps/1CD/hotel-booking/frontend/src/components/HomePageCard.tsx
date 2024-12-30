@@ -10,7 +10,7 @@ const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
   return (
     <div className="flex justify-center">
       <Card className="max-w-[360px] w-full h-auto border-2 rounded-md md:max-w-[400px] lg:max-w-[500px]">
-        <div className="w-full h-[200px] bg-slate-100">{hotel.images && <Image className="object-cover w-full h-full" src={hotel?.images[0] || '/'} alt="image" height={1000} width={1000} />}</div>
+        <div className="w-full h-[200px] bg-slate-100">{hotel.images && <Image className="object-cover w-full h-full" src={`${hotel?.images[0]}`} alt="image" height={1000} width={1000} />}</div>
         <div className="p-4">
           <div className="pb-3">
             <p className="text-lg font-bold md:text-lg">{hotel.hotelName}</p>
