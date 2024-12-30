@@ -9,7 +9,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
   return (
     <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
-        <DialogContent className="flex flex-col gap-5">
+        <DialogContent className="flex flex-col gap-5 max-h-[800px]">
           <DialogHeader>
             <DialogTitle className="flex justify-between text-xl font-semibold">
               <div>Room information</div>

@@ -5,17 +5,16 @@ describe('HotelDetail', () => {
   it('1. should render', () => {
     cy.get('[data-cy="Show-More"]').first().click();
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
-    cy.get('[data-cy="Room-Dialog-Close" ]').first().click().should('not.exist');
+    cy.get('[data-cy="Room-Dialog-Close"]').first().click().should('not.exist');
   });
   it('2. should render', () => {
     cy.get('[data-cy="Show-More"]').first().click();
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
     cy.get('[data-cy="HotelRoomCarousel"]').should('exist');
     cy.get('[data-cy="next-image"]').click();
-    cy.get("[data-cy=carousel-item1]").should("be.visible")
+    cy.get('[data-cy=carousel-item1]').should('be.visible');
     cy.get('[data-cy="previos-image"]').click();
-    cy.get("[data-cy=carousel-item0]").should("be.visible")
-
+    cy.get('[data-cy=carousel-item0]').should('be.visible');
   });
   it('3. should render', () => {
     cy.get('[data-cy="Room-Card"]').should('be.visible');
