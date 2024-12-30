@@ -112,7 +112,8 @@ export const typeDefs = gql`
 
   type Mutation {
     createEvent(input: EventInput!): Response!
-    updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
+    updateEventHigh(eventId: ID!): Response!
+    updateEventLow(eventId: ID!): Response!
     deleteEvent(_id: ID!): Response!
     updateEvent(_id: ID!, event: EventUpdateInput!): Event!
     deleteLastEvent: Response!
