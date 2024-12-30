@@ -1,10 +1,12 @@
+/*eslint-disable*/
 'use client';
 
 import { useAuth } from '@/components/providers';
 import { useUser } from '@/components/providers/UserProvider';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
+import PostsSection from '@/components/visit-profile/PostsSection';
 import PrivateProfile from '@/components/visit-profile/PrivateProfile';
-import { useGetFollowStatusQuery, useGetOneUserQuery, useUnfollowMutation } from '@/generated';
+import { useGetFollowStatusQuery, useGetOneUserQuery, useGetUserPostsQuery, useUnfollowMutation } from '@/generated';
 import { Grid3x3 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
@@ -86,6 +88,12 @@ const ViewProfile = () => {
     }
   };
 
+  const { data: userPostData } = useGetUserPostsQuery({
+    variables: {
+      user: profileUser?._id as string,
+    },
+  });
+
   return (
     <div className="mx-auto my-10" data-cy="visit-profile-page">
       <div className="w-[900px]">
@@ -97,6 +105,7 @@ const ViewProfile = () => {
                 <Grid3x3 />
                 <p>POSTS</p>
               </div>
+
               {/* <div>aaaaaaa</div> */}
             </div>
           </div>
@@ -112,6 +121,11 @@ const ViewProfile = () => {
             </p>
           )}
         </div> */}
+        {(profileUser?.accountVisibility === 'PUBLIC' || buttonText === 'Following') && (
+          <div className="mt-20">
+            <PostsSection userPostData={userPostData} />
+          </div>
+        )}
       </div>
     </div>
   );
