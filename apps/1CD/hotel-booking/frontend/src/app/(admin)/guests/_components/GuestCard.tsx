@@ -2,9 +2,10 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookingsType } from '@/generated';
+import { ReturnBooking } from '@/generated';
+import { format } from 'date-fns';
 
-const GuestCard = ({ info }: { info: BookingsType }) => {
+const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
   return (
     <>
       <section className="flex justify-center gap-4">
@@ -15,7 +16,7 @@ const GuestCard = ({ info }: { info: BookingsType }) => {
               <div className="flex flex-col flex-1 gap-6">
                 <ul>
                   <li className="font-light text-gray-500">Firstname</li>
-                  <li>{info?.userId?.firstName}</li>
+                  <li>firstname</li>
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Status</li>
@@ -23,7 +24,12 @@ const GuestCard = ({ info }: { info: BookingsType }) => {
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Check in</li>
-                  <li>{new Date(info?.checkInDate).toLocaleDateString('es-Us', { month: 'short', day: 'numeric' })}</li>
+                  {info?.checkInDate && (
+                    <div className="flex gap-1">
+                      <div>{format(info?.checkInDate, 'EEEE, MMM d,')}</div>
+                      <div>{format(info?.checkInDate, 'h:mma')}</div>
+                    </div>
+                  )}
                 </ul>
               </div>
               <div className="flex flex-col flex-1 gap-6">
@@ -37,7 +43,12 @@ const GuestCard = ({ info }: { info: BookingsType }) => {
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Check out</li>
-                  <li>1 adult, 0 children</li>
+                  {info?.checkInDate && (
+                    <div className="flex gap-1">
+                      <div>{format(info?.checkOutDate, 'EEEE, MMM d,')}</div>
+                      <div>{format(info?.checkOutDate, 'h:mma')}</div>
+                    </div>
+                  )}
                 </ul>
               </div>
             </section>
