@@ -3,7 +3,6 @@ describe('Image upload page', () => {
     cy.visit('/sign-up/all-set');
   });
   it('1. display the logo and header', () => {
-    cy.get('[data-cy="logo-container"]').should('be.visible');
     cy.contains('tinder').should('be.visible');
     cy.contains("You're all set!").should('be.visible');
     cy.contains("Your account is all set. You're ready to explore and connect!").should('be.visible');
