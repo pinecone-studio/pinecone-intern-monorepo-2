@@ -20,7 +20,7 @@ const OrderInfo = () => {
 
   return (
     <div className="text-white w-[841px]" data-cy="order-info-container">
-      <h1 data-cy="order-info-title">Захиалгын мэдээлэл </h1>
+      <h1 data-cy="order-info-title">Захиалгын мэдээлэл</h1>
       {orders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
           <div className="text-white flex justify-between items-center mb-2">
