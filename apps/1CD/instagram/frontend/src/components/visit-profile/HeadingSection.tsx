@@ -16,7 +16,7 @@ const HeadingSection = ({
   handleFollowClick: () => Promise<void>;
   followData: GetFollowStatusQuery | undefined;
 }) => {
-  const buttonText = followData?.getFollowStatus.status === 'APPROVED' ? 'Following' : followData?.getFollowStatus.status === 'PENDING' ? 'Requested' : buttonState;
+  const buttonText = followData?.getFollowStatus!.status === 'APPROVED' ? 'Following' : followData?.getFollowStatus!.status === 'PENDING' ? 'Requested' : buttonState;
 
   return (
     <div className="flex flex-row mb-10 justify-evenly">
