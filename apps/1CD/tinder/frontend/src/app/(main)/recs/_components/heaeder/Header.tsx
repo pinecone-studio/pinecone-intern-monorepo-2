@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <div className="border-b-[1px] border-[#E4E4E7]">
+    <div className="border-b-[1px] border-[#E4E4E7]" data-cy='header'>
       <div className="flex justify-between items-center mx-[10%] py-1">
         <div data-cy="register-email-header" className="flex items-center">
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />

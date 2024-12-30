@@ -6,9 +6,6 @@ const TinderSwipe = () => {
     <div className=''>
       <Header />
       <Swiper />
-      <div className="mx-auto text-sm text-white/60" data-cy="footer-text">
-        © Copyright 2024
-      </div>
     </div>
   );
 };
