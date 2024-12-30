@@ -1,29 +1,34 @@
 'use client';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { useGetFollowersQuery, useGetMyPostsQuery } from '@/generated';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
 import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
 import Image from 'next/image';
 import FollowerDialog from '@/components/user-profile/FollowerDialog';
-// import { Skeleton } from '@/components/ui/skeleton';
+import FollowingDialog from '@/components/user-profile/FollowingDialog';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
   const userId: string = user?._id as string;
   const { data: postData } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
-  // const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
+  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
-  if (!followerData || !postData) return;
+  if (!followingData || !followerData || !postData) return;
   const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({
     _id: oneFollower.followerId._id,
     userName: oneFollower.followerId.userName,
     profileImg: oneFollower.followerId.profileImg || '/images/profileImg.webp',
     fullName: oneFollower.followerId.fullName,
+  }));
+  const fetchedFollowingData = followingData.seeFollowings.map((oneFollowing) => ({
+    _id: oneFollowing.followingId._id,
+    userName: oneFollowing.followingId.userName,
+    fullName: oneFollowing.followingId.fullName,
+    profileImg: oneFollowing.followingId.profileImg || '/images/profileImg.webp',
   }));
   // const postNumberDiv = () => {
   //   if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
@@ -70,17 +75,8 @@ const UserProfile = () => {
                 </h1>
                 <p>posts</p>
               </div>
-              <FollowerDialog followerDataCount={followerData?.seeFollowers.length} followerData={fetchedFollowerData} />
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="flex flex-row space-x-2">
-                    <h1 className="font-semibold" data-cy="followingNumber">
-                      {/* {followingData?.seeFollowings.length || 0} */}
-                    </h1>
-                    <p>following</p>
-                  </div>
-                </DialogTrigger>
-              </Dialog>
+              <FollowerDialog followerDataCount={followerData.seeFollowers.length} followerData={fetchedFollowerData} />
+              <FollowingDialog followingDataCount={followingData.seeFollowings.length} followingData={fetchedFollowingData} />
             </div>
             <div>
               <h1 className="font-bold" data-cy="fullname">

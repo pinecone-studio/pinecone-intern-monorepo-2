@@ -6,6 +6,21 @@ describe('user profile page', () => {
       { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
     ],
   };
+  const mockApiFollowingsRes = {
+    seeFollowings: [
+      {
+        followingId: { _id: 'followingNum1', userName: 'Following1', fullName: 'Mock Following', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1734946251/dv4cj1pzsfb04tngsvq7.jpg' },
+      },
+      {
+        followingId: {
+          _id: 'followingNum2',
+          userName: 'Following2',
+          fullName: 'Mock2 Following',
+          profileImg: '',
+        },
+      },
+    ],
+  };
 
   it('1. Should render user profile page with posts and followers', () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzU1MjQ0NjJ9.PVgtM4UPy8pR3U9fyhRhSHfzxlO2EHTmXm_UUmwFWYQ';
@@ -103,6 +118,31 @@ describe('user profile page', () => {
         cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
       });
     cy.get('[data-cy="buttonClose"]').click();
+    // cy.get('[data-cy="dialogFollower"]').should('not.be.visible');
+  });
+  it('5. Should open followings dialog when click on followings then click close button should unvisible', () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzZiYmYzZTQwNTJiMTdhODA5YWFhNTUiLCJpYXQiOjE3MzU1MjQ0NjJ9.PVgtM4UPy8pR3U9fyhRhSHfzxlO2EHTmXm_UUmwFWYQ';
+    const location = '/home/mery';
+    cy.loginWithFakeToken(location, token);
+    cy.get('[data-cy="followingNum"]').click();
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetFollowings') {
+        req.reply({ statusCode: 200, body: { data: mockApiFollowingsRes } });
+      }
+    });
+    // cy.visit('http://localhost:4201/home/mery');
+    cy.get('[data-cy="dialogFollowing"]').should('be.visible');
+    cy.get('[data-cy="followingCard"]')
+      .eq(0)
+      .within(() => {
+        cy.get('[data-cy="followingCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('https://res.cloudinary.com/dka8klbhn/image/upload/v1734946251/dv4cj1pzsfb04tngsvq7.jpg'));
+      });
+    cy.get('[data-cy="followingCard"]')
+      .eq(1)
+      .within(() => {
+        cy.get('[data-cy="followingCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
+      });
+    cy.get('[data-cy="buttonCloseFollowing"]').click();
     // cy.get('[data-cy="dialogFollower"]').should('not.be.visible');
   });
 });
