@@ -8,7 +8,6 @@ import HotelPolicies from '@/components/HotelPolicies';
 import HotelAbout from '../../(public)/hotel-detail/HotelAbout';
 import HotelAsked from '../../(public)/hotel-detail/HotelAsked';
 
-
 const HotelDetail = ({ id }: { id: string }) => {
   const { data, loading } = useGetHotelQuery({
     variables: {
@@ -68,15 +67,14 @@ const HotelDetail = ({ id }: { id: string }) => {
           </div>
         </div>
         <HotelRooms />
-        <div className="flex flex-col gap-20">
-          <HotelAbout />
-          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-          <HotelPolicies />
-          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-          <HotelImportant />
-          <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-          <HotelAsked />
-        </div>
+        <div className="flex flex-col gap-20"></div>
+        <HotelAbout hotel={data?.getHotel} />
+        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+        <HotelPolicies />
+        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+        <HotelImportant />
+        <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
+        <HotelAsked hotel={data?.getHotel} />
       </div>
     </div>
   );
