@@ -37,7 +37,9 @@ export const Header = () => {
           <nav className="grid items-start gap-2 text-sm" data-testid="MenuBar">
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild>{renderNavLink(<House />, 'Home', hideSideBar, 'menuBtn1')}</TooltipTrigger>
+                <TooltipTrigger asChild>
+                  <Link href="/home">{renderNavLink(<House />, 'Home', hideSideBar, 'menuBtn1')}</Link>
+                </TooltipTrigger>
 
                 <TooltipTrigger asChild>
                   {renderNavLink(
@@ -100,7 +102,7 @@ export const Header = () => {
                     }}
                   >
                     <div className="relative w-6 h-6 rounded-full">
-                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="w-auto h-auto rounded-full object-cover" alt="Profile-img" priority />
+                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="object-cover w-auto h-auto rounded-full" alt="Profile-img" priority />
                     </div>
                     <p className={`${hide ? 'hidden justify-center' : ''}`}>Profile</p>
                   </Link>
