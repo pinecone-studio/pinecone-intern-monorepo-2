@@ -6,13 +6,28 @@ jest.mock('../../../../src/models/post.model', () => ({
   PostLikeModel: {
     find: jest
       .fn()
-      .mockReturnValueOnce([
-        {
-          _id: '12',
-          post: 'post1',
-          createdAt: 'date',
-        },
-      ])
+      .mockReturnValueOnce({
+        populate: jest.fn().mockReturnValueOnce([
+          {
+            _id: '11',
+            post: 'post1',
+            createdAt: 'date',
+            user: {
+              _id: 'user1',
+              userName: 'Test',
+            },
+          },
+          {
+            _id: '12',
+            post: 'post1',
+            createdAt: 'date',
+            user: {
+              _id: 'user2',
+              userName: 'Test',
+            },
+          },
+        ]),
+      })
       .mockReturnValueOnce(null),
   },
 }));
@@ -23,9 +38,22 @@ describe('get  post likes', () => {
 
     expect(response).toEqual([
       {
+        _id: '11',
+        post: 'post1',
+        createdAt: 'date',
+        user: {
+          _id: 'user1',
+          userName: 'Test',
+        },
+      },
+      {
         _id: '12',
         post: 'post1',
         createdAt: 'date',
+        user: {
+          _id: 'user2',
+          userName: 'Test',
+        },
       },
     ]);
   });
