@@ -23,7 +23,7 @@ const makeClient = (authToken:string) => {
     return {
       headers: {
         ...headers,
-        authorization: authToken ?? `Bearer ${authToken}`,
+        authorization: authToken ? `Bearer ${authToken}`:'',
       },
     };
   });

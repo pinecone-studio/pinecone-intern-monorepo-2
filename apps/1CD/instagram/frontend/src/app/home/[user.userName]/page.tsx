@@ -32,12 +32,12 @@ const UserProfile = () => {
   }));
   // const postNumberDiv = () => {
   //   if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
-  //   else if (postLoading) return <Skeleton className="h-4 w-4" data-cy="postNumLoading" />;
+  //   else if (postLoading) return <Skeleton className="w-4 h-4" data-cy="postNumLoading" />;
   //   else if (postData.getMyPosts.length === 0) return 0;
   // };
 
   const postDiv = () => {
-    // if (postLoading) return <Skeleton className="h-full w-full" data-cy="postDivLoading" />;
+    // if (postLoading) return <Skeleton className="w-full h-full" data-cy="postDivLoading" />;
     if (postData.getMyPosts.length)
       return (
         <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
@@ -52,25 +52,25 @@ const UserProfile = () => {
   };
   console.log('useriig harah', user);
   return (
-    <div className="my-10 mx-auto" data-cy="user-profile-page">
+    <div className="mx-auto my-10" data-cy="user-profile-page">
       <div className="w-[900px]">
-        <div className="flex flex-row justify-evenly mb-10">
+        <div className="flex flex-row mb-10 justify-evenly">
           <ProImg changeProfileImg={changeProfileImg} proImgData={proImgData} setProImgData={setProImgData} _id={user?._id} prevProImg={user?.profileImg || '/images/profileImg.webp'} />
 
           <div className="flex flex-col justify-between">
             <div className="flex flex-row items-center space-x-8">
-              <h1 className="font-bold text-2xl" data-cy="username">
+              <h1 className="text-2xl font-bold" data-cy="username">
                 {user?.userName}
               </h1>
-              <Button className="text-black bg-gray-200 hover:bg-gray-300 h-8">Edit Profile</Button>
-              {/* <Button className="text-black bg-gray-200 hover:bg-gray-300 h-8">Add tools</Button> */}
+              <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Edit Profile</Button>
+              {/* <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Add tools</Button> */}
               <div>
                 <Settings />
               </div>
             </div>
             <div className="flex flex-row space-x-8">
               <div className="flex flex-row items-center space-x-2">
-                <h1 className="font-semibold flex justify-center" data-cy="postNumberDone">
+                <h1 className="flex justify-center font-semibold" data-cy="postNumberDone">
                   {postData.getMyPosts.length}
                 </h1>
                 <p>posts</p>
@@ -86,7 +86,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-        <div className="border-t-4 border-t-gray-200 flex relative">
+        <div className="relative flex border-t-4 border-t-gray-200">
           <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 left-[40%]">
             <Grid3x3 />
             <p>POSTS</p>
