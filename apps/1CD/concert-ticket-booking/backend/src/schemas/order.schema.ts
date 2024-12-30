@@ -29,15 +29,15 @@ export const typeDefs = gql`
     requestId: ID!
   }
 
+  type Query {
+    getOrder: [Order]!
+  }
+
   type ChangeStatusResponse {
     message: String!
   }
   type Response {
     message: String!
-  }
-
-  type Query {
-    getOrder: [Order]!
   }
 
   type Mutation {

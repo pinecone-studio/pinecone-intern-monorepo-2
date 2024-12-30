@@ -5,7 +5,7 @@ import { MutationResolvers, TicketType } from '../../../generated';
 
 export const cancelTicket: MutationResolvers['cancelTicket'] = async (_, { input }, { userId }) => {
   if (!userId) {
-    throw new Error('Unauthorized');
+    throw new Error('must be login');
   }
 
   const { orderId, bankDatas } = input;
