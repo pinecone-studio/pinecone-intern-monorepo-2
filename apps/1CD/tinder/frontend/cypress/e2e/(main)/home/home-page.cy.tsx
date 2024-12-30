@@ -1,6 +1,6 @@
 describe('HomePage', () => {
   beforeEach(() => {
-    cy.visit('/home');
+    cy.visit('/');
   });
 
   it('should display the homepage layout', () => {
@@ -18,17 +18,17 @@ describe('HomePage', () => {
 
   it('should navigate to login and register pages', () => {
     cy.get('[data-cy="create-account-link"]').click();
-    cy.url().should('include', '/signIn');
+    cy.url().should('include', '/register/email');
 
-    cy.visit('/home');
+    cy.visit('/');
     cy.get('[data-cy="login-link"]').click();
-    cy.url().should('include', '/register');
+    cy.url().should('include', '/signIn');
   });
 
   it('should display the main content', () => {
     cy.get('[data-cy="main-heading"]').should('contain.text', 'Swipe Right®');
 
     cy.get('[data-cy="main-cta-button"]').should('contain.text', 'Create Account').click();
-    cy.url().should('include', '/register');
+    cy.url().should('include', '/register/email');
   });
 });
