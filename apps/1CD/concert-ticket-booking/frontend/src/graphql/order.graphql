@@ -13,3 +13,9 @@ query GetOrder {
     }
   }
 }
+
+mutation CancelTicket($input: CancelTicketTypeInput!) {
+  cancelTicket(input: $input) {
+    message
+  }
+}
