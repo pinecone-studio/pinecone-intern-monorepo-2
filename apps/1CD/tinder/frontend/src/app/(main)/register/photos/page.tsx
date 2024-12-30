@@ -12,7 +12,7 @@ const ImageUpload = () => {
   const [uploading, setUploading] = useState(false);
   const [imageSubmit] = useImageSubmitMutation({
     onCompleted: () => {
-      router.push('/sign-up/all-set');
+      router.push('/register/all-set');
     },
   });
   const handleNext = async () => {
@@ -21,7 +21,7 @@ const ImageUpload = () => {
     }
   };
   const handleBack = () => {
-    router.push('/register/userdetails');
+    router.push('/register/details');
   };
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as FileList;
@@ -71,7 +71,7 @@ const ImageUpload = () => {
               </button>
             </div>
           ) : (
-            <div className="h-full w-full bg-gray-200 border rounded-md flex justify-center items-center"></div>
+            <div className="flex items-center justify-center w-full h-full bg-gray-200 border rounded-md"></div>
           )}
         </div>
       );
@@ -88,11 +88,11 @@ const ImageUpload = () => {
     return gridItems;
   };
   return (
-    <div className="mx-auto flex justify-center w-full max-w-4xl">
+    <div className="flex justify-center w-full max-w-4xl mx-auto mt-20">
       <div className="flex flex-col items-center w-full">
-        <div className="flex items-center gap-1 mt-[78px]" data-cy="logo-container">
-          <Image src={'/img/logo.svg'} alt="Tinder logo" width={40} height={40} className="w-[24px] h-[28px]" />
-          <p className="text-3xl text-gray-600 font-semibold">tinder</p>
+        <div data-cy="register-email-header" className="flex items-center gap-1">
+          <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+          <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
         <p className="text-2xl text-gray-900 font-semibold mt-[30px]" data-cy="question-title">
           Upload your images{' '}
@@ -112,13 +112,14 @@ const ImageUpload = () => {
           <p className="text-sm">Upload image</p>
         </button>
         <div className="flex justify-between w-[640px] mt-2" data-cy="navigation-buttons">
-          <button type="button" onClick={handleBack} className="hover:bg-gray-100 border border-1 rounded-full px-4 py-2" data-cy="back-button">
+          <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
             Back
           </button>
           <button type="button" onClick={handleNext} className="hover:bg-gray-800 bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
             {uploading ? 'Uploading...' : 'Next'}
           </button>
         </div>
+        <p className="text-[#71717A] text-sm pt-[5%] pb-[5%]">©2024 Tinder</p>
       </div>
     </div>
   );

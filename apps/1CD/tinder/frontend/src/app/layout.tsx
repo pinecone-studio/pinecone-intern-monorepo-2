@@ -19,7 +19,7 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
         <ApolloWrapper authToken={authToken}>
           <MatchProvider>
             <OneUserProvider>
-              <div className="max-w-[1280px] mx-auto">
+              <div >
               {React.cloneElement(children as React.ReactElement, { authToken })}
                 <Toaster />
               </div>

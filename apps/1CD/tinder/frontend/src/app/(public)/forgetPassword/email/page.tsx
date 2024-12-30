@@ -28,7 +28,7 @@ const CheckEmail = () => {
   });
 
   return (
-    <div data-cy="forgetpassword-page-container" className="min-h-screen flex flex-col items-center justify-center bg-white pt-[200px]">
+    <div data-cy="forgetpassword-page-container" className="min-h-screen flex flex-col items-center justify-center bg-white pt-[150px]">
       <div data-cy="forgetpassword-email-header" className="flex gap-2">
         <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
 

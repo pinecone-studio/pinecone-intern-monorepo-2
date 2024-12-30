@@ -1,9 +1,10 @@
 describe('testing the swipe page', () => {
   beforeEach(() => {
-    cy.visit('/swipe');
+    cy.visit('/recs');
     
   });
   it('1.should show the stack images ,swiping img and scroll the carousel', () => {
+    cy.get('[data-cy="header"]').should('be.visible');
     cy.get('[data-cy="swipingImg"]').should('be.visible');
     cy.get('[data-cy="carousel"]').should('be.visible');
     cy.get('[data-cy="name On first Slide"]').should('be.visible');
@@ -41,6 +42,7 @@ describe('testing the swipe page', () => {
     cy.get('[data-cy="swipingImg"]').realSwipe('toLeft').wait(1000);
     cy.get('[data-cy="swipingImg"]').realMouseUp();
     cy.wait(2000);
-
   });
+ 
+
 });

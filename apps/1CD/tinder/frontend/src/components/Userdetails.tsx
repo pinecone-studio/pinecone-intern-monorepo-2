@@ -40,7 +40,7 @@ export const Userdetails = () => {
   useEffect(() => {
     if (data) {
       toast.success('Successfully added your information');
-      router.push('/sign-up/image')
+      router.push('/register/photos')
       return;
     }
     const message = error.cause?.message;
@@ -75,7 +75,7 @@ export const Userdetails = () => {
   });
   console.log(formik.values)
   return (
-    <div className="flex flex-col items-center justify-between h-screen mt-10 " data-cy="User-Details-Page">
+    <div className="flex flex-col items-center justify-between h-screen mt-20 " data-cy="User-Details-Page">
       <div className="flex flex-col items-center justify-center gap-6">
         <div data-cy="register-email-header" className="flex items-center gap-1">
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />

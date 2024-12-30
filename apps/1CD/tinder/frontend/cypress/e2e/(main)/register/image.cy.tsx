@@ -1,9 +1,8 @@
 describe('Image upload page', () => {
   beforeEach(() => {
-    cy.visit('/sign-up/image');
+    cy.visit('/register/photos');
   });
   it('1. display the logo and header', () => {
-    cy.get('[data-cy="logo-container"]').should('be.visible');
     cy.contains('tinder').should('be.visible');
     cy.contains('Upload your image').should('be.visible');
     cy.contains('Please choose an image that represents you.').should('be.visible');
@@ -26,12 +25,12 @@ describe('Image upload page', () => {
     cy.get('[data-cy="next-button"]').should('contain.text', 'Next');
 
     cy.get('[data-cy="next-button"]').should('be.visible').click();
-    cy.url().should('include', '/sign-up/all-set');
+    cy.url().should('include', '/register/all-set');
   });
   it('5. should go back to the home page when clicking "Back"', () => {
-    cy.visit('/sign-up/image');
+    cy.visit('/register/photos');
     cy.get('[data-cy="back-button"]').click();
-    cy.url().should('include', '/register/userdetails');
+    cy.url().should('include', '/register/details');
   });
   it('6. should go back to the home page when clicking "Back"', () => {
     cy.get('input[type="file"]').selectFile('cypress/fixtures/dog.jpg', { force: true });

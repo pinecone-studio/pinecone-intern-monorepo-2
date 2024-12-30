@@ -70,7 +70,7 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div className="pt-[200px] justify-items-center">
+    <div className="pt-[150px] justify-items-center">
       <div className="flex items-center gap-1">
         <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
         <div className="text-[#424242] font-bold text-2xl">tinder</div>
