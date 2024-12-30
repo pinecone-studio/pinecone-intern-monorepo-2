@@ -4,6 +4,7 @@ query GetEvents($filter: EventsFilter) {
     category
     description
     discount
+    priority
     mainArtists {
       name
     }
@@ -20,6 +21,7 @@ query GetEvents($filter: EventsFilter) {
         _id
         zoneName
         soldQuantity
+        totalQuantity
         unitPrice
         discount
         additional

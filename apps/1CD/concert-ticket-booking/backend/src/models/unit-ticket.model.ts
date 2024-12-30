@@ -2,6 +2,7 @@ import { model, models, Schema } from 'mongoose';
 
 type UnitTicketType = {
   _id: Schema.Types.ObjectId;
+  productId: Schema.Types.ObjectId;
   ticketId: Schema.Types.ObjectId;
   eventId: Schema.Types.ObjectId;
   orderId: Schema.Types.ObjectId;
@@ -23,6 +24,11 @@ const unitTicketSchema = new Schema<UnitTicketType>(
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'Order',
+    },
+    productId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Ticket',
     },
     status: {
       type: String,

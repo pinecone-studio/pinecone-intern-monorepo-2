@@ -13,4 +13,8 @@ describe('Admin Page ', () => {
     cy.get('[data-cy="Cancel-Request-Text"]').should('be.visible');
     cy.get('[data-cy="Cancel-Request-Text"]').should('contain.text', 'Hello Cancel request page');
   });
+  it('should render cansel request page', () => {
+    cy.get('[data-cy="table-header"]').should('be.visible');
+    cy.get('[data-cy="table-header"]').should('contain.text', 'Онцлох');
+  });
 });

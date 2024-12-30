@@ -10,4 +10,11 @@ describe('Filter Page', () => {
     cy.get('[data-testid="Artist-Search-Input"]').type(testInput).should('have.value', testInput).clear().should('have.value', '');
     cy.get('[data-testid="Artist-Search-Input"]').type('Artist1').should('have.value', 'Artist1').type('{backspace}').should('have.value', 'Artist');
   });
+  it('should open the calendar and select a date', () => {
+    cy.get('button').contains('Өдөр сонгох').should('be.visible');
+    cy.get('[data-cy="date-picker-button"]').click();
+    cy.get('.rdp-button_reset').contains(25).click();
+    cy.get('button').should('contain', 'December 25th, 2024');
+    cy.get('.rdp-button_reset').contains(25).click();
+  });
 });
