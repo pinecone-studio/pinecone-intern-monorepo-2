@@ -62,7 +62,6 @@ const filterDate = async ({ filterRoom, input }: { filterRoom: FilterType; input
 };
 const filteredRoomsHotelIds = async ({ input, filter }: { input: RoomFilterType; filter: HotelFilterType }) => {
   const filterRoom = {};
-  const sort = {};
 
   if (input) {
     filterDate({ filterRoom, input });
