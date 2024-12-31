@@ -1,6 +1,6 @@
 import { RoomFilterType } from 'src/generated';
 import { bookingModel, hotelsModel, roomsModel } from 'src/models';
-import { FilterType, HotelFilterType, SortType } from './types';
+import { FilterType, HotelFilterType, SortType } from './filter-types';
 
 export const getFilterByPropertiesHotels = async (_: unknown, { input }: { input: RoomFilterType }) => {
   const filter = {};
