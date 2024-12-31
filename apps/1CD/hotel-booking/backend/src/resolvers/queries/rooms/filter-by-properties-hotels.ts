@@ -1,32 +1,7 @@
 import { RoomFilterType } from 'src/generated';
 import { bookingModel, hotelsModel, roomsModel } from 'src/models';
-type FilterType = {
-  _id?: {
-    $nin: string[];
-  };
-  hotelId?: {
-    $in: string[];
-  };
-  price?: {
-    $sort: { price: number };
-  };
-  roomType?: string;
-};
-type HotelFilterType = {
-  userRating?: {
-    $gt: number;
-  };
-  starRating?: number;
-  hotelAmenities?: {
-    $in: string[];
-  };
-  hotelName?: { $regex: string; $options: string };
-  _id?: { $in: string[] };
-};
-type SortType = {
-  roomsAveragePrice?: number;
-  starRating?: number;
-};
+import { FilterType, HotelFilterType, SortType } from './types';
+
 export const getFilterByPropertiesHotels = async (_: unknown, { input }: { input: RoomFilterType }) => {
   const filter = {};
 
