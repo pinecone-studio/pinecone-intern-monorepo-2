@@ -1,9 +1,10 @@
 'use client';
-import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
+
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
 
 const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void; handleOpen: () => void }) => {
   return (
