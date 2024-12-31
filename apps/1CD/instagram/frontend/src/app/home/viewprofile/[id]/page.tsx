@@ -6,7 +6,7 @@ import { useUser } from '@/components/providers/UserProvider';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
 import PostsSection from '@/components/visit-profile/PostsSection';
 import PrivateProfile from '@/components/visit-profile/PrivateProfile';
-import { useGetFollowStatusQuery, useGetOneUserQuery, useGetUserPostsQuery, useUnfollowMutation } from '@/generated';
+import { useGetFollowersQuery, useGetFollowingsQuery, useGetFollowStatusQuery, useGetOneUserQuery, useGetUserPostsQuery, useUnfollowMutation } from '@/generated';
 import { Grid3x3 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
@@ -94,10 +94,37 @@ const ViewProfile = () => {
     },
   });
 
+  const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: profileUser?._id as string } });
+  const { data: followerData } = useGetFollowersQuery({ variables: { followingId: profileUser?._id as string } });
+
+  if (!followingData || !followerData) return;
+  const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({
+    _id: oneFollower.followerId._id,
+    userName: oneFollower.followerId.userName,
+    profileImg: oneFollower.followerId.profileImg || '/images/profileImg.webp',
+    fullName: oneFollower.followerId.fullName,
+  }));
+  const fetchedFollowingData = followingData.seeFollowings.map((oneFollowing) => ({
+    _id: oneFollowing.followingId._id,
+    userName: oneFollowing.followingId.userName,
+    fullName: oneFollowing.followingId.fullName,
+    profileImg: oneFollowing.followingId.profileImg || '/images/profileImg.webp',
+  }));
+
   return (
     <div className="mx-auto my-10" data-cy="visit-profile-page">
       <div className="w-[900px]">
-        <HeadingSection profileUser={profileUser} followLoading={followLoading} buttonText={buttonText} handleButtonClick={handleButtonClick} />
+        <div className="">
+          <HeadingSection
+            profileUser={profileUser}
+            followLoading={followLoading}
+            buttonText={buttonText}
+            handleButtonClick={handleButtonClick}
+            fetchedFollowerData={fetchedFollowerData}
+            fetchedFollowingData={fetchedFollowingData}
+          />
+        </div>
+
         {profileUser?.accountVisibility === 'PUBLIC' ? (
           <div className="relative flex mb-10 border-t border-t-gray-200" data-cy="public-user">
             <div className=" border-t border-t-black hover:text-black absolute left-[50%]">
@@ -105,8 +132,6 @@ const ViewProfile = () => {
                 <Grid3x3 />
                 <p>POSTS</p>
               </div>
-
-              {/* <div>aaaaaaa</div> */}
             </div>
           </div>
         ) : (

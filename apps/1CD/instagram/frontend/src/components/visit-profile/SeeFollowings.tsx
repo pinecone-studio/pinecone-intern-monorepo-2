@@ -3,25 +3,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
+import { FollowingDialogProps } from '../user-profile/FollowingDialog';
 
-export interface Following {
-  _id: string;
-  // accountVisibility: AccountVisibility;
-  // bio: string;
-  // createdAt: Date;
-  // followerCount: number;
-  // followingCount: number;
-  fullName: string;
-  profileImg: string;
-  // updatedAt: Date;
-  userName: string;
-  // email: string;
-}
-export interface FollowingDialogProps {
-  followingData: Following[];
-  followingDataCount: number;
-}
-const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
+const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,20 +19,11 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
       <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogFollowing">
         <DialogHeader className="relative flex flex-row items-center justify-center h-10 px-4 py-6 border-b-2">
           <DialogTitle>Followings</DialogTitle>
-          {/* <DialogTrigger className="absolute flex flex-row items-center right-3 top-1" data-testid="closeButtonFollowing" data-cy="buttonCloseFollowing">
-            <X />
-          </DialogTrigger> */}
         </DialogHeader>
         <DialogDescription className="flex flex-col items-start p-0 m-0 space-y-2" data-testid="followingDialog">
           <div className="flex items-center w-11/12 mx-auto">
             <Search size={18} />
-            <Input
-              type="text"
-              placeholder="Search.."
-              className="w-10/12 bg-transparent border-none input md:w-auto focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-base"
-              // value={searchTerm}
-              // onChange={searchHandleChange}
-            />
+            <Input type="text" placeholder="Search.." className="w-10/12 bg-transparent border-none input md:w-auto focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-base" />
           </div>
           <div className="w-full space-y-2">
             {followingData.map((oneFollowing) => (
@@ -71,4 +46,4 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
     </Dialog>
   );
 };
-export default FollowingDialog;
+export default SeeFollowingsDialog;
