@@ -13,6 +13,7 @@ export const typeDefs = gql`
     images: [String]
     hotelAmenities: [String]
     location: String
+    roomsAveragePrice: Int
   }
 
   input HotelInput {

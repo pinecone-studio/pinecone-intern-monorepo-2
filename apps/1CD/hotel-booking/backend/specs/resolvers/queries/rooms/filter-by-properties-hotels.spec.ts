@@ -1,28 +1,24 @@
-import { getRooms } from 'src/resolvers/queries';
+import { getFilterByPropertiesHotels } from 'src/resolvers/queries';
 
 jest.mock('src/models', () => ({
-  roomsModel: {
+  hotelsModel: {
     find: jest
       .fn()
       .mockReturnValueOnce({
-        populate: jest.fn().mockReturnValueOnce({
-          sort: jest.fn().mockReturnValueOnce([
-            {
-              _id: '1',
-              roomCount: 5,
-            },
-          ]),
-        }),
+        sort: jest.fn().mockReturnValueOnce([
+          {
+            _id: '1',
+            hotelName: 'test',
+          },
+        ]),
       })
       .mockReturnValueOnce({
-        populate: jest.fn().mockReturnValueOnce({
-          sort: jest.fn().mockReturnValueOnce([
-            {
-              _id: '1',
-              roomCount: 5,
-            },
-          ]),
-        }),
+        sort: jest.fn().mockReturnValueOnce([
+          {
+            _id: '1',
+            hotelName: 'test',
+          },
+        ]),
       }),
   },
   bookingModel: {
@@ -37,7 +33,7 @@ jest.mock('src/models', () => ({
 
       .mockResolvedValueOnce([]),
   },
-  hotelsModel: {
+  roomsModel: {
     find: jest
       .fn()
       .mockResolvedValueOnce([
@@ -52,7 +48,7 @@ jest.mock('src/models', () => ({
 
 describe('get rooms', () => {
   it('if succussfylly worked', async () => {
-    const result = await getRooms(
+    const result = await getFilterByPropertiesHotels(
       {},
       {
         input: {
@@ -70,12 +66,12 @@ describe('get rooms', () => {
     expect(result).toEqual([
       {
         _id: '1',
-        roomCount: 5,
+        hotelName: 'test',
       },
     ]);
   });
   it('if succussfylly worked', async () => {
-    const result = await getRooms(
+    const result = await getFilterByPropertiesHotels(
       {},
       {
         input: {
@@ -90,6 +86,11 @@ describe('get rooms', () => {
         },
       }
     );
-    expect(result).toEqual([]);
+    expect(result).toEqual([
+      {
+        _id: '1',
+        hotelName: 'test',
+      },
+    ]);
   });
 });

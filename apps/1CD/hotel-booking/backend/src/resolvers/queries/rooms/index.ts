@@ -1,5 +1,3 @@
-
-export * from './get-rooms';
-export * from "./hotel-detail"
-export * from "./hotel-service"
-
+export * from './filter-by-properties-hotels';
+export * from './hotel-detail';
+export * from './hotel-service';

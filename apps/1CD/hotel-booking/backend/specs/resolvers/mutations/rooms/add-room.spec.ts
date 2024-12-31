@@ -3,6 +3,13 @@ import { RoomTypeInput } from '../../../../src/generated';
 
 jest.mock('src/models', () => ({
   roomsModel: {
+    find: jest.fn().mockResolvedValueOnce([
+      {
+        _id: '1',
+        hotelId: '2',
+        roomName: 'badral',
+      },
+    ]),
     create: jest
       .fn()
       .mockResolvedValueOnce({
@@ -12,6 +19,11 @@ jest.mock('src/models', () => ({
       })
       .mockRejectedValueOnce(new Error('Error')),
   },
+  hotelsModel: {
+    findByIdAndUpdate: jest.fn().mockResolvedValueOnce({
+      _id: '1',
+    }),
+  },
 }));
 
 describe('create hotel general info', () => {
@@ -20,7 +32,7 @@ describe('create hotel general info', () => {
     roomName: 'badral',
     roomType: '1bed',
     price: 500000,
-    roomInformation: 'luxury',
+    roomInformation: ['luxury'],
   };
 
   it('if succesfully created room general info', async () => {
