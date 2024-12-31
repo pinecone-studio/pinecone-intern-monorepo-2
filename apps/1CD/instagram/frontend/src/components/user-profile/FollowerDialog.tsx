@@ -1,5 +1,5 @@
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/app/(main)/_components/FollowerFollowingDialog';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
@@ -32,6 +32,7 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
           <p>followers</p>
         </div>
       </DialogTrigger>
+
       <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogFollower">
         <DialogHeader className="relative flex flex-row items-center justify-center h-10 px-4 py-6 border-b-2">
           <DialogTitle>Followers</DialogTitle>
