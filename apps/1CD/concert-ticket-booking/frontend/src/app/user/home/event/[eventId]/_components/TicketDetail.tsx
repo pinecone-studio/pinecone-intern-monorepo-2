@@ -105,7 +105,7 @@ const TicketDetail = ({ event }: { event: Event }) => {
                     </button>
                   );
                 })}
-                <Link href={`/user/${product._id}?event=${event._id}&venue=${event.venue._id}`} className="flex gap-2">
+                <Link href={`/user/order/${product._id}?event=${event._id}&venue=${event.venue._id}`} className="flex gap-2">
                   <button className="bg-[#00B7F4] w-full h-9 rounded-md text-sm">Тасалбар захиалах</button>
                 </Link>
                 <div></div>

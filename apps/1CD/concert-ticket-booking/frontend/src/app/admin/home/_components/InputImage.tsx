@@ -25,6 +25,7 @@ const InputImage = ({ form }: FormProps) => {
     setImage(response.data.secure_url);
     setPublicId(response.data.public_id);
     form.setValue('image', response.data.secure_url);
+    console.log('image', response.data.secure_url);
     setUploading(false);
   };
   const handleButtonClick = () => {
