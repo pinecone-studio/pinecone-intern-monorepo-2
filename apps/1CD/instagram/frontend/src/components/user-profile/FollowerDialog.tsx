@@ -1,10 +1,10 @@
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/app/(main)/_components/FollowerFollowingDialog';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Search, X } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Image from 'next/image';
 
-interface Follower {
+export interface Follower {
   _id: string;
   // accountVisibility: AccountVisibility;
   // bio: string;
@@ -17,7 +17,7 @@ interface Follower {
   userName: string;
   // email: string;
 }
-interface FollowerDialogProps {
+export interface FollowerDialogProps {
   followerData: Follower[];
   followerDataCount: number;
 }
@@ -32,15 +32,16 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
           <p>followers</p>
         </div>
       </DialogTrigger>
-      <DialogContent className="p-0 min-w-96 min-h-96 flex flex-col gap-2" data-cy="dialogFollower">
-        <DialogHeader className="relative px-4 py-6 flex flex-row h-10 justify-center items-center border-b-2">
+
+      <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogFollower">
+        <DialogHeader className="relative flex flex-row items-center justify-center h-10 px-4 py-6 border-b-2">
           <DialogTitle>Followers</DialogTitle>
-          <DialogTrigger className="absolute right-3 top-1 flex flex-row items-center" data-testid="closeButton" data-cy="buttonClose">
+          {/* <DialogTrigger className="absolute flex flex-row items-center right-3 top-1" data-testid="closeButton" data-cy="buttonClose">
             <X />
-          </DialogTrigger>
+          </DialogTrigger> */}
         </DialogHeader>
-        <DialogDescription className="flex flex-col space-y-2 items-start p-0 m-0" data-testid="followerDialog">
-          <div className="w-11/12 flex items-center mx-auto">
+        <DialogDescription className="flex flex-col items-start p-0 m-0 space-y-2" data-testid="followerDialog">
+          <div className="flex items-center w-11/12 mx-auto">
             <Search size={18} />
             <Input
               type="text"
@@ -52,17 +53,17 @@ const FollowerDialog: React.FC<FollowerDialogProps> = ({ followerData, followerD
           </div>
           <div className="w-full space-y-2">
             {followerData.map((oneFollower) => (
-              <div key={oneFollower._id} className="w-11/12  mx-auto flex flex-row justify-between items-center" data-cy="followerCard">
+              <div key={oneFollower._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followerCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollower.profileImg!} alt="proZurag" fill className="absolute rounded-full object-cover" data-cy="followerCardImg" />
+                    <Image src={oneFollower.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followerCardImg" />
                   </section>
                   <div className="flex flex-col space-y-0">
-                    <h1 className="text-lg text-gray-700 font-semibold">{oneFollower.userName}</h1>
+                    <h1 className="text-lg font-semibold text-gray-700">{oneFollower.userName}</h1>
                     <h1 className="text-sm font-medium">{oneFollower.fullName}</h1>
                   </div>
                 </div>
-                <Button className="h-9 bg-gray-200 hover:bg-gray-300 text-black">Remove</Button>
+                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
               </div>
             ))}
           </div>

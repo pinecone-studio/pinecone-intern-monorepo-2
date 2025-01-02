@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 
 import Image from 'next/image';
 import { BookingType } from './BookingDetailLeftSide';
-import { ReturnBooking } from '@/generated';
 
 const BookingDetailRightSide = ({ booking }: BookingType) => {
   return (
@@ -20,7 +19,7 @@ const BookingDetailRightSide = ({ booking }: BookingType) => {
           </div>
           <div className="flex items-center gap-2 text-sm">
             <div className="bg-[#2563EB] w-[39px] h-[20px] text-center text-[#FAFAFA] rounded-full">{booking?.roomId?.hotelId?.userRating}</div>
-            <HotelReveiwRating booking={booking} />
+            <HotelReveiwRating userRating={booking?.roomId?.hotelId?.userRating} />
           </div>
         </div>
         <div className="my-5 w-full bg-[#E4E4E7] h-[1px]"></div>
@@ -31,9 +30,9 @@ const BookingDetailRightSide = ({ booking }: BookingType) => {
 };
 export default BookingDetailRightSide;
 
-export const HotelReveiwRating = ({ booking }: { booking: ReturnBooking | null | undefined }) => {
-  if (booking?.roomId?.hotelId?.userRating) {
-    if (booking.roomId.hotelId.userRating >= 6) {
+export const HotelReveiwRating = ({ userRating }: { userRating: number | null | undefined }) => {
+  if (userRating) {
+    if (userRating >= 6) {
       return <div data-testid="Hotel-Review-Rating-Value1">Excellent</div>;
     } else {
       return <div data-testid="Hotel-Review-Rating-Value2">Bad</div>;

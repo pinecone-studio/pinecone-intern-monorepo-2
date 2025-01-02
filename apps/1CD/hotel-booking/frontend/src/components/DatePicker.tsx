@@ -34,6 +34,7 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
         </PopoverTrigger>
         <PopoverContent className={cn('w-auto p-0', 'max-w-[600px]', 'overflow-x-auto')} align="start">
           <Calendar
+            disabled={new Date()}
             initialFocus
             mode="range"
             defaultMonth={value?.date?.from}

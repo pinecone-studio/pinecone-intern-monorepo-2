@@ -5,11 +5,9 @@ describe('Searched hotel room cards', () => {
   it('should render', async () => {
     render(
       <SearchedHotelCards
-        roomData={{
-          id: '1',
-          roomService: {
-            bedroom: ['test'],
-          },
+        hotelData={{
+          _id: '1',
+          roomsAveragePrice: 150000,
         }}
       />
     );

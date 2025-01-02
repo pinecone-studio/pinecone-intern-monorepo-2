@@ -1,11 +1,11 @@
-import { signup } from '../../../src/resolvers/mutations/auth/signup';
-import { userModel } from '../../../src/models/user.model';
-import { AccountVisibility } from '../../../src/generated';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { GraphQLResolveInfo } from 'graphql';
+import { AccountVisibility } from 'src/generated';
+import { userModel } from 'src/models';
+import { signup } from 'src/resolvers/mutations';
 
-jest.mock('../../../src/models/user.model');
+jest.mock('../../../../src/models/user.model.ts');
 jest.mock('jsonwebtoken');
 jest.mock('bcrypt');
 
