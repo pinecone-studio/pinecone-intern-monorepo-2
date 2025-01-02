@@ -42,6 +42,21 @@ export const RequestTypeDefs = gql`
     optionalFile: String!
   }
 
+  type OpenRequestType {
+    _id: ID!
+    email: String!
+    requestType: String!
+    message: String!
+    requestDate: Date!
+    startTime: Date
+    endTime: Date
+    supervisorEmail: String!
+    result: String
+    comment: String
+    optionalFile: String
+    userName: String!
+  }
+
   type GroupedRequests {
     _id: String!
     requests: [RequestType]
@@ -70,6 +85,6 @@ export const RequestTypeDefs = gql`
     getRequestById(_id: ID): RequestType
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
     getAllRequestLength(supervisorEmail: String,email: String): NumberOutput!
-    openRequest(_id: ID): RequestType
+    openRequest(_id: ID): OpenRequestType
   }
 `;
