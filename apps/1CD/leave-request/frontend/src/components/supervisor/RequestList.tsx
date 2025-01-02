@@ -7,6 +7,8 @@ import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 import { format, formatDistance } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useGetAllRequestsBySupervisorQuery } from '@/generated';
 
 interface dataProps {
   __typename?: 'RequestTypePop';
@@ -32,49 +34,51 @@ interface dataProps {
   };
 }
 
-const RequestList = ({
-  data,
-  length,
-  pageChange,
-  page,
-}: {
-  data: dataProps[] | null | undefined;
-  length: {
-    __typename?: 'NumberOutput';
-    res?: number | null;
+import { filterProps } from './RequestHeader';
+
+// eslint-disable-next-line complexity
+const RequestList = ({ email, filter }: { email: string; filter: filterProps }) => {
+  const [page, setPage] = useState(1);
+
+  const { data, loading, refetch } = useGetAllRequestsBySupervisorQuery({ variables: { supervisorEmail: email, ...filter, page } });
+
+  const reload = () => {
+    refetch({ supervisorEmail: email, ...filter, page });
   };
-  // eslint-disable-next-line no-unused-vars
-  pageChange: (arg0: number) => void;
-  page: number;
-}) => {
-  if (!data || !length.res) {
+
+  if (loading) {
+    return <div>loading</div>;
+  }
+
+  if (!data || !data.getAllRequestLength.res) {
     return null;
   }
-  const maxPage = Number((length.res / 10).toFixed());
+
+  const maxPage = Number((data.getAllRequestLength.res / 10).toFixed());
   return (
     <div className="flex flex-col w-[414px]">
       <div className="flex flex-col gap-3">
-        {data.map((ele) => (
-          <SingleItem key={ele._id} item={ele} />
+        {data.getAllRequestsBySupervisor?.map((ele) => (
+          <SingleItem key={ele._id} item={ele} refetch={reload} />
         ))}
       </div>
       <div className="flex items-center gap-4 pt-4">
         <p className="text-xs text-[#71717A]">
-          {(page - 1) * 10 + 1}-{(page - 1) * 10 + ((maxPage == page && length.res % 10) || 10)} хүсэлт (Нийт: {length.res})
+          {(page - 1) * 10 + 1}-{(page - 1) * 10 + ((maxPage == page && data.getAllRequestLength.res % 10) || 10)} хүсэлт (Нийт: {data.getAllRequestLength.res})
         </p>
         <div className="flex gap-4">
           <FaAngleLeft
             className="cursor-pointer"
             size={8}
             onClick={() => {
-              if (page > 1) pageChange(page - 1);
+              if (page > 1) setPage(page - 1);
             }}
           />
           <FaAngleRight
             className="cursor-pointer"
             size={8}
             onClick={() => {
-              if (page < maxPage) pageChange(page + 1);
+              if (page < maxPage) setPage(page + 1);
             }}
           />
         </div>
@@ -84,7 +88,7 @@ const RequestList = ({
 };
 
 // eslint-disable-next-line complexity
-const SingleItem = ({ item }: { item: dataProps }) => {
+const SingleItem = ({ item, refetch }: { item: dataProps; refetch: () => void }) => {
   const router = useRouter();
   const params = useSearchParams();
   const clicked = params.get('id') == item._id;
@@ -92,6 +96,7 @@ const SingleItem = ({ item }: { item: dataProps }) => {
     <div
       className={`flex px-4 py-3 justify-between items-center ${clicked && 'bg-white border-[1px] border-[#E4E4E7]'}`}
       onClick={() => {
+        refetch();
         router.push(`?id=${item._id}`);
       }}
     >
@@ -129,13 +134,13 @@ const SingleItem = ({ item }: { item: dataProps }) => {
   );
 };
 
-const Pin = ({ result }: { result: string }) => {
+export const Pin = ({ result = 'pending' }: { result?: string | null }) => {
   if (result == 'sent') return <GoDotFill color="#2563EB" />;
   if (result == 'pending') return <div className="bg-[#F97316] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Хүлээгдэж байна</div>;
   if (result == 'success') return <div className="bg-[#18BA51] bg-opacity-20 rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Баталгаажсан</div>;
   return <div className="bg-[#E11D4833] rounded-full px-[10px] py-[2px] text-xs text-[#18181B] h-5">Татгалзсан</div>;
 };
-const RequestType = ({ requestType }: { requestType?: string | null }) => {
+export const RequestType = ({ requestType }: { requestType?: string | null }) => {
   return (requestType == 'paid' && 'Цалинтай чөлөө') || (requestType == 'remote' && 'Зайнаас ажиллах') || 'Чөлөө';
 };
 const RequestTimeCal = ({ startTime, endTime }: { startTime: string; endTime: string }) => {
