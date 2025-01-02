@@ -14,9 +14,13 @@ import { Pin, RequestType } from './RequestList';
 const RequestDetail = () => {
   const params = useSearchParams();
   const id = params.get('id') || '';
-  const { data, loading } = useOpenRequestQuery({
+  const { data, loading, refetch } = useOpenRequestQuery({
     variables: { id },
   });
+
+  const reload = () => {
+    refetch({ id });
+  };
 
   if (!id) {
     return 'pick ur poison';
@@ -80,9 +84,9 @@ const RequestDetail = () => {
       {openRequest.result == 'sent' ||
         (openRequest.result == 'pending' && (
           <div className="mt-8 flex justify-end gap-2">
-            <DenyButton />
+            <DenyButton id={id} refetch={reload}/>
 
-            <ApproveButton />
+            <ApproveButton id={id} refetch={reload}/>
           </div>
         ))}
     </div>

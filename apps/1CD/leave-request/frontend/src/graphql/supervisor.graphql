@@ -26,3 +26,19 @@ query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $
     res
   }
 }
+
+mutation UpdateRequest($result: String, $comment: String, $id: ID) {
+  updateRequest(result: $result, comment: $comment, _id: $id) {
+    _id
+    email
+    requestType
+    message
+    requestDate
+    startTime
+    endTime
+    supervisorEmail
+    result
+    comment
+    optionalFile
+  }
+}

@@ -7,10 +7,8 @@ import { FaAngleLeft } from 'react-icons/fa6';
 import { FaAngleRight } from 'react-icons/fa6';
 import { format, formatDistance } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import { useGetAllRequestsBySupervisorQuery } from '@/generated';
 
-interface dataProps {
+export interface dataProps {
   __typename?: 'RequestTypePop';
   _id: string;
   requestType: string;
@@ -34,21 +32,11 @@ interface dataProps {
   };
 }
 
-import { filterProps } from './RequestHeader';
+import { useGetAllRequestSupervisor } from '@/context/GetAllRequestBySupervisorContext';
 
 // eslint-disable-next-line complexity
-const RequestList = ({ email, filter }: { email: string; filter: filterProps }) => {
-  const [page, setPage] = useState(1);
-
-  const { data, loading, refetch } = useGetAllRequestsBySupervisorQuery({ variables: { supervisorEmail: email, ...filter, page } });
-
-  const reload = () => {
-    refetch({ supervisorEmail: email, ...filter, page });
-  };
-
-  if (loading) {
-    return <div>loading</div>;
-  }
+const RequestList = () => {
+  const { data, reload, page, setPage } = useGetAllRequestSupervisor();
 
   if (!data || !data.getAllRequestLength.res) {
     return null;
