@@ -10,14 +10,14 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
   return (
     <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
-        <DialogContent className="flex flex-col gap-5">
+        <DialogContent className="flex flex-col gap-5 max-h-[690px] overflow-y-scroll">
           <DialogHeader>
-            <DialogTitle className="flex justify-between text-xl font-semibold">
-              <div>Room information</div>
+            <div className="flex justify-between">
+              <div className="text-base font-bold text-foreground">Room information</div>
               <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
-                <X />
+                <X className="w-5 h-5" />
               </button>
-            </DialogTitle>
+            </div>
           </DialogHeader>
           {room?.images && <RoomCarousel roomImages={room.images} data-cy="HotelRoomCarousel" />}
           <DialogTitle>{room?.roomName}</DialogTitle>

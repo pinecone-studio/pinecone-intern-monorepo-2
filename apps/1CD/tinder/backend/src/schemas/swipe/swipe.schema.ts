@@ -1,8 +1,10 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
-  enum Response {
-    Success
+  type ResponseOfSwipe {
+    swiped:String,
+    matched:Boolean,
+    matchedWith:String,
   }
   input SwipeInput {
     swipedUser: String!
@@ -14,6 +16,6 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    swipeUser(input: SwipeInput!): Response!
+    swipeUser(input: SwipeInput!): ResponseOfSwipe!
   }
 `;

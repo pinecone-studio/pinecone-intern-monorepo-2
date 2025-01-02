@@ -2,7 +2,6 @@
 
 import { Hotel } from "@/generated";
 
-
 const HotelAbout = ({hotel}: {hotel: Hotel | undefined}) => {
 
   return (
