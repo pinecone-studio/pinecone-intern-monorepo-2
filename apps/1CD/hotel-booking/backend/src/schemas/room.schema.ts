@@ -69,6 +69,7 @@ export const typeDefs = gql`
     getFilterByPropertiesHotels(input: RoomFilterType): [Hotel!]!
     hotelDetail(hotelId: ID!): [RoomType!]!
     hotelService(roomId: ID!): [Room!]!
+    getRoom(_id: ID!): Room!
   }
   type Mutation {
     addRoom(input: RoomTypeInput!): RoomType!
