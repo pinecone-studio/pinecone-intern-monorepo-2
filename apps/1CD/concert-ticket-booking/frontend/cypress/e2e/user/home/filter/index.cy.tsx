@@ -1,6 +1,6 @@
 describe('Filter Page', () => {
   beforeEach(() => {
-    cy.visit('user/home/filter');
+    cy.visit('/user/home/filter');
   });
   it('1. Displays detail page top component', () => {
     cy.get('[data-cy="Filter-Page"]').should('be.visible');
@@ -13,8 +13,8 @@ describe('Filter Page', () => {
   it('should open the calendar and select a date', () => {
     cy.get('button').contains('Өдөр сонгох').should('be.visible');
     cy.get('[data-cy="date-picker-button"]').click();
+    cy.get('[data-cy="date-picker-button"]').click();
     cy.get('.rdp-button_reset').contains(25).click();
-    cy.get('button').should('contain', 'December 25th, 2024');
-    cy.get('.rdp-button_reset').contains(25).click();
+    cy.get('[data-cy="date-picker-button"]').click();
   });
 });

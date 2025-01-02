@@ -12,7 +12,7 @@ type PaymentProp = {
 const Payment = ({ order, createOrder }: PaymentProp) => {
   const [mode, setMode] = useState(false);
 
-  const totalPrice = order?.reduce((total, item) => total + item.price * item.buyQuantity, 0) ?? 0;
+  const totalPrice = order?.reduce((total, item) => total + item.price * item.buyQuantity, 0);
 
   return (
     <div className="flex flex-col items-center gap-4 p-4 bg-[#1C1C1C] rounded-lg max-w-xs mx-auto">
@@ -20,6 +20,7 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
         Нийт төлөв дүн: {totalPrice} <span>₮</span>
       </p>
       <button
+        data-cy="payment-select-button"
         onClick={() => setMode((prev) => !prev)}
         className={`
           flex items-center gap-2 p-2 rounded-md
@@ -31,7 +32,7 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
         <p className="text-white font-medium">PinePay</p>
       </button>
       {mode && (
-        <Button onClick={() => createOrder()} className="bg-green-700 text-white p-2 rounded-md hover:bg-green-700 w-auto max-w-[200px]">
+        <Button data-cy="payment-submit-button" onClick={() => createOrder()} className="bg-green-700 text-white p-2 rounded-md hover:bg-green-700 w-auto max-w-[200px]">
           Төлбөр төлөх
         </Button>
       )}

@@ -11,11 +11,7 @@ const DatePicker = () => {
   const selectedDate = date ? parseISO(date) : undefined;
 
   const handleSelect = (day: Date | undefined) => {
-    if (day) {
-      setDate(day.toISOString());
-    } else {
-      setDate(null);
-    }
+    setDate(day!.toISOString());
   };
   return (
     <Popover>

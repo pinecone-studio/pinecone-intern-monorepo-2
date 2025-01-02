@@ -5,29 +5,29 @@ import React, { useState } from 'react';
 import OrderDetail from '../_components/OrderDetail';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Order, OrderState, UserInfo } from '@/utils/type';
+import { Order, UserInfo } from '@/utils/type';
 import OrderConfirm from '../_components/OrderConfirm';
 import Payment from '../_components/Payment';
 import { toast } from 'sonner';
 import { useAddToCartsMutation } from '@/generated';
 
 const OrderTicketPage = () => {
-  const [currentState, setCurrentState] = useState<OrderState>(OrderState.SELECT_TICKET);
+  const [currentState, setCurrentState] = useState<number>(1);
   const [order, setOrder] = useState<Order[]>([]);
-  const [buyer, setBuyer] = useState<UserInfo | null>(null);
   const router = useRouter();
   const { id } = useParams();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
   const [quantity, setQuantity] = useState<number[]>([]);
-  const validTicketId = Array.isArray(id) ? id[0] : id;
+  const [buyer, setBuyer] = useState<UserInfo>();
+
   const handleUndo = () => {
-    if (currentState === OrderState.SELECT_TICKET) {
+    if (currentState === 1) {
       router.push(`/user/home/event/${eventId}`);
-    } else if (currentState === OrderState.CONFIRM_ORDER) {
-      setCurrentState(OrderState.SELECT_TICKET);
-    } else if (currentState === OrderState.PAYMENT) {
-      setCurrentState(OrderState.CONFIRM_ORDER);
+    } else if (currentState === 2) {
+      setCurrentState(1);
+    } else {
+      setCurrentState(2);
     }
   };
   const handleQuantityChange = (idx: number, id: string, price: number, name: string, operation: 'add' | 'sub') => {
@@ -65,30 +65,21 @@ const OrderTicketPage = () => {
   });
 
   const createOrder = async () => {
-    if (!buyer || !validTicketId) {
-      toast.error('Please provide buyer information or event ID');
-      return;
-    }
     const ticketType = order.map((item) => ({
       _id: item._id,
       buyQuantity: item.buyQuantity.toString(),
     }));
-
-    try {
-      await addToCart({
-        variables: {
-          input: {
-            email: buyer.email,
-            phoneNumber: buyer.phoneNumber,
-            eventId: eventId!,
-            ticketId: validTicketId!,
-            ticketType: ticketType,
-          },
+    await addToCart({
+      variables: {
+        input: {
+          email: buyer!.email,
+          phoneNumber: buyer!.phoneNumber,
+          eventId: eventId!,
+          ticketId: id as string,
+          ticketType: ticketType,
         },
-      });
-    } catch (error) {
-      toast.error('Failed to create order');
-    }
+      },
+    });
   };
 
   return (
@@ -97,23 +88,22 @@ const OrderTicketPage = () => {
       style={{
         background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
       }}
+      data-cy="order-ticket-page"
     >
-      <header className="flex justify-between items-center">
-        <Button onClick={handleUndo} className="text-white">
+      <header className="flex justify-between items-center" data-cy="order-ticket-header">
+        <Button onClick={handleUndo} className="text-white" data-cy="undo-button">
           Undo
         </Button>
         <div className="text-white">
-          {currentState === OrderState.SELECT_TICKET && 'Тасалбар захиалах'}
-          {currentState === OrderState.CONFIRM_ORDER && 'Захиалга баталгаажуулах'}
-          {currentState === OrderState.PAYMENT && 'Төлбөр төлөх'}
+          {currentState === 1 && 'Тасалбар захиалах'}
+          {currentState === 2 && 'Захиалга баталгаажуулах'}
+          {currentState === 3 && 'Төлбөр төлөх'}
         </div>
       </header>
       <div className="mt-4">
-        {currentState === OrderState.SELECT_TICKET && (
-          <OrderDetail setQuantity={setQuantity} quantity={quantity} handleQuantityChange={handleQuantityChange} order={order} setOrder={setOrder} setState={setCurrentState} />
-        )}
-        {currentState === OrderState.CONFIRM_ORDER && <OrderConfirm setBuyer={setBuyer} setState={setCurrentState} order={order} />}
-        {currentState === OrderState.PAYMENT && <Payment order={order} createOrder={createOrder} />}
+        {currentState === 1 && <OrderDetail setQuantity={setQuantity} quantity={quantity} handleQuantityChange={handleQuantityChange} order={order} setOrder={setOrder} setState={setCurrentState} />}
+        {currentState === 2 && <OrderConfirm setBuyer={setBuyer} setState={setCurrentState} order={order} />}
+        {currentState === 3 && <Payment order={order} createOrder={createOrder} />}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { Order, UserInfo } from '@/utils/type';
 
 type OrderConfirmProp = {
   order: Order[] | null;
-  setBuyer: Dispatch<SetStateAction<UserInfo | null>>;
+  setBuyer: Dispatch<SetStateAction<UserInfo | undefined>>;
   setState: Dispatch<SetStateAction<number>>;
 };
 
@@ -51,12 +51,10 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
   };
 
   useEffect(() => {
-    if (user) {
-      form.reset({
-        email: user.email,
-        phoneNumber: user?.phoneNumber ?? '',
-      });
-    }
+    form.reset({
+      email: user?.email,
+      phoneNumber: user?.phoneNumber ?? '',
+    });
   }, [user, form]);
 
   return (
@@ -105,7 +103,7 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
             </div>
           </div>
           <div className="mt-8 flex justify-end">
-            <Button type="submit" className="px-6 py-3 bg-[#00B7f4] text-black font-semibold rounded-md hover:bg-[#00a7d4] transition duration-300">
+            <Button data-cy="order-confirm-button" type="submit" className="px-6 py-3 bg-[#00B7f4] text-black font-semibold rounded-md hover:bg-[#00a7d4] transition duration-300">
               Үргэжлүүлэх
             </Button>
           </div>

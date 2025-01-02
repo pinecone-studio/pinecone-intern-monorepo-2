@@ -1,9 +1,3 @@
-/* eslint-disable no-unused-vars */
-export enum OrderState {
-  SELECT_TICKET = 1,
-  CONFIRM_ORDER = 2,
-  PAYMENT = 3,
-}
 export type UserInfo = {
   email: string;
   phoneNumber: string;
