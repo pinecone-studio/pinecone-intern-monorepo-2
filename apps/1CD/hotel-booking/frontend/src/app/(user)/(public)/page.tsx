@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
-  const [sliceNum, setSliceNum] = useState<number | undefined>(8);
+  const [sliceNum, setSliceNum] = useState<number | undefined>(13);
   if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
   return (
     <div data-cy="Home-Page" className="w-full">

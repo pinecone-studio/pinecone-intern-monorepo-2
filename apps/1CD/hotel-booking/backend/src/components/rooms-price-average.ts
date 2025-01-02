@@ -6,6 +6,6 @@ export const roomsPriceAverage = async ({ _id }: { _id: string | undefined }) =>
   for (let i = 0; i < rooms.length; i++) {
     sum += rooms[i].price;
   }
-  const roomsAveragePrice = sum / rooms.length;
+  const roomsAveragePrice = Math.floor(sum / rooms.length);
   await hotelsModel.findByIdAndUpdate({ _id }, { roomsAveragePrice });
 };

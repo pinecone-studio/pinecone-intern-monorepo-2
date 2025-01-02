@@ -42,13 +42,13 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   };
   const initialValues = {
     roomName: '',
-    roomInformation: '',
+    roomInformation: [],
     roomType: '',
     pricePerNight: 0,
   };
   const validationSchema = yup.object({
     roomName: yup.string().required('room name is required'),
-    roomInformation: yup.string(),
+    roomInformation: yup.array(),
     roomType: yup.string().required('room type is required'),
     pricePerNight: yup.number().min(1, 'room price per night is required'),
   });
