@@ -1,5 +1,5 @@
 'use client';
-import { PhoneCall } from 'lucide-react';
+import { AirVent, Cat, CigaretteOff, DumbbellIcon, HardHat, Martini, ParkingCircle, PhoneCall, Utensils } from 'lucide-react';
 import HotelRooms from './HotelRooms';
 import { useGetHotelQuery } from '@/generated';
 import Image from 'next/image';
@@ -7,6 +7,47 @@ import HotelImportant from '@/components/HotelImportant';
 import HotelPolicies from '@/components/HotelPolicies';
 import HotelAbout from '../../(public)/hotel-detail/HotelAbout';
 import HotelAsked from '../../(public)/hotel-detail/HotelAsked';
+import { HotelReveiwRating } from '@/components/BookingDetailRightSide';
+import { Badge } from '@/components/ui/badge';
+
+const Services = [
+  <div className="flex gap-1 items-center">
+    <ParkingCircle className="w-4 h-4" />
+    <p className="text-sm font-medium">Parking available</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <HardHat className="w-4 h-4" />
+    <p className="text-sm font-medium">24/7 front desk</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <AirVent className="w-4 h-4" />
+    <p className="text-sm font-medium">Air conditioning</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <DumbbellIcon className="w-4 h-4" />
+    <p className="text-sm font-medium">Gym</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <Cat className="w-4 h-4" />
+    <p className="text-sm font-medium">Pet-friendly</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <CigaretteOff className="w-4 h-4" />
+    <p className="text-sm font-medium">Non-smoking</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <Martini className="w-4 h-4" />
+    <p className="text-sm font-medium">Bar</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <Utensils className="w-4 h-4" />
+    <p className="text-sm font-medium">Restraurant</p>
+  </div>,
+  <div className="flex gap-1 items-center">
+    <ParkingCircle className="w-4 h-4" />
+    <p className="text-sm font-medium">Laundry</p>
+  </div>
+];
 
 const HotelDetail = ({ id }: { id: string }) => {
   const { data, loading } = useGetHotelQuery({
@@ -41,12 +82,15 @@ const HotelDetail = ({ id }: { id: string }) => {
                 <div className="text-3xl font-semibold">{data?.getHotel.hotelName}</div>
                 <div className="text-base font-normal">{data?.getHotel.description}</div>
               </div>
-              <div>excelent</div>
+              <div className="flex gap-2">
+                <Badge className="px-4 hover:bg-[#2563EB] bg-[#2563EB]">{data?.getHotel.userRating}</Badge>
+                <HotelReveiwRating userRating={data?.getHotel.userRating} />
+              </div>
             </div>
             <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
-            <div>
-              <div>Most popular facilities</div>
-              <div>Service</div>
+            <div className="flex flex-col gap-2">
+              <div className="text-sm font-bold">Most popular facilities</div>
+              <div className="grid grid-cols-3 col-span-3 gap-4">{Services.map((item) => item)}</div>
             </div>
           </div>
           <div className="flex flex-col flex-1 gap-2">
@@ -66,8 +110,8 @@ const HotelDetail = ({ id }: { id: string }) => {
             </div>
           </div>
         </div>
-        <div className='flex flex-col gap-14 px-10'>
-          <HotelRooms />
+        <div className="flex flex-col gap-14">
+          <HotelRooms id={id} />
           <div className="flex flex-col gap-20"></div>
           <HotelAbout hotel={data?.getHotel} />
           <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>

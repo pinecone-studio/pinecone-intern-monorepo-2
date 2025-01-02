@@ -18,7 +18,10 @@ describe('HotelDetail', () => {
     cy.get('[data-cy=carousel-item0]').should('be.visible');
   });
   it('3. should render', () => {
-    cy.get('[data-cy="Room-Card"]').should('be.visible');
+    cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
+    cy.scrollTo('bottom').should('exist', '[data-cy="Hotel-Rooms"]');
+    cy.get('[data-cy="All-Rooms-button"]').click();
+    cy.get('[data-cy=one-button]').click();
   });
   it('4. should render', () => {
     cy.get('[data-cy="Price-Detail-Button"]').last().click({ force: true });
