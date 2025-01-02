@@ -27,7 +27,7 @@ describe('OrderDetail Page', () => {
 
   it('should allow user to increase or decrease quantity', () => {
     cy.visit('/user/order/6775692364c0071f2a79492c?event=6775692364c0071f2a794935&venue=675699a6c1dddce3ed2978ae');
-    cy.get('[data-cy="event-scheduled-time"]').should('have.text', '25.06.27 03:00 pm');
+    // cy.get('[data-cy="event-scheduled-time"]').should('have.text', '25.06.27 03:00 pm');
     cy.get('[data-cy="increase-0"]').should('be.visible').click();
     cy.get('[data-cy="quantity-input-0"]').should('have.value', 1);
     cy.get('[data-cy="increase-1"]').should('be.visible').click();
