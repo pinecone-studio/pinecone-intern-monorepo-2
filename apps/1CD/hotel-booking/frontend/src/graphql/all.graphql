@@ -97,29 +97,6 @@ mutation addPayment($input: PaymentInput!) {
   }
 }
 
-query GetRooms($input: RoomFilterType!) {
-  getRooms(input: $input) {
-    id
-    roomService {
-      bathroom
-      accessability
-      entertaiment
-      foodDrink
-      bedroom
-      other
-    }
-    hotelId {
-      createdAt
-      _id
-      hotelName
-      description
-      starRating
-      userRating
-      phoneNumber
-      images
-    }
-  }
-}
 mutation AddRoom($input: RoomTypeInput!) {
   addRoom(input: $input) {
     _id
@@ -309,5 +286,21 @@ query HotelService($roomId: ID!) {
     price
     roomInformation
     createdAt
+  }
+}
+
+query GetFilterByPropertiesHotels($input: RoomFilterType) {
+  getFilterByPropertiesHotels(input: $input) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+    hotelAmenities
+    location
+    roomsAveragePrice
   }
 }
