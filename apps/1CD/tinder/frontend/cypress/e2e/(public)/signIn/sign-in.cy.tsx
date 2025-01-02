@@ -12,7 +12,7 @@ describe('should sign in', () => {
     cy.get('[data-cy="signIn-email-input"]').should('be.visible').and('have.attr', 'placeholder', 'name@example.com').type('cypress@gmail.com');
     cy.get('[data-cy="signIn-password-input"]').should('be.visible').and('have.attr', 'placeholder', 'Tinder12345@').type('Tinder1213@');
     cy.contains('Continue').should('be.visible').click();
-    cy.url().should('include', '/home');
+    cy.url().should('include', '/recs');
   });
   it('2.should show error if email is empty', () => {
     cy.get('[data-cy="signIn-password-input"]').type('tindeR1213@');

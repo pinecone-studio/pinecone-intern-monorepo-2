@@ -34,7 +34,7 @@ const SignIn = () => {
     onCompleted: async(data) => {
       const token=data.signIn.token;
       await fetch(`token?token=${token}`);
-      router.push('/home');
+      router.push('/recs');
     },
     onError: (error) => {
       toast.error(error.message);
