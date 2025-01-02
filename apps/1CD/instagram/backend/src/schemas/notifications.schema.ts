@@ -13,16 +13,21 @@ export const typeDefs = gql`
     createdAt: Date
   }
 
+  enum NotificationType {
+    FOLLOW
+    POSTLIKE
+  }
+
   type Notifications {
     _id: ID!
-    otherUserId: ID!
-    currentUserId: User!
-    notificationType: String!
+    otherUserId: String!
+    currentUserId: String!
+    notificationType: NotificationType!
     postId: Posts
     createdAt: Date!
   }
 
   type Query {
-    getNotificationsByLoggedUser(currentUserId: ID!): [Notifications!]!
+    getNotificationsByLoggedUser: [Notifications!]!
   }
 `;

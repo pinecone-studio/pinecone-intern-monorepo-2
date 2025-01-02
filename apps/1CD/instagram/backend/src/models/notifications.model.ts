@@ -1,19 +1,20 @@
 import { model, models, Schema, Types } from 'mongoose';
 import { UserType } from './user.model';
 import { Post } from './post.model';
+import { NotificationType } from 'src/generated';
 
 export type NotificationsType = {
   _id: string;
-  otherUserId: Types.ObjectId;
-  currentUserId: Types.ObjectId;
-  notificationType: string;
+  otherUserId: string;
+  currentUserId: string;
+  notificationType: NotificationType;
   postId: Types.ObjectId;
   createdAt: Date;
 };
 const NotificationsSchema = new Schema<NotificationsType>({
-  otherUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
-  currentUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
-  notificationType: { type: String, required: true, enum: ['follow', 'postLike'] },
+  otherUserId: { type: String, required: true, ref: 'userModel' },
+  currentUserId: { type: String, required: true, ref: 'userModel' },
+  notificationType: { type: String, required: true, enum: [NotificationType.Follow, NotificationType.Postlike] },
   postId: { type: Schema.Types.ObjectId, ref: 'Post' },
   createdAt: {
     type: Date,
