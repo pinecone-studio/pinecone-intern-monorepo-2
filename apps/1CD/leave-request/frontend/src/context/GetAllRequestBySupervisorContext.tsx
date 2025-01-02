@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
 import { filterProps } from '@/components/supervisor/RequestHeader';
-import { Exact, GetAllRequestsBySupervisorQuery, useGetAllRequestsBySupervisorQuery } from '@/generated';
+import {  GetAllRequestsBySupervisorQuery, useGetAllRequestsBySupervisorQuery } from '@/generated';
 
 
 type GetAllContextType = {
