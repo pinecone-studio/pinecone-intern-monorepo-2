@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchedHotelCards } from '@/components/search-hotel/SearchedHotelCards';
-import { useGetRoomsLazyQuery } from '@/generated';
+import { useGetFilterByPropertiesHotelsLazyQuery } from '@/generated';
 import RatingCheckbox from '@/components/search-hotel/RatingRadio';
 import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
@@ -28,7 +28,7 @@ const Page = () => {
     [price]
   );
 
-  const [getRooms, { loading, data }] = useGetRoomsLazyQuery({
+  const [getFilteredHotels, { loading, data }] = useGetFilterByPropertiesHotelsLazyQuery({
     variables: {
       input: {
         checkInDate: value?.date?.from,
@@ -43,8 +43,8 @@ const Page = () => {
     },
   });
   useEffect(() => {
-    getRooms();
-  }, [value?.date, getRooms, starRating, userReviewRating, hotelAmenities, hotelName, price, value?.roomType]);
+    getFilteredHotels();
+  }, [value?.date, getFilteredHotels, starRating, userReviewRating, hotelAmenities, hotelName, price, value?.roomType]);
   const handlePropertyName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setHotelName(e.target.value);
@@ -82,7 +82,7 @@ const Page = () => {
           </main>
           <section className="max-w-[872px] w-full h-full  mt-10">
             <div className="flex items-center justify-between">
-              <p>{data?.getRooms.length} properties</p>
+              <p>{data?.getFilterByPropertiesHotels.length} properties</p>
               <Select onValueChange={handlePriceSort}>
                 <SelectTrigger data-cy="Sort-By-Price" data-testid="filter-select" className="w-80">
                   <SelectValue placeholder="Recommended" />
@@ -103,9 +103,9 @@ const Page = () => {
               </div>
             ) : (
               <div className="h-full max-h-screen overflow-scroll">
-                {data?.getRooms.map((roomData) => (
-                  <Link key={roomData.id} href={`/hotel-detail/${roomData.hotelId?._id}`}>
-                    <SearchedHotelCards roomData={roomData} />
+                {data?.getFilterByPropertiesHotels.map((hotelData) => (
+                  <Link key={hotelData._id} href={`/hotel-detail/${hotelData?._id}`}>
+                    <SearchedHotelCards hotelData={hotelData} />
                   </Link>
                 ))}
               </div>

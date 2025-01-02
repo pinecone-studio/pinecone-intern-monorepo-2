@@ -56,7 +56,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="bg-[#2563EB] hover:bg-blue-300 active:bg-blue-400 w-[39px] h-[20px] flex justify-center items-center text-[#FAFAFA] rounded-full">
             {data?.getBooking.roomId?.hotelId?.userRating}
           </div>
-          <HotelReveiwRating booking={data?.getBooking} />
+          <HotelReveiwRating userRating={data?.getBooking.roomId?.hotelId?.userRating} />
         </div>
         <div className="my-4 w-full bg-[#E4E4E7] h-[1px]"></div>
         <div className="flex flex-col gap-1">
