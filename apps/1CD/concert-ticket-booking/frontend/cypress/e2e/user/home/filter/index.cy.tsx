@@ -17,4 +17,8 @@ describe('Filter Page', () => {
     cy.get('.rdp-button_reset').contains(25).click();
     cy.get('[data-cy="date-picker-button"]').click();
   });
+  it('Should show "Илэрц олдсонгүй" message if no results', () => {
+    cy.get('[data-testid="Artist-Search-Input"]').type('NonExistentArtist');
+    cy.get('[data-cy="Filter-Page"]').should('contain', 'Илэрц олдсонгүй');
+  });
 });
