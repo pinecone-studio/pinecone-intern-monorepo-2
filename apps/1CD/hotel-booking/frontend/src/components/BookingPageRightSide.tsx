@@ -16,7 +16,7 @@ export const BookingPageRightSide = ({ booking }: { booking: ReturnBooking | und
         <div className="text-sm mb-4 text-[#71717A]">{booking?.roomId?.hotelId?.location}</div>
         <div className="flex items-center gap-2 text-sm">
           <div className="bg-[#2563EB] w-[39px] h-[20px] text-center text-[#FAFAFA] rounded-full">{booking?.roomId?.hotelId?.userRating}</div>
-          <HotelReveiwRating booking={booking} />
+          <HotelReveiwRating userRating={booking?.roomId?.hotelId?.userRating} />
         </div>
         <div className="h-[1px] w-full my-6 bg-[#E4E4E7]"></div>
         <div className="flex flex-col gap-2 mb-6 text-sm">
