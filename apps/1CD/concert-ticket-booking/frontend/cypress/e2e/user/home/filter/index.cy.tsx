@@ -13,9 +13,9 @@ describe('Filter Page', () => {
   it('should open the calendar and select a date', () => {
     cy.get('button').contains('Өдөр сонгох').should('be.visible');
     cy.get('[data-cy="date-picker-button"]').click();
-    cy.get('[data-cy="date-picker-button"]').click();
     cy.get('.rdp-button_reset').contains(25).click();
-    cy.get('[data-cy="date-picker-button"]').click();
+    cy.get('button').should('contain', 'January 25th, 2025');
+    cy.get('.rdp-button_reset').contains(25).click();
   });
   it('Should show "Илэрц олдсонгүй" message if no results', () => {
     cy.get('[data-testid="Artist-Search-Input"]').type('NonExistentArtist');

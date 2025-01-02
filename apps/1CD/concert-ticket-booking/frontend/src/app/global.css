@@ -86,7 +86,6 @@
     font-family: 'Inter', sans-serif;
   }
   body {
-    @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
 
     .error {
@@ -95,7 +94,6 @@
     .caroudel {
       width: 100%;
       height: 100%;
-
     }
   }
 }
