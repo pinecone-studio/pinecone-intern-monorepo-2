@@ -12,9 +12,10 @@ describe('Filter Page', () => {
   });
   it('should open the calendar and select a date', () => {
     cy.get('button').contains('Өдөр сонгох').should('be.visible');
+    cy.wait(1000);
     cy.get('[data-cy="date-picker-button"]').click();
     cy.get('.rdp-button_reset').contains(25).click();
-    cy.get('button').should('contain', 'December 25th, 2024');
+    cy.get('button').should('contain', 'January 25th, 2025');
     cy.get('.rdp-button_reset').contains(25).click();
   });
   it('3. Should show "Илэрц олдсонгүй" message if no results', () => {

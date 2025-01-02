@@ -15,7 +15,7 @@ const DatePicker = () => {
     if (day) {
       setDate(day.toISOString());
     } else {
-      setDate(''); // Use an empty string instead of null
+      setDate('');
     }
   };
 
