@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useQueryState } from 'nuqs';
+
 const DatePicker = () => {
   const [date, setDate] = useQueryState('date', { defaultValue: '' });
   const selectedDate = date ? parseISO(date) : undefined;
@@ -14,15 +15,16 @@ const DatePicker = () => {
     if (day) {
       setDate(day.toISOString());
     } else {
-      setDate(null);
+      setDate(''); // Use an empty string instead of null
     }
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant={'outline'} className="bg-[#27272A] text-muted-foreground w-full border-gray-600 flex justify-between" data-cy="date-picker-button">
           <div className="flex items-center">
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="w-4 h-4 mr-2" />
             {date ? format(date, 'PPP') : <span>Өдөр сонгох</span>}
           </div>
           <ChevronsUpDown className="w-4 h-4" />
@@ -34,4 +36,5 @@ const DatePicker = () => {
     </Popover>
   );
 };
+
 export default DatePicker;

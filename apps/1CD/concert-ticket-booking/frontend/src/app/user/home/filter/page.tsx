@@ -31,7 +31,7 @@ const Page = () => {
   }, [debouncedQ, artist, date]);
 
   return (
-    <div className="w-full pt-10 bg-black min-h-[calc(100vh-300px)] gap-4" data-cy="Filter-Page">
+    <div className="w-full min-h-[calc(100vh-310px)] pt-10 bg-black" data-cy="Filter-Page">
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
         {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
 
@@ -50,16 +50,14 @@ const Page = () => {
           <DatePicker />
         </div>
         <div className="hidden xl:block"></div>
-
         {!loading && data?.getEvents?.length === 0 && (
-          <div className="flex flex-col items-center gap-2 m-auto mt-16 text-white col-span-full">
+          <div className="flex flex-col items-center gap-2 m-auto mt-36 col-span-full">
             <div className="w-28 h-28 justify-items-center place-content-center rounded-full bg-[#131313]">
               <HeartCrack className="self-center w-12 h-12 text-white" />
             </div>
-            <p className="text-5 text-[#bfbfbf] font-light leading-8">Илэрц олдсонгүй</p>
+            <p className="text-5 text-[#808080] font-light leading-8">Илэрц олдсонгүй</p>
           </div>
         )}
-
         {data?.getEvents?.map((event) => (
           <div key={event?._id}>
             {event && (
