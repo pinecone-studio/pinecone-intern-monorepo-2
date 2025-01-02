@@ -10,9 +10,16 @@ export const typeDefs = gql`
     swipedUser: String!
     type: String!
   }
+  type ResponseofGetUser{
+    swipedUserImg:String!
+    userImg:String!
+    swipedName:String!
+  }
+  
 
   type Query {
-    getUsers: [User!]!
+    getUsers: [User!]!,
+    getMatchedUser(matchedUser:String!):ResponseofGetUser!
   }
 
   type Mutation {
