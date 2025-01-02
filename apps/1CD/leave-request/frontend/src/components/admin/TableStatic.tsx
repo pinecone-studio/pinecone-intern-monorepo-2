@@ -1,12 +1,14 @@
 'use client';
 import { FC, useState } from 'react';
 import { useGetAllUsersQuery } from '@/generated';
+import { useUpdateUserMutation } from '@/generated';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 const TableStatic: FC = () => {
   const { data, loading, error } = useGetAllUsersQuery();
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
+  const [updateEmployeeRole] = useUpdateUserMutation();
 
   const onConfirm = () => {
     setOpenDialogId(null);
@@ -66,7 +68,18 @@ const TableStatic: FC = () => {
                       <Button variant="outline" onClick={() => setIsOpen(false)} className="px-6">
                         Буцах
                       </Button>
-                      <Button onClick={onConfirm} className="px-6 bg-black hover:bg-gray-800">
+                      <Button
+                        onClick={async () => {
+                          await updateEmployeeRole({
+                            variables: {
+                              email: employee?.email,
+                              role: employee?.role === 'admin' ? 'user' : 'admin',
+                            },
+                          });
+                          onConfirm();
+                        }}
+                        className="px-6 bg-black hover:bg-gray-800"
+                      >
                         Зөвшөөрөх
                       </Button>
                     </div>
