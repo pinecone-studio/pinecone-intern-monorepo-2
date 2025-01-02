@@ -117,7 +117,8 @@ describe('user profile page', () => {
       .within(() => {
         cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
       });
-    cy.get('[data-cy="buttonClose"]').click();
+    // cy.get('[data-cy="buttonClose"]').click();
+    cy.get('button:has(svg.lucide-x)').click();
     // cy.get('[data-cy="dialogFollower"]').should('not.be.visible');
   });
   it('5. Should open followings dialog when click on followings then click close button should unvisible', () => {
@@ -142,7 +143,8 @@ describe('user profile page', () => {
       .within(() => {
         cy.get('[data-cy="followingCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
       });
-    cy.get('[data-cy="buttonCloseFollowing"]').click();
+    // cy.get('[data-cy="buttonCloseFollowing"]').click();
+    cy.get('button:has(svg.lucide-x)').click();
     // cy.get('[data-cy="dialogFollower"]').should('not.be.visible');
   });
 });

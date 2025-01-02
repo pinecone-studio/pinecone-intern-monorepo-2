@@ -11,7 +11,7 @@ export const UserBar = () => {
       <div className="flex items-center justify-between w-full ">
         <div className="flex items-center gap-2">
           <div className="relative flex rounded-full w-14 h-14">
-            <Image fill={true} src={user?.profileImg || '/images/img.avif'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
+            <Image fill={true} src={user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
           </div>
           <div className="">
             <h1 className="text-sm font-bold ">{user?.userName}</h1>

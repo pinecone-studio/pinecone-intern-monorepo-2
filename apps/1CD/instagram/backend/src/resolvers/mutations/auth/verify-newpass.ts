@@ -1,6 +1,7 @@
 import { MutationResolvers, Response } from '../../../generated';
 import { userModel } from '../../../models/user.model';
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
 export const verifyNewPass: MutationResolvers['verifyNewPass'] = async (_: unknown, { input }) => {
   const { password, resetToken } = input;
@@ -9,7 +10,8 @@ export const verifyNewPass: MutationResolvers['verifyNewPass'] = async (_: unkno
   if (!userExist) {
     throw new Error('Your password recovery period has expired.');
   }
-  userExist.password = password;
+  const hashedPass = await bcrypt.hash(password, 10);
+  userExist.password = hashedPass;
   await userExist.save();
 
   return Response.Success;

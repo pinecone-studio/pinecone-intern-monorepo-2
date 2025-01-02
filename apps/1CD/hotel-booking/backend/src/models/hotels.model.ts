@@ -14,6 +14,7 @@ export type HotelsType = {
   city?: string;
   rooms?: RoomsType[];
   createdAt?: Date;
+  roomsAveragePrice: number;
 };
 
 const hotelsSchema = new Schema<HotelsType>({
@@ -45,6 +46,7 @@ const hotelsSchema = new Schema<HotelsType>({
       type: {},
     },
   ],
+  roomsAveragePrice: Number,
   createdAt: {
     type: Date,
     required: true,
