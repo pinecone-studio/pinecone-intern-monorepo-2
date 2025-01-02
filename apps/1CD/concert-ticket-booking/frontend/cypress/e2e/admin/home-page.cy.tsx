@@ -13,8 +13,14 @@ describe('Admin Page ', () => {
     cy.get('[data-cy="Cancel-Request-Text"]').should('be.visible');
     cy.get('[data-cy="Cancel-Request-Text"]').should('contain.text', 'Hello Cancel request page');
   });
-  it('should render cansel request page', () => {
+  it('should render adminDashboard page', () => {
     cy.get('[data-cy="table-header"]').should('be.visible');
     cy.get('[data-cy="table-header"]').should('contain.text', 'Онцлох');
+    cy.get('div').should('have.class', 'container');
+    cy.get('[data-testid="Admin-Dash"]').should('exist');
+    cy.get('[data-testid="Admin-Dash"]').find('h3').should('contain.text', 'Тасалбар');
+    cy.get('[data-testid="Admin-Dash"]').find('p').should('contain.text', 'Идэвхитэй зарагдаж буй тасалбарууд');
+    cy.get('[data-cy="submit-button"]').click().should('contain', 'success');
+    
   });
 });
