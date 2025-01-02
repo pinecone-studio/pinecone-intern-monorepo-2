@@ -1,8 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { userModel } from '../../../src/models/user.model';
-import { verifyNewPass } from '../../../src/resolvers/mutations/auth/verify-newpass';
+
 import { Context } from 'src/types';
 import bcrypt from 'bcrypt';
+import { userModel } from 'src/models';
+import { verifyNewPass } from 'src/resolvers/mutations';
 
 jest.mock('../../../src/models/user.model', () => ({ userModel: { findOne: jest.fn() } }));
 jest.mock('crypto', () => ({
