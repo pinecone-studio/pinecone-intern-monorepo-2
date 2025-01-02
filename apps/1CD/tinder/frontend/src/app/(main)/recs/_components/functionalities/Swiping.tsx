@@ -133,7 +133,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
             {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
-        {isMatchOpen && (<Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} data={data} />)}
+        {isMatchOpen && swiping?._id && (<Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUser={swiping._id} />)}
       </div>
       <div className="absolute left-0 right-0 z-[10000] flex justify-center">
         <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight} />

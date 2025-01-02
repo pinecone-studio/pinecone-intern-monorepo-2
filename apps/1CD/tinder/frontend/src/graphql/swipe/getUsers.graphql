@@ -25,3 +25,11 @@ mutation swipeUser($input: SwipeInput!) {
     matchedWith
   }
 }
+
+query GetMatchedUser($matchedUser: String!) {
+  getMatchedUser(matchedUser: $matchedUser) {
+    swipedUserImg
+    userImg
+    swipedName
+  }
+}
