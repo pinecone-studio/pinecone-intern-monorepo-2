@@ -2,17 +2,25 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
 import { OtherUser } from '@/generated';
+import SeeFollowersDialog from './SeeFollowers';
+import SeeFollowingsDialog from './SeeFollowings';
+import { Follower } from '../user-profile/FollowerDialog';
+import { Following } from '../user-profile/FollowingDialog';
 
 const HeadingSection = ({
   profileUser,
   followLoading,
   buttonText,
   handleButtonClick,
+  fetchedFollowerData,
+  fetchedFollowingData,
 }: {
   profileUser: OtherUser | undefined;
   followLoading: boolean;
   buttonText: string;
   handleButtonClick: () => Promise<void>;
+  fetchedFollowerData: Follower[];
+  fetchedFollowingData: Following[];
 }) => {
   return (
     <div className="flex flex-row mb-10 justify-evenly">
@@ -44,20 +52,12 @@ const HeadingSection = ({
         </div>
         <div className="flex flex-row space-x-8">
           <div className="flex flex-row items-center space-x-2">
-            <p>0 posts</p>
+            <span>0 posts</span>
           </div>
-          <div className="flex flex-row space-x-2">
-            <h1 className="font-semibold" data-cy="followerNumber">
-              {profileUser?.followerCount}
-            </h1>
-            <p>followers</p>
-          </div>
-          <div className="flex flex-row space-x-2">
-            <h1 className="font-semibold" data-cy="followingNumber">
-              {profileUser?.followingCount}
-            </h1>
-            <p>following</p>
-          </div>
+
+          <SeeFollowersDialog followerData={fetchedFollowerData} followerDataCount={fetchedFollowerData.length} />
+
+          <SeeFollowingsDialog followingData={fetchedFollowingData} followingDataCount={fetchedFollowingData.length} />
         </div>
         <div>
           <h1 className="font-bold" data-cy="fullname">

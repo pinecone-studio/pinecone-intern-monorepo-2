@@ -3,13 +3,13 @@ import gql from 'graphql-tag';
 export const RequestTypeDefs = gql`
   type RequestType {
     _id: ID!
-    email: String
-    requestType: String
-    message: String
-    requestDate: Date
+    email: String!
+    requestType: String!
+    message: String!
+    requestDate: Date!
     startTime: Date
     endTime: Date
-    supervisorEmail: String
+    supervisorEmail: String!
     result: String
     comment: String
     optionalFile: String
@@ -42,6 +42,23 @@ export const RequestTypeDefs = gql`
     optionalFile: String!
   }
 
+  type OpenRequestType {
+    _id: ID!
+    email: String!
+    requestType: String!
+    message: String!
+    requestDate: Date!
+    startTime: Date
+    endTime: Date
+    supervisorEmail: String!
+    result: String
+    comment: String
+    optionalFile: String
+    userName: String!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
   type GroupedRequests {
     _id: String!
     requests: [RequestType]
@@ -70,5 +87,6 @@ export const RequestTypeDefs = gql`
     getRequestById(_id: ID): RequestType
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
     getAllRequestLength(supervisorEmail: String,email: String): NumberOutput!
+    openRequest(_id: ID): OpenRequestType
   }
 `;

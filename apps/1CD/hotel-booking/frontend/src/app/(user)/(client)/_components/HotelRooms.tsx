@@ -20,7 +20,7 @@ const HotelRooms = () => {
         </Button>
       </div>
       <div data-cy="Room-Card" className="grid grid-cols-3 gap-4">
-        {data?.hotelDetail.slice(0, 6).map((room) => (
+        {data?.hotelDetail.slice(0, 5).map((room) => (
           <div key={room._id}>
             <RoomCard room={room} />
           </div>

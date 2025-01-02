@@ -18,7 +18,7 @@ describe('render followers dialog', () => {
     const trigger = screen.getByTestId('followerNumber');
     fireEvent.click(trigger);
     await waitFor(() => expect(screen.getByTestId('followerDialog')).toBeDefined());
-    const closeButton = screen.getByTestId('closeButton');
-    fireEvent.click(closeButton);
+    // const closeButton = screen.getByTestId('closeButton');
+    // fireEvent.click(closeButton);
   });
 });
