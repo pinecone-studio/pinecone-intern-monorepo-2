@@ -5,7 +5,7 @@ import { AccountVisibility } from 'src/generated';
 import { userModel } from 'src/models';
 import { signup } from 'src/resolvers/mutations';
 
-jest.mock('../../../src/models/user.model');
+jest.mock('../../../../src/models/user.model.ts');
 jest.mock('jsonwebtoken');
 jest.mock('bcrypt');
 

@@ -1,9 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { forgetPassword } from '../../../../src/resolvers/mutations/auth/forget-password';
-import { userModel } from '../../../../src/models/user.model';
+import { forgetPassword } from '../../../src/resolvers/mutations/auth/forget-password';
+import { userModel } from '../../../src/models/user.model';
 import crypto from 'crypto';
 
-import { sendResetPassUrlToMail } from '../../../../src/utils/sendmail';
+import { sendResetPassUrlToMail } from '../../../src/utils/sendmail';
 import { Context } from 'src/types';
 
 jest.mock('../../../src/models/user.model', () => ({
