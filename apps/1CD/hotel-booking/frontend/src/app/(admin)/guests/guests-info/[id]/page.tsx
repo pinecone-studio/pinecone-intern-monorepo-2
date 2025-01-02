@@ -25,15 +25,15 @@ const GuestInfo = ({ params }: { params: { id: string } }) => {
             <BreadCrumb />
           </div>
           <div className="flex flex-col gap-3 item-center">
-            <div className="flex items-center gap-2 ml-[25%]">
+            <div className="flex items-center gap-2 ml-[13%]">
               <div className="w-8 h-8 text-center bg-white border rounded-lg">
                 <ChevronLeft size={20} className="pt-1 pl-1" />
               </div>
-              <h2 className="font-semibold">Shagai Nymdorj</h2>
+              <h2 className="font-semibold">Shagai Nyamdorj</h2>
             </div>
-            <div className="flex justify-center gap-4" data-cy="Guests-Info-Content-Section">
+            <div className="flex gap-4 ml-[13%]" data-cy="Guests-Info-Content-Section">
               <GuestCard info={data?.getBooking} />
-              <RoomInfo />
+              <RoomInfo data={data?.getBooking} />
             </div>
           </div>
         </div>
