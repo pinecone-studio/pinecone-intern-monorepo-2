@@ -1,7 +1,15 @@
 'use client';
 
+import Accepted from "@/components/leave-calendar/PersonOnLeave";
+
+
+
 const Page = () => {
-  return <div></div>;
+  return (
+    <>
+      <Accepted/>
+    </>
+  );
 };
 
 export default Page;

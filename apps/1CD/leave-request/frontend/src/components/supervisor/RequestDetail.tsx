@@ -23,7 +23,7 @@ const RequestDetail = () => {
   };
 
   if (!id) {
-    return 'pick ur poison';
+    return 'pick ur position';
   }
   if (loading) {
     return 'loading';
