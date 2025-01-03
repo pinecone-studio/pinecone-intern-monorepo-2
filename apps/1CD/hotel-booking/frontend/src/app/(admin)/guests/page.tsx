@@ -9,6 +9,7 @@ import { useGetBookingsLazyQuery } from '@/generated';
 import DataTable from './_components/DataTable';
 import BreadCrumb from './_components/BreadCrumb';
 import { Table, TableHeader, TableHead, TableRow } from '@/components/ui/table';
+import Link from 'next/link';
 
 const Page = () => {
   const [getBookings, { data }] = useGetBookingsLazyQuery();
@@ -52,7 +53,9 @@ const Page = () => {
             </TableRow>
           </TableHeader>
           {filteredBookings?.map((bookingsData) => (
-            <DataTable key={bookingsData._id} bookingsData={bookingsData} />
+            <Link key={bookingsData._id} href={`/guests/guests-info/${bookingsData._id}`}>
+              <DataTable bookingsData={bookingsData} />
+            </Link>
           ))}
         </Table>
       </section>

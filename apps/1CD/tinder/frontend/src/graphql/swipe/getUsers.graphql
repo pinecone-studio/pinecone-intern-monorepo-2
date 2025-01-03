@@ -16,6 +16,20 @@ query getUsers {
     photos
   }
 }
+
+
 mutation swipeUser($input: SwipeInput!) {
-  swipeUser(input: $input)
+  swipeUser(input: $input) {
+    swiped
+    matched
+    matchedWith
+  }
+}
+
+query GetMatchedUser($matchedUser: String!) {
+  getMatchedUser(matchedUser: $matchedUser) {
+    swipedUserImg
+    userImg
+    swipedName
+  }
 }

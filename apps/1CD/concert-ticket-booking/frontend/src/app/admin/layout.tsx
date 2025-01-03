@@ -9,7 +9,7 @@ export const metadata = {
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div>
+    <div className="bg-white">
       <AdminHeader />
       <div>{children}</div>
       <AdminFooter />
