@@ -7,6 +7,7 @@ import { useState } from 'react';
 import DialogComponent from './Dialog';
 import { isLessThan24Hours } from '@/utils/to-check';
 import { calculateTotalAmount } from '@/utils/calculate';
+import toMNT from '@/utils/show-tugrik-format';
 
 const OrderInfo = () => {
   const { data, refetch } = useGetOrderQuery();
@@ -64,15 +65,15 @@ const OrderInfo = () => {
               </div>
               <span className="text-white flex gap-2 items-center" data-cy={`ticket-price-${ticket._id}`}>
                 <span className="text-base font-normal text-muted-foreground">
-                  {ticket.unitPrice}₮×{ticket.soldQuantity}
+                  {toMNT(Number(ticket.unitPrice))}×{ticket.soldQuantity}
                 </span>
-                {Number(ticket.unitPrice) * Number(ticket.soldQuantity)}₮
+                {toMNT(Number(ticket.unitPrice) * Number(ticket.soldQuantity))}
               </span>
             </div>
           ))}
           <div className="py-4 px-6 text-white flex items-center justify-between" data-cy={`order-total-${order?._id}`}>
             <span className="font-light text-sm">Төлсөн дүн</span>
-            {order?.ticketType && <span className="font-bold text-xl">{calculateTotalAmount(order?.ticketType)}₮</span>}
+            {order?.ticketType && <span className="font-bold text-xl"> {toMNT(calculateTotalAmount(order?.ticketType))}</span>}
           </div>
         </Card>
       ))}
