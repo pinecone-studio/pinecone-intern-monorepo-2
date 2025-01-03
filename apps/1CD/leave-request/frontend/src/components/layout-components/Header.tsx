@@ -6,9 +6,9 @@ import Link from 'next/link';
 import { ProfilePic } from '../layout-components/ProfilePic';
 
 const adminHeader = [
-  { label: 'Employee List', value: 'emloyeeList' },
+  { label: 'Employee List', value: 'employeeList' },
   { label: 'Leave Calendar', value: 'leaveCalendar' },
-  { label: 'Leave requests', value: 'leaveRequests' },
+  { label: 'Leave Requests', value: 'leaveRequests' },
 ];
 const supervisorHeader = [
   { label: 'Pending Requests', value: 'pendingRequests' },
@@ -35,7 +35,7 @@ const getRole = (decoded: { role: string }) => {
 
 const Header = async () => {
   const NavBar = await getCorrectNavBar();
-  const email = await getEmail()
+  const email = await getEmail();
   return (
     <div className="flex flex-col gap-4 px-6 pt-4 ">
       <div className="flex items-center justify-between gap-4">
@@ -43,7 +43,7 @@ const Header = async () => {
           <Image src="/Logo/Vector.svg" width={32} height={28} alt="Logo" />
           <Select>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Payroll" />
+              <SelectValue placeholder="Dashboard" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Leave">Leave Request</SelectItem>
@@ -51,7 +51,7 @@ const Header = async () => {
             </SelectContent>
           </Select>
         </div>
-        <ProfilePic email={email}/>
+        <ProfilePic email={email} />
       </div>
       <nav className=" md:flex gap-6 text-sm font-medium text-[#09090B]">
         {NavBar.map((item) => (
