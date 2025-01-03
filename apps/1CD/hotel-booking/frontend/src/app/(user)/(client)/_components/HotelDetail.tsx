@@ -11,42 +11,42 @@ import { HotelReveiwRating } from '@/components/BookingDetailRightSide';
 import { Badge } from '@/components/ui/badge';
 
 const Services = [
-  <div className="flex gap-1 items-center">
+  <>
     <ParkingCircle className="w-4 h-4" />
     <p className="text-sm font-medium">Parking available</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <HardHat className="w-4 h-4" />
     <p className="text-sm font-medium">24/7 front desk</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <AirVent className="w-4 h-4" />
     <p className="text-sm font-medium">Air conditioning</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <DumbbellIcon className="w-4 h-4" />
     <p className="text-sm font-medium">Gym</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <Cat className="w-4 h-4" />
     <p className="text-sm font-medium">Pet-friendly</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <CigaretteOff className="w-4 h-4" />
     <p className="text-sm font-medium">Non-smoking</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <Martini className="w-4 h-4" />
     <p className="text-sm font-medium">Bar</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <Utensils className="w-4 h-4" />
     <p className="text-sm font-medium">Restraurant</p>
-  </div>,
-  <div className="flex gap-1 items-center">
+  </>,
+  <>
     <ParkingCircle className="w-4 h-4" />
     <p className="text-sm font-medium">Laundry</p>
-  </div>
+  </>,
 ];
 
 const HotelDetail = ({ id }: { id: string }) => {
@@ -90,7 +90,13 @@ const HotelDetail = ({ id }: { id: string }) => {
             <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
             <div className="flex flex-col gap-2">
               <div className="text-sm font-bold">Most popular facilities</div>
-              <div className="grid grid-cols-3 col-span-3 gap-4">{Services.map((item) => item)}</div>
+              <div className="grid grid-cols-3 col-span-3 gap-4">
+                {Services.map((item, index) => (
+                  <div key={`services${index}`} className="flex gap-1 items-center">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="flex flex-col flex-1 gap-2">
