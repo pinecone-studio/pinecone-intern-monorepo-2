@@ -15,13 +15,16 @@ mutation DeletePostLike($postLikeId: ID!) {
 query GetPostLikes($postId: ID!) {
   getPostLikes(postId: $postId) {
     _id
-
-    isLike
-    createdAt
-    post {
-      _id
-    }
     user {
+      _id
+      userName
+      fullName
+
+      profileImg
+    }
+    createdAt
+    isLike
+    post {
       _id
     }
   }

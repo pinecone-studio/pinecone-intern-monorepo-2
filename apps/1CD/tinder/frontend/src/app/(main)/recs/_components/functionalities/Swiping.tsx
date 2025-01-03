@@ -1,16 +1,24 @@
 import { motion } from 'framer-motion';
 import CarouselImg from './Carouselmg';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User, useSwipeUserMutation } from '@/generated';
 import Buttons from './Buttons';
+import Match from '../match/Match';
 
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
   const [rotate, setRotate] = useState(0);
   const [duration, setDuration] = useState(0.3);
   const [open, setOpen] = useState(false);
   const currentPosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isMatchOpen, setIsMatchOpen] = useState(false);
 
-  const [swipeUser] = useSwipeUserMutation();
+  const [swipeUser, { data }] = useSwipeUserMutation();
+
+  useEffect(() => {
+    if (data?.swipeUser.matched === true) {
+      setIsMatchOpen(!isMatchOpen);
+    }
+  }, [data]);
 
   const swipeLeft = () => {
     setDuration(0.5);
@@ -85,8 +93,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     }
   };
   return (
-    <div  >
-      <div className="relative h-[560px] flex justify-center" data-cy='swipingImg-2'>
+    <div>
+      <div className="relative h-[560px] flex justify-center" data-cy="swipingImg-2">
         {swiping && (
           <motion.div
             data-cy="swipingImg"
@@ -119,15 +127,16 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
               backgroundPosition: 'center',
               backgroundImage: `url(${swiping.photos[0]})`,
               position: 'absolute',
-              zIndex: cards?.length + 1000 ,
+              zIndex: cards?.length + 1000,
             }}
           >
-            {!open &&  <CarouselImg swiping={swiping} />}
+            {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
+        {isMatchOpen && swiping?._id && (<Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUser={swiping._id} />)}
       </div>
-      <div className='absolute left-0 right-0 z-[10000] flex justify-center'>
-        <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight}/>
+      <div className="absolute left-0 right-0 z-[10000] flex justify-center">
+        <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight} />
       </div>
     </div>
   );

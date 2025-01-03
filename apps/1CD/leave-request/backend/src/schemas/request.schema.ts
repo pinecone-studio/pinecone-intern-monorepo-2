@@ -55,6 +55,8 @@ export const RequestTypeDefs = gql`
     comment: String
     optionalFile: String
     userName: String!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
   type GroupedRequests {

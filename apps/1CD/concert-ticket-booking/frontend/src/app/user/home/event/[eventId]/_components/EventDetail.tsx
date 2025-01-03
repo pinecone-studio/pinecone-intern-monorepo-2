@@ -2,7 +2,6 @@
 import { Event } from '@/generated';
 import dayjs from 'dayjs';
 import { Calendar, Clock4, MapPin } from 'lucide-react';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const EventDetail = ({ event }: { event: Event }) => {
@@ -83,7 +82,7 @@ const EventDetail = ({ event }: { event: Event }) => {
               Stage plan:
             </h1>
             <div data-cy="Stage-Plan">
-              <Image src={event?.venue.image} alt="Stage" width={533} height={413} />
+              <img src={event?.venue.image} alt="Stage" width={533} height={413} />
             </div>
           </div>
         </div>

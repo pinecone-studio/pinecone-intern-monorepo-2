@@ -26,8 +26,6 @@ export const ClientDatePicker = ({ className, onChange }: ClientDatePickerProps)
     to: new Date(),
   });
 
-  onChange(date);
-
   return (
     <div className={cn('grid gap-2', className)} data-testid="choose-date">
       <Popover>
@@ -48,7 +46,17 @@ export const ClientDatePicker = ({ className, onChange }: ClientDatePickerProps)
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar initialFocus mode="range" defaultMonth={date?.from} selected={date} onSelect={setDate} numberOfMonths={2} />
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={(e) => {
+              setDate(e);
+              onChange(date);
+            }}
+            numberOfMonths={2}
+          />
         </PopoverContent>
       </Popover>
     </div>
