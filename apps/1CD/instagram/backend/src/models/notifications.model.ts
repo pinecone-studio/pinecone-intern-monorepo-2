@@ -25,6 +25,6 @@ const NotificationsSchema = new Schema<NotificationsType>({
 });
 
 export type PopulatedNotificationWithPost = Omit<NotificationsType, 'postId'> & { postId: Post };
-export type PopulatedNotificationWithCurrentUser = Omit<NotificationsType, 'currentUserId'> & { currentUserId: UserType };
+export type PopulatedNotificationWithCurrentUser = Omit<NotificationsType, 'currentUserId'> & { otherUserId: UserType };
 
 export const notificationModel = models['notificationModel'] || model('notificationModel', NotificationsSchema);

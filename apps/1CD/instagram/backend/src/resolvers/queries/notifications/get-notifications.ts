@@ -4,7 +4,7 @@ import { notificationModel, PopulatedNotificationWithCurrentUser, PopulatedNotif
 export const getNotificationsByLoggedUser: QueryResolvers['getNotificationsByLoggedUser'] = async (_: unknown, __, { userId }) => {
   if (!userId) throw new Error('wrong in authorization');
 
-  const notifications = await notificationModel.find({ currentUserId: userId }).populate<PopulatedNotificationWithPost>('postId').populate<PopulatedNotificationWithCurrentUser>('currentUserId');
-
+  const notifications = await notificationModel.find({ currentUserId: userId }).populate<PopulatedNotificationWithPost>('postId').populate<PopulatedNotificationWithCurrentUser>('otherUserId');
+  console.log('notify iig harah', notifications);
   return notifications.map((notification) => notification.toObject());
 };
