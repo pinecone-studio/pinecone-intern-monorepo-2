@@ -20,7 +20,7 @@ export const Header = () => {
         </Link>
       </div>
 
-      <div className="relative flex items-center px-2 text-xs md:px-6 md:w-80 lg:w-96 max-w-60 ">
+      <div className="relative flex items-center px-2 text-xs md:px-6 md:w-80 lg:w-96 w-[360px] ">
         <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs bg-black border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
         <Search className="absolute w-4 h-4 right-4 md:right-16 color-white" />
       </div>
