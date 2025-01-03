@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import BookingInformationInput from '../BookingInformationInput';
-import { BookingStatus, useAddNewBookingMutation, useGetBookingQuery } from '@/generated';
+import { BookingStatus, useAddNewBookingMutation, useGetRoomQuery } from '@/generated';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
-  const { data, loading } = useGetBookingQuery({
+  const { data, loading } = useGetRoomQuery({
     variables: {
       id: params.id,
     },
@@ -106,7 +106,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <Toaster />
-      <BookingPageRightSide booking={data?.getBooking} />
+      <BookingPageRightSide room={data?.getRoom} />
     </form>
   );
 };

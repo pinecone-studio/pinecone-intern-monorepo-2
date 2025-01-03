@@ -6,9 +6,11 @@ import { ProfilePic } from '../layout-components/ProfilePic';
 import { NavbarEle } from './NavBar';
 
 const adminHeader = [
+
   { label: 'Employee List', value: 'admin' },
   { label: 'Leave Calendar', value: 'leaveCalendar' },
   { label: 'Leave requests', value: 'supervisor' },
+
 ];
 const supervisorHeader = [
   { label: 'Pending Requests', value: 'supervisor' },
@@ -43,7 +45,7 @@ const Header = async () => {
           <Image src="/Logo/Vector.svg" width={32} height={28} alt="Logo" />
           <Select>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Payroll" />
+              <SelectValue placeholder="Dashboard" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Leave">Leave Request</SelectItem>

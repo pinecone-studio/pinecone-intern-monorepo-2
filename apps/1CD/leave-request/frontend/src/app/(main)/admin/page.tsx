@@ -1,4 +1,5 @@
 import Table from '@/components/admin/Table';
+
 import { SecureWrapper } from '@/context/SecurePageWrapper';
 
 import React from 'react';

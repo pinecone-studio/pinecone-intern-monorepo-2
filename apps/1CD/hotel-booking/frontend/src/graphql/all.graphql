@@ -304,3 +304,37 @@ query GetFilterByPropertiesHotels($input: RoomFilterType) {
     roomsAveragePrice
   }
 }
+
+query GetRoom($id: ID!) {
+  getRoom(_id: $id) {
+    id
+    hotelId {
+      createdAt
+      _id
+      hotelName
+      description
+      starRating
+      userRating
+      phoneNumber
+      images
+      hotelAmenities
+      location
+      roomsAveragePrice
+    }
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+    amenities
+    images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+  }
+}

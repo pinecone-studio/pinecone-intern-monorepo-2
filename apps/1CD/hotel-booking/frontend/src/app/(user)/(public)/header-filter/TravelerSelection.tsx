@@ -5,13 +5,12 @@ import { ChevronDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Context } from '../layout';
+import { useQueryState } from 'nuqs';
 
 export const ComboboxDemo = () => {
-  const value = React.useContext(Context);
   const [open, setOpen] = React.useState(false);
   const [adultQuantity, setAdultQuantity] = React.useState(1);
-
+  const [, setRoomType] = useQueryState('roomType');
   const descBtn = () => {
     if (adultQuantity > 1) {
       setAdultQuantity(adultQuantity - 1);
@@ -20,15 +19,15 @@ export const ComboboxDemo = () => {
 
   const handleModal = () => {
     if (adultQuantity <= 1) {
-      value?.setRoomType(`${adultQuantity}bed`);
+      setRoomType(`${adultQuantity}bed`);
     } else {
-      value?.setRoomType(`${adultQuantity}beds`);
+      setRoomType(`${adultQuantity}beds`);
     }
     setOpen(false);
   };
   const cancelRoomTypeFilt = () => {
     setAdultQuantity(1);
-    value?.setRoomType('');
+
     setOpen(false);
   };
 

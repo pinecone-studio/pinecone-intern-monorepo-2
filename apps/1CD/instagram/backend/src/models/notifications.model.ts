@@ -8,6 +8,7 @@ export type NotificationsType = {
   otherUserId: string;
   currentUserId: string;
   notificationType: NotificationType;
+  isViewed: boolean;
   postId: Types.ObjectId;
   createdAt: Date;
 };
@@ -15,6 +16,7 @@ const NotificationsSchema = new Schema<NotificationsType>({
   otherUserId: { type: String, required: true, ref: 'userModel' },
   currentUserId: { type: String, required: true, ref: 'userModel' },
   notificationType: { type: String, required: true, enum: [NotificationType.Follow, NotificationType.Postlike] },
+  isViewed: { type: Boolean, required: true, default: false },
   postId: { type: Schema.Types.ObjectId, ref: 'Post' },
   createdAt: {
     type: Date,

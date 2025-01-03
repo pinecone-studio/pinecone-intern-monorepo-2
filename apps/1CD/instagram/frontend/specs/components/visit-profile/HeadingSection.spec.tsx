@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
+import { AccountVisibility } from '@/generated';
 
 jest.mock('lucide-react', () => ({
   Ellipsis: jest.fn(() => <div data-testid="ellipsis-icon">...</div>),
@@ -33,6 +34,12 @@ describe('HeadingSection', () => {
     userName: 'TestUser',
     fullName: 'Test User',
     bio: 'This is a test bio.',
+    _id: 'id',
+    accountVisibility: AccountVisibility.Public,
+    createdAt: '2025-01-01',
+    followerCount: 0,
+    followingCount: 0,
+    updatedAt: '2025-01-01',
   };
   const fetchedFollowerData = [{ _id: '1', userName: 'Follower1', fullName: 'Follower One', profileImg: '' }];
   const fetchedFollowingData = [{ _id: '2', userName: 'Following1', fullName: 'Following One', profileImg: '' }];
