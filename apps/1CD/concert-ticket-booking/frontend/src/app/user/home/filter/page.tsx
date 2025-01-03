@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { HeartCrack, Search } from 'lucide-react';
 import DatePicker from '../DatePicker';
+import SkeletonCard from '@/components/SkeletonCard';
 
 const Page = () => {
   const [q] = useQueryState('q', { defaultValue: '' });
@@ -32,10 +33,9 @@ const Page = () => {
 
   return (
     <div className="bg-zinc-950" data-cy="Filter-Page">
-      <div className=" m-auto  min-h-[calc(100vh-300px)] xl:w-[1100px] md:w-[700px] w-[350px] mx-auto px-[117px] py-12 ">
-        {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
-        <div className="flex gap-4">
-          <div className="relative flex items-center px-2 text-white max-w-[263px]">
+      <div className="xl:w-[1100px] md:w-[700px] w-[350px] mx-auto  py-12 ">
+        <div className="flex gap-2 mb-8 flex-wrap">
+          <div className="relative flex items-center text-white w-[263px]">
             <Input
               data-testid="Artist-Search-Input"
               type="text"
@@ -44,11 +44,9 @@ const Page = () => {
               value={artist}
               onChange={(e) => setArtist(e.target.value)}
             />
-            <Search className="absolute w-4 h-4 right-10" />
+            <Search className="absolute w-4 h-4 right-4" />
           </div>
-          <div className="max-w-[263px] px-2">
-            <DatePicker />
-          </div>
+          <DatePicker />
         </div>
         {!loading && data?.getEvents?.length === 0 && (
           <div className="flex flex-col items-center gap-2 m-auto mt-20 col-span-full">
@@ -58,7 +56,9 @@ const Page = () => {
             <p className="text-5 text-[#808080] font-light leading-8">Илэрц олдсонгүй</p>
           </div>
         )}
-        <div className="grid grid-cols-1 gap-4 py-4 md:grid-cols-2 xl:grid-cols-3 ">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3 ">
+          {(loading || data?.getEvents == null) && Array.from({ length: 8 }).map((_, index) => <SkeletonCard key={index} />)}
+
           {data?.getEvents?.map((event) => (
             <div key={event?._id}>
               {event && (

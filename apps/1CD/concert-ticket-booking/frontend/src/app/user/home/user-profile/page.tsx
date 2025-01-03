@@ -37,14 +37,7 @@ const UserInfoPage = () => {
         <div>
           {state === 1 && <UserInfo />}
           {state === 2 && <OrderInfo />}
-          {
-            state === 3 && <PasswordReset />
-            // (
-            //   <div className="text-white w-[841px]">
-            //     <h1 data-cy="password-info-heading"> Нууц үг сэргээх</h1>
-            //   </div>
-            // )
-          }
+          {state === 3 && <PasswordReset />}
         </div>
       </div>
     </div>
