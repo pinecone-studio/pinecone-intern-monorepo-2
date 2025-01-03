@@ -10,6 +10,8 @@ import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/app/(main)/_components/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/app/(main)/_components/PostLikes';
+import { LastCommentCard } from '../comment/LastCommentCard';
+import { PostWithComments } from '../../app/(main)/_components/PostWithComments';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -36,7 +38,6 @@ export const PostCard = () => {
 
                 <h1 className="flex items-center font-bold ">
                   {post.user.userName}
-                  {/* {format(post.createdAt, 'yyyy-MM-dd HH:mm')} */}
                   <span className="flex items-center font-normal text-gray-600 ">
                     <Dot />
                     {formatDistanceToNowStrict(new Date(post?.createdAt))}
@@ -92,7 +93,9 @@ export const PostCard = () => {
                 {post.description}
               </h1>
             </div>
-            <button className="py-1 text-sm text-gray-500">View all 13,384 comments</button>
+
+            <PostWithComments id={post?._id} />
+            <LastCommentCard id={post._id} />
             <div className="flex justify-between ">
               <input type="text" className="text-sm border-none" placeholder="Add a comment..." />
               <p>

@@ -1,9 +1,26 @@
 mutation CreateStory($input: StoryInput!) {
   createStory(input: $input) {
     _id
-    createdAt
+    userId {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
     description
     image
-    userId
+    createdAt
   }
 }
