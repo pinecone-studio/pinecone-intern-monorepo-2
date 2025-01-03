@@ -23,7 +23,6 @@ export const data = {
       status: 'available',
       ticketType: [
         {
-          _id: '676b97a0bd529295c8a12fc5',
           additional: 'Exclusive merchandise included',
           discount: '10',
           soldQuantity: '2',
@@ -32,7 +31,6 @@ export const data = {
           __typename: 'TicketType',
         },
         {
-          _id: '676b97a0bd529295c8a12fc6',
           additional: '',
           discount: '11',
           soldQuantity: '4',
@@ -49,7 +47,6 @@ export const data = {
       status: 'available',
       ticketType: [
         {
-          _id: '676b97a0bd529295c8a12fc5',
           additional: 'Exclusive merchandise included',
           discount: '10',
           soldQuantity: '2',
@@ -58,7 +55,6 @@ export const data = {
           __typename: 'TicketType',
         },
         {
-          _id: '676b97a0bd529295c8a12fc6',
           additional: '',
           discount: '11',
           soldQuantity: '4',
