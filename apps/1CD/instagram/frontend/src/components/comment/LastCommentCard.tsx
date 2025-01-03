@@ -10,7 +10,7 @@ export const LastCommentCard = ({ id }: { id: string }) => {
   });
 
   return (
-    <div className="">
+    <div className="" data-testid="lastComments">
       {data?.getComments.slice(-2).map((item) => (
         <div key={item?._id} className="flex items-start gap-2 py-1">
           <h1 className="text-sm font-bold text-black">

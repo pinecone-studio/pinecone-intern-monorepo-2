@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Bookmark, Heart, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
 
-import { CommentCard } from '../comment/CommentCard';
+import { CommentCard } from '../../../components/comment/CommentCard';
 
 export const PostWithComments = ({ id }: { id: string }) => {
   const { data: commentsData } = useGetCommentsQuery({
@@ -17,8 +17,8 @@ export const PostWithComments = ({ id }: { id: string }) => {
   });
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog data-testid="postWithComments1">
+      <DialogTrigger data-testid="open-comment-btn" asChild>
         <div className="flex flex-row py-1 space-x-2 text-sm text-gray-500 hover:cursor-pointer">
           <p className="cursor-pointer">
             {commentsData?.getComments?.length === 0 ? '' : `${commentsData?.getComments?.length === 1 ? `View comment` : `View all ${commentsData?.getComments?.length} comments`}`}
@@ -26,7 +26,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
         </div>
       </DialogTrigger>
       <DialogContent className="[&>button]:hidden p-0 m-0 ">
-        <div className="bg-white rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  ">
+        <div className="bg-white rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
           <div className="w-full ">
             <div className="relative w-[800px] h-full">
               <Image src={'/images/profileImg.webp'} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
@@ -64,7 +64,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
                 <div className="flex flex-col gap-1 text-sm font-normal text-black">
                   <h1 className="text-sm font-bold text-black ">
                     userName
-                    <span className="pl-1 text-wrap">we should catch up soon ! L</span>
+                    <span className="pl-1 font-normal text-wrap">We should catch up soon ! L</span>
                   </h1>
                   <p className="text-[12px] text-[#71717A]">1w</p>
                 </div>
