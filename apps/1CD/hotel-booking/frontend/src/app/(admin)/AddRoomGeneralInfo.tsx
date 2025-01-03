@@ -1,5 +1,4 @@
 import { Input } from '@/components/ui/input';
-
 import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -52,7 +51,6 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
         </p>
       );
   };
-
   const RoomType = () => {
     if (formik.errors.roomType && formik.touched.roomType)
       return (
@@ -61,7 +59,6 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
         </p>
       );
   };
-
   const RoomName = () => {
     if (formik.errors.roomName && formik.touched.roomName)
       return (
