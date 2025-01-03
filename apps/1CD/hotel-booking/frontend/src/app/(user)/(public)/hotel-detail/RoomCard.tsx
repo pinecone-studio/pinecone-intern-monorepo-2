@@ -28,7 +28,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
   };
 
   return (
-    <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-full max-w-[349px]">
+    <div data-cy="Room-Card" className="border border-solid 1px rounded-md w-full h-full max-w-[349px]">
       <div className="bg-[#EBEBEB] w-full h-[216px]">
         <Image className="object-cover w-full h-full" src={room?.images[0]} alt="room image" width={500} height={500} data-cy="Room-image" />
       </div>
@@ -66,11 +66,11 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <DoorClosed className="w-4 h-4" />
               <div className="text-sm font-normal">Room cleaning service</div>
             </div>
-            <div className="flex items-center gap-2 py-2">
-              <button data-cy="Show-More" onClick={handleState} className="text-sm font-medium text-[#2563EB] hover:font-semibold ">
+            <div className="py-2">
+              <button data-cy="Show-More" onClick={handleState} className="flex gap-2 items-center text-sm font-medium text-[#2563EB] hover:font-semibold ">
                 Show more
+                <ChevronRight className="w-4 h-4 text-[#2563EB]" />
               </button>
-              <ChevronRight className="w-4 h-4 text-[#2563EB]" />
             </div>
           </div>
         </div>
@@ -85,11 +85,11 @@ const RoomCard = ({ room }: { room: RoomType }) => {
               <div className="text-xs font-normal text-[#000000]">75000</div>
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
             </div>
-            <div className="flex items-center gap-2 py-2">
-              <div data-cy="Price-Detail-Button" className="text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
+            <div className="py-2">
+              <button data-cy="Price-Detail-Button" className="flex gap-2 items-center text-sm font-medium text-[#2563EB]  hover:font-semibold cursor-pointer" onClick={handleOpen}>
                 Price detail
-              </div>
-              <ChevronRight className="w-4 h-4 text-[#2563EB]" />
+                <ChevronRight className="w-4 h-4 text-[#2563EB]" />
+              </button>
             </div>
           </div>
           <div className="pt-14">
