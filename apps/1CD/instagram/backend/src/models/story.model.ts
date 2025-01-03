@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose';
+import { UserType } from './user.model';
 
 export type StoryType = {
   _id: string;
@@ -25,5 +26,9 @@ const storySchema = new Schema<StoryType>({
     default: new Date(),
   },
 });
+
+export type StoryPopulatedType = Omit<StoryType, 'followingId'> & {
+  userId: UserType;
+};
 
 export const storyModel = models['storyModel'] || model('storyModel', storySchema);
