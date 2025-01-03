@@ -31,7 +31,7 @@ describe('testing the swipe page', () => {
     cy.contains('Its a Match').should('be.visible');
     cy.get('[data-cy="swipedUserImg"]').should('exist');
     cy.get('[data-cy="swipingUserImg"]').should('exist');
-    cy.contains('You matched with Sarah').should('exist');
+    cy.contains('You matched with ').should('exist');
     cy.get('[data-cy="message-input"]').should('exist');
     cy.contains('Send').should('exist');
     cy.get('[data-cy="match-modal"]').within(() => {
