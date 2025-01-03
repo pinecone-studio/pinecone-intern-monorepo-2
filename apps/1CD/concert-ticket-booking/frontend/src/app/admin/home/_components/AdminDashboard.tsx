@@ -13,7 +13,7 @@ import { headers } from './AdminDashboardType';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
 import { AdminPagination } from '@/components/AdminDashboardPagination';
-import { UpdateEventPriority } from '@/_feature/UpdateEventPriority';
+import { UpdateEventPriority } from './UpdateEventPriority';
 
 type AdminDashboardComponent = {
   searchValue: string;
