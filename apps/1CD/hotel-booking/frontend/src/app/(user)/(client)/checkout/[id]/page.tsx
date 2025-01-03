@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { BookingPageRightSide } from '@/components/BookingPageRightSide';
 import { useRouter } from 'next/navigation';
+import CheckLoginUser from '@/components/providers/CheckLoginUser';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
@@ -80,34 +81,36 @@ const Page = ({ params }: { params: { id: string } }) => {
   });
   if (loading) return <div>loading...</div>;
   return (
-    <form data-cy="Checkout-Home-Page" onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-[60px] flex gap-16">
-      <div className="max-w-[581px] w-full">
-        <BookingInformationInput errors={formik.errors} touched={formik.touched} values={formik.values} formikHandleChange={formik.handleChange} />
-        <div className="flex flex-col gap-4 text-[#09090B] mt-[40px]">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="mb-2">3. Reservation card detail</div>
-              <div className="text-[#71717A] text-sm">Safe, secure transactions. Your personal information is protectd</div>
+    <CheckLoginUser>
+      <form data-cy="Checkout-Home-Page" onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-[60px] flex gap-16">
+        <div className="max-w-[581px] w-full">
+          <BookingInformationInput errors={formik.errors} touched={formik.touched} values={formik.values} formikHandleChange={formik.handleChange} />
+          <div className="flex flex-col gap-4 text-[#09090B] mt-[40px]">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="mb-2">3. Reservation card detail</div>
+                <div className="text-[#71717A] text-sm">Safe, secure transactions. Your personal information is protectd</div>
+              </div>
+              <div className="flex items-center">
+                {Cards.map((card) => (
+                  <Image className="w-[30px] h-4" key={card} src={card} alt="a" width={1000} height={1000} />
+                ))}
+              </div>
             </div>
-            <div className="flex items-center">
-              {Cards.map((card) => (
-                <Image className="w-[30px] h-4" key={card} src={card} alt="a" width={1000} height={1000} />
-              ))}
-            </div>
+            <CardInformation errors={formik.errors} touched={formik.touched} setFieldValue={formik.setFieldValue} values={formik.values} formikHandleChange={formik.handleChange} />
           </div>
-          <CardInformation errors={formik.errors} touched={formik.touched} setFieldValue={formik.setFieldValue} values={formik.values} formikHandleChange={formik.handleChange} />
+          <div className="h-[1px] w-full bg-[#E4E4E7] my-[40px]"></div>
+          <BookingImportantInformation />
+          <div className="flex justify-end mt-8">
+            <Button data-cy="Complete-Booking-Button" disabled={mutationLoading} type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-300">
+              {mutationLoading ? <Loader2 /> : 'Complete Booking'}
+            </Button>
+          </div>
         </div>
-        <div className="h-[1px] w-full bg-[#E4E4E7] my-[40px]"></div>
-        <BookingImportantInformation />
-        <div className="flex justify-end mt-8">
-          <Button data-cy="Complete-Booking-Button" disabled={mutationLoading} type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-300">
-            {mutationLoading ? <Loader2 /> : 'Complete Booking'}
-          </Button>
-        </div>
-      </div>
-      <Toaster />
-      <BookingPageRightSide room={data?.getRoom} />
-    </form>
+        <Toaster />
+        <BookingPageRightSide room={data?.getRoom} />
+      </form>
+    </CheckLoginUser>
   );
 };
 export default Page;

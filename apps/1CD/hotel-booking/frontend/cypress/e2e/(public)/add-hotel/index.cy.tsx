@@ -46,6 +46,8 @@ describe('admin add-hotel page', () => {
     cy.get('[data-cy=Select-Room-Type-Trigger]').click();
     cy.get('[data-cy=Selected-Type1]').click();
     cy.get('[data-cy=Selected-Room-Type-Value]').should('have.text', 'Deluxe');
+    cy.get('input[placeholder="Select options..."]').focus();
+    cy.contains('24-hour front desk').click();
     cy.get('[data-cy=Price-Per-Night-Input]').type('5000');
     cy.get('[data-cy=Room-Save-Button]').click();
     cy.get('[data-cy=Room-General-Info-Page]').should('not.exist');
