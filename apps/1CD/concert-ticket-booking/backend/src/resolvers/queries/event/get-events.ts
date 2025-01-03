@@ -43,6 +43,6 @@ export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} })
     });
   }
 
-  const events: EventType[] = await Event.find(findFilter).populate(['products', 'venue']);
+  const events: EventType[] = await Event.find(findFilter).sort({ createdAt: -1 }).populate(['products', 'venue']);
   return events;
 };
