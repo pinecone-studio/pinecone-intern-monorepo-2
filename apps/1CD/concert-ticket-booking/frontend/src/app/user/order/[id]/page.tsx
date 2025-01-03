@@ -84,13 +84,13 @@ const OrderTicketPage = () => {
 
   return (
     <div
-      className="min-h-[calc(100vh-1px)] bg-black align-center px-4 py-6"
+      className="min-h-[calc(100vh-1px)] bg-black align-center flex flex-col w-full h-screen gap-10"
       style={{
         background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
       }}
       data-cy="order-ticket-page"
     >
-      <header className="flex justify-between items-center" data-cy="order-ticket-header">
+      <header className="flex justify-between items-center w-3/6 h-[80px] flex text-white text-[16px] mx-10" data-cy="order-ticket-header">
         <Button onClick={handleUndo} className="text-white" data-cy="undo-button">
           Undo
         </Button>
@@ -110,3 +110,4 @@ const OrderTicketPage = () => {
 };
 
 export default OrderTicketPage;
+

@@ -20,19 +20,19 @@ const OrderInfo = () => {
 
   return (
     <div className="text-white w-[841px]" data-cy="order-info-container">
-      <h1 data-cy="order-info-title" className="text-2xl font-semibold mb-6">
+      <h1 data-cy="order-info-title" className="mb-6 text-2xl font-semibold">
         Захиалгын мэдээлэл
       </h1>
       {orders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
-          <div className="text-white flex justify-between items-center mb-4">
+          <div className="flex items-center justify-between mb-4 text-white">
             <div className="flex gap-1">
               <h2 data-cy={`order-id-${order?._id}`} className="text-base font-normal text-muted-foreground">
                 Захиалгын дугаар :{' '}
               </h2>
               {order?._id}
               <p className="flex items-center gap-2 ml-[14px]">
-                <Clock className="h-4 w-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
+                <Clock className="w-4 h-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
               </p>
             </div>
 
@@ -63,7 +63,7 @@ const OrderInfo = () => {
                   {ticket.zoneName}
                 </span>
               </div>
-              <span className="text-white flex gap-2 items-center" data-cy={`ticket-price-${ticket._id}`}>
+              <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${ticket._id}`}>
                 <span className="text-base font-normal text-muted-foreground">
                   {toMNT(Number(ticket.unitPrice))}×{ticket.soldQuantity}
                 </span>
@@ -71,9 +71,9 @@ const OrderInfo = () => {
               </span>
             </div>
           ))}
-          <div className="py-4 px-6 text-white flex items-center justify-between" data-cy={`order-total-${order?._id}`}>
-            <span className="font-light text-sm">Төлсөн дүн</span>
-            {order?.ticketType && <span className="font-bold text-xl"> {toMNT(calculateTotalAmount(order?.ticketType))}</span>}
+          <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
+            <span className="text-sm font-light">Төлсөн дүн</span>
+            {order?.ticketType && <span className="text-xl font-bold"> {toMNT(calculateTotalAmount(order?.ticketType))}</span>}
           </div>
         </Card>
       ))}
@@ -82,3 +82,4 @@ const OrderInfo = () => {
 };
 
 export default OrderInfo;
+

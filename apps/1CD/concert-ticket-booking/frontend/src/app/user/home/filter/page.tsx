@@ -17,7 +17,7 @@ const Page = () => {
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data, loading }] = useGetEventsLazyQuery();
+  const [getEvents1, { data, loading}] = useGetEventsLazyQuery();
 
   useEffect(() => {
     getEvents1({
@@ -34,7 +34,7 @@ const Page = () => {
   return (
     <div className="bg-zinc-950" data-cy="Filter-Page">
       <div className="xl:w-[1100px] md:w-[700px] w-[350px] mx-auto  py-12 ">
-        <div className="flex gap-2 mb-8 flex-wrap">
+        <div className="flex flex-wrap gap-2 mb-8">
           <div className="relative flex items-center text-white w-[263px]">
             <Input
               data-testid="Artist-Search-Input"
@@ -74,3 +74,4 @@ const Page = () => {
   );
 };
 export default Page;
+
