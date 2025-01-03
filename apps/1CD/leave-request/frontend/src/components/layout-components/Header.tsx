@@ -2,23 +2,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import WhoAmI from '@/utils/decode-token';
 import { getEmail } from '@/utils/get-email';
 import Image from 'next/image';
-import Link from 'next/link';
 import { ProfilePic } from '../layout-components/ProfilePic';
+import { NavbarEle } from './NavBar';
 
 const adminHeader = [
-  { label: 'Employee List', value: 'emloyeeList' },
+  { label: 'Employee List', value: 'admin' },
   { label: 'Leave Calendar', value: 'leaveCalendar' },
-  { label: 'Leave requests', value: 'leaveRequests' },
+  { label: 'Leave requests', value: 'supervisor' },
 ];
 const supervisorHeader = [
-  { label: 'Pending Requests', value: 'pendingRequests' },
+  { label: 'Pending Requests', value: 'supervisor' },
   { label: 'Leave Calendar', value: 'leaveCalendar' },
-  { label: 'My requests', value: 'myRequests' },
-  { label: 'Request Form', value: 'requestForm' },
+  { label: 'My requests', value: 'MyRequest' },
+  { label: 'Request Form', value: 'createNewRequest' },
 ];
 const superviseeHeader = [
-  { label: 'My requests', value: 'myRequests' },
-  { label: 'Request Form', value: 'requestForm' },
+  { label: 'My requests', value: 'MyRequest' },
+  { label: 'Request Form', value: 'createNewRequest' },
   { label: 'Leave Calendar', value: 'leaveCalendar' },
 ];
 
@@ -35,9 +35,9 @@ const getRole = (decoded: { role: string }) => {
 
 const Header = async () => {
   const NavBar = await getCorrectNavBar();
-  const email = await getEmail()
+  const email = await getEmail();
   return (
-    <div className="flex flex-col gap-4 px-6 pt-4 ">
+    <div className="flex flex-col gap-4 px-6 pt-4 bg-white">
       <div className="flex items-center justify-between gap-4">
         <div className="flex gap-4">
           <Image src="/Logo/Vector.svg" width={32} height={28} alt="Logo" />
@@ -51,15 +51,9 @@ const Header = async () => {
             </SelectContent>
           </Select>
         </div>
-        <ProfilePic email={email}/>
+        <ProfilePic email={email} />
       </div>
-      <nav className=" md:flex gap-6 text-sm font-medium text-[#09090B]">
-        {NavBar.map((item) => (
-          <Link key={item.value} href={`/${item.value}`} className={`px-3 py-2 pb-3.5 `}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <NavbarEle NavBar={NavBar}/>
     </div>
   );
 };
