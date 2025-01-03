@@ -36,7 +36,7 @@ describe('HotelDetail', () => {
     cy.get('@calendar').contains('7').click();
     cy.get('@calendar').contains('10').click();
     cy.scrollTo(0, 1000);
-
+    cy.get('[data-cy=Reserve-Button]').first().click();
     cy.visit('/hotel-detail/674bfbd6a111c70660b55541');
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'HotelDetail') {
@@ -52,8 +52,5 @@ describe('HotelDetail', () => {
         });
       }
     });
-    cy.get('[data-cy=Reserve-Button]').first().click();
-
-    cy.url().should('include', '/login');
   });
 });

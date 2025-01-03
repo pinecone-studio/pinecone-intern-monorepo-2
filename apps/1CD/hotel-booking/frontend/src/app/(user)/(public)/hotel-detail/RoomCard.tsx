@@ -88,7 +88,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
         <div className="flex justify-between w-full">
           <div className="flex flex-col gap-1">
             <p className="text-xs font-normal text-[#71717A]">Total</p>
-            <DisplayTugrug tugrug={room.price ? totalPrice(dateFrom, dateTo, room.price) : undefined} />
+            <DisplayTugrug tugrug={totalPrice(dateFrom, dateTo, Number(room.price))} />
             <div className="flex items-center gap-1">
               <p className="text-sm">{room.price?.toLocaleString()}</p>
               <div className="text-xs font-normal text-[#000000]">Price per night</div>
