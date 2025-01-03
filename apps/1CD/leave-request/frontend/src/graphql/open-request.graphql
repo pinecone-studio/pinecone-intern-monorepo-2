@@ -1,0 +1,17 @@
+query OpenRequest($id: ID!) {
+  openRequest(_id: $id) {
+    _id
+    requestType
+    message
+    requestDate
+    startTime
+    endTime
+    supervisorEmail
+    result
+    comment
+    optionalFile
+    email
+    userName
+    createdAt
+  }
+}
