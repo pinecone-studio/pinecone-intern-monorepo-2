@@ -54,16 +54,16 @@ const OrderInfo = () => {
           {order?.ticketType.map((ticket, index) => (
             <div
               className="py-4 px-6 rounded-[6px] h-[52px] bg-[#131313] border-dashed border-[1px] border-muted-foreground mb-2 flex justify-between items-center"
-              key={ticket._id}
-              data-cy={`ticket-card-${ticket._id}`}
+              key={index}
+              data-cy={`ticket-card-${index}`}
             >
               <div>
-                <span className={`${index == 0 ? 'text-[#4651C9]' : index == 1 ? 'text-[#C772C4]' : 'text-white'} flex gap-2 items-center font-bold text-sm`} data-cy={`ticket-zone-${ticket._id}`}>
+                <span className={`${index == 0 ? 'text-[#4651C9]' : index == 1 ? 'text-[#C772C4]' : 'text-white'} flex gap-2 items-center font-bold text-sm`} data-cy={`ticket-zone-${index}}`}>
                   <div className={`${index == 0 ? 'bg-[#4651C9]' : index == 1 ? 'bg-[#C772C4]' : 'bg-white'} h-3 w-3 rounded-full`}></div>
                   {ticket.zoneName}
                 </span>
               </div>
-              <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${ticket._id}`}>
+              <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${index}`}>
                 <span className="text-base font-normal text-muted-foreground">
                   {toMNT(Number(ticket.unitPrice))}×{ticket.soldQuantity}
                 </span>
@@ -82,4 +82,3 @@ const OrderInfo = () => {
 };
 
 export default OrderInfo;
-
