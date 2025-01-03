@@ -1,4 +1,4 @@
-import { fireEvent, screen, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { GetCommentsDocument } from '@/generated';
 import { PostWithComments } from '@/app/(main)/_components/PostWithComments';
@@ -102,7 +102,7 @@ describe('get Post with comments', () => {
   });
 
   it('should render without comment #2', async () => {
-    const { getByTestId, getAllByText } = render(
+    const { getByTestId } = render(
       <MockedProvider mocks={commentMock0}>
         <PostWithComments id="post1" />
       </MockedProvider>

@@ -1,5 +1,5 @@
 'use client';
-import { useGetCommentsQuery, useGetPostLikesQuery } from '@/generated';
+import { useGetCommentsQuery } from '@/generated';
 import React from 'react';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';

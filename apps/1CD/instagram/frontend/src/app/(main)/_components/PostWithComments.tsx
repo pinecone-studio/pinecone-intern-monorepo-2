@@ -1,12 +1,11 @@
 'use client';
-import { useGetCommentsQuery, useGetPostLikesQuery } from '@/generated';
+import { useGetCommentsQuery } from '@/generated';
 import React from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Bookmark, Heart, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
-
 import { CommentCard } from '../../../components/comment/CommentCard';
 
 export const PostWithComments = ({ id }: { id: string }) => {

@@ -70,6 +70,7 @@ export const CreatePost = ({
               </div>
               <input data-testid="input" type="text" className="w-full h-[132px] border rounded-lg p-2" placeholder="Description ..." onChange={(e) => setHandleDesc(e.target.value)} />
               <div className="flex justify-between border-b-[1px] py-3 text-[12px] text-[#71717A] ">
+                <SmileIcon width={20} height={20} />
                 <p>{handleDesc.length}/200</p>
               </div>
             </div>
