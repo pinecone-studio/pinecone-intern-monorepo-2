@@ -16,7 +16,7 @@ const Page = () => {
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data, loading }] = useGetEventsLazyQuery();
+  const [getEvents1, { data}] = useGetEventsLazyQuery();
 
   useEffect(() => {
     getEvents1({
@@ -33,18 +33,16 @@ const Page = () => {
   return (
     <div className="w-full pt-10 bg-black" data-cy="Filter-Page">
       <div className=" py-4  xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-4 ">
-        {loading && <div className="flex items-center justify-center w-full h-full">Loading...</div>}
-
-        <div className="relative flex items-center w-full px-2 text-white">
+       <div className="relative flex items-center w-full px-2 text-white">
           <Input
             data-testid="Artist-Search-Input"
             type="text"
             placeholder="Уран бүтээлчээр хайх"
-            className=" w-full bg-black border-gray-600 md:w-80"
+            className="w-full bg-black border-gray-600 md:w-80"
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
           />
-          <Search className="absolute right-10 w-4 h-4" />
+          <Search className="absolute w-4 h-4 right-10" />
         </div>
         <div className="w-full px-2">
           <DatePicker />

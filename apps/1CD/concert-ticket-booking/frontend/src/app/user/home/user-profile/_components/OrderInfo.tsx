@@ -22,16 +22,16 @@ const OrderInfo = () => {
       <h1 data-cy="order-info-title">Захиалгын мэдээлэл</h1>
       {orders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
-          <div className="text-white flex justify-between items-center mb-2">
+          <div className="flex items-center justify-between mb-2 text-white">
             <h2 data-cy={`order-id-${order?._id}`}>
               Захиалгын дугаар : {order?._id}
               <p className="flex items-center gap-2">
-                <Clock className="h-4 w-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
+                <Clock className="w-4 h-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
               </p>
             </h2>
             {order?.status === 'pending' && (
               <div data-cy={`order-status-pending-${order?._id}`}>
-                Төлөв: <span className="rounded-full bg-black p-2">Цуцлах хүсэлт илгээсэн</span>
+                Төлөв: <span className="p-2 bg-black rounded-full">Цуцлах хүсэлт илгээсэн</span>
               </div>
             )}
             {isLessThan24Hours(order?.createdAt) && order?.status !== 'pending' && (
@@ -45,11 +45,11 @@ const OrderInfo = () => {
           </div>
           {order?.ticketType.map((ticket) => (
             <Card className="h-[52px] bg-[#131313] border-dashed border-muted-foreground mb-2 flex justify-between pr-4" key={ticket._id} data-cy={`ticket-card-${ticket._id}`}>
-              <span className="text-white flex gap-2 items-center" data-cy={`ticket-zone-${ticket._id}`}>
-                <Dot className="h-12 w-12" />
+              <span className="flex items-center gap-2 text-white" data-cy={`ticket-zone-${ticket._id}`}>
+                <Dot className="w-12 h-12" />
                 {ticket.zoneName}
               </span>
-              <span className="text-white flex gap-2 items-center" data-cy={`ticket-price-${ticket._id}`}>
+              <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${ticket._id}`}>
                 <span>
                   {ticket.unitPrice}₮×{ticket.soldQuantity}
                 </span>
@@ -57,7 +57,7 @@ const OrderInfo = () => {
               </span>
             </Card>
           ))}
-          <div className="text-white flex items-center justify-between" data-cy={`order-total-${order?._id}`}>
+          <div className="flex items-center justify-between text-white" data-cy={`order-total-${order?._id}`}>
             <span>Төлсөн дүн</span>
             {order?.ticketType && <span>{calculateTotalAmount(order?.ticketType)}₮</span>}
           </div>
