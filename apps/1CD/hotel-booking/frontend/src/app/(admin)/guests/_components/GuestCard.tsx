@@ -16,11 +16,11 @@ const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
               <div className="flex flex-col flex-1 gap-6">
                 <ul>
                   <li className="font-light text-gray-500">Firstname</li>
-                  <li>firstname</li>
+                  <li>{info?.firstName}</li>
                 </ul>
-                <ul>
+                <ul className="flex flex-col gap-1">
                   <li className="font-light text-gray-500">Status</li>
-                  <Badge>booked</Badge>
+                  <Badge className="w-20 bg-blue-600">{info?.status}</Badge>
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Check in</li>
@@ -35,7 +35,7 @@ const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
               <div className="flex flex-col flex-1 gap-6">
                 <ul>
                   <li className="font-light text-gray-500">Last name</li>
-                  <li>Nymdorj</li>
+                  <li>{info?.lastName}</li>
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Guests</li>
@@ -56,22 +56,22 @@ const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
               <div className="flex flex-col flex-1 gap-5">
                 <ul>
                   <li className="font-light text-gray-500">Email</li>
-                  <li>@gmail.com</li>
+                  <li>{info?.email}</li>
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Guest Request</li>
-                  <li>@gmail.com</li>
+                  <li>No request</li>
                 </ul>
               </div>
               <div className="flex flex-col flex-1 gap-5">
                 <ul>
                   <li className="font-light text-gray-500">Phone number</li>
-                  <li>@gmail.com</li>
+                  <li>{info?.phoneNumber}</li>
                 </ul>
                 <div className="flex justify-between">
                   <ul>
                     <li className="font-light text-gray-500">Room number</li>
-                    <li>room</li>
+                    <li>{info?.roomId?.roomType}</li>
                   </ul>
                   <Button className="bg-blue-600 mt-9">Checkout</Button>
                 </div>

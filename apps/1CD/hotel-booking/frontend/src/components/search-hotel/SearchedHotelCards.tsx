@@ -24,8 +24,8 @@ export const SearchedHotelCards = ({ hotelData }: { hotelData: Hotel }) => {
             {hotelData.roomsAveragePrice && (
               <div className="flex flex-col items-end">
                 <p className="font-light text-gray-500">Per night</p>
-                <h3 className="text-2xl text-black">{hotelData.roomsAveragePrice}</h3>
-                <p className="text-sm font-light">{hotelData.roomsAveragePrice + 50000} total</p>
+                <h3 className="text-2xl text-black">{hotelData.roomsAveragePrice.toLocaleString()}</h3>
+                <p className="text-sm font-light">{(hotelData.roomsAveragePrice + 50000).toLocaleString('en-US')} total</p>
               </div>
             )}
           </section>

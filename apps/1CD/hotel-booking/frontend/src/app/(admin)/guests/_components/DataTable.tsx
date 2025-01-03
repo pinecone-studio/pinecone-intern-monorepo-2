@@ -8,8 +8,8 @@ const DataTable = ({ bookingsData }: { bookingsData: BookingsType }) => {
       <TableRow className="flex gap-4 border">
         <TableCell className="border-r-[1px] w-28">{bookingsData._id?.slice(0, 3)}</TableCell>
         <TableCell className="border-r-[1px] w-60">{bookingsData.userId?.firstName && bookingsData.userId?.lastName && `${bookingsData.userId.firstName} ${bookingsData.userId.lastName}`}</TableCell>
-        <TableCell className="border-r-[1px] w-60">{bookingsData.roomId?.hotelId?.hotelName} hdhd</TableCell>
-        <TableCell className="border-r-[1px] w-60">{bookingsData.roomId?.roomInformation}</TableCell>
+        <TableCell className="border-r-[1px] w-60">{bookingsData.roomId?.hotelId?.hotelName}</TableCell>
+        <TableCell className="border-r-[1px] w-60">{bookingsData.roomId?.roomName}</TableCell>
         <TableCell className="border-r-[1px] w-60">{bookingsData.roomId?.roomType}</TableCell>
         <TableCell className="border-r-[1px] w-60 flex items-center gap-2">
           {bookingsData.checkInDate && (

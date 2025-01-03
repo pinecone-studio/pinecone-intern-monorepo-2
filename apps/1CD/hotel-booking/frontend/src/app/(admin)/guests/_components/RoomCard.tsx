@@ -1,15 +1,16 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, CardTitle, CardFooter } from '@/components/ui/card';
 import Image from 'next/image';
+import { ReturnBooking } from '@/generated';
 
-const RoomInfo = () => {
+const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
   return (
     <>
       <section className="flex flex-col gap-2">
         <Card className="xl:min-w-[340px] h-[360px]">
           <CardContent>
             <CardHeader className="flex flex-row items-center justify-between pl-0">
-              <h2>Room type</h2>
+              <h2>{data?.roomId?.roomName}</h2>
               <p className="text-blue-600">View</p>
             </CardHeader>
             <Image alt="room-pic" src="/" width={340} height={250} className="border rounded-xl" />
@@ -23,7 +24,7 @@ const RoomInfo = () => {
                 <li className="font-normal">1 night</li>
                 <li className="text-xs font-light text-gray-500">150,000₮ per night</li>
               </ul>
-              <p>150,000₮</p>
+              <p>{data?.roomId?.price?.toLocaleString()}₮</p>
             </div>
             <div className="flex justify-between mt-3">
               <h5>Taxes</h5>
