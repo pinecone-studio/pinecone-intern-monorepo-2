@@ -57,67 +57,65 @@ const Page = () => {
   );
 
   return (
-    <>
-      <main data-cy="Get-Rooms-Page" className="h-full">
-        <section className="flex justify-center w-full gap-16 pb-20">
-          <main className="flex flex-col gap-4 w-60">
-            <div className="flex flex-col gap-2 mt-12">
-              <p>Search by property name</p>
-              <Input data-cy="Search-By-Property-Name" value={hotelName} onChange={handlePropertyName} type="text" placeholder="Search" className="max-w-96" data-testid="search-hotel-by-name-input" />
+    <main data-cy="Get-Rooms-Page" className="h-full">
+      <section className="flex justify-center w-full gap-16 pb-20">
+        <main className="flex flex-col gap-4 w-60">
+          <div className="flex flex-col gap-2 mt-12">
+            <p>Search by property name</p>
+            <Input data-cy="Search-By-Property-Name" value={hotelName} onChange={handlePropertyName} type="text" placeholder="Search" className="max-w-96" data-testid="search-hotel-by-name-input" />
+          </div>
+          <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
+            <h2>Rating</h2>
+            {UserRatingMock.map((rating, index) => (
+              <RatingCheckbox index={index} userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-3 pt-3 pl-3">
+            <h2>Stars</h2>
+            {StarRatingMock.map((stars, index) => (
+              <StarRatingCheckbox index={index} starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-3 pt-3 pl-3">
+            <h2>Amenities</h2>
+            {AmenitiesMock.map((amenities, index) => (
+              <AmenitiesCheckbox index={index} key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
+            ))}
+          </div>
+        </main>
+        <section className="max-w-[872px] w-full h-full  mt-10">
+          <div className="flex items-center justify-between">
+            <p>{data?.getFilterByPropertiesHotels.length} properties</p>
+            <Select onValueChange={handlePriceSort}>
+              <SelectTrigger data-cy="Sort-By-Price" data-testid="filter-select" className="w-80">
+                <SelectValue placeholder="Recommended" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">Recommended</SelectItem>
+                <SelectItem value="1">Price: Low to High</SelectItem>
+                <SelectItem value="-1">Price: High to Low</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {loading ? (
+            <div className="flex items-center justify-center w-full min-h-screen">
+              <div className="flex items-center justify-center gap-2 text-3xl font-bold">
+                <Loader2 className="animate-spin" />
+                <div>Loading...</div>
+              </div>
             </div>
-            <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
-              <h2>Rating</h2>
-              {UserRatingMock.map((rating, index) => (
-                <RatingCheckbox index={index} userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
-              ))}
-            </div>
-            <div className="flex flex-col gap-3 pt-3 pl-3">
-              <h2>Stars</h2>
-              {StarRatingMock.map((stars, index) => (
-                <StarRatingCheckbox index={index} starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
-              ))}
-            </div>
-            <div className="flex flex-col gap-3 pt-3 pl-3">
-              <h2>Amenities</h2>
-              {AmenitiesMock.map((amenities, index) => (
-                <AmenitiesCheckbox index={index} key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
-              ))}
-            </div>
-          </main>
-          <section className="max-w-[872px] w-full h-full  mt-10">
-            <div className="flex items-center justify-between">
-              <p>{data?.getFilterByPropertiesHotels.length} properties</p>
-              <Select onValueChange={handlePriceSort}>
-                <SelectTrigger data-cy="Sort-By-Price" data-testid="filter-select" className="w-80">
-                  <SelectValue placeholder="Recommended" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0">Recommended</SelectItem>
-                  <SelectItem value="1">Price: Low to High</SelectItem>
-                  <SelectItem value="-1">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {loading ? (
-              <div className="flex items-center justify-center w-full min-h-screen">
-                <div className="flex items-center justify-center gap-2 text-3xl font-bold">
-                  <Loader2 className="animate-spin" />
-                  <div>Loading...</div>
+          ) : (
+            <div className="h-full max-h-screen overflow-scroll">
+              {data?.getFilterByPropertiesHotels.map((hotelData) => (
+                <div key={hotelData._id} onClick={() => router.push(`/hotel-detail/${hotelData._id}`)}>
+                  <SearchedHotelCards hotelData={hotelData} />
                 </div>
-              </div>
-            ) : (
-              <div className="h-full max-h-screen overflow-scroll">
-                {data?.getFilterByPropertiesHotels.map((hotelData) => (
-                  <div key={hotelData._id} onClick={() => router.push(`/hotel-detail/${hotelData._id}`)}>
-                    <SearchedHotelCards hotelData={hotelData} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
+              ))}
+            </div>
+          )}
         </section>
-      </main>
-    </>
+      </section>
+    </main>
   );
 };
 export default Page;
