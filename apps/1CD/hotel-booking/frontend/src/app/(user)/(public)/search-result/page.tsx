@@ -9,14 +9,18 @@ import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
 import { Loader2 } from 'lucide-react';
-import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
-import { Context } from '../layout';
-import Link from 'next/link';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useQueryState } from 'nuqs';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
   // eslint-disable-next-line no-unused-vars
-  const value = useContext(Context);
+  const router = useRouter();
+  const [roomType] = useQueryState('roomType');
+  const [dateFrom] = useQueryState('dateFrom');
+  const [dateTo] = useQueryState('dateTo');
   const [price, setPrice] = useState(0);
+
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
   const [starRating, setStarRating] = useState<number>(0);
   const [hotelAmenities, setHotelAmenities] = useState<string[]>([]);
@@ -31,20 +35,20 @@ const Page = () => {
   const [getFilteredHotels, { loading, data }] = useGetFilterByPropertiesHotelsLazyQuery({
     variables: {
       input: {
-        checkInDate: value?.date?.from,
-        checkOutDate: value?.date?.to,
+        checkInDate: dateFrom,
+        checkOutDate: dateTo,
         starRating: starRating,
         userRating: userReviewRating,
         hotelAmenities: hotelAmenities,
         price: price,
-        roomType: value?.roomType,
+        roomType: roomType,
         hotelName: hotelName,
       },
     },
   });
   useEffect(() => {
     getFilteredHotels();
-  }, [value?.date, getFilteredHotels, starRating, userReviewRating, hotelAmenities, hotelName, price, value?.roomType]);
+  }, [getFilteredHotels, starRating, userReviewRating, hotelAmenities, hotelName, price, dateFrom, dateTo]);
   const handlePropertyName = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setHotelName(e.target.value);
@@ -104,9 +108,9 @@ const Page = () => {
             ) : (
               <div className="h-full max-h-screen overflow-scroll">
                 {data?.getFilterByPropertiesHotels.map((hotelData) => (
-                  <Link key={hotelData._id} href={`/hotel-detail/${hotelData?._id}`}>
+                  <div key={hotelData._id} onClick={() => router.push(`/hotel-detail/${hotelData._id}`)}>
                     <SearchedHotelCards hotelData={hotelData} />
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}
