@@ -1,0 +1,44 @@
+'use client';
+import { useGetPostLikesQuery } from '@/generated';
+import React from 'react';
+import Image from 'next/image';
+import { Heart } from 'lucide-react';
+
+export const CommentCard = ({ id }: { id: string }) => {
+  const { data } = useGetPostLikesQuery({
+    variables: {
+      postId: id,
+    },
+  });
+
+  return (
+    <div className="">
+      {data?.getPostLikes.map((item) => (
+        <div key={item?._id} className="flex items-start gap-2 py-1">
+          <div className="flex gap-4 py-1 ">
+            <div className="">
+              <div className="relative w-8 h-8 rounded-full">
+                <Image src={item?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followerCardImg" sizes="w-auto h-auto" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-sm font-bold text-black">
+                {item?.user.userName}
+                <span className="pl-1 text-sm font-normal text-black text-wrap">we should catch up soon ! Let me know when you’re free we should catch up soon</span>
+              </h1>
+              <div className="flex gap-3 text-[12px] text-[#71717A] ">
+                <p>1d</p>
+                <p>1 like</p>
+                <p>Reply</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <Heart strokeWidth={1} size={12} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
