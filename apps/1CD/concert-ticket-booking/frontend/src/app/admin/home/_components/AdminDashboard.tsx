@@ -13,6 +13,7 @@ import { headers } from './AdminDashboardType';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
 import { AdminPagination } from '@/components/AdminDashboardPagination';
+import { UpdateEventPriority } from './UpdateEventPriority';
 
 type AdminDashboardComponent = {
   searchValue: string;
@@ -23,7 +24,7 @@ type AdminDashboardComponent = {
 export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: AdminDashboardComponent) => {
   const { data, loading } = useGetEventsQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   if (loading) return <div>Loading...</div>;
   const filteredData = data?.getEvents?.filter((item) => {
     const lowerCaseSearchValue = searchValue.toLowerCase();
@@ -119,7 +120,7 @@ export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: 
 
                     <TableCell>
                       <div className="flex items-center justify-center gap-2">
-                        <p>special</p>
+                        <UpdateEventPriority eventId={item!._id} index={index}/>
                         <p>edit</p>
                         <p>delete</p>
                       </div>

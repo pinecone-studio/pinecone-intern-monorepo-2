@@ -5,7 +5,6 @@ query GetOrder {
     createdAt
     status
     ticketType {
-      _id
       additional
       discount
       soldQuantity
