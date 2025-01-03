@@ -17,6 +17,7 @@ export const resolvers = {
     resendOtp:authorization(Mutation.resendOtp),
     updateUser:authorization(Mutation.updateUser),
     verifyOtp:authorization(Mutation.verifyOtp),
+    editProfile:authorization(Mutation.editProfile),
   },
   Query:{
     getUsers:authorization(Query.getUsers),
