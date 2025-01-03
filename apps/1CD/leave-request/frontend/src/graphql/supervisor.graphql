@@ -1,0 +1,44 @@
+query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $page: Int, $startDate: Date, $endDate: Date, $search: String) {
+  getAllRequestsBySupervisor(supervisorEmail: $supervisorEmail, status: $status, page: $page, startDate: $startDate, endDate: $endDate, search: $search) {
+    _id
+    requestType
+    message
+    requestDate
+    startTime
+    endTime
+    supervisorEmail
+    result
+    optionalFile
+    email {
+      _id
+      email
+      userName
+      profile
+      role
+      position
+      supervisor
+      hireDate
+      createdAt
+      updatedAt
+    }
+  }
+  getAllRequestLength(supervisorEmail: $supervisorEmail) {
+    res
+  }
+}
+
+mutation UpdateRequest($result: String, $comment: String, $id: ID) {
+  updateRequest(result: $result, comment: $comment, _id: $id) {
+    _id
+    email
+    requestType
+    message
+    requestDate
+    startTime
+    endTime
+    supervisorEmail
+    result
+    comment
+    optionalFile
+  }
+}

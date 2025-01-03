@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { CirclePlus } from 'lucide-react';
-import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { EventInputSchema } from '@/utils/validation-schema';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -19,10 +18,10 @@ import InputGenreWithLocation from './GenreWithLocation';
 import TimePicker from './TimePicker';
 import { DatePickerWithRange } from './DatePicker';
 import InputArtist from './InputArtist';
-import { EventInput, TicketTypeInput, useCreateEventMutation } from '@/generated';
+import { useCreateEventMutation } from '@/generated';
 import { toast } from 'sonner';
 
-const CreateEventModal = ({refetch} : {refetch : () => void}) => {
+const CreateEventModal = ({ refetch }: { refetch: () => void }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm<z.infer<typeof EventInputSchema>>({
     resolver: zodResolver(EventInputSchema),
@@ -42,7 +41,7 @@ const CreateEventModal = ({refetch} : {refetch : () => void}) => {
     onCompleted: () => {
       toast.success('Successfully created');
       setDialogOpen(false);
-      refetch()
+      refetch();
     },
     onError: () => {
       toast.error('An error occurred');
@@ -50,31 +49,9 @@ const CreateEventModal = ({refetch} : {refetch : () => void}) => {
   });
 
   const onSubmit = async (values: z.infer<typeof EventInputSchema>) => {
-    const eventInput: EventInput = {
-      category: values.category,
-      dateRange: values.dateRange,
-      description: values.description,
-      guestArtists: values.guestArtists,
-      image: values.image,
-      mainArtists: values.mainArtists,
-      name: values.name,
-      ticketType: values.ticketType.map((type) => {
-        const item: TicketTypeInput = {
-          additional: type.additional,
-          discount: type.discount ,
-          totalQuantity: type.totalQuantity,
-          unitPrice: type.unitPrice ,
-          zoneName: type.zoneName
-        };
-        return item;
-      }),
-      time: values.time,
-      venue: values.venue,
-    };
-
     await createEvent({
       variables: {
-        input: eventInput,
+        input: values,
       },
     });
   };
@@ -90,11 +67,6 @@ const CreateEventModal = ({refetch} : {refetch : () => void}) => {
         <DialogHeader>
           <DialogTitle className="flex justify-between" data-testid="modal-title">
             <span>Тасалбар нэмэх</span>
-            <DialogClose asChild>
-              <Button type="button" className="bg-inherit" variant="secondary" data-testid="close-modal-button">
-                <X className="w-5" />
-              </Button>
-            </DialogClose>
           </DialogTitle>
         </DialogHeader>
         <ScrollArea className="h-[80vh]">

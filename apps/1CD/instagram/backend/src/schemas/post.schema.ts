@@ -13,6 +13,18 @@ export const typeDefs = gql`
     createdAt: Date
   }
 
+  type UserPost {
+    _id: ID!
+    user: ID!
+    description: String
+    images: [String!]!
+    lastComments: [String]
+    commentCount: Int
+    likeCount: Int
+    updatedAt: Date
+    createdAt: Date
+  }
+
   input UpdatePostInput {
     _id: ID!
     description: String
@@ -23,6 +35,7 @@ export const typeDefs = gql`
     getMyPosts: [Post!]!
     getMyFollowingsPosts: [Post!]!
     getPost(_id: ID!): Post!
+    getUserPosts(user: ID!): [UserPost]
   }
 
   type Mutation {

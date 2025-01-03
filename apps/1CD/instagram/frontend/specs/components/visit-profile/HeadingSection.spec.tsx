@@ -1,10 +1,30 @@
+/*eslint-disable*/
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
+import { AccountVisibility } from '@/generated';
 
 jest.mock('lucide-react', () => ({
   Ellipsis: jest.fn(() => <div data-testid="ellipsis-icon">...</div>),
+}));
+
+jest.mock('@/components/visit-profile/SeeFollowers', () => ({
+  __esModule: true,
+  default: jest.fn(({ followerDataCount }) => (
+    <div data-testid="followers-dialog">
+      <span>Followers: {followerDataCount}</span>
+    </div>
+  )),
+}));
+
+jest.mock('@/components/visit-profile/SeeFollowings', () => ({
+  __esModule: true,
+  default: jest.fn(({ followingDataCount }) => (
+    <div data-testid="followings-dialog">
+      <span>Followings: {followingDataCount}</span>
+    </div>
+  )),
 }));
 
 describe('HeadingSection', () => {
@@ -12,41 +32,55 @@ describe('HeadingSection', () => {
   const profileUser = {
     profileImg: 'https://example.com/profile.jpg',
     userName: 'TestUser',
-    followerCount: 123,
-    followingCount: 456,
     fullName: 'Test User',
     bio: 'This is a test bio.',
+    _id: 'id',
+    accountVisibility: AccountVisibility.Public,
+    createdAt: '2025-01-01',
+    followerCount: 0,
+    followingCount: 0,
+    updatedAt: '2025-01-01',
   };
+  const fetchedFollowerData = [{ _id: '1', userName: 'Follower1', fullName: 'Follower One', profileImg: '' }];
+  const fetchedFollowingData = [{ _id: '2', userName: 'Following1', fullName: 'Following One', profileImg: '' }];
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   test('renders with profile user data', () => {
-    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
-    // Profile image
     const profileImage = screen.getByTestId('proImage');
     expect(profileImage).toHaveAttribute('src', profileUser.profileImg);
     expect(profileImage).toHaveAttribute('alt', 'profile image');
 
-    // User info
     expect(screen.getByText(profileUser.userName)).toBeInTheDocument();
     expect(screen.getByText(profileUser.fullName)).toBeInTheDocument();
     expect(screen.getByText(profileUser.bio)).toBeInTheDocument();
-
-    // Followers and following
-    expect(screen.getByText(`${profileUser.followerCount}`)).toBeInTheDocument();
-    expect(screen.getByText('followers')).toBeInTheDocument();
-    expect(screen.getByText(`${profileUser.followingCount}`)).toBeInTheDocument();
-    expect(screen.getByText('following')).toBeInTheDocument();
-
-    // Ellipsis icon
     expect(screen.getByTestId('ellipsis-icon')).toBeInTheDocument();
   });
 
   test('renders default profile image when profileImg is undefined', () => {
-    render(<HeadingSection profileUser={{ ...profileUser, profileImg: undefined }} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+    render(
+      <HeadingSection
+        profileUser={{ ...profileUser, profileImg: undefined }}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
     const profileImage = screen.getByTestId('proImage');
     expect(profileImage).toHaveAttribute(
@@ -56,34 +90,94 @@ describe('HeadingSection', () => {
   });
 
   test('disables Follow button and applies loading styles when followLoading is true', () => {
-    render(<HeadingSection profileUser={profileUser} followLoading={true} buttonText="Following..." handleButtonClick={mockHandleButtonClick} />);
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={true}
+        buttonText="Following..."
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
     const followButton = screen.getByText('Following...');
     expect(followButton).toBeDisabled();
     expect(followButton).toHaveClass('opacity-50 cursor-not-allowed');
   });
 
-  test('calls handleButtonClick when Follow button is clicked', async () => {
-    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+  test('calls handleButtonClick when Follow button is clicked', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
     const followButton = screen.getByText('Follow');
     fireEvent.click(followButton);
-
     expect(mockHandleButtonClick).toHaveBeenCalledTimes(1);
   });
 
-  // test('renders 0 posts when profileUser is undefined', () => {
-  //   render(<HeadingSection profileUser={undefined} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+  test('renders 0 posts when profileUser is undefined', () => {
+    render(<HeadingSection profileUser={undefined} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} fetchedFollowerData={[]} fetchedFollowingData={[]} />);
 
-  //   expect(screen.getByText('0 posts')).toBeInTheDocument();
-  //   expect(screen.queryByText('followers')).not.toBeInTheDocument();
-  //   expect(screen.queryByText('following')).not.toBeInTheDocument();
-  // });
+    expect(screen.getByText('0 posts')).toBeInTheDocument();
+    expect(screen.queryByText('followers')).not.toBeInTheDocument();
+    expect(screen.queryByText('following')).not.toBeInTheDocument();
+  });
 
   test('renders Message button', () => {
-    render(<HeadingSection profileUser={profileUser} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} />);
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
     const messageButton = screen.getByText('Message');
     expect(messageButton).toBeInTheDocument();
+  });
+
+  test('renders followers dialog with correct data', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
+
+    const followersDialog = screen.getByTestId('followers-dialog');
+    expect(followersDialog).toBeInTheDocument();
+    expect(screen.getByText('Followers: 1')).toBeInTheDocument();
+  });
+
+  test('renders followings dialog with correct data', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
+
+    const followingsDialog = screen.getByTestId('followings-dialog');
+    expect(followingsDialog).toBeInTheDocument();
+    expect(screen.getByText('Followings: 1')).toBeInTheDocument();
   });
 });

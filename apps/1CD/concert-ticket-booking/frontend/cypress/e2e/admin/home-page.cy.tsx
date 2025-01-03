@@ -21,6 +21,5 @@ describe('Admin Page ', () => {
     cy.get('[data-testid="Admin-Dash"]').find('h3').should('contain.text', 'Тасалбар');
     cy.get('[data-testid="Admin-Dash"]').find('p').should('contain.text', 'Идэвхитэй зарагдаж буй тасалбарууд');
     cy.get('[data-cy="submit-button"]').click().should('contain', 'success');
-    
   });
 });

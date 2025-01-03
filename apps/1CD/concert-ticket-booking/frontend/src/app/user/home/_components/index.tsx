@@ -30,7 +30,7 @@ const CarouselMain = ({ event }: { event: GetSpecialEventQuery['getSpecialEvent'
   }, [current, api, event.length]);
   return (
     <div className="flex w-full bg-black">
-      <Carousel setApi={setApi} opts={{ loop: true }} className="w-full h-[450px] relative" data-cy="events">
+      <Carousel setApi={setApi} opts={{ loop: true }} className="w-full h-[550px] relative" data-cy="events">
         <Button
           onClick={() => handleScroll('prev')}
           className="absolute z-10 transform -translate-y-1/2 bg-transparent left-5 top-1/2 hover:bg-transparent hover:border hover:border-2-slate"
@@ -40,12 +40,12 @@ const CarouselMain = ({ event }: { event: GetSpecialEventQuery['getSpecialEvent'
           <ChevronLeft />
         </Button>
         <div>
-          <CarouselContent className="h-[450px] relative mx-0">
+          <CarouselContent className="h-[550px] relative mx-0">
             {event?.map((prod) => (
               <CarouselItem className="relative w-full h-full " key={prod._id}>
                 <div className="flex items-center justify-center w-full h-full ">
                   <Link href={`/user/home/event/${prod._id}`}>
-                    <Image alt={prod.name} fill src={prod.image} />
+                    <Image alt={prod.name} fill src={prod.image} className="object-fill" />
                   </Link>
                   <div className="absolute justify-center text-white item-center">
                     <p className="flex justify-center gap-3 item-center">

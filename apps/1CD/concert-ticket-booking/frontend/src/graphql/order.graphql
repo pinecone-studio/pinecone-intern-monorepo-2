@@ -1,0 +1,22 @@
+query GetOrder {
+  getOrder {
+    _id
+    eventId
+    createdAt
+    status
+    ticketType {
+      _id
+      additional
+      discount
+      soldQuantity
+      unitPrice
+      zoneName
+    }
+  }
+}
+
+mutation CancelTicket($input: CancelTicketTypeInput!) {
+  cancelTicket(input: $input) {
+    message
+  }
+}

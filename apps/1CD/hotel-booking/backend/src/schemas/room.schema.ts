@@ -1,8 +1,7 @@
 import gql from 'graphql-tag';
-import { typeDefs as HotelsTypeDefs } from './hotels.schema';
+
 export const typeDefs = gql`
   scalar Date
-  ${HotelsTypeDefs}
   type RoomServiceType {
     bathroom: [String]
     accessability: [String]
@@ -19,7 +18,7 @@ export const typeDefs = gql`
     roomName: String
     roomType: String
     price: Int
-    roomInformation: String
+    roomInformation: [String]
     createdAt: Date
     amenities: [String]
     images: [String]
@@ -40,7 +39,7 @@ export const typeDefs = gql`
     roomName: String
     roomType: String
     price: Int
-    roomInformation: String
+    roomInformation: [String]
     createdAt: Date
     images: [String!]!
     roomService: RoomServiceType
@@ -52,7 +51,7 @@ export const typeDefs = gql`
     roomName: String
     roomType: String
     price: Int
-    roomInformation: String
+    roomInformation: [String]
   }
 
   input RoomFilterType {
@@ -67,9 +66,10 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getRooms(input: RoomFilterType): [Room!]!
+    getFilterByPropertiesHotels(input: RoomFilterType): [Hotel!]!
     hotelDetail(hotelId: ID!): [RoomType!]!
     hotelService(roomId: ID!): [Room!]!
+    getRoom(_id: ID!): Room!
   }
   type Mutation {
     addRoom(input: RoomTypeInput!): RoomType!

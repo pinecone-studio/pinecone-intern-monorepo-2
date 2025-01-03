@@ -7,7 +7,7 @@ export type RoomsType = {
   roomType: string;
   roomCount: number;
   roomNumber: string;
-  roomInformation: string;
+  roomInformation: string[];
   images: string[];
   amenities: string[];
   roomName: string;
@@ -34,7 +34,7 @@ const roomsSchema = new Schema<RoomsType>({
     type: String,
     ref: hotelsModel,
   },
-  roomInformation: String,
+  roomInformation: [String],
   roomName: String,
 
   roomCount: {
