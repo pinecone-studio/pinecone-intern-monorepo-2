@@ -16,8 +16,8 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
 
   return (
     <div className="flex flex-col items-center gap-4 p-4 bg-[#1C1C1C] rounded-lg max-w-xs mx-auto">
-      <p className="text-white font-bold text-xl">
-        Нийт төлөв дүн: {totalPrice} <span>₮</span>
+      <p className="flex justify-between text-xl text-white">
+        Нийт төлөх дүн: {totalPrice} <span>₮</span>
       </p>
       <button
         data-cy="payment-select-button"
@@ -29,7 +29,7 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
        max-w-[200px]`}
       >
         <img src="/images/qpay.png" alt="Qpay" className="w-8 h-8" />
-        <p className="text-white font-medium">PinePay</p>
+        <p className="font-medium text-white">PinePay</p>
       </button>
       {mode && (
         <Button data-cy="payment-submit-button" onClick={() => createOrder()} className="bg-green-700 text-white p-2 rounded-md hover:bg-green-700 w-auto max-w-[200px]">
@@ -41,3 +41,4 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
 };
 
 export default Payment;
+
