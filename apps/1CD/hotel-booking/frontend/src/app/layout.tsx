@@ -2,13 +2,14 @@ import { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { ToastContainer } from 'react-toastify';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <ApolloWrapper>
       <html lang="en">
         <body>
-          {children}
+          <NuqsAdapter>{children}</NuqsAdapter>
           <ToastContainer />
         </body>
       </html>
