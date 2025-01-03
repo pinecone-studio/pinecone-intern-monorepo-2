@@ -54,37 +54,39 @@ const TableStatic: FC = () => {
                   readOnly
                   onClick={() => setOpenDialogId(employee?._id ?? null)}
                 />
-                <Dialog open={openDialogId === employee?._id} onOpenChange={setIsOpen}>
-                  <DialogContent className="sm:max-w-md">
-                    <DialogHeader>
-                      <DialogTitle className="text-xl font-medium">{employee?.role === 'admin' ? 'Ахлах ажилтныг хасах' : 'Ахлах ажилтныг баталгаажуулах'}</DialogTitle>
-                    </DialogHeader>
-                    <div className="py-4">
-                      <p className="text-gray-600">
-                        Та {employee?.userName} -ийг {employee?.role === 'admin' ? 'ахлах ажилтны эрхийг хасах' : 'ахлах ажилтан болгох'} гэж байна. Баталгаажуулна уу.
-                      </p>
-                    </div>
-                    <div className="flex justify-end gap-3">
-                      <Button variant="outline" onClick={() => setIsOpen(false)} className="px-6">
-                        Буцах
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          await updateEmployeeRole({
-                            variables: {
-                              email: employee?.email,
-                              role: employee?.role === 'admin' ? 'user' : 'admin',
-                            },
-                          });
-                          onConfirm();
-                        }}
-                        className="px-6 bg-black hover:bg-gray-800"
-                      >
-                        Зөвшөөрөх
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                {openDialogId === employee?._id && (
+                  <Dialog open={true} onOpenChange={setIsOpen}>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl font-medium">{employee?.role === 'admin' ? 'Ахлах ажилтныг хасах' : 'Ахлах ажилтныг баталгаажуулах'}</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4">
+                        <p className="text-gray-600">
+                          Та {employee?.userName} -ийг {employee?.role === 'admin' ? 'ахлах ажилтны эрхийг хасах' : 'ахлах ажилтан болгох'} гэж байна. Баталгаажуулна уу.
+                        </p>
+                      </div>
+                      <div className="flex justify-end gap-3">
+                        <Button variant="outline" onClick={() => setIsOpen(false)} className="px-6">
+                          Буцах
+                        </Button>
+                        <Button
+                          onClick={async () => {
+                            await updateEmployeeRole({
+                              variables: {
+                                email: employee?.email,
+                                role: employee?.role === 'admin' ? 'user' : 'admin',
+                              },
+                            });
+                            onConfirm();
+                          }}
+                          className="px-6 bg-black hover:bg-gray-800"
+                        >
+                          Зөвшөөрөх
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
               </td>
             </tr>
           ))}

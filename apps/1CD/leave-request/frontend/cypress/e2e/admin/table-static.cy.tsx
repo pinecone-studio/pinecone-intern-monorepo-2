@@ -1,10 +1,7 @@
 describe('TableStatic Component', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
-    cy.setCookie(
-      'authtoken',
-      token
-    );
+    const token = Cypress.env().env['ANNUAL_TOKEN'] as string;
+    cy.setCookie('authtoken', token);
     cy.visit('/admin');
   });
 
@@ -32,5 +29,8 @@ describe('TableStatic Component', () => {
 
   it('Уншиж байна текст харуулах', () => {
     cy.contains('Уншиж байна...').should('exist');
+  });
+  it('Хүснэгтийн доод хэсгийг зөв харуулах', () => {
+    cy.contains('1-1 ажилтан харуулж байна (Нийт: 1)').should('exist');
   });
 });
