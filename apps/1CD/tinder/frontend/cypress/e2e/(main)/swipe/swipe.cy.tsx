@@ -25,9 +25,19 @@ describe('testing the swipe page', () => {
     cy.wait(1000);
     cy.get('[data-cy="swipingImg"]').should('not.equal');
   });
-  it('4.should swipe right the card', () => {
+  it('4.should swipe right the card and have a match', () => {
     cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(200,200,{position:'right'}).wait(1000).realMouseUp({position:'right'})
     cy.wait(2000);
+    cy.contains('Its a Match').should('be.visible');
+    cy.get('[data-cy="swipedUserImg"]').should('exist');
+    cy.get('[data-cy="swipingUserImg"]').should('exist');
+    cy.contains('You matched with ').should('exist');
+    cy.get('[data-cy="message-input"]').should('exist');
+    cy.contains('Send').should('exist');
+    cy.get('[data-cy="match-modal"]').within(() => {
+    cy.contains('Close').click();
+    });
+    cy.get('[data-cy="match-modal"]').should('not.exist');
    
   });
   it('5.should swipe left the card', () => {
@@ -43,6 +53,7 @@ describe('testing the swipe page', () => {
     cy.get('[data-cy="swipingImg"]').realMouseUp();
     cy.wait(2000);
   });
+
  
 
 });

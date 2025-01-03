@@ -5,6 +5,8 @@ import { typeDefs as PostTypeDefs } from './post.schema';
 import { typeDefs as FollowTypeDefs } from './follow.schema';
 import { typeDefs as CommentTypeDefs } from './comment.schema';
 import { typeDefs as PostLikeTypeDefs } from './post-like.schema';
+import { typeDefs as NotificationsTypeDefs } from './notifications.schema';
 import { typeDefs as StoryTypeDefs } from './story.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, UserTypeDefs, PostTypeDefs, FollowTypeDefs, CommentTypeDefs, PostLikeTypeDefs, StoryTypeDefs]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, UserTypeDefs, PostTypeDefs, FollowTypeDefs, CommentTypeDefs, PostLikeTypeDefs, NotificationsTypeDefs, StoryTypeDefs]);
+
