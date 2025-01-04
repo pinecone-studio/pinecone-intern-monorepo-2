@@ -5,16 +5,16 @@ import { NotificationType } from 'src/generated';
 
 export type NotificationsType = {
   _id: string;
-  otherUserId: string;
-  currentUserId: string;
+  otherUserId: Types.ObjectId;
+  currentUserId: Types.ObjectId;
   notificationType: NotificationType;
   isViewed: boolean;
   postId: Types.ObjectId;
   createdAt: Date;
 };
 const NotificationsSchema = new Schema<NotificationsType>({
-  otherUserId: { type: String, required: true, ref: 'userModel' },
-  currentUserId: { type: String, required: true, ref: 'userModel' },
+  otherUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
+  currentUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
   notificationType: { type: String, required: true, enum: [NotificationType.Follow, NotificationType.Postlike] },
   isViewed: { type: Boolean, required: true, default: false },
   postId: { type: Schema.Types.ObjectId, ref: 'Post' },

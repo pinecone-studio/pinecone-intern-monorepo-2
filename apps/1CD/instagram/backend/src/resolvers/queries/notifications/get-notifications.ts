@@ -6,5 +6,9 @@ export const getNotificationsByLoggedUser: QueryResolvers['getNotificationsByLog
 
   const notifications = await notificationModel.find({ currentUserId: userId }).populate<PopulatedNotificationWithPost>('postId').populate<PopulatedNotificationWithCurrentUser>('otherUserId');
   console.log('notify iig harah', notifications);
+  console.log(
+    'notify iig harah 111',
+    notifications.map((notify) => notify.toObject())
+  );
   return notifications.map((notification) => notification.toObject());
 };
