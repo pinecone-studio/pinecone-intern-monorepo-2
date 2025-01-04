@@ -1,6 +1,7 @@
 'use client';
 
 import HomePageCard from '@/components/HomePageCard';
+import { useAuth } from '@/components/providers';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';
@@ -8,6 +9,7 @@ import { useGetHotelsQuery } from '@/generated';
 import { useState } from 'react';
 
 const Page = () => {
+  const { user } = useAuth();
   const { data, loading } = useGetHotelsQuery();
   const [sliceNum, setSliceNum] = useState<number | undefined>(13);
   if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
