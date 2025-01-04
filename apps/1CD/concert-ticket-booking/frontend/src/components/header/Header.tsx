@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useQueryState } from 'nuqs';
-import { Filter, Search, ShoppingCart } from 'lucide-react';
+import { Filter, House, Search, ShoppingCart } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
@@ -27,41 +28,104 @@ export const Header = () => {
 
       <div className="flex items-center justify-center gap-1 md:justify-end md:gap-4">
         <Link href="/user/home/filter">
-          <Filter className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 sm:block" />
+          <Filter className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:block" />
         </Link>
         {!user && (
-          <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/user/sign-up">
-              <Button
-                data-cy="SignUpBtn"
-                data-testid="SignUpBtn"
-                className="sm:block hidden text-[10px] md:text-xs  font-medium leading-5 bg-black border border-gray-600 rounded-lg xl:text-sm w-20 md:w-28 xl:w-36"
-              >
-                Бүртгүүлэх
-              </Button>
-            </Link>
+          <div>
+            <div className="flex items-center gap-2 md:gap-4">
+              <Link href="/user/sign-up">
+                <Button
+                  data-cy="SignUpBtn"
+                  data-testid="SignUpBtn"
+                  className="lg:block hidden text-[10px] md:text-xs  font-medium leading-5 bg-black border border-gray-600 rounded-lg xl:text-sm w-20 md:w-28 xl:w-36"
+                >
+                  Бүртгүүлэх
+                </Button>
+              </Link>
 
-            <Link href="/user/sign-in">
-              <Button data-cy="SignInBtn" data-testid="SignInBtn" className="text-[10px] md:text-xs xl:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 xl:w-36 hover:text-white">
-                Нэвтрэх
-              </Button>
-            </Link>
+              <Link href="/user/sign-in">
+                <Button data-cy="SignInBtn" data-testid="SignInBtn" className="text-[10px] md:text-xs xl:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 xl:w-36 hover:text-white">
+                  Нэвтрэх
+                </Button>
+              </Link>
+            </div>
           </div>
         )}
         {user && (
           <div className="flex items-center gap-2 ">
             <Link href="/user/home/user-profile">
-              <ShoppingCart className="xl:w-5 xl:h-5 w-4 h-4 mx-1 md:mx-4 sm:block hidden" />
+              <ShoppingCart className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:mx-4 md:block" />
             </Link>
-            <span data-cy="UserEmail" data-testid="UserEmail" className="text-sm font-medium text-gray-300">
+            <span data-cy="UserEmail" data-testid="UserEmail" className="hidden text-sm font-medium text-gray-300 md:block">
               {user.email}
             </span>
-            <Button data-cy="SignOutBtn" data-testid="SignOutBtn" className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white" onClick={signout}>
+            <div className="flex items-center gap-2 md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <House className="w-5 h-5 text-gray-200 hover:text-white" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="text-white bg-gray-800 shadow-lg">
+                  <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link href="/user/home/user-profile" className="hover:text-gray-300">
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/user/home/filter" className="hover:text-gray-300">
+                      Event filter
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Button onClick={signout} variant="ghost" className="text-red-500">
+                      <span>Log out</span>
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <Button
+              data-cy="SignOutBtn"
+              data-testid="SignOutBtn"
+              className="text-xs md:text-sm md:block hidden font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white"
+              onClick={signout}
+            >
               Гарах
             </Button>
           </div>
         )}
       </div>
+      {/* <span className="hidden md:block">
+        {user ? (
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <User />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link href="/user_section">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/requests">Your Requests</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Button variant="ghost">
+                    <span>Log out</span>
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : (
+          <Button className="bg-[#FD7E14]">
+            <Link href="/user/sign-in">Login</Link>
+          </Button>
+        )}
+      </span> */}
     </div>
   );
 };
