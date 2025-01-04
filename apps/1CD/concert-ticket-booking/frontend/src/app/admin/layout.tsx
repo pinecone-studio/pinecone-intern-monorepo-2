@@ -11,7 +11,7 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div className="bg-white">
       <AdminHeader />
-      <div>{children}</div>
+      <div className="bg-gray-200">{children}</div>
       <AdminFooter />
     </div>
   );

@@ -24,7 +24,6 @@ describe('InputForm Component', () => {
     cy.get('[data-testid="total-quantity-input-0"]').type('5').should('have.value', '5');
     cy.get('[data-testid="additional-input-0"]').type('VIP Access').should('have.value', 'VIP Access');
   });
-
   it('should show validation error if required fields are left empty', () => {
     cy.get('[data-testid="submit-button"]').click();
     cy.get('[data-testid="unit-price-message-0"]').should('have.class', 'text-destructive');

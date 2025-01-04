@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import { Clock } from 'lucide-react';
 import { useState } from 'react';
 import DialogComponent from './Dialog';
-import { isLessThan24Hours } from '@/utils/to-check';
 import { calculateTotalAmount } from '@/utils/calculate';
 import toMNT from '@/utils/show-tugrik-format';
 
@@ -42,7 +41,13 @@ const OrderInfo = () => {
                 <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Цуцлах хүсэлт илгээсэн</span>
               </div>
             )}
-            {isLessThan24Hours(order?.createdAt) && order?.status !== 'pending' && (
+            {order?.status === 'approved' && (
+              <div data-cy={`order-status-pending-${order?._id}`}>
+                <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
+                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Хүсэлт баталгаажсан</span>
+              </div>
+            )}
+            {order?.status === 'available' && (
               <>
                 <Button className="bg-[#27272A]" onClick={() => setOpen(true)} data-cy={`cancel-button-${order?._id}`}>
                   Цуцлах
