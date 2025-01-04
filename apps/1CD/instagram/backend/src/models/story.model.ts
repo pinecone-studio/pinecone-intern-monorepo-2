@@ -7,27 +7,37 @@ export type StoryType = {
   description: string;
   image: string;
   createdAt: Date;
+  endDate: string;
 };
 
-const storySchema = new Schema<StoryType>({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'userModel',
-    required: true,
+const storySchema = new Schema<StoryType>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'userModel',
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    image: {
+      type: String,
+    },
+    createdAt: {
+      type: Date,
+      default: new Date(),
+    },
+    endDate: {
+      type: String,
+      default: () => {
+        return new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+      },
+    },
   },
-  description: {
-    type: String,
-  },
-  image: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: new Date(),
-  },
-});
+  { timestamps: true }
+);
 
-export type StoryPopulatedType = Omit<StoryType, 'followingId'> & {
+export type StoryPopulatedType = Omit<StoryType, 'userId'> & {
   userId: UserType;
 };
 

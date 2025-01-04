@@ -2,6 +2,14 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
+  type Story {
+    _id: ID!
+    userId: ID!
+    description: String
+    image: String
+    createdAt: Date
+  }
+
   type StoryInfo {
     _id: ID!
     userId: User!
@@ -29,6 +37,6 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createStory(input: StoryInput!): StoryInfo!
+    createStory(input: StoryInput!): Story!
   }
 `;
