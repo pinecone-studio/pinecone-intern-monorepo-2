@@ -21,7 +21,7 @@ export const typeDefs = gql`
   type Notifications {
     _id: ID!
     otherUserId: User!
-    currentUserId: String!
+    currentUserId: ID!
     notificationType: NotificationType!
     isViewed: Boolean!
     postId: Posts
@@ -29,6 +29,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getNotificationsByLoggedUser: [Notifications!]!
+    getNotificationsByLoggedUser: [Notifications!]
   }
 `;
