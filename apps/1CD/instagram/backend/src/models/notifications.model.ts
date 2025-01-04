@@ -17,7 +17,7 @@ const NotificationsSchema = new Schema<NotificationsType>({
   currentUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
   notificationType: { type: String, required: true, enum: [NotificationType.Follow, NotificationType.Postlike] },
   isViewed: { type: Boolean, required: true, default: false },
-  postId: { type: Schema.Types.ObjectId, ref: 'PostModel' },
+  postId: { type: Schema.Types.ObjectId, ref: 'Post' },
   createdAt: {
     type: Date,
     default: new Date(),
