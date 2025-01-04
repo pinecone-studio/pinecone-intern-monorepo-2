@@ -17,7 +17,7 @@ const NotificationsSchema = new Schema<NotificationsType>({
   currentUserId: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
   notificationType: { type: String, required: true, enum: [NotificationType.Follow, NotificationType.Postlike] },
   isViewed: { type: Boolean, required: true, default: false },
-  postId: { type: Schema.Types.ObjectId, ref: 'Post' },
+  postId: { type: Schema.Types.ObjectId, ref: 'PostModel' },
   createdAt: {
     type: Date,
     default: new Date(),
@@ -25,6 +25,6 @@ const NotificationsSchema = new Schema<NotificationsType>({
 });
 
 export type PopulatedNotificationWithPost = Omit<NotificationsType, 'postId'> & { postId: Post };
-export type PopulatedNotificationWithCurrentUser = Omit<NotificationsType, 'currentUserId'> & { otherUserId: UserType };
+export type PopulatedNotificationWithOtherUser = Omit<NotificationsType, 'otherUserId'> & { otherUserId: UserType };
 
 export const notificationModel = models['notificationModel'] || model('notificationModel', NotificationsSchema);
