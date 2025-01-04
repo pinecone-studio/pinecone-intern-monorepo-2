@@ -1,20 +1,27 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
-  type Request {
+  scalar Date
+
+  # Enum for Request status to restrict the possible values
+  enum RequestStatus {
+    pending
+    done
+  }
+  type RequestType {
     _id: ID!
-    eventId: ID!
+    eventId: Event!
     orderId: ID!
     bankAccount: String!
     bankName: String!
     accountOwner: String!
     phoneNumber: String!
     totalPrice: Int!
-    status: String!
+    status: RequestStatus!
     createdAt: Date!
     updatedAt: Date!
   }
   type Query {
-    getRequests: [Request!]!
+    getRequests: [RequestType!]!
   }
 `;
