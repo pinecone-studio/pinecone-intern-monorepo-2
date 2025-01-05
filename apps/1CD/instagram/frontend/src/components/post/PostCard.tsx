@@ -11,7 +11,7 @@ import { PostLike } from '@/app/(main)/_components/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/app/(main)/_components/PostLikes';
 import { LastCommentCard } from '../comment/LastCommentCard';
-import { PostWithComments } from '../../app/(main)/_components/PostWithComments';
+import { PostWithComments } from './PostWithComments';
 
 export const PostCard = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
