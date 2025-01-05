@@ -63,7 +63,7 @@ const SendOtp = () => {
           <Link href="/login">
             <ArrowLeft />
           </Link>
-          <Link href="/">
+          <Link href="/leaveCalendar">
             <RefreshCw />
           </Link>
         </div>
