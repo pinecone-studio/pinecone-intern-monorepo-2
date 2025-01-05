@@ -18,25 +18,25 @@ export const PostLikes = ({ id }: { id: string }) => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="" data-testid="followerNumber" data-cy="followerNum">
+          <h1 className="" data-testid="likeNumber" data-cy="likeNum">
             <p className="cursor-pointer">
               {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
             </p>
           </h1>
         </div>
       </DialogTrigger>
-      <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogFollower">
+      <DialogContent className="flex flex-col gap-2 p-0 min-w-96 min-h-96" data-cy="dialogLikes">
         <DialogHeader className="relative flex flex-row items-center justify-center h-10 px-4 py-6 border-b-2">
           <DialogTitle>Likes</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="flex flex-col items-start p-0 m-0 space-y-2" data-testid="followerDialog">
+        <DialogDescription className="flex flex-col items-start p-0 m-0 space-y-2" data-testid="dialogLikes">
           <div className="flex items-center w-11/12 mx-auto">
             <Search size={18} />
             <Input type="text" placeholder="Search.." className="w-10/12 bg-transparent border-none input md:w-auto focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-base" />
           </div>
           <div className="w-full space-y-2">
             {data?.getPostLikes.map((item) => (
-              <div key={item?._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followerCard">
+              <div key={item?._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="dialogLikesCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
                     <Image

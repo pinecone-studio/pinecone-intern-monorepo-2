@@ -40,7 +40,7 @@ export const CreatePost = ({
   };
   return (
     <Dialog open={openModal}>
-      <DialogContent className="[&>button]:hidden p-0 m-0 ">
+      <DialogContent className="[&>button]:hidden p-0 m-0 border-none ">
         <div className="bg-white rounded-lg w-[997px] h-[679px] [&>button]:hidden p-0 flex flex-col gap-4  ">
           <div>
             <DialogTitle className="text-center text-[16px] h-[35px] py-3  ">
