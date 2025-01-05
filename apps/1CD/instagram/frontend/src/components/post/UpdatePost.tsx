@@ -2,12 +2,11 @@
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useGetPostByPostIdQuery, useUpdatePostMutation } from '@/generated';
 import { ArrowLeft, SmileIcon } from 'lucide-react';
 
 export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: string; setOpenUpdateModal: Dispatch<SetStateAction<boolean>>; openUpdateModal: boolean }) => {
-  const [handleDesc, setHandleDesc] = useState('');
   const [updatePost] = useUpdatePostMutation();
 
   const { data: PostData } = useGetPostByPostIdQuery({
@@ -15,6 +14,7 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
       postId: id,
     },
   });
+  const [handleDesc, setHandleDesc] = useState(PostData?.getPostByPostId?.description || '');
 
   const handleEditPost = async () => {
     await updatePost({
@@ -27,9 +27,6 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
     });
     setOpenUpdateModal(false);
   };
-  useEffect(() => {
-    setHandleDesc(PostData?.getPostByPostId?.description || '');
-  }, [id]);
 
   return (
     <Dialog open={openUpdateModal} onOpenChange={setOpenUpdateModal}>
