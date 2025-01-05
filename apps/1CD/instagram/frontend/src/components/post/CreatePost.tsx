@@ -59,12 +59,12 @@ export const CreatePost = ({
 
           <div className="flex w-full h-full m-0">
             <div className="relative w-[654px] h-[628px]">
-              <Image src={images[0]} alt="img" fill={true} className="object-cover w-auto h-auto rounded-bl-lg" />
+              <Image src={images[0]} alt="img" fill={true} sizes="h-auto w-auto" className="object-cover w-auto h-auto rounded-bl-lg" />
             </div>
             <div className="w-[343px] p-4 gap-2 flex flex-col border-t-[1px] ">
               <div className="flex items-center gap-2">
                 <div className="relative flex w-8 h-8 rounded-full">
-                  <Image fill={true} src={user?.getUser.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
+                  <Image fill={true} src={user?.getUser.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="h-auto w-auto" />
                 </div>
                 <h1 className="text-sm font-bold ">{user?.getUser.userName}</h1>
               </div>

@@ -130,3 +130,16 @@ query GetPostByPostId($postId: ID!) {
     createdAt
   }
 }
+
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    _id
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
