@@ -138,7 +138,7 @@ export const Header = () => {
                     }}
                   >
                     <div className="relative w-6 h-6 rounded-full">
-                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="object-cover w-auto h-auto rounded-full" alt="Profile-img" priority />
+                      <Image fill src={user?.profileImg || '/images/profileImg.webp'} className="object-cover w-auto h-auto rounded-full" alt="Profile-img" priority sizes="h-auto w-auto" />
                     </div>
                     <p className={`${hide ? 'hidden justify-center' : ''}`}>Profile</p>
                   </Link>

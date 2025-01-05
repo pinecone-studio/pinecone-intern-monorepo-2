@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetCommentsQuery, useGetPostByPostIdQuery, useGetPostLikeQuery, useGetPostLikesQuery } from '@/generated';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetCommentsQuery, useGetPostByPostIdQuery, useGetPostLikeQuery, useGetPostLikesQuery, useUpdatePostMutation } from '@/generated';
 import { PostImgCard } from '@/components/visit-profile/PostImgCard';
 import { useAuth } from '@/components/providers';
 
@@ -11,12 +11,15 @@ jest.mock('@/generated', () => ({
   useDeletePostLikeMutation: jest.fn(),
   useGetPostLikeQuery: jest.fn(),
   useGetPostLikesQuery: jest.fn(),
+  useUpdatePostMutation: jest.fn(),
 }));
 jest.mock('@/components/providers', () => ({
   useAuth: jest.fn(),
 }));
 
 describe('PostWithComments Component', () => {
+  const setOpenUpdateModal = jest.fn();
+  const setClose = jest.fn();
   const mockAuthData = {
     user: { _id: '1', userName: 'Test User' },
   };
@@ -28,7 +31,8 @@ describe('PostWithComments Component', () => {
       images: ['/image1.jpg', '/image2.jpg'],
       user: {
         profileImg: '/profile.jpg',
-        userName: 'testUser',
+        userName: 'Test User',
+        _id: '1',
       },
       description: 'This is a test post',
     },
@@ -52,7 +56,7 @@ describe('PostWithComments Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('renders correctly when data is provided', () => {
+  it('renders correctly when data is provided', async () => {
     (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
       data: mockPostData,
     });
@@ -61,8 +65,12 @@ describe('PostWithComments Component', () => {
     });
     const mockCreatePostLike = jest.fn().mockResolvedValue({});
     const mockDeletePostLike = jest.fn().mockResolvedValue({});
+    const mockUpdatePost = jest.fn().mockResolvedValue({});
     (useCreatePostLikeMutation as jest.Mock).mockReturnValue([mockCreatePostLike]);
     (useDeletePostLikeMutation as jest.Mock).mockReturnValue([mockDeletePostLike]);
+    (setOpenUpdateModal as jest.Mock).mockReturnValue(true);
+    (setClose as jest.Mock).mockReturnValue(false);
+
     (useGetPostLikeQuery as jest.Mock).mockReturnValue({
       data: {
         getPostLike: {
@@ -74,12 +82,12 @@ describe('PostWithComments Component', () => {
     (useGetPostLikesQuery as jest.Mock).mockReturnValue({
       refetch: mockPostLikesRefetch,
     });
+    (useUpdatePostMutation as jest.Mock).mockReturnValue([mockUpdatePost]);
     (useAuth as jest.Mock).mockReturnValue(mockAuthDataNoId);
     render(<PostImgCard id="123" image="/image1.jpg" />);
-
     const triggerButton = screen.getByTestId('open-comment-btn');
-
     fireEvent.click(triggerButton);
+    await waitFor(() => expect(screen.getByTestId('postSection')));
   });
   it('renders correctly when data is provided', () => {
     (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
@@ -91,7 +99,7 @@ describe('PostWithComments Component', () => {
 
     const mockCreatePostLike = jest.fn().mockResolvedValue({});
     const mockDeletePostLike = jest.fn().mockResolvedValue({});
-
+    const mockUpdatePost = jest.fn().mockResolvedValue({});
     (useCreatePostLikeMutation as jest.Mock).mockReturnValue([mockCreatePostLike]);
     (useDeletePostLikeMutation as jest.Mock).mockReturnValue([mockDeletePostLike]);
     (useGetPostLikeQuery as jest.Mock).mockReturnValue({
@@ -105,14 +113,12 @@ describe('PostWithComments Component', () => {
     (useGetPostLikesQuery as jest.Mock).mockReturnValue({
       refetch: mockPostLikesRefetch,
     });
+    (useUpdatePostMutation as jest.Mock).mockReturnValue([mockUpdatePost]);
     (useAuth as jest.Mock).mockReturnValue(mockAuthData);
     render(<PostImgCard id="123" image="/image1.jpg" />);
-
     const triggerButton = screen.getByTestId('open-comment-btn');
-
     fireEvent.click(triggerButton);
   });
-
   it('renders fallback UI when no data is available', () => {
     (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
       data: null,
@@ -141,15 +147,12 @@ describe('PostWithComments Component', () => {
     fireEvent.click(triggerButton);
     screen.queryByText('No data available');
   });
-
   it('renders skeleton or loading state while loading', () => {
     (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
       loading: true,
     });
-
     render(<PostImgCard id="123" image="/image1.jpg" />);
     screen.getByTestId('open-comment-btn');
-
     screen.queryByText('Loading...');
   });
 });

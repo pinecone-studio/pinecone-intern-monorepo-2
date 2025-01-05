@@ -12,7 +12,7 @@ const Notification = () => {
         <div className="flex items-center gap-4 px-3 py-2">
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src="/images/img.avif" alt="Photo1" className="h-full rounded-full w-fit" />
+              <Image sizes="h-auto w-auto" fill={true} src="/images/img.avif" alt="Photo1" className="h-full rounded-full w-fit" />
             </div>
             <div className="flex flex-col text-[#09090B] max-w-28">
               <span className="text-sm ">username</span>

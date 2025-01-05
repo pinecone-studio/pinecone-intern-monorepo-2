@@ -30,7 +30,7 @@ const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, fo
               <div key={oneFollowing._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followingCard">
                 <div className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollowing.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followingCardImg" />
+                    <Image sizes="h-auto w-auto" src={oneFollowing.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followingCardImg" />
                   </section>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg font-semibold text-gray-700">{oneFollowing.userName}</h1>

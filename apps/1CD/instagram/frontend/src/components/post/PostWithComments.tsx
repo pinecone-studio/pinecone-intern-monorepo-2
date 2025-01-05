@@ -1,7 +1,7 @@
 'use client';
 import { useGetPostByPostIdQuery } from '@/generated';
 import React from 'react';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -28,13 +28,15 @@ export const PostWithComments = ({ id }: { id: string }) => {
           <CommentCount id={id} />
         </div>
       </DialogTrigger>
+      <DialogTitle className="hidden"></DialogTitle>
+      <DialogDescription className="hidden"></DialogDescription>
       <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none ">
         <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
           <div className="w-full ">
             {PostData?.getPostByPostId?.images.map((image, i) => {
               return (
                 <div key={`img ${i}`} className="relative w-[800px] h-full">
-                  <Image src={image} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
+                  <Image src={image} alt="img" sizes="h-auto w-auto" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
                 </div>
               );
             })}
@@ -44,7 +46,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
               <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">
                 <div className="flex items-center gap-4">
                   <div className="relative flex w-8 h-8 rounded-full">
-                    <Image fill={true} src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
+                    <Image sizes="h-auto w-auto" fill={true} src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                   </div>
                   <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user.userName}</h1>
                 </div>
@@ -65,7 +67,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
               <div className="flex items-center w-full gap-4 py-1">
                 <div className="">
                   <div className="relative w-8 h-8 rounded-full">
-                    <Image src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" sizes="w-auto h-auto" />
+                    <Image sizes="h-auto w-auto" src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1 text-sm font-normal text-black">
@@ -92,9 +94,9 @@ export const PostWithComments = ({ id }: { id: string }) => {
                     <Bookmark />
                   </p>
                 </div>
-                <p className="text-sm ">
-                  <PostLikes id={id} />
-                </p>
+
+                <PostLikes id={id} />
+
                 <p className="text-[12px] text-[#71717A]">1 day ago</p>
               </div>
               <div className="flex gap-4">
