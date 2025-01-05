@@ -1,15 +1,17 @@
 'use client';
-import { useGetCommentsQuery } from '@/generated';
+import { useGetPostByPostIdQuery } from '@/generated';
 import React from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Bookmark, Heart, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
-import { CommentCard } from '../../../components/comment/CommentCard';
+import { CommentCard } from '../comment/CommentCard';
+import { PostLikes } from '../../app/(main)/_components/PostLikes';
+import { CommentCount } from '@/components/comment/CommentCount';
 
 export const PostWithComments = ({ id }: { id: string }) => {
-  const { data: commentsData } = useGetCommentsQuery({
+  const { data: PostData } = useGetPostByPostIdQuery({
     variables: {
       postId: id,
     },
@@ -19,16 +21,14 @@ export const PostWithComments = ({ id }: { id: string }) => {
     <Dialog data-testid="postWithComments1">
       <DialogTrigger data-testid="open-comment-btn" asChild>
         <div className="flex flex-row py-1 space-x-2 text-sm text-gray-500 hover:cursor-pointer">
-          <p className="cursor-pointer">
-            {commentsData?.getComments?.length === 0 ? '' : `${commentsData?.getComments?.length === 1 ? `View comment` : `View all ${commentsData?.getComments?.length} comments`}`}
-          </p>
+          <CommentCount id={id} />
         </div>
       </DialogTrigger>
       <DialogContent className="[&>button]:hidden p-0 m-0 ">
         <div className="bg-white rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
           <div className="w-full ">
             <div className="relative w-[800px] h-full">
-              <Image src={'/images/profileImg.webp'} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
+              <Image src={PostData?.getPostByPostId?.images[0] || ''} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
             </div>
           </div>
           <div className="flex flex-col justify-between w-full px-3 py-4 ">
@@ -36,9 +36,9 @@ export const PostWithComments = ({ id }: { id: string }) => {
               <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">
                 <div className="flex items-center gap-4">
                   <div className="relative flex w-8 h-8 rounded-full">
-                    <Image fill={true} src={'/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
+                    <Image fill={true} src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                   </div>
-                  <h1 className="text-sm font-bold ">userName</h1>
+                  <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user.userName}</h1>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -57,13 +57,13 @@ export const PostWithComments = ({ id }: { id: string }) => {
               <div className="flex items-center w-full gap-4 py-1">
                 <div className="">
                   <div className="relative w-8 h-8 rounded-full">
-                    <Image src={'/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" sizes="w-auto h-auto" />
+                    <Image src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" sizes="w-auto h-auto" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1 text-sm font-normal text-black">
                   <h1 className="text-sm font-bold text-black ">
-                    userName
-                    <span className="pl-1 font-normal text-wrap">We should catch up soon ! L</span>
+                    {PostData?.getPostByPostId?.user.userName}
+                    <span className="pl-1 font-normal text-wrap">{PostData?.getPostByPostId?.description}</span>
                   </h1>
                   <p className="text-[12px] text-[#71717A]">1w</p>
                 </div>
@@ -84,7 +84,9 @@ export const PostWithComments = ({ id }: { id: string }) => {
                     <Bookmark />
                   </p>
                 </div>
-                <p className="text-sm ">21234 Likes</p>
+                <p className="text-sm ">
+                  <PostLikes id={id} />
+                </p>
                 <p className="text-[12px] text-[#71717A]">1 day ago</p>
               </div>
               <div className="flex gap-4">
