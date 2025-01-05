@@ -88,12 +88,6 @@ const ViewProfile = () => {
     }
   };
 
-  const { data: userPostData } = useGetUserPostsQuery({
-    variables: {
-      user: profileUser?._id as string,
-    },
-  });
-
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: profileUser?._id as string } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: profileUser?._id as string } });
 
@@ -148,7 +142,7 @@ const ViewProfile = () => {
         </div> */}
         {(profileUser?.accountVisibility === 'PUBLIC' || buttonText === 'Following') && (
           <div className="mt-20">
-            <PostsSection userPostData={userPostData} />
+            <PostsSection id={profileUser?._id || ''} />
           </div>
         )}
       </div>
