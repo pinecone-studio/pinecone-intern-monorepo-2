@@ -1,11 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Bookmark, ChevronLeft, ChevronRight, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DeleteModal } from './DeleteModal';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -14,7 +13,6 @@ import { LastCommentCard } from '../comment/LastCommentCard';
 import { PostWithComments } from './PostWithComments';
 
 export const PostCard = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { data, loading } = useGetMyFollowingsPostsQuery();
 
   if (loading) {
@@ -102,7 +100,6 @@ export const PostCard = () => {
                 <Smile strokeWidth={1} width={18} height={18} />
               </p>
             </div>
-            <DeleteModal data-testid="delete-modal" setOpenDeleteModal={setOpenDeleteModal} openDeleteModal={openDeleteModal} id={post?._id} />
           </div>
         );
       })}

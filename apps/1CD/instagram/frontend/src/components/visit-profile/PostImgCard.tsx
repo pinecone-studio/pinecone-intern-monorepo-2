@@ -2,20 +2,17 @@
 import { useGetPostByPostIdQuery } from '@/generated';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Bookmark, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
+import { Bookmark, MessageCircle, SmileIcon } from 'lucide-react';
 import { CommentCard } from '../comment/CommentCard';
 import { PostLikes } from '../like/PostLikes';
 import { PostLike } from '@/components/like/PostLike';
 import { useAuth } from '../providers';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { UpdatePost } from '../post/UpdatePost';
+import { DropMenu } from '../../app/(main)/_components/DropMenu';
 
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
-  const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
-  const [close, setClose] = useState<boolean>();
+  const [close, setClose] = useState<boolean>(false);
   const { data: PostData } = useGetPostByPostIdQuery({
     variables: {
       postId: id,
@@ -23,12 +20,6 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   });
   const { user } = useAuth();
   const isUser = PostData?.getPostByPostId?.user?._id === user?._id;
-  // const openModal = () => {
-  //   if (isUser === true) {
-  //     setClose(false);
-  //     setOpenUpdateModal(true);
-  //   }
-  // };
 
   return (
     <Dialog data-testid="postWithComments1" open={close} onOpenChange={setClose}>
@@ -58,33 +49,7 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
                   <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user?.userName}</h1>
                 </div>
                 <div className="" data-testid="postSection1">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button data-test="moreBtn" variant="ghost" className="w-4 h-4 p-0 ">
-                        <MoreVertical data-test="moreBtn" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent data-testid="moreBtnDetails">
-                      <DropdownMenuItem className="text-red-600">{isUser ? 'Delete' : 'Report'}</DropdownMenuItem>
-                      <DropdownMenuItem
-                        data-testid="editBtn"
-                        // onClick={() => {
-                        //   if (isUser === true) {
-                        //     setClose(false);
-                        //     setOpenUpdateModal(true);
-                        //   }
-                        // }}
-                      >
-                        {isUser ? 'Edit' : 'Hide'}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        data-testid="CancelBtn"
-                        // onClick={() => setClose(false)}
-                      >
-                        Cancel
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <DropMenu id={id} setClose={setClose} isUser={isUser} />
                 </div>
               </div>
 
@@ -129,7 +94,6 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
               </div>
             </div>
           </div>
-          <UpdatePost id={id} setOpenUpdateModal={setOpenUpdateModal} openUpdateModal={openUpdateModal} />
         </div>
       </DialogContent>
     </Dialog>
