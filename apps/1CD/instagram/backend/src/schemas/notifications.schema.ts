@@ -29,6 +29,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getNotificationsByLoggedUser: [Notifications!]
+    getNotificationsByLoggedUser: [Notifications!]!
   }
 `;
