@@ -5,10 +5,11 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Bookmark, Heart, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
+import { Bookmark, MessageCircle, MoreVertical, SmileIcon } from 'lucide-react';
 import { CommentCard } from '../comment/CommentCard';
-import { PostLikes } from '../../app/(main)/_components/PostLikes';
+import { PostLikes } from '../like/PostLikes';
 import { CommentCount } from '@/components/comment/CommentCount';
+import { PostLike } from '@/components/like/PostLike';
 
 export const PostWithComments = ({ id }: { id: string }) => {
   const { data: PostData } = useGetPostByPostIdQuery({
@@ -24,14 +25,18 @@ export const PostWithComments = ({ id }: { id: string }) => {
           <CommentCount id={id} />
         </div>
       </DialogTrigger>
-      <DialogContent className="[&>button]:hidden p-0 m-0 ">
-        <div className="bg-white rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
+      <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none ">
+        <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
           <div className="w-full ">
-            <div className="relative w-[800px] h-full">
-              <Image src={PostData?.getPostByPostId?.images[0] || ''} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
-            </div>
+            {PostData?.getPostByPostId?.images.map((image, i) => {
+              return (
+                <div key={`img ${i}`} className="relative w-[800px] h-full">
+                  <Image src={image} alt="img" fill={true} className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
+                </div>
+              );
+            })}
           </div>
-          <div className="flex flex-col justify-between w-full px-3 py-4 ">
+          <div className="flex flex-col justify-between w-full px-3 py-4 bg-white">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">
                 <div className="flex items-center gap-4">
@@ -75,7 +80,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
               <div className="border-y-[1px] pb-4 mb-4">
                 <div className="flex items-center justify-between px-1 py-3 text-xl">
                   <div className="flex gap-3">
-                    <Heart />
+                    <PostLike id={id} />
                     <p>
                       <MessageCircle />
                     </p>

@@ -7,9 +7,9 @@ import { Bookmark, ChevronLeft, ChevronRight, Dot, Loader, MessageCircle, MoreVe
 import { Button } from '@/components/ui/button';
 import { DeleteModal } from './DeleteModal';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
-import { PostLike } from '@/app/(main)/_components/PostLike';
+import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { PostLikes } from '@/app/(main)/_components/PostLikes';
+import { PostLikes } from '@/components/like/PostLikes';
 import { LastCommentCard } from '../comment/LastCommentCard';
 import { PostWithComments } from './PostWithComments';
 
