@@ -36,6 +36,10 @@ export const typeDefs = gql`
     getMyStories: [StoryInfo!]
   }
 
+  type Query {
+    getPublicAccStories(userId: ID!): [StoryInfo!]
+  }
+
   type Mutation {
     createStory(input: StoryInput!): Story!
   }

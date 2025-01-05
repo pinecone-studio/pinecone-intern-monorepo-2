@@ -1,13 +1,23 @@
-import { storyModel, StoryPopulatedType } from 'src/models';
-import { QueryResolvers, StoryInfo } from '../../../generated';
+import { QueryResolvers } from 'src/generated';
+import { storyModel } from 'src/models';
 
 export const getMyStory: QueryResolvers['getMyStory'] = async (_, { _id }, { userId }) => {
   if (!userId) throw new Error('Unauthorized');
 
-  const story = await storyModel.findOne({ _id }).populate<StoryPopulatedType>('userId');
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  const story = await storyModel.findOne({ _id, createdAt: { $gte: twentyFourHoursAgo } }).populate({
+    path: 'userId',
+    model: 'userModel',
+  });
 
   if (!story) {
-    throw new Error(`Story not found`);
+    throw new Error('Story not found or is archieved');
   }
-  return story as StoryInfo;
+
+  if (String(story.userId._id) !== String(userId)) {
+    throw new Error('You are not allowed to see this story info');
+  }
+
+  return story;
 };
