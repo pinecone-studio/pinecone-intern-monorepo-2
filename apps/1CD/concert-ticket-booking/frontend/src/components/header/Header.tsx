@@ -21,18 +21,42 @@ export const Header = () => {
         </Link>
       </div>
 
-      <div className="relative flex items-center px-2 text-xs md:px-6 md:w-80 lg:w-96 w-[360px] ">
+      <div className="relative flex items-center px-2 text-xs w-36 md:px-6 md:w-80 lg:w-96 ">
         <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs bg-black border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
         <Search className="absolute w-4 h-4 right-4 md:right-16 color-white" />
       </div>
 
       <div className="flex items-center justify-center gap-1 md:justify-end md:gap-4">
         <Link href="/user/home/filter">
-          <Filter className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:block" />
+          <Filter className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 lg:block" />
         </Link>
         {!user && (
           <div>
             <div className="flex items-center gap-2 md:gap-4">
+              <div className="flex items-center gap-2 lg:hidden">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <House className="w-5 h-5 text-gray-200 hover:text-white" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="text-white bg-gray-800 shadow-lg">
+                    <DropdownMenuItem>
+                      <Link href="/user/home/filter" className="hover:text-gray-300">
+                        Эвентүүд
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/user/sign-in" className="hover:text-gray-300">
+                        Нэвтрэх
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/user/sign-up" className="hover:text-gray-300">
+                        Бүртгүүлэх
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <Link href="/user/sign-up">
                 <Button
                   data-cy="SignUpBtn"
@@ -44,7 +68,11 @@ export const Header = () => {
               </Link>
 
               <Link href="/user/sign-in">
-                <Button data-cy="SignInBtn" data-testid="SignInBtn" className="text-[10px] md:text-xs xl:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 xl:w-36 hover:text-white">
+                <Button
+                  data-cy="SignInBtn"
+                  data-testid="SignInBtn"
+                  className="lg:block hidden text-[10px] md:text-xs xl:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 xl:w-36 hover:text-white"
+                >
                   Нэвтрэх
                 </Button>
               </Link>
@@ -54,12 +82,12 @@ export const Header = () => {
         {user && (
           <div className="flex items-center gap-2 ">
             <Link href="/user/home/user-profile">
-              <ShoppingCart className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:mx-4 md:block" />
+              <ShoppingCart className="hidden w-4 h-4 mx-1 xl:w-5 xl:h-5 md:mx-4 lg:block" />
             </Link>
-            <span data-cy="UserEmail" data-testid="UserEmail" className="hidden text-sm font-medium text-gray-300 md:block">
+            <span data-cy="UserEmail" data-testid="UserEmail" className="hidden text-sm font-medium text-gray-300 lg:block">
               {user.email}
             </span>
-            <div className="flex items-center gap-2 md:hidden">
+            <div className="flex items-center gap-2 lg:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <House className="w-5 h-5 text-gray-200 hover:text-white" />
@@ -69,12 +97,12 @@ export const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Link href="/user/home/user-profile" className="hover:text-gray-300">
-                      Profile
+                      Хэрэглэгчийн мэдээлэл
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href="/user/home/filter" className="hover:text-gray-300">
-                      Event filter
+                      Эвентүүд
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
@@ -88,7 +116,7 @@ export const Header = () => {
             <Button
               data-cy="SignOutBtn"
               data-testid="SignOutBtn"
-              className="text-xs md:text-sm md:block hidden font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white"
+              className="text-xs md:text-sm lg:block hidden font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white"
               onClick={signout}
             >
               Гарах
@@ -96,36 +124,6 @@ export const Header = () => {
           </div>
         )}
       </div>
-      {/* <span className="hidden md:block">
-        {user ? (
-          <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <User />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/user_section">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/requests">Your Requests</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Button variant="ghost">
-                    <span>Log out</span>
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        ) : (
-          <Button className="bg-[#FD7E14]">
-            <Link href="/user/sign-in">Login</Link>
-          </Button>
-        )}
-      </span> */}
     </div>
   );
 };
