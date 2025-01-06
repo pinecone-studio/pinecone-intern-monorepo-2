@@ -37,21 +37,23 @@ export const AdminHeader = () => {
           <h1 className="text-4xl">TICKET BOOKING</h1>
         </div>
         <div>
-          <Menubar data-cy="AdminHeader-MenuBar-Button">
+          <Menubar>
             <MenubarMenu>
               <MenubarTrigger>
-                <User />
+                <div role="button" data-cy="AdminHeader-MenuBar-Button">
+                  <User />
+                </div>
               </MenubarTrigger>
               <MenubarContent>
                 <MenubarItem data-cy="AdminHeader-MenuBar-Content-Button-One">
-                  <div>
+                  <div className="text-sm font-medium text-black">
                     Profile
-                    {user?.email}
+                    <p data-cy="AdminHeader-Menubar-Email">{user?.email}</p>
                   </div>
                 </MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem data-cy="AdminHeader-MenuBar-Content-Button-Two">
-                  <div onClick={exitAccount}>
+                  <div className="text-xs md:text-sm font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white" onClick={exitAccount}>
                     Exit
                   </div>
                 </MenubarItem>
