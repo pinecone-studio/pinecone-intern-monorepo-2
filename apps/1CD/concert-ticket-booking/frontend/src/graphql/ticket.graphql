@@ -21,6 +21,16 @@ query GetTicketWithVenue($input: BuyTicket!) {
 }
 mutation AddToCarts($input: OrderInput!) {
   addToCarts(input: $input) {
+    _id
+  }
+}
+mutation PaymentCheck($orderId: String!) {
+  paymentCheck(orderId: $orderId) {
+    message
+  }
+}
+mutation PaymentTickets($orderId: String!) {
+  paymentTickets(orderId: $orderId) {
     message
   }
 }

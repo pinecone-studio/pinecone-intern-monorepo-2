@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
 import { storyModel } from 'src/models';
 import { createStory } from 'src/resolvers/mutations';
@@ -9,16 +8,22 @@ jest.mock('../../../../src/models/story.model.ts', () => ({
   },
 }));
 
-describe('Create Post', () => {
+describe('Create Story', () => {
   const mockInput = {
     _id: 'id',
     image: 'img',
     description: 'des',
     userId: 'userId',
-    createdAt: '2025-01-02',
+    createdAt: new Date('2025-01-02T00:00:00Z'),
   };
-  it('should create a post', async () => {
-    (storyModel.create as jest.Mock).mockResolvedValue({ input: mockInput });
+
+  it('should create a story with a 24-hour filter applied', async () => {
+    const expectedEndDate = new Date(mockInput.createdAt.getTime() + 24 * 60 * 60 * 1000).toISOString();
+
+    (storyModel.create as jest.Mock).mockResolvedValue({
+      ...mockInput,
+      endDate: expectedEndDate,
+    });
 
     const result = await createStory!(
       {},
@@ -30,17 +35,16 @@ describe('Create Post', () => {
     );
 
     expect(result).toEqual({
-      input: {
-        _id: 'id',
-        image: 'img',
-        description: 'des',
-        userId: 'userId',
-        createdAt: '2025-01-02',
-      },
+      _id: 'id',
+      image: 'img',
+      description: 'des',
+      userId: 'userId',
+      createdAt: mockInput.createdAt,
+      endDate: expectedEndDate,
     });
   });
 
-  it('Can not create story', async () => {
+  it('should throw an error if userId is null', async () => {
     try {
       await createStory!(
         {},

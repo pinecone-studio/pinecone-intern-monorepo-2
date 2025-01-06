@@ -1,19 +1,23 @@
+'use client';
 import React from 'react';
-import Image from 'next/image';
-import { GetUserPostsQuery } from '@/generated';
+import { useGetUserPostsQuery } from '@/generated';
+import { PostImgCard } from './PostImgCard';
 
-const PostsSection = ({ userPostData }: { userPostData: GetUserPostsQuery | undefined }) => {
-  //   if (userPostData?.getUserPosts?.length)
+const PostsSection = ({ id }: { id: string }) => {
+  const { data: userPostData } = useGetUserPostsQuery({
+    variables: {
+      user: id,
+    },
+  });
   return (
-    <div className="grid grid-cols-3 gap-3 " data-cy="userPosts">
+    <div className="grid grid-cols-3 gap-3 " data-cy="userPosts" data-testid="userPosts">
       {userPostData?.getUserPosts?.map((myOnePost) => (
-        <section key={myOnePost?._id} className="relative h-[292px]" data-testid="userPost">
-          <Image src={myOnePost?.images[0] || ''} alt="postnii-zurag" fill className="absolute object-cover" />
+        <section key={myOnePost?._id} className="relative h-[292px] cursor-pointer" data-testid="userPost">
+          <PostImgCard image={myOnePost?.images[0] || ''} id={myOnePost?._id || ''} />
         </section>
       ))}
     </div>
   );
-  //   else return <NoPost data-cy="zeroPost" />;
 };
 
 export default PostsSection;

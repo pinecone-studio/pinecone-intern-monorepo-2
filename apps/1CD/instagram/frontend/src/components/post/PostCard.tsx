@@ -1,18 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Bookmark, ChevronLeft, ChevronRight, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DeleteModal } from './DeleteModal';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
-import { PostLike } from '@/app/(main)/_components/PostLike';
+import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { PostLikes } from '@/app/(main)/_components/PostLikes';
+import { PostLikes } from '@/components/like/PostLikes';
+import { LastCommentCard } from '../comment/LastCommentCard';
+import { PostWithComments } from './PostWithComments';
 
 export const PostCard = () => {
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { data, loading } = useGetMyFollowingsPostsQuery();
 
   if (loading) {
@@ -36,7 +36,6 @@ export const PostCard = () => {
 
                 <h1 className="flex items-center font-bold ">
                   {post.user.userName}
-                  {/* {format(post.createdAt, 'yyyy-MM-dd HH:mm')} */}
                   <span className="flex items-center font-normal text-gray-600 ">
                     <Dot />
                     {formatDistanceToNowStrict(new Date(post?.createdAt))}
@@ -92,14 +91,15 @@ export const PostCard = () => {
                 {post.description}
               </h1>
             </div>
-            <button className="py-1 text-sm text-gray-500">View all 13,384 comments</button>
+
+            <PostWithComments id={post?._id} />
+            <LastCommentCard id={post._id} />
             <div className="flex justify-between ">
               <input type="text" className="text-sm border-none" placeholder="Add a comment..." />
               <p>
                 <Smile strokeWidth={1} width={18} height={18} />
               </p>
             </div>
-            <DeleteModal data-testid="delete-modal" setOpenDeleteModal={setOpenDeleteModal} openDeleteModal={openDeleteModal} id={post?._id} />
           </div>
         );
       })}

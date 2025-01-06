@@ -77,3 +77,10 @@ query GetEventById($id: ID!) {
     }
   }
 }
+
+mutation UpdateEventPriority($id: ID!, $input: EventPriorityUpdateInput!) {
+  updateEventPriority(_id: $id, input: $input) {
+    priority
+    _id
+  }
+}

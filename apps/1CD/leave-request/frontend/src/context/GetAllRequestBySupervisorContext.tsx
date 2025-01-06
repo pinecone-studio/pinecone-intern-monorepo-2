@@ -11,6 +11,7 @@ type GetAllContextType = {
     setPage: React.Dispatch<React.SetStateAction<number>>;
     reload: () => void;
     data: GetAllRequestsBySupervisorQuery | undefined;
+    loading: boolean
   };
   
 
@@ -29,7 +30,7 @@ export const GetRequestBySupervisor = ({ children, email, filter }: { children: 
     return <>loading</>
   }
 
-  return <GetAllContext.Provider value={{page, setPage, reload, data}}>{children}</GetAllContext.Provider>;
+  return <GetAllContext.Provider value={{page, setPage, reload, data, loading}}>{children}</GetAllContext.Provider>;
 };
 
 export const useGetAllRequestSupervisor = (): GetAllContextType => {

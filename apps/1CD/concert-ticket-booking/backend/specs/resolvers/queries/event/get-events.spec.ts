@@ -3,6 +3,7 @@ import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('../../../../src/models/event.model', () => ({
   find: jest.fn().mockReturnValue({
+    sort: jest.fn().mockReturnThis(),
     populate: jest.fn().mockReturnValue([
       {
         _id: '1',

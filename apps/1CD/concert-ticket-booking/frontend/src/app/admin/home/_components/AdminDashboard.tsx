@@ -1,4 +1,5 @@
 /* eslint-disable complexity */
+/* eslint-disable max-lines */
 'use client';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,17 +14,17 @@ import { headers } from './AdminDashboardType';
 import { Star } from 'lucide-react';
 import { useState } from 'react';
 import { AdminPagination } from '@/components/AdminDashboardPagination';
+import { UpdateEventPriority } from './UpdateEventPriority';
 
 type AdminDashboardComponent = {
   searchValue: string;
   selectedValues: string[];
   date: Date | undefined;
-  priority: string;
 };
-export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: AdminDashboardComponent) => {
+export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashboardComponent) => {
   const { data, loading } = useGetEventsQuery();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   if (loading) return <div>Loading...</div>;
   const filteredData = data?.getEvents?.filter((item) => {
     const lowerCaseSearchValue = searchValue.toLowerCase();
@@ -40,9 +41,6 @@ export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: 
     }
     if (lowerCaseSearchValue) {
       return item?.name.toLowerCase().includes(lowerCaseSearchValue);
-    }
-    if (priority) {
-      return item?.priority?.toLowerCase() === priority.toLowerCase();
     }
     return true;
   });
@@ -94,17 +92,53 @@ export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: 
                     <TableCell align="center">
                       {item?.mainArtists
                         .map((a) => a.name)
-                        .slice(0, 2)
+                        .slice(0, 3)
                         .join(', ')}
                     </TableCell>
                     <TableCell align="center" className="font-medium">
-                      {item && Number(item?.products[0].ticketType[0].totalQuantity) + Number(item?.products[0].ticketType[1].totalQuantity) + Number(item?.products[0].ticketType[2].totalQuantity)}
+                      {item?.products.map((product, idx) => {
+                        const total = product.ticketType.reduce((sum, ticket) => {
+                          return sum + Number(ticket.totalQuantity);
+                        }, 0);
+                        return <div key={idx}>{total}</div>;
+                      })}
                     </TableCell>
                     <TableCell align="center" className="font-medium">
-                      {item?.products.map((q) => q.ticketType[0].soldQuantity)}
+                      {item?.products?.map((product, idx) => {
+                        const vipTicket = product.ticketType.find((ticket) => ticket.zoneName === 'VIP');
+                        return (
+                          vipTicket && (
+                            <div key={idx}>
+                              {vipTicket.soldQuantity}/{vipTicket.totalQuantity}
+                            </div>
+                          )
+                        );
+                      })}
                     </TableCell>
-                    <TableCell align="center">{item?.products.map((q) => q.ticketType[1].soldQuantity)}</TableCell>
-                    <TableCell align="center">{item?.products.map((q) => q.ticketType[2].soldQuantity)}</TableCell>
+                    <TableCell align="center" className="font-medium">
+                      {item?.products?.map((product, idx) => {
+                        const regularTicket = product.ticketType.find((ticket) => ticket.zoneName === 'Regular');
+                        return (
+                          regularTicket && (
+                            <div key={idx}>
+                              {regularTicket.soldQuantity}/{regularTicket.totalQuantity}
+                            </div>
+                          )
+                        );
+                      })}
+                    </TableCell>
+                    <TableCell align="center" className="font-medium">
+                      {item?.products?.map((product, idx) => {
+                        const backstageTicket = product.ticketType.find((ticket) => ticket.zoneName === 'Backstage');
+                        return (
+                          backstageTicket && (
+                            <div key={idx}>
+                              {backstageTicket.soldQuantity}/{backstageTicket.totalQuantity}
+                            </div>
+                          )
+                        );
+                      })}
+                    </TableCell>
                     <TableCell align="center" className="flex flex-col">
                       {item?.scheduledDays.map((date, index) => (
                         <span key={index} className="flex">
@@ -112,14 +146,12 @@ export const AdminDashboard = ({ searchValue, selectedValues, date, priority }: 
                         </span>
                       ))}
                     </TableCell>
-
                     <TableCell align="center">
                       {item && item.products.map((data, index) => <div key={index}>{data.ticketType && <div>{getTotalSoldQuantity({ ticketType: data.ticketType })} ₮</div>}</div>)}
                     </TableCell>
-
                     <TableCell>
                       <div className="flex items-center justify-center gap-2">
-                        <p>special</p>
+                        <UpdateEventPriority eventId={item!._id} index={index} />
                         <p>edit</p>
                         <p>delete</p>
                       </div>

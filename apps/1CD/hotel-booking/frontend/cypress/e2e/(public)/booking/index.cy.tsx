@@ -17,4 +17,17 @@ describe('booking page e2e test', () => {
     cy.get('[data-cy="View-Button"]').first().click();
     cy.visit('/booking-detail/6757dfb4687cb83ca69ff3cb');
   });
+  it('5. click start exploring button', () => {
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetBookingFindByUserId') {
+        req.reply({
+          data: {
+            getBookingFindByUserId: [],
+          },
+        });
+      }
+    });
+
+    cy.get('[data-cy=start-exploring-button]').click();
+  });
 });

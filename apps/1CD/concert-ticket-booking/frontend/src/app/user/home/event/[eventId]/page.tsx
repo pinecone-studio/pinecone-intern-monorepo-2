@@ -43,7 +43,7 @@ const Page = () => {
         </div>
         <div data-cy="Related-Events" className="flex flex-col gap-6 py-16 px-28 max-w-[1334px] m-auto">
           <h1 className="text-xl font-light leading-5 text-white">Холбоотой эвент болон тоглолтууд</h1>
-          <div className="py-4 xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
+          <div className="py-4 xl:w-[1100px] md:w-[700px] w-[350px] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
             {relatedEvents.map((event) => (
               <Link href={`/user/home/event/${event._id}`} key={event._id}>
                 <CardTicket event={event as Event} />

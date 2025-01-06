@@ -39,4 +39,20 @@ describe('Booking Confirmation Page', () => {
 
     cy.get('[data-cy="No-Amenities"]').should('exist').and('contain', 'No amenities available');
   });
+  it('not have checkin and checkout dates', () => {
+    cy.visit('/booking-confirm/6757dfb4687cb83ca69ff3cb');
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetBooking') {
+        req.reply({
+          data: {
+            getBooking: {
+              checkInDate: undefined,
+              checkOutDate: undefined,
+            },
+          },
+        });
+      }
+    });
+    cy.get('[data-cy=Booking-Confirm-Page]').should('be.visible');
+  });
 });
