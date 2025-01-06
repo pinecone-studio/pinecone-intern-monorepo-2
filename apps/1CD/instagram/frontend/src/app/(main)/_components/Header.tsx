@@ -12,6 +12,7 @@ import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
+import Notification from '@/components/notification';
 
 export const Header = () => {
   const [hide, setHide] = useState(false);
@@ -19,6 +20,7 @@ export const Header = () => {
   const [openStoryModal, setOpenStoryModal] = useState(false);
   const [storyImg, setStoryImg] = useState('');
   const [showSearchComponent, setShowSearchComponent] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const { user } = useAuth();
   const hideSideBar = () => setHide((prev) => !prev);
 
@@ -96,7 +98,7 @@ export const Header = () => {
                     <Heart />,
                     'Notification',
                     () => {
-                      setShowSearchComponent(false);
+                      setShowNotification(!showNotification);
                       hideSideBar();
                     },
                     'menuBtn3'
@@ -153,6 +155,11 @@ export const Header = () => {
       {showSearchComponent && (
         <div className="" data-testid="search-users-component">
           <SearchFromAllUsers />
+        </div>
+      )}
+      {showNotification && (
+        <div className="">
+          <Notification />
         </div>
       )}
     </>

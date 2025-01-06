@@ -166,3 +166,30 @@ mutation Unfollow($id: ID!, $followerId: ID!) {
     updatedAt
   }
 }
+
+query GetNotificationsByLoggedUser {
+  getNotificationsByLoggedUser {
+    _id
+    createdAt
+    currentUserId
+    isViewed
+    notificationType
+    otherUserId {
+      _id
+      accountVisibility
+      bio
+      email
+      userName
+      profileImg
+      fullName
+    }
+    postId {
+      _id
+      description
+      images
+      user {
+        _id
+      }
+    }
+  }
+}
