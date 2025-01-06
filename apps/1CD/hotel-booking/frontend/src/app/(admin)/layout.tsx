@@ -12,9 +12,9 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
-      <SidebarProvider>
+      <SidebarProvider className="flex">
         <SideBar />
-        {children}
+        <div className="flex-1">{children}</div>
       </SidebarProvider>
     </div>
   );
