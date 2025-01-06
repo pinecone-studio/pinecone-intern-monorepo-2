@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Dialog, DialogContent, DialogHeader } from './providers/HotelBookingDialog';
+import { Dialog, DialogContent, DialogHeader } from '../../../../components/providers/HotelBookingDialog';
 import { X } from 'lucide-react';
 
 const HotelDetailImage = ({ images, open, setIsOpenImageDialog }: { images: (string | null)[]; open: boolean; setIsOpenImageDialog: (_value: boolean) => void }) => {

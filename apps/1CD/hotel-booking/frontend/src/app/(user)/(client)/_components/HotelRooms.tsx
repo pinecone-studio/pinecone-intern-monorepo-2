@@ -3,7 +3,7 @@ import { RoomType, useHotelDetailQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
 import RoomCard from '../../(public)/hotel-detail/RoomCard';
 import {  useState } from 'react';
-import HotelDetailImage from '@/components/HotelDetailImage';
+import HotelDetailImage from '@/app/(user)/(public)/hotel-detail/HotelDetailImage';
 
 const HotelRooms = ({ images,isOpenImageDialog, setIsOpenImageDialog,id }: { id: string; isOpenImageDialog:boolean;images: (string | null)[];setIsOpenImageDialog:(_value:boolean)=>void }) => {
   const { data } = useHotelDetailQuery({ variables: { hotelId: id } });
