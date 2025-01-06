@@ -63,8 +63,8 @@ const UserInfo = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-[841px] rounded-2xl bg-[#09090B] m-auto flex flex-col border border-gray-600 py-6 px-6 sm:py-8 sm:px-12 gap-6">
-        <h1 data-cy="user-info-heading" className="mt-4 text-xl font-semibold  text-white sm:mt-8 sm:text-2xl">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="xl:w-[841px] md:w-[400px] sm:w-[200px] rounded-2xl bg-[#09090B] m-auto flex flex-col border border-gray-600 py-6 px-6 sm:py-8 sm:px-12 gap-6">
+        <h1 data-cy="user-info-heading" className="mt-4 text-xl font-semibold text-white sm:mt-8 sm:text-2xl">
           Хэрэглэгчийн мэдээлэл
         </h1>
         <div className="flex flex-col w-full gap-4 ">
@@ -102,3 +102,4 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
+
