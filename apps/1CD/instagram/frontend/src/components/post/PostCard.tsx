@@ -11,7 +11,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/components/like/PostLikes';
 import { LastCommentCard } from '../comment/LastCommentCard';
 import { PostWithComments } from './PostWithComments';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { PostImg } from './PostImg';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
@@ -28,15 +28,15 @@ export const PostCard = () => {
     <div className="w-full md:px-[40px] px-5" data-testid="post-card">
       {data?.getMyFollowingsPosts?.map((post) => {
         return (
-          <div key={post._id} className="md:border-b-[1px] md:pb-5">
+          <div key={post?._id} className="md:border-b-[1px] md:pb-5">
             <div className="flex items-center justify-between py-[12px]">
               <div className="flex items-center gap-2">
                 <div className="relative flex rounded-full w-9 h-9">
-                  <Image fill={true} src={post.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="object-cover w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
+                  <Image fill={true} src={post?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="object-cover w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
                 </div>
 
                 <h1 className="flex items-center font-bold ">
-                  {post.user.userName}
+                  {post?.user?.userName}
                   <span className="flex items-center font-normal text-gray-600 ">
                     <Dot />
                     {formatDistanceToNowStrict(new Date(post?.createdAt))}
@@ -44,8 +44,8 @@ export const PostCard = () => {
                 </h1>
               </div>
               <DropdownMenu>
-                <DropdownMenuTrigger data-testid="more-btn" asChild>
-                  <Button variant="ghost" className="w-8 h-8 p-0 ">
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" data-testid="more-btn" className="w-8 h-8 p-0 ">
                     <MoreVertical />
                   </Button>
                 </DropdownMenuTrigger>
@@ -59,26 +59,7 @@ export const PostCard = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-
-            <Carousel className="relative w-full ">
-              <CarouselContent>
-                {post?.images?.map((img, i) => {
-                  return (
-                    <CarouselItem key={i} className="relative w-full h-[585px]">
-                      <Image fill={true} src={img} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              {post.images.length === 1 ? (
-                ''
-              ) : (
-                <div className="flex items-center justify-between w-full ">
-                  <CarouselPrevious className="left-1 top-1/2 " />
-                  <CarouselNext className="right-1 top-1/2 " />
-                </div>
-              )}
-            </Carousel>
+            <PostImg images={post?.images} />
 
             <div className="flex items-center justify-between px-1 py-3 text-xl">
               <div className="flex gap-3">
