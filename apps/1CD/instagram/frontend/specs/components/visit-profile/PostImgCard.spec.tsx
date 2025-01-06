@@ -81,14 +81,19 @@ describe('PostWithComments Component', () => {
     (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
       loading: true,
     });
+
     render(<PostImgCard id="123" image="/image1.jpg" />);
     screen.getByTestId('open-comment-btn');
     screen.queryByText('Loading...');
   });
-  it('renders skeleton or loading state while loading', () => {
-    (useDeletePostMutation as jest.Mock).mockReturnValue({
-      loading: true,
-    });
+  it('renders skeleton or loading state while loading deletepost', () => {
+    const mockDeletePost = jest.fn().mockResolvedValue({});
+    (useDeletePostMutation as jest.Mock).mockReturnValue([
+      mockDeletePost,
+      {
+        loading: true,
+      },
+    ]);
     render(<PostImgCard id="123" image="/image1.jpg" />);
     // screen.getByTestId('open-delete-modal');
     screen.queryByText('Loading ...');

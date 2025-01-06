@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/compone
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useGetPostByPostIdQuery, useUpdatePostMutation } from '@/generated';
-import { ArrowLeft, SmileIcon } from 'lucide-react';
+import { SmileIcon } from 'lucide-react';
 
 export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: string; setOpenUpdateModal: Dispatch<SetStateAction<boolean>>; openUpdateModal: boolean }) => {
   const [updatePost] = useUpdatePostMutation();
@@ -14,7 +14,7 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
       postId: id,
     },
   });
-  const [handleDesc, setHandleDesc] = useState(PostData?.getPostByPostId?.description || '');
+  const [handleDesc, setHandleDesc] = useState(PostData?.getPostByPostId?.description);
 
   const handleEditPost = async () => {
     await updatePost({
@@ -37,8 +37,8 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
             <DialogTitle className="text-center text-[16px] h-[35px] py-3  ">
               <div className="flex justify-between text-center text-[16px] px-1">
                 {' '}
-                <button data-testid="closeModalBtn">
-                  <ArrowLeft width={16} height={16} />
+                <button data-testid="closeModalBtn" onClick={() => setOpenUpdateModal(false)}>
+                  Cancel
                 </button>
                 <p>Edit a post</p>
                 <button data-testid="createBtn" className="text-[#2563EB]" onClick={handleEditPost}>
@@ -64,12 +64,12 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
                 type="text"
                 className="w-full h-[132px] border rounded-lg p-2"
                 placeholder="Description ..."
-                value={handleDesc}
+                value={handleDesc || ''}
                 onChange={(e) => setHandleDesc(e.target.value)}
               />
               <div className="flex justify-between border-b-[1px] py-3 text-[12px] text-[#71717A] ">
                 <SmileIcon width={20} height={20} />
-                <p>{handleDesc.length}/200</p>
+                <p>{handleDesc?.length}/200</p>
               </div>
             </div>
           </div>
