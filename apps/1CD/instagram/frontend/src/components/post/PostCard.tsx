@@ -18,7 +18,7 @@ export const PostCard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center w-full h-[300px]">
+      <div className="flex justify-center items-center w-full h-[300px]" data-testId="loader">
         <Loader className="text-2xl animate-spin " />
       </div>
     );
@@ -26,7 +26,7 @@ export const PostCard = () => {
 
   return (
     <div className="w-full md:px-[40px] px-5" data-testid="post-card">
-      {data?.getMyFollowingsPosts?.map((post) => {
+      {data?.getMyFollowingsPosts.map((post) => {
         return (
           <div key={post?._id} className="md:border-b-[1px] md:pb-5">
             <div className="flex items-center justify-between py-[12px]">
