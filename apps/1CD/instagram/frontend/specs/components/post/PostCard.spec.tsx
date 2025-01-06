@@ -1,7 +1,6 @@
 // __tests__/PostCard.test.jsx
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 import {
   useCreatePostLikeMutation,
@@ -63,9 +62,7 @@ describe('PostCard Component', () => {
   });
   it('renders a loader when data is loading', () => {
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: true, data: null });
-
     render(<PostCard />);
-
     // expect(screen.getByTestId('loader'))
   });
 
@@ -84,11 +81,9 @@ describe('PostCard Component', () => {
         },
       ],
     };
-
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
     const mockCreatePostLike = jest.fn().mockResolvedValue({});
     const mockDeletePostLike = jest.fn().mockResolvedValue({});
-
     (useCreatePostLikeMutation as jest.Mock).mockReturnValue([mockCreatePostLike]);
     (useDeletePostLikeMutation as jest.Mock).mockReturnValue([mockDeletePostLike]);
     (useGetPostLikeQuery as jest.Mock).mockReturnValue({
@@ -108,11 +103,8 @@ describe('PostCard Component', () => {
     (useGetCommentsQuery as jest.Mock).mockReturnValue({
       data: mockCommentData,
     });
-
     (useAuth as jest.Mock).mockReturnValue(mockAuthData);
-
     render(<PostCard />);
-
     expect(screen.getByTestId('post-card'));
     expect(screen.getByText('testuser'));
     expect(screen.getByText('This is a test post.'));
@@ -131,11 +123,8 @@ describe('PostCard Component', () => {
         },
       ],
     };
-
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
-
     render(<PostCard />);
-
     expect(screen.getByTestId('post-card'));
     expect(screen.getByText('testuser'));
     expect(screen.getByText('This is a test post.'));
@@ -155,11 +144,8 @@ describe('PostCard Component', () => {
         },
       ],
     };
-
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
-
     render(<PostCard />);
-
     expect(screen.getByTestId('more-btn'));
   });
 });
