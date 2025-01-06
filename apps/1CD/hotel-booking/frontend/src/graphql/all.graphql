@@ -147,6 +147,10 @@ query GetBooking($id: ID) {
     checkOutDate
     totalPrice
     status
+    firstName
+    lastName
+    email
+    phoneNumber
   }
 }
 
@@ -337,4 +341,8 @@ query GetRoom($id: ID!) {
       other
     }
   }
+}
+
+mutation UpdateBookingStatus($id: ID!) {
+  updateBookingStatus(_id: $id)
 }

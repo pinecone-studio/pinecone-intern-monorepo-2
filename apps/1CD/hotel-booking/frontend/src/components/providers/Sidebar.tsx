@@ -10,7 +10,7 @@ const SideBar = () => {
     { title: 'Guests', icon: <Users /> },
   ];
   return (
-    <Sidebar>
+    <Sidebar className="w-[17%]">
       <SidebarHeader>
         <div className="flex gap-2 pl-2 pt-2.5 items-center">
           <div className="w-[32px] h-[32px] bg-[#2563EB] rounded-lg flex justify-center items-center">
@@ -22,7 +22,7 @@ const SideBar = () => {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="pt-6 w-full">
+      <SidebarContent className="w-full pt-6">
         {item.map((item) => (
           <SidebarMenu key={item.title}>
             <SidebarMenuButton asChild>

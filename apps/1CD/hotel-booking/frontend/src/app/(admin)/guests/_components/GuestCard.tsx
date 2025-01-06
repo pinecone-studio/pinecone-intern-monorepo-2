@@ -4,8 +4,12 @@ import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ReturnBooking } from '@/generated';
 import { format } from 'date-fns';
+import BookingStatusBadge from '@/components/BookingStatusBadge';
 
-const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
+const GuestCard = ({ info, setOpen }: { info: ReturnBooking | undefined | null; setOpen: (_value: boolean) => void }) => {
+  const openDialog = () => {
+    setOpen(true);
+  };
   return (
     <>
       <section className="flex justify-center gap-4">
@@ -20,7 +24,7 @@ const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
                 </ul>
                 <ul className="flex flex-col gap-1">
                   <li className="font-light text-gray-500">Status</li>
-                  <Badge className="w-20 bg-blue-600">{info?.status}</Badge>
+                  <BookingStatusBadge status={info?.status} />
                 </ul>
                 <ul>
                   <li className="font-light text-gray-500">Check in</li>
@@ -73,7 +77,9 @@ const GuestCard = ({ info }: { info: ReturnBooking | undefined | null }) => {
                     <li className="font-light text-gray-500">Room number</li>
                     <li>{info?.roomId?.roomType}</li>
                   </ul>
-                  <Button className="bg-blue-600 mt-9">Checkout</Button>
+                  <Button data-cy="Checkout-Button" onClick={openDialog} className={`bg-blue-600 mt-9 ${info?.status == 'booked' ? 'block' : 'hidden'}`}>
+                    Checkout
+                  </Button>
                 </div>
               </div>
             </section>
