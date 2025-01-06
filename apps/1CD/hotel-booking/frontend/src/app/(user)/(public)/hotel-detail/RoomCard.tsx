@@ -101,7 +101,7 @@ const RoomCard = ({ room }: { room: RoomType }) => {
             </div>
           </div>
           <div className="pt-14">
-            <Button data-cy="Reserve-Button" onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))} className="bg-[#2563EB]">
+            <Button data-cy="Reserve-Button" onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))} className='bg-blue-700 hover:bg-blue-500 text-sm font-medium'>
               Reserve
             </Button>
           </div>

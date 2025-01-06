@@ -1,25 +1,35 @@
 'use client';
 import { RoomType, useHotelDetailQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
-import RoomCard from '../../(public)/hotel-detail/RoomCard';
-import {  useState } from 'react';
+import RoomCard from './RoomCard';
+import { useState } from 'react';
 import HotelDetailImage from '@/app/(user)/(public)/hotel-detail/HotelDetailImage';
 
-const HotelRooms = ({ images,isOpenImageDialog, setIsOpenImageDialog,id }: { id: string; isOpenImageDialog:boolean;images: (string | null)[];setIsOpenImageDialog:(_value:boolean)=>void }) => {
+const HotelRooms = ({
+  images,
+  isOpenImageDialog,
+  setIsOpenImageDialog,
+  id,
+}: {
+  id: string;
+  isOpenImageDialog: boolean;
+  images: (string | null)[];
+  setIsOpenImageDialog: (_value: boolean) => void;
+}) => {
   const { data } = useHotelDetailQuery({ variables: { hotelId: id } });
   const [selected, setSelected] = useState('');
   const cards: RoomType[] = [];
-  const imagesArray = [...images]
+  const imagesArray = [...images];
   data?.hotelDetail.forEach((card) => {
     if (card.roomType?.includes(selected)) {
       cards.push(card);
     }
   });
-  data?.hotelDetail.forEach((room)=>{
-    if(room.images[0]){
-      imagesArray.push(room.images[0])
+  data?.hotelDetail.forEach((room) => {
+    if (room.images[0]) {
+      imagesArray.push(room.images[0]);
     }
-  })
+  });
   return (
     <div data-cy="Hotel-Rooms" className="flex flex-col gap-4">
       <div className="text-2xl font-semibold">Choose your room</div>
@@ -51,7 +61,7 @@ const HotelRooms = ({ images,isOpenImageDialog, setIsOpenImageDialog,id }: { id:
           </div>
         ))}
       </div>
-        <HotelDetailImage setIsOpenImageDialog={setIsOpenImageDialog} open={isOpenImageDialog} images={imagesArray}/>
+      <HotelDetailImage setIsOpenImageDialog={setIsOpenImageDialog} open={isOpenImageDialog} images={imagesArray} />
     </div>
   );
 };
