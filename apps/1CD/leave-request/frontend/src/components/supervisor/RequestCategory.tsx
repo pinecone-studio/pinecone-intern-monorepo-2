@@ -5,23 +5,45 @@ import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { FaPlus } from 'react-icons/fa';
-
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-const RequestCategory = () => {
+// eslint-disable-next-line no-unused-vars
+const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) => {
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(false);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
   const [isChecked, setIsChecked] = React.useState<string[]>([]);
 
-  console.log(isChecked);
-
   const handleCheckedChange = (value: string, isChecked: boolean) => {
     if (isChecked) {
       setIsChecked((prev) => [...prev, value]);
+      change(value);
     } else {
       setIsChecked((prev) => prev.filter((item) => item !== value));
+      change(value);
     }
+  };
+
+  const change = (value: string) => {
+    if (isChecked.includes(value)) {
+      const filtered = transform([...isChecked, value].filter((ele: string) => ele != value));
+      onChange(filtered);
+    } else {
+      onChange(transform([...isChecked, value]));
+    }
+  };
+
+  const transform = (elements: string[]) => {
+    const result = [];
+    for (let i = 0; i < elements.length; i++) {
+      if (elements[i] == 'Хүлээгдэж байна') {
+        result.push('pending');
+        result.push('sent');
+      }
+      if (elements[i] == 'Татгалзсан') result.push('failed');
+      if (elements[i] == "Баталгаажсан") result.push('success');
+    }
+    return result;
   };
 
   return (

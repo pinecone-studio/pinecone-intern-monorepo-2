@@ -114,7 +114,7 @@ export const typeDefs = gql`
     createEvent(input: EventInput!): Response!
     updateEventPriority(_id: ID!, input: EventPriorityUpdateInput!): Event!
     deleteEvent(_id: ID!): Response!
-    updateEvent(_id: ID!, event: EventUpdateInput): Event!
+    updateEvent(_id: ID!, event: EventUpdateInput!): Event!
     deleteLastEvent: Response!
   }
 `;

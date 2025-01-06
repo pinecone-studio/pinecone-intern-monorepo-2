@@ -1,27 +1,33 @@
+'use client';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
-import { GetFollowStatusQuery, OtherUser } from '@/generated';
+import { OtherUser } from '@/generated';
+import SeeFollowersDialog from './SeeFollowers';
+import SeeFollowingsDialog from './SeeFollowings';
+import { Follower } from '../user-profile/FollowerDialog';
+import { Following } from '../user-profile/FollowingDialog';
+import Image from 'next/image';
 
 const HeadingSection = ({
   profileUser,
   followLoading,
-  buttonState,
-  handleFollowClick,
-  followData,
+  buttonText,
+  handleButtonClick,
+  fetchedFollowerData,
+  fetchedFollowingData,
 }: {
   profileUser: OtherUser | undefined;
   followLoading: boolean;
-  buttonState: string;
-  handleFollowClick: () => Promise<void>;
-  followData: GetFollowStatusQuery | undefined;
+  buttonText: string;
+  handleButtonClick: () => Promise<void>;
+  fetchedFollowerData: Follower[];
+  fetchedFollowingData: Following[];
 }) => {
-  const buttonText = followData?.getFollowStatus.status === 'APPROVED' ? 'Following' : followData?.getFollowStatus.status === 'PENDING' ? 'Requested' : buttonState;
-
   return (
     <div className="flex flex-row mb-10 justify-evenly">
       <section>
-        <img
+        <Image
           data-testid="proImage"
           src={
             profileUser?.profileImg ||
@@ -38,13 +44,7 @@ const HeadingSection = ({
           <h1 className="text-2xl font-bold" data-cy="username">
             {profileUser?.userName}
           </h1>
-          <Button
-            className={`h-8 text-black  bg-gray-200
-            
-              `}
-            onClick={handleFollowClick}
-            disabled={followLoading || buttonText !== 'Follow'}
-          >
+          <Button className={`h-8 text-black bg-gray-200 ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
             {buttonText}
           </Button>
           <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Message</Button>
@@ -54,20 +54,12 @@ const HeadingSection = ({
         </div>
         <div className="flex flex-row space-x-8">
           <div className="flex flex-row items-center space-x-2">
-            <p>0 posts</p>
+            <span>0 posts</span>
           </div>
-          <div className="flex flex-row space-x-2">
-            <h1 className="font-semibold" data-cy="followerNumber">
-              {profileUser?.followerCount}
-            </h1>
-            <p>followers</p>
-          </div>
-          <div className="flex flex-row space-x-2">
-            <h1 className="font-semibold" data-cy="followingNumber">
-              {profileUser?.followingCount}
-            </h1>
-            <p>following</p>
-          </div>
+
+          <SeeFollowersDialog followerData={fetchedFollowerData} followerDataCount={fetchedFollowerData.length} />
+
+          <SeeFollowingsDialog followingData={fetchedFollowingData} followingDataCount={fetchedFollowingData.length} />
         </div>
         <div>
           <h1 className="font-bold" data-cy="fullname">

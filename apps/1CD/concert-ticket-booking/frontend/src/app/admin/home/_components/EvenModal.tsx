@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { CirclePlus } from 'lucide-react';
-import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { EventInputSchema } from '@/utils/validation-schema';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -22,7 +21,7 @@ import InputArtist from './InputArtist';
 import { useCreateEventMutation } from '@/generated';
 import { toast } from 'sonner';
 
-const CreateEventModal = () => {
+const CreateEventModal = ({ refetch }: { refetch: () => void }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const form = useForm<z.infer<typeof EventInputSchema>>({
     resolver: zodResolver(EventInputSchema),
@@ -42,6 +41,7 @@ const CreateEventModal = () => {
     onCompleted: () => {
       toast.success('Successfully created');
       setDialogOpen(false);
+      refetch();
     },
     onError: () => {
       toast.error('An error occurred');
@@ -55,6 +55,7 @@ const CreateEventModal = () => {
       },
     });
   };
+
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
@@ -66,11 +67,6 @@ const CreateEventModal = () => {
         <DialogHeader>
           <DialogTitle className="flex justify-between" data-testid="modal-title">
             <span>Тасалбар нэмэх</span>
-            <DialogClose asChild>
-              <Button type="button" className="bg-inherit" variant="secondary" data-testid="close-modal-button">
-                <X className="w-5" />
-              </Button>
-            </DialogClose>
           </DialogTitle>
         </DialogHeader>
         <ScrollArea className="h-[80vh]">

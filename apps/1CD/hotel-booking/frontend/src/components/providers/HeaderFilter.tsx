@@ -1,15 +1,16 @@
 'use client';
 
-import { DatePickerWithRange } from '../DatePicker';
+import { DatePickerWithRange } from '../../app/DatePicker';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
+
 import { useRouter } from 'next/navigation';
 import { ComboboxDemo } from '@/app/(user)/(public)/header-filter/TravelerSelection';
+import { useQueryState } from 'nuqs';
 
 const HeaderFilter = () => {
-  const [date, setDate] = useState<DateRange | undefined>();
-
+  const [dateFrom] = useQueryState('dateFrom');
+  const [dateTo] = useQueryState('dateTo');
+  const [roomType] = useQueryState('roomType');
   const router = useRouter();
 
   return (
@@ -19,13 +20,17 @@ const HeaderFilter = () => {
     >
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Dates</p>
-        <DatePickerWithRange setDate={setDate} date={date} />
+        <DatePickerWithRange />
       </div>
       <div className="flex flex-col w-full gap-2 md:w-auto">
         <p className="text-sm">Guest</p>
         <ComboboxDemo />
       </div>
-      <Button onClick={() => router.push('/search-result')} className="mt-4 bg-blue-700 md:w-48 md:mt-7" data-testid="search-hotel-room-btn">
+      <Button
+        onClick={() => router.push(`/search-result?dateFrom=${dateFrom ? dateFrom : ''}&dateTo=${dateTo ? dateTo : ''}&roomType=${roomType ? roomType : ''}`)}
+        className="mt-4 bg-blue-700 md:w-48 md:mt-7"
+        data-testid="search-hotel-room-btn"
+      >
         Search
       </Button>
     </section>

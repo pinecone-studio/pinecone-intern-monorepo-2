@@ -40,15 +40,15 @@ const InterestedIn = () => {
 
   return (
     <div className="flex flex-col items-center pt-[80px] min-h-screen justify-between">
-      <div className=" flex gap-6 flex-col">
+      <div className="flex flex-col gap-6 ">
         <div className="flex flex-col items-center gap-6">
-          <div className="flex items-center" data-cy="logo-container">
-            <Image src="/logo.svg" width={20.28} height={24.02} alt="" />
-            <div className="text-[#424242] text-3xl font-semibold">tinder</div>
+          <div data-cy="register-email-header" className="flex items-center gap-1">
+            <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
+            <div className="text-[#424242] font-bold text-2xl">tinder</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="font-semibold text-2xl">Who are you interested in?</div>
-            <div className="text-[#71717A] text-sm">Pick the one that feels right for you!</div>
+            <div className="text-[#09090B] font-semibold text-2xl">Who are you interested in?</div>
+            <div className="text-[#71717A] w-[330px] text-sm font-normal pt-1 text-center">Pick the one that feels right for you!</div>
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -85,7 +85,7 @@ const InterestedIn = () => {
           </Form>
         </div>
       </div>
-      <p className="text-[#71717A] text-sm pb-[24px]">©2024 Tinder</p>
+      <p className="text-[#71717A] text-sm pb-[5%]">©2024 Tinder</p>
     </div>
   );
 };

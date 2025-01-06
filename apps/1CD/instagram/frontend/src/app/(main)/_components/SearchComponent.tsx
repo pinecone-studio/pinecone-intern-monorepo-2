@@ -11,7 +11,8 @@ const SearchFromAllUsers = () => {
 
   return (
     <div className="px-4 py-8 border-y border-r w-[350px] h-screen" data-testid="search-users-component">
-      <div className="flex items-center">
+      <h1 className="text-[#262626] text-2xl mb-5 tracking-wide">Search</h1>
+      <div className="flex items-center border-b">
         <CiSearch />
         <Input
           type="text"
@@ -28,7 +29,7 @@ const SearchFromAllUsers = () => {
         <Link href={`/home/viewprofile/${user._id}`} key={user._id} className="flex flex-col justify-center gap-4 px-3 py-2">
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src="/images/img.avif" alt="User Profile" className="h-full rounded-full w-fit" />
+              <Image fill={true} src="/images/img.avif" alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
             </div>
             <div className="flex flex-col text-[#09090B]">
               <span className="text-sm font-[550]">{user.userName}</span>

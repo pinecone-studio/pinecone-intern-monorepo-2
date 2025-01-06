@@ -1,22 +1,33 @@
 'use client';
-import { DialogDescription, Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
+
 import { RoomType } from '@/generated';
 import RoomCarousel from './HotelRoomCarousel';
 import { ChevronRight, X, Zap } from 'lucide-react';
-import Link from 'next/link';
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
+
+import { handleReserve, totalPrice } from './PriceDetail';
+import { useRouter } from 'next/navigation';
+import { useQueryState } from 'nuqs';
+import { useAuth } from '@/components/providers';
+import DisplayTugrug from '@/components/DisplayTugrug';
 
 const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: RoomType; isOpen: boolean; handleState: () => void; handleOpen: () => void }) => {
+  const router = useRouter();
+  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom');
+  const { user } = useAuth();
   return (
     <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
-        <DialogContent className="flex flex-col gap-5">
+        <DialogContent className="flex flex-col gap-5 max-h-[800px] overflow-y-scroll">
           <DialogHeader>
-            <DialogTitle className="flex justify-between text-xl font-semibold">
-              <div>Room information</div>
+            <div className="flex justify-between">
+              <div className="text-base font-bold text-foreground">Room information</div>
               <button data-cy="Room-Dialog-Close" className="outline-none" onClick={handleState}>
-                <X />
+                <X className="w-5 h-5" />
               </button>
-            </DialogTitle>
+            </div>
           </DialogHeader>
           {room?.images && <RoomCarousel roomImages={room.images} data-cy="HotelRoomCarousel" />}
           <DialogTitle>{room?.roomName}</DialogTitle>
@@ -28,59 +39,59 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             ))}
           </div>
-          <DialogDescription>
-            <div className="flex flex-col gap-5">
-              <div className="grid grid-cols-2 col-span-1 gap-y-5">
-                <div>
-                  <ul className="text-base font-bold text-foreground">Accessability</ul>
-                  {room.roomService?.accessability?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
-                <div>
-                  <ul className="text-base font-bold text-foreground">Bathroom</ul>
-                  {room.roomService?.bathroom?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
 
-                <div>
-                  <ul className="text-base font-bold text-foreground">Bedroom</ul>
-                  {room.roomService?.bedroom?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
-                <div>
-                  <ul className="text-base font-bold text-foreground">Bathroom</ul>
-                  {room.roomService?.bathroom?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
-                <div>
-                  <ul className="text-base font-bold text-foreground">Food and drink</ul>
-                  {room.roomService?.foodDrink?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
-                <div>
-                  <ul className="text-base font-bold text-foreground">Internet</ul>
-                  {room.roomService?.entertaiment?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
-                <div>
-                  <ul className="text-base font-bold text-foreground">More</ul>
-                  {room.roomService?.other?.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </div>
+          <div className="flex flex-col gap-5">
+            <div className="grid grid-cols-2 col-span-1 gap-y-5">
+              <div>
+                <ul className="text-base font-bold text-foreground">Accessability</ul>
+                {room.roomService?.accessability?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+              <div>
+                <ul className="text-base font-bold text-foreground">Bathroom</ul>
+                {room.roomService?.bathroom?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+
+              <div>
+                <ul className="text-base font-bold text-foreground">Bedroom</ul>
+                {room.roomService?.bedroom?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+              <div>
+                <ul className="text-base font-bold text-foreground">Bathroom</ul>
+                {room.roomService?.bathroom?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+              <div>
+                <ul className="text-base font-bold text-foreground">Food and drink</ul>
+                {room.roomService?.foodDrink?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+              <div>
+                <ul className="text-base font-bold text-foreground">Internet</ul>
+                {room.roomService?.entertaiment?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </div>
+              <div>
+                <ul className="text-base font-bold text-foreground">More</ul>
+                {room.roomService?.other?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </div>
             </div>
-          </DialogDescription>
+          </div>
+
           <div className="flex justify-between w-full">
             <div className="flex flex-col gap-1">
               <p className="text-xs font-normal text-[#71717A]">Total</p>
-              <p className="text-xl font-medium text-[#09090B]">150,000₮</p>
+              <DisplayTugrug tugrug={totalPrice(dateFrom, dateTo, Number(5000))} />
               <div className="flex gap-1">
                 <div className="text-xs font-normal text-[#000000]">75000</div>
                 <div className="text-xs font-normal text-[#000000]">Price per night</div>
@@ -91,9 +102,9 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <Link href={`/checkout/${room._id}`} data-cy="Reserve-button-1" className="bg-[#2563EB] rounded-md py-2 px-3 text-white hover:bg-[#264689]">
+              <button data-cy="Reserve-Button" onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))}>
                 Reserve
-              </Link>
+              </button>
             </div>
           </div>
         </DialogContent>

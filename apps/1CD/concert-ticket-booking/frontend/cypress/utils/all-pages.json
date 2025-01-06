@@ -1,1 +1,1 @@
-["/","/admin/cancel-request","/admin/home","/user/home","/user/home/event/[eventId]","/user/home/user-profile","/user/recover-password","/user/sign-in","/user/sign-up","/user/verify-email"]
+["/","/admin/cancel-request","/admin/home","/user/home","/user/home/event/[eventId]","/user/home/filter","/user/home/user-profile","/user/order/[id]","/user/payment/[id]","/user/recover-password","/user/sign-in","/user/sign-up","/user/ticket/[unitId]","/user/verify-email"]

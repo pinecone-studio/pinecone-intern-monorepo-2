@@ -59,6 +59,29 @@ export const typeDefs = gql`
     token: String!
   }
 
+  input EditProfileInput {
+    name: String!
+    email: String!
+    bio: String!
+    age: Int!
+    interests: [String!]!
+    photos: [String!]!
+    profession: String!
+    schoolWork: [String!]
+    attraction: String
+  }
+  type ResponseEditProfileInput {
+    name: String!
+    email: String!
+    bio: String!
+    age: Int!
+    interests: [String!]!
+    photos: [String!]!
+    profession: String!
+    schoolWork: [String!]
+    attraction: String
+  }
+
   type Mutation {
     # sign up
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!
@@ -74,5 +97,6 @@ export const typeDefs = gql`
     updateUser(name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
     updateAttraction(attraction: String!): RegisterEmailResponse!
     imageSubmit(input: ImageSubmitInput!): ImageSubmitResponse!
+    editProfile(input: EditProfileInput!): ResponseEditProfileInput!
   }
 `;

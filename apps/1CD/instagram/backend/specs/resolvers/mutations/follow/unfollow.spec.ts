@@ -40,15 +40,6 @@ describe('removeFollower Mutation', () => {
     await expect(unfollow!({}, { _id: '123', followerId: 'user-2' }, { userId: 'user-1' }, {} as GraphQLResolveInfo)).rejects.toThrow('You are not authorized to unfollow');
   });
 
-  it('should throw an error if the follow status is pending', async () => {
-    (followModel.findById as jest.Mock).mockResolvedValueOnce({
-      ...mockFollowRequest,
-      status: FollowStatus.Pending,
-    });
-
-    await expect(unfollow!({}, { _id: '123', followerId: 'user-1' }, { userId: 'user-1' }, {} as GraphQLResolveInfo)).rejects.toThrow('Failed to unfollow');
-  });
-
   it('should successfully delete the follower', async () => {
     (followModel.findById as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
     (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowRequest);

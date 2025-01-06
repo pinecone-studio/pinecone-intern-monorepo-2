@@ -45,7 +45,7 @@ export const UpdateImagesStep2 = ({
 
         <div className="h-[626px] w-full m-0">
           <div className="relative w-full h-full">
-            <Image src={images[0]} alt="img" fill={true} className="object-cover w-auto h-auto rounded-b-lg" />
+            <Image src={images[0]} alt="img" sizes="h-auto w-auto" fill={true} className="object-cover w-auto h-auto rounded-b-lg" />
           </div>
         </div>
       </DialogContent>

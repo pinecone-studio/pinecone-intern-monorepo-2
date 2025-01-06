@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import UserInfo from './_components/UserInfo';
 import PasswordReset from './_components/PasswordReset';
-
+import OrderInfo from './_components/OrderInfo';
 
 const UserInfoPage = () => {
   const [state, setState] = useState(1);
+
   return (
     <div className="flex min-h-[calc(100vh-1px)] bg-black justify-center px-4 py-6" data-cy="User-Info-Comp">
-      <div className="my-12 flex gap-10">
+      <div className="gap-10 my-12 lg:flex sm:max-w-flex sm:max-w-flex-col">
         <div className="text-white bg-black w-[235px] py-2 flex flex-col gap-2 items-start">
           <button
             data-cy="info-state-button"
@@ -35,21 +36,8 @@ const UserInfoPage = () => {
         </div>
         <div>
           {state === 1 && <UserInfo />}
-          {state === 2 && 
-          (
-            <div className="text-white w-[841px]">
-              <h1 data-cy="order-info-heading"> Захиалгын түүх</h1>
-            </div>
-          )
-          
-          }
-          {state === 3 && <PasswordReset/> 
-          // (
-          //   <div className="text-white w-[841px]">
-          //     <h1 data-cy="password-info-heading"> Нууц үг сэргээх</h1>
-          //   </div>
-          // )
-          }
+          {state === 2 && <OrderInfo />}
+          {state === 3 && <PasswordReset />}
         </div>
       </div>
     </div>
@@ -57,3 +45,4 @@ const UserInfoPage = () => {
 };
 
 export default UserInfoPage;
+

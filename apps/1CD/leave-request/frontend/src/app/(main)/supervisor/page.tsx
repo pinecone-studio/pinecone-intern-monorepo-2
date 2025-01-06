@@ -1,12 +1,15 @@
 import Requests from '@/components/supervisor/Requests';
+import { SecureWrapper } from '@/context/SecurePageWrapper';
+import { getEmail } from '@/utils/get-email';
 
 import React from 'react';
 
-const SupervisorPage = () => {
+const SupervisorPage = async() => {
+  const email = await getEmail()
   return (
-    <>
-      <Requests />
-    </>
+    <SecureWrapper roles={["supervisor", "admin"]}>
+      <Requests email={email}/>
+    </SecureWrapper>
   );
 };
 

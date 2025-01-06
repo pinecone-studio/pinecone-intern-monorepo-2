@@ -2,7 +2,7 @@ import allPages from '../utils/all-pages.json';
 
 describe('render all pages', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
+    const token = Cypress.env().env['ANNUAL_TOKEN_ADMIN'] as string
     cy.setCookie(
       'authtoken',
       token

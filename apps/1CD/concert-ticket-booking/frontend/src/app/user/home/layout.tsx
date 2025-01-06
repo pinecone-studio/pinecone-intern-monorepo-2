@@ -9,9 +9,9 @@ export const metadata = {
 };
 const UserLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div>
+    <div className="max-w-[1334px] m-auto bg-zinc-950 h-screen flex flex-col">
       <Header />
-      <div>{children}</div>
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );

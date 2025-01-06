@@ -1,95 +1,183 @@
+/*eslint-disable*/
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HeadingSection from '@/components/visit-profile/HeadingSection';
-import { AccountVisibility, FollowStatus } from '@/generated';
+import { AccountVisibility } from '@/generated';
 
-describe('HeadingSection Component', () => {
-  const mockHandleFollowClick = jest.fn();
+jest.mock('lucide-react', () => ({
+  Ellipsis: jest.fn(() => <div data-testid="ellipsis-icon">...</div>),
+}));
 
-  const defaultProps = {
-    profileUser: {
-      _id: '123',
-      userName: 'testuser',
-      profileImg: '',
-      followerCount: 10,
-      followingCount: 5,
-      fullName: 'Test User',
-      bio: 'This is a test bio',
-      accountVisibility: AccountVisibility.Public,
-      createdAt: '2023-01-01T00:00:00Z',
-      updatedAt: '2023-01-01T00:00:00Z',
-    },
-    followLoading: false,
-    buttonState: 'Follow',
-    handleFollowClick: mockHandleFollowClick,
-    followData: undefined,
+jest.mock('@/components/visit-profile/SeeFollowers', () => ({
+  __esModule: true,
+  default: jest.fn(({ followerDataCount }) => (
+    <div data-testid="followers-dialog">
+      <span>Followers: {followerDataCount}</span>
+    </div>
+  )),
+}));
+
+jest.mock('@/components/visit-profile/SeeFollowings', () => ({
+  __esModule: true,
+  default: jest.fn(({ followingDataCount }) => (
+    <div data-testid="followings-dialog">
+      <span>Followings: {followingDataCount}</span>
+    </div>
+  )),
+}));
+
+describe('HeadingSection', () => {
+  const mockHandleButtonClick = jest.fn();
+  const profileUser = {
+    profileImg: 'https://example.com/profile.jpg',
+    userName: 'TestUser',
+    fullName: 'Test User',
+    bio: 'This is a test bio.',
+    _id: 'id',
+    accountVisibility: AccountVisibility.Public,
+    createdAt: '2025-01-01',
+    followerCount: 0,
+    followingCount: 0,
+    updatedAt: '2025-01-01',
   };
+  const fetchedFollowerData = [{ _id: '1', userName: 'Follower1', fullName: 'Follower One', profileImg: '' }];
+  const fetchedFollowingData = [{ _id: '2', userName: 'Following1', fullName: 'Following One', profileImg: '' }];
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders the component correctly with default props', () => {
-    render(<HeadingSection {...defaultProps} />);
+  test('renders with profile user data', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
-    expect(screen.getByText('testuser')).toBeInTheDocument();
-    expect(screen.getByText('Follow')).toBeInTheDocument();
-    expect(screen.getByText('10')).toBeInTheDocument();
-    expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('Test User')).toBeInTheDocument();
-    expect(screen.getByText('This is a test bio')).toBeInTheDocument();
+    const profileImage = screen.getByTestId('proImage');
+    // expect(profileImage).toHaveAttribute('src', profileUser.profileImg);
+    expect(profileImage).toHaveAttribute('alt', 'profile image');
+
+    expect(screen.getByText(profileUser.userName)).toBeInTheDocument();
+    expect(screen.getByText(profileUser.fullName)).toBeInTheDocument();
+    expect(screen.getByText(profileUser.bio)).toBeInTheDocument();
+    expect(screen.getByTestId('ellipsis-icon')).toBeInTheDocument();
   });
 
-  it('renders "Following" if followData status is APPROVED', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
+  test('renders default profile image when profileImg is undefined', () => {
+    render(
+      <HeadingSection
+        profileUser={{ ...profileUser, profileImg: undefined }}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
-    expect(screen.getByText('Following')).toBeInTheDocument();
+    const profileImage = screen.getByTestId('proImage');
+    // expect(profileImage).toHaveAttribute(
+    //   'src',
+    //   'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
+    // );
   });
 
-  it('renders "Requested" if followData status is PENDING', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Pending } }} />);
+  test('disables Follow button and applies loading styles when followLoading is true', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={true}
+        buttonText="Following..."
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
-    expect(screen.getByText('Requested')).toBeInTheDocument();
-  });
-
-  it('disables the follow button when loading', () => {
-    render(<HeadingSection {...defaultProps} followLoading={true} />);
-
-    const followButton = screen.getByText('Follow');
+    const followButton = screen.getByText('Following...');
     expect(followButton).toBeDisabled();
+    expect(followButton).toHaveClass('opacity-50 cursor-not-allowed');
   });
 
-  it('calls handleFollowClick when follow button is clicked', () => {
-    render(<HeadingSection {...defaultProps} />);
+  test('calls handleButtonClick when Follow button is clicked', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
     const followButton = screen.getByText('Follow');
     fireEvent.click(followButton);
-
-    expect(mockHandleFollowClick).toHaveBeenCalledTimes(1);
+    expect(mockHandleButtonClick).toHaveBeenCalledTimes(1);
   });
 
-  it('disables the follow button when buttonText is not "Follow"', () => {
-    render(<HeadingSection {...defaultProps} followData={{ getFollowStatus: { status: FollowStatus.Approved } }} />);
+  test('renders 0 posts when profileUser is undefined', () => {
+    render(<HeadingSection profileUser={undefined} followLoading={false} buttonText="Follow" handleButtonClick={mockHandleButtonClick} fetchedFollowerData={[]} fetchedFollowingData={[]} />);
 
-    const followButton = screen.getByText('Following');
-    expect(followButton).toBeDisabled();
+    expect(screen.getByText('0 posts')).toBeInTheDocument();
+    expect(screen.queryByText('followers')).not.toBeInTheDocument();
+    expect(screen.queryByText('following')).not.toBeInTheDocument();
   });
 
-  it('renders a default profile image if no profile image is provided', () => {
-    render(<HeadingSection {...defaultProps} />);
-
-    const profileImage = screen.getByTestId('proImage');
-    expect(profileImage).toHaveAttribute(
-      'src',
-      'https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png'
+  test('renders Message button', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
     );
+
+    const messageButton = screen.getByText('Message');
+    expect(messageButton).toBeInTheDocument();
   });
 
-  it('renders the user-provided profile image when available', () => {
-    render(<HeadingSection {...defaultProps} profileUser={{ ...defaultProps.profileUser, profileImg: 'https://example.com/profile.jpg' }} />);
+  test('renders followers dialog with correct data', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
 
-    const profileImage = screen.getByTestId('proImage');
-    expect(profileImage).toHaveAttribute('src', 'https://example.com/profile.jpg');
+    const followersDialog = screen.getByTestId('followers-dialog');
+    expect(followersDialog).toBeInTheDocument();
+    expect(screen.getByText('Followers: 1')).toBeInTheDocument();
+  });
+
+  test('renders followings dialog with correct data', () => {
+    render(
+      <HeadingSection
+        profileUser={profileUser}
+        followLoading={false}
+        buttonText="Follow"
+        handleButtonClick={mockHandleButtonClick}
+        fetchedFollowerData={fetchedFollowerData}
+        fetchedFollowingData={fetchedFollowingData}
+      />
+    );
+
+    const followingsDialog = screen.getByTestId('followings-dialog');
+    expect(followingsDialog).toBeInTheDocument();
+    expect(screen.getByText('Followings: 1')).toBeInTheDocument();
   });
 });

@@ -2,12 +2,12 @@ import { QueryResolvers } from 'src/generated';
 import { RequestModel } from 'src/models';
 
 // eslint-disable-next-line complexity
-export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervisor'] = async (_, { supervisorEmail, status, page = 1, startDate, endDate, search }) => {
+export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervisor'] = async (_, { supervisorEmail, status = [], page = 1, startDate, endDate, search }) => {
   const query: any = {};
   
   // Add status filter
-  if (status) {
-    query.status = status;
+  if (status.length) {
+    query.result = {$in: status};
   }
 
   // Add date range filter
@@ -42,10 +42,10 @@ export const getAllRequestsBySupervisor: QueryResolvers['getAllRequestsBySupervi
         : {},
     },
     {
-      $skip: (page - 1) * 4,
+      $skip: (page - 1) * 10,
     },
     {
-      $limit: 4, 
+      $limit: 10, 
     },
     {
       $sort: {

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import BookingInformationInput from '../BookingInformationInput';
-import { BookingStatus, useAddNewBookingMutation, useGetBookingQuery } from '@/generated';
+import { BookingStatus, useAddNewBookingMutation, useGetRoomQuery } from '@/generated';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
-  const { data, loading } = useGetBookingQuery({
+  const { data, loading } = useGetRoomQuery({
     variables: {
       id: params.id,
     },
@@ -56,9 +56,9 @@ const Page = ({ params }: { params: { id: string } }) => {
             firstName: values.firstName,
             email: values.email,
             phoneNumber: String(values.phoneNumber),
-            userId: '1',
-            roomId: '2',
-            hotelId: '3',
+            userId: '6746fe2b288837dc694368dc',
+            roomId: '67734f9cc1bc07a554f731a0',
+            hotelId: '67734d4aa494d000fe224b6d',
             checkInDate: '2024-12-12',
             checkOutDate: '2024-12-15',
             status: BookingStatus.Booked,
@@ -106,7 +106,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <Toaster />
-      <BookingPageRightSide booking={data?.getBooking} />
+      <BookingPageRightSide room={data?.getRoom} />
     </form>
   );
 };

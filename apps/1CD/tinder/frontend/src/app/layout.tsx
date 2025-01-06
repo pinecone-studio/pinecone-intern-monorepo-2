@@ -1,8 +1,10 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
+import { MatchProvider } from '@/components/providers/MatchProvider';
+import { OneUserProvider } from '@/components/providers/OneuserProvider';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -13,12 +15,16 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
   const authToken = (await cookies().get('authToken')?.value) || '';
   return (
     <html lang="en">
-      <body className="">
+      <body className="bg-white">
         <ApolloWrapper authToken={authToken}>
-          <div className="max-w-[1280px] mx-auto">
-            {children}
-            <Toaster />
-          </div>
+          <MatchProvider>
+            <OneUserProvider>
+              <div >
+              {React.cloneElement(children as React.ReactElement, { authToken })}
+                <Toaster />
+              </div>
+            </OneUserProvider>
+          </MatchProvider>
         </ApolloWrapper>
       </body>
     </html>
