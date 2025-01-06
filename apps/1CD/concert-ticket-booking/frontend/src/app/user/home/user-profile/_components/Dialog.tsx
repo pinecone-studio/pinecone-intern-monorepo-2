@@ -27,8 +27,8 @@ const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onC
     bank: Yup.string().required('Банк сонгоно уу'),
     accountNumber: Yup.string()
       .matches(/^[0-9]+$/, 'Зөвхөн тоо оруулна уу')
-      .min(8)
-      .max(16)
+      .min(8, 'Дансны дугаар нь хамгийн багадаа 8 тэмдэгттэй байх ёстой.')
+      .max(16, 'Дансны дугаар нь хамгийн ихдээ 16 тэмдэгттэй байх ёстой.')
       .required('Дансны дугаарыг оруулна уу'),
     phoneNumber: Yup.string()
       .matches(/^[0-9]{8}$/, '8 оронтой утасны дугаар оруулна уу')
@@ -102,6 +102,21 @@ const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onC
                 </SelectItem>
                 <SelectItem value="tdb" data-cy="select-item-tdb">
                   TDB
+                </SelectItem>
+                <SelectItem value="turiin" data-cy="select-item-turiin">
+                  Төрийн Банк
+                </SelectItem>
+                <SelectItem value="khas" data-cy="select-item-khas">
+                  ХАСБанк
+                </SelectItem>
+                <SelectItem value="m" data-cy="select-item-m">
+                  М Банк
+                </SelectItem>
+                <SelectItem value="arig" data-cy="select-item-arig">
+                  Ариг Банк
+                </SelectItem>
+                <SelectItem value="capital" data-cy="select-item-capital">
+                  Капитал
                 </SelectItem>
               </SelectContent>
             </Select>
