@@ -2,29 +2,42 @@
 import { RoomType, useHotelDetailQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
 import RoomCard from '../../(public)/hotel-detail/RoomCard';
-import { useState } from 'react';
+import {  useState } from 'react';
+import HotelDetailImage from '@/app/(user)/(public)/hotel-detail/HotelDetailImage';
 
-const HotelRooms = ({id}:{id:string}) => {
+const HotelRooms = ({ images,isOpenImageDialog, setIsOpenImageDialog,id }: { id: string; isOpenImageDialog:boolean;images: (string | null)[];setIsOpenImageDialog:(_value:boolean)=>void }) => {
   const { data } = useHotelDetailQuery({ variables: { hotelId: id } });
   const [selected, setSelected] = useState('');
   const cards: RoomType[] = [];
+  const imagesArray = [...images]
   data?.hotelDetail.forEach((card) => {
     if (card.roomType?.includes(selected)) {
       cards.push(card);
     }
   });
+  data?.hotelDetail.forEach((room)=>{
+    if(room.images[0]){
+      imagesArray.push(room.images[0])
+    }
+  })
   return (
     <div data-cy="Hotel-Rooms" className="flex flex-col gap-4">
       <div className="text-2xl font-semibold">Choose your room</div>
       <div className="bg-[#F4F4F5] rounded-lg max-w-56 flex justify-between p-1">
-        <Button data-cy="All-Rooms-button"
+        <Button
+          data-cy="All-Rooms-button"
           onClick={() => setSelected('')}
           variant={'ghost'}
           className={`px-3 py-1 text-sm font-medium rounded-sm hover:bg-white ${selected == '' ? 'bg-white ' : 'text-[#71717A]'}`}
         >
           All Rooms
         </Button>
-        <Button data-cy="one-button" onClick={() => setSelected('1bed')} variant={'ghost'} className={`px-3 py-1 text-sm font-medium rounded-sm hover:bg-white ${selected == '1bed' ? 'bg-white ' : 'text-[#71717A]'}`}>
+        <Button
+          data-cy="one-button"
+          onClick={() => setSelected('1bed')}
+          variant={'ghost'}
+          className={`px-3 py-1 text-sm font-medium rounded-sm hover:bg-white ${selected == '1bed' ? 'bg-white ' : 'text-[#71717A]'}`}
+        >
           1 bed
         </Button>
         <Button onClick={() => setSelected('2beds')} variant={'ghost'} className={`px-3 py-1 text-sm font-medium rounded-sm  hover:bg-white ${selected == '2beds' ? 'bg-white ' : 'text-[#71717A]'}`}>
@@ -38,6 +51,7 @@ const HotelRooms = ({id}:{id:string}) => {
           </div>
         ))}
       </div>
+        <HotelDetailImage setIsOpenImageDialog={setIsOpenImageDialog} open={isOpenImageDialog} images={imagesArray}/>
     </div>
   );
 };
