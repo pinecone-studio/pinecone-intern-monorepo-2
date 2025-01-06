@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Bookmark, ChevronLeft, ChevronRight, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
+import { Bookmark, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
@@ -11,6 +11,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/components/like/PostLikes';
 import { LastCommentCard } from '../comment/LastCommentCard';
 import { PostWithComments } from './PostWithComments';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
@@ -58,21 +59,27 @@ export const PostCard = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="relative flex w-full h-[585px]  ">
-              <Image fill={true} src={post.images[0]} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
+
+            <Carousel className="relative w-full ">
+              <CarouselContent>
+                {post.images.map((img, i) => {
+                  return (
+                    <CarouselItem key={i} className="relative w-full h-[585px]">
+                      <Image fill={true} src={img} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
               {post.images.length === 1 ? (
                 ''
               ) : (
-                <div data-testid="moreImgBtnSection" className="relative flex items-center justify-between w-full px-1 ">
-                  <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600 cursor-pointer ">
-                    <ChevronLeft width={16} height={16} />
-                  </p>
-                  <p className="bg-[#F4F4F5] p-2 rounded-full text-gray-600">
-                    <ChevronRight width={16} height={16} />
-                  </p>
+                <div className="flex items-center justify-between w-full ">
+                  <CarouselPrevious className="left-1 top-1/2 " />
+                  <CarouselNext className="right-1 top-1/2 " />
                 </div>
               )}
-            </div>
+            </Carousel>
+
             <div className="flex items-center justify-between px-1 py-3 text-xl">
               <div className="flex gap-3">
                 <PostLike id={post?._id} />
