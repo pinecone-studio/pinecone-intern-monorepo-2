@@ -9,9 +9,9 @@ import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/components/like/PostLikes';
-import { LastCommentCard } from '../comment/LastCommentCard';
-import { PostWithComments } from './PostWithComments';
-import { PostImg } from './PostImg';
+import { LastCommentCard } from '../../../components/comment/LastCommentCard';
+import { PostWithComments } from '../../../components/post/PostWithComments';
+import { PostImg } from '../../../components/post/PostImg';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
