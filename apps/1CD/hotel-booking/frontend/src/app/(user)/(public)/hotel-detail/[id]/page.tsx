@@ -1,4 +1,4 @@
-import HotelDetail from '../../../(client)/_components/HotelDetail';
+import HotelDetail from '../HotelDetail';
 
 const Page = ({ params }: { params: { id: string } }) => {
   return (

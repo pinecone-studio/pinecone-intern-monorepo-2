@@ -5,8 +5,8 @@ import { useGetHotelQuery } from '@/generated';
 import Image from 'next/image';
 import HotelImportant from '@/components/HotelImportant';
 import HotelPolicies from '@/components/HotelPolicies';
-import HotelAbout from '../../(public)/hotel-detail/HotelAbout';
-import HotelAsked from '../../(public)/hotel-detail/HotelAsked';
+import HotelAbout from './HotelAbout';
+import HotelAsked from './HotelAsked';
 import { HotelReveiwRating } from '@/components/BookingDetailRightSide';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
@@ -68,7 +68,7 @@ const HotelDetail = ({ id }: { id: string }) => {
   return (
     <div data-cy="Hotel-Detail-Page" className="container flex flex-col items-center gap-8 mx-auto">
       {data?.getHotel.images?.length && data?.getHotel?.images?.length > 0 && (
-        <div onClick={()=>setIsOpenImageDialog(true)} data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1">
+        <div onClick={()=>setIsOpenImageDialog(true)} data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1 cursor-pointer">
           <div className="flex-1">{<Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={580} height={433} className="object-cover w-full h-full" />}</div>
           <div className="flex flex-col flex-1 gap-1" data-cy="Hotel-images">
             <div className="flex flex-1 gap-1">
