@@ -2,7 +2,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { MockedProvider } from '@apollo/client/testing';
 
 import {
   useCreatePostLikeMutation,
@@ -65,11 +64,7 @@ describe('PostCard Component', () => {
   it('renders a loader when data is loading', () => {
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: true, data: null });
 
-    render(
-      <MockedProvider>
-        <PostCard />
-      </MockedProvider>
-    );
+    render(<PostCard />);
 
     // expect(screen.getByTestId('loader'))
   });
@@ -113,12 +108,10 @@ describe('PostCard Component', () => {
     (useGetCommentsQuery as jest.Mock).mockReturnValue({
       data: mockCommentData,
     });
+
     (useAuth as jest.Mock).mockReturnValue(mockAuthData);
-    render(
-      <MockedProvider>
-        <PostCard />
-      </MockedProvider>
-    );
+
+    render(<PostCard />);
 
     expect(screen.getByTestId('post-card'));
     expect(screen.getByText('testuser'));
@@ -141,11 +134,7 @@ describe('PostCard Component', () => {
 
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
 
-    render(
-      <MockedProvider>
-        <PostCard />
-      </MockedProvider>
-    );
+    render(<PostCard />);
 
     expect(screen.getByTestId('post-card'));
     expect(screen.getByText('testuser'));
@@ -169,11 +158,7 @@ describe('PostCard Component', () => {
 
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
 
-    render(
-      <MockedProvider>
-        <PostCard />
-      </MockedProvider>
-    );
+    render(<PostCard />);
 
     expect(screen.getByTestId('more-btn'));
   });

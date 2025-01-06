@@ -20,7 +20,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
   });
   const { user } = useAuth();
   const isUser = PostData?.getPostByPostId?.user._id === user?._id;
-
+  console.log(isUser);
   return (
     <Dialog data-testid="postWithComments1">
       <DialogTrigger data-testid="open-comment-btn" asChild>
@@ -57,8 +57,8 @@ export const PostWithComments = ({ id }: { id: string }) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem className="text-red-600">{isUser ? 'Delete' : 'Report'}</DropdownMenuItem>
-                    <DropdownMenuItem>{isUser ? 'Edit' : 'Hide'}</DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-600">Report</DropdownMenuItem>
+                    <DropdownMenuItem>Hide</DropdownMenuItem>
                     <DropdownMenuItem>Cancel</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
