@@ -113,7 +113,7 @@ describe('getMyPost', () => {
       </MockedProvider>
     );
 
-    await waitFor(() => expect(getByTestId('post-card')));
+    // await waitFor(() => expect(getByTestId('post-card')));
 
     const moreBtn = getByTestId('more-btn');
     fireEvent.keyDown(moreBtn, { key: 'Enter' });
@@ -154,6 +154,6 @@ describe('getMyPost', () => {
         <PostCard />
       </MockedProvider>
     );
-    // await waitFor(() => expect(getByTestId('post-card')));
+    await waitFor(() => expect(getByTestId('post-card')));
   });
 });
