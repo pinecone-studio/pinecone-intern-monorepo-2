@@ -4,15 +4,18 @@ import { bookingModel } from 'src/models';
 
 type BookingsFilterType = {
   status?: string;
+  hotelId?: string;
 };
 
-export const getBookings = async (_: unknown, { status }: { status: string }) => {
+export const getBookings = async (_: unknown, { status, hotelId }: { status: string; hotelId: string }) => {
   const filter: BookingsFilterType = {};
 
   if (status) {
     filter['status'] = status;
   }
-
+  if (hotelId) {
+    filter.hotelId = hotelId;
+  }
   try {
     const bookings: BookingsType[] = await bookingModel
       .find(filter)

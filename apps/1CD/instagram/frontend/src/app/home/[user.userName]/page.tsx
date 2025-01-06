@@ -6,9 +6,9 @@ import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
-import Image from 'next/image';
 import FollowerDialog from '@/components/user-profile/FollowerDialog';
 import FollowingDialog from '@/components/user-profile/FollowingDialog';
+import { PostImgCard } from '@/components/visit-profile/PostImgCard';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
@@ -41,9 +41,9 @@ const UserProfile = () => {
     if (postData.getMyPosts.length)
       return (
         <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
-          {postData.getMyPosts.map((myOnePost) => (
+          {postData?.getMyPosts.map((myOnePost) => (
             <section key={myOnePost._id} className="relative h-[292px]" data-cy="myPost">
-              <Image src={myOnePost.images[0]} alt="postnii-zurag" fill className="absolute object-cover" />
+              <PostImgCard image={myOnePost?.images[0]} id={myOnePost?._id} />
             </section>
           ))}
         </div>

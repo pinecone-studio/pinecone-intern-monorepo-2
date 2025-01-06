@@ -75,7 +75,7 @@ const SignupPage = () => {
       <Card className="w-[350px] mx-auto text-center border-none bg-white text-sm text-[#09090B] leading-5 font-normal">
         <CardHeader className="space-y-4">
           <CardTitle className="mt-8">
-            <Image src="/images/Logo.png" alt="Instagram Logo" width={175} height={51} className="mx-auto" />
+            <Image src="/images/Logo.png" sizes="h-auto w-auto" alt="Instagram Logo" width={175} height={51} className="mx-auto" />
           </CardTitle>
           <CardDescription className="px-10 text-sm text-[#09090B] leading-5 font-normal">Sign up to see photos and videos from your friends</CardDescription>
         </CardHeader>

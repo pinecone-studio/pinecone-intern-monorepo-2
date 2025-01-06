@@ -12,7 +12,7 @@ import { Asterisk } from 'lucide-react';
 
 type OrderConfirmProp = {
   order: Order[] | null;
-  setBuyer: Dispatch<SetStateAction<UserInfo | undefined>>;
+  setBuyer: Dispatch<SetStateAction<UserInfo>>;
   setState: Dispatch<SetStateAction<number>>;
 };
 
@@ -92,8 +92,8 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
               {order &&
                 order.map((item, idx) => (
                   <div key={idx} className="flex justify-between text-white">
-                    <p className='flex items-center flex-nowrap'>
-                      {item.zoneName} <Asterisk size={10}/>  {item.buyQuantity}
+                    <p className="flex items-center flex-nowrap">
+                      {item.zoneName} <Asterisk size={10} /> {item.buyQuantity}
                     </p>
                     <p>{item.price * item.buyQuantity} ₮</p>
                   </div>
@@ -115,4 +115,3 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
 };
 
 export default OrderConfirm;
-

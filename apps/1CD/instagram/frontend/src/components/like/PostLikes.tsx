@@ -18,10 +18,8 @@ export const PostLikes = ({ id }: { id: string }) => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="" data-testid="likeNumber" data-cy="likeNum">
-            <p className="cursor-pointer">
-              {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
-            </p>
+          <h1 className="cursor-pointer text-sm" data-testid="likeNumber" data-cy="likeNum">
+            {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
           </h1>
         </div>
       </DialogTrigger>

@@ -31,10 +31,13 @@ const UnitTicketPage = () => {
   const isTicketAvailable = orderId?.status === 'available';
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-8" data-cy="unit-ticket-page"
-    style={{
-      background: 'radial-gradient(42.61% 42.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
-    }}>
+    <div
+      className="flex flex-col items-center min-h-screen py-8"
+      data-cy="unit-ticket-page"
+      style={{
+        background: 'radial-gradient(42.61% 42.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
+      }}
+    >
       <div className="mt-10 border-4 border-[#131313] rounded-lg shadow-xl max-w-[310px] min-h-fit bg-[#131313] shadow-[#00B7F4]" data-cy="ticket-details-container">
         {isTicketAvailable ? (
           <div className="flex flex-col gap-3 p-5">
@@ -48,13 +51,12 @@ const UnitTicketPage = () => {
                   {eventId?.name}
                 </h1>
               </div>
-              <p className="pt-2 pl-2 text-lg text-white text-[#a8a8a8]" data-cy="event-description">
+              <p className="pt-2 pl-2 text-lg  text-[#a8a8a8]" data-cy="event-description">
                 {eventId.description}
               </p>
 
               <div className="flex items-center gap-3 text-white border-b border-dashed border-[#706e6e] pl-2 pb-2 ">
                 {eventId.mainArtists.map((item, idx) => (
-                  
                   <p key={idx} className="w-full font-semibold text-center" data-cy={`main-artist-${idx}`}>
                     {item.name}
                   </p>
@@ -75,13 +77,15 @@ const UnitTicketPage = () => {
                       <div className=" flex flex-col gap-2 text-lg text-white border-b border-dashed border-[#706e6e]">
                         {item.additional && (
                           <p className="pl-2">
-                            <h1 className='text-[#a8a8a8]'>Тасалбарт дагалдах зүйлс:</h1> <p className='font-semibold' data-cy="ticket-additional">{item.additional}</p>
+                            <h1 className="text-[#a8a8a8]">Тасалбарт дагалдах зүйлс:</h1>{' '}
+                            <p className="font-semibold" data-cy="ticket-additional">
+                              {item.additional}
+                            </p>
                           </p>
                         )}
                         {item.discount && item.discount !== '0' ? (
                           <div className="border-b border-dashed border-[#706e6e] pl-2">
-                            <h1 className='text-[#a8a8a8]'>Discount price only for you:</h1> <p data-cy="ticket-discount"
-                          >{(Number(item.unitPrice) * (100-Number(item.discount))) / 100} ₮</p>
+                            <h1 className="text-[#a8a8a8]">Discount price only for you:</h1> <p data-cy="ticket-discount">{(Number(item.unitPrice) * (100 - Number(item.discount))) / 100} ₮</p>
                           </div>
                         ) : (
                           <p className="flex gap-2 pl-2 item-center border-b border-dashed border-[#706e6e]">
@@ -96,9 +100,8 @@ const UnitTicketPage = () => {
                             {item.zoneName}
                           </p>
                         </p>
-                       
                       </div>
-                      <p className='w-full text-center text-[#00B7F4] font-bold text-md '>ENJOY THE SHOW!</p>
+                      <p className="w-full text-center text-[#00B7F4] font-bold text-md ">ENJOY THE SHOW!</p>
                     </div>
                   )
               )}
@@ -115,4 +118,3 @@ const UnitTicketPage = () => {
 };
 
 export default UnitTicketPage;
-

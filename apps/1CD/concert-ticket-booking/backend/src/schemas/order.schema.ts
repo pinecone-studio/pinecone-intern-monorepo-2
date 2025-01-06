@@ -29,10 +29,6 @@ export const typeDefs = gql`
     requestId: ID!
   }
 
-  type Query {
-    getOrder: [Order]!
-  }
-
   type ChangeStatusResponse {
     message: String!
   }
@@ -40,9 +36,15 @@ export const typeDefs = gql`
     message: String!
   }
 
+  type Query {
+    getOrder: [Order]!
+  }
+
   type Mutation {
     changeStatus(input: ChangeStatusInput!): ChangeStatusResponse!
-    addToCarts(input: OrderInput!): Response!
+    addToCarts(input: OrderInput!): Order!
+    paymentTickets(orderId: String!): Response!
     deleteOrder(_id: ID!): Order!
+    paymentCheck(orderId: String!): Response!
   }
 `;
