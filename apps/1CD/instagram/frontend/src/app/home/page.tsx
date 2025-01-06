@@ -1,5 +1,5 @@
 import { UserBar } from '@/components/header/UserBar';
-import { PostCard } from '@/components/post/PostCard';
+import { PostCard } from '@/app/(main)/_components/PostCard';
 
 const Page = () => {
   return (
