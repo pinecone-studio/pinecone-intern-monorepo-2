@@ -138,8 +138,8 @@ describe('PostCard Component', () => {
       ],
     };
     (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData1 });
-    // render(<PostCard />);
-    // expect(screen.getByTestId('post-card'));
+    render(<PostCard />);
+    expect(screen.getByTestId('post-card'));
     // expect(screen.getByText('testuser'));
     // expect(screen.getByText('This is a test post.'));
   });
