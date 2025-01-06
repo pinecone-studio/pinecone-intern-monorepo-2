@@ -20,6 +20,9 @@ describe('PostWithComments Component', () => {
   const mockAuthData = {
     user: { _id: '1', userName: 'Test User' },
   };
+  const mockAuthData1 = {
+    user: { _id: 'user1', userName: 'Test User' },
+  };
   const mockPostData = {
     getPostByPostId: {
       images: ['/image1.jpg', '/image2.jpg'],
@@ -108,7 +111,7 @@ describe('PostWithComments Component', () => {
     (useGetPostLikesQuery as jest.Mock).mockReturnValue({
       refetch: mockPostLikesRefetch,
     });
-    (useAuth as jest.Mock).mockReturnValue(mockAuthData);
+    (useAuth as jest.Mock).mockReturnValue(mockAuthData1);
 
     render(<PostWithComments id="123" />);
 

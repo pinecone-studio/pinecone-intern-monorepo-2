@@ -1,161 +1,82 @@
-import { render } from '@testing-library/react';
+// __tests__/PostCard.test.jsx
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MockedProvider } from '@apollo/client/testing';
-import { GetMyFollowingsPostsDocument } from '@/generated';
+
+import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostCard } from '@/components/post/PostCard';
 
-const myPostMock = [
-  {
-    request: {
-      query: GetMyFollowingsPostsDocument,
-    },
+// Mock the query
+jest.mock('@/generated', () => ({
+  useGetMyFollowingsPostsQuery: jest.fn(),
+}));
 
-    result: {
-      data: {
-        getMyFollowingsPosts: [
-          {
-            _id: '1',
-            user: {
-              _id: 'user1',
-              userName: 'User',
-              profileImg: 'http://img',
-            },
-            description: "Test's des",
-            images: ['http://img'],
-            lastComments: 'String',
-            commentCount: 1,
-            likeCount: 2,
-            updatedAt: '2024',
-            createdAt: '2024',
-          },
-        ],
-      },
-    },
-  },
-];
-const myPostInmagesMock = [
-  {
-    request: {
-      query: GetMyFollowingsPostsDocument,
-    },
+describe('PostCard Component', () => {
+  it('renders a loader when data is loading', () => {
+    (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: true, data: null });
 
-    result: {
-      data: {
-        getMyFollowingsPosts: [
-          {
-            _id: '1',
-            user: {
-              _id: 'user1',
-              userName: 'User',
-            },
-            description: "Test's des",
-            images: ['http://img', 'http://img'],
-            lastComments: 'String',
-            commentCount: 1,
-            likeCount: 2,
-            updatedAt: '2024',
-            createdAt: '2024',
-          },
-        ],
-      },
-    },
-  },
-];
-
-const myPostMockNoImg = [
-  {
-    request: {
-      query: GetMyFollowingsPostsDocument,
-    },
-
-    result: {
-      data: {
-        getMyFollowingsPosts: [
-          {
-            _id: '1',
-            user: {
-              _id: 'user1',
-              userName: 'User',
-              profileImg: 'http://img',
-            },
-            description: "Test's des",
-            images: ['http://img'],
-            lastComments: 'String',
-            commentCount: 1,
-            likeCount: 2,
-            updatedAt: '2024',
-            createdAt: '2024',
-          },
-        ],
-      },
-    },
-  },
-];
-
-const myPostMockNull = [
-  {
-    request: {
-      query: GetMyFollowingsPostsDocument,
-    },
-
-    result: {
-      data: {
-        getMyFollowingsPosts: [],
-      },
-    },
-  },
-];
-
-describe('getMyPost', () => {
-  it('should render', async () => {
     render(
-      <MockedProvider mocks={myPostMock}>
+      <MockedProvider>
         <PostCard />
       </MockedProvider>
     );
 
-    // await waitFor(() => expect(getByTestId('post-card')));
-    // expect(screen.getByTestId('post-card'));
-
-    // const moreBtn = getByTestId('more-btn');
-    // fireEvent.keyDown(moreBtn, { key: 'Enter' });
-    // const deleteBtn = getByTestId('delete-btn');
-    // fireEvent.click(deleteBtn);
-    // await waitFor(() => expect(getByTestId('post-card')));
-  });
-  it('should render images', async () => {
-    render(
-      <MockedProvider mocks={myPostInmagesMock}>
-        <PostCard />
-      </MockedProvider>
-    );
-
-    // await waitFor(() => expect(getByTestId('post-card')));
-    // await waitFor(() => expect(getByTestId('moreImgBtnSection')));
-
-    // const moreBtn = getByTestId('more-btn');
-    // fireEvent.keyDown(moreBtn, { key: 'Enter' });
-    // const deleteBtn = getByTestId('delete-btn');
-    // fireEvent.click(deleteBtn);
+    expect(screen.getByTestId('loader'))
   });
 
-  it('should render no img', async () => {
+  it('renders the posts when data is available', () => {
+    const mockData = {
+      getMyFollowingsPosts: [
+        {
+          _id: '1',
+          user: {
+            userName: 'testuser',
+            profileImg: '/images/profileImg.webp',
+          },
+          createdAt: new Date().toISOString(),
+          description: 'This is a test post.',
+          images: [],
+        },
+      ],
+    };
+
+    (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
+
     render(
-      <MockedProvider mocks={myPostMockNoImg}>
+      <MockedProvider>
         <PostCard />
       </MockedProvider>
     );
-    // await waitFor(() => expect(getByTestId('post-card')));
-    // const moreBtn = getByTestId('more-btn');
-    // fireEvent.keyDown(moreBtn, { key: 'Enter' });
-    // const deleteBtn = getByTestId('delete-btn');
-    // fireEvent.click(deleteBtn);
-  });
-  it('should render no data', async () => {
+
+    expect(screen.getByTestId('post-card'))
+    expect(screen.getByText('testuser'))
+    expect(screen.getByText('This is a test post.'))
+  })
+  it('renders the "More" button for each post', () => {
+    const mockData = {
+      getMyFollowingsPosts: [
+        {
+          _id: '1',
+          user: {
+            userName: 'testuser',
+            profileImg: '/images/profileImg.webp',
+          },
+          createdAt: new Date().toISOString(),
+          description: 'This is a test post.',
+          images: [],
+        },
+      ],
+    };
+
+    (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: false, data: mockData });
+
     render(
-      <MockedProvider mocks={myPostMockNull}>
+      <MockedProvider>
         <PostCard />
       </MockedProvider>
     );
-    // await waitFor(() => expect(getByTestId('post-card')));
+
+    expect(screen.getByTestId('more-btn'))
   });
 });
