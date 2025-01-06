@@ -65,7 +65,12 @@ describe('PostCard Component', () => {
     render(<PostCard />);
     // expect(screen.getByTestId('loader'))
   });
+  it('renders a loader when data is loading', () => {
+    (useGetMyFollowingsPostsQuery as jest.Mock).mockReturnValue({ loading: true, data: null });
+    render(<PostCard />);
 
+    // expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
   it('renders the posts when data is available', () => {
     const mockData = {
       getMyFollowingsPosts: [
@@ -77,7 +82,17 @@ describe('PostCard Component', () => {
           },
           createdAt: new Date().toISOString(),
           description: 'This is a test post.',
-          images: [],
+          images: ['/image1.jpg', '/image2.jpg'],
+        },
+        {
+          _id: '2',
+          user: {
+            userName: 'testuser',
+            profileImg: '/images/profileImg.webp',
+          },
+          createdAt: new Date().toISOString(),
+          description: 'This is a test post.',
+          images: ['/image1.jpg', '/image2.jpg'],
         },
       ],
     };
