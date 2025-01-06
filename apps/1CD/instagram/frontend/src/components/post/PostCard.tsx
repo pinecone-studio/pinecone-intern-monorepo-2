@@ -62,7 +62,7 @@ export const PostCard = () => {
 
             <Carousel className="relative w-full ">
               <CarouselContent>
-                {post.images.map((img, i) => {
+                {post?.images?.map((img, i) => {
                   return (
                     <CarouselItem key={i} className="relative w-full h-[585px]">
                       <Image fill={true} src={img} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
