@@ -8,13 +8,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TicketType, useGetEventsQuery } from '@/generated';
+import { TicketType, useDeleteEventMutation, useGetEventsQuery } from '@/generated';
 import dayjs from 'dayjs';
 import { headers } from './AdminDashboardType';
-import { Star } from 'lucide-react';
+import { Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { AdminPagination } from '@/components/AdminDashboardPagination';
 import { UpdateEventPriority } from './UpdateEventPriority';
+import { toast } from 'sonner';
 
 type AdminDashboardComponent = {
   searchValue: string;
@@ -65,6 +66,23 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
   });
   const totalPages = sortedEvents && sortedEvents.length > 0 ? Math.ceil(sortedEvents.length / itemsPerPage) : 0;
   const currentPageData = sortedEvents?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
+    onCompleted: () => {
+      toast.success('Successfully archived the event');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleSubmit = async (id) => {
+    await deleteEvent({
+      variables: {
+        _id: id,
+      },
+    });
+  };
 
   return (
     <div className="flex flex-col gap-6 mt-9">
@@ -153,7 +171,13 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                       <div className="flex items-center justify-center gap-2">
                         <UpdateEventPriority eventId={item!._id} index={index} />
                         <p>edit</p>
-                        <p>delete</p>
+                        {loadingDelete ? (
+                          'loading '
+                        ) : (
+                          <p onClick={() => handleSubmit(item?._id)}>
+                            <Trash className="h-4 w-4" />
+                          </p>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>

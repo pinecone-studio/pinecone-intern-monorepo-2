@@ -84,3 +84,9 @@ mutation UpdateEventPriority($id: ID!, $input: EventPriorityUpdateInput!) {
     _id
   }
 }
+
+mutation DeleteEvent($id: ID!) {
+  deleteEvent(_id: $id) {
+    message
+  }
+}
