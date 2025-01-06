@@ -14,6 +14,7 @@ export const typeDefs = gql`
     venue: Venue!
     priority: String!
     category: [ID!]!
+    isArchived: Boolean
   }
 
   type Product {
