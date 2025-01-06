@@ -4,8 +4,17 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MockedProvider } from '@apollo/client/testing';
 
-import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetMyFollowingsPostsQuery, useGetPostLikeQuery, useGetPostLikesQuery } from '@/generated';
+import {
+  useCreatePostLikeMutation,
+  useDeletePostLikeMutation,
+  useGetCommentsQuery,
+  useGetMyFollowingsPostsQuery,
+  useGetPostByPostIdQuery,
+  useGetPostLikeQuery,
+  useGetPostLikesQuery,
+} from '@/generated';
 import { PostCard } from '@/components/post/PostCard';
+import { useAuth } from '@/components/providers';
 
 // Mock the query
 jest.mock('@/generated', () => ({
@@ -14,12 +23,42 @@ jest.mock('@/generated', () => ({
   useDeletePostLikeMutation: jest.fn(),
   useGetPostLikeQuery: jest.fn(),
   useGetPostLikesQuery: jest.fn(),
+  useGetPostByPostIdQuery: jest.fn(),
+  useGetCommentsQuery: jest.fn(),
 }));
-
+jest.mock('@/components/providers', () => ({
+  useAuth: jest.fn(),
+}));
 describe('PostCard Component', () => {
+  const mockAuthData = {
+    user: { _id: '1', userName: 'Test User' },
+  };
+  const mockCommentData = {
+    getComments: [
+      {
+        _id: 'comment1',
+        postId: '123',
+        commentText: 'Wooow amjilt',
+        commentedUser: {
+          _id: 'user1',
+          userName: 'B190_$',
+          fullName: 'Bilgun',
+        },
+      },
+    ],
+  };
   const mockRefetch = jest.fn();
   const mockPostLikesRefetch = jest.fn();
-
+  const mockPostData = {
+    getPostByPostId: {
+      images: ['/image1.jpg', '/image2.jpg'],
+      user: {
+        profileImg: '/profile.jpg',
+        userName: 'testUser',
+      },
+      description: 'This is a test post',
+    },
+  };
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -68,6 +107,13 @@ describe('PostCard Component', () => {
     (useGetPostLikesQuery as jest.Mock).mockReturnValue({
       refetch: mockPostLikesRefetch,
     });
+    (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
+      data: mockPostData,
+    });
+    (useGetCommentsQuery as jest.Mock).mockReturnValue({
+      data: mockCommentData,
+    });
+    (useAuth as jest.Mock).mockReturnValue(mockAuthData);
     render(
       <MockedProvider>
         <PostCard />
