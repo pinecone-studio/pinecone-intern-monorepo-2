@@ -10,6 +10,7 @@ type Event = {
   products: Schema.Types.ObjectId[];
   image: string;
   discount: number;
+  isArchived: boolean;
   venue: Schema.Types.ObjectId;
   priority: string;
   category: Schema.Types.ObjectId[];
@@ -53,6 +54,11 @@ const eventSchema = new Schema<Event>(
     discount: {
       type: Number,
       default: 0,
+    },
+    isArchived: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
     products: [
       {
