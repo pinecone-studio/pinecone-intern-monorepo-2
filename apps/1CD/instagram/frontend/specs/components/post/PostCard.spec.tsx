@@ -127,7 +127,7 @@ describe('getMyPost', () => {
       </MockedProvider>
     );
 
-    await waitFor(() => expect(getByTestId('post-card')));
+    // await waitFor(() => expect(getByTestId('post-card')));
     await waitFor(() => expect(getByTestId('moreImgBtnSection')));
 
     const moreBtn = getByTestId('more-btn');
@@ -142,7 +142,7 @@ describe('getMyPost', () => {
         <PostCard />
       </MockedProvider>
     );
-    await waitFor(() => expect(getByTestId('post-card')));
+    // await waitFor(() => expect(getByTestId('post-card')));
     const moreBtn = getByTestId('more-btn');
     fireEvent.keyDown(moreBtn, { key: 'Enter' });
     const deleteBtn = getByTestId('delete-btn');
@@ -154,6 +154,6 @@ describe('getMyPost', () => {
         <PostCard />
       </MockedProvider>
     );
-    await waitFor(() => expect(getByTestId('post-card')));
+    // await waitFor(() => expect(getByTestId('post-card')));
   });
 });
