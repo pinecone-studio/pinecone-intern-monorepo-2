@@ -1,14 +1,33 @@
-import { QueryResolvers } from "src/generated";
-import { RequestModel } from "src/models";
+import { QueryResolvers } from 'src/generated';
+import { RequestModel } from 'src/models';
 
-export const getAllRequestLength: QueryResolvers['getAllRequestLength'] = async(_, {supervisorEmail,email}) => {
-    const query: any = {}
-    if(supervisorEmail){
-        query.supervisorEmail = supervisorEmail;
-    }
-    if(email){
-        query.email = email;
-    }
-    const res = (await RequestModel.find(query)).length
-    return {res}
-}
+export const getAllRequestLength: QueryResolvers['getAllRequestLength'] = async (_, { supervisorEmail = '', search = '', status = [], startDate, endDate }) => {
+  const query = filter(supervisorEmail, search, status, startDate, endDate);
+  if (supervisorEmail) {
+    query.supervisorEmail = supervisorEmail;
+  }
+  const res = await RequestModel.countDocuments(query);
+  return { res };
+};
+const filter = (supervisorEmail: string, search: string, status: string[], startDate: string, endDate: string) => {
+  const query: any = {};
+
+  if (status.length) {
+    query.result = { $in: status };
+  }
+
+  if (startDate) {
+    const parsedStartDate = new Date(startDate);
+    const parsedEndDate = new Date(endDate);
+
+    query.requestDate = {
+      $gte: parsedStartDate,
+      $lte: parsedEndDate,
+    };
+  }
+
+  if (search) {
+    query.email = { $regex: search, $options: 'i'};
+  }
+  return query;
+};
