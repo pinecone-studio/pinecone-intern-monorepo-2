@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useGetUserPostsQuery } from '@/generated';
-import { PostImgCard } from './PostImgCard';
+import { PostImgCard } from '../../app/(main)/_components/PostImgCard';
 
 const PostsSection = ({ id }: { id: string }) => {
   const { data: userPostData } = useGetUserPostsQuery({

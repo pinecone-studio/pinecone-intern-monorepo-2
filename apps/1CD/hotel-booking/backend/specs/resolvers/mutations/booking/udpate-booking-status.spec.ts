@@ -11,19 +11,19 @@ jest.mock('src/models', () => ({
 
 describe('update booking status', () => {
   it('1. it should succussfully work', async () => {
-    const result = await updateBookingStatus({}, { _id: '1' });
+    const result = await updateBookingStatus({}, { _id: '1', status: BookingStatus.Booked });
     expect(result).toBe(BookingStatus.Completed);
   });
   it('2. if id is empty', async () => {
     try {
-      await updateBookingStatus({}, { _id: '' });
+      await updateBookingStatus({}, { _id: '', status: BookingStatus.Completed });
     } catch (err) {
       expect((err as Error).message).toEqual('id is empty');
     }
   });
   it('3. if to update booking is not found', async () => {
     try {
-      await updateBookingStatus({}, { _id: '1' });
+      await updateBookingStatus({}, { _id: '1', status: BookingStatus.Cancelled });
     } catch (err) {
       expect((err as Error).message).toEqual('to update booking is not found');
     }

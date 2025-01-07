@@ -1,10 +1,10 @@
-query Query {
-  sampleQuery
-}
+# query Query {
+#   sampleQuery
+# }
 
-mutation Mutation {
-  sampleMutation
-}
+# mutation Mutation {
+#   sampleMutation
+# }
 query GetUser {
   getUser {
     _id

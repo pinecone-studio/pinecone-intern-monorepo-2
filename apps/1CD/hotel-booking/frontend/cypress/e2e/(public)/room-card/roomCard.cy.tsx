@@ -53,4 +53,11 @@ describe('HotelDetail', () => {
       }
     });
   });
+  it('6. should render', () => {
+    cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
+    cy.get('[data-cy="Hotel-images"]').click().should('exist', '[data-cy="Hotel-detail-image"]');
+    cy.scrollTo('bottom').should('exist', '[data-cy="Hotel-detail-image"]').should('exist');
+    cy.get('[data-cy="image-detail-dialog-close"]').click({ multiple: true }).should('not.exist');
+    cy.get('[data-cy="Hotel-Detail-Page"]').should('exist');
+  });
 });

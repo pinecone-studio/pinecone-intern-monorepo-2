@@ -23,7 +23,7 @@ export const ProfilePic = ({ email }: { email: string }) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={data.findUserByEmail.profile} alt="@shadcn" className="w-9 rounded-full" />
+          <AvatarImage src={data.findUserByEmail.profile} alt="@shadcn" className="w-11 h-11 rounded-full" />
           <AvatarFallback>Z</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
