@@ -3,26 +3,39 @@ import { getAllRequestLength } from 'src/resolvers/queries';
 
 jest.mock('../../../../src/models/request', () => ({
   RequestModel: {
-    countDocuments: jest.fn().mockResolvedValue(2),
+    countDocuments: jest.fn(),
   },
 }));
 
-describe('find length of requests', () => {
-  it('should get one request', async () => {
-    const task = await getAllRequestLength!({}, { status: ['sent'], search: 'example', startDate: new Date(), endDate: new Date(), supervisorEmail: 'asdf' }, {}, {} as GraphQLResolveInfo);
-    expect(task).toEqual({ res: 2 });
-  });
-  it('should get one request', async () => {
-    const task = await getAllRequestLength!({}, { search: 'example', startDate: new Date(), endDate: new Date(), supervisorEmail: 'asdf' }, {}, {} as GraphQLResolveInfo);
-    expect(task).toEqual({ res: 2 });
-  });
-  it('should get one request', async () => {
-    const task = await getAllRequestLength!({}, { startDate: new Date(), endDate: new Date(), supervisorEmail: 'asdf' }, {}, {} as GraphQLResolveInfo);
-    expect(task).toEqual({ res: 2 });
-  });
-  it('should get one request', async () => {
-    const task = await getAllRequestLength!({}, { }, {}, {} as GraphQLResolveInfo);
-    expect(task).toEqual({ res: 2 });
+const mockCountDocuments = jest.requireMock('../../../../src/models/request').RequestModel.countDocuments;
+
+describe('getAllRequestLength Resolver', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
+  it.each([
+    { params: { status: ['sent'], search: 'example', startDate: new Date(), endDate: new Date(), supervisorEmail: 'test@example.com' }, expected: { res: 2 } },
+    { params: { search: 'example', startDate: new Date(), endDate: new Date(), supervisorEmail: 'test@example.com' }, expected: { res: 2 } },
+    { params: { startDate: new Date(), endDate: new Date(), supervisorEmail: 'test@example.com' }, expected: { res: 2 } },
+    { params: {}, expected: { res: 2 } },
+  ])('should return correct request length for $params', async ({ params, expected }) => {
+    mockCountDocuments.mockResolvedValue(2);
+    const result = await getAllRequestLength!({}, params, {}, {} as GraphQLResolveInfo);
+    expect(result).toEqual(expected);
+    expect(mockCountDocuments).toHaveBeenCalled();
+  });
+
+  it('should return 0 when no documents match', async () => {
+    mockCountDocuments.mockResolvedValue(0);
+    const result = await getAllRequestLength!({}, {}, {}, {} as GraphQLResolveInfo);
+    expect(result).toEqual({ res: 0 });
+  });
+
+  it('should throw an error on database failure', async () => {
+    mockCountDocuments.mockRejectedValue(new Error('Database error'));
+    await expect(
+      getAllRequestLength!({}, {}, {}, {} as GraphQLResolveInfo)
+    ).rejects.toThrow('Database error');
+  });
 });
