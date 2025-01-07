@@ -1,144 +1,143 @@
+// Profile.tsx
 'use client';
 
 import { useState } from 'react';
-import { FaCalendarAlt } from 'react-icons/fa'; // Calendar icon
-import ProfileHeader from './_feature/ProfileHeader'; // Correct import path
-import TabNavigation from './_feature/TabNavigation'; // Correct import path
+import ProfileHeader from './_feature/ProfileHeader';
+import TabNavigation from './_feature/TabNavigation';
+
+import GenderSelect from './_feature/GenderSelect';
+import ImageUpload from '../register/all-set/page';
+import InterestsSelect from './_feature/InterstSelect';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'images'>('profile');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLucideMenuVisible, setIsLucideMenuVisible] = useState(false);
+  const [day, setDay] = useState<string>('');
+  const [month, setMonth] = useState<string>('');
+  const [year, setYear] = useState<string>('');
 
-  const interests = [
-    'Art', 'Music', 'Investment', 'Technology', 'Design',
-    'Education', 'Health', 'Fashion', 'Travel', 'Food'
-  ];
+  const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 2 && /^[0-9]*$/.test(value)) {
+      setDay(value);
+    }
+  };
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 2 && /^[0-9]*$/.test(value)) {
+      setMonth(value);
+    }
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 4 && /^[0-9]*$/.test(value)) {
+      setYear(value);
+    }
+  };
 
   const handleTabClick = (tab: 'profile' | 'images') => {
     setActiveTab(tab);
-    setIsMenuOpen(false); // Close the menu on mobile when tab is selected
+    setIsMenuOpen(false);
+    setIsLucideMenuVisible(true);
   };
 
   const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen); // Toggle the sidebar menu visibility
+    setIsMenuOpen(!isMenuOpen);
+    setIsLucideMenuVisible(!isLucideMenuVisible);
   };
 
+  const interests = ['Art', 'Music', 'Investment', 'Technology', 'Design', 'Education', 'Health', 'Fashion', 'Travel', 'Food'];
+
   return (
-    <div className="flex justify-center py-8 px-4">
-      <div className="max-w-7xl w-full">
-        {/* Profile Header */}
+    <div className={`min-h-screen flex flex-col ${activeTab === 'images' ? 'pt-0' : 'py-8'} px-4`}>
+      <div className="max-w-7xl w-full flex flex-col justify-between h-full mx-auto">
         <ProfileHeader onMenuToggle={handleMenuToggle} />
-
-        <div className="lg:flex gap-12">
-          {/* Sidebar with the active tabs */}
-          <TabNavigation 
-            activeTab={activeTab} 
-            onTabClick={handleTabClick} 
-            isMenuOpen={isMenuOpen} 
-          />
-
-          {/* Content Area */}
-          <div className="flex flex-col gap-8 w-full max-w-3xl ml-0 lg:ml-64">
+        <div className="lg:flex gap-12 flex-grow relative">
+          <TabNavigation activeTab={activeTab} onTabClick={handleTabClick} isMenuOpen={isMenuOpen} />
+          <div className="flex flex-col gap-8 w-full lg:max-w-3xl mx-auto ml-0 lg:ml-64 flex-grow" data-cy="Tab-Navigation">
             {activeTab === 'profile' ? (
-              <div>
+              <div className="flex-grow mb-16">
+                {/* Profile Section */}
                 <p className="text-lg font-medium text-zinc-950">Personal Information</p>
                 <p className="text-sm font-normal text-zinc-500">This is how others will see you on the site.</p>
                 <hr className="bg-zinc-200 mt-6" />
-
                 <div className="space-y-6">
+                  {/* Name and Email Inputs */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <p className="text-sm text-zinc-950">Name</p>
-                      <input
-                        placeholder="Elon"
-                        className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                      />
+                      <input placeholder="Elon" className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3" />
                     </div>
                     <div>
                       <p className="text-sm text-zinc-950">Email</p>
-                      <input
-                        placeholder="Musk"
-                        className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                      />
+                      <input placeholder="Musk" className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3" />
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm text-zinc-950">Date of birth</p>
-                    <div className="relative">
-                      <input
-                        placeholder="21 Aug 1990"
-                        className="w-[280px] rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3 pr-10" // pr-10 for padding to the right
-                      />
-                     <FaCalendarAlt
-  className="absolute right-[500px] top-1/2 transform -translate-y-1/2 text-zinc-500 cursor-pointer"
-  onClick={() => {
-    console.log("Календарь дээр дарсан");
-    // Эсвэл дата сонгох логикийг энд хийх
-  }}
-/>
+                  {/* Date of Birth */}
+                  <div className="flex flex-col gap-2 text-sm" data-cy="Input-date">
+    <p className="text-sm text-zinc-950">Date of birth</p>
 
-                    </div>
-                    <p className="text-xs text-zinc-500">Your date of birth is used to calculate your age.</p>
-                  </div>
+    <div className="flex gap-2" data-cy="input-field">
+      <input
+        type="number"
+        min="1"
+        max="31"
+        value={day}
+        onChange={handleDayChange}
+        placeholder="DD"
+        className="px-4 py-2 border rounded-lg w-20"
+        maxLength={2}
+        autoFocus
+        data-cy="day-input"
+      />
 
-                  {/* Gender Input (Without Dropdown) */}
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm text-zinc-950">Gender</p>
-                    <input
-                      placeholder="Enter gender (e.g., Male, Female, Custom)"
-                      className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                    />
-                  </div>
+      <input
+        type="number"
+        min="1"
+        max="12"
+        value={month}
+        onChange={handleMonthChange}
+        placeholder="MM"
+        className="px-4 py-2 border rounded-lg w-20"
+        maxLength={2}
+        data-cy="month-input"
+      />
 
-                  <div>
-                    <p className="text-sm text-zinc-950">Bio</p>
-                    <textarea
-                      placeholder="Adventurous spirit with a passion for travel, photography, and discovering new cultures while pursuing a career in graphic design."
-                      className="w-full h-20 rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                    ></textarea>
-                  </div>
+      <input
+        type="number"
+        min="1900"
+        value={year}
+        onChange={handleYearChange}
+        placeholder="YYYY"
+        className="px-4 py-2 border rounded-lg w-32"
+        maxLength={4}
+        data-cy="year-input"
+      />
+    </div>
 
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm text-zinc-950">Interest</p>
-                    <div className="border border-zinc-400 py-2 px-3 grid grid-cols-9 gap-1 rounded-md">
-                      {interests.map((interest, index) => (
-                        <div
-                          key={index}
-                          className="text-xs font-semibold text-slate-700 bg-zinc-100 text-center px-3 py-1 rounded-full"
-                        >
-                          {interest}
-                        </div>
-                      ))}
-                    </div>
-                    <p className="text-xs text-zinc-500">You can select up to a maximum of 10 interests.</p>
-                  </div>
+    <p className="text-xs text-zinc-500">Your date of birth is used to calculate your age.</p>
+  </div>
 
-                  <div>
-                    <p className="text-sm text-zinc-950">Profession</p>
-                    <input
-                      placeholder="Software Engineer"
-                      className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                    />
-                  </div>
 
-                  <div>
-                    <p className="text-sm text-zinc-950">School/Work</p>
-                    <input
-                      placeholder="Amazon"
-                      className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
-                    />
-                  </div>
 
-                  <div className="w-32 h-9 bg-rose-600 hover:bg-zinc-800 py-2 px-3 rounded-md text-white text-center cursor-pointer">
+                  {/* Gender Select */}
+                  <GenderSelect />
+
+                  {/* Interests */}
+                  <InterestsSelect interests={interests} />
+
+                  {/* Update Profile Button */}
+                  <div className="w-full sm:w-32 h-9 bg-rose-600 hover:bg-zinc-800 py-2 px-3 rounded-md text-white text-center cursor-pointer" data-cy="Update-Button">
                     Update profile
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="w-full h-full bg-red-200 flex justify-center items-center text-xl text-zinc-950">
-                <p>No images available!</p>
-              </div>
+              <ImageUpload data-cy="Image-page" />
             )}
           </div>
         </div>
