@@ -10,8 +10,9 @@ import { CommentCard } from '../comment/CommentCard';
 import { PostLikes } from '../like/PostLikes';
 import { CommentCount } from '@/components/comment/CommentCount';
 import { PostLike } from '@/components/like/PostLike';
-import { useAuth } from '../providers';
+
 import { PostImg } from '../visit-profile/PostImgCarousel';
+import Link from 'next/link';
 
 export const PostWithComments = ({ id }: { id: string }) => {
   const { data: PostData } = useGetPostByPostIdQuery({
@@ -19,9 +20,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
       postId: id,
     },
   });
-  const { user } = useAuth();
-  const isUser = PostData?.getPostByPostId?.user._id === user?._id;
-  console.log(isUser);
+
   return (
     <Dialog data-testid="postWithComments1">
       <DialogTrigger data-testid="open-comment-btn" asChild>
@@ -37,12 +36,12 @@ export const PostWithComments = ({ id }: { id: string }) => {
           <div className="flex flex-col justify-between w-full h-full px-3 py-4 bg-white">
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">
-                <div className="flex items-center gap-4">
+                <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user._id}`} className="flex items-center gap-4">
                   <div className="relative flex w-8 h-8 rounded-full">
                     <Image sizes="h-auto w-auto" fill={true} src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                   </div>
                   <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user.userName}</h1>
-                </div>
+                </Link>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="w-4 h-4 p-0 ">
@@ -57,7 +56,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
                 </DropdownMenu>
               </div>
 
-              <div className="flex items-center w-full gap-4 py-1">
+              <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user._id}`} className="flex items-center w-full gap-4 py-1">
                 <div className="">
                   <div className="relative w-8 h-8 rounded-full">
                     <Image sizes="h-auto w-auto" src={PostData?.getPostByPostId?.user.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" />
@@ -70,7 +69,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
                   </h1>
                   <p className="text-[12px] text-[#71717A]">1w</p>
                 </div>
-              </div>
+              </Link>
 
               <CommentCard id={id} />
             </div>

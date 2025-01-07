@@ -50,7 +50,7 @@ const UserProfile = () => {
       );
     else return <NoPost data-cy="zeroPost" />;
   };
-  console.log('useriig harah', user);
+  // console.log('useriig harah', user);
   return (
     <div className="mx-auto my-10" data-cy="user-profile-page">
       <div className="w-[900px]">
