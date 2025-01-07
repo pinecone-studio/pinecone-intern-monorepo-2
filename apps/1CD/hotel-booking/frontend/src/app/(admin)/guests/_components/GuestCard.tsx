@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ReturnBooking } from '@/generated';
 import { format } from 'date-fns';
 import BookingStatusBadge from '@/components/BookingStatusBadge';

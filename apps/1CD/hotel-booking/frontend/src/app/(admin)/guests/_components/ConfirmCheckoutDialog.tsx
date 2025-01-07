@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-import { useGetBookingLazyQuery, useUpdateBookingStatusMutation } from '@/generated';
+import { BookingStatus, useGetBookingLazyQuery, useUpdateBookingStatusMutation } from '@/generated';
 
 const ConfirmCheckoutDialog = ({ open, id, setOpen }: { open: boolean; id: string; setOpen: (_value: boolean) => void }) => {
   const [updateStatus] = useUpdateBookingStatusMutation();
@@ -16,6 +16,7 @@ const ConfirmCheckoutDialog = ({ open, id, setOpen }: { open: boolean; id: strin
     await updateStatus({
       variables: {
         id: id,
+        status: BookingStatus.Completed,
       },
     });
     await getBooking();

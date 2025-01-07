@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 
 import StatusSelect from './_components/Select';
 import React, { useEffect, useState } from 'react';
-import { ReturnBooking, useGetBookingsLazyQuery } from '@/generated';
+import { useGetBookingsLazyQuery } from '@/generated';
 import DataTable from './_components/DataTable';
 import BreadCrumb from './_components/BreadCrumb';
 import { Table, TableHeader, TableHead, TableRow } from '@/components/ui/table';
