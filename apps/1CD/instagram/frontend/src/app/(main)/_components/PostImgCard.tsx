@@ -13,6 +13,7 @@ import { DropMenu } from './DropMenu';
 import { UpdatePost } from './UpdatePost';
 import { DeleteModal } from '../../../components/post/DeleteModal';
 import { PostImg } from '../../../components/visit-profile/PostImgCarousel';
+import Link from 'next/link';
 
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
@@ -46,12 +47,12 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
             <div className="flex flex-col justify-between w-full px-3 py-4 bg-white" data-testid="postSection">
               <div className="flex flex-col w-full">
                 <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">
-                  <div className="flex items-center gap-4">
+                  <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user?._id}`} className="flex items-center gap-4">
                     <div className="relative flex w-8 h-8 rounded-full">
                       <Image sizes="h-auto w-auto" fill={true} src={PostData?.getPostByPostId?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                     </div>
                     <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user?.userName}</h1>
-                  </div>
+                  </Link>
                   <div className="" data-testid="postSection1">
                     <DropMenu setClose={setClose} isUser={isUser} setOpenUpdateModal={setOpenUpdateModal} setOpenDeleteModal={setOpenDeleteModal} />
                   </div>
