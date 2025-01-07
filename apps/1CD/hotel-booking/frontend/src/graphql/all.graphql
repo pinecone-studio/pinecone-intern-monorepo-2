@@ -305,6 +305,23 @@ query GetFilterByPropertiesHotels($input: RoomFilterType) {
   }
 }
 
+mutation UpdateHotelImages($images: [String!]!, $id: String!) {
+  updateHotelImages(images: $images, _id: $id) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+
+    hotelAmenities
+    location
+    roomsAveragePrice
+  }
+}
+
 query GetRoom($id: ID!) {
   getRoom(_id: $id) {
     id
