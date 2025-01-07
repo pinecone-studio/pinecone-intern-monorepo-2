@@ -3,14 +3,25 @@ import { Card, CardHeader } from '@/components/ui/card';
 import { CardContent } from '@mui/material';
 
 import React from 'react';
+import RoomServiceDialog from './RoomServiceDialog';
+type DialogType = {
+  open: boolean;
+  setOpen: (_: boolean) => void;
+};
 
-const RoomServiceCard = () => {
+const RoomServiceCard = ({ open, setOpen }: DialogType) => {
   return (
-    <Card className="w-[780px] h-[500px]">
+    <Card className="w-[780px] h-[500px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
         <h3 className="font-semibold">Room Services</h3>
-        <p className="text-blue-600">Edit</p>
+        <button className="text-blue-600" onClick={() => setOpen(true)} data-cy="Room-Service-Dialog-Button">
+          Edit
+        </button>
       </CardHeader>
+      <div data-cy={`Room-Services-Dialog`}>
+        <RoomServiceDialog open={open} setOpen={setOpen} />
+      </div>
+
       <CardContent className="flex flex-row justify-between">
         <section className="flex flex-col flex-1 gap-8">
           <div>

@@ -1,14 +1,26 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Zap } from 'lucide-react';
 import React from 'react';
+import { Button } from '@/components/ui/button';
+import GeneralInfoDialog from './GeneralinfoDialog';
 
-const GeneralInfoCard = () => {
+export type DialogOpenType = {
+  openGen: boolean;
+  setOpenGen: (_: boolean) => void;
+};
+
+const GeneralInfoCard = ({ openGen, setOpenGen }: DialogOpenType) => {
   return (
-    <Card className="w-[780px] h-[350px]">
+    <Card className="w-[780px] h-[350px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
         <h3 className="font-semibold">General Info</h3>
-        <p className="text-blue-600">Edit</p>
+        <Button variant="link" className="text-blue-600" data-cy="General-Info-Dialog-Button" onClick={() => setOpenGen(true)}>
+          Edit
+        </Button>
       </CardHeader>
+      <div data-cy={`General-Info-Fields-Dialog`}>
+        <GeneralInfoDialog openGen={openGen} setOpenGen={setOpenGen} />
+      </div>
       <CardContent>
         <div className="flex flex-row flex-1 gap-32 pt-5">
           <ul>
