@@ -25,7 +25,6 @@ export const PostCard = () => {
       </div>
     );
   }
-
   return (
     <div className="w-full md:px-[40px] px-5" data-testid="post-card">
       {data?.getMyFollowingsPosts.map((post) => {
