@@ -2,7 +2,8 @@
 
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { PostImg } from '@/components/post/PostImg';
+import { PostImg } from '@/components/visit-profile/PostImgCarousel';
+
 // Adjust the path if necessary
 
 // Mock next/image

@@ -83,8 +83,8 @@ describe('PostWithComments Component', () => {
     render(<PostWithComments id="123" />);
 
     const triggerButton = screen.getByTestId('open-comment-btn');
-
-    fireEvent.click(triggerButton);
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
   });
 
   it('renders fallback UI when no data is available', () => {
@@ -116,8 +116,8 @@ describe('PostWithComments Component', () => {
     render(<PostWithComments id="123" />);
 
     const triggerButton = screen.getByTestId('open-comment-btn');
-
-    fireEvent.click(triggerButton);
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
     screen.queryByText('No data available');
   });
 

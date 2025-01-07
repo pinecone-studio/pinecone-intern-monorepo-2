@@ -8,7 +8,7 @@ import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
 import FollowerDialog from '@/components/user-profile/FollowerDialog';
 import FollowingDialog from '@/components/user-profile/FollowingDialog';
-import { PostImgCard } from '@/components/visit-profile/PostImgCard';
+import { PostImgCard } from '@/app/(main)/_components/PostImgCard';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
