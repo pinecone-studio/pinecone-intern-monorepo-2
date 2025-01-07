@@ -1,6 +1,6 @@
 describe('TableStatic Component', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
+    const token = Cypress.env().env['ANNUAL_TOKEN_ADMIN'] as string
     cy.setCookie(
       'authtoken',
       token

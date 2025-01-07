@@ -6,6 +6,7 @@ import { Calendar, Tag } from 'lucide-react';
 import { addDays, format } from 'date-fns';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { Loader } from '@/context/SecurePageWrapper';
 
 interface requestProps {
   _id: string;
@@ -97,7 +98,7 @@ const Status = ({ result }: { result?: string | null }) => {
   };
   const text = textPicker();
   const color = colorPicker();
-  return <div className={`rounded-full px-[10px] py-[2px] text-[12px] text-[#18181B] bg-[${color}]`}>{text}</div>;
+  return <div className={`rounded-full px-[10px] py-[2px] text-[12px] text-[#18181B]`} style={{background: color}}>{text}</div>;
 };
 
 const SentRequest = ({ email }: { email: string }) => {
@@ -109,7 +110,7 @@ const SentRequest = ({ email }: { email: string }) => {
   const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });
 
   if (loading) {
-    return null;
+    return <Loader/>;
   }
   const refresh = async () => {
     await refetch({ email, ...dateRange.current });

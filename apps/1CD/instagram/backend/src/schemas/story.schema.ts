@@ -2,12 +2,28 @@
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
-  type StoryInfo {
+  type OneStory {
+    _id: ID!
+    image: String
+    description: String
+    createdAt: Date
+    endDate: String
+  }
+
+  type UserStory {
+    story: OneStory!
+  }
+
+  type Story {
     _id: ID!
     userId: ID!
-    description: String
-    image: String
-    createdAt: Date
+    userStories: [UserStory!]
+  }
+
+  type StoryInfo {
+    _id: ID!
+    userId: User!
+    userStories: [UserStory!]
   }
 
   input StoryInput {
@@ -16,7 +32,27 @@ export const typeDefs = gql`
     image: String
   }
 
+  type Query {
+    getMyActiveStories: StoryInfo!
+  }
+
+  type Query {
+    getMyStory(_id: ID!): [StoryInfo!]
+  }
+
+  type Query {
+    getFollowingStories: [StoryInfo!]
+  }
+
+  type Query {
+    getMyStories: StoryInfo!
+  }
+
+  type Query {
+    getPublicAccStories(userId: ID!): [StoryInfo!]
+  }
+
   type Mutation {
-    createStory(input: StoryInput!): StoryInfo!
+    createStory(input: StoryInput!): Story!
   }
 `;

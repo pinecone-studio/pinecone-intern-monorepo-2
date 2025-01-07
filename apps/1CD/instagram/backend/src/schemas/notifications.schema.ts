@@ -20,9 +20,10 @@ export const typeDefs = gql`
 
   type Notifications {
     _id: ID!
-    otherUserId: String!
-    currentUserId: String!
+    otherUserId: User!
+    currentUserId: ID!
     notificationType: NotificationType!
+    isViewed: Boolean!
     postId: Posts
     createdAt: Date!
   }

@@ -17,6 +17,6 @@ describe('OrderInfo Page with API Data', () => {
     cy.get('[data-cy="order-info-title"]').should('contain', 'Захиалгын мэдээлэл');
     cy.get('[data-cy="order-id-676e4e8a57bd55115f8bafce"]').first().should('exist');
     cy.get('[data-cy="cancel-button-67720a5842a9de4bf2a056ca"]').click();
-    cy.get('button:has(svg.lucide-x)').click();
+    cy.get('button:has(svg.lucide-x)').first().click();
   });
 });

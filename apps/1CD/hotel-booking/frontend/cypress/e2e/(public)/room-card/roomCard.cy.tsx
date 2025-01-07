@@ -30,7 +30,34 @@ describe('HotelDetail', () => {
     cy.get('[data-cy="Price-Detail-Dialog-Close"]').last().click().should('not.exist');
   });
   it('5. should render', () => {
-    cy.get('[data-cy="Reserve-button"]').first().click();
-    cy.visit('/checkout/674851d9066230f0d7f74866').should('exist');
+    // cy.contains('Reserve').first().click();
+    cy.get('[data-cy=Trigger-Test]').click();
+    cy.get('[data-cy=Date-Picker-Calendar]').should('be.visible').as('calendar');
+    cy.get('@calendar').contains('7').click();
+    cy.get('@calendar').contains('10').click();
+    cy.scrollTo(0, 1000);
+    cy.get('[data-cy=Reserve-Button]').first().click();
+    cy.visit('/hotel-detail/674bfbd6a111c70660b55541');
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'HotelDetail') {
+        req.reply({
+          data: {
+            hotelDetail: [
+              {
+                price: undefined,
+                images: ['/https'],
+              },
+            ],
+          },
+        });
+      }
+    });
+  });
+  it('6. should render', () => {
+    cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
+    cy.get('[data-cy="Hotel-images"]').click().should('exist', '[data-cy="Hotel-detail-image"]');
+    cy.scrollTo('bottom').should('exist', '[data-cy="Hotel-detail-image"]').should('exist');
+    cy.get('[data-cy="image-detail-dialog-close"]').click({ multiple: true }).should('not.exist');
+    cy.get('[data-cy="Hotel-Detail-Page"]').should('exist');
   });
 });

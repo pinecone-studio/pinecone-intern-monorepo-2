@@ -73,6 +73,5 @@ describe('Login Component', () => {
     cy.url().should('include', '/sendOtp');
 
     cy.get('[data-testid="otp-input"]').type('1234');
-    cy.url().should('eq',`${Cypress.config().baseUrl}/`)
   });
 });

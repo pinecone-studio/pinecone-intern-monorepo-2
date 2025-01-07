@@ -31,7 +31,7 @@ export const CreateStory = ({
             <div className="grid gap-4 py-4">
               <label className="flex flex-col items-center gap-4 cursor-pointer" htmlFor="file-upload" data-testid="openInputBtn">
                 <div className="relative w-[96px] h-[77px]">
-                  <Image src="/images/Frame.png" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
+                  <Image src="/images/Frame.png" sizes="h-auto w-auto" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
                 </div>
                 <p className="text-[20px]">Drag photos and videos here</p>
               </label>
@@ -54,7 +54,7 @@ export const CreateStory = ({
           <DropdownMenuSeparator />
           <div className="sm:h-[620px] flex flex-col justify-center">
             <div className="relative w-[580px] h-[580px]">
-              <Image src={storyImg} alt="ImportPhoto" fill={true} className="w-auto h-auto" />
+              <Image src={storyImg} sizes="h-auto w-auto" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
             </div>
           </div>
           <DialogFooter>

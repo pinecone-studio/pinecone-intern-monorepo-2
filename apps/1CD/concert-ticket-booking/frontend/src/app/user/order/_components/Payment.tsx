@@ -1,19 +1,96 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Order } from '@/utils/type';
-import React, { useState } from 'react';
+import { useAddToCartsMutation, usePaymentCheckMutation } from '@/generated';
+import { Order, UserInfo } from '@/utils/type';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import QRCode from 'qrcode';
 
 type PaymentProp = {
   order: Order[] | null;
-  createOrder: () => Promise<void>;
+  buyer: UserInfo;
 };
 
-const Payment = ({ order, createOrder }: PaymentProp) => {
+const Payment = ({ order, buyer }: PaymentProp) => {
+  const { id } = useParams();
+  const searchParams = useSearchParams();
+  const eventId = searchParams.get('event');
   const [mode, setMode] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
+  const router = useRouter();
+
+  const [addToCart] = useAddToCartsMutation({
+    onCompleted: (data) => {
+      setMode(false);
+      triggerFunction({ orderId: data.addToCarts._id });
+      setPaymentId(data.addToCarts._id);
+    },
+    onError: (error: any) => {
+      setMode(false);
+      toast.error(error.message);
+    },
+  });
+
+  const createOrder = async () => {
+    const ticketType = order?.map((item) => ({
+      _id: item._id,
+      buyQuantity: item.buyQuantity.toString(),
+    }));
+    await addToCart({
+      variables: {
+        input: {
+          email: buyer!.email,
+          phoneNumber: buyer!.phoneNumber,
+          eventId: eventId!,
+          ticketId: id as string,
+          ticketType: ticketType!,
+        },
+      },
+    });
+  };
+  const triggerFunction = async ({ orderId }: { orderId: string }) => {
+    const queryUrl = `${process.env.LOCAL_FRONTEND_URI}/user/payment/${orderId}`;
+    const qrCodeData = await QRCode.toDataURL(queryUrl);
+    setQrCodeUrl(qrCodeData);
+  };
+  const [paymentCheck] = usePaymentCheckMutation({
+    onCompleted: (data) => {
+      if (data.paymentCheck.message === 'paid') {
+        toast.success('Successfully bought ticket, check your email');
+        router.push('/user/home');
+      }
+    },
+  });
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    let timeoutId: NodeJS.Timeout;
+
+    if (paymentId) {
+      intervalId = setInterval(async () => {
+        await paymentCheck({
+          variables: {
+            orderId: paymentId,
+          },
+        });
+      }, 5000); //5s
+
+      timeoutId = setTimeout(() => {
+        clearInterval(intervalId);
+        toast.info('Payment check has been stopped due to time limit.');
+        router.push('/user/home');
+      }, 120000); //2minute
+    }
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
+  }, [paymentId, paymentCheck]);
 
   const totalPrice = order?.reduce((total, item) => total + item.price * item.buyQuantity, 0);
-
   return (
     <div className="flex flex-col items-center gap-4 p-4 bg-[#1C1C1C] rounded-lg max-w-xs mx-auto">
       <p className="flex justify-between text-xl text-white">
@@ -36,9 +113,16 @@ const Payment = ({ order, createOrder }: PaymentProp) => {
           Төлбөр төлөх
         </Button>
       )}
+      {qrCodeUrl && (
+        <div className="flex flex-col items-center text-center">
+          <p data-cy="payment-qr-title" className="text-white text-2xl mb-4">
+            Scan this QR code for payment:
+          </p>
+          <img src={qrCodeUrl} alt="QR Code" style={{ width: '200px', height: '200px' }} />
+        </div>
+      )}
     </div>
   );
 };
 
 export default Payment;
-

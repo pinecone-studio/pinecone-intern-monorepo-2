@@ -1,12 +1,16 @@
 'use client';
 
-import { DatePickerWithRange } from '../DatePicker';
+import { DatePickerWithRange } from '../../app/DatePicker';
 import { Button } from '@/components/ui/button';
 
 import { useRouter } from 'next/navigation';
 import { ComboboxDemo } from '@/app/(user)/(public)/header-filter/TravelerSelection';
+import { useQueryState } from 'nuqs';
 
 const HeaderFilter = () => {
+  const [dateFrom] = useQueryState('dateFrom');
+  const [dateTo] = useQueryState('dateTo');
+  const [roomType] = useQueryState('roomType');
   const router = useRouter();
 
   return (
@@ -22,7 +26,11 @@ const HeaderFilter = () => {
         <p className="text-sm">Guest</p>
         <ComboboxDemo />
       </div>
-      <Button onClick={() => router.push('/search-result')} className="mt-4 bg-blue-700 md:w-48 md:mt-7" data-testid="search-hotel-room-btn">
+      <Button
+        onClick={() => router.push(`/search-result?dateFrom=${dateFrom ? dateFrom : ''}&dateTo=${dateTo ? dateTo : ''}&roomType=${roomType ? roomType : ''}`)}
+        className="mt-4 bg-blue-700 md:w-48 md:mt-7 hover:bg-blue-500"
+        data-testid="search-hotel-room-btn"
+      >
         Search
       </Button>
     </section>
