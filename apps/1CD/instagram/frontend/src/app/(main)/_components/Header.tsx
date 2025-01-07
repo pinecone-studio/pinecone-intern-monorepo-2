@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable complexity */
 'use client';
 
 import React, { useState } from 'react';
@@ -150,6 +152,11 @@ export const Header = () => {
       {showSearchComponent && (
         <div className="" data-testid="search-users-component">
           <SearchFromAllUsers />
+        </div>
+      )}
+      {showNotification && (
+        <div className="">
+          <Notification />
         </div>
       )}
     </>

@@ -2,5 +2,14 @@ mutation CreateStory($input: StoryInput!) {
   createStory(input: $input) {
     _id
     userId
+    userStories {
+      story {
+        _id
+        image
+        description
+        createdAt
+        endDate
+      }
+    }
   }
 }

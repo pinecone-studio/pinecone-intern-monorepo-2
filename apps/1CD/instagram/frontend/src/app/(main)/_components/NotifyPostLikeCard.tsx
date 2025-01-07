@@ -4,7 +4,7 @@ import { formatDistanceToNowStrict } from 'date-fns';
 const NotifyPostLikeCard = ({ userName, profileImg, createdDate }: { userName: string; profileImg: string; createdDate: Date }) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
   return (
-    <div className="flex items-center justify-between gap-4 px-3 py-2">
+    <div className="flex items-center justify-between gap-4 px-3 py-2" data-testid="notify-postlike-card">
       <div className="flex items-center gap-3">
         <section className="relative flex rounded-full w-[44px] h-[44px]">
           <Image fill={true} src={profileImg} alt="profile-image" className="absolute object-cover h-full rounded-full" data-testid="notify-postlike-proImg" />

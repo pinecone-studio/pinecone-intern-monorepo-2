@@ -6,7 +6,7 @@ import { useGetNotificationsByLoggedUserQuery } from '@/generated';
 
 const Notification = () => {
   const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
-  if (loading) return 'loading';
+  if (loading) return <p data-testid="notificationLoading">loading...</p>;
   return (
     <div className="px-4 py-8 border w-[470px] h-full" data-testid="notification-component">
       <h3 className="text-[#262626] text-2xl font-[550] leading-8 tracking-wide mb-5">Notifications</h3>
