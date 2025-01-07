@@ -6,21 +6,17 @@ jest.mock('../../../../src/models/story.model.ts');
 
 describe('createStory', () => {
   const mockInput = {
-    userId: 'user-id',
-    description: 'Sample description',
+    user: 'user-id',
     image: 'image-url',
   };
 
   const mockNewStory = {
     _id: 'new-story-id',
-    userId: 'user-id',
-    userStories: [
+    user: 'user-id',
+    stories: [
       {
-        story: {
-          _id: 'story-object-id',
-          description: 'Sample description',
-          image: 'image-url',
-        },
+        _id: 'story-object-id',
+        image: 'image-url',
       },
     ],
     save: jest.fn(),
@@ -30,22 +26,19 @@ describe('createStory', () => {
     jest.clearAllMocks();
   });
 
-  it('should create a new story if userId has no existing story', async () => {
+  it('should create a new story if user has no existing stories', async () => {
     (storyModel.findOne as jest.Mock).mockResolvedValue(null);
     (storyModel.create as jest.Mock).mockResolvedValue(mockNewStory);
 
     const result = await createStory!({}, { input: mockInput }, { userId: 'user-id' }, {} as GraphQLResolveInfo);
 
-    expect(storyModel.findOne).toHaveBeenCalledWith({ userId: mockInput.userId });
+    expect(storyModel.findOne).toHaveBeenCalledWith({ user: mockInput.user });
     expect(storyModel.create).toHaveBeenCalledWith({
-      userId: mockInput.userId,
-      userStories: [
+      user: mockInput.user,
+      stories: [
         {
-          story: {
-            _id: expect.anything(),
-            description: mockInput.description,
-            image: mockInput.image,
-          },
+          _id: expect.anything(),
+          image: mockInput.image,
         },
       ],
     });
@@ -55,14 +48,11 @@ describe('createStory', () => {
   it('should add a new story to existing user stories', async () => {
     const existingStory = {
       _id: 'existing-story-id',
-      userId: 'user-id',
-      userStories: [
+      user: 'user-id',
+      stories: [
         {
-          story: {
-            _id: 'existing-story-object-id',
-            description: 'Existing description',
-            image: 'existing-image-url',
-          },
+          _id: 'existing-story-object-id',
+          image: 'existing-image-url',
         },
       ],
       save: jest.fn().mockResolvedValue(mockNewStory),
@@ -72,13 +62,10 @@ describe('createStory', () => {
 
     const result = await createStory!({}, { input: mockInput }, { userId: 'user-id' }, {} as GraphQLResolveInfo);
 
-    expect(storyModel.findOne).toHaveBeenCalledWith({ userId: mockInput.userId });
-    expect(existingStory.userStories).toContainEqual({
-      story: {
-        _id: expect.anything(),
-        description: mockInput.description,
-        image: mockInput.image,
-      },
+    expect(storyModel.findOne).toHaveBeenCalledWith({ user: mockInput.user });
+    expect(existingStory.stories).toContainEqual({
+      _id: expect.anything(),
+      image: mockInput.image,
     });
     expect(existingStory.save).toHaveBeenCalled();
     expect(result).toEqual(mockNewStory);
@@ -91,14 +78,11 @@ describe('createStory', () => {
   it('should throw an error if save fails', async () => {
     const existingStory = {
       _id: 'existing-story-id',
-      userId: 'user-id',
-      userStories: [
+      user: 'user-id',
+      stories: [
         {
-          story: {
-            _id: 'existing-story-object-id',
-            description: 'Existing description',
-            image: 'existing-image-url',
-          },
+          _id: 'existing-story-object-id',
+          image: 'existing-image-url',
         },
       ],
       save: jest.fn().mockRejectedValue(new Error('Save failed')),
@@ -108,7 +92,7 @@ describe('createStory', () => {
 
     await expect(createStory!({}, { input: mockInput }, { userId: 'user-id' }, {} as GraphQLResolveInfo)).rejects.toThrow('Save failed');
 
-    expect(storyModel.findOne).toHaveBeenCalledWith({ userId: mockInput.userId });
+    expect(storyModel.findOne).toHaveBeenCalledWith({ user: mockInput.user });
     expect(existingStory.save).toHaveBeenCalled();
   });
 });
