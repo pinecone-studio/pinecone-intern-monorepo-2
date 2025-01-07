@@ -4,18 +4,21 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Bookmark, MessageCircle } from 'lucide-react';
-import { CommentCard } from './comment/CommentCard';
-import { PostLikes } from '../../../components/like/PostLikes';
+
 import { PostLike } from '@/components/like/PostLike';
-import { useAuth } from '../../../components/providers';
+
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { DropMenu } from './DropMenu';
 import { UpdatePost } from './UpdatePost';
-import { DeleteModal } from '../../../components/post/DeleteModal';
-import { PostImg } from '../../../components/visit-profile/PostImgCarousel';
+
 import Link from 'next/link';
 import { CreateComment } from '@/components/comment/CreateComment';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { PostLikes } from '@/components/like/PostLikes';
+import { CommentCard } from '../comment/CommentCard';
+import { PostImg } from '@/components/visit-profile/PostImgCarousel';
+import { useAuth } from '@/components/providers';
+import { DeleteModal } from '@/components/post/DeleteModal';
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);

@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { Ellipsis, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { DeleteCommentModal } from './DeleteComment';
-import { useAuth } from '../../../../components/providers';
+import { useAuth } from '@/components/providers';
+
 
 export const CommentCard = ({ id }: { id: string }) => {
   const [openDeleteCommentModal, setOpenDeleteCommentModal] = useState(false);

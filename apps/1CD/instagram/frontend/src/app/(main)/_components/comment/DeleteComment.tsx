@@ -1,5 +1,5 @@
 'use client';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/app/(main)/_components/DeleteDialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/app/(main)/_components/comment/DeleteDialog';
 import { Button } from '@/components/ui/button';
 
 import { useDeleteCommentMutation } from '@/generated';
