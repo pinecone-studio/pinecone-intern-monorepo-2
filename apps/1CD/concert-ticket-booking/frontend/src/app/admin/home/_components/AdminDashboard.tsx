@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper';
 import { TicketType, useDeleteEventMutation, useGetEventsQuery } from '@/generated';
 import dayjs from 'dayjs';
 import { headers } from './AdminDashboardType';
-import { Star, Trash } from 'lucide-react';
+import { Loader2, Star, Trash } from 'lucide-react';
 import { useState } from 'react';
 import { AdminPagination } from '@/components/AdminDashboardPagination';
 import { UpdateEventPriority } from './UpdateEventPriority';
@@ -23,10 +23,25 @@ type AdminDashboardComponent = {
   date: Date | undefined;
 };
 export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashboardComponent) => {
-  const { data, loading } = useGetEventsQuery();
+  const { data, loading, refetch } = useGetEventsQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  if (loading) return <div>Loading...</div>;
+
+  const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
+    onCompleted: () => {
+      toast.success('Successfully archived the event');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  if (loading)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Loader2 className="w-24 h-24 animate-spin text-[#00B7F4]" />
+      </div>
+    );
   const filteredData = data?.getEvents?.filter((item) => {
     const lowerCaseSearchValue = searchValue.toLowerCase();
     const lowerCasedate = date;
@@ -67,21 +82,13 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
   const totalPages = sortedEvents && sortedEvents.length > 0 ? Math.ceil(sortedEvents.length / itemsPerPage) : 0;
   const currentPageData = sortedEvents?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
-    onCompleted: () => {
-      toast.success('Successfully archived the event');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const handleSubmit = async (id) => {
+  const handleSubmit = async (id: string) => {
     await deleteEvent({
       variables: {
-        _id: id,
+        id,
       },
     });
+    refetch();
   };
 
   return (
@@ -172,9 +179,9 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                         <UpdateEventPriority eventId={item!._id} index={index} />
                         <p>edit</p>
                         {loadingDelete ? (
-                          'loading '
+                          <span className="loader"></span>
                         ) : (
-                          <p onClick={() => handleSubmit(item?._id)}>
+                          <p onClick={() => handleSubmit(item!._id)}>
                             <Trash className="h-4 w-4" />
                           </p>
                         )}
