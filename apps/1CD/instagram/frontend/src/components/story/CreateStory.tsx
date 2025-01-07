@@ -54,7 +54,7 @@ export const CreateStory = ({
           <DropdownMenuSeparator />
           <div className="sm:h-[620px] flex flex-col justify-center">
             <div className="relative w-[580px] h-[580px]">
-              <Image src={storyImg} sizes="h-auto w-auto" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
+              <Image src={storyImg} alt="ImportPhoto" fill={true} className="w-auto h-auto" />
             </div>
           </div>
           <DialogFooter>

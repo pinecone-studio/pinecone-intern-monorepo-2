@@ -1,9 +1,56 @@
+query GetFollowingStories {
+  getFollowingStories {
+    _id
+    userId {
+      _id
+      accountVisibility
+      userName
+      profileImg
+    }
+    userStories {
+      story {
+        _id
+        createdAt
+        description
+        endDate
+        image
+      }
+    }
+  }
+}
+
+query GetMyActiveStories {
+  getMyActiveStories {
+    _id
+    userId {
+      _id
+      accountVisibility
+      userName
+    }
+    userStories {
+      story {
+        _id
+        createdAt
+        description
+        endDate
+        image
+      }
+    }
+  }
+}
+
 mutation CreateStory($input: StoryInput!) {
   createStory(input: $input) {
     _id
     userId
-    description
-    image
-    createdAt
+    userStories {
+      story {
+        _id
+        createdAt
+        description
+        endDate
+        image
+      }
+    }
   }
 }
