@@ -5,14 +5,15 @@ import { removeFollower } from 'src/resolvers/mutations';
 
 jest.mock('src/models', () => ({
   followModel: {
-    findById: jest.fn(),
+    findOne: jest.fn(),
     findByIdAndDelete: jest.fn(),
   },
 }));
 
 describe('removeFollower Mutation', () => {
   const mockFollowRequest = {
-    _id: '123',
+    _id: '456',
+    followerId: '123',
     followingId: 'user-1',
     status: FollowStatus.Approved,
   };
@@ -26,13 +27,13 @@ describe('removeFollower Mutation', () => {
   });
 
   it('should throw an error if follow record is not found', async () => {
-    (followModel.findById as jest.Mock).mockResolvedValueOnce(null);
+    (followModel.findOne as jest.Mock).mockResolvedValueOnce(null);
 
     await expect(removeFollower!({}, { _id: '123' }, { userId: 'user-1' }, {} as GraphQLResolveInfo)).rejects.toThrow('Not found');
   });
 
   it('should throw an error if user is not authorized to remove the follower', async () => {
-    (followModel.findById as jest.Mock).mockResolvedValueOnce({
+    (followModel.findOne as jest.Mock).mockResolvedValueOnce({
       ...mockFollowRequest,
       followingId: 'user-2',
     });
@@ -41,7 +42,7 @@ describe('removeFollower Mutation', () => {
   });
 
   it('should throw an error if the follow status is pending', async () => {
-    (followModel.findById as jest.Mock).mockResolvedValueOnce({
+    (followModel.findOne as jest.Mock).mockResolvedValueOnce({
       ...mockFollowRequest,
       status: FollowStatus.Pending,
     });
@@ -50,13 +51,13 @@ describe('removeFollower Mutation', () => {
   });
 
   it('should successfully delete the follower', async () => {
-    (followModel.findById as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
+    (followModel.findOne as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
     (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
-
-    const result = await removeFollower!({}, { _id: '123' }, { userId: 'user-1' }, {} as GraphQLResolveInfo);
+    const userId = 'user-1';
+    const result = await removeFollower!({}, { _id: '123' }, { userId }, {} as GraphQLResolveInfo);
 
     expect(result).toEqual(mockFollowRequest);
-    expect(followModel.findById).toHaveBeenCalledWith('123');
-    expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('123');
+    expect(followModel.findOne).toHaveBeenCalledWith({ followerId: '123', followingId: userId.toString() });
+    expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('456');
   });
 });
