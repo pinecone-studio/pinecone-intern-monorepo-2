@@ -17,7 +17,6 @@ const Notification = () => {
       {notifyData?.getNotificationsByLoggedUser!.map((oneNotification) => (
         <NotifyPostLikeCard key={oneNotification._id} userName={oneNotification.otherUserId.userName!} profileImg={oneNotification.otherUserId.profileImg!} createdDate={oneNotification.createdAt} />
       ))}
-
       <NoNotification />
     </div>
   );
