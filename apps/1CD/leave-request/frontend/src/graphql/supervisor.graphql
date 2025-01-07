@@ -27,6 +27,12 @@ query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $
   }
 }
 
+query GroupedByStatusRequestLength {
+  groupedByStatusRequestLength {
+    _id
+    res
+  }
+}
 mutation UpdateRequest($result: String, $comment: String, $id: ID) {
   updateRequest(result: $result, comment: $comment, _id: $id) {
     _id
