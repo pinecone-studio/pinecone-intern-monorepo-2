@@ -1,9 +1,0 @@
-mutation CreateStory($input: StoryInput!) {
-  createStory(input: $input) {
-    _id
-    userId
-    description
-    image
-    createdAt
-  }
-}
