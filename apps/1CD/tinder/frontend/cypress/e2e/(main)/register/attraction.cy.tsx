@@ -14,7 +14,7 @@ describe('Attraction Form Navigation', () => {
     cy.get('[data-cy="next-button"]').should('be.visible').click();
     cy.url().should('include', '/register/birthday');
   });
-  it('3. should show error when user didnot select the attraction', () => {
+  it('3. should show error when user did not select the attraction', () => {
     cy.get('[data-cy="next-button"]').should('be.visible').click();
     cy.get('[data-cy="error-message"]').should('exist');
   });
