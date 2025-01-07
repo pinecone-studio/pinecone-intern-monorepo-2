@@ -9,11 +9,12 @@ import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/components/like/PostLikes';
-import { LastCommentCard } from '../../../components/comment/LastCommentCard';
-import { PostWithComments } from '../../../components/post/PostWithComments';
-import { PostImg } from '../../../components/post/PostImgCarousel';
+
 import Link from 'next/link';
 import { CreateComment } from '@/components/comment/CreateComment';
+import { PostImg } from '@/components/post/PostImgCarousel';
+import { PostWithComments } from '@/components/post/PostWithComments';
+import { LastCommentCard } from '@/components/comment/LastCommentCard';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
