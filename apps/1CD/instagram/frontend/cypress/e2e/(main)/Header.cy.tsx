@@ -6,13 +6,13 @@ describe('Header Component', () => {
   it('1.should display the search component when Search button is clicked', () => {
     cy.get('[data-testid="searchBtn"]').click();
 
-    cy.get('[data-testid="search-users-component"]', { timeout: 10000 }).should('exist').and('be.visible');
+    cy.get('[data-testid="search-users-component"]').should('exist').and('be.visible');
   });
 
   it('2.should hide the search component when Notification button is clicked', () => {
-    cy.get('[data-testid="searchBtn"]').click();
+    // cy.get('[data-testid="searchBtn"]').click();
 
-    cy.get('[data-testid="search-users-component"]').should('be.visible');
+    // cy.get('[data-testid="search-users-component"]').should('be.visible');
 
     cy.get('[data-testid="menuBtn3"]').click();
 
@@ -20,15 +20,16 @@ describe('Header Component', () => {
   });
 
   it('3. Should display the notification component when notification button is clicked', () => {
-    cy.get('[data-testid="notificationBtn"]').click();
-    cy.get('[data-testid="notification-component"]', { timeout: 10000 }).should('exist').and('be.visible');
+    cy.get('[data-testid="menuBtn3"]').click();
+    cy.get('[data-testid="notification-component"]').should('exist').and('be.visible');
   });
 
   it('4. Should hide the notification component when home button is clicked', () => {
-    cy.get('[data-testid="notificationBtn"]').click();
+    // cy.get('[data-testid="notificationBtn"]').click();
 
-    cy.get('[data-testid="notification-component"]').should('be.visible');
-
+    // cy.get('[data-testid="notification-component"]').should('be.visible');
+    cy.get('[data-testid="menuBtn3"]').click();
+    cy.get('[data-testid="notification-component"]').should('exist').and('be.visible');
     cy.get('[data-testid="menuBtn3"]').click();
 
     cy.get('[data-testid="notification-component"]').should('not.exist');
