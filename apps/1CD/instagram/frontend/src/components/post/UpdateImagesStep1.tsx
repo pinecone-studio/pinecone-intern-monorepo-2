@@ -41,7 +41,7 @@ export const UpdateImagesStep1 = ({ openCreatePostModal, setOpenCreatePostModal 
         <div className="flex flex-col gap-2 py-[190px]">
           <label className="flex flex-col items-center gap-4 cursor-pointer" htmlFor="file-upload" data-testid="openInputBtn">
             <div className="relative w-[96px] h-[77px]">
-              <Image src="/images/Frame.png" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
+              <Image sizes="h-auto w-auto" src="/images/Frame.png" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
             </div>
             <p className="text-[20px]">Drag photos and videos here</p>
             <p className="bg-[#2563EB] text-sm px-4 py-[10px]   text-white rounded-lg">Select from computer</p>

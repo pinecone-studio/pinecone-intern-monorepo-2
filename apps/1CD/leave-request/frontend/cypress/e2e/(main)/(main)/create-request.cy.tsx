@@ -1,6 +1,6 @@
 describe('Create Request', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string;
+    const token = Cypress.env().env['ANNUAL_TOKEN_SUPERVISEE'] as string;
     cy.setCookie('authtoken', token);
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'CreateRequest') {
@@ -22,7 +22,8 @@ describe('Create Request', () => {
     cy.get('#requestTypeOptions').children().first().click();
     cy.get('button[value="hourly"]').click();
     cy.contains('button', 'Та өдрөө').click();
-    cy.contains('button', '30').click();
+    cy.get('[aria-label="Go to next month"]').click();
+    cy.contains('button', '30').last().click();
     cy.contains('div', 'Чөлөө авах өдөр').click();
     cy.contains('button', '00:00').first().click();
     cy.contains('div', '8:00').click();

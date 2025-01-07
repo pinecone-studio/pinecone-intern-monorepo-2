@@ -9,6 +9,7 @@ import { useSearchParams } from 'next/navigation';
 import { useOpenRequestQuery } from '@/generated';
 import { format } from 'date-fns';
 import { Pin, RequestType } from './RequestList';
+import { Loader } from '@/context/SecurePageWrapper';
 
 // eslint-disable-next-line complexity
 const RequestDetail = () => {
@@ -23,10 +24,10 @@ const RequestDetail = () => {
   };
 
   if (!id) {
-    return 'pick ur poison';
+    return <div className=' max-h-[371px] max-w-[608px] w-full items-center flex justify-center'>Хүсэлтэн дээр даран хариу өгөх боломжтой</div>;
   }
   if (loading) {
-    return 'loading';
+    return <div className=' max-h-[371px] w-full items-center flex justify-center'><Loader/></div>;
   }
 
   const { openRequest } = data!;

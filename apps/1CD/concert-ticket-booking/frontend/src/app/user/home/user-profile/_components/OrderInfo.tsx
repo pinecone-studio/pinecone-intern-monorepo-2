@@ -1,65 +1,106 @@
+/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Order, useGetOrderQuery } from '@/generated';
 import dayjs from 'dayjs';
-import { Clock, Dot } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { useState } from 'react';
 import DialogComponent from './Dialog';
-import { isLessThan24Hours } from '@/utils/to-check';
 import { calculateTotalAmount } from '@/utils/calculate';
+import toMNT from '@/utils/show-tugrik-format';
 
 const OrderInfo = () => {
   const { data, refetch } = useGetOrderQuery();
   const orders = data?.getOrder;
-  const [open, setOpen] = useState(false);
+  const [openOrderId, setOpenOrderId] = useState<string | null>(null); 
 
   const onClose = () => {
-    setOpen(false);
+    setOpenOrderId(null);
   };
 
+  console.log("orders", orders);
+
+  const nonCanceledOrders = orders
+    ?.filter((order) => order?.status === 'available')
+    .slice()
+    .sort((a, b) => dayjs(b?.createdAt).valueOf() - dayjs(a?.createdAt).valueOf());
+
+    const pendingOrders=orders?.filter((order)=>order?.status==='pending').slice().sort((a, b)=>dayjs(a?.createdAt).valueOf()-dayjs(b?.createdAt).valueOf());
+
+  const canceledOrders = orders
+    ?.filter((order) => order?.status === 'approved')
+    .slice()
+    .sort((a, b) => dayjs(a?.createdAt).valueOf() - dayjs(b?.createdAt).valueOf());
+
+  const sortedOrders = [...(nonCanceledOrders || []), ...(pendingOrders || []), ...(canceledOrders || [])];
+
+  const handleCancelClick = (orderId: string) => {
+    setOpenOrderId(orderId);
+  };
   return (
     <div className="text-white w-[841px]" data-cy="order-info-container">
-      <h1 data-cy="order-info-title">Захиалгын мэдээлэл</h1>
-      {orders?.map((order) => (
+      <h1 data-cy="order-info-title" className="mb-6 text-2xl font-semibold">
+        Захиалгын мэдээлэл
+      </h1>
+      {sortedOrders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
-          <div className="text-white flex justify-between items-center mb-2">
-            <h2 data-cy={`order-id-${order?._id}`}>
-              Захиалгын дугаар : {order?._id}
-              <p className="flex items-center gap-2">
-                <Clock className="h-4 w-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
+          <div className="flex items-center justify-between mb-4 text-white">
+            <div className="flex gap-1">
+              <h2 data-cy={`order-id-${order?._id}`} className="text-base font-normal text-muted-foreground">
+                Захиалгын дугаар :{' '}
+              </h2>
+              {order?._id}
+              <p className="flex items-center gap-2 ml-[14px]">
+                <Clock className="w-4 h-4 " /> {dayjs(order?.createdAt).format('YYYY.MM.DD')}
               </p>
-            </h2>
+            </div>
+
             {order?.status === 'pending' && (
               <div data-cy={`order-status-pending-${order?._id}`}>
-                Төлөв: <span className="rounded-full bg-black p-2">Цуцлах хүсэлт илгээсэн</span>
+                <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
+                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Цуцлах хүсэлт илгээсэн</span>
               </div>
             )}
-            {isLessThan24Hours(order?.createdAt) && order?.status !== 'pending' && (
+            {order?.status === 'approved' && (
+              <div data-cy={`order-status-pending-${order?._id}`}>
+                <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
+                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Хүсэлт баталгаажсан</span>
+              </div>
+            )}
+            {order?.status === 'available' && (
               <>
-                <Button className="bg-[#27272A]" onClick={() => setOpen(true)} data-cy={`cancel-button-${order?._id}`}>
+                <Button className="bg-[#27272A]" onClick={() => handleCancelClick(order._id)} data-cy={`cancel-button-${order?._id}`}>
                   Цуцлах
                 </Button>
-                <DialogComponent open={open} onClose={onClose} order={order as Order} refetch={refetch} />
+                {openOrderId === order._id && (
+                  <DialogComponent open={true} onClose={onClose} order={order as Order} refetch={refetch} />
+                )}
               </>
             )}
           </div>
-          {order?.ticketType.map((ticket) => (
-            <Card className="h-[52px] bg-[#131313] border-dashed border-muted-foreground mb-2 flex justify-between pr-4" key={ticket._id} data-cy={`ticket-card-${ticket._id}`}>
-              <span className="text-white flex gap-2 items-center" data-cy={`ticket-zone-${ticket._id}`}>
-                <Dot className="h-12 w-12" />
-                {ticket.zoneName}
-              </span>
-              <span className="text-white flex gap-2 items-center" data-cy={`ticket-price-${ticket._id}`}>
-                <span>
-                  {ticket.unitPrice}₮×{ticket.soldQuantity}
+          {order?.ticketType.map((ticket, index) => (
+            <div
+              className="py-4 px-6 rounded-[6px] h-[52px] bg-[#131313] border-dashed border-[1px] border-muted-foreground mb-2 flex justify-between items-center"
+              key={index}
+              data-cy={`ticket-card-${index}`}
+            >
+              <div>
+                <span className={`${index == 0 ? 'text-[#4651C9]' : index == 1 ? 'text-[#C772C4]' : 'text-white'} flex gap-2 items-center font-bold text-sm`} data-cy={`ticket-zone-${index}}`}>
+                  <div className={`${index == 0 ? 'bg-[#4651C9]' : index == 1 ? 'bg-[#C772C4]' : 'bg-white'} h-3 w-3 rounded-full`}></div>
+                  {ticket.zoneName}
                 </span>
-                {Number(ticket.unitPrice) * Number(ticket.soldQuantity)}₮
+              </div>
+              <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${index}`}>
+                <span className="text-base font-normal text-muted-foreground">
+                  {toMNT(Number(ticket.unitPrice))}×{ticket.soldQuantity}
+                </span>
+                {toMNT(Number(ticket.unitPrice) * Number(ticket.soldQuantity))}
               </span>
-            </Card>
+            </div>
           ))}
-          <div className="text-white flex items-center justify-between" data-cy={`order-total-${order?._id}`}>
-            <span>Төлсөн дүн</span>
-            {order?.ticketType && <span>{calculateTotalAmount(order?.ticketType)}₮</span>}
+          <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
+            <span className="text-sm font-light">Төлсөн дүн</span>
+            {order?.ticketType && <span className="text-xl font-bold"> {toMNT(calculateTotalAmount(order?.ticketType))}</span>}
           </div>
         </Card>
       ))}

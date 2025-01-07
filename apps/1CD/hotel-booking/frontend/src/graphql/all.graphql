@@ -13,15 +13,26 @@ query GetHotels {
     images
   }
 }
-query GetBookings {
-  getBookings {
+query GetBookings($hotelId: String) {
+  getBookings(hotelId: $hotelId) {
     _id
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+    firstName
+    lastName
+    email
+    phoneNumber
     userId {
       _id
       email
       firstName
       lastName
+      dateOfBirth
       phoneNumber
+      emergencyContact
       createdAt
     }
     roomId {
@@ -45,6 +56,7 @@ query GetBookings {
         images
         hotelAmenities
         location
+        roomsAveragePrice
       }
       roomName
       roomType
@@ -54,11 +66,6 @@ query GetBookings {
       amenities
       images
     }
-    hotelId
-    checkInDate
-    checkOutDate
-    totalPrice
-    status
   }
 }
 mutation Mutation {
@@ -147,6 +154,10 @@ query GetBooking($id: ID) {
     checkOutDate
     totalPrice
     status
+    firstName
+    lastName
+    email
+    phoneNumber
   }
 }
 
@@ -183,6 +194,7 @@ query GetHotel($id: ID!) {
     phoneNumber
     images
     location
+    hotelAmenities
   }
 }
 
@@ -305,17 +317,26 @@ query GetFilterByPropertiesHotels($input: RoomFilterType) {
   }
 }
 
+mutation UpdateHotelImages($images: [String!]!, $id: String!) {
+  updateHotelImages(images: $images, _id: $id) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+
+    hotelAmenities
+    location
+    roomsAveragePrice
+  }
+}
+
 query GetRoom($id: ID!) {
   getRoom(_id: $id) {
     id
-    roomService {
-      bathroom
-      accessability
-      entertaiment
-      foodDrink
-      bedroom
-      other
-    }
     hotelId {
       createdAt
       _id
@@ -336,5 +357,17 @@ query GetRoom($id: ID!) {
     createdAt
     amenities
     images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
   }
+}
+
+mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
+  updateBookingStatus(_id: $id, status: $status)
 }

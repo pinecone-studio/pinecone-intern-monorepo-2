@@ -73,7 +73,7 @@ describe('UnitTicketPage', () => {
     cy.get('[data-cy="event-description"]').should('contain', 'A legendary performance');
     cy.get('[data-cy="main-artist-0"]').should('contain', 'Mick Jagger');
     // cy.get('[data-cy="event-date"]').should('contain', '24.04.13 03:00 AM');
-    cy.get('[data-cy="ticket-discount"]').should('contain.text', '15 ₮');
+    cy.get('[data-cy="ticket-discount"]').should('contain.text', '135 ₮');
     cy.get('[data-cy="ticket-additional"]').should('contain', 'Free Drink');
     cy.get('[data-cy="ticket-zone-name"]').should('contain', 'VIP');
   });

@@ -54,7 +54,7 @@ const LogInPage = () => {
         <div className="p-6 py-10 bg-white rounded-xl">
           <Form {...form}>
             <div className="flex justify-center w-full p-5">
-              <Image alt="Instagram Logo" width={175} height={51} src="/images/Logo.png" data-cy="login-logo" />
+              <Image alt="Instagram Logo" width={175} height={51} src="/images/Logo.png" sizes="h-auto w-auto" data-cy="login-logo" />
             </div>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-[300px] m-auto flex flex-col gap-10">
               <div className="flex flex-col gap-4">

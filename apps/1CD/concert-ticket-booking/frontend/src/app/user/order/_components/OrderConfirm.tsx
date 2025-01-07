@@ -8,10 +8,11 @@ import { z } from 'zod';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { Order, UserInfo } from '@/utils/type';
+import { Asterisk } from 'lucide-react';
 
 type OrderConfirmProp = {
   order: Order[] | null;
-  setBuyer: Dispatch<SetStateAction<UserInfo | undefined>>;
+  setBuyer: Dispatch<SetStateAction<UserInfo>>;
   setState: Dispatch<SetStateAction<number>>;
 };
 
@@ -59,9 +60,9 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-8 justify-center">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-center gap-8">
         <div className="w-full max-w-xl bg-[#09090B] p-8 rounded-2xl shadow-lg border border-gray-600">
-          <h1 className="text-xl sm:text-2xl font-semibold text-white mb-6">Захиалагчийн мэдээлэл</h1>
+          <h1 className="mb-6 text-xl font-semibold text-white sm:text-2xl">Захиалагчийн мэдээлэл</h1>
           <div className="space-y-6">
             {inputs.map((input) => (
               <FormField
@@ -86,24 +87,24 @@ const OrderConfirm = ({ order, setBuyer, setState }: OrderConfirmProp) => {
             ))}
           </div>
           <div className="mt-8">
-            <p className="text-white font-semibold">Бүтээгдэхүүний тоо: {order && order.reduce((total, item) => total + item.buyQuantity, 0)}</p>
+            <p className="font-semibold text-white">Бүтээгдэхүүний тоо: {order && order.reduce((total, item) => total + item.buyQuantity, 0)}</p>
             <div className="mt-4 space-y-4">
               {order &&
                 order.map((item, idx) => (
                   <div key={idx} className="flex justify-between text-white">
-                    <p>
-                      {item.zoneName} x {item.buyQuantity}
+                    <p className="flex items-center flex-nowrap">
+                      {item.zoneName} <Asterisk size={10} /> {item.buyQuantity}
                     </p>
                     <p>{item.price * item.buyQuantity} ₮</p>
                   </div>
                 ))}
             </div>
-            <div className="mt-6 border-t border-gray-500 pt-4">
-              <p className="text-white font-bold">Нийт төлөх дүн: {order && order.reduce((total, item) => total + item.price * item.buyQuantity, 0)} ₮</p>
+            <div className="pt-4 mt-6 border-t border-gray-500">
+              <p className="font-bold text-white">Нийт төлөх дүн: {order && order.reduce((total, item) => total + item.price * item.buyQuantity, 0)} ₮</p>
             </div>
           </div>
-          <div className="mt-8 flex justify-end">
-            <Button data-cy="order-confirm-button" type="submit" className="px-6 py-3 bg-[#00B7f4] text-black font-semibold rounded-md hover:bg-[#00a7d4] transition duration-300">
+          <div className="flex justify-end mt-8">
+            <Button data-cy="order-confirm-button" type="submit" className="px-6 py-3 bg-[#00B7f4] text-white rounded-md hover:bg-[#00a7d4] transition duration-300">
               Үргэжлүүлэх
             </Button>
           </div>

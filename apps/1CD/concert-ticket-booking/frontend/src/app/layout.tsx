@@ -11,14 +11,13 @@ export const metadata = {
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-black">
       <body>
         <ApolloWrapper>
           <AuthProvider>
             <NuqsAdapter>
               <div>{children}</div>
             </NuqsAdapter>
-
             <Toaster />
           </AuthProvider>
         </ApolloWrapper>

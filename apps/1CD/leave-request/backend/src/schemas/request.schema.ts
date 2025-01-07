@@ -75,6 +75,10 @@ export const RequestTypeDefs = gql`
   type NumberOutput {
     res: Int
   }
+  type GroupedRequestLength {
+    _id: String!
+    res: Int
+  }
 
   type Mutation {
     createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!, startTime:String, endTime:String, optionalFile: String): RequestType
@@ -86,7 +90,8 @@ export const RequestTypeDefs = gql`
     getAllRequestsBySupervisor(supervisorEmail: String!, status: [String], page: Int, startDate: Date, endDate: Date, search: String): [RequestTypePop!]
     getRequestById(_id: ID): RequestType
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
-    getAllRequestLength(supervisorEmail: String,email: String): NumberOutput!
+    getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
+    groupedByStatusRequestLength: [GroupedRequestLength!]
   }
 `;

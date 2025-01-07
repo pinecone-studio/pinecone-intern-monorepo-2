@@ -1,9 +1,6 @@
 import { MutationResolvers, TicketType } from '../../../generated';
 import Order from '../../../models/order.model';
 import Ticket from '../../../models/ticket.model';
-import UnitTicket from '../../../models/unit-ticket.model';
-import { qrCodes } from '../../../utils/generate-qr';
-import { sendEmailWithQr } from '../../../utils/sent-to-qr';
 
 export const addToCarts: MutationResolvers['addToCarts'] = async (_, { input }, { userId }) => {
   if (!userId) throw new Error('Unauthorized');
@@ -29,22 +26,8 @@ export const addToCarts: MutationResolvers['addToCarts'] = async (_, { input }, 
       return matchedTicket;
     }
   });
-  await findTicket.save();
-  const order = await Order.create({ userId, ticketId, eventId, phoneNumber, email, ticketType: updatedTicketTypes });
-  const unitTicketArr = ticketType.flatMap((item) =>
-    Array(Number(item.buyQuantity))
-      .fill(null)
-      .map(() => ({
-        productId: ticketId,
-        ticketId: item._id,
-        orderId: order._id,
-        eventId,
-      }))
-  );
 
-  const newUnitTicket = await UnitTicket.insertMany(unitTicketArr);
-  const ids = newUnitTicket.map((item) => item._id);
-  const qrCodeDataUrl = await qrCodes(ids);
-  sendEmailWithQr(email, qrCodeDataUrl);
-  return { message: 'success' };
+  const order = await Order.create({ userId, ticketId, eventId, phoneNumber, email, ticketType: updatedTicketTypes });
+
+  return order;
 };

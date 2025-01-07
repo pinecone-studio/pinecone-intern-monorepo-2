@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card';
 import { Event } from '@/generated';
 import Image from 'next/image';
 import dayjs from 'dayjs';
@@ -10,7 +9,7 @@ const CardTicket = ({ event }: { event: Event }) => {
   const discountPrice = (unitPrice * (100 - discount)) / 100;
 
   return (
-    <Card className="max-w-[345px] h-full overflow-hidden relative border-none" data-cy="Card-Component">
+    <div className="max-w-[345px] h-full border rounded overflow-hidden relative border-none" data-cy="Card-Component">
       {discount !== 0 && <div className="absolute bg-[#EF4444] rounded-xl text-white px-2 py-1 font-bold top-[175px] left-6"> {event.products[0].ticketType[1].discount}%</div>}
 
       <div className="w-full overflow-hidden aspect-video">
@@ -61,7 +60,7 @@ const CardTicket = ({ event }: { event: Event }) => {
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 export default CardTicket;
