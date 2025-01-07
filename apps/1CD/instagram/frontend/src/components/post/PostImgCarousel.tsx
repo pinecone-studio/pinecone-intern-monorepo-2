@@ -4,12 +4,12 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Image from 'next/image';
 export const PostImg = ({ images }: { images: string[] }) => {
   return (
-    <Carousel className="relative w-full ">
+    <Carousel className="relative w-full h-full">
       <CarouselContent>
         {images?.map((img, i) => {
           return (
             <CarouselItem key={i} className="relative w-full h-[585px]">
-              <Image fill={true} src={img} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />;
+              <Image fill={true} src={img} alt="Photo1" className="object-cover w-auto h-auto " sizes="w-auto h-auto" priority />
             </CarouselItem>
           );
         })}

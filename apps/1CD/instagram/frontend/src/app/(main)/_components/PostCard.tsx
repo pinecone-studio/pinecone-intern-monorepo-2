@@ -11,14 +11,14 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/components/like/PostLikes';
 import { LastCommentCard } from '../../../components/comment/LastCommentCard';
 import { PostWithComments } from '../../../components/post/PostWithComments';
-import { PostImg } from '../../../components/post/PostImg';
+import { PostImg } from '../../../components/post/PostImgCarousel';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center w-full h-[300px]" data-testId="loader">
+      <div className="flex justify-center items-center w-full h-[300px]" data-testid="loader">
         <Loader className="text-2xl animate-spin " />
       </div>
     );

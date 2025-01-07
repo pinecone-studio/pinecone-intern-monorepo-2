@@ -4,14 +4,15 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Bookmark, MessageCircle, SmileIcon } from 'lucide-react';
-import { CommentCard } from '../comment/CommentCard';
-import { PostLikes } from '../like/PostLikes';
+import { CommentCard } from '../../../components/comment/CommentCard';
+import { PostLikes } from '../../../components/like/PostLikes';
 import { PostLike } from '@/components/like/PostLike';
-import { useAuth } from '../providers';
+import { useAuth } from '../../../components/providers';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { DropMenu } from '../../app/(main)/_components/DropMenu';
-import { UpdatePost } from '../post/UpdatePost';
-import { DeleteModal } from '../post/DeleteModal';
+import { DropMenu } from './DropMenu';
+import { UpdatePost } from './UpdatePost';
+import { DeleteModal } from '../../../components/post/DeleteModal';
+import { PostImg } from '../../../components/visit-profile/PostImgCarousel';
 
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
@@ -28,22 +29,20 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   return (
     <>
       <Dialog data-testid="postWithComments1" open={close} onOpenChange={setClose}>
-        <DialogTrigger data-testid="open-comment-btn" asChild>
-          <Image src={image} onClick={() => setClose(true)} alt="postnii-zurag" fill className="absolute object-cover cursor-pointer" sizes="h-auto w-auto" />
+        <DialogTrigger
+          data-testid="open-comment-btn"
+          onClick={() => {
+            return setClose(true);
+          }}
+          asChild
+        >
+          <Image src={image} alt="postnii-zurag" fill className="absolute object-cover cursor-pointer" sizes="h-auto w-auto" />
         </DialogTrigger>
         <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none " data-testid="postWithComments2">
           <DialogTitle className="hidden"></DialogTitle>
           <DialogDescription className="hidden"></DialogDescription>
           <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
-            <div className="w-full ">
-              {PostData?.getPostByPostId?.images?.map((image, i) => {
-                return (
-                  <div key={`img ${i}`} className="relative w-[800px] h-full">
-                    <Image src={image} alt="img" fill={true} sizes="h-auto w-auto" className="object-cover w-auto h-auto rounded-tl-lg rounded-bl-lg" />
-                  </div>
-                );
-              })}
-            </div>
+            <PostImg images={PostData?.getPostByPostId?.images || []} />
             <div className="flex flex-col justify-between w-full px-3 py-4 bg-white" data-testid="postSection">
               <div className="flex flex-col w-full">
                 <div className="flex items-center justify-between border-b-[1px] pb-3 mb-4">

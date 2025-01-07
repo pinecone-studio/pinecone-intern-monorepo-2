@@ -60,7 +60,6 @@
 //     },
 //   },
 // ];
-
 // const myPostMockNoImg = [
 //   {
 //     request: {
@@ -90,7 +89,6 @@
 //     },
 //   },
 // ];
-
 // const myPostMockNull = [
 //   {
 //     request: {
@@ -112,10 +110,8 @@
 //         <PostCard />
 //       </MockedProvider>
 //     );
-
 //     // await waitFor(() => expect(getByTestId('post-card')));
 //     screen.getByTestId('post-card');
-
 //     // const moreBtn = getByTestId('more-btn');
 //     // fireEvent.keyDown(moreBtn, { key: 'Enter' });
 //     // const deleteBtn = getByTestId('delete-btn');
@@ -137,7 +133,6 @@
 //     // const deleteBtn = getByTestId('delete-btn');
 //     // fireEvent.click(deleteBtn);
 //   });
-
 //   it('should render no img', async () => {
 //     render(
 //       <MockedProvider mocks={myPostMockNoImg}>
