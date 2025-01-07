@@ -1,4 +1,4 @@
-query Query {
+query SampleQuery {
   sampleQuery
 }
 query GetSpecialEvent {

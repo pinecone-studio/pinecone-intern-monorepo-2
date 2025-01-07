@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, X } from 'lucide-react';
+import { Plus} from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner'; // Assuming you're using sonner for notifications
 import { useCreateUserMutation } from '@/generated';
@@ -75,9 +75,6 @@ export const CreateEmployeeModal = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             Шинэ ажилтан бүртгэх
-            <button className="text-sm text-gray-500" onClick={() => setOpen(false)}>
-              <X className="w-4 h-4" />
-            </button>
           </DialogTitle>
           <p className="text-sm text-gray-500">Дараах формыг бөглөж шинэ ажилтны мэдээллийг оруулна уу.</p>
         </DialogHeader>

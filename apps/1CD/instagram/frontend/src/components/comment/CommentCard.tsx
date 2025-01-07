@@ -3,6 +3,7 @@ import { useGetCommentsQuery } from '@/generated';
 import React from 'react';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
+import Link from 'next/link';
 
 export const CommentCard = ({ id }: { id: string }) => {
   const { data } = useGetCommentsQuery({
@@ -16,8 +17,8 @@ export const CommentCard = ({ id }: { id: string }) => {
       {data?.getComments.map((item) => (
         <div key={item?._id} className="flex items-start justify-between gap-2 py-1">
           <div className="flex gap-4 py-1 ">
-            <div className="">
-              <div className="relative w-8 h-8 rounded-full">
+            <Link href={`/home/viewprofile/${item?.commentedUser._id}`} className="">
+              <div className="relative w-8 h-8 rounded-full cursor-pointer">
                 <Image
                   src={item?.commentedUser.profileImg || '/images/profileImg.webp'}
                   alt="proZurag"
@@ -27,7 +28,7 @@ export const CommentCard = ({ id }: { id: string }) => {
                   sizes="w-auto h-auto"
                 />
               </div>
-            </div>
+            </Link>
             <div className="flex flex-col gap-2">
               <h1 className="text-sm font-bold text-black">
                 {item?.commentedUser.userName}

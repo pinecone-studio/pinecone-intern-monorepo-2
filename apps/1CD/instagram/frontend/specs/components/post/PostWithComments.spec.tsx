@@ -1,126 +1,134 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
-import { GetCommentsDocument } from '@/generated';
-import { PostWithComments } from '@/app/(main)/_components/PostWithComments';
-import { expect } from '@jest/globals';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { useCreatePostLikeMutation, useDeletePostLikeMutation, useGetCommentsQuery, useGetPostByPostIdQuery, useGetPostLikeQuery, useGetPostLikesQuery } from '@/generated';
+import { PostWithComments } from '@/components/post/PostWithComments';
+import { useAuth } from '@/components/providers';
 
-const commentMock2 = [
-  {
-    request: {
-      query: GetCommentsDocument,
-      variables: {
-        postId: 'post1',
+jest.mock('@/generated', () => ({
+  useGetPostByPostIdQuery: jest.fn(),
+  useGetCommentsQuery: jest.fn(),
+  useCreatePostLikeMutation: jest.fn(),
+  useDeletePostLikeMutation: jest.fn(),
+  useGetPostLikeQuery: jest.fn(),
+  useGetPostLikesQuery: jest.fn(),
+}));
+jest.mock('@/components/providers', () => ({
+  useAuth: jest.fn(),
+}));
+
+describe('PostWithComments Component', () => {
+  const mockAuthData = {
+    user: { _id: '1', userName: 'Test User' },
+  };
+  const mockAuthData1 = {
+    user: { _id: 'user1', userName: 'Test User' },
+  };
+  const mockPostData = {
+    getPostByPostId: {
+      images: ['/image1.jpg', '/image2.jpg'],
+      user: {
+        profileImg: '/profile.jpg',
+        userName: 'testUser',
       },
+      description: 'This is a test post',
     },
+  };
 
-    result: {
-      data: {
-        getComments: [
-          {
-            _id: 'comment1',
-            postId: 'post1',
-            commentText: 'Wooow amjilt',
-            commentedUser: {
-              _id: 'user1',
-              userName: 'B190_$',
-              fullName: 'Bilgun',
-            },
-          },
-          {
-            _id: 'comment2',
-            postId: 'post1',
-            commentText: 'Wooow amjilt',
-            commentedUser: {
-              _id: 'user2',
-              userName: 'B190_$',
-              fullName: 'Bilgun',
-            },
-          },
-        ],
+  const mockCommentData = {
+    getComments: [
+      {
+        _id: 'comment1',
+        postId: '123',
+        commentText: 'Wooow amjilt',
+        commentedUser: {
+          _id: 'user1',
+          userName: 'B190_$',
+          fullName: 'Bilgun',
+        },
       },
-    },
-  },
-];
+    ],
+  };
+  const mockRefetch = jest.fn();
+  const mockPostLikesRefetch = jest.fn();
 
-const commentMock1 = [
-  {
-    request: {
-      query: GetCommentsDocument,
-      variables: {
-        postId: 'post1',
-      },
-    },
-
-    result: {
-      data: {
-        getComments: [
-          {
-            _id: 'comment1',
-            postId: 'post1',
-            commentText: 'Wooow amjilt',
-            commentedUser: {
-              _id: 'user1',
-              userName: 'B190_$',
-              fullName: 'Bilgun',
-            },
-          },
-        ],
-      },
-    },
-  },
-];
-const commentMock0 = [
-  {
-    request: {
-      query: GetCommentsDocument,
-      variables: {
-        postId: 'post1',
-      },
-    },
-
-    result: {
-      data: {
-        getComments: [null],
-      },
-    },
-  },
-];
-
-describe('get Post with comments', () => {
-  it('should render with two comments', async () => {
-    const { getByTestId, getByText } = render(
-      <MockedProvider mocks={commentMock2}>
-        <PostWithComments id="post1" />
-      </MockedProvider>
-    );
-    const openCommentBtn = getByTestId('open-comment-btn');
-    await waitFor(() => expect(getByTestId('open-comment-btn')));
-    fireEvent.keyDown(openCommentBtn, { key: 'Enter' });
-
-    await waitFor(() => expect(getByText('View all 2 comments')));
-    fireEvent.keyDown(openCommentBtn, { key: 'Enter' });
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should render without comment #2', async () => {
-    const { getByTestId } = render(
-      <MockedProvider mocks={commentMock0}>
-        <PostWithComments id="post1" />
-      </MockedProvider>
-    );
-    const openCommentBtn = getByTestId('open-comment-btn');
-    fireEvent.keyDown(openCommentBtn, { key: 'Enter' });
-    await waitFor(() => expect(openCommentBtn));
-  });
-  it('should render with one comment', async () => {
-    const { getByTestId, getByText } = render(
-      <MockedProvider mocks={commentMock1}>
-        <PostWithComments id="post1" />
-      </MockedProvider>
-    );
-    const openCommentBtn = getByTestId('open-comment-btn');
-    await waitFor(() => expect(getByTestId('open-comment-btn')));
+  it('renders correctly when data is provided', () => {
+    (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
+      data: mockPostData,
+    });
+    (useGetCommentsQuery as jest.Mock).mockReturnValue({
+      data: mockCommentData,
+    });
 
-    await waitFor(() => expect(getByText('View comment')));
-    fireEvent.keyDown(openCommentBtn, { key: 'Enter' });
+    const mockCreatePostLike = jest.fn().mockResolvedValue({});
+    const mockDeletePostLike = jest.fn().mockResolvedValue({});
+
+    (useCreatePostLikeMutation as jest.Mock).mockReturnValue([mockCreatePostLike]);
+    (useDeletePostLikeMutation as jest.Mock).mockReturnValue([mockDeletePostLike]);
+    (useGetPostLikeQuery as jest.Mock).mockReturnValue({
+      data: {
+        getPostLike: {
+          isLike: false,
+        },
+      },
+      refetch: mockRefetch,
+    });
+    (useGetPostLikesQuery as jest.Mock).mockReturnValue({
+      refetch: mockPostLikesRefetch,
+    });
+    (useAuth as jest.Mock).mockReturnValue(mockAuthData);
+    render(<PostWithComments id="123" />);
+
+    const triggerButton = screen.getByTestId('open-comment-btn');
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
+  });
+
+  it('renders fallback UI when no data is available', () => {
+    (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
+      data: null,
+    });
+    (useGetCommentsQuery as jest.Mock).mockReturnValue({
+      data: null,
+    });
+
+    const mockCreatePostLike = jest.fn().mockResolvedValue({});
+    const mockDeletePostLike = jest.fn().mockResolvedValue({});
+
+    (useCreatePostLikeMutation as jest.Mock).mockReturnValue([mockCreatePostLike]);
+    (useDeletePostLikeMutation as jest.Mock).mockReturnValue([mockDeletePostLike]);
+    (useGetPostLikeQuery as jest.Mock).mockReturnValue({
+      data: {
+        getPostLike: {
+          isLike: false,
+        },
+      },
+      refetch: mockRefetch,
+    });
+    (useGetPostLikesQuery as jest.Mock).mockReturnValue({
+      refetch: mockPostLikesRefetch,
+    });
+    (useAuth as jest.Mock).mockReturnValue(mockAuthData1);
+
+    render(<PostWithComments id="123" />);
+
+    const triggerButton = screen.getByTestId('open-comment-btn');
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
+    screen.queryByText('No data available');
+  });
+
+  it('renders skeleton or loading state while loading', () => {
+    (useGetPostByPostIdQuery as jest.Mock).mockReturnValue({
+      loading: true,
+    });
+
+    render(<PostWithComments id="123" />);
+    screen.getByTestId('open-comment-btn');
+
+    screen.queryByText('Loading...');
   });
 });

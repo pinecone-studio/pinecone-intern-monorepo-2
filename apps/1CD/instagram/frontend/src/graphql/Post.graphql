@@ -99,3 +99,47 @@ query GetUserPosts($user: ID!) {
     createdAt
   }
 }
+
+query GetPostByPostId($postId: ID!) {
+  getPostByPostId(postId: $postId) {
+    _id
+    user {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}
+
+mutation UpdatePost($input: UpdatePostInput!) {
+  updatePost(input: $input) {
+    _id
+    description
+    images
+    lastComments
+    commentCount
+    likeCount
+    updatedAt
+    createdAt
+  }
+}

@@ -33,13 +33,18 @@ export interface dataProps {
 }
 
 import { useGetAllRequestSupervisor } from '@/context/GetAllRequestBySupervisorContext';
+import { Loader } from '@/context/SecurePageWrapper';
 
 // eslint-disable-next-line complexity
 const RequestList = () => {
-  const { data, reload, page, setPage } = useGetAllRequestSupervisor();
+  const { data, reload, page, setPage, loading } = useGetAllRequestSupervisor();
 
   if (!data || !data.getAllRequestLength.res) {
     return null;
+  }
+
+  if(loading){
+    return <Loader/>
   }
 
   const maxPage = Number((data.getAllRequestLength.res / 10).toFixed());

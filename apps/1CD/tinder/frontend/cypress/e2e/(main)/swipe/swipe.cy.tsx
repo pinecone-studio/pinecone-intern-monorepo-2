@@ -43,6 +43,7 @@ describe('testing the swipe page', () => {
   it('5.should swipe left the card', () => {
     cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(-200,200,{position:'left'}).wait(1000).realMouseUp({position:'left'})
     cy.wait(2000);
+  
   });
   it('6.should swipe up the card',()=>{
     cy.get('[data-cy="swipingImg"]').realSwipe('toTop');
@@ -52,6 +53,14 @@ describe('testing the swipe page', () => {
     cy.get('[data-cy="swipingImg"]').realSwipe('toLeft').wait(1000);
     cy.get('[data-cy="swipingImg"]').realMouseUp();
     cy.wait(2000);
+  });
+  it('8.should show like', () => {
+    cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(200,200,{position:'right'}).wait(1000);
+    cy.get('[data-cy="likePic"]').should('exist');
+  });
+  it('9.should show dislike', () => {
+    cy.get('[data-cy="swipingImg"]').realMouseDown({position:'center'}).wait(1000).realMouseMove(-200,200,{position:'left'}).wait(1000);
+    cy.get('[data-cy="dislikePic"]').should('exist');
   });
 
  

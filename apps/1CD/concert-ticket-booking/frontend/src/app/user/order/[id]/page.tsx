@@ -3,23 +3,21 @@
 'use client';
 import React, { useState } from 'react';
 import OrderDetail from '../_components/OrderDetail';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Order, UserInfo } from '@/utils/type';
 import OrderConfirm from '../_components/OrderConfirm';
 import Payment from '../_components/Payment';
-import { toast } from 'sonner';
-import { useAddToCartsMutation } from '@/generated';
 
 const OrderTicketPage = () => {
   const [currentState, setCurrentState] = useState<number>(1);
   const [order, setOrder] = useState<Order[]>([]);
   const router = useRouter();
-  const { id } = useParams();
+
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
   const [quantity, setQuantity] = useState<number[]>([]);
-  const [buyer, setBuyer] = useState<UserInfo>();
+  const [buyer, setBuyer] = useState<UserInfo>({ email: '', phoneNumber: '' });
 
   const handleUndo = () => {
     if (currentState === 1) {
@@ -54,33 +52,6 @@ const OrderTicketPage = () => {
       return newQuantity;
     });
   };
-  const [addToCart] = useAddToCartsMutation({
-    onCompleted: () => {
-      toast.success('Successfully buy ticket check your email');
-      router.push('/user/home');
-    },
-    onError: (error: any) => {
-      toast.error(error.message);
-    },
-  });
-
-  const createOrder = async () => {
-    const ticketType = order.map((item) => ({
-      _id: item._id,
-      buyQuantity: item.buyQuantity.toString(),
-    }));
-    await addToCart({
-      variables: {
-        input: {
-          email: buyer!.email,
-          phoneNumber: buyer!.phoneNumber,
-          eventId: eventId!,
-          ticketId: id as string,
-          ticketType: ticketType,
-        },
-      },
-    });
-  };
 
   return (
     <div
@@ -90,7 +61,7 @@ const OrderTicketPage = () => {
       }}
       data-cy="order-ticket-page"
     >
-      <header className="flex justify-between items-center w-3/6 h-[80px] flex text-white text-[16px] mx-10" data-cy="order-ticket-header">
+      <header className="flex justify-between items-center w-3/6 h-[80px]  text-white text-[16px] mx-10" data-cy="order-ticket-header">
         <Button onClick={handleUndo} className="text-white" data-cy="undo-button">
           Undo
         </Button>
@@ -103,11 +74,10 @@ const OrderTicketPage = () => {
       <div className="mt-4">
         {currentState === 1 && <OrderDetail setQuantity={setQuantity} quantity={quantity} handleQuantityChange={handleQuantityChange} order={order} setOrder={setOrder} setState={setCurrentState} />}
         {currentState === 2 && <OrderConfirm setBuyer={setBuyer} setState={setCurrentState} order={order} />}
-        {currentState === 3 && <Payment order={order} createOrder={createOrder} />}
+        {currentState === 3 && <Payment order={order} buyer={buyer} />}
       </div>
     </div>
   );
 };
 
 export default OrderTicketPage;
-

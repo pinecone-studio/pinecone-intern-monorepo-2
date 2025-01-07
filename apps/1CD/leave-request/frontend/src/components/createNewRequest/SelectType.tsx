@@ -9,7 +9,7 @@ import { FileUpload } from '@/components/static/FileUpload';
 import { FormikProps } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { generateHours } from '../../app/(main)/createNewRequest/generate-hourst';
+import { generateHours } from '../../utils/generate-hourst';
 
 type HourOption = { label: string; value: string };
 

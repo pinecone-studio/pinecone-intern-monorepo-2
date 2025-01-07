@@ -19,13 +19,12 @@ const HomePage = () => {
             <h3 className="text-lg">Тасалбар</h3>
             <p className="text-sm text-[#71717A]">Идэвхитэй зарагдаж буй тасалбарууд</p>
           </div>
-          <CreateEventModal refetch={refetch}/>
+          <CreateEventModal refetch={refetch} />
         </div>
         <div className="border-t-[1px] my-6"></div>
         <p>Admin searcher coming </p>
 
-        <AdminDashboard searchValue={searchValue} selectedValues={selectedValues} date={date} priority={''}/>
-
+        <AdminDashboard searchValue={searchValue} selectedValues={selectedValues} date={date} />
       </div>
     </Container>
   );

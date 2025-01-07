@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Order, useGetOrderQuery } from '@/generated';
@@ -5,25 +6,43 @@ import dayjs from 'dayjs';
 import { Clock } from 'lucide-react';
 import { useState } from 'react';
 import DialogComponent from './Dialog';
-import { isLessThan24Hours } from '@/utils/to-check';
 import { calculateTotalAmount } from '@/utils/calculate';
 import toMNT from '@/utils/show-tugrik-format';
 
 const OrderInfo = () => {
   const { data, refetch } = useGetOrderQuery();
   const orders = data?.getOrder;
-  const [open, setOpen] = useState(false);
+  const [openOrderId, setOpenOrderId] = useState<string | null>(null); 
 
   const onClose = () => {
-    setOpen(false);
+    setOpenOrderId(null);
   };
 
+  console.log("orders", orders);
+
+  const nonCanceledOrders = orders
+    ?.filter((order) => order?.status === 'available')
+    .slice()
+    .sort((a, b) => dayjs(b?.createdAt).valueOf() - dayjs(a?.createdAt).valueOf());
+
+    const pendingOrders=orders?.filter((order)=>order?.status==='pending').slice().sort((a, b)=>dayjs(a?.createdAt).valueOf()-dayjs(b?.createdAt).valueOf());
+
+  const canceledOrders = orders
+    ?.filter((order) => order?.status === 'approved')
+    .slice()
+    .sort((a, b) => dayjs(a?.createdAt).valueOf() - dayjs(b?.createdAt).valueOf());
+
+  const sortedOrders = [...(nonCanceledOrders || []), ...(pendingOrders || []), ...(canceledOrders || [])];
+
+  const handleCancelClick = (orderId: string) => {
+    setOpenOrderId(orderId);
+  };
   return (
     <div className="text-white w-[841px]" data-cy="order-info-container">
       <h1 data-cy="order-info-title" className="mb-6 text-2xl font-semibold">
         Захиалгын мэдээлэл
       </h1>
-      {orders?.map((order) => (
+      {sortedOrders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
           <div className="flex items-center justify-between mb-4 text-white">
             <div className="flex gap-1">
@@ -42,12 +61,20 @@ const OrderInfo = () => {
                 <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Цуцлах хүсэлт илгээсэн</span>
               </div>
             )}
-            {isLessThan24Hours(order?.createdAt) && order?.status !== 'pending' && (
+            {order?.status === 'approved' && (
+              <div data-cy={`order-status-pending-${order?._id}`}>
+                <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
+                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Хүсэлт баталгаажсан</span>
+              </div>
+            )}
+            {order?.status === 'available' && (
               <>
-                <Button className="bg-[#27272A]" onClick={() => setOpen(true)} data-cy={`cancel-button-${order?._id}`}>
+                <Button className="bg-[#27272A]" onClick={() => handleCancelClick(order._id)} data-cy={`cancel-button-${order?._id}`}>
                   Цуцлах
                 </Button>
-                <DialogComponent open={open} onClose={onClose} order={order as Order} refetch={refetch} />
+                {openOrderId === order._id && (
+                  <DialogComponent open={true} onClose={onClose} order={order as Order} refetch={refetch} />
+                )}
               </>
             )}
           </div>

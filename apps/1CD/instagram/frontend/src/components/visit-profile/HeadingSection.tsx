@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
@@ -6,6 +7,7 @@ import SeeFollowersDialog from './SeeFollowers';
 import SeeFollowingsDialog from './SeeFollowings';
 import { Follower } from '../user-profile/FollowerDialog';
 import { Following } from '../user-profile/FollowingDialog';
+import Image from 'next/image';
 
 const HeadingSection = ({
   profileUser,
@@ -25,7 +27,7 @@ const HeadingSection = ({
   return (
     <div className="flex flex-row mb-10 justify-evenly">
       <section>
-        <img
+        <Image
           data-testid="proImage"
           src={
             profileUser?.profileImg ||

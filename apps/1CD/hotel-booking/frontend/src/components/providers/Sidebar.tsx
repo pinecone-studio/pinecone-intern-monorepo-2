@@ -6,11 +6,11 @@ import Link from 'next/link';
 
 const SideBar = () => {
   const item = [
-    { title: 'Hotels', icon: <Hotel /> },
-    { title: 'Guests', icon: <Users /> },
+    { title: 'Hotels', icon: <Hotel />, link: '/add-hotel/home-page' },
+    { title: 'Guests', icon: <Users />, link: '/guests' },
   ];
   return (
-    <Sidebar>
+    <Sidebar className="w-[17%]">
       <SidebarHeader>
         <div className="flex gap-2 pl-2 pt-2.5 items-center">
           <div className="w-[32px] h-[32px] bg-[#2563EB] rounded-lg flex justify-center items-center">
@@ -22,11 +22,11 @@ const SideBar = () => {
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="pt-6 w-full">
+      <SidebarContent className="w-full pt-6">
         {item.map((item) => (
           <SidebarMenu key={item.title}>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Link href={item.link}>
                 <span className="pl-2.5">{item.icon}</span>
                 <span className="pl-2.5">{item.title}</span>
               </Link>
