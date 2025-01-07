@@ -1,74 +1,32 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { fireEvent, render } from '@testing-library/react';
+import { useCreateCommentMutation, useGetCommentsQuery } from '@/generated';
 import { CreateComment } from '@/components/comment/CreateComment';
-
-// Mock dependencies
 jest.mock('@/generated', () => ({
-  useCreateCommentMutation: jest.fn(() => [jest.fn(() => Promise.resolve())]),
-  useGetCommentsQuery: jest.fn(() => ({
-    refetch: jest.fn(),
-  })),
+  useGetCommentsQuery: jest.fn(),
+  useCreateCommentMutation: jest.fn(),
 }));
 
-describe('CreateComment Component', () => {
-  it('renders the component with input and emoji', () => {
-    render(<CreateComment id="test-post-id" />);
+describe('CreatePost comment', () => {
+  const mockRefetch = jest.fn();
+  const setCommentValue = jest.fn();
 
-    // Check input field
-    const input = screen.getByRole('textbox');
-    expect(input);
-
-    // Check emoji icon
-    const emojiIcon = screen.getByRole('img', { hidden: true });
-    expect(emojiIcon);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
+  it('should render succes CreatePost comment', async () => {
+    const mock = jest.fn().mockResolvedValue({});
 
-  it('updates the input value as the user types', () => {
-    render(<CreateComment id="test-post-id" />);
+    (useCreateCommentMutation as jest.Mock).mockReturnValue([mock]);
+    (setCommentValue as jest.Mock).mockReturnValue('');
+    (useGetCommentsQuery as jest.Mock).mockReturnValue({
+      refetch: mockRefetch,
+    });
 
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'Test Comment' } });
+    const { getByTestId } = render(<CreateComment id="post1" />);
 
-    expect(input);
-  });
+    const input = getByTestId('input') as HTMLInputElement;
 
-  it('shows the "Post" button only when input is not empty', () => {
-    render(<CreateComment id="test-post-id" />);
-
-    const postButtonBefore = screen.queryByText('Post');
-    expect(postButtonBefore);
-
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'Test Comment' } });
-
-    const postButtonAfter = screen.getByText('Post');
-    expect(postButtonAfter);
-  });
-
-
-  it('clears the input field after posting a comment', async () => {
-    const createCommentMock = jest.fn(() => Promise.resolve());
-
-    // Mock hooks
-    jest.mock('@/generated', () => ({
-      useCreateCommentMutation: jest.fn(() => [createCommentMock]),
-      useGetCommentsQuery: jest.fn(() => ({
-        refetch: jest.fn(),
-      })),
-    }));
-
-    render(<CreateComment id="test-post-id" />);
-
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'Test Comment' } });
-
-    const postButton = screen.getByText('Post');
-    fireEvent.click(postButton);
-
-    // Wait for async operations
-    await Promise.resolve();
-
-    expect(input);
+    fireEvent.change(input, { target: { value: 'test desc' } });
+    fireEvent.click(getByTestId('createBtn'));
   });
 });

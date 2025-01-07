@@ -28,6 +28,7 @@ export const CreateComment = ({ id }: { id: string }) => {
   return (
     <div className="flex items-center justify-between ">
       <Input
+        data-testid="input"
         type="text"
         className="block w-full p-0 overflow-x-scroll text-sm border-none resize focus-visible:outline-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-wrap "
         role="textbox"
@@ -42,7 +43,7 @@ export const CreateComment = ({ id }: { id: string }) => {
       ></textarea> */}
       <div className="flex gap-1">
         {commentValue.length > 0 ? (
-          <p onClick={handleCreateComment} className="text-sm font-medium text-blue-600 cursor-pointer">
+          <p onClick={handleCreateComment} data-testid="createBtn" className="text-sm font-medium text-blue-600 cursor-pointer">
             Post
           </p>
         ) : (
