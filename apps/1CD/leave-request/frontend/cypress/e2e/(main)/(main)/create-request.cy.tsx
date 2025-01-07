@@ -22,7 +22,8 @@ describe('Create Request', () => {
     cy.get('#requestTypeOptions').children().first().click();
     cy.get('button[value="hourly"]').click();
     cy.contains('button', 'Та өдрөө').click();
-    cy.contains('button', '30').click();
+    cy.get('[aria-label="Go to next month"]').click();
+    cy.contains('button', '30').last().click();
     cy.contains('div', 'Чөлөө авах өдөр').click();
     cy.contains('button', '00:00').first().click();
     cy.contains('div', '8:00').click();

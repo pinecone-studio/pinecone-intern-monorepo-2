@@ -27,7 +27,7 @@ const SendOtp = () => {
       setIsVerified(true);
       toast.success('OTP Verified Successfully');
       setToken(response.data.checkOTP);
-      router.push('./');
+      router.push('./leaveCalendar');
     }
   }, [email, otp, checkOtp]);
 
@@ -63,9 +63,9 @@ const SendOtp = () => {
           <Link href="/login">
             <ArrowLeft />
           </Link>
-          <Link href="/leaveCalendar">
+          <div>
             <RefreshCw />
-          </Link>
+          </div>
         </div>
       </Card>
     </div>

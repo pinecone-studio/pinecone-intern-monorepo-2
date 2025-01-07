@@ -20,6 +20,9 @@ describe('PostWithComments Component', () => {
   const mockAuthData = {
     user: { _id: '1', userName: 'Test User' },
   };
+  const mockAuthData1 = {
+    user: { _id: 'user1', userName: 'Test User' },
+  };
   const mockPostData = {
     getPostByPostId: {
       images: ['/image1.jpg', '/image2.jpg'],
@@ -80,8 +83,8 @@ describe('PostWithComments Component', () => {
     render(<PostWithComments id="123" />);
 
     const triggerButton = screen.getByTestId('open-comment-btn');
-
-    fireEvent.click(triggerButton);
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
   });
 
   it('renders fallback UI when no data is available', () => {
@@ -108,13 +111,13 @@ describe('PostWithComments Component', () => {
     (useGetPostLikesQuery as jest.Mock).mockReturnValue({
       refetch: mockPostLikesRefetch,
     });
-    (useAuth as jest.Mock).mockReturnValue(mockAuthData);
+    (useAuth as jest.Mock).mockReturnValue(mockAuthData1);
 
     render(<PostWithComments id="123" />);
 
     const triggerButton = screen.getByTestId('open-comment-btn');
-
-    fireEvent.click(triggerButton);
+    fireEvent.keyDown(triggerButton, { key: 'Enter' });
+    // fireEvent.click(triggerButton);
     screen.queryByText('No data available');
   });
 

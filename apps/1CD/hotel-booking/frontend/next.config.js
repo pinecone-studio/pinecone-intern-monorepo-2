@@ -22,6 +22,8 @@ const nextConfig = {
     LOCAL_BACKEND_URI: process.env.LOCAL_BACKEND_URI,
     BACKEND_URI: process.env.BACKEND_URI,
     STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    CLOUDINARYNAME: process.env.CLOUDINARYNAME,
+    CLOUDINARYPRESET: process.env.CLOUDINARYPRESET,
   },
 };
 

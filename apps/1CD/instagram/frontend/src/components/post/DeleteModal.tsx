@@ -16,8 +16,6 @@ export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOp
     setOpenDeleteModal(false);
   };
 
-  //aldaaa zaawal toast uguh
-  //refresh hiih
   return (
     <Dialog open={openDeleteModal} onOpenChange={setOpenDeleteModal}>
       <DialogContent className="sm:max-w-[425px] [&>button]:hidden" data-testid="open-delete-modal">

@@ -5,10 +5,14 @@ import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { FaPlus } from 'react-icons/fa';
+import { useGroupedByStatusRequestLengthQuery } from '@/generated';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-// eslint-disable-next-line no-unused-vars
+
+// eslint-disable-next-line no-unused-vars, complexity
 const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) => {
+  const { data } = useGroupedByStatusRequestLengthQuery();
+
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(false);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
@@ -41,7 +45,7 @@ const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) =
         result.push('sent');
       }
       if (elements[i] == 'Татгалзсан') result.push('failed');
-      if (elements[i] == "Баталгаажсан") result.push('success');
+      if (elements[i] == 'Баталгаажсан') result.push('success');
     }
     return result;
   };
@@ -92,7 +96,7 @@ const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) =
           className="flex justify-between text-sm text-[#09090B]"
         >
           <p>Баталгаажсан</p>
-          <p>21</p>
+          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'success')?.res || '0'}</p>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={showActivityBar}
@@ -103,7 +107,7 @@ const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) =
           className="flex justify-between text-sm text-[#09090B]"
         >
           <p>Хүлээгдэж байна</p>
-          <p>21</p>
+          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'pending')?.res || '0' + data?.groupedByStatusRequestLength?.find((item) => item._id === 'sent')?.res || '0'}</p>
         </DropdownMenuCheckboxItem>
 
         <DropdownMenuCheckboxItem
@@ -115,7 +119,7 @@ const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) =
           className="flex justify-between text-sm text-[#09090B]"
         >
           <p>Татгалзсан</p>
-          <p>28</p>
+          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'failed')?.res || '0'}</p>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -5,7 +5,9 @@ import { Event as EventType } from '../../../generated';
 export const getEvents: QueryResolvers['getEvents'] = async (_, { filter = {} }) => {
   const today = new Date().toISOString();
   const { q, date, artist } = filter;
-  const findFilter: any = { $and: [{ scheduledDays: { $elemMatch: { $gte: today } } }] };
+  const findFilter: any = {
+    $and: [{ scheduledDays: { $elemMatch: { $gte: today } } }, { isArchived: false }],
+  };
 
   if (q) {
     findFilter.$and.push({
