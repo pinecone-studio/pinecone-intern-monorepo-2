@@ -30,7 +30,6 @@ export const Header = () => {
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>
   );
-
   const [createStory] = useCreateStoryMutation();
   const handleUploadStoryImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -45,10 +44,8 @@ export const Header = () => {
     });
     const uploadedImage = await res.json();
     const uploadedImageUrl: string = uploadedImage.secure_url;
-
     setStoryImg(uploadedImageUrl);
   };
-
   const handleCreateStory = async () => {
     if (!storyImg) {
       return;
@@ -65,11 +62,9 @@ export const Header = () => {
     setStoryImg('');
     setOpenStoryModal(false);
   };
-
   const discardStory = () => {
     setStoryImg('');
   };
-
   return (
     <>
       <aside data-testid="header" className={`relative h-screen flex-none border-r bg-card ${hide ? 'w-20' : 'w-[260px]'} overflow-hidden`}>
@@ -155,11 +150,6 @@ export const Header = () => {
       {showSearchComponent && (
         <div className="" data-testid="search-users-component">
           <SearchFromAllUsers />
-        </div>
-      )}
-      {showNotification && (
-        <div className="">
-          <Notification />
         </div>
       )}
     </>

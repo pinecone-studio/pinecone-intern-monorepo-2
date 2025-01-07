@@ -13,8 +13,8 @@ const Notification = () => {
       <div className="flex flex-col gap-4">
         <h6>Today</h6>
       </div>
-      {/* <NotifyFollowRequestCard /> */}
-      {notifyData?.getNotificationsByLoggedUser.map((oneNotification) => (
+      <NotifyFollowRequestCard />
+      {notifyData?.getNotificationsByLoggedUser!.map((oneNotification) => (
         <NotifyPostLikeCard key={oneNotification._id} userName={oneNotification.otherUserId.userName!} profileImg={oneNotification.otherUserId.profileImg!} createdDate={oneNotification.createdAt} />
       ))}
 
