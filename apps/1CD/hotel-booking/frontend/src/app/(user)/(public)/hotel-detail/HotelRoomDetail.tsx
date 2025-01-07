@@ -102,7 +102,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <button data-cy="Reserve-Button" onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))}>
+              <button data-cy="Reserve-Button" className='bg-blue-700 hover:bg-blue-500 text-sm font-medium' onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))}>
                 Reserve
               </button>
             </div>

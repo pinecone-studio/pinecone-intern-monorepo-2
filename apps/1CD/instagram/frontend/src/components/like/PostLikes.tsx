@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export const PostLikes = ({ id }: { id: string }) => {
   const { data } = useGetPostLikesQuery({
@@ -18,7 +19,7 @@ export const PostLikes = ({ id }: { id: string }) => {
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="cursor-pointer text-sm" data-testid="likeNumber" data-cy="likeNum">
+          <h1 className="text-sm cursor-pointer" data-testid="likeNumber" data-cy="likeNum">
             {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
           </h1>
         </div>
@@ -35,7 +36,7 @@ export const PostLikes = ({ id }: { id: string }) => {
           <div className="w-full space-y-2">
             {data?.getPostLikes.map((item) => (
               <div key={item?._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="dialogLikesCard">
-                <div className="flex items-center space-x-4">
+                <Link href={`/home/viewprofile/${item?.user._id}`} className="flex items-center space-x-4">
                   <section className="relative rounded-full w-14 h-14">
                     <Image
                       src={item?.user.profileImg || '/images/profileImg.webp'}
@@ -50,7 +51,7 @@ export const PostLikes = ({ id }: { id: string }) => {
                     <h1 className="text-lg font-semibold text-gray-700">{item?.user.userName}</h1>
                     <h1 className="text-sm font-medium">{item?.user.fullName}</h1>
                   </div>
-                </div>
+                </Link>
                 <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
               </div>
             ))}

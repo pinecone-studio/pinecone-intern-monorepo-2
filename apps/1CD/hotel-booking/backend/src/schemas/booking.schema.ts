@@ -56,6 +56,10 @@ export const typeDefs = gql`
     checkOutDate: Date
     totalPrice: Int!
     status: BookingStatus
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
   }
 
   enum BookingStatus {
@@ -65,12 +69,12 @@ export const typeDefs = gql`
   }
   type Mutation {
     addNewBooking(input: BookingInput!): BookingType!
-    updateBookingStatus(_id: ID!): BookingStatus!
+    updateBookingStatus(_id: ID!, status: BookingStatus!): BookingStatus!
   }
 
   type Query {
     getBooking(_id: ID): ReturnBooking!
     getBookingFindByUserId(userId: ID): [ReturnBooking!]!
-    getBookings(status: BookingStatus): [BookingsType!]!
+    getBookings(status: BookingStatus, hotelId: String): [BookingsType!]!
   }
 `;

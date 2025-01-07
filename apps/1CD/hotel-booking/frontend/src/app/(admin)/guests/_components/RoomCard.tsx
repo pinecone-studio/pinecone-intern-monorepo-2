@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ReturnBooking } from '@/generated';
 
 const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
+  const taxes = 50000;
   return (
     <>
       <section className="flex flex-col gap-2">
@@ -22,17 +23,17 @@ const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
             <div className="flex justify-between mt-2">
               <ul className="flex flex-col">
                 <li className="font-normal">1 night</li>
-                <li className="text-xs font-light text-gray-500">150,000₮ per night</li>
+                <li className="text-xs font-light text-gray-500">{data?.roomId?.price?.toLocaleString()}₮ per night</li>
               </ul>
               <p>{data?.roomId?.price?.toLocaleString()}₮</p>
             </div>
             <div className="flex justify-between mt-3">
               <h5>Taxes</h5>
-              <p>12,000₮</p>
+              <p>{taxes.toLocaleString()}₮</p>
             </div>
             <CardFooter className="flex justify-between px-0 border-t-[1px] pt-5 mt-5">
               <p>Total price</p>
-              <p>162,000₮</p>
+              <p>{(Number(data?.roomId?.price) + 50000).toLocaleString()}₮</p>
             </CardFooter>
           </CardContent>
         </Card>

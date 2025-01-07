@@ -1,7 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { expect } from '@jest/globals';
 import SeeFollowersDialog from '@/components/visit-profile/SeeFollowers';
-const mockedFollowerData = [{ _id: '1', fullName: 'Mock User1', profileImg: 'http://www.example.com/proImage1.jpg', userName: 'MockiU' }];
+const mockedFollowerData = [
+  { _id: '1', fullName: 'Mock User1', profileImg: 'http://www.example.com/proImage1.jpg', userName: 'MockiU' },
+  { _id: '2', fullName: 'Mock User1', profileImg: '', userName: 'MockiU' },
+];
 describe('render followers dialog', () => {
   it('1. should render successfully', async () => {
     render(<SeeFollowersDialog followerData={mockedFollowerData} followerDataCount={mockedFollowerData.length} />);
