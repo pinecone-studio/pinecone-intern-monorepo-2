@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Bookmark, MessageCircle } from 'lucide-react';
-import { CommentCard } from '../../../components/comment/CommentCard';
+import { CommentCard } from './comment/CommentCard';
 import { PostLikes } from '../../../components/like/PostLikes';
 import { PostLike } from '@/components/like/PostLike';
 import { useAuth } from '../../../components/providers';

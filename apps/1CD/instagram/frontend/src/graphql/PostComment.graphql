@@ -87,3 +87,15 @@ mutation CreateComment($input: CreateCommentInput!) {
     updatedAt
   }
 }
+
+mutation DeleteComment($id: ID!) {
+  deleteComment(_id: $id) {
+    _id
+    postId
+    commentText
+    reply
+    commentLike
+    createdAt
+    updatedAt
+  }
+}
