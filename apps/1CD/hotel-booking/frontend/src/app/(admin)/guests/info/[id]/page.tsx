@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import BreadCrumb from '../../_components/BreadCrumb';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
@@ -7,36 +7,40 @@ import GuestCard from '../../_components/GuestCard';
 import RoomInfo from '../../_components/RoomCard';
 import { ChevronLeft } from 'lucide-react';
 import { useGetBookingQuery } from '@/generated';
-import { useRouter } from 'next/navigation';
+import ConfirmCheckoutDialog from '../../_components/ConfirmCheckoutDialog';
 
 const GuestInfo = ({ params }: { params: { id: string } }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { data } = useGetBookingQuery({
     variables: {
       id: params.id,
     },
   });
-  const router = useRouter();
+
   return (
     <>
-      <div data-cy="Guest-Info-Router" onClick={() => router.push(`/guests/guests-info/${params.id}`)}>
-        <div className="w-screen h-screen bg-slate-50" data-cy="Guest-Info-Page">
-          <div className="flex items-center gap-2 my-6 ml-5">
+      <div className="min-h-screen pt-5 bg-slate-50" data-cy="Guest-Info-Page">
+        <div className="ml-4">
+          <div className="flex items-center gap-2">
             <SidebarTrigger />
             <BreadCrumb />
           </div>
-          <div className="flex flex-col gap-3 item-center">
-            <div className="flex items-center gap-2 ml-[13%]">
+          <div className="flex flex-col gap-3 mt-8 item-center">
+            <div className="flex items-center gap-2">
               <div className="w-8 h-8 text-center bg-white border rounded-lg">
                 <ChevronLeft size={20} className="pt-1 pl-1" />
               </div>
-              <h2 className="font-semibold">Shagai Nyamdorj</h2>
+              <h2 className="font-semibold">
+                {data?.getBooking.firstName} {data?.getBooking.lastName}
+              </h2>
             </div>
-            <div className="flex gap-4 ml-[13%]" data-cy="Guests-Info-Content-Section">
-              <GuestCard info={data?.getBooking} />
+            <div className="flex gap-4" data-cy="Guests-Info-Content-Section">
+              <GuestCard setOpen={setIsOpen} info={data?.getBooking} />
               <RoomInfo data={data?.getBooking} />
             </div>
           </div>
         </div>
+        <ConfirmCheckoutDialog id={params.id} open={isOpen} setOpen={setIsOpen} />
       </div>
     </>
   );

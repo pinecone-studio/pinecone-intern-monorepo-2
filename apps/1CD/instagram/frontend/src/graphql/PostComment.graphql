@@ -57,3 +57,33 @@ query GetComments($postId: String!) {
     updatedAt
   }
 }
+
+mutation CreateComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    _id
+    postId
+    commentText
+    commentedUser {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+    reply
+    commentLike
+    createdAt
+    updatedAt
+  }
+}

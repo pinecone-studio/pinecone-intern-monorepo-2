@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Bookmark, Dot, Loader, MessageCircle, MoreVertical, Smile } from 'lucide-react';
+import { Bookmark, Dot, Loader, MessageCircle, MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
@@ -13,6 +13,7 @@ import { LastCommentCard } from '../../../components/comment/LastCommentCard';
 import { PostWithComments } from '../../../components/post/PostWithComments';
 import { PostImg } from '../../../components/post/PostImgCarousel';
 import Link from 'next/link';
+import { CreateComment } from '@/components/comment/CreateComment';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
@@ -83,12 +84,7 @@ export const PostCard = () => {
 
             <PostWithComments id={post?._id} />
             <LastCommentCard id={post._id} />
-            <div className="flex justify-between ">
-              <input type="text" className="text-sm border-none" placeholder="Add a comment..." />
-              <p>
-                <Smile strokeWidth={1} width={18} height={18} />
-              </p>
-            </div>
+            <CreateComment id={post._id} />
           </div>
         );
       })}
