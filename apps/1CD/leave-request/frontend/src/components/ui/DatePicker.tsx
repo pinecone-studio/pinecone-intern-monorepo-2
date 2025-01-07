@@ -23,7 +23,17 @@ export const DatePickerDemo = ({ formik }: { formik: FormikProps<RequestFormValu
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={requestDate} onSelect={(e) => formik.setFieldValue('requestDate', e)} initialFocus />
+        <Calendar
+          disabled={(date) => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return date < today;
+          }}
+          mode="single"
+          selected={requestDate}
+          onSelect={(e) => formik.setFieldValue('requestDate', e)}
+          initialFocus
+        />
       </PopoverContent>
     </Popover>
   );
