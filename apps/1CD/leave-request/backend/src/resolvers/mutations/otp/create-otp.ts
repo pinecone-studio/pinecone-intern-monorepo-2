@@ -30,7 +30,7 @@ export const createsOTP: MutationResolvers['createsOTP'] = async (_, { email }) 
   });
 
   
-  await sendEmail(otp, email)
+  sendEmail(otp, email)
   
   return otpObj;
 };
