@@ -59,11 +59,11 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
                 </div>
 
                 <div className="flex items-center w-full gap-4 py-1">
-                  <div className="">
+                  <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user?._id}`} className="">
                     <div className="relative w-8 h-8 rounded-full">
                       <Image sizes="h-auto w-auto" src={PostData?.getPostByPostId?.user?.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" />
                     </div>
-                  </div>
+                  </Link>
                   <div className="flex flex-col gap-1 text-sm font-normal text-black">
                     <h1 className="text-sm font-bold text-black ">
                       {PostData?.getPostByPostId?.user?.userName}

@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export interface Following {
   _id: string;
@@ -52,16 +53,23 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
           </div>
           <div className="w-full space-y-2">
             {followingData.map((oneFollowing) => (
-              <div key={oneFollowing._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followingCard">
-                <div className="flex items-center space-x-4">
-                  <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollowing.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followingCardImg" sizes="h-auto w-auto" />
-                  </section>
+              <div key={`key3${oneFollowing._id}`} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followingCard">
+                <Link href={`/home/viewprofile/${oneFollowing._id}`} className="flex items-center space-x-4">
+                  <div className="relative rounded-full w-14 h-14">
+                    <Image
+                      src={oneFollowing.profileImg || '/images/profileImg.webp'}
+                      alt="proZurag"
+                      fill
+                      className="absolute object-cover rounded-full"
+                      data-cy="followingCardImg"
+                      sizes="h-auto w-auto"
+                    />
+                  </div>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg font-semibold text-gray-700">{oneFollowing.userName}</h1>
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
-                </div>
+                </Link>
                 <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
               </div>
             ))}
