@@ -12,6 +12,7 @@ import { PostLikes } from '@/components/like/PostLikes';
 import { LastCommentCard } from '../../../components/comment/LastCommentCard';
 import { PostWithComments } from '../../../components/post/PostWithComments';
 import { PostImg } from '../../../components/post/PostImgCarousel';
+import Link from 'next/link';
 
 export const PostCard = () => {
   const { data, loading } = useGetMyFollowingsPostsQuery();
@@ -30,18 +31,18 @@ export const PostCard = () => {
         return (
           <div key={post?._id} className="md:border-b-[1px] md:pb-5">
             <div className="flex items-center justify-between py-[12px]">
-              <div className="flex items-center gap-2">
-                <div className="relative flex rounded-full w-9 h-9">
-                  <Image fill={true} src={post?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="object-cover w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
-                </div>
+              <div className="flex items-center gap-[0.5px]">
+                <Link href={`/home/viewprofile/${post.user._id}`} className="flex items-center gap-2">
+                  <div className="relative flex rounded-full w-9 h-9">
+                    <Image fill={true} src={post?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="object-cover w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
+                  </div>
+                  <h1 className="flex items-center font-bold ">{post?.user?.userName}</h1>
+                </Link>
 
-                <h1 className="flex items-center font-bold ">
-                  {post?.user?.userName}
-                  <span className="flex items-center font-normal text-gray-600 ">
-                    <Dot />
-                    {formatDistanceToNowStrict(new Date(post?.createdAt))}
-                  </span>
-                </h1>
+                <span className="flex items-center font-normal text-gray-600 ">
+                  <Dot />
+                  {formatDistanceToNowStrict(new Date(post?.createdAt))}
+                </span>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

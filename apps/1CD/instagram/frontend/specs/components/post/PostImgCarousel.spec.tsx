@@ -3,12 +3,13 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { PostImg } from '@/components/post/PostImgCarousel';
+import Image from 'next/image';
 // Adjust the path if necessary
 
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
+  default: ({ src, alt }: { src: string; alt: string }) => <Image src={src} alt={alt} />,
 }));
 
 // Mock Carousel components
