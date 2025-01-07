@@ -21,7 +21,7 @@ describe('getAllRequestLength Resolver', () => {
         search: 'example', 
         startDate: new Date(), 
         endDate: new Date(), 
-        supervisorEmail: 'test@example.com' 
+        supervisorEmail: 'amarjargal.ts01@gmail.com' 
       }, 
       expected: { res: 2 } 
     },
@@ -30,7 +30,7 @@ describe('getAllRequestLength Resolver', () => {
         search: 'example', 
         startDate: new Date(), 
         endDate: new Date(), 
-        supervisorEmail: 'test@example.com' 
+        supervisorEmail: 'amarjargal.ts01@gmail.com' 
       }, 
       expected: { res: 2 } 
     },
@@ -38,12 +38,12 @@ describe('getAllRequestLength Resolver', () => {
       params: { 
         startDate: new Date(), 
         endDate: new Date(), 
-        supervisorEmail: 'test@example.com' 
+        supervisorEmail: 'amarjargal.ts01@gmail.com' 
       }, 
       expected: { res: 2 } 
     },
     { 
-      params: {}, 
+      params: { supervisorEmail: 'amarjargal.ts01@gmail.com' }, 
       expected: { res: 2 } 
     },
   ])('should return correct request length for $params', async ({ params, expected }) => {
