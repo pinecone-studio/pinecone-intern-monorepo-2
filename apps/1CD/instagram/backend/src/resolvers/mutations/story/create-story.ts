@@ -7,30 +7,24 @@ export const createStory: MutationResolvers['createStory'] = async (_, { input }
     throw new Error('Unauthorized');
   }
 
-  const findStoryByUserId = await storyModel.findOne({ userId: input.userId });
+  const findStoryByUserId = await storyModel.findOne({ user: input.user });
 
   if (!findStoryByUserId) {
     const story = await storyModel.create({
-      userId: input.userId,
-      userStories: [
+      user: input.user,
+      stories: [
         {
-          story: {
-            _id: new mongoose.Types.ObjectId(),
-            description: input.description,
-            image: input.image,
-          },
+          _id: new mongoose.Types.ObjectId(),
+          image: input.image,
         },
       ],
     });
     return story;
   }
 
-  findStoryByUserId.userStories.push({
-    story: {
-      _id: new mongoose.Types.ObjectId(),
-      description: input.description,
-      image: input.image,
-    },
+  findStoryByUserId.stories.push({
+    _id: new mongoose.Types.ObjectId(),
+    image: input.image,
   });
 
   const updatedData = await findStoryByUserId.save();
