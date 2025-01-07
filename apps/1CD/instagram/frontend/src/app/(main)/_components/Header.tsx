@@ -155,7 +155,7 @@ export const Header = () => {
         </div>
       )}
       {showNotification && (
-        <div className="">
+        <div className="" data-testid="notification-component">
           <Notification />
         </div>
       )}
