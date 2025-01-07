@@ -28,7 +28,7 @@ const HeaderFilter = () => {
       </div>
       <Button
         onClick={() => router.push(`/search-result?dateFrom=${dateFrom ? dateFrom : ''}&dateTo=${dateTo ? dateTo : ''}&roomType=${roomType ? roomType : ''}`)}
-        className="mt-4 bg-blue-700 md:w-48 md:mt-7"
+        className="mt-4 bg-blue-700 md:w-48 md:mt-7 hover:bg-blue-500"
         data-testid="search-hotel-room-btn"
       >
         Search

@@ -31,7 +31,7 @@ const Forgetpassword = () => {
         <div className="h-full p-6 space-y-3 flex flex-col justify-evenly">
           <div className="flex flex-col items-center mt-5 space-y-3">
             <section className="relative w-16 h-16 border-2 border-black rounded-full">
-              <Image src="/images/lock.png" alt="forgetpassword" fill className="absolute p-4" data-cy="forget-password-logo" />
+              <Image src="/images/lock.png" alt="forgetpassword" fill className="absolute p-4" data-cy="forget-password-logo" sizes="h-auto w-auto" />
             </section>
             <h1 className="font-bold">Trouble logging in?</h1>
             <p className="text-center w-[90%] text-gray-600">Enter your email and we will send you a link to get back into your account.</p>

@@ -48,7 +48,7 @@ const PriceDetail = ({ room, handleOpen, isOn }: { room: RoomType; isOn: boolean
             </div>
           </div>
         )}
-        <Button onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))} data-cy="Reserve-button" className="flex justify-center text-white">
+        <Button onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))} data-cy="Reserve-button" className="flex justify-center text-white bg-blue-700 hover:bg-blue-500 text-sm font-medium">
           Reserve
         </Button>
       </DialogContent>

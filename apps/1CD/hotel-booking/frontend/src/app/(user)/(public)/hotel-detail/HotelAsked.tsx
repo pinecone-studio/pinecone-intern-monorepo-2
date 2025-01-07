@@ -7,7 +7,7 @@ const HotelAsked = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
     <div className="flex gap-20">
       <div className="w-[264px] text-2xl font-semibold">Frequently asked questions</div>
-      <Accordion type="single" collapsible data-cy="Hotel-Asked" className="w-full flex-1">
+      <Accordion type="single" collapsible data-cy="Hotel-Asked" className="flex-1 w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger data-cy="hotel-ask-trigger" className="text-base font-medium">
             Is {hotel?.hotelName} pet-friendly?

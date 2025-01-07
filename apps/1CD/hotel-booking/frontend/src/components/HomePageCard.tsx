@@ -33,7 +33,7 @@ const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
             <p className="text-[14px] md:text-[16px]">Free self parking</p>
           </div>
           <div className="flex gap-1.5 items-center pb-3">
-            <div className="bg-blue-600 text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold md:text-[14px]">8.6</div>
+            <div className="bg-blue-700 text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold md:text-[14px] hover:bg-blue-500">8.6</div>
             <p className="text-[14px] md:text-[16px]">Excellent</p>
           </div>
         </div>

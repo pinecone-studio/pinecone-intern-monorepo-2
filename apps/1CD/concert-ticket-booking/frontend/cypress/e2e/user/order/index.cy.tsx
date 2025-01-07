@@ -10,7 +10,7 @@ describe('OrderDetail Page', () => {
     cy.get('.toast').should('contain', 'Successfully login');
     cy.url().should('include', '/user/home');
   });
-  it('should display the correct state and allow navigation', () => {
+  it('1. should display the correct state and allow navigation', () => {
     cy.visit('/user/order/6775692364c0071f2a79492c?event=6775692364c0071f2a794935&venue=675699a6c1dddce3ed2978ae');
     cy.get('[data-cy="order-ticket-header"]').should('contain', 'Тасалбар захиалах');
     cy.get('[data-cy="increase-0"]').should('be.visible').click();
@@ -25,16 +25,15 @@ describe('OrderDetail Page', () => {
     cy.url().should('include', '/user/home');
   });
 
-  it('should allow user to increase or decrease quantity', () => {
+  it('2. should allow user to increase or decrease quantity', () => {
     cy.visit('/user/order/6775692364c0071f2a79492c?event=6775692364c0071f2a794935&venue=675699a6c1dddce3ed2978ae');
-    // cy.get('[data-cy="event-scheduled-time"]').should('have.text', '25.06.27 03:00 pm');
     cy.get('[data-cy="increase-0"]').should('be.visible').click();
     cy.get('[data-cy="quantity-input-0"]').should('have.value', 1);
     cy.get('[data-cy="increase-1"]').should('be.visible').click();
     cy.get('[data-cy="quantity-input-1"]').should('have.value', 1);
     cy.get('[data-cy="decrease-1"]').should('be.visible').click();
   });
-  it('should show error if quantity exceeds available stock', () => {
+  it('3. should show error if quantity exceeds available stock', () => {
     cy.visit('/user/order/6775692364c0071f2a79492c?event=6775692364c0071f2a794935&venue=675699a6c1dddce3ed2978ae');
     cy.get('[data-cy="increase-2"]').should('be.visible').click();
     cy.get('[data-cy="increase-2"]').should('be.visible').click();
@@ -42,18 +41,30 @@ describe('OrderDetail Page', () => {
     cy.get('[data-cy="decrease-2"]').should('be.visible').click();
     cy.get(`[data-cy="quantity-input-2"]`).should('have.value', '1');
   });
-  it('should navigate to the next step when "Тасалбар авах" is clicked', () => {
+  it('4. should navigate to the next step when "Тасалбар авах" is clicked', () => {
     cy.visit('/user/order/6775692364c0071f2a79492c?event=6775692364c0071f2a794935&venue=675699a6c1');
     cy.get('.toast').should('contain', 'Error: Cast to ObjectId failed for value "675699a6c1" (type string) at path "_id" for model "Venue"');
   });
-  it('should buy ticket correctly', () => {
+  it('5. should buy ticket correctly', () => {
     interceptGraphql({
       state: '',
       operationName: 'AddToCarts',
       data: {
         data: {
           addToCarts: {
-            message: 'success',
+            _id: '677a9efe38ba3d3631468ce5',
+            __typename: 'Order',
+          },
+        },
+      },
+    });
+    interceptGraphql({
+      state: '',
+      operationName: 'PaymentCheck',
+      data: {
+        data: {
+          paymentCheck: {
+            message: 'paid',
             __typename: 'Response',
           },
         },
@@ -65,9 +76,10 @@ describe('OrderDetail Page', () => {
     cy.get('[ data-cy="order-confirm-button"]').click();
     cy.get('[data-cy="payment-select-button"]').click();
     cy.get('[data-cy="payment-submit-button"]').click();
-    cy.get('.toast').should('contain', 'Successfully buy ticket check your email');
+    cy.get('[ data-cy="payment-qr-title"]').should('be.visible');
+    cy.get('.toast').should('contain', 'Successfully bought ticket, check your email');
   });
-  it('should navigate to the next step when "Тасалбар авах" is clicked', () => {
+  it('6.should navigate to the next step when "Тасалбар авах" is clicked', () => {
     interceptGraphql({
       state: 'error',
       operationName: 'AddToCarts',
@@ -89,7 +101,7 @@ describe('OrderDetail Page', () => {
     cy.get('[data-cy="payment-submit-button"]').click();
     cy.get('.toast').should('contain', 'Invalid data');
   });
-  it('should buy ticket correctly', () => {
+  it('7.should check form validation', () => {
     cy.visit('/user/sign-in');
     cy.get('input[name="email"]').type('bat1@gmail.com');
     cy.get('input[name="password"]').type('P@ss1234');
@@ -100,5 +112,47 @@ describe('OrderDetail Page', () => {
     cy.get('[data-cy="increase-0"]').should('be.visible').click();
     cy.get('[data-cy="purchase-ticket-button"]').click();
     cy.get('[ data-cy="order-confirm-button"]').click();
+  });
+  it('8.should stop payment check after 2 minutes and show toast notification', () => {
+    interceptGraphql({
+      state: '',
+      operationName: 'AddToCarts',
+      data: {
+        data: {
+          addToCarts: {
+            _id: '677a9efe38ba3d3631468ce5',
+            __typename: 'Order',
+          },
+        },
+      },
+    });
+
+    // Intercept the PaymentCheck to return 'pending' initially
+    interceptGraphql({
+      state: '',
+      operationName: 'PaymentCheck',
+      data: {
+        data: {
+          paymentCheck: {
+            message: 'pending',
+            __typename: 'Response',
+          },
+        },
+      },
+    });
+
+    cy.visit('/user/order/676b9997bd529295c8a1304f?event=676b9997bd529295c8a1305c&venue=67482f4bae5aca4e02a71a30');
+    cy.get('[data-cy="increase-0"]').should('be.visible').click();
+    cy.get('[data-cy="purchase-ticket-button"]').click();
+    cy.get('[data-cy="order-confirm-button"]').click();
+    cy.get('[data-cy="payment-select-button"]').click();
+    cy.clock();
+    cy.get('[data-cy="payment-submit-button"]').click();
+
+    cy.get('[data-cy="payment-qr-title"]').should('be.visible');
+
+    cy.tick(5000); // First interval is triggered here
+    cy.tick(120000);
+    cy.get('.toast', { timeout: 30000 }).should('contain', 'Payment check has been stopped due to time limit.');
   });
 });

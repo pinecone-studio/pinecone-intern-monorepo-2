@@ -30,9 +30,7 @@ describe('InputArtists Component', () => {
     cy.get('[data-testid="guest-artist-name-input-0"]').should('exist');
     cy.get('[data-testid="add-guest-artist-button"]').click();
     cy.get('[data-testid="guest-artist-name-input-1"]').should('exist');
-
     cy.get('[data-testid="remove-guest-artist-button-1"]').click();
-
     cy.get('[data-testid="guest-artist-name-input-1"]').should('not.exist');
   });
   it('should not have empty input fields for guest artists after removal', () => {

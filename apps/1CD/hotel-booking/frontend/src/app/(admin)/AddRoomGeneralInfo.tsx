@@ -140,7 +140,7 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             </div>
             <div className="flex justify-between mt-6">
               <div>
-                <Button type="button" data-cy="Room-Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] hover:bg-slate-100 active:bg-slate-200 text-black">
+                <Button data-cy="Room-Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] border hover:bg-slate-100 active:bg-slate-200 text-black">
                   Cancel
                 </Button>
               </div>

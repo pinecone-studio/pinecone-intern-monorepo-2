@@ -18,7 +18,7 @@ const Page = () => {
   const confirmed: ReturnBooking[] = [];
   const previous: ReturnBooking[] = [];
   data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Booked && confirmed.push(booking));
-  data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Cancelled && previous.push(booking));
+  data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Cancelled || (BookingStatus.Completed && previous.push(booking)));
 
   return (
     <div className="container mx-auto max-w-[960px] flex flex-col gap-8" data-cy="Confirmed-Booking">

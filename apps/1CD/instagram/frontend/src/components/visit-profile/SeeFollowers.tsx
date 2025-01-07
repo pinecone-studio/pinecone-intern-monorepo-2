@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import { FollowerDialogProps } from '../user-profile/FollowerDialog';
+import Link from 'next/link';
 
 const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, followerDataCount }) => {
   return (
@@ -27,16 +28,23 @@ const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, follo
           </div>
           <div className="w-full space-y-2">
             {followerData.map((oneFollower) => (
-              <div key={oneFollower._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followerCard">
-                <div className="flex items-center space-x-4">
-                  <section className="relative rounded-full w-14 h-14">
-                    <Image src={oneFollower.profileImg!} alt="proZurag" fill className="absolute object-cover rounded-full" data-cy="followerCardImg" />
-                  </section>
+              <div key={`key1${oneFollower._id}`} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followerCard">
+                <Link href={`/home/viewprofile/${oneFollower._id}`} className="flex items-center space-x-4">
+                  <div className="relative rounded-full w-14 h-14">
+                    <Image
+                      sizes="h-auto w-auto"
+                      src={oneFollower.profileImg || '/images/profileImg.webp'}
+                      alt="proZurag"
+                      fill
+                      className="absolute object-cover rounded-full"
+                      data-cy="followerCardImg"
+                    />
+                  </div>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg font-semibold text-gray-700">{oneFollower.userName}</h1>
                     <h1 className="text-sm font-medium">{oneFollower.fullName}</h1>
                   </div>
-                </div>
+                </Link>
                 <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Follow</Button>
               </div>
             ))}

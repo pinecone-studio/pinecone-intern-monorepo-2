@@ -16,6 +16,7 @@ type Order = {
   phoneNumber: string;
   email: string;
   status: string;
+  payment: string;
   ticketType: TicketType[];
 };
 
@@ -48,6 +49,11 @@ const orderSchema = new Schema<Order>(
       type: String,
       enum: ['available', 'unavailable', 'pending', 'approved'],
       default: 'available',
+    },
+    payment: {
+      type: String,
+      enum: ['pending', 'paid'],
+      default: 'pending',
     },
     ticketType: [
       {

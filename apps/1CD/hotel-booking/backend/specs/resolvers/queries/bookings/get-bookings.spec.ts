@@ -28,6 +28,7 @@ describe('getBookings function', () => {
       {},
       {
         status: 'booked',
+        hotelId: '1',
       }
     );
 
@@ -40,7 +41,7 @@ describe('getBookings function', () => {
 
   it('No bookings found', async () => {
     try {
-      await getBookings!({}, { status: 'booked' });
+      await getBookings!({}, { status: 'booked', hotelId: '2' });
     } catch (error) {
       expect((error as Error).message).toEqual('No bookings found');
     }
