@@ -1,5 +1,5 @@
-query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $page: Int, $startDate: Date, $endDate: Date, $search: String) {
-  getAllRequestsBySupervisor(supervisorEmail: $supervisorEmail, status: $status, page: $page, startDate: $startDate, endDate: $endDate, search: $search) {
+query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $startDate: Date, $endDate: Date, $search: String, $page: Int) {
+  getAllRequestsBySupervisor(supervisorEmail: $supervisorEmail, status: $status, startDate: $startDate, endDate: $endDate, search: $search, page: $page) {
     _id
     requestType
     message
@@ -22,7 +22,7 @@ query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $
       updatedAt
     }
   }
-  getAllRequestLength(supervisorEmail: $supervisorEmail) {
+  getAllRequestLength(supervisorEmail: $supervisorEmail, search: $search, endDate: $endDate, startDate: $startDate, status: $status) {
     res
   }
 }
