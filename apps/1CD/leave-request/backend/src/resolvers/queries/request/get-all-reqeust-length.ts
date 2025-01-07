@@ -27,7 +27,22 @@ const filter = (supervisorEmail: string, search: string, status: string[], start
   }
 
   if (search) {
-    query.email = { $regex: search, $options: 'i'};
+    query.email = { $regex: search, $options: 'i' };
   }
   return query;
+};
+
+export const groupedByStatusRequestLength: QueryResolvers['groupedByStatusRequestLength'] = async (_) => {
+  const res = await RequestModel.aggregate([
+    {
+      $group: {
+        _id: '$result',
+        res: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+  ]);
+  return res;
 };
