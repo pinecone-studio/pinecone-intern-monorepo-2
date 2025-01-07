@@ -179,7 +179,7 @@ export const AdminDashboard = ({ searchValue, selectedValues, date }: AdminDashb
                         <UpdateEventPriority eventId={item!._id} index={index} />
                         <p>edit</p>
                         {loadingDelete ? (
-                          <span className="loader"></span>
+                          <Loader2 className="w-4 h-4 animate-spin text-[#00B7F4]" />
                         ) : (
                           <p onClick={() => handleSubmit(item!._id)}>
                             <Trash className="h-4 w-4" />
