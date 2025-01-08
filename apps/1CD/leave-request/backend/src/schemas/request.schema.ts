@@ -85,7 +85,7 @@ export const RequestTypeDefs = gql`
     updateRequest(result: String, comment: String, _id: ID): RequestType
   }
   input requestInput {
-    email: String!
+    supervisorEmail: String!
     startDate: Date
     endDate: Date
     status: [String]
