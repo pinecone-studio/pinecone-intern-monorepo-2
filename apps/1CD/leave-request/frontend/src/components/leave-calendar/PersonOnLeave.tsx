@@ -1,11 +1,8 @@
 'use client';
-import { Button } from '@/components/ui/button';
 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Clock, Tag } from 'lucide-react';
-import DateRangeButton from '../supervisor/DateRangeButton';
-
 
 interface requestProps {
   _id: string;
@@ -52,50 +49,39 @@ const RelativeDateNote = ({ gap }: { gap: number }) => {
   if (gap == -1) return 'Өчигдөр';
   return;
 };
+
 const PersonOnLeave = () => {
   return (
     <div className="w-[684px] h-[96px] border border-1 rounded-lg bg-white p-4 pl-6 m-0 flex flex-cols-2 gap-4">
-
       <div className=" flex-13">
         <Image className="rounded-full my-auto" src="" width={48} height={48} alt="Avatar" />
       </div>
-      
-      <div className=" flex-2/3"> 
-        <div className="flex-1">ASelenge </div>
-         <div className='flex gap-6 mt-2'>
-          <div className="flex text-sm text-[#71717A] gap-2"> 
-            <Clock size={16} />
+
+      <div className=" flex-2/3">
+        <div className="flex-1">A.Selenge </div>
+        <div className="flex gap-6 mt-2">
+          <div className="flex text-base gap-2 items-center">
+            <Clock size={16} className="text-[#71717A]" />
             <div> 12:00 - 18:00</div>
           </div>
-          <div className="flex text-sm text-[#71717A] gap-2"> 
-            <Tag size={16} />
-            <div>12:00 - 18:00</div>
+          <div className="flex items-center gap-2 text-base]">
+            <Tag size={16} className="text-[#71717A]" />
+            <div>Чөлөө (5 цаг)</div>
           </div>
         </div>
       </div>
     </div>
-  ); 
+  );
 };
 
 const Accepted = () => {
   const router = useRouter();
   return (
     <>
-      <div className="w-[684PX]  mx-auto mt-[36px]">
-        <div className='font-bold my-4'>Чөлөө авсан:</div>
-        <div className="flex justify-between">
-          <DateRangeButton />
-          <Button
-            onClick={() => {
-              router.push('/createNewRequest');
-            }}
-          >
-            + Чөлөө хүсэх
-          </Button>
-        </div>
+      <div className="mt-[36px]">
         <div className="mt-4"> Өнөөдөр</div>
-        <span></span>
         <PersonOnLeave />
+        <div className="mt-4"> Өчигдөр</div>
         <PersonOnLeave />
       </div>
     </>
