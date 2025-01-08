@@ -26,33 +26,20 @@ describe('AdminPagination Component', () => {
   });
 
   it('renders buttons and pages', () => {
-    // Check if the left and right buttons exist
     cy.get('[data-testid="left-btn"]').should('exist');
     cy.get('[data-testid="right-btn"]').should('exist');
-
-    // Check if the current page buttons are rendered
     cy.get('[data-testid^="currentPage-"]').should('have.length', 2);
   });
 
   it('navigates pages correctly', () => {
-    // Navigate to the next page
     cy.get('[data-testid="right-btn"]').click();
-
-    // Check if the URL contains the correct page number
     cy.url().should('include', 'page=2');
-
-    // Click on the first page button
     cy.get('[data-testid="currentPage-0"]').click();
   });
 
   it('disables out-of-bound navigation', () => {
-    // Try to go to a non-existing page using the left button
     cy.get('[data-testid="left-btn"]').click();
-
-    // Click on the first page button
     cy.get('[data-testid="currentPage-1"]').click();
-
-    // Try to navigate to the next page and ensure it goes to the second page
     cy.get('[data-testid="right-btn"]').click();
     cy.url().should('include', 'page=2');
   });
