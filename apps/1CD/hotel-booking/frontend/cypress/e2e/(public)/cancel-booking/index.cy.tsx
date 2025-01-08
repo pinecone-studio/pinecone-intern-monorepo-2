@@ -6,7 +6,7 @@ describe('cancel-booking', () => {
     cy.get('[data-cy=Login-Submit-Button]').click();
     cy.url().should('not.include', '/login');
     cy.getAllLocalStorage();
-    cy.visit('/cancel-booking');
+    cy.visit('/cancel-booking/6773d8e0afce7f8d639ba62c');
     cy.get('[data-cy="Cancellation-rules"]').should('be.visible').should('have.text', 'Cancellation rules');
   });
   it('1. should be button ChevronLeft', () => {
@@ -22,5 +22,11 @@ describe('cancel-booking', () => {
 
   it('3. should have text', () => {
     cy.get('[data-cy="Cancellation-rules"]').should('be.visible').should('have.text', 'Cancellation rules');
+  });
+
+  it('4. should click cancel booking button, and then should click confirm cancellation button', () => {
+    cy.get('[data-cy=Open-Dialog-Button]').click();
+    cy.get('[data-cy="Confirm-Button"]').click();
+    cy.get('[data-cy=Open-Dialog]').should('not.exist');
   });
 });
