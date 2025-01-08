@@ -14,8 +14,13 @@ import { Loader2 } from 'lucide-react';
 import { BookingPageRightSide } from '@/components/BookingPageRightSide';
 import { useRouter } from 'next/navigation';
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
+import { useAuth } from '@/components/providers';
+import { useQueryState } from 'nuqs';
 
 const Page = ({ params }: { params: { id: string } }) => {
+  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom');
+  const { user } = useAuth();
   const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
   const { data, loading } = useGetRoomQuery({
     variables: {
@@ -57,15 +62,16 @@ const Page = ({ params }: { params: { id: string } }) => {
             firstName: values.firstName,
             email: values.email,
             phoneNumber: String(values.phoneNumber),
-            userId: '6746fe2b288837dc694368dc',
-            roomId: '67734f9cc1bc07a554f731a0',
-            hotelId: '67734d4aa494d000fe224b6d',
-            checkInDate: '2024-12-12',
-            checkOutDate: '2024-12-15',
+            userId: user?._id,
+            roomId: params.id,
+            hotelId: data?.getRoom.hotelId?._id,
+            checkInDate: dateFrom,
+            checkOutDate: dateTo,
             status: BookingStatus.Booked,
           },
         },
       });
+
       resetForm();
 
       toast('booking is succussfully', {
@@ -80,6 +86,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     validationSchema,
   });
   if (loading) return <div>loading...</div>;
+
   return (
     <CheckLoginUser>
       <form data-cy="Checkout-Home-Page" onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-[60px] flex gap-16">

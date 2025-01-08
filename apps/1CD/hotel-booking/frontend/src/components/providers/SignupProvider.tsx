@@ -9,6 +9,7 @@ const SignupContext = createContext<SignupContextType>({} as SignupContextType);
 
 export const SignupProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+
   const [sendOtpMutation] = useSendOtpMutation();
   const [verifyOtpMutation] = useVerifyOtpMutation();
   const [setPasswordMutation] = useSetPasswordMutation();

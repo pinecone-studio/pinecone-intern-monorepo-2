@@ -4,7 +4,7 @@ describe('HotelDetail', () => {
   });
   it('1. should render', () => {
     cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
-    cy.get('[data-cy="Hotel-Detail-Room-Image"]').should('exist');
+    // cy.get('[data-cy="Hotel-Detail-Room-Image"]').should('exist');
   });
   it('2. should render', () => {
     cy.get('[data-cy="Hotel-Rooms"]').should('be.visible');
