@@ -1,10 +1,10 @@
-query Query {
-  sampleQuery
-}
+# query Query {
+#   sampleQuery
+# }
 
-mutation Mutation {
-  sampleMutation
-}
+# mutation Mutation {
+#   sampleMutation
+# }
 query GetUser {
   getUser {
     _id
@@ -164,5 +164,32 @@ mutation Unfollow($id: ID!, $followerId: ID!) {
     followingId
     status
     updatedAt
+  }
+}
+
+query GetNotificationsByLoggedUser {
+  getNotificationsByLoggedUser {
+    _id
+    createdAt
+    currentUserId
+    isViewed
+    notificationType
+    otherUserId {
+      _id
+      accountVisibility
+      bio
+      email
+      userName
+      profileImg
+      fullName
+    }
+    postId {
+      _id
+      description
+      images
+      user {
+        _id
+      }
+    }
   }
 }

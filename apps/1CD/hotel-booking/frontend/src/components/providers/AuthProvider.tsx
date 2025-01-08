@@ -2,7 +2,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useLoginMutation, User } from 'src/generated';
 import { AuthContextType, SignInParams } from './types/AuthTypes';
@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
       onCompleted: (data) => {
         localStorage.setItem('token', data.login.token);
+        localStorage.setItem('userInfo', JSON.stringify(data.login.user));
         setUser(data.login.user);
         router.push('/');
       },
@@ -43,7 +44,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem('token');
     setUser(null);
   };
-
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    if (userInfo) {
+      setUser(userInfo);
+    }
+  }, []);
   return <AuthContext.Provider value={{ signin, signout, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
 };
 

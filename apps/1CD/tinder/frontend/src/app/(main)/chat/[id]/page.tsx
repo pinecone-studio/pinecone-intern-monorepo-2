@@ -17,22 +17,22 @@ const Chat = ({ authToken }: any) => {
   const user2 = id;
   const [createChat] = useMutation(CREATE_CHAT);
 
-  const { chatloading, response, pageloading, errormessage,matchedData, refetchmatch, refetch, loading} = useLoadingstates(user2)
+  const { chatloading, response, pageloading, errormessage, matchedData, refetchmatch, refetch, loading } = useLoadingstates(user2);
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
   const sendMessage = async () => {
-      await createChat({
-        variables: {
-          input: {
-            content: message,
-            user2: user2,
-          },
+    await createChat({
+      variables: {
+        input: {
+          content: message,
+          user2: user2,
         },
-      });
-      setMessage('');
-      refetch();
-      refetchmatch();
+      },
+    });
+    setMessage('');
+    refetch();
+    refetchmatch();
   };
   if (pageloading) {
     return (
@@ -61,9 +61,9 @@ const Chat = ({ authToken }: any) => {
       </div>
     );
   }
-  
+
   <div className="flex flex-col items-center justify-center h-screen" data-cy="Error occured">
-      <p>Error occurred, try again</p>
-  </div>
+    <p>Error occurred, try again</p>
+  </div>;
 };
 export default Chat;

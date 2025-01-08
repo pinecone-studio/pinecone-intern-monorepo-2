@@ -46,7 +46,7 @@ describe('CancelRequestPage', () => {
     });
     cy.get('[data-cy="loading-text"]').should('be.visible');
     cy.get('[data-cy="request-table"]').should('be.visible');
-    cy.get('[data-cy="status-change-trigger-2"]').should('be.visible').click();
+    cy.get('[data-cy="status-change-trigger-0"]').should('be.visible').click();
     cy.get('[data-cy="status-change-dialog-title"]').should('be.visible');
     cy.get('[data-cy="status-change-submit-button"]').click();
     cy.get('[data-cy="status-change-modal"]').should('not.exist');
@@ -66,7 +66,7 @@ describe('CancelRequestPage', () => {
     });
     cy.get('[data-cy="loading-text"]').should('be.visible');
     cy.get('[data-cy="request-table"]').should('be.visible');
-    cy.get('[data-cy="status-change-trigger-2"]').should('be.visible').click();
+    cy.get('[data-cy="status-change-trigger-0"]').should('be.visible').click();
     cy.get('[data-cy="status-change-dialog-title"]').should('be.visible');
     cy.get('[data-cy="status-change-submit-button"]').click();
     cy.get('.toast').should('contain.text', 'something wrong');

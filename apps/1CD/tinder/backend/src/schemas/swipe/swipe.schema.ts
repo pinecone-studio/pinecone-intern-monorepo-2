@@ -11,9 +11,9 @@ export const typeDefs = gql`
     type: String!
   }
   type ResponseofGetUser{
-    swipedUserImg:String!
+    swipedUserImg:String
     userImg:String!
-    swipedName:String!
+    swipedName:String
   }
   
 

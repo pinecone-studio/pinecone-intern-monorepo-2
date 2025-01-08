@@ -4,13 +4,16 @@ import { useEffect, useRef, useState } from 'react';
 import { User, useSwipeUserMutation } from '@/generated';
 import Buttons from './Buttons';
 import Match from '../match/Match';
-
+import Like from '../like/Like';
+import Dislike from '../like/Dislike';
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
   const [rotate, setRotate] = useState(0);
   const [duration, setDuration] = useState(0.3);
   const [open, setOpen] = useState(false);
   const currentPosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isMatchOpen, setIsMatchOpen] = useState(false);
+  const [likeOpacity, setLikeOpacity] = useState(0);
+  const [DisOpacity, setDisOpacity] = useState(0);
 
   const [swipeUser, { data }] = useSwipeUserMutation();
 
@@ -62,7 +65,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       setSwiping(cards?.[0]);
       setTimeout(() => {
-        const updatedCards = cards.slice(1);
+        const updatedCards = [...cards.slice(1), cards[0]];
         setCards(updatedCards);
       }, 300);
     }, 299);
@@ -75,9 +78,15 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     console.log(currentPosition.current);
     const rotationAngle = newX / 15;
     setRotate(rotationAngle);
+    const DislikedcalculatedOpacity = Math.min(Math.max(-newX / 150, 0), 1);
+    setLikeOpacity(DislikedcalculatedOpacity);
+    const LikecalculatedOpacity = Math.min(Math.max(newX / 150, 0), 1);
+    setDisOpacity(LikecalculatedOpacity);
   };
   const resetCardPosition = () => {
     setDuration(0);
+    setLikeOpacity(0);
+    setDisOpacity(0);
     currentPosition.current = { x: 0, y: 0 };
     setRotate(0);
   };
@@ -92,6 +101,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
       resetCardPosition();
     }
   };
+
+
   return (
     <div>
       <div className="relative h-[560px] flex justify-center" data-cy="swipingImg-2">
@@ -130,10 +141,13 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
               zIndex: cards?.length + 1000,
             }}
           >
+            <Dislike opacity={likeOpacity} position={currentPosition.current.x} />
+            <Like position={currentPosition.current.x} opacity={DisOpacity} />
+
             {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
-        {isMatchOpen && swiping?._id && (<Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUser={swiping._id} />)}
+        {isMatchOpen && swiping?._id && <Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUser={swiping._id} />}
       </div>
       <div className="absolute left-0 right-0 z-[10000] flex justify-center">
         <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight} />

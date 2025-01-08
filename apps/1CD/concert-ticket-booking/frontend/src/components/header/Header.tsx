@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { useQueryState } from 'nuqs';
-import { Filter, House, Search, ShoppingCart } from 'lucide-react';
+import { Filter, House, LogOut, Search, ShoppingCart } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 export const Header = () => {
@@ -107,19 +107,15 @@ export const Header = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Button onClick={signout} variant="ghost" className="text-red-500">
-                      <span>Log out</span>
+                      <LogOut className="w-4 h-4" />
+                      <span>Гарах</span>
                     </Button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <Button
-              data-cy="SignOutBtn"
-              data-testid="SignOutBtn"
-              className="text-xs md:text-sm lg:block hidden font-medium leading-5 text-black bg-[#00B7f4] w-20 md:w-28 hover:text-white"
-              onClick={signout}
-            >
-              Гарах
+            <Button data-cy="SignOutBtn" data-testid="SignOutBtn" className="hidden font-medium leading-5 text-white bg-black md:text-sm lg:block" onClick={signout}>
+              <LogOut className="w-5 h-5" />
             </Button>
           </div>
         )}

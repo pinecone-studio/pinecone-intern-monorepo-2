@@ -6,9 +6,9 @@ import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
-import FollowerDialog from '@/components/user-profile/FollowerDialog';
+import FollowerDialog from '@/app/(main)/_components/follow/FollowerDialog';
 import FollowingDialog from '@/components/user-profile/FollowingDialog';
-import { PostImgCard } from '@/components/visit-profile/PostImgCard';
+import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
@@ -50,7 +50,7 @@ const UserProfile = () => {
       );
     else return <NoPost data-cy="zeroPost" />;
   };
-  console.log('useriig harah', user);
+  // console.log('useriig harah', user);
   return (
     <div className="mx-auto my-10" data-cy="user-profile-page">
       <div className="w-[900px]">
