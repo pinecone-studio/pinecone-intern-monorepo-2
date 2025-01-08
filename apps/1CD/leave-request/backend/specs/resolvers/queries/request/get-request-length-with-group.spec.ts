@@ -29,7 +29,7 @@ describe('groupedByStatusRequestLength Resolver', () => {
 
     mockAggregate.mockResolvedValue(mockData);
 
-    const result = await groupedByStatusRequestLength!({}, { input: { ...commonParams, status: ['sent', 'pending'] } }, {}, {} as GraphQLResolveInfo);
+    const result = await groupedByStatusRequestLength!({}, {  ...commonParams  }, {}, {} as GraphQLResolveInfo);
 
     expect(result).toEqual(mockData);
     expect(mockAggregate).toHaveBeenCalledWith([
@@ -57,7 +57,7 @@ describe('groupedByStatusRequestLength Resolver', () => {
   it('should return empty array if no requests match', async () => {
     mockAggregate.mockResolvedValue([]);
 
-    const result = await groupedByStatusRequestLength!({}, { input: { ...commonParams, status: ['sent', 'pending'] } }, {}, {} as GraphQLResolveInfo);
+    const result = await groupedByStatusRequestLength!({}, {  ...commonParams }, {}, {} as GraphQLResolveInfo);
 
     expect(result).toEqual([]);
   });
@@ -66,7 +66,7 @@ describe('groupedByStatusRequestLength Resolver', () => {
     mockAggregate.mockRejectedValue(new Error('Database error'));
 
     await expect(
-      groupedByStatusRequestLength!({}, { input: { ...commonParams, status: ['sent'] } }, {}, {} as GraphQLResolveInfo)
+      groupedByStatusRequestLength!({}, { ...commonParams }, {}, {} as GraphQLResolveInfo)
     ).rejects.toThrow('Database error');
   });
 });
