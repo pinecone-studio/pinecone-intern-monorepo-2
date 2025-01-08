@@ -84,7 +84,12 @@ export const RequestTypeDefs = gql`
     createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!, startTime: String, endTime: String, optionalFile: String): RequestType
     updateRequest(result: String, comment: String, _id: ID): RequestType
   }
-    
+  input requestInput {
+    email: String!
+    startDate: Date
+    endDate: Date
+    status: [String]
+  }
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
@@ -93,6 +98,6 @@ export const RequestTypeDefs = gql`
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
-    groupedByStatusRequestLength(email: String!, startDate: Date, endDate: Date): [GroupedRequestLength!]
+    groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
   }
 `;
