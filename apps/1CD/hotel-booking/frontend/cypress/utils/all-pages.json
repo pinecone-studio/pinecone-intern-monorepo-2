@@ -1,1 +1,30 @@
-["///add-hotel","///add-hotel/add-hotel-image","///add-hotel/home-page","///admin-hotel-detail/[id]","///guests","///guests/info/[id]","///room-detail/[id]","///forget-password","///forget-password/otp","///forget-password/update-password","///login","///signup","///signup/otp","///signup/password","///booking","///booking-confirm/[id]","///booking-detail/[id]","///cancel-booking","///checkout/[id]","///profile","//","///hotel-detail/[id]","///search-result"]
+
+
+[
+  "///add-hotel",
+  "///add-hotel/add-hotel-image",
+  "///add-hotel/home-page",
+  "///admin-hotel-detail/[id]",
+  "///guests",
+  "///guests/guests-info/[id]",
+  "///guests/info/[id]",
+  "///room-detail/[id]",
+  "///forget-password",
+  "///forget-password/otp",
+  "///forget-password/update-password",
+  "///login",
+  "///signup",
+  "///signup/otp",
+  "///signup/password",
+  "///booking",
+  "///booking-confirm/[id]",
+  "///booking-detail",
+  "///booking-detail/[id]",
+  "///cancel-booking",
+  "///checkout/[id]",
+  "///profile",
+  "//",
+  "///hotel-detail/[id]",
+  "///search-result"
+]
+
