@@ -1,5 +1,5 @@
 const DevEnv = `${process.env.ENVIRONEMNT}`==='development';
-const DevEnvIsTesting = `${process.env.ENVIRONEMNT}`==='testing';
+const DevEnvIsTesting = `${process.env.ENVIRONMENT}`==='testing';
 const Onlocal = process.env.NODE_ENV === 'development';
 
 export const giveTokenIndev = () => {
