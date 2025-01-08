@@ -10,41 +10,33 @@ jest.mock('../../../../src/models/request', () => ({
 const mockCountDocuments = jest.requireMock('../../../../src/models/request').RequestModel.countDocuments;
 
 describe('getAllRequestLength Resolver', () => {
+  const fixedDate = new Date('2023-01-01T00:00:00Z');
+  const commonParams = {
+    supervisorEmail: 'amarjargal.ts01@gmail.com',
+    startDate: fixedDate,
+    endDate: fixedDate,
+  };
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it.each([
-    { 
-      params: { 
-        status: ['sent'], 
-        search: 'example', 
-        startDate: new Date(), 
-        endDate: new Date(), 
-        supervisorEmail: 'amarjargal.ts01@gmail.com' 
-      }, 
-      expected: { res: 2 } 
+    {
+      params: { ...commonParams, status: ['sent'], search: 'example' },
+      expected: { res: 2 },
     },
-    { 
-      params: { 
-        search: 'example', 
-        startDate: new Date(), 
-        endDate: new Date(), 
-        supervisorEmail: 'amarjargal.ts01@gmail.com' 
-      }, 
-      expected: { res: 2 } 
+    {
+      params: { ...commonParams, search: 'example' },
+      expected: { res: 2 },
     },
-    { 
-      params: { 
-        startDate: new Date(), 
-        endDate: new Date(), 
-        supervisorEmail: 'amarjargal.ts01@gmail.com' 
-      }, 
-      expected: { res: 2 } 
+    {
+      params: commonParams,
+      expected: { res: 2 },
     },
-    { 
-      params: { supervisorEmail: 'amarjargal.ts01@gmail.com' }, 
-      expected: { res: 2 } 
+    {
+      params: { supervisorEmail: 'amarjargal.ts01@gmail.com' },
+      expected: { res: 2 },
     },
   ])('should return correct request length for $params', async ({ params, expected }) => {
     mockCountDocuments.mockResolvedValue(2);
