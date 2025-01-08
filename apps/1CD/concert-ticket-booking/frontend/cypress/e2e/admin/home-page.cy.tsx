@@ -1,5 +1,27 @@
+import { interceptGraphql } from 'cypress/utils/intercept-graphql';
+
 describe('Admin Page ', () => {
   beforeEach(() => {
+    const mockToken = {
+      token: 'faketoken',
+    };
+    cy.window().then((window) => {
+      window.localStorage.setItem('token', JSON.stringify(mockToken));
+    });
+    interceptGraphql({
+      state: '',
+      operationName: 'GetMe',
+      data: {
+        data: {
+          getMe: {
+            email: 'example@gmail.com',
+            role: 'admin',
+            phoneNumber: '+976 95160812',
+            __typename: 'User',
+          },
+        },
+      },
+    });
     cy.visit('/admin/home');
   });
   it('should render the copyright text', () => {

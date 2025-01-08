@@ -2,10 +2,12 @@ import { sendFollowReq } from '../../../../src/resolvers/mutations/follow/send-f
 import { userModel } from '../../../../src/models/user.model';
 import { followModel } from '../../../../src/models/follow.model';
 import { GraphQLResolveInfo } from 'graphql';
-import { AccountVisibility, FollowStatus } from '../../../../src/generated';
+import { AccountVisibility, FollowStatus, NotificationType } from '../../../../src/generated';
+import { notificationModel } from 'src/models';
 
 jest.mock('../../../../src/models/user.model');
 jest.mock('../../../../src/models/follow.model');
+jest.mock('../../../../src/models', () => ({ notificationModel: { create: jest.fn() } }));
 
 describe('sendFollowReq', () => {
   const followerId = 'followerId';
@@ -19,6 +21,7 @@ describe('sendFollowReq', () => {
     const mockUser = { accountVisibility: AccountVisibility.Public };
     (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
     (followModel.create as jest.Mock).mockResolvedValue({ _id: '1', followerId, followingId, status: FollowStatus.Approved });
+    (notificationModel.create as jest.Mock).mockResolvedValue({ otherUserId: 'followerId', currentUserId: 'followingId', notificationType: NotificationType.Follow });
 
     const result = await sendFollowReq!({}, { followerId, followingId }, { userId: 'followerId' }, {} as GraphQLResolveInfo);
 

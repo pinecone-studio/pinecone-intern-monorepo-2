@@ -3,18 +3,22 @@ import { useGetPostByPostIdQuery } from '@/generated';
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { Bookmark, MessageCircle, SmileIcon } from 'lucide-react';
-import { CommentCard } from '../../../components/comment/CommentCard';
-import { PostLikes } from '../../../components/like/PostLikes';
+import { Bookmark, MessageCircle } from 'lucide-react';
+
 import { PostLike } from '@/components/like/PostLike';
-import { useAuth } from '../../../components/providers';
+
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { DropMenu } from './DropMenu';
 import { UpdatePost } from './UpdatePost';
-import { DeleteModal } from '../../../components/post/DeleteModal';
-import { PostImg } from '../../../components/visit-profile/PostImgCarousel';
-import Link from 'next/link';
 
+import Link from 'next/link';
+import { CreateComment } from '@/components/comment/CreateComment';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { PostLikes } from '@/components/like/PostLikes';
+import { CommentCard } from '../comment/CommentCard';
+import { PostImg } from '@/components/visit-profile/PostImgCarousel';
+import { useAuth } from '@/components/providers';
+import { DeleteModal } from '@/components/post/DeleteModal';
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
@@ -57,23 +61,29 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
                     <DropMenu setClose={setClose} isUser={isUser} setOpenUpdateModal={setOpenUpdateModal} setOpenDeleteModal={setOpenDeleteModal} />
                   </div>
                 </div>
-
-                <div className="flex items-center w-full gap-4 py-1">
-                  <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user?._id}`} className="">
-                    <div className="relative w-8 h-8 rounded-full">
-                      <Image sizes="h-auto w-auto" src={PostData?.getPostByPostId?.user?.profileImg || '/images/profileImg.webp'} alt="proZurag" fill className="absolute object-cover rounded-full" />
+                <ScrollArea className="w-full h-[560px]">
+                  <div className="flex items-center w-full gap-4 py-1">
+                    <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user?._id}`} className="">
+                      <div className="relative w-8 h-8 rounded-full">
+                        <Image
+                          sizes="h-auto w-auto"
+                          src={PostData?.getPostByPostId?.user?.profileImg || '/images/profileImg.webp'}
+                          alt="proZurag"
+                          fill
+                          className="absolute object-cover rounded-full"
+                        />
+                      </div>
+                    </Link>
+                    <div className="flex flex-col gap-1 text-sm font-normal text-black">
+                      <h1 className="text-sm font-bold text-black ">
+                        {PostData?.getPostByPostId?.user?.userName}
+                        <span className="pl-1 font-normal text-wrap">{PostData?.getPostByPostId?.description}</span>
+                      </h1>
+                      <p className="text-[12px] text-[#71717A]">1w</p>
                     </div>
-                  </Link>
-                  <div className="flex flex-col gap-1 text-sm font-normal text-black">
-                    <h1 className="text-sm font-bold text-black ">
-                      {PostData?.getPostByPostId?.user?.userName}
-                      <span className="pl-1 font-normal text-wrap">{PostData?.getPostByPostId?.description}</span>
-                    </h1>
-                    <p className="text-[12px] text-[#71717A]">1w</p>
                   </div>
-                </div>
-
-                <CommentCard id={id} />
+                  <CommentCard id={id} />
+                </ScrollArea>
               </div>
               <div className="flex flex-col ">
                 <div className="border-y-[1px] pb-4 mb-4">
@@ -93,10 +103,7 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
 
                   <p className="text-[12px] text-[#71717A]">1 day ago</p>
                 </div>
-                <div className="flex gap-4">
-                  <SmileIcon width={20} height={20} />
-                  <input type="text" placeholder="Add a comment ..." />
-                </div>
+                <CreateComment id={id} />
               </div>
             </div>
           </div>
