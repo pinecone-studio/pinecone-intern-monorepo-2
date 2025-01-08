@@ -13,10 +13,10 @@ export const AdminPagination = ({ totalPages }: { totalPages: number }) => {
   };
   const currentPage = Number(page);
   if (totalPages <= 1) {
-    return <div></div>;
+    return <div data-testid="pagination-nothing-container"></div>;
   }
   return (
-    <Pagination>
+    <Pagination data-testid="pagination-container">
       <PaginationContent className="cursor-pointer text-black">
         <PaginationItem>
           <PaginationLink className="border rounded mx-3 text-black" data-testid="left-btn" onClick={() => handlePageChange(currentPage - 1)}>

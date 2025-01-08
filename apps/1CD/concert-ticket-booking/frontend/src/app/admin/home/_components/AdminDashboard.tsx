@@ -14,7 +14,7 @@ import { headers } from './AdminDashboardType';
 import { Loader2, Star, Trash } from 'lucide-react';
 import { UpdateEventPriority } from './UpdateEventPriority';
 import { toast } from 'sonner';
-import { AdminPagination } from '@/components/AdminDashboardPagination';
+import { AdminPagination } from '@/app/admin/home/_components/AdminDashboardPagination';
 
 type AdminDashboardProps = {
   data: Event[];
