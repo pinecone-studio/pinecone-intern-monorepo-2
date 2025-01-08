@@ -3,19 +3,16 @@ import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { useGetMatchedUserQuery } from '@/generated';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useGetMeQuery } from '@/generated';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
-  const { data } = useGetMatchedUserQuery({
-    variables: {
-      matchedUser: '6746baabd05c7f4092dad320',
-    },
-  });
+  const { data } = useGetMeQuery();
+  console.log(data);
 
   const Logout = async () => {
     await fetch('/deleteToken');
@@ -35,7 +32,7 @@ const Header = () => {
           </Link>
 
           <Avatar  data-cy='avatar' onClick={() => setOpen(!open)} className="cursor-pointer">
-            <AvatarImage src={data?.getMatchedUser.userImg} alt="@shadcn" className="object-cover" />
+            <AvatarImage src={data?.getMe.photos[0]} alt="@shadcn" className="object-cover" />
           </Avatar>
 
           {open && (
