@@ -12,40 +12,20 @@ import toMNT from '@/utils/show-tugrik-format';
 const OrderInfo = () => {
   const { data, refetch } = useGetOrderQuery();
   const orders = data?.getOrder;
-  const [openOrderId, setOpenOrderId] = useState<string | null>(null); 
+  const [open, setOpen] = useState(false);
 
   const onClose = () => {
-    setOpenOrderId(null);
-  };
-
-  console.log("orders", orders);
-
-  const nonCanceledOrders = orders
-    ?.filter((order) => order?.status === 'available')
-    .slice()
-    .sort((a, b) => dayjs(b?.createdAt).valueOf() - dayjs(a?.createdAt).valueOf());
-
-    const pendingOrders=orders?.filter((order)=>order?.status==='pending').slice().sort((a, b)=>dayjs(a?.createdAt).valueOf()-dayjs(b?.createdAt).valueOf());
-
-  const canceledOrders = orders
-    ?.filter((order) => order?.status === 'approved')
-    .slice()
-    .sort((a, b) => dayjs(a?.createdAt).valueOf() - dayjs(b?.createdAt).valueOf());
-
-  const sortedOrders = [...(nonCanceledOrders || []), ...(pendingOrders || []), ...(canceledOrders || [])];
-
-  const handleCancelClick = (orderId: string) => {
-    setOpenOrderId(orderId);
+    setOpen(false);
   };
   return (
-    <div className="text-white w-[841px]" data-cy="order-info-container">
+    <div className="text-white lg:w-[841px]" data-cy="order-info-container">
       <h1 data-cy="order-info-title" className="mb-6 text-2xl font-semibold">
         Захиалгын мэдээлэл
       </h1>
-      {sortedOrders?.map((order) => (
+      {orders?.map((order) => (
         <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
-          <div className="flex items-center justify-between mb-4 text-white">
-            <div className="flex gap-1">
+          <div className="mb-4 text-white lg:flex lg:items-center lg:justify-between sm:max-w-flex sm:max-w-flex-col ">
+            <div className="lg:gap-1 lg:flex">
               <h2 data-cy={`order-id-${order?._id}`} className="text-base font-normal text-muted-foreground">
                 Захиалгын дугаар :{' '}
               </h2>
@@ -58,24 +38,22 @@ const OrderInfo = () => {
             {order?.status === 'pending' && (
               <div data-cy={`order-status-pending-${order?._id}`}>
                 <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
-                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Цуцлах хүсэлт илгээсэн</span>
+                <span className="rounded-full bg-black py-2 px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Цуцлах хүсэлт илгээсэн</span>
               </div>
             )}
             {order?.status === 'approved' && (
               <div data-cy={`order-status-pending-${order?._id}`}>
                 <span className="text-base font-normal text-muted-foreground"> Төлөв: </span>
-                <span className="rounded-full bg-black py-[2px] px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Хүсэлт баталгаажсан</span>
+                <span className="rounded-full bg-black py-2 px-[10px] border-[1px] border-[#27272A] text-xs font-semibold">Хүсэлт баталгаажсан</span>
               </div>
             )}
             {order?.status === 'available' && (
               <>
-                <Button className="bg-[#27272A]" onClick={() => handleCancelClick(order._id)} data-cy={`cancel-button-${order?._id}`}>
+                <Button className="bg-[#27272A]" onClick={() => setOpen(true)}  data-cy={`cancel-button-${order?._id}`}>
                   Цуцлах
                 </Button>
-                {openOrderId === order._id && (
-                  <DialogComponent open={true} onClose={onClose} order={order as Order} refetch={refetch} />
-                )}
-              </>
+                <DialogComponent open={open} onClose={onClose} order={order as Order} refetch={refetch} />
+             </>
             )}
           </div>
           {order?.ticketType.map((ticket, index) => (
@@ -109,3 +87,4 @@ const OrderInfo = () => {
 };
 
 export default OrderInfo;
+

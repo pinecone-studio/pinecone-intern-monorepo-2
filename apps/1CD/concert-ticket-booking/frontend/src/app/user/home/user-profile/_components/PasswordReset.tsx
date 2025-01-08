@@ -56,9 +56,9 @@ const PasswordReset = () => {
   };
   return (
     <Form {...form}>
-      <form
+       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="lg:w-[841px] rounded-2xl bg-[#09090B] m-auto flex flex-col border border-gray-600 py-6 px-6 sm:py-8 sm:px-12 gap-6"
+        className="lg:w-[841px] rounded-2xl bg-[#09090B] flex flex-col border border-gray-600 py-6 px-6 sm:py-8 sm:px-12 gap-6"
       >
         <h1
          data-cy="password-info-heading"
