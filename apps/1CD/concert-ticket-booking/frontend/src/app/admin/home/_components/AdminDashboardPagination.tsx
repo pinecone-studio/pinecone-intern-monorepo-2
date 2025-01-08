@@ -1,23 +1,22 @@
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from '@/components/ui/pagination';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQueryState } from 'nuqs';
 
-
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (_page: number) => void;
-}
-
-export const AdminPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
+export const AdminPagination = ({ totalPages }: { totalPages: number }) => {
+  const [page, setPage] = useQueryState('page', { defaultValue: '1' });
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setPage(String(pageNumber));
     } else {
-      onPageChange(currentPage);
+      setPage(page);
     }
   };
+  const currentPage = Number(page);
+  if (totalPages <= 1) {
+    return <div data-testid="pagination-nothing-container"></div>;
+  }
   return (
-    <Pagination>
+    <Pagination data-testid="pagination-container">
       <PaginationContent className="cursor-pointer text-black">
         <PaginationItem>
           <PaginationLink className="border rounded mx-3 text-black" data-testid="left-btn" onClick={() => handlePageChange(currentPage - 1)}>
@@ -29,7 +28,7 @@ export const AdminPagination: React.FC<PaginationProps> = ({ currentPage, totalP
             <PaginationLink
               className={`border rounded text-black ${currentPage === index + 1 ? 'bg-slate-500 text-white' : ''}`}
               key={index}
-              data-testid={`page-${index}`}
+              data-testid={`currentPage-${index}`}
               onClick={() => handlePageChange(index + 1)}
             >
               {index + 1}
