@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import { FollowerDialogProps } from '../user-profile/FollowerDialog';
+import { FollowerDialogProps } from '../../app/(main)/_components/follow/FollowerDialog';
 import Link from 'next/link';
 
 const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, followerDataCount }) => {
@@ -45,7 +45,7 @@ const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, follo
                     <h1 className="text-sm font-medium">{oneFollower.fullName}</h1>
                   </div>
                 </Link>
-                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Follow</Button>
+                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button>
               </div>
             ))}
           </div>

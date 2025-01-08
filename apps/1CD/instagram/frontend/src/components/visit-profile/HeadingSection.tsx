@@ -5,7 +5,7 @@ import { Ellipsis } from 'lucide-react';
 import { OtherUser } from '@/generated';
 import SeeFollowersDialog from './SeeFollowers';
 import SeeFollowingsDialog from './SeeFollowings';
-import { Follower } from '../user-profile/FollowerDialog';
+import { Follower } from '../../app/(main)/_components/follow/FollowerDialog';
 import { Following } from '../user-profile/FollowingDialog';
 import Image from 'next/image';
 

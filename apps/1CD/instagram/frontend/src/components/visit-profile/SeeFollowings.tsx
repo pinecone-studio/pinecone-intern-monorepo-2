@@ -7,6 +7,7 @@ import { FollowingDialogProps } from '../user-profile/FollowingDialog';
 import Link from 'next/link';
 
 const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
+  console.log(followingData);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -45,7 +46,7 @@ const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, fo
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </Link>
-                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
+                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button>
               </div>
             ))}
           </div>

@@ -12,7 +12,7 @@ const ImageUpload = () => {
   };
 
   return (
-    <div className="mx-auto flex justify-center w-full max-w-4xl mt-[30px]">
+    <div className="mx-auto flex justify-center w-full max-w-4xl mt-[30px]" data-cy="Image-page">
       <div className="flex flex-col items-center w-full">
         <div data-cy="register-email-header" className="flex items-center gap-1">
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />

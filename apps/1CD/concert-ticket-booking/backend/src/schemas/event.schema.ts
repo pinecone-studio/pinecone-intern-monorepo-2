@@ -99,9 +99,19 @@ export const typeDefs = gql`
     date: String
     artist: String
   }
+  input EventsPagedFilter {
+    q: String
+    date: String
+    artist: String
+    page: String
+  }
   type RelatedEventResponse {
     eventDetail: Event!
     relatedEvents: [Event!]!
+  }
+  type EventResponse {
+    events: [Event!]!
+    totalPages: Int!
   }
 
   type Query {
@@ -109,6 +119,7 @@ export const typeDefs = gql`
     getEvents(filter: EventsFilter): [Event]!
     getSpecialEvent: [Event!]!
     getRelatedEvents(eventId: String!): RelatedEventResponse!
+    getEventsPaged(filter: EventsPagedFilter): EventResponse!
   }
 
   type Mutation {

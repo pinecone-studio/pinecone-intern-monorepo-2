@@ -1,5 +1,11 @@
 describe('checkout page', () => {
   beforeEach(() => {
+    cy.visit('/login');
+    cy.get('[data-cy=Login-Email-Input]').type('badralbaigalmaa7@gmail.com');
+    cy.get('[data-cy=Login-Password-Input]').type('badral1218');
+    cy.get('[data-cy=Login-Submit-Button]').click();
+    cy.url().should('not.include', '/login');
+    cy.getAllLocalStorage();
     cy.visit('/checkout/6757dfb4687cb83ca69ff3cb');
   });
   it('1. Checkout-Home-Page is render', () => {
