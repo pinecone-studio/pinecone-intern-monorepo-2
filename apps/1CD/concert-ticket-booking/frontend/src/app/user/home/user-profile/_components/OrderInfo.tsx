@@ -88,12 +88,12 @@ const OrderInfo = () => {
             </div>
             {discount !==0 ? (
               <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
-                <span className="text-sm font-light">Төлсөн дүн:</span>
+                <span className="text-sm font-light">Төлсөн дүн</span>
                 {order?.ticketType && <span className="text-xl font-bold"> {toMNT(Number(order?.ticketType.reduce((total)=> total+discountedPrice*soldQuantity, 0)))}</span>}
               </div>
             ):(
               <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
-              <span className="text-sm font-light">Төлсөн дүн:</span>
+              <span className="text-sm font-light">Төлсөн дүн</span>
               {order?.ticketType && <span className="text-xl font-bold"> {toMNT(Number(order?.ticketType.reduce((total, order)=> total+Number(order.unitPrice)*Number(order.soldQuantity), 0)))}</span>}
             </div>
             )}
