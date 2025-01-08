@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Order, useGetOrderQuery } from '@/generated';
@@ -5,7 +6,6 @@ import dayjs from 'dayjs';
 import { Clock } from 'lucide-react';
 import { useState } from 'react';
 import DialogComponent from './Dialog';
-import { calculateTotalAmount } from '@/utils/calculate';
 import toMNT from '@/utils/show-tugrik-format';
 
 const OrderInfo = () => {
@@ -55,7 +55,12 @@ const OrderInfo = () => {
              </>
             )}
           </div>
-          {order?.ticketType.map((ticket, index) => (
+          {order?.ticketType.map((ticket, index) => {
+            const discount=Number(ticket.discount);
+            const discountedPrice=Number(Number(ticket.unitPrice)*(100-discount)/100);
+            const soldQuantity=Number(ticket.soldQuantity);
+          return(
+            <>
             <div
               className="py-4 px-6 rounded-[6px] h-[52px] bg-[#131313] border-dashed border-[1px] border-muted-foreground mb-2 flex justify-between items-center"
               key={index}
@@ -69,17 +74,32 @@ const OrderInfo = () => {
               </div>
               <span className="flex items-center gap-2 text-white" data-cy={`ticket-price-${index}`}>
                 <span className="text-base font-normal text-muted-foreground">
-                  {toMNT(Number(ticket.unitPrice))}×{ticket.soldQuantity}
+                  {toMNT(discountedPrice)}×{ticket.soldQuantity}
                 </span>
-                {toMNT(Number(ticket.unitPrice) * Number(ticket.soldQuantity))}
+                {discount !==0 ? (
+                  <span>{toMNT(discountedPrice*soldQuantity)}</span>
+                ):(
+                  <span> 
+                  {toMNT(Number(ticket.unitPrice) * Number(ticket.soldQuantity))}
+                </span>
+                )}
+               
               </span>
             </div>
-          ))}
-          <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
-            <span className="text-sm font-light">Төлсөн дүн</span>
-            {order?.ticketType && <span className="text-xl font-bold"> {toMNT(calculateTotalAmount(order?.ticketType))}</span>}
-          </div>
-        </Card>
+            {discount !==0 ? (
+              <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
+                <span className="text-sm font-light">Төлсөн дүн:</span>
+                {order?.ticketType && <span className="text-xl font-bold"> {toMNT(Number(order?.ticketType.reduce((total)=> total+discountedPrice*soldQuantity, 0)))}</span>}
+              </div>
+            ):(
+              <div className="flex items-center justify-between px-6 py-4 text-white" data-cy={`order-total-${order?._id}`}>
+              <span className="text-sm font-light">Төлсөн дүн:</span>
+              {order?.ticketType && <span className="text-xl font-bold"> {toMNT(Number(order?.ticketType.reduce((total, order)=> total+Number(order.unitPrice)*Number(order.soldQuantity), 0)))}</span>}
+            </div>
+            )}
+             </>
+          )})}
+       </Card>
       ))}
     </div>
   );
