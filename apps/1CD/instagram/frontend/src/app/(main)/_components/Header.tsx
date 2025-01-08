@@ -56,8 +56,7 @@ export const Header = () => {
       variables: {
         input: {
           image: storyImg,
-          description: 'des',
-          userId: user?._id || '',
+          user: user?._id || '',
         },
       },
     });
