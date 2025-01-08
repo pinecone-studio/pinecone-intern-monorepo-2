@@ -22,7 +22,7 @@ const Page = () => {
         </Button>
       </div>
       <section className="max-w-[1400px] mx-auto md:mx-auto">
-        <div className="grid grid-cols-1 gap-4 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer">
+        <div className="grid grid-cols-1 gap-4 rounded-md cursor-pointer sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, sliceNum).map((hotel) => (
             <HomePageCard key={hotel._id} hotel={hotel} />
           ))}
@@ -31,7 +31,7 @@ const Page = () => {
           <p className="text-lg font-semibold text-wrap md:text-2xl md:font-semibold">Most booked hotels in Mongolia in past month</p>
           <button className="border-2 font-medium md:text-[14px] text-[#18181B] py-2 px-4 rounded-md">View all</button>
         </div>
-        <div className="grid grid-cols-1 gap-4 mb-20 rounded-md sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cursor-pointer">
+        <div className="grid grid-cols-1 gap-4 mb-20 rounded-md cursor-pointer sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, 4).map((hotel) => (
             <HomePageCard key={hotel._id} hotel={hotel} />
           ))}

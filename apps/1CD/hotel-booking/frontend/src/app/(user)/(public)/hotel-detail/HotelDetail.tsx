@@ -51,7 +51,7 @@ const Services = [
 ];
 
 const HotelDetail = ({ id }: { id: string }) => {
-  const [isOpenImageDialog,setIsOpenImageDialog] = useState(false)
+  const [isOpenImageDialog, setIsOpenImageDialog] = useState(false);
   const { data, loading } = useGetHotelQuery({
     variables: {
       id: id,
@@ -68,7 +68,7 @@ const HotelDetail = ({ id }: { id: string }) => {
   return (
     <div data-cy="Hotel-Detail-Page" className="container flex flex-col items-center gap-8 mx-auto">
       {data?.getHotel.images?.length && data?.getHotel?.images?.length > 0 && (
-        <div onClick={()=>setIsOpenImageDialog(true)} data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1 cursor-pointer">
+        <div onClick={() => setIsOpenImageDialog(true)} data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1 cursor-pointer">
           <div className="flex-1">{<Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={580} height={433} className="object-cover w-full h-full" />}</div>
           <div className="flex flex-col flex-1 gap-1" data-cy="Hotel-images">
             <div className="flex flex-1 gap-1">
@@ -100,7 +100,7 @@ const HotelDetail = ({ id }: { id: string }) => {
               <div className="text-sm font-bold">Most popular facilities</div>
               <div className="grid grid-cols-3 col-span-3 gap-4">
                 {Services.map((item, index) => (
-                  <div key={`services${index}`} className="flex gap-1 items-center">
+                  <div key={`services${index}`} className="flex items-center gap-1">
                     {item}
                   </div>
                 ))}
