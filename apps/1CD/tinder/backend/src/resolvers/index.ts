@@ -20,6 +20,7 @@ export const resolvers = {
     editProfile:authorization(Mutation.editProfile),
   },
   Query:{
+    ...Query,
     getUsers:authorization(Query.getUsers),
     getMatchedUser:authorization(Query.getMatchedUser),
     getChat:authorization(Query.getChat),
