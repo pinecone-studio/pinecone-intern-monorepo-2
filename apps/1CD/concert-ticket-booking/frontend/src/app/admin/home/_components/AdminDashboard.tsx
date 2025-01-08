@@ -14,15 +14,14 @@ import { headers } from './AdminDashboardType';
 import { Loader2, Star, Trash } from 'lucide-react';
 import { UpdateEventPriority } from './UpdateEventPriority';
 import { toast } from 'sonner';
+import { AdminPagination } from '@/components/AdminDashboardPagination';
 
 type AdminDashboardProps = {
-  data: Event[]; // Assuming 'Event' is already defined as a type or interface
-  refetch: () => void; // Function that returns void
+  data: Event[];
+  refetch: () => void;
+  totalPages: number;
 };
-export const AdminDashboard = ({ data, refetch }: AdminDashboardProps) => {
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 10;
-
+export const AdminDashboard = ({ data, refetch, totalPages }: AdminDashboardProps) => {
   const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
     onCompleted: () => {
       toast.success('Successfully archived the event');
@@ -31,13 +30,6 @@ export const AdminDashboard = ({ data, refetch }: AdminDashboardProps) => {
       toast.error(error.message);
     },
   });
-
-  // if (loading)
-  //   return (
-  //     <div className="flex h-full items-center justify-center">
-  //       <Loader2 className="w-24 h-24 animate-spin text-[#00B7F4]" />
-  //     </div>
-  //   );
 
   const getTotalSoldQuantity = ({ ticketType }: { ticketType: TicketType[] }) => {
     return ticketType.reduce((sum, ticket) => {
@@ -178,7 +170,7 @@ export const AdminDashboard = ({ data, refetch }: AdminDashboardProps) => {
           </Table>
         </TableContainer>
       </div>
-      {/* <AdminPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
+      <AdminPagination totalPages={totalPages} />
     </div>
   );
 };

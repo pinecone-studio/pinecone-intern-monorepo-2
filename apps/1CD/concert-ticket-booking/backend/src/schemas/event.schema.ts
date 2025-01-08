@@ -114,6 +114,11 @@ export const typeDefs = gql`
     totalPages: Int!
   }
 
+  type EventResponse {
+    events: [Event!]!
+    totalPages: Int!
+  }
+
   type Query {
     getEventById(_id: ID!): Event!
     getEvents(filter: EventsFilter): [Event]!
