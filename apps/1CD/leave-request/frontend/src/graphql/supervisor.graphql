@@ -27,8 +27,8 @@ query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $
   }
 }
 
-query GroupedByStatusRequestLength {
-  groupedByStatusRequestLength {
+query GroupedByStatusRequestLength($supervisorEmail: String!, $endDate: Date, $startDate: Date) {
+  groupedByStatusRequestLength(supervisorEmail: $supervisorEmail, endDate: $endDate, startDate: $startDate) {
     _id
     res
   }
