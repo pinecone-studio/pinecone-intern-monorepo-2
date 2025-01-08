@@ -12,7 +12,7 @@ const mockCountDocuments = jest.requireMock('../../../../src/models/request').Re
 describe('getAllRequestLength Resolver', () => {
   const fixedDate = new Date('2023-01-01T00:00:00Z');
   const commonParams = {
-    email: 'amarjargal.ts01@gmail.com',
+    supervisorEmail: 'amarjargal.ts01@gmail.com',
     startDate: fixedDate,
     endDate: fixedDate,
   };
@@ -39,23 +39,25 @@ describe('getAllRequestLength Resolver', () => {
       expected: { res: 2 },
     },
   ])('should return correct request length for $params', async ({ params, expected }) => {
-    mockCountDocuments.mockResolvedValue(2);
+    mockCountDocuments.mockResolvedValue(2); // Mock successful database response
 
     const result = await getAllRequestLength!({}, params, {}, {} as GraphQLResolveInfo);
 
     expect(result).toEqual(expected);
-    expect(mockCountDocuments).toHaveBeenCalled();
+    expect(mockCountDocuments).toHaveBeenCalledWith(expect.objectContaining({
+      supervisorEmail: params.supervisorEmail, // Ensure the query is using the supervisorEmail param
+    }));
   });
 
   it('should return 0 when no documents match', async () => {
-    mockCountDocuments.mockResolvedValue(0);
+    mockCountDocuments.mockResolvedValue(0); // Mock no matching documents
 
     const result = await getAllRequestLength!({}, {}, {}, {} as GraphQLResolveInfo);
     expect(result).toEqual({ res: 0 });
   });
 
   it('should throw an error on database failure', async () => {
-    mockCountDocuments.mockRejectedValue(new Error('Database error'));
+    mockCountDocuments.mockRejectedValue(new Error('Database error')); // Mock error scenario
 
     await expect(
       getAllRequestLength!({}, {}, {}, {} as GraphQLResolveInfo)
