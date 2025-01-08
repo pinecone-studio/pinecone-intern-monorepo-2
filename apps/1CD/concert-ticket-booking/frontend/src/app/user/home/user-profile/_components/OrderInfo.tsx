@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Order, useGetOrderQuery } from '@/generated';
@@ -23,7 +22,7 @@ const OrderInfo = () => {
         Захиалгын мэдээлэл
       </h1>
       {orders?.map((order) => (
-        <Card className="bg-[#131313] border-none px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
+        <Card className="bg-[#131313] border-none  px-8 pt-8 pb-6 mb-8" key={order?._id} data-cy={`order-card-${order?._id}`}>
           <div className="mb-4 text-white lg:flex lg:items-center lg:justify-between sm:max-w-flex sm:max-w-flex-col ">
             <div className="lg:gap-1 lg:flex">
               <h2 data-cy={`order-id-${order?._id}`} className="text-base font-normal text-muted-foreground">
