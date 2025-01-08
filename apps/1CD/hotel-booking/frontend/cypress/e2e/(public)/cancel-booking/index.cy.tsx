@@ -15,9 +15,9 @@ describe('cancel-booking', () => {
   it('2. should be text Cancel booking button', () => {
     cy.get('[data-cy="Open-Dialog-Button"]').should('exist');
     cy.should('have.text', 'Cancel Booking').click();
-    cy.get('[data-cy="Cancel-booking-text"]').should('have.text', 'Cancel booking?');
-    cy.get('[data-cy=Keep-booking-button]').should('exist').should('have.text', 'keep booking').click();
-    cy.get('[data-cy="Cancel-booking-text"]').should('not.exist');
+    cy.get('[data-cy=open-dialog]').should('exist');
+    cy.get('[data-cy=Keep-booking-button]').click();
+    cy.get('[data-cy=open-dialog]').should('not.exist');
   });
 
   it('3. should have text', () => {

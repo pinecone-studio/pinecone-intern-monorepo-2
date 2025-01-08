@@ -1,14 +1,14 @@
 'use client';
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { DialogTitle } from '@mui/material';
-import { DialogDescription } from '@radix-ui/react-dialog';
+
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 
 const Page = () => {
   const [open, setOpen] = useState(false);
+
   return (
     <CheckLoginUser>
       <div data-cy="get-cancel-booking-page" className="container mx-auto max-w-[690px] bg-pink-200">
