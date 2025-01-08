@@ -53,7 +53,7 @@ export const ClientDatePicker = ({ className, onChange }: ClientDatePickerProps)
             selected={date}
             onSelect={(e) => {
               setDate(e);
-              onChange(date);
+              onChange(e);
             }}
             numberOfMonths={2}
           />

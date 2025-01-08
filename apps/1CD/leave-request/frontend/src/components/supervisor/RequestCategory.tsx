@@ -6,12 +6,14 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { FaPlus } from 'react-icons/fa';
 import { useGroupedByStatusRequestLengthQuery } from '@/generated';
+import { filterProps } from './RequestHeader';
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
-
 // eslint-disable-next-line no-unused-vars, complexity
-const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) => {
-  const { data } = useGroupedByStatusRequestLengthQuery();
+const RequestCategory = ({ onChange, email, filter }: { email: string; filter: filterProps; onChange: (arg0: string[]) => void }) => {
+  const filterCopy = { ...filter };
+  delete filterCopy.status;
+  const { data } = useGroupedByStatusRequestLengthQuery({ variables: { supervisorEmail: email, ...filterCopy } });
 
   const [showStatusBar, setShowStatusBar] = React.useState<Checked>(false);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
@@ -107,7 +109,7 @@ const RequestCategory = ({ onChange }: { onChange: (arg0: string[]) => void }) =
           className="flex justify-between text-sm text-[#09090B]"
         >
           <p>Хүлээгдэж байна</p>
-          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'pending')?.res || '0' + data?.groupedByStatusRequestLength?.find((item) => item._id === 'sent')?.res || '0'}</p>
+          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'pending')?.res || '0' + data?.groupedByStatusRequestLength?.find((item) => item._id === 'sent')?.res || 0}</p>
         </DropdownMenuCheckboxItem>
 
         <DropdownMenuCheckboxItem
