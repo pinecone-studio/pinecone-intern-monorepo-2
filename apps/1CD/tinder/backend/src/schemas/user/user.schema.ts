@@ -82,6 +82,10 @@ export const typeDefs = gql`
     attraction: String
   }
 
+  type Query {
+    getMe: User!
+  }
+
   type Mutation {
     # sign up
     registerEmail(input: RegisterEmailInput!): RegisterEmailResponse!

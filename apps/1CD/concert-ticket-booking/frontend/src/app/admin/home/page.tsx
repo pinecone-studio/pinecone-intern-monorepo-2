@@ -38,9 +38,14 @@ const HomePage = () => {
 
   if (!user || user.role !== 'admin') {
     return (
-      <div className="flex w-full min-h-[calc(100vh-24px)] justify-center items-center">
-        <p className="text-center">
-          Уучлаарай танд нэвтрэх <br /> эрх байхгүй байна.
+      <div
+        className="flex flex-col items-center justify-center w-full min-h-full bg-black"
+        style={{
+          background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
+        }}
+      >
+        <p className="text-xl text-center text-white">
+          Админ эрхтэй мэйл хаягаар <br /> нэвтэрч цааш үргэлжлүүлнэ үү!
         </p>
       </div>
     );
@@ -67,7 +72,7 @@ const HomePage = () => {
               data-testid="Artist-Search-Input"
               type="text"
               placeholder="Уран бүтээлчээр хайх"
-              className="w-full  border-gray-600 md:w-80"
+              className="w-full border-gray-600 md:w-80"
               value={artist}
               onChange={(e) => setArtist(e.target.value)}
             />

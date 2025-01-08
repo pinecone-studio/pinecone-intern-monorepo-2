@@ -152,7 +152,6 @@ const Birthday = () => {
         </form>
         <p className="text-[#71717A] text-sm pt-[43%]">©2024 Tinder</p>
       </div>
-      
     </div>
   );
 };

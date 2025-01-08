@@ -29,9 +29,9 @@ const RoomDetail = ({ params }: { params: { id: string } }) => {
         </div>
         <section className="flex gap-5">
           <div className="ml-[13%] mt-5 flex flex-col gap-4">
-            <GeneralInfoCard openGen={openGen} setOpenGen={setOpenGen} />
+            <GeneralInfoCard openGen={openGen} setOpenGen={setOpenGen} roomData={data?.getRoom} />
             <UpcomingBookings />
-            <RoomServiceCard open={openService} setOpen={setOpenService} />
+            <RoomServiceCard open={openService} setOpen={setOpenService} room={data?.getRoom} />
           </div>
           <ImagesCard open={open} setOpen={setOpen} />
         </section>

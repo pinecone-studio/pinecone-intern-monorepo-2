@@ -1,9 +1,14 @@
+
+
 [
   "///add-hotel",
+  "///add-hotel/add-hotel-image",
   "///add-hotel/home-page",
   "///admin-hotel-detail/[id]",
   "///guests",
+  "///guests/guests-info/[id]",
   "///guests/info/[id]",
+  "///room-detail/[id]",
   "///forget-password",
   "///forget-password/otp",
   "///forget-password/update-password",
@@ -20,7 +25,6 @@
   "///profile",
   "//",
   "///hotel-detail/[id]",
-  "///search-result",
-  "///add-hotel/add-hotel-image",
-  "///room-detail/[id]"
+  "///search-result"
 ]
+
