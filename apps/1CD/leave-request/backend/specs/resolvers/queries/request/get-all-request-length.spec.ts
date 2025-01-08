@@ -12,7 +12,7 @@ const mockCountDocuments = jest.requireMock('../../../../src/models/request').Re
 describe('getAllRequestLength Resolver', () => {
   const fixedDate = new Date('2023-01-01T00:00:00Z');
   const commonParams = {
-    supervisorEmail: 'amarjargal.ts01@gmail.com',
+    email: 'amarjargal.ts01@gmail.com',
     startDate: fixedDate,
     endDate: fixedDate,
   };
