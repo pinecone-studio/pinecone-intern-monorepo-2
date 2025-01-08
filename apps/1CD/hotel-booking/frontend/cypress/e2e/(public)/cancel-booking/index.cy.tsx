@@ -1,6 +1,12 @@
 describe('cancel-booking', () => {
   beforeEach(() => {
-    cy.visit('cancel-booking');
+    cy.visit('/login');
+    cy.get('[data-cy=Login-Email-Input]').type('badralbaigalmaa7@gmail.com');
+    cy.get('[data-cy=Login-Password-Input]').type('badral1218');
+    cy.get('[data-cy=Login-Submit-Button]').click();
+    cy.url().should('not.include', '/login');
+    cy.getAllLocalStorage();
+    cy.visit('/cancel-booking');
     cy.get('[data-cy="Cancellation-rules"]').should('be.visible').should('have.text', 'Cancellation rules');
   });
   it('1. should be button ChevronLeft', () => {
@@ -9,9 +15,9 @@ describe('cancel-booking', () => {
   it('2. should be text Cancel booking button', () => {
     cy.get('[data-cy="Open-Dialog-Button"]').should('exist');
     cy.should('have.text', 'Cancel Booking').click();
-    cy.get('[data-cy="Cancel-booking-text"]').should('have.text', 'Cancel booking?');
-    cy.get('[data-cy=Keep-booking-button]').should('exist').should('have.text', 'keep booking').click();
-    cy.get('[data-cy="Cancel-booking-text"]').should('not.exist');
+    cy.get('[data-cy=open-dialog]').should('exist');
+    cy.get('[data-cy=Keep-booking-button]').click();
+    cy.get('[data-cy=open-dialog]').should('not.exist');
   });
 
   it('3. should have text', () => {

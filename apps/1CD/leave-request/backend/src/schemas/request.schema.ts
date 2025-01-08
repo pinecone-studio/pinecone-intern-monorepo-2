@@ -97,6 +97,15 @@ export const RequestTypeDefs = gql`
   type Mutation {
     createsRequest(email: String!, requestType: String!, message: String!, supervisorEmail: String!, requestDate: Date!, startTime: String, endTime: String, optionalFile: String): RequestType
     updateRequest(result: String, comment: String, _id: ID): RequestType
+
+
+  }
+  input requestInput {
+    supervisorEmail: String!
+    startDate: Date
+    endDate: Date
+    status: [String]
+
   }
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
@@ -111,7 +120,11 @@ export const RequestTypeDefs = gql`
     getCalculateFilter(email: String, startDate: Date, endDate: Date, status: String): [AllGroupedRequests!]
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
+
     groupedByStatusRequestLength: [GroupedRequestLength!]
+
+
+    groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
 
   }
 `;

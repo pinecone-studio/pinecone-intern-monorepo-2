@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useQueryState } from 'nuqs';
+
 const DatePicker = () => {
   const [date, setDate] = useQueryState('date', { defaultValue: '' });
   const selectedDate = date ? parseISO(date) : undefined;

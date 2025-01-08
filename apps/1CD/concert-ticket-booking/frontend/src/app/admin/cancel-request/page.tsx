@@ -5,17 +5,39 @@ import { useGetRequestsQuery } from '@/generated';
 import { TableContainer } from '@mui/material';
 import dayjs from 'dayjs';
 import { StatusChangeModal } from './_components/ModalStatus';
+import { useAuth } from '@/components/providers';
 
 const CancelRequestPage = () => {
+  const { user } = useAuth();
   const { data, loading, error, refetch } = useGetRequestsQuery({
     variables: {},
   });
 
-  if (loading) return <p data-cy="loading-text">Loading...</p>;
+  if (!user || user.role !== 'admin') {
+    return (
+      <div
+        className="flex flex-col items-center justify-center w-full min-h-full bg-black"
+        style={{
+          background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
+        }}
+      >
+        <p className="text-xl text-center text-white">
+          Админ эрхтэй мэйл хаягаар <br /> нэвтэрч цааш үргэлжлүүлнэ үү!
+        </p>
+      </div>
+    );
+  }
+
+  if (loading)
+    return (
+      <p data-cy="loading-text" className="flex w-full min-h-[calc(100vh-24px)] justify-center items-center">
+        Loading...
+      </p>
+    );
   if (error) return <p data-cy="error-text">Error: {error.message}</p>;
 
   return (
-    <div data-cy="cancel-request-page" className="py-10">
+    <div data-cy="cancel-request-page" className="min-h-[calc(100vh-140px)] py-10">
       <div className="container m-auto">
         <div className="flex flex-col items-start gap-2">
           <h3 className="text-xl font-semibold" data-cy="page-title">
@@ -25,7 +47,7 @@ const CancelRequestPage = () => {
             Ирсэн цуцлах хүсэлтүүд
           </p>
         </div>
-        <TableContainer component="div" className="shadow-lg rounded-lg overflow-hidden bg-white" data-cy="table-container">
+        <TableContainer component="div" className="overflow-hidden bg-white rounded-lg shadow-lg" data-cy="table-container">
           <Table aria-label="simple table" className="min-w-full" data-cy="request-table">
             <TableHeader>
               <TableRow>
@@ -66,7 +88,7 @@ const CancelRequestPage = () => {
                   <TableCell className="text-right" data-cy="table-cell-created-at">
                     {dayjs(item.createdAt).format('MM.DD')}
                   </TableCell>
-                  <TableCell className="text-right px-4 py-2" data-cy="table-cell-status">
+                  <TableCell className="px-4 py-2 text-right" data-cy="table-cell-status">
                     <StatusChangeModal idx={idx} status={item.status} name={item.accountOwner} orderId={item.orderId} reqId={item._id} refetch={refetch} />
                   </TableCell>
                 </TableRow>

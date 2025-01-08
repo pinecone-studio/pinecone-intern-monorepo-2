@@ -17,6 +17,7 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
   const [dateTo] = useQueryState('dateTo');
   const [dateFrom] = useQueryState('dateFrom');
   const { user } = useAuth();
+
   return (
     <div data-cy="Hotel-Room-Detail" className="container items-center mx-auto">
       <Dialog open={isOpen} data-cy="RoomDetailDialog">
@@ -102,7 +103,11 @@ const HotelRoomDetail = ({ room, handleState, handleOpen, isOpen }: { room: Room
               </div>
             </div>
             <div className="pt-14">
-              <button data-cy="Reserve-Button" className='bg-blue-700 hover:bg-blue-500 text-sm font-medium' onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))}>
+              <button
+                data-cy="Reserve-Button"
+                className="px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-sm hover:bg-blue-500"
+                onClick={() => handleReserve(user, router, dateTo, dateFrom, String(room._id))}
+              >
                 Reserve
               </button>
             </div>

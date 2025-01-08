@@ -1,5 +1,11 @@
 describe('booking page e2e test', () => {
   beforeEach(() => {
+    cy.visit('/login');
+    cy.get('[data-cy=Login-Email-Input]').type('badralbaigalmaa7@gmail.com');
+    cy.get('[data-cy=Login-Password-Input]').type('badral1218');
+    cy.get('[data-cy=Login-Submit-Button]').click();
+    cy.url().should('not.include', '/login');
+    cy.getAllLocalStorage();
     cy.visit('/booking');
   });
 

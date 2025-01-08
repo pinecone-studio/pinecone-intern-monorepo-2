@@ -70,7 +70,7 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </Link>
-                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
+                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button>
               </div>
             ))}
           </div>

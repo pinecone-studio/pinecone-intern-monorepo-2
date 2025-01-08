@@ -101,6 +101,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
       resetCardPosition();
     }
   };
+
+  console.log({swiping}, 2)
   return (
     <div>
       <div className="relative h-[560px] flex justify-center" data-cy="swipingImg-2">

@@ -1,6 +1,6 @@
 describe('HotelDetail', () => {
   beforeEach(() => {
-    cy.visit('/hotel-detail/674bfbd6a111c70660b55541');
+    cy.visit('/hotel-detail/67734d4aa494d000fe224b6d');
   });
   it('1. should render', () => {
     cy.scrollTo('bottom').should('exist', '[data-cy="Show-More"]');
@@ -10,7 +10,7 @@ describe('HotelDetail', () => {
   });
 
   it('2. should render', () => {
-    cy.get('[data-cy="Show-More"]').first().click();
+    cy.get('[data-cy="Show-More"]').eq(2).click();
     cy.get('[data-cy="Hotel-Room-Detail"]').should('exist');
     cy.get('[data-cy="HotelRoomCarousel"]').should('exist');
     cy.get('[data-cy="next-image"]').click();

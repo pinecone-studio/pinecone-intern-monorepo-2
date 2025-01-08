@@ -69,6 +69,12 @@ export const totalPrice = (dateFrom: string | null, dateTo: string | null, roomP
 };
 export const handleReserve = (user: User | null, router: AppRouterInstance, dateTo: string | null, dateFrom: string | null, id: string) => {
   if (!user) {
+    toast('please first login', {
+      style: {
+        color: 'red',
+        borderColor: 'red',
+      },
+    });
     router.push('/login');
     return;
   }
