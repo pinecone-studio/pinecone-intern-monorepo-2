@@ -3,7 +3,7 @@ import NotifyFollowRequestCard from '@/app/(main)/_components/NotifyFollowReqCar
 import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
 import NoNotification from '../../app/(main)/_components/NoNotification';
 import { useGetNotificationsByLoggedUserQuery } from '@/generated';
-import { useAuth } from '../providers';
+import { useAuth } from '@/components/providers';
 
 const Notification = () => {
   const { user } = useAuth();
@@ -12,7 +12,7 @@ const Notification = () => {
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
   console.log('datanuudiig harah', notifyData);
   return (
-    <div className="px-4 py-8 border w-[470px] h-full" data-testid="notification-component">
+    <div className="px-4 py-8 border w-[470px] h-full" data-cy="notification-component">
       <h3 className="text-[#262626] text-2xl font-[550] leading-8 tracking-wide mb-5">Notifications</h3>
       <div className="flex flex-col gap-4">
         <h6>Today</h6>

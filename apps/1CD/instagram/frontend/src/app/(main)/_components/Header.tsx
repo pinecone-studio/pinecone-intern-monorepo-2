@@ -14,7 +14,7 @@ import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
-import Notification from '@/components/notification';
+import Notification from '@/app/notification';
 
 export const Header = () => {
   const [hide, setHide] = useState(false);
