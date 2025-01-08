@@ -81,7 +81,7 @@ export const RequestTypeDefs = gql`
     month: Int!
     requests: [RequestType]!
   }
-  type CalculateFilter {
+  type calculateFilter {
     email: String!
     startDate: Int!
     endDate: Int!
@@ -113,17 +113,13 @@ export const RequestTypeDefs = gql`
     getAllRequestsBySupervisor(supervisorEmail: String!, status: [String], page: Int, startDate: Date, endDate: Date, search: String): [RequestTypePop!]
     getRequestById(_id: ID): RequestType
     getRequests(email: String, startDate: Date, endDate: Date, status: String): [GroupedRequests!]
-
     getAllRequestLength(supervisorEmail: String, email: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
     getAllRequests(email: String, startDate: Date, endDate: Date, status: String, _id: ID): [AllGroupedRequests!]
-    getCalculateFilter(email: String, startDate: Date, endDate: Date, status: String): [AllGroupedRequests!]
+    getcalculateFilter(email: String, startDate: Date, endDate: Date, status: String): [AllGroupedRequests!]
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
-
     groupedByStatusRequestLength: [GroupedRequestLength!]
-
-
     groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
 
   }
