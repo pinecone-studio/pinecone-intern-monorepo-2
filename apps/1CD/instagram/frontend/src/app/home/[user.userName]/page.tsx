@@ -6,9 +6,9 @@ import { Grid3x3, Save, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
-import FollowerDialog from '@/components/user-profile/FollowerDialog';
+import FollowerDialog from '@/app/(main)/_components/follow/FollowerDialog';
 import FollowingDialog from '@/components/user-profile/FollowingDialog';
-import { PostImgCard } from '@/app/(main)/_components/PostImgCard';
+import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();

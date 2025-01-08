@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Bookmark, MessageCircle, MoreVertical } from 'lucide-react';
-import { CommentCard } from '../comment/CommentCard';
+import { CommentCard } from '../../app/(main)/_components/comment/CommentCard';
 import { PostLikes } from '../like/PostLikes';
 import { CommentCount } from '@/components/comment/CommentCount';
 import { PostLike } from '@/components/like/PostLike';
