@@ -3,6 +3,7 @@ import Header from './_components/heaeder/Header';
 
 
 const TinderSwipe = () => {
+ 
   return (
     <div className=''>
       <Header />
