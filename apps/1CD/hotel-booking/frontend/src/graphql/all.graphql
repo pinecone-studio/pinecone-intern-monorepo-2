@@ -1,8 +1,8 @@
 query Query {
   sampleQuery
 }
-query GetHotels {
-  getHotels {
+query GetHotels($input: AdminHotelFilter) {
+  getHotels(input: $input) {
     createdAt
     _id
     hotelName
@@ -11,6 +11,9 @@ query GetHotels {
     userRating
     phoneNumber
     images
+    hotelAmenities
+    location
+    roomsAveragePrice
   }
 }
 query GetBookings {
