@@ -6,7 +6,7 @@ describe('cancel-booking', () => {
     cy.get('[data-cy=Login-Submit-Button]').click();
     cy.url().should('not.include', '/login');
     cy.getAllLocalStorage();
-    cy.visit('cancel-booking');
+    cy.visit('/cancel-booking');
     cy.get('[data-cy="Cancellation-rules"]').should('be.visible').should('have.text', 'Cancellation rules');
   });
   it('1. should be button ChevronLeft', () => {
