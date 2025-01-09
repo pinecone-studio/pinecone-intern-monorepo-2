@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { FormikProps } from 'formik';
-import { RequestFormValues } from '@/app/(main)/createNewRequest/CreateNewRequest';
+import { RequestFormValues } from '@/components/createNewRequest/CreateNewRequest';
 
 export const DatePickerDemo = ({ formik }: { formik: FormikProps<RequestFormValues> }) => {
   const { requestDate } = formik.values;
@@ -23,7 +23,17 @@ export const DatePickerDemo = ({ formik }: { formik: FormikProps<RequestFormValu
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={requestDate} onSelect={(e) => formik.setFieldValue('requestDate', e)} initialFocus />
+        <Calendar
+          disabled={(date) => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return date < today;
+          }}
+          mode="single"
+          selected={requestDate}
+          onSelect={(e) => formik.setFieldValue('requestDate', e)}
+          initialFocus
+        />
       </PopoverContent>
     </Popover>
   );

@@ -1,10 +1,12 @@
-import { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
 import { MatchProvider } from '@/components/providers/MatchProvider';
 import { OneUserProvider } from '@/components/providers/OneuserProvider';
+import jwt , { JwtPayload } from 'jsonwebtoken';
+import { UserProvider } from '@/components/providers/UserContext';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -13,18 +15,23 @@ export const metadata = {
 
 const RootLayout = async ({ children }: PropsWithChildren) => {
   const authToken = (await cookies().get('authToken')?.value) || '';
+  const decoded = jwt.decode(authToken) as JwtPayload | null
+  const userId = decoded?.userId
+  console.log(userId)
   return (
     <html lang="en">
-      <body className="">
+      <body className="bg-white">
         <ApolloWrapper authToken={authToken}>
-          <MatchProvider >
-            <OneUserProvider>
-              <div className="max-w-[1280px] mx-auto">
-                {children}
-                <Toaster />
-              </div>
-            </OneUserProvider>
-          </MatchProvider>
+        <UserProvider userId={userId}>
+            <MatchProvider>
+              <OneUserProvider>
+                <div>
+                  {React.cloneElement(children as React.ReactElement, { userId })}
+                  <Toaster />
+                </div>
+              </OneUserProvider>
+            </MatchProvider>
+            </UserProvider>
         </ApolloWrapper>
       </body>
     </html>

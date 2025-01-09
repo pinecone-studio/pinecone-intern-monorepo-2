@@ -9,13 +9,13 @@ export const typeDefs = gql`
     bio: String!
     age: Int!
     gender: String!
-    interests: [String!]
-    photos: [String!]
+    interests: [String!]!
+    photos: [String!]!
     profession: String!
     schoolWork: [String!]
     createdAt: Date!
     updatedAt: Date!
-    attraction: String!
+    attraction: String
   }
 
   input RegisterEmailInput {
@@ -38,6 +38,11 @@ export const typeDefs = gql`
     email: String!
   }
 
+  type ImageSubmitResponse {
+    photos: [String!]!
+    email: String!
+  }
+
   input CreatePassInput {
     password: String!
   }
@@ -47,11 +52,34 @@ export const typeDefs = gql`
   }
 
   input ImageSubmitInput {
-    photos: [String!]
+    photos: [String!]!
   }
 
   type ResponseWithtoken {
     token: String!
+  }
+
+  input EditProfileInput {
+    name: String!
+    email: String!
+    bio: String!
+    age: Int!
+    interests: [String!]!
+    photos: [String!]!
+    profession: String!
+    schoolWork: [String!]
+    attraction: String
+  }
+  type ResponseEditProfileInput {
+    name: String!
+    email: String!
+    bio: String!
+    age: Int!
+    interests: [String!]!
+    photos: [String!]!
+    profession: String!
+    schoolWork: [String!]
+    attraction: String
   }
 
   type Mutation {
@@ -68,6 +96,7 @@ export const typeDefs = gql`
     birthdaySubmit(input: BirthdaySubmitInput!): RegisterEmailResponse!
     updateUser(name: String!, bio: String!, interests: [String!], profession: String!, schoolWork: [String!]): RegisterEmailResponse!
     updateAttraction(attraction: String!): RegisterEmailResponse!
-    imageSubmit(input: ImageSubmitInput!): RegisterEmailResponse!
+    imageSubmit(input: ImageSubmitInput!): ImageSubmitResponse!
+    editProfile(input: EditProfileInput!): ResponseEditProfileInput!
   }
 `;

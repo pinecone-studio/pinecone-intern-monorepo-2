@@ -46,7 +46,7 @@ const ProImg = ({
     <div>
       <label htmlFor="file-upload">
         <div className="relative w-36 h-36 rounded-full">
-          <Image data-testid="proImage" src={prevProImg} alt="profilezurag" fill className="absolute rounded-full" />
+          <Image sizes="h-auto w-auto" data-testid="proImage" src={prevProImg} alt="profilezurag" fill className="absolute rounded-full object-cover" />
         </div>
       </label>
       <input data-testid="inputImage" id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleUploadImg} />

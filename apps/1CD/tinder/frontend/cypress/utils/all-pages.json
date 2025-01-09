@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-["///","///register/birthday","///sign-up/all-set","///sign-up/image","///chat","///chat/[id]","///register/email","///register/otp","///register/password"]
-=======
-["///","///register/attraction","///register/birthday","///sign-up/all-set","///sign-up/image","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn"]
->>>>>>> main
+["///","///chat","///chat/[id]","///profile","///recs","///register/all-set","///register/attraction","///register/birthday","///register/details","///register/photos","///forgetPassword/email","///forgetPassword/otp","///forgetPassword/password","///register/email","///register/otp","///register/password","///signIn"]

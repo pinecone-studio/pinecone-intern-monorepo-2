@@ -1,9 +1,8 @@
 'use client';
 import Image from 'next/image';
-
+import { useMatchedUsersContext } from './providers/MatchProvider';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
-import { useMatchedUsersContext } from './providers/MatchProvider';
 
 
 export const Matches = () => {
@@ -17,7 +16,7 @@ export const Matches = () => {
   return (
     <div className="flex flex-col gap-2" data-cy="Matches-Page">
       <div className="text-xl text-black">Matches</div>
-      <div className='flex items-start'>
+      <div className='flex items-start overflow-x-scroll'>
         {matchedData?.map((matchedUser)=> 
         matchedUser.hasChatted == false &&
          <button className="p-6 flex flex-col gap-2 justify-center items-center text-center" onClick={()=> handlechat(matchedUser._id)} key={matchedUser._id}  data-cy={`Matched-Users-${matchedUser._id}`}>

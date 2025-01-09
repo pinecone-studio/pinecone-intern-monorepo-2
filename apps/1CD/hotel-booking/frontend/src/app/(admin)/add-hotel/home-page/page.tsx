@@ -7,37 +7,48 @@ import { TableBody, TableCell, TableRow, Table } from '@mui/material';
 import { Select } from '@radix-ui/react-select';
 import { Star } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import Image from 'next/image';
+import Link from 'next/link';
+import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+import { useState } from 'react';
+
 const Page = () => {
+  const [hotelOpen, setHotelOpen] = useState(false);
   const { data, loading } = useGetHotelsQuery();
+
   if (loading) return <div>Loading...</div>;
   return (
-    <div data-cy="home-page-div" className="max-w-[1920px] container mx-auto">
-      <div className="container max-w-[1640px] bg-slate-100 flex">
-        <div className="bg-[#F4F4F5] w-[1640px] h-full">
+    <div className="w-full">
+      <div className="bg-slate-100 flex">
+        <div className="bg-[#F4F4F5] h-full">
           <div className="flex items-center gap-2 px-4 py-5">
             <SidebarTrigger />
-            <div className="font-normal text-sm text-[#020617]">Hotels</div>
+            <div data-cy="Hotel-Text" className="font-normal text-sm text-[#020617]">
+              Hotels
+            </div>
           </div>
           <div>
             <div className="flex justify-between px-4 pt-5">
               <div className="text-[24px] text-[#020617] font-bold">Hotels</div>
-              <Button className="bg-[#2563EB] rounded-md py-2 px-8 gap-3">
+              <Button data-cy="Add-Hotel-button" onClick={() => setHotelOpen(true)} className="bg-[#2563EB] rounded-md py-2 px-8 gap-3">
                 <p>+</p>
                 <p>Add Hotel</p>
               </Button>
             </div>
           </div>
-          <div className="flex gap-1 w-full px-4 py-3">
+          <div className="flex w-full gap-1 px-4 py-3">
             <div className="flex-1">
-              <Input placeholder="Search" />
+              <Input data-cy="Input-element" placeholder="Search" />
             </div>
             <Select>
-              <SelectTrigger className="w-[156px]">
+              <SelectTrigger className="w-[156px]" data-cy="Room-input">
                 <SelectValue placeholder="Rooms" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="Single">Single</SelectItem>
+                  <SelectItem data-cy="Single" value="Single">
+                    Single
+                  </SelectItem>
                   <SelectItem value="Deluxe">Deluxe</SelectItem>
                   <SelectItem value="Standard">Standard</SelectItem>
                   <SelectItem value="President">President</SelectItem>
@@ -45,7 +56,7 @@ const Page = () => {
               </SelectContent>
             </Select>
             <Select>
-              <SelectTrigger className="w-[156px]">
+              <SelectTrigger className="w-[156px]" data-cy="Star-rating">
                 <SelectValue placeholder="Star Rating" />
               </SelectTrigger>
               <SelectContent>
@@ -59,7 +70,7 @@ const Page = () => {
               </SelectContent>
             </Select>
             <Select>
-              <SelectTrigger className="w-[156px]">
+              <SelectTrigger className="w-[156px]" data-cy="User-rating">
                 <SelectValue placeholder="User Rating" />
               </SelectTrigger>
               <SelectContent>
@@ -79,7 +90,7 @@ const Page = () => {
             </Select>
           </div>
           <div className="px-4">
-            <Table className="border-2 bg-white">
+            <Table className="bg-white border-2">
               <TableRow className="border-2">
                 <TableCell className="border-2 w-[82px]">ID</TableCell>
                 <TableCell className="border-2">Name</TableCell>
@@ -91,7 +102,14 @@ const Page = () => {
                 {data?.getHotels.map((hotel) => (
                   <TableRow key={hotel._id}>
                     <TableCell className="border-2 w-[82px]">{hotel._id}</TableCell>
-                    <TableCell className="border-2 w-[892px]">{hotel.hotelName}</TableCell>
+                    <TableCell className="border-2 w-[892px]">
+                      <Link className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
+                        <div className="w-12 h-12">
+                          <Image className="w-full h-full object-cover" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
+                        </div>
+                        {hotel.hotelName}
+                      </Link>
+                    </TableCell>
                     <TableCell className="border-2 w-[160px]">{hotel.description}</TableCell>
                     <TableCell className="border-2 w-[160px]">
                       <div className="flex items-center gap-2">
@@ -109,6 +127,9 @@ const Page = () => {
             </Table>
           </div>
         </div>
+      </div>
+      <div data-cy="Add-Hotel-General-Info-Dialog">
+        <AddHotelGeneralInfo setOpen={setHotelOpen} open={hotelOpen} />
       </div>
     </div>
   );

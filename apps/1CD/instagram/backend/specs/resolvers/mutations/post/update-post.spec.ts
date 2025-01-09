@@ -4,12 +4,28 @@ import { updatePost } from '../../../../src/resolvers/mutations';
 
 jest.mock('../../../../src/models/post.model.ts', () => ({
   PostModel: {
+    findById: jest
+      .fn()
+      .mockReturnValueOnce({
+        _id: '1',
+        images: ['img1', 'img2'],
+        description: 'post Test',
+        user: 'user1',
+      })
+      .mockReturnValueOnce(null)
+      .mockReturnValueOnce({
+        _id: '1',
+        images: ['img1', 'img2'],
+        description: 'post Test',
+        user: 'user2',
+      }),
     findByIdAndUpdate: jest
       .fn()
       .mockReturnValueOnce({
         _id: '1',
         images: ['img1', 'img2'],
         description: 'post Test',
+        user: 'user1',
       })
       .mockReturnValueOnce(null),
   },
@@ -28,7 +44,7 @@ describe('Create Post', () => {
       {
         input,
       },
-      { userId: null },
+      { userId: 'user1' },
       {} as GraphQLResolveInfo
     );
 
@@ -36,7 +52,22 @@ describe('Create Post', () => {
       _id: '1',
       images: ['img1', 'img2'],
       description: 'post Test',
+      user: 'user1',
     });
+  });
+  it('should not found a post', async () => {
+    try {
+      await updatePost!(
+        {},
+        {
+          input,
+        },
+        { userId: 'user1' },
+        {} as GraphQLResolveInfo
+      );
+    } catch (error) {
+      expect(error).toEqual(new Error('Not found post'));
+    }
   });
   it('should throw a post', async () => {
     try {
@@ -45,7 +76,7 @@ describe('Create Post', () => {
         {
           input,
         },
-        { userId: null },
+        { userId: 'user1' },
         {} as GraphQLResolveInfo
       );
     } catch (error) {

@@ -1,26 +1,64 @@
 'use client';
 import DetailTop from '@/components/DetailTop';
-import { Event, useGetEventByIdLazyQuery } from '@/generated';
+import EventDetail from '@/app/user/home/event/[eventId]/_components/EventDetail';
+import TicketDetail from '@/app/user/home/event/[eventId]/_components/TicketDetail';
+
+import { Event, useGetRelatedEventsLazyQuery } from '@/generated';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+import CardTicket from '@/components/Card';
+import Link from 'next/link';
+
 const Page = () => {
-  const [getEvents1, { data, loading }] = useGetEventByIdLazyQuery();
+  const [getCurrentEvent, { data, loading }] = useGetRelatedEventsLazyQuery();
   const params = useParams();
   const { eventId } = params;
+
   useEffect(() => {
-    getEvents1({
+    getCurrentEvent({
       variables: {
-        id: String(eventId),
+        eventId: String(eventId),
       },
     });
-  }, [eventId]);
+  }, []);
 
+  const relatedEvents = data?.getRelatedEvents?.relatedEvents ?? [];
   return (
-    <div data-cy="Detail-Page">
-      {loading && <div className="flex w-full h-full justify-center items-center">Loading...</div>}
-      <DetailTop event={data?.getEventById as Event} />
+    <div className="min-h-screen bg-zinc-950">
+      {loading ? (
+        <div className="flex items-center justify-center w-full min-h-screen">
+          <div className="text-xl font-semibold text-white">Loading...</div>
+        </div>
+      ) : (
+        <>
+          <div data-cy="Detail-Page">
+            <DetailTop event={data?.getRelatedEvents?.eventDetail as Event} />
+          </div>
+          <div className="gap-8 px-4 py-8 mx-auto max-w-7xl md:py-12 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-8 md:flex-row">
+              <div data-cy="Event-Detail" className="w-full md:w-1/2">
+                <EventDetail event={data?.getRelatedEvents?.eventDetail as Event} />
+              </div>
+              <div data-cy="Ticket-Detail" className="w-full md:w-1/2">
+                <TicketDetail event={data?.getRelatedEvents?.eventDetail as Event} />
+              </div>
+            </div>
+          </div>
+          <div data-cy="Related-Events" className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <h1 className="mb-6 text-xl font-light text-white md:text-2xl">Холбоотой эвент болон тоглолтууд</h1>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedEvents.map((event) => (
+                <Link href={`/user/home/event/${event._id}`} key={event._id} className="transition-transform hover:scale-105">
+                  <CardTicket event={event as Event} />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
+
 export default Page;

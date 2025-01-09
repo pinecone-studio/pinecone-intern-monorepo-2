@@ -1,0 +1,11 @@
+query FindUserByEmail($email: String!) {
+  findUserByEmail(email: $email) {
+    email
+    userName
+    profile
+    role
+    position
+    supervisor
+    hireDate
+  }
+}

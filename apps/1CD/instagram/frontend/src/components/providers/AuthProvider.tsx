@@ -115,7 +115,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const resetPassword = async ({ password, resetToken }: ResetPassword) => {
     await resetPasswordMutatuion({ variables: { input: { password, resetToken } } });
   };
-
   const [changeProImg] = useChangeProImgMutation({
     onCompleted: (data) => {
       setUser(data.updateUserData as User);
@@ -126,7 +125,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log('change pro image iin error iig harah', error);
     },
   });
-
   const changeProfileImg = async ({ _id, profileImg }: ChangeProImage) => {
     await changeProImg({ variables: { input: { _id, profileImg } } });
   };

@@ -10,9 +10,7 @@ const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
   return (
     <div className="flex justify-center">
       <Card className="max-w-[360px] w-full h-auto border-2 rounded-md md:max-w-[400px] lg:max-w-[500px]">
-        <div className="w-full h-[200px] bg-pink-100">
-          <Image className="object-cover w-full h-full" src={'/'} alt="image" height={1000} width={1000} />
-        </div>
+        <div className="w-full h-[200px] bg-slate-100">{ <Image className="object-cover w-full h-full" src={hotel?.images?.[0] || "/"} alt="image" height={1000} width={1000} />}</div>
         <div className="p-4">
           <div className="pb-3">
             <p className="text-lg font-bold md:text-lg">{hotel.hotelName}</p>
@@ -35,7 +33,7 @@ const HomePageCard = ({ hotel }: { hotel: Hotel }) => {
             <p className="text-[14px] md:text-[16px]">Free self parking</p>
           </div>
           <div className="flex gap-1.5 items-center pb-3">
-            <div className="bg-blue-600 text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold md:text-[14px]">8.6</div>
+            <div className="bg-blue-700 text-white py-0.5 px-2.5 rounded-full text-[12px] font-semibold md:text-[14px] hover:bg-blue-500">8.6</div>
             <p className="text-[14px] md:text-[16px]">Excellent</p>
           </div>
         </div>

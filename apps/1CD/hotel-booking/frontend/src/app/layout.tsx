@@ -1,26 +1,19 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper, AuthProvider } from '@/components/providers';
-import FooterHome from '@/components/FooterHome';
-import Header from '@/components/Header';
-import HotelDetail from './(client)/hotel-detail/HotelDetail';
+import { ApolloWrapper } from '@/components/providers';
 import { ToastContainer } from 'react-toastify';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
-      <body>
-        <ApolloWrapper>
-          <AuthProvider>
-            <Header />
-            <HotelDetail />
-            {children}
-            <FooterHome />
-            <ToastContainer />
-          </AuthProvider>
-        </ApolloWrapper>
-      </body>
-    </html>
+    <ApolloWrapper>
+      <html lang="en">
+        <body>
+          <NuqsAdapter>{children}</NuqsAdapter>
+          <ToastContainer />
+        </body>
+      </html>
+    </ApolloWrapper>
   );
 };
 

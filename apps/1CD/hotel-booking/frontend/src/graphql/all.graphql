@@ -10,6 +10,62 @@ query GetHotels {
     starRating
     userRating
     phoneNumber
+    images
+  }
+}
+query GetBookings($hotelId: String) {
+  getBookings(hotelId: $hotelId) {
+    _id
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+    firstName
+    lastName
+    email
+    phoneNumber
+    userId {
+      _id
+      email
+      firstName
+      lastName
+      dateOfBirth
+      phoneNumber
+      emergencyContact
+      createdAt
+    }
+    roomId {
+      id
+      roomService {
+        bathroom
+        accessability
+        entertaiment
+        foodDrink
+        bedroom
+        other
+      }
+      hotelId {
+        createdAt
+        _id
+        hotelName
+        description
+        starRating
+        userRating
+        phoneNumber
+        images
+        hotelAmenities
+        location
+        roomsAveragePrice
+      }
+      roomName
+      roomType
+      price
+      roomInformation
+      createdAt
+      amenities
+      images
+    }
   }
 }
 mutation Mutation {
@@ -48,29 +104,6 @@ mutation addPayment($input: PaymentInput!) {
   }
 }
 
-query GetRooms($input: RoomFilterType!) {
-  getRooms(input: $input) {
-    id
-    roomService {
-      bathroom
-      accessability
-      entertaiment
-      foodDrink
-      bedroom
-      other
-    }
-    hotelId {
-      createdAt
-      _id
-      hotelName
-      description
-      starRating
-      userRating
-      phoneNumber
-      images
-    }
-  }
-}
 mutation AddRoom($input: RoomTypeInput!) {
   addRoom(input: $input) {
     _id
@@ -121,6 +154,10 @@ query GetBooking($id: ID) {
     checkOutDate
     totalPrice
     status
+    firstName
+    lastName
+    email
+    phoneNumber
   }
 }
 
@@ -135,6 +172,15 @@ query HotelDetail($hotelId: ID!) {
     roomInformation
     createdAt
     images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+    amenities
   }
 }
 query GetHotel($id: ID!) {
@@ -147,9 +193,49 @@ query GetHotel($id: ID!) {
     userRating
     phoneNumber
     images
+    location
+    hotelAmenities
   }
 }
 
+query GetBookingFindByUserId($userId: ID) {
+  getBookingFindByUserId(userId: $userId) {
+    _id
+    userId
+    roomId {
+      id
+      roomService {
+        bathroom
+        accessability
+        entertaiment
+        foodDrink
+        bedroom
+        other
+      }
+      hotelId {
+        createdAt
+        _id
+        hotelName
+        description
+        starRating
+        userRating
+        phoneNumber
+        images
+        hotelAmenities
+      }
+      roomName
+      roomType
+      price
+      roomInformation
+      createdAt
+    }
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+  }
+}
 
 mutation Login($input: LoginInput!) {
   login(input: $input) {
@@ -174,10 +260,114 @@ mutation SendOtp($input: SignUpInput!) {
 }
 
 mutation SetPassword($input: PasswordInput!) {
-  setPassword(input: $input) {
+  setPassword(input: $input)
+}
+mutation verifyEmail($input: SignUpInput!) {
+  verifyEmail(input: $input)
+}
+
+mutation AddNewBooking($input: BookingInput!) {
+  addNewBooking(input: $input) {
     _id
-    email
+    userId
+    roomId
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+  }
+}
+mutation UpdatePassword($input: PasswordInput!) {
+  updatePassword(input: $input)
+}
+query HotelService($roomId: ID!) {
+  hotelService(roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
   }
 }
 
+query GetFilterByPropertiesHotels($input: RoomFilterType) {
+  getFilterByPropertiesHotels(input: $input) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+    hotelAmenities
+    location
+    roomsAveragePrice
+  }
+}
 
+mutation UpdateHotelImages($images: [String!]!, $id: String!) {
+  updateHotelImages(images: $images, _id: $id) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+
+    hotelAmenities
+    location
+    roomsAveragePrice
+  }
+}
+
+query GetRoom($id: ID!) {
+  getRoom(_id: $id) {
+    id
+    hotelId {
+      createdAt
+      _id
+      hotelName
+      description
+      starRating
+      userRating
+      phoneNumber
+      images
+      hotelAmenities
+      location
+      roomsAveragePrice
+    }
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+    amenities
+    images
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+  }
+}
+
+mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
+  updateBookingStatus(_id: $id, status: $status)
+}

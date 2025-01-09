@@ -13,8 +13,10 @@ type Order = {
   userId: Schema.Types.ObjectId;
   ticketId: Schema.Types.ObjectId;
   eventId: Schema.Types.ObjectId;
+  phoneNumber: string;
+  email: string;
   status: string;
-  orderNumber: number;
+  payment: string;
   ticketType: TicketType[];
 };
 
@@ -35,10 +37,23 @@ const orderSchema = new Schema<Order>(
       required: true,
       ref: 'Event',
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       enum: ['available', 'unavailable', 'pending', 'approved'],
       default: 'available',
+    },
+    payment: {
+      type: String,
+      enum: ['pending', 'paid'],
+      default: 'pending',
     },
     ticketType: [
       {
@@ -64,7 +79,6 @@ const orderSchema = new Schema<Order>(
         },
         additional: {
           type: String,
-          default: 'nothing',
         },
       },
     ],

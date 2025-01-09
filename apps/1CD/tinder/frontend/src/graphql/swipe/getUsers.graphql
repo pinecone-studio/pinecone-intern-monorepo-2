@@ -1,0 +1,35 @@
+query getUsers {
+  getUsers {
+    _id
+    name
+    email
+    bio
+    age
+    gender
+    interests
+    photos
+    profession
+    schoolWork
+    createdAt
+    updatedAt
+    attraction
+    photos
+  }
+}
+
+
+mutation swipeUser($input: SwipeInput!) {
+  swipeUser(input: $input) {
+    swiped
+    matched
+    matchedWith
+  }
+}
+
+query GetMatchedUser($matchedUser: String!) {
+  getMatchedUser(matchedUser: $matchedUser) {
+    swipedUserImg
+    userImg
+    swipedName
+  }
+}

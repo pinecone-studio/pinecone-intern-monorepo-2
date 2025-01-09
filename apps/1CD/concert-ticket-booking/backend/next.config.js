@@ -27,6 +27,7 @@ const nextConfig = {
     EMAIL_USER: process.env.EMAIL_USER,
     EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
     VERCEL_TOKEN: process.env.VERCEL_TOKEN,
+    PASSWORD_RESET_API: process.env.PASSWORD_RESET_API,
   },
   nx: {
     svgr: false,

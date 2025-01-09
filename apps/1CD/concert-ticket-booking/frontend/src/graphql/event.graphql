@@ -4,6 +4,7 @@ query GetEvents($filter: EventsFilter) {
     category
     description
     discount
+    priority
     mainArtists {
       name
     }
@@ -20,6 +21,7 @@ query GetEvents($filter: EventsFilter) {
         _id
         zoneName
         soldQuantity
+        totalQuantity
         unitPrice
         discount
         additional
@@ -73,5 +75,18 @@ query GetEventById($id: ID!) {
         zoneName
       }
     }
+  }
+}
+
+mutation UpdateEventPriority($id: ID!, $input: EventPriorityUpdateInput!) {
+  updateEventPriority(_id: $id, input: $input) {
+    priority
+    _id
+  }
+}
+
+mutation DeleteEvent($id: ID!) {
+  deleteEvent(_id: $id) {
+    message
   }
 }

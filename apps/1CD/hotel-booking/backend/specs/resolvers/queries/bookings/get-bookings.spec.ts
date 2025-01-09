@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { GraphQLResolveInfo } from 'graphql';
 import { getBookings } from 'src/resolvers/queries';
 
 jest.mock('src/models', () => ({
@@ -10,11 +9,7 @@ jest.mock('src/models', () => ({
         populate: jest.fn().mockReturnValueOnce({
           populate: jest.fn().mockResolvedValueOnce([
             {
-              userId: { id: 'user1' },
-              roomId: {
-                id: 'room1',
-                hotelId: { id: 'hotel1' },
-              },
+              status: 'booked',
             },
           ]),
         }),
@@ -31,26 +26,22 @@ describe('getBookings function', () => {
   it('should return bookings', async () => {
     const result = await getBookings!(
       {},
-      {},
       {
-        userId: '1',
-      },
-      {} as GraphQLResolveInfo
+        status: 'booked',
+        hotelId: '1',
+      }
     );
 
     expect(result).toEqual([
       {
-        userId: { id: 'user1' },
-        roomId: {
-          id: 'room1',
-          hotelId: { id: 'hotel1' },
-        },
+        status: 'booked',
       },
     ]);
   });
+
   it('No bookings found', async () => {
     try {
-      await getBookings!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
+      await getBookings!({}, { status: 'booked', hotelId: '2' });
     } catch (error) {
       expect((error as Error).message).toEqual('No bookings found');
     }

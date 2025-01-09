@@ -5,13 +5,26 @@ export const typeDefs = gql`
     Success
   }
 
+  enum emergencyStatusEnum {
+    Spouse
+    Parents
+    Sibling
+    Friend
+    Partner
+    Child
+    Neighbor
+    Roommate
+  }
+
   scalar Date
   type User {
     _id: ID!
     email: String!
     firstName: String
     lastName: String
+    dateOfBirth: Date
     phoneNumber: String
+    emergencyContact: String
     createdAt: Date!
   }
 
@@ -44,19 +57,30 @@ export const typeDefs = gql`
   }
 
   input PasswordInput {
-    email: String
+    email: String!
     password: String!
   }
 
+  input ProfileInput {
+    firstName: String
+    lastName: String
+    dateOfBirth: Date
+    phoneNumber: String
+    emergencyContact: String
+    emergencyStatus: emergencyStatusEnum
+  }
+
   type Query {
-    getUser: User!
+    getUser(email: String!): User!
   }
 
   type Mutation {
     login(input: LoginInput!): AuthResponse!
     verifyOtp(input: VerifyOtpInput!): Response!
     sendOtp(input: SignUpInput!): Response!
-    setPassword(input: PasswordInput!): User!
+    setPassword(input: PasswordInput!): Response!
     verifyEmail(input: SignUpInput!): Response!
+    updatePassword(input: PasswordInput!): Response!
+    updateProfile(input: ProfileInput!): User!
   }
 `;

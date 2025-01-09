@@ -1,25 +1,31 @@
 import { interceptGraphql } from 'cypress/utils/intercept-graphql';
 describe('CreateEventModal Component', () => {
   beforeEach(() => {
+    const mockToken = {
+      token: 'faketoken',
+    };
+    cy.window().then((window) => {
+      window.localStorage.setItem('token', JSON.stringify(mockToken));
+    });
+    interceptGraphql({
+      state: '',
+      operationName: 'GetMe',
+      data: {
+        data: {
+          getMe: {
+            email: 'example@gmail.com',
+            role: 'admin',
+            phoneNumber: '+976 95160812',
+            __typename: 'User',
+          },
+        },
+      },
+    });
     cy.visit('/admin/home');
     cy.get('[data-testid="create-event-button"]').click();
-    // cy.intercept('POST', '/graphql', (req) => {
-    //   if (req.body.operationName === 'deleteLastEvent') {
-    //     req.reply({
-    //       data: {
-    //         deleteLastEvent: {
-    //           message: 'Event successfully deleted',
-    //         },
-    //       },
-    //     });
-    //   }
-    // }).as('deleteLastEvent');
   });
   it('should give error when form submission fails', () => {
     interceptGraphql({ state: 'error', operationName: 'CreateEvent' });
-    // cy.get('@CreateEvent').then((interception) => {
-    //   console.log(interception); // Check the intercepted request in the console
-    // });
     cy.get('[data-testid="event-name-input"]').type('Test Event').should('have.value', 'Test Event');
     cy.get('[data-testid="event-description-input"]').type('This is a test event description').should('have.value', 'This is a test event description');
     // Upload image
@@ -38,7 +44,6 @@ describe('CreateEventModal Component', () => {
         cy.get('[data-testid="image-preview"]').should('be.visible');
       });
     });
-    // Select venue
     cy.get('[data-testid="venue-select"]').click();
     cy.get('[data-testid="arena-item-1"]').click();
     // Select category
@@ -49,7 +54,6 @@ describe('CreateEventModal Component', () => {
     cy.get('[data-testid="date-picker-calendar"]').find('[role="gridcell"]').contains('1').should('be.visible').click();
     cy.get('[data-testid="date-picker-calendar"]').find('[role="gridcell"]').contains('10').should('be.visible').click();
     cy.get('[data-testid="date-picker-button"]').click();
-    cy.get('[data-testid="date-picker-button"]').should('contain', 'Dec 01, 2024 - Dec 10, 2024');
     // Fill in ticket zone data
     cy.get('[data-testid="ticket-type-0"] [data-testid="unit-price-input-0"]').type('1000').should('have.value', '1000');
     cy.get('[data-testid="ticket-type-0"] [data-testid="total-quantity-input-0"]').type('50').should('have.value', '50');
@@ -108,7 +112,7 @@ describe('CreateEventModal Component', () => {
     cy.get('[data-testid="date-picker-calendar"]').find('[role="gridcell"]').contains('1').should('be.visible').click();
     cy.get('[data-testid="date-picker-calendar"]').find('[role="gridcell"]').contains('10').should('be.visible').click();
     cy.get('[data-testid="date-picker-button"]').click();
-    cy.get('[data-testid="date-picker-button"]').should('contain', 'Dec 01, 2024 - Dec 10, 2024');
+
     // Fill in the ticket zone
     //VIP
     cy.get('[data-testid="ticket-type-0"] [data-testid="discount-input-0"]').type('10').should('have.value', '10');

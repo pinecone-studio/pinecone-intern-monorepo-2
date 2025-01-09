@@ -54,7 +54,7 @@ const ResetPassword = () => {
         <div className="h-full p-6 space-y-3 flex flex-col justify-evenly">
           <div className="flex flex-col items-center mt-5 space-y-3 mb-10">
             <section className="">
-              <Image src="/images/Logo.png" alt="Logo" width={175} height={51} className="mx-auto" data-cy="instagram-logo" />
+              <Image src="/images/Logo.png" sizes="h-auto w-auto" alt="Logo" width={175} height={51} className="mx-auto" data-cy="instagram-logo" />
             </section>
             <h1 className="font-bold text-lg">Create A Strong Password</h1>
             <p className="text-center w-[90%] text-gray-600 text-base">

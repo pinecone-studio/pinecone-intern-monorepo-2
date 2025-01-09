@@ -6,5 +6,7 @@ import { typeDefs as eventTypeDefs } from './event.schema';
 import { typeDefs as VenueTypeDefs } from './venue.schema';
 import { typeDefs as catTypeDefs } from './category.schema';
 import { typeDefs as OrderTypeDefs } from './order.schema';
+import { typeDefs as UnitTicketTypeDefs } from './unit-ticket.schema';
+import { typeDefs as RequestTypeDefs } from './request.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, authTypeDefs, catTypeDefs, ticketTypeDefs, VenueTypeDefs, eventTypeDefs, OrderTypeDefs]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, authTypeDefs, catTypeDefs, ticketTypeDefs, VenueTypeDefs, eventTypeDefs, OrderTypeDefs, UnitTicketTypeDefs, RequestTypeDefs]);

@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 export const typedef = gql`
   
   type BoolResult {
-    res: Boolean!
+    res: Boolean
   }
 
   type Query {

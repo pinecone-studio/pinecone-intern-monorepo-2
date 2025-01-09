@@ -1,0 +1,39 @@
+mutation CreatePostLike($postId: ID!, $isLike: Boolean!) {
+  createPostLike(postId: $postId, isLike: $isLike) {
+    _id
+    isLike
+    createdAt
+  }
+}
+
+mutation DeletePostLike($postLikeId: ID!) {
+  deletePostLike(postLikeId: $postLikeId) {
+    _id
+  }
+}
+
+query GetPostLikes($postId: ID!) {
+  getPostLikes(postId: $postId) {
+    _id
+    user {
+      _id
+      userName
+      fullName
+
+      profileImg
+    }
+    createdAt
+    isLike
+    post {
+      _id
+    }
+  }
+}
+
+query GetPostLike($postId: ID!) {
+  getPostLike(postId: $postId) {
+    _id
+    createdAt
+    isLike
+  }
+}

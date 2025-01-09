@@ -1,5 +1,17 @@
-query Query {
+query SampleQuery {
   sampleQuery
+}
+query GetSpecialEvent {
+  getSpecialEvent {
+    _id
+    name
+    scheduledDays
+    mainArtists {
+      name
+    }
+    image
+    priority
+  }
 }
 
 mutation Mutation {
@@ -50,5 +62,129 @@ mutation VerifyUserEmail($email: String!) {
 mutation VerifyOtp($input: VerifyOtpInput!) {
   verifyOtp(input: $input) {
     message
+  }
+}
+mutation RecoverPassword($input: RecoverPasswordInput!) {
+  recoverPassword(input: $input) {
+    message
+  }
+}
+query GetMe {
+  getMe {
+    email
+    role
+    phoneNumber
+  }
+}
+mutation UpdateUser($input: UpdateInput!) {
+  updateUser(input: $input) {
+    role
+  }
+}
+
+mutation ChangePassword($input: ChangePasswordInput!) {
+  changePassword(input: $input) {
+    message
+  }
+}
+
+query GetRelatedEvents($eventId: String!) {
+  getRelatedEvents(eventId: $eventId) {
+    eventDetail {
+      _id
+      category
+      description
+      discount
+      guestArtists {
+        name
+      }
+      image
+      mainArtists {
+        name
+      }
+      name
+      priority
+      products {
+        ticketType {
+          discount
+          _id
+          soldQuantity
+          totalQuantity
+          unitPrice
+          zoneName
+          additional
+        }
+        scheduledDay
+        _id
+      }
+      scheduledDays
+      venue {
+        _id
+        name
+        location
+        image
+        capacity
+        size
+      }
+    }
+    relatedEvents {
+      _id
+      category
+      discount
+      image
+      mainArtists {
+        name
+      }
+      name
+      priority
+      scheduledDays
+      venue {
+        name
+      }
+      products {
+        _id
+        scheduledDay
+        ticketType {
+          _id
+          zoneName
+          soldQuantity
+          totalQuantity
+          unitPrice
+          discount
+          additional
+        }
+      }
+    }
+  }
+}
+
+query GetUnitTicket($unitId: String!) {
+  getUnitTicket(unitId: $unitId) {
+    _id
+    orderId {
+      ticketType {
+        _id
+        zoneName
+        soldQuantity
+        totalQuantity
+        unitPrice
+        discount
+        additional
+      }
+      status
+    }
+    status
+    productId {
+      scheduledDay
+    }
+    eventId {
+      name
+      description
+      image
+      mainArtists {
+        name
+      }
+    }
+    ticketId
   }
 }

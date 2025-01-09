@@ -1,19 +1,12 @@
 describe('Create Request', () => {
   beforeEach(() => {
-    const token = Cypress.env().env['ANNUAL_TOKEN'] as string
-    cy.setCookie(
-      'authtoken',
-      token
-    );
+    const token = Cypress.env().env['ANNUAL_TOKEN_SUPERVISEE'] as string;
+    cy.setCookie('authtoken', token);
     cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'CreatesRequest') {
+      if (req.body.operationName === 'CreateRequest') {
         req.reply({
           data: {
-            createsReqest: {
-              createsRequest: {
-                email: 'zolookorzoloo@gmail.com',
-              },
-            },
+            getAllSupervisors: [{ email: 'zolookorzoloo@gmail.com', userName: 'zoljargal tsenddorj' }],
           },
         });
       }
@@ -29,17 +22,18 @@ describe('Create Request', () => {
     cy.get('#requestTypeOptions').children().first().click();
     cy.get('button[value="hourly"]').click();
     cy.contains('button', 'Та өдрөө').click();
-    cy.contains('button', '30').click();
+    cy.get('[aria-label="Go to next month"]').click();
+    cy.contains('button', '30').last().click();
     cy.contains('div', 'Чөлөө авах өдөр').click();
     cy.contains('button', '00:00').first().click();
     cy.contains('div', '8:00').click();
     cy.contains('button', '00:00').click();
     cy.wait(500);
     cy.contains('div', '15:00').last().click();
-    cy.contains('button', 'Select Option...').click()
-    cy.contains('div', 'zoljargal tsenddorj').click()
-    cy.get('textarea').type('FML')
+    cy.contains('button', 'Select Option...').click();
+    cy.contains('div', 'zoljargal tsenddorj').click();
+    cy.get('textarea').type('FML');
 
-    cy.contains('button', 'Хүсэлт илгээх').click()
+    cy.contains('button', 'Хүсэлт илгээх').click();
   });
 });

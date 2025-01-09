@@ -2,7 +2,7 @@ import SideBar from '@/components/providers/Sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { ReactNode } from 'react';
 
-const Layout = async ({ children }: { children: ReactNode }) => {
+const AdminLayout = async ({ children }: { children: ReactNode }) => {
   // const cookieStore = await cookies();
   // const defaultOpen = cookiesStore.get('sidebar:state')?.value === 'true';
 
@@ -12,11 +12,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
-      <SidebarProvider>
+      <SidebarProvider className="flex">
         <SideBar />
-        {children}
+        <div className="flex-1">{children}</div>
       </SidebarProvider>
     </div>
   );
 };
-export default Layout;
+export default AdminLayout;

@@ -35,3 +35,12 @@ mutation CreateUser($email: String!, $position: String!, $role: String!, $profil
     userName
   }
 }
+
+mutation UpdateUser($email: String, $position: String, $role: String, $profile: String, $userName: String, $supervisor: [ID], $hireDate: Date) {
+  updateUser(email: $email, position: $position, role: $role, profile: $profile, userName: $userName, supervisor: $supervisor, hireDate: $hireDate) {
+    _id
+    email
+    userName
+    role
+  }
+}

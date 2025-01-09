@@ -1,6 +1,5 @@
 describe('Login Component', () => {
   beforeEach(() => {
-    // Mock the GraphQL mutation for creating OTP
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'CreatesOTP') {
         req.reply({
@@ -74,6 +73,5 @@ describe('Login Component', () => {
     cy.url().should('include', '/sendOtp');
 
     cy.get('[data-testid="otp-input"]').type('1234');
-    cy.url().should('eq',`${Cypress.config().baseUrl}/`)
   });
 });

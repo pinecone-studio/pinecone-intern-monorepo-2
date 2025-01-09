@@ -1,0 +1,36 @@
+query GetTicketWithVenue($input: BuyTicket!) {
+  getTicketWithVenue(input: $input) {
+    findTicket {
+      _id
+      scheduledDay
+      ticketType {
+        _id
+        zoneName
+        soldQuantity
+        totalQuantity
+        unitPrice
+        discount
+        additional
+      }
+    }
+    findVenue {
+      _id
+      image
+    }
+  }
+}
+mutation AddToCarts($input: OrderInput!) {
+  addToCarts(input: $input) {
+    _id
+  }
+}
+mutation PaymentCheck($orderId: String!) {
+  paymentCheck(orderId: $orderId) {
+    message
+  }
+}
+mutation PaymentTickets($orderId: String!) {
+  paymentTickets(orderId: $orderId) {
+    message
+  }
+}

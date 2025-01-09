@@ -5,13 +5,13 @@ import { Context } from '../../../types';
 
 export const updateMatch: MutationResolvers['updateMatch'] = async (_, { input },{userId}:Context) => {
  const user1 = input.user1
- const user2 = userId
  try{
+  console.log(user1, userId)
     await Matchmodel.updateOne(
         {
           $or: [
-            { user1: user1, user2: user2 },
-            { user2: user1, user1: user2 },
+            { user1: user1, user2: userId },
+            { user2: user1, user1: userId },
           ],
         },
         {

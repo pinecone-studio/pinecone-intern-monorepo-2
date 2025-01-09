@@ -1,10 +1,24 @@
-import { QueryResolvers, BookingsType } from 'src/generated';
+/* eslint-disable complexity */
+import { BookingsType } from 'src/generated';
 import { bookingModel } from 'src/models';
 
-export const getBookings: QueryResolvers['getBookings'] = async () => {
+type BookingsFilterType = {
+  status?: string;
+  hotelId?: string;
+};
+
+export const getBookings = async (_: unknown, { status, hotelId }: { status: string; hotelId: string }) => {
+  const filter: BookingsFilterType = {};
+
+  if (status) {
+    filter['status'] = status;
+  }
+  if (hotelId) {
+    filter.hotelId = hotelId;
+  }
   try {
     const bookings: BookingsType[] = await bookingModel
-      .find()
+      .find(filter)
       .populate({ path: 'userId' })
       .populate({
         path: 'roomId',

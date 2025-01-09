@@ -1,7 +1,29 @@
 /// <reference types="cypress" />
 
+import { interceptGraphql } from 'cypress/utils/intercept-graphql';
+
 describe('InputArtists Component', () => {
   beforeEach(() => {
+    const mockToken = {
+      token: 'faketoken',
+    };
+    cy.window().then((window) => {
+      window.localStorage.setItem('token', JSON.stringify(mockToken));
+    });
+    interceptGraphql({
+      state: '',
+      operationName: 'GetMe',
+      data: {
+        data: {
+          getMe: {
+            email: 'example@gmail.com',
+            role: 'admin',
+            phoneNumber: '+976 95160812',
+            __typename: 'User',
+          },
+        },
+      },
+    });
     cy.visit('/admin/home');
   });
 
@@ -22,8 +44,6 @@ describe('InputArtists Component', () => {
     cy.get('[data-testid="create-event-button"]').click();
     cy.get('[data-testid="main-artist-name-input-0"]').type('Main Artist 1');
     cy.get('[data-testid="guest-artist-name-input-0"]').type('Guest Artist 1');
-
-    // Check that the input values are populated correctly
     cy.get('[data-testid="main-artist-name-input-0"]').should('have.value', 'Main Artist 1');
     cy.get('[data-testid="guest-artist-name-input-0"]').should('have.value', 'Guest Artist 1');
   });
@@ -32,19 +52,12 @@ describe('InputArtists Component', () => {
     cy.get('[data-testid="guest-artist-name-input-0"]').should('exist');
     cy.get('[data-testid="add-guest-artist-button"]').click();
     cy.get('[data-testid="guest-artist-name-input-1"]').should('exist');
-
-    // Click the remove button for this artist
     cy.get('[data-testid="remove-guest-artist-button-1"]').click();
-
     cy.get('[data-testid="guest-artist-name-input-1"]').should('not.exist');
   });
   it('should not have empty input fields for guest artists after removal', () => {
     cy.get('[data-testid="create-event-button"]').click();
-
-    // Click the remove button for this artist
     cy.get('[data-testid="remove-guest-artist-button-0"]').click();
-
-    // Ensure the guest artist input field is removed
     cy.get('[data-testid="guest-artist-name-input-0"]').should('not.exist');
   });
 });

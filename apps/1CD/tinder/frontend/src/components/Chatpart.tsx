@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Oneuser } from './Oneuser';
 import { Loader } from './Loader';
-import { Errormessage } from './Errormessage';
+import { Chatmessages } from './Chatmessages';
+import { Send } from 'lucide-react';
 
 type Props = {
   chatloading: boolean;
@@ -15,22 +16,31 @@ type Props = {
   loading: boolean;
 };
 
-export const Chatpart = ({ chatloading, response, errormessage, handleMessageChange, sendMessage, message, loading }: Props) => {
-  const user1 = '675675e84bd85fce3de34006';
+export const Chatpart = ({ chatloading, response, errormessage, handleMessageChange, sendMessage, message, loading}: Props) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') 
+      sendMessage();
+    }
 
   return (
-    <div className="flex flex-col h-full border-t border-b border-r w-full" data-cy="Chat-Part-Page">
+    <div className="flex flex-col border-t border-b border-r flex-1 h-full" data-cy="Chat-Part-Big-Page" >
       {chatloading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col flex-1 h-full">
+        <div className="flex flex-col h-full">
           <Oneuser />
-          <div className="flex flex-col flex-1 h-full">
-            <Errormessage errormessage={errormessage} response={response} user1={user1}/>
+          <div className="flex flex-col w-full flex-1" >
+            <Chatmessages errormessage={errormessage} response={response}/>
             <div className="py-5 px-6 flex gap-4 border-t">
-              <Input placeholder="Say something nice" value={message} onChange={handleMessageChange} data-cy="Chat-Part-Message-Input" />
-              <Button variant="destructive" className="rounded-full" onClick={sendMessage} data-cy="Chat-Part-Send-Button">
-                {loading ? 'Loading' : 'Send'}
+              <Input placeholder="Say something nice" value={message} onChange={handleMessageChange} data-cy="Chat-Part-Message-Input" onKeyDown={handleKeyDown}  />
+              <Button variant="destructive" className="rounded-full" onClick={sendMessage} data-cy="Chat-Part-Send-Button" disabled={loading}>
+                {loading ? (
+                  'Loading'
+                ) : (
+                  <div className='flex gap-2 items-center'>
+                    <Send size={13}/> Send
+                  </div>
+                )}
               </Button>
             </div>
           </div>
