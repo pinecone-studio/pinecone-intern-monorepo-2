@@ -20,7 +20,7 @@ const Notification = () => {
               data-cy="notify-postlike-card"
               key={oneNotification._id}
               userName={oneNotification.otherUserId.userName}
-              profileImg={oneNotification.otherUserId.profileImg!}
+              profileImg={oneNotification.otherUserId.profileImg || '/images/profileImg.webp'}
               createdDate={oneNotification.createdAt}
             />
           );
@@ -29,7 +29,7 @@ const Notification = () => {
             <NotifyFollowRequestCard
               key={oneNotification._id}
               userName={oneNotification.otherUserId.userName}
-              profileImg={oneNotification.otherUserId.profileImg!}
+              profileImg={oneNotification.otherUserId.profileImg || '/images/profileImg.webp'}
               createdDate={oneNotification.createdAt}
               accountVisible={accountVis!}
             />
