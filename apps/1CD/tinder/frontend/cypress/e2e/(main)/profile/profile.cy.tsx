@@ -1,6 +1,6 @@
 describe('Profile page', () => {
   beforeEach(() => {
-    cy.visit('/profile');
+    cy.visit('/profile2');
   });
   it('1. should display the header', () => {
     cy.contains('Personal Information').should('be.visible');
