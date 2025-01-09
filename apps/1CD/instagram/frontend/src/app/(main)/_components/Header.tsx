@@ -27,7 +27,7 @@ export const Header = () => {
   const hideSideBar = () => setHide((prev) => !prev);
 
   const renderNavLink = (icon: React.ReactNode, label: string, onClick: () => void, testId: string) => (
-    <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId} data-cy={testId}>
+    <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId}>
       <p>{icon}</p>
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>

@@ -3,8 +3,8 @@ describe('user profile page', () => {
   const mockApiFollowersRes = {
     seeFollowers: [
       { followerId: { _id: 'followerNum1', userName: 'Follower1', fullName: 'Mock Follower', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1734946251/dv4cj1pzsfb04tngsvq7.jpg' } },
-      { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: '' } },
-      { followerId: { _id: 'followerNum3', userName: 'Follower3', fullName: 'Mock3 Follower', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1735788813/nguro3w6bkvs9zlad0d7.jpg' } },
+      { followerId: { _id: 'followerNum2', userName: 'Follower2', fullName: 'Mock2 Follower', profileImg: 'https://res.cloudinary.com/dka8klbhn/image/upload/v1735788813/nguro3w6bkvs9zlad0d7.jpg' } },
+      { followerId: { _id: 'followerNum3', userName: 'Follower3', fullName: 'Mock3 Follower', profileImg: '' } },
     ],
   };
   const mockApiFollowingsRes = {
@@ -54,7 +54,7 @@ describe('user profile page', () => {
     cy.get('[data-cy="username"]').should('contain.text', 'mery');
     cy.get('[data-cy="fullname"]').should('contain.text', 'mery');
     cy.get('[data-cy="postNumberDone"]').should('contain.text', '1');
-    cy.get('[data-cy="followerNum"]').should('contain.text', '2');
+    cy.get('[data-cy="followerNum"]').should('contain.text', '3');
     cy.get('[data-cy="myPosts"]').should('be.visible');
     cy.get('[data-cy="myPost"]').should('have.length', 1);
     cy.get('[data-cy="myPost"]').each(($post, index) => {
@@ -116,12 +116,12 @@ describe('user profile page', () => {
     cy.get('[data-cy="followerCard"]')
       .eq(1)
       .within(() => {
-        cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
+        cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('https://res.cloudinary.com/dka8klbhn/image/upload/v1735788813/nguro3w6bkvs9zlad0d7.jpg'));
       });
     cy.get('[data-cy="followerCard"]')
       .eq(2)
       .within(() => {
-        cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('https://res.cloudinary.com/dka8klbhn/image/upload/v1735788813/nguro3w6bkvs9zlad0d7.jpg'));
+        cy.get('[data-cy="followerCardImg"]').should('have.attr', 'src').and('include', encodeURIComponent('/images/profileImg.webp'));
       });
     // cy.get('[data-cy="buttonClose"]').click();
     cy.get('button:has(svg.lucide-x)').click();
