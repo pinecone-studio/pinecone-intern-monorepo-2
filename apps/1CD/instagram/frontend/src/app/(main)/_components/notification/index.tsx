@@ -4,6 +4,9 @@ import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
 import NoNotification from '../NoNotification';
 import { useGetNotificationsByLoggedUserQuery } from '@/generated';
 import { useAuth } from '@/components/providers';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { isThisWeek, isThisYear, isToday, isYesterday } from 'date-fns';
+import { is } from 'cypress/types/bluebird';
 
 const Notification = () => {
   const { user } = useAuth();
@@ -11,9 +14,10 @@ const Notification = () => {
   const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
   if (!notifyData) return;
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
+  const sortedNotify = notifyData.getNotificationsByLoggedUser.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   const notifyDiv = () => {
     if (notifyData.getNotificationsByLoggedUser) {
-      return notifyData.getNotificationsByLoggedUser.map((oneNotification) => {
+      return sortedNotify.map((oneNotification) => {
         if (oneNotification.notificationType === 'POSTLIKE') {
           return (
             <NotifyPostLikeCard
@@ -38,13 +42,26 @@ const Notification = () => {
       });
     } else return <NoNotification data-cy="noNotificationComp" />;
   };
+  const todaysNotify = sortedNotify.filter((oneNotify) => isToday(new Date(oneNotify.createdAt)));
+  const yesterdayNotify = sortedNotify.filter((oneNotify) => isYesterday(new Date(oneNotify.createdAt)));
+  const thisweekNotify = sortedNotify.filter((oneNotify) => isThisWeek(new Date(oneNotify.createdAt)));
+  const earlerNotify = sortedNotify.filter((oneNotify) => isThisYear(new Date(oneNotify.createdAt)));
+  console.log('today', todaysNotify);
+  console.log('yesterday', yesterdayNotify);
+  console.log('this week', thisweekNotify);
+  console.log('earler', earlerNotify);
   return (
     <div className="px-4 py-8 border w-[470px] h-full" data-testid="notification-component">
       <h3 className="text-[#262626] text-2xl font-[550] leading-8 tracking-wide mb-5">Notifications</h3>
       <div className="flex flex-col gap-4">
         <h6>Today</h6>
+        <div data-cy="notifyDiv">{notifyDiv()}</div>
       </div>
-      <div data-cy="notifyDiv">{notifyDiv()}</div>
+      <DropdownMenuSeparator />
+      <div className="flex flex-col gap-4">
+        <h6>Yesterday</h6>
+        <div></div>
+      </div>
     </div>
   );
 };
