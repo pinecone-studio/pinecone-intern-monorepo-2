@@ -38,6 +38,7 @@ describe('Profile page', () => {
     // cy.get('[data-cy="profile-bio-input"]').should('be.visible').and('have.attr', 'placeholder', 'name@example.com');
     cy.get('[data-cy="profile-school-input"]').type('school').should('have.value', 'school');
   });
+
   it('10. should display the School/Work input field and accept user input', () => {
     cy.get('[data-cy="next-button"]').should('be.visible').click();
     cy.url().should('include', '/recs');
