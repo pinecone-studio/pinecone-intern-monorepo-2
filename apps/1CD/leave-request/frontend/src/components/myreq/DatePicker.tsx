@@ -23,7 +23,7 @@ interface ClientDatePickerProps {
 export const ClientDatePicker = ({ className, onChange }: ClientDatePickerProps) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: addDays(new Date(), -30),
-    to: new Date(),
+    to: addDays(new Date(), 365),
   });
 
   return (

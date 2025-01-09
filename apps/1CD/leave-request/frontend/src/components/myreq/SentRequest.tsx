@@ -104,7 +104,7 @@ const Status = ({ result }: { result?: string | null }) => {
 const SentRequest = ({ email }: { email: string }) => {
   const dateRange = useRef({
     startDate: addDays(new Date(), -30),
-    endDate: new Date(),
+    endDate: addDays(new Date(), 365),
   });
   const router = useRouter();
   const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });
