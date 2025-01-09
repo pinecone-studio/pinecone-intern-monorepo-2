@@ -60,4 +60,14 @@ describe('removeFollower Mutation', () => {
     expect(followModel.findOne).toHaveBeenCalledWith({ followerId: '123', followingId: userId.toString() });
     expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('456');
   });
+  it('should successfully delete the follower userid null', async () => {
+    (followModel.findOne as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
+    (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowRequest);
+    const userId = "user-1";
+    const result = await removeFollower!({}, { _id: '123' }, { userId }, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual(mockFollowRequest);
+    expect(followModel.findOne).toHaveBeenCalledWith({ followerId: '123', followingId: userId });
+    expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('456');
+  });
 });

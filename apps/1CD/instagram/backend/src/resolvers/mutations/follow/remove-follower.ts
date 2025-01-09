@@ -3,8 +3,8 @@ import { followModel } from 'src/models';
 
 export const removeFollower: MutationResolvers['removeFollower'] = async (_, { _id }, { userId }) => {
   checkUserIsAuth(userId);
-  const user = userId?.toString();
-  const followRecord = await followModel.findOne({ followerId: _id, followingId: user });
+
+  const followRecord = await followModel.findOne({ followerId: _id, followingId: userId });
   if (!followRecord) {
     throw new Error('Not found');
   }
