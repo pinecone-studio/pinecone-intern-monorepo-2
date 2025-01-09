@@ -1,8 +1,8 @@
 query Query {
   sampleQuery
 }
-query GetHotels {
-  getHotels {
+query GetHotels($input: AdminHotelFilter) {
+  getHotels(input: $input) {
     createdAt
     _id
     hotelName
@@ -11,17 +11,31 @@ query GetHotels {
     userRating
     phoneNumber
     images
+    hotelAmenities
+    location
+    roomsAveragePrice
   }
 }
-query GetBookings {
-  getBookings {
+query GetBookings($hotelId: String) {
+  getBookings(hotelId: $hotelId) {
     _id
+    hotelId
+    checkInDate
+    checkOutDate
+    totalPrice
+    status
+    firstName
+    lastName
+    email
+    phoneNumber
     userId {
       _id
       email
       firstName
       lastName
+      dateOfBirth
       phoneNumber
+      emergencyContact
       createdAt
     }
     roomId {
@@ -45,6 +59,7 @@ query GetBookings {
         images
         hotelAmenities
         location
+        roomsAveragePrice
       }
       roomName
       roomType
@@ -54,11 +69,6 @@ query GetBookings {
       amenities
       images
     }
-    hotelId
-    checkInDate
-    checkOutDate
-    totalPrice
-    status
   }
 }
 mutation Mutation {
@@ -147,6 +157,10 @@ query GetBooking($id: ID) {
     checkOutDate
     totalPrice
     status
+    firstName
+    lastName
+    email
+    phoneNumber
   }
 }
 
@@ -183,6 +197,7 @@ query GetHotel($id: ID!) {
     phoneNumber
     images
     location
+    hotelAmenities
   }
 }
 
@@ -353,5 +368,21 @@ query GetRoom($id: ID!) {
       bedroom
       other
     }
+  }
+}
+
+mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
+  updateBookingStatus(_id: $id, status: $status)
+}
+query GetUser($email: String!) {
+  getUser(email: $email) {
+    _id
+    email
+    firstName
+    lastName
+    dateOfBirth
+    phoneNumber
+    emergencyContact
+    createdAt
   }
 }

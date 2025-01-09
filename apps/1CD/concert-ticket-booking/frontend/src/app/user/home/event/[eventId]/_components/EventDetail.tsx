@@ -23,7 +23,7 @@ const EventDetail = ({ event }: { event: Event }) => {
   }, [event]);
 
   return (
-    <div className="flex justify-around max-w-[533px]" data-cy="Event-Detail">
+    <div className="flex justify-around px-5 max-w-[533px]" data-cy="Event-Detail">
       <div className="flex flex-col gap-6">
         <div className="flex justify-between ">
           <div className="flex gap-6">

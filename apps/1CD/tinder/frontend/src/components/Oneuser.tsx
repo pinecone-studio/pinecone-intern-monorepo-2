@@ -15,13 +15,14 @@ export const Oneuser = () => {
     setOpen(false);
   };
 
+  console.log({oneUser});
 
   return (
     <>
       <div className="border-t" data-cy="Chat-Oneuser-Part">
           <div className="flex justify-between border-b items-center py-[22px] px-6">
-            <div className="flex justify-center items-center gap-3">
-              <div className="rounded-full w-12 h-12 overflow-hidden">
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-12 h-12 overflow-hidden rounded-full">
                 <Image src={oneUser.photos[0]} alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
               </div>
               <div className="flex flex-col gap-1">

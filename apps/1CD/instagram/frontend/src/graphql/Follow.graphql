@@ -1,0 +1,10 @@
+mutation RemoveFollower($id: ID!) {
+  removeFollower(_id: $id) {
+    _id
+    followerId
+    followingId
+    createdAt
+    updatedAt
+    status
+  }
+}
