@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
 'use client';
 /* eslint-disable max-lines */
 import React from 'react';
@@ -17,6 +20,7 @@ const Profile = () => {
   const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d{0,2}$/.test(value) && (parseInt(value) <= 31 || value === '')) {
+<<<<<<< HEAD
 =======
 // Profile.tsx
 'use client';
@@ -41,6 +45,8 @@ const Profile = () => {
     const value = e.target.value;
     if (value.length <= 2 && /^[0-9]*$/.test(value)) {
 >>>>>>> 5fe6ea2d15b5e13183a73831a7a1ce3e982ac2c6
+=======
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
       setDay(value);
     }
   };
@@ -48,10 +54,14 @@ const Profile = () => {
   const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (/^\d{0,2}$/.test(value) && (parseInt(value) <= 12 || value === '')) {
 =======
     if (value.length <= 2 && /^[0-9]*$/.test(value)) {
 >>>>>>> 5fe6ea2d15b5e13183a73831a7a1ce3e982ac2c6
+=======
+    if (/^\d{0,2}$/.test(value) && (parseInt(value) <= 12 || value === '')) {
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
       setMonth(value);
     }
   };
@@ -59,15 +69,22 @@ const Profile = () => {
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (/^\d{0,4}$/.test(value) && (parseInt(value) <= currentYear || value === '')) {
 =======
     if (value.length <= 4 && /^[0-9]*$/.test(value)) {
 >>>>>>> 5fe6ea2d15b5e13183a73831a7a1ce3e982ac2c6
+=======
+    if (/^\d{0,4}$/.test(value) && (parseInt(value) <= currentYear || value === '')) {
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
       setYear(value);
     }
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col p-10 gap-6">
@@ -207,6 +224,7 @@ const Profile = () => {
               <Link href={'/recs'}>Next</Link>
             </Button>
           </form>
+<<<<<<< HEAD
 =======
   const handleTabClick = (tab: 'profile' | 'images') => {
     setActiveTab(tab);
@@ -311,6 +329,8 @@ const Profile = () => {
             )}
           </div>
 >>>>>>> 5fe6ea2d15b5e13183a73831a7a1ce3e982ac2c6
+=======
+>>>>>>> 5aa6e69a5fe3241d6c6e47fb482f9cd7178c6bae
         </div>
       </div>
     </div>
