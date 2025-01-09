@@ -1,7 +1,7 @@
 import React from 'react';
 import NotifyFollowRequestCard from '@/app/(main)/_components/NotifyFollowReqCard';
 import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
-import NoNotification from '../../app/(main)/_components/NoNotification';
+import NoNotification from '../NoNotification';
 import { useGetNotificationsByLoggedUserQuery } from '@/generated';
 import { useAuth } from '@/components/providers';
 
@@ -12,7 +12,7 @@ const Notification = () => {
   if (!notifyData) return;
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
   const notifyDiv = () => {
-    if (notifyData.getNotificationsByLoggedUser.length) {
+    if (notifyData.getNotificationsByLoggedUser) {
       return notifyData.getNotificationsByLoggedUser.map((oneNotification) => {
         if (oneNotification.notificationType === 'POSTLIKE') {
           return (

@@ -14,7 +14,7 @@ import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
-import Notification from '@/app/notification';
+import Notification from '@/app/(main)/_components/notification';
 
 export const Header = () => {
   const [hide, setHide] = useState(false);
@@ -56,8 +56,7 @@ export const Header = () => {
       variables: {
         input: {
           image: storyImg,
-          description: 'des',
-          userId: user?._id || '',
+          user: user?._id || '',
         },
       },
     });
