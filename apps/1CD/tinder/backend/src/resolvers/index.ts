@@ -26,6 +26,7 @@ export const resolvers = {
     getChat:authorization(Query.getChat),
     getMatch:authorization(Query.getMatch),
     getOneUser:authorization(Query.getOneUser),
+    getMe:authorization(Query.getMe),
     
   }
 };

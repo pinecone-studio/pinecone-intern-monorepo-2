@@ -21,11 +21,10 @@ type OrderDetailProp = {
   handleQuantityChange: (idx: number, id: string, price: number, name: string, operation: 'add' | 'sub') => void;
 };
 const OrderDetail = ({ setState, setQuantity, quantity, order, handleQuantityChange }: OrderDetailProp) => {
-  const [getTicket, { data, error }] = useGetTicketWithVenueLazyQuery();
+  const [getTicket, { data, error, loading }] = useGetTicketWithVenueLazyQuery();
   const { id } = useParams();
   const searchParams = useSearchParams();
   const venueId = searchParams.get('venue');
-
   const venue = data?.getTicketWithVenue.findVenue;
   const ticket = data?.getTicketWithVenue.findTicket;
   useEffect(() => {
@@ -51,8 +50,14 @@ const OrderDetail = ({ setState, setQuantity, quantity, order, handleQuantityCha
     }
   }, [error]);
   return (
-    <div className="flex items-center justify-center w-full gap-10" data-cy="order-detail">
-      <div data-cy="venue-image">{venue?.image ? <Image src={venue.image} alt="Venue Image" width={500} height={300} /> : <div>No image available</div>}</div>
+    <div className="w-full gap-10 lg:flex lg:items-center lg:justify-center sm:max-w-flex sm:max-w-flex-col" data-cy="order-detail">
+      {loading ? (
+         <div className="flex items-center justify-center w-full min-h-screen">
+         <div className="text-xl font-semibold text-white">Loading...</div>
+       </div>
+      ):(
+        <>
+         <div data-cy="venue-image">{venue?.image ? <Image src={venue.image} alt="Venue Image" width={500} height={300} /> : <div>No image available</div>}</div>
       <div className="w-[400px] h-[528px] bg-[#131313] rounded-md flex flex-col justify-center items-center gap-3">
         <div data-cy="event-scheduled-time" className='w-[300px]'>
           <p className="w-full bg-[#131313] pl-1 text-white">Сонгосон өдөр:  {dayjs(ticket?.scheduledDay).format('YY.MM.DD hh:mm a')}</p>
@@ -138,9 +143,11 @@ const OrderDetail = ({ setState, setQuantity, quantity, order, handleQuantityCha
             Тасалбар авах
           </Button>
         </div>
-      </div>
+      </div></>
+      )}
     </div>
   );
 };
 export default OrderDetail;
+
 

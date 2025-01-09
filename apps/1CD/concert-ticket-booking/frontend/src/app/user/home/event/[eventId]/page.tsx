@@ -35,9 +35,9 @@ const Page = () => {
           <div data-cy="Detail-Page">
             <DetailTop event={data?.getRelatedEvents?.eventDetail as Event} />
           </div>
-          <div className="gap-8 px-4 py-8 mx-auto max-w-7xl md:py-12 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-8 md:flex-row">
-              <div data-cy="Event-Detail" className="w-full md:w-1/2">
+          <div className="py-8 m-auto lg:flex lg:justify-center max-w-7xl md:py-12 sm:px-6 lg:px-8">
+            <div className="lg:flex lg:gap-20 md:flex-row sm:max-w-flex sm:max-w-flex-col">
+              <div data-cy="Event-Detail" className="w-full md:w-1/2z">
                 <EventDetail event={data?.getRelatedEvents?.eventDetail as Event} />
               </div>
               <div data-cy="Ticket-Detail" className="w-full md:w-1/2">
@@ -62,3 +62,4 @@ const Page = () => {
 };
 
 export default Page;
+

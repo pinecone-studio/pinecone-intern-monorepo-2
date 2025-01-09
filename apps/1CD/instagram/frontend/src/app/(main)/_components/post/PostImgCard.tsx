@@ -43,7 +43,7 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
         >
           <Image src={image} alt="postnii-zurag" fill className="absolute object-cover cursor-pointer" sizes="h-auto w-auto" />
         </DialogTrigger>
-        <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none " data-testid="postWithComments2">
+        <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none max-w-[1256px]  " data-testid="postWithComments2">
           <DialogTitle className="hidden"></DialogTitle>
           <DialogDescription className="hidden"></DialogDescription>
           <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
@@ -61,7 +61,7 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
                     <DropMenu setClose={setClose} isUser={isUser} setOpenUpdateModal={setOpenUpdateModal} setOpenDeleteModal={setOpenDeleteModal} />
                   </div>
                 </div>
-                <ScrollArea className="w-full h-[560px]">
+                <ScrollArea className="w-full h-[560px] pr-3">
                   <div className="flex items-center w-full gap-4 py-1">
                     <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user?._id}`} className="">
                       <div className="relative w-8 h-8 rounded-full">
