@@ -15,11 +15,18 @@ import HotelAsked from '@/app/(user)/(public)/hotel-detail/HotelAsked';
 import RightSide from '@/components/admin-hotel-detail/RightSide';
 import UpcomingBookings from '@/components/admin-hotel-detail/UpcomingBookings';
 import RoomTypes from '@/components/admin-hotel-detail/RoomTypes';
+import UpdateHotelLocation from '../UpdateHotelLocation';
+import ImageUpdate from '../AddHotelImage';
+import AddRoomGeneralInfo from '../../AddRoomGeneralInfo';
 import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+import HotelAmenitiesDialog from '../HotelAmenitiesDialog';
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const [hotelOpen, setHotelOpen] = useState(false);
-
+  const [isOpenHotelAmenitiesDialog, setIsOpenHotelAmenitiesDialog] = useState(false);
+  const [isOpenRoomGeneralInfo, setIsOpenRoomGeneralInfo] = useState(false);
+  const [isOpenLocationDialog, setIsOpenLocationDialog] = useState(false);
+  const [isOpenImageDialog, setIsOpenImageDialog] = useState(false);
+  const [isOpenHotelGeneralInfoDialog, setIsOpenHotelGeneralInfoDialog] = useState(false);
   const { data } = useHotelDetailQuery({
     variables: {
       hotelId: params.id,
@@ -53,11 +60,13 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="flex gap-4">
           <div className="w-[70%] flex flex-col gap-4">
             <UpcomingBookings bookings={Bookings?.getBookings} />
-            <RoomTypes rooms={data?.hotelDetail} setRoomOpen={setHotelOpen} />
+            <RoomTypes rooms={data?.hotelDetail} setRoomOpen={setIsOpenRoomGeneralInfo} />
             <div className="p-6 bg-white rounded-md">
               <div className="flex justify-between">
                 <div className="font-semibold text-black">General Info</div>
-                <Button className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">Edit</Button>
+                <Button className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200" onClick={() => setIsOpenHotelGeneralInfoDialog(true)}>
+                  Edit
+                </Button>
               </div>
               <div className="w-full h-[1px] bg-[#E4E4E7] my-6"></div>
               <div className="flex flex-col gap-6">
@@ -94,7 +103,9 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className="p-6 bg-white rounded-md">
               <div className="flex justify-between">
                 <div className="font-semibold text-black">Amenities</div>
-                <Button className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">Edit</Button>
+                <Button onClick={() => setIsOpenHotelAmenitiesDialog(true)} className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">
+                  Edit
+                </Button>
               </div>
 
               <div className="w-full h-[1px] bg-[#E4E4E7] my-6" />
@@ -117,10 +128,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               <HotelAsked hotel={oneHotelData?.getHotel} />
             </div>
           </div>
-          <RightSide hotel={oneHotelData?.getHotel} />
+          <RightSide setIsOpenImageDialog={setIsOpenImageDialog} setIsOpenLocationDialog={setIsOpenLocationDialog} hotel={oneHotelData?.getHotel} />
         </div>
       </div>
-      <AddHotelGeneralInfo open={hotelOpen} setOpen={setHotelOpen} />
+      <AddRoomGeneralInfo open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
+      <AddHotelGeneralInfo hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
+      {oneHotelData?.getHotel._id && <UpdateHotelLocation hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenLocationDialog} setOpen={setIsOpenLocationDialog} />}
+      {oneHotelData?.getHotel._id && <HotelAmenitiesDialog open={isOpenHotelAmenitiesDialog} setOpen={setIsOpenHotelAmenitiesDialog} hotelId={oneHotelData.getHotel._id} />}
+      {oneHotelData?.getHotel._id && <ImageUpdate hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenImageDialog} setOpen={setIsOpenImageDialog} />}
     </div>
   );
 };

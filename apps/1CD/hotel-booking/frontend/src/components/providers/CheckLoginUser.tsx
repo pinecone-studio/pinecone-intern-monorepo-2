@@ -1,15 +1,19 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useAuth } from './AuthProvider';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 const CheckLoginUser = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
-  // const router = useRouter();
-  if (!user) {
-    // router.push('/login');
-    return null;
-  }
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      if (user?.email) return;
+      router.push('/login');
+    }
+  }, [user]);
 
   return <div>{children}</div>;
 };
