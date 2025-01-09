@@ -1,4 +1,3 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { useFormik } from 'formik';
 import { useAddHotelGeneralInfoMutation } from '@/generated';
 import SelectHotelStars from '@/components/SelectHotelStars';
 import SelectHotelReviewRating from '@/components/ReviewRating';
+import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
@@ -126,7 +126,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
             </div>
             <div className="flex justify-between mt-6">
               <div>
-                <Button data-cy="Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] hover:bg-slate-100 active:bg-slate-200 text-black">
+                <Button data-cy="Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] border hover:bg-slate-100 active:bg-slate-200 text-black">
                   Cancel
                 </Button>
               </div>

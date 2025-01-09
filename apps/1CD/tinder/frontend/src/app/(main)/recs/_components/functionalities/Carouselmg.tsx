@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 const CarouselImg = ({ swiping }: { swiping: User }) => {
  
+  
   return (
     <div className="relative ">
       <Carousel className="w-[375px] h-[750px] ">

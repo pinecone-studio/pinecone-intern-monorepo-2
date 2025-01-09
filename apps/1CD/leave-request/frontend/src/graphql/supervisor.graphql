@@ -27,6 +27,12 @@ query GetAllRequestsBySupervisor($supervisorEmail: String!, $status: [String], $
   }
 }
 
+query GroupedByStatusRequestLength($supervisorEmail: String!, $endDate: Date, $startDate: Date) {
+  groupedByStatusRequestLength(supervisorEmail: $supervisorEmail, endDate: $endDate, startDate: $startDate) {
+    _id
+    res
+  }
+}
 mutation UpdateRequest($result: String, $comment: String, $id: ID) {
   updateRequest(result: $result, comment: $comment, _id: $id) {
     _id

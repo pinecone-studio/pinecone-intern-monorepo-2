@@ -1,17 +1,46 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-
+import { MultiSelect } from '@/components/ui/multi-select';
 import SelectRoomTypes from '@/components/SelectRoomTypes';
 import { useAddRoomMutation } from '@/generated';
+import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
 };
+type Option = {
+  value: string;
+  label: string;
+};
+const options: Option[] = [
+  {
+    value: '24-hour front desk',
+    label: '24-hour front desk',
+  },
+  {
+    value: 'Conceirge services',
+    label: 'Conceirge services',
+  },
+  {
+    value: 'Tour/ticket assistance',
+    label: 'Tour/ticket assistance',
+  },
+  {
+    value: 'Dry cleaning/laundry services',
+    label: 'Dry cleaning/laundry services',
+  },
+  {
+    value: 'Luggage storage',
+    label: 'Luggage storage',
+  },
+  {
+    value: 'shower',
+    label: 'shower',
+  },
+];
 const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   const [addRoomGeneralInfo] = useAddRoomMutation();
   const PricePerNight = () => {
@@ -22,7 +51,6 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
         </p>
       );
   };
-
   const RoomType = () => {
     if (formik.errors.roomType && formik.touched.roomType)
       return (
@@ -31,7 +59,6 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
         </p>
       );
   };
-
   const RoomName = () => {
     if (formik.errors.roomName && formik.touched.roomName)
       return (
@@ -52,6 +79,9 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     roomType: yup.string().required('room type is required'),
     pricePerNight: yup.number().min(1, 'room price per night is required'),
   });
+  const handleValue = (options: Option[]) => {
+    formik.setFieldValue('roomInformation', options);
+  };
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { resetForm }) => {
@@ -60,7 +90,7 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
           input: {
             hotelId: '674bfbd6a111c70660b55541',
             roomName: values.roomName,
-            roomInformation: values.roomInformation,
+            roomInformation: values.roomInformation.map((option: Option) => option.value),
             price: Number(values.pricePerNight),
             roomType: values.roomType,
           },
@@ -72,6 +102,7 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     },
     validationSchema,
   });
+
   return (
     <div>
       <Dialog open={open}>
@@ -103,13 +134,13 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               <div className="flex flex-col gap-2 text-sm">
                 <div>Room information</div>
                 <div>
-                  <Textarea maxLength={100} value={formik.values.roomInformation} onChange={formik.handleChange} id="roomInformation" />
+                  <MultiSelect data-cy="Add-Room-General-Info-Multi-Select" options={options} value={formik.values.roomInformation} placeholder="Select options..." onValueChange={handleValue} />
                 </div>
               </div>
             </div>
             <div className="flex justify-between mt-6">
               <div>
-                <Button data-cy="Room-Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] hover:bg-slate-100 active:bg-slate-200 text-black">
+                <Button data-cy="Room-Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] border hover:bg-slate-100 active:bg-slate-200 text-black">
                   Cancel
                 </Button>
               </div>

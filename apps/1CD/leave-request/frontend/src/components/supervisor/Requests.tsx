@@ -24,6 +24,7 @@ const Requests = ({ email }: { email: string }) => {
     <div className="flex flex-col bg-[#f4f4f5] mt-11">
       <div className="w-[1030px] mx-auto mt-10">
         <RequestHeader
+        email={email}
           onChange={(arg) => {
             setFilter(arg);
           }}

@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable complexity */
 'use client';
 
 import React, { useState } from 'react';
@@ -12,6 +14,7 @@ import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
+import Notification from '@/components/notification';
 
 export const Header = () => {
   const [hide, setHide] = useState(false);
@@ -19,6 +22,7 @@ export const Header = () => {
   const [openStoryModal, setOpenStoryModal] = useState(false);
   const [storyImg, setStoryImg] = useState('');
   const [showSearchComponent, setShowSearchComponent] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const { user } = useAuth();
   const hideSideBar = () => setHide((prev) => !prev);
 
@@ -28,7 +32,6 @@ export const Header = () => {
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>
   );
-
   const [createStory] = useCreateStoryMutation();
   const handleUploadStoryImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -43,10 +46,8 @@ export const Header = () => {
     });
     const uploadedImage = await res.json();
     const uploadedImageUrl: string = uploadedImage.secure_url;
-
     setStoryImg(uploadedImageUrl);
   };
-
   const handleCreateStory = async () => {
     if (!storyImg) {
       return;
@@ -55,19 +56,16 @@ export const Header = () => {
       variables: {
         input: {
           image: storyImg,
-          description: 'des',
-          userId: user?._id || '',
+          user: user?._id || '',
         },
       },
     });
     setStoryImg('');
     setOpenStoryModal(false);
   };
-
   const discardStory = () => {
     setStoryImg('');
   };
-
   return (
     <>
       <aside data-testid="header" className={`relative h-screen flex-none border-r bg-card ${hide ? 'w-20' : 'w-[260px]'} overflow-hidden`}>
@@ -96,7 +94,7 @@ export const Header = () => {
                     <Heart />,
                     'Notification',
                     () => {
-                      setShowSearchComponent(false);
+                      setShowNotification(!showNotification);
                       hideSideBar();
                     },
                     'menuBtn3'
@@ -153,6 +151,11 @@ export const Header = () => {
       {showSearchComponent && (
         <div className="" data-testid="search-users-component">
           <SearchFromAllUsers />
+        </div>
+      )}
+      {showNotification && (
+        <div className="" data-testid="notification-component">
+          <Notification />
         </div>
       )}
     </>

@@ -27,7 +27,39 @@ const filter = (supervisorEmail: string, search: string, status: string[], start
   }
 
   if (search) {
-    query.email = { $regex: search, $options: 'i'};
+    query.email = { $regex: search, $options: 'i' };
   }
   return query;
 };
+
+export const groupedByStatusRequestLength: QueryResolvers['groupedByStatusRequestLength'] = async (_, {supervisorEmail, startDate, endDate}) => {
+  const matchQuery = calculateFilter(supervisorEmail, startDate, endDate);
+  const res = await RequestModel.aggregate([
+    { $match: matchQuery },
+    {
+      $group: {
+        _id: '$result',
+        res: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+  ]);
+  return res;
+};
+
+const calculateFilter = (supervisorEmail?: string, startDate?: Date, endDate?: Date) => {
+  const matchQuery: any = {};
+  if (supervisorEmail) {
+    matchQuery.supervisorEmail = supervisorEmail;
+  }
+  if (startDate) {
+    matchQuery.requestDate = dateFilter(startDate, endDate);
+  }
+  return matchQuery;
+};
+
+const dateFilter = (startDate: Date, endDate?:Date) => {
+  if(endDate) return { $gte: new Date(startDate), $lte: new Date(endDate) }
+}

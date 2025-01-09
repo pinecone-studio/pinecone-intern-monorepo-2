@@ -17,7 +17,7 @@ const Page = () => {
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data, loading}] = useGetEventsLazyQuery();
+  const [getEvents1, { data, loading }] = useGetEventsLazyQuery();
 
   useEffect(() => {
     getEvents1({
@@ -74,4 +74,3 @@ const Page = () => {
   );
 };
 export default Page;
-

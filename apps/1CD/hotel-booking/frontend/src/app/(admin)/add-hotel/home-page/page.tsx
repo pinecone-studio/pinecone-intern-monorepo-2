@@ -1,8 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useGetHotelsQuery } from '@/generated';
+import { Hotel, useGetHotelsLazyQuery } from '@/generated';
 import { TableBody, TableCell, TableRow, Table } from '@mui/material';
 import { Select } from '@radix-ui/react-select';
 import { Star } from 'lucide-react';
@@ -10,13 +9,49 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
 import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import StatusLocation from './_components/SelectLocation';
+import SelectRooms from './_components/SelectRooms';
+import SelectStarRating from './_components/SelectStarRating';
+import SelectUserRating from './_components/SelectUserRating';
 
 const Page = () => {
+  const [searchValue, setSearchValue] = useState('');
   const [hotelOpen, setHotelOpen] = useState(false);
-  const { data, loading } = useGetHotelsQuery();
+  const [getHotels, { data, loading }] = useGetHotelsLazyQuery();
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectRooms, setSelectRooms] = useState('');
+  const [selectStarRating, setSelectStarRating] = useState(0);
+  const [selectUserRating, setSelectUserRating] = useState(0);
 
-  if (loading) return <div>Loading...</div>;
+  useEffect(() => {
+    getHotels({
+      variables: {
+        input: {
+          hotelName: searchValue,
+          starRating: selectStarRating,
+          userRating: selectUserRating,
+          roomType: selectRooms,
+        },
+      },
+    });
+  }, [searchValue, selectStarRating, selectRooms, selectUserRating]);
+
+  const hotels: Hotel[] = [];
+
+  if (selectedStatus) {
+    data?.getHotels.forEach((hotel) => {
+      if (hotel.location?.toLowerCase().includes(selectedStatus.toLowerCase())) {
+        hotels.push(hotel);
+        console.log(hotels);
+      }
+    });
+  } else {
+    data?.getHotels.forEach((hotel) => {
+      hotels.push(hotel);
+    });
+  }
+
   return (
     <div className="w-full">
       <div className="bg-slate-100 flex">
@@ -38,94 +73,58 @@ const Page = () => {
           </div>
           <div className="flex w-full gap-1 px-4 py-3">
             <div className="flex-1">
-              <Input data-cy="Input-element" placeholder="Search" />
+              <Input value={searchValue} data-cy="Input-Element" placeholder="Search" onChange={(e) => setSearchValue(e.target.value)} />
             </div>
             <Select>
-              <SelectTrigger className="w-[156px]" data-cy="Room-input">
-                <SelectValue placeholder="Rooms" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem data-cy="Single" value="Single">
-                    Single
-                  </SelectItem>
-                  <SelectItem value="Deluxe">Deluxe</SelectItem>
-                  <SelectItem value="Standard">Standard</SelectItem>
-                  <SelectItem value="President">President</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="w-[156px]" data-cy="Star-rating">
-                <SelectValue placeholder="Star Rating" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="one">1 star</SelectItem>
-                  <SelectItem value="two">2 star</SelectItem>
-                  <SelectItem value="three">3 star</SelectItem>
-                  <SelectItem value="four">4 star</SelectItem>
-                  <SelectItem value="five">5 star</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="w-[156px]" data-cy="User-rating">
-                <SelectValue placeholder="User Rating" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="one">1 Worst</SelectItem>
-                  <SelectItem value="two">2 Very Poor</SelectItem>
-                  <SelectItem value="three">3 Poor</SelectItem>
-                  <SelectItem value="four">4 Not Normal</SelectItem>
-                  <SelectItem value="five">5 Normal</SelectItem>
-                  <SelectItem value="six">6 Better </SelectItem>
-                  <SelectItem value="seven">7 Good</SelectItem>
-                  <SelectItem value="eight">8 Very good</SelectItem>
-                  <SelectItem value="nine">9 Exellent</SelectItem>
-                  <SelectItem value="ten">10 The Best</SelectItem>
-                </SelectGroup>
-              </SelectContent>
+              <StatusLocation data-cy="Locatiion-input" setSelectedStatus={setSelectedStatus} />
+              <SelectRooms setSelectRooms={setSelectRooms} />
+              <SelectStarRating setSelectStarRating={setSelectStarRating} />
+              <SelectUserRating setSelectUserRating={setSelectUserRating} />
             </Select>
           </div>
-          <div className="px-4">
-            <Table className="bg-white border-2">
-              <TableRow className="border-2">
-                <TableCell className="border-2 w-[82px]">ID</TableCell>
-                <TableCell className="border-2">Name</TableCell>
-                <TableCell className="border-2 w-[320px]">Rooms</TableCell>
-                <TableCell className="border-2 w-[160px]">Stars Rating</TableCell>
-                <TableCell className="border-2 w-[160px]">User Rating</TableCell>
-              </TableRow>
-              <TableBody>
-                {data?.getHotels.map((hotel) => (
-                  <TableRow key={hotel._id}>
-                    <TableCell className="border-2 w-[82px]">{hotel._id}</TableCell>
-                    <TableCell className="border-2 w-[892px]">
-                      <Link className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
-                        <div className="w-12 h-12">
-                          <Image className="w-full h-full object-cover" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
-                        </div>
-                        {hotel.hotelName}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="border-2 w-[160px]">{hotel.description}</TableCell>
-                    <TableCell className="border-2 w-[160px]">
-                      <div className="flex items-center gap-2">
-                        <Star className="w-[18px]" />
-                        {hotel.starRating}
-                      </div>
-                    </TableCell>
-                    <TableCell className="border-2 w-[160px]">
-                      <span>{hotel.userRating}</span>
-                      <span className="text-[#71717A]">/10</span>
-                    </TableCell>
+          {loading ? (
+            <div>Loading</div>
+          ) : (
+            <div className="px-4">
+              <Table className="bg-white border-2">
+                <TableBody>
+                  <TableRow className="border-2">
+                    <TableCell className="border-2 w-[82px]">ID</TableCell>
+                    <TableCell className="border-2">Name</TableCell>
+                    <TableCell className="border-2 w-[320px]">Rooms</TableCell>
+                    <TableCell className="border-2 w-[160px]">Stars Rating</TableCell>
+                    <TableCell className="border-2 w-[160px]">User Rating</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableBody>
+                <TableBody>
+                  {hotels?.map((hotel) => (
+                    <TableRow key={hotel._id}>
+                      <TableCell className="border-2 w-[82px]">{hotel._id?.slice(5, 8)}</TableCell>
+                      <TableCell className="border-2 w-[892px]">
+                        <Link data-cy="hotel-info" className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
+                          <div className="w-12 h-12">
+                            <Image className="w-full h-full object-cover" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
+                          </div>
+                          {hotel.hotelName}
+                        </Link>
+                      </TableCell>
+                      <TableCell className="border-2 w-[160px]">{hotel.description}</TableCell>
+                      <TableCell className="border-2 w-[160px]">
+                        <div className="flex items-center gap-2">
+                          <Star className="w-[18px]" />
+                          {hotel.starRating}
+                        </div>
+                      </TableCell>
+                      <TableCell className="border-2 w-[160px]">
+                        <span>{hotel.userRating}</span>
+                        <span className="text-[#71717A]">/10</span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </div>
       </div>
       <div data-cy="Add-Hotel-General-Info-Dialog">
