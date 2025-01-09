@@ -28,7 +28,7 @@ const UpcomingBookings = () => {
               <TableCell className="border-r-[1px] w-60">Oct-21 </TableCell>
             </TableRow>
           </TableBody>
-          <TableBody>
+          <TableBody className="border-t-[1px]">
             <TableRow className="flex gap-4 border border-b-xl">
               <TableCell className="border-r-[1px] w-28">001</TableCell>
               <TableCell className="border-r-[1px] w-1/2">Shagai Nyamdorj</TableCell>

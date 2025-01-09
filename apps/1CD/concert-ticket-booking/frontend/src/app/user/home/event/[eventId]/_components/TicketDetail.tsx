@@ -5,13 +5,15 @@ import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { useAuth } from '@/components/providers';
+import { toast } from 'sonner';
 
 const TicketDetail = ({ event }: { event: Event }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedDay, setSelectedDay] = React.useState<string | null>(null);
   const [selectedProducts, setSelectedProducts] = React.useState<Product[]>([]);
   const products = event?.products;
-
+  const {user}=useAuth();
   useEffect(() => {
     if (Array.isArray(products) && products.length > 0) {
       const firstProduct = products[0];
@@ -30,7 +32,7 @@ const TicketDetail = ({ event }: { event: Event }) => {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-[345px] mx-auto lg:mx-0 gap-4 px-4 sm:px-6 md:px-0" data-cy="ticket-detail">
+    <div className="flex flex-col w-full max-w-[345px] m-auto lg:mx-0 gap-4 px-4 sm:px-6 md:px-0" data-cy="ticket-detail">
       <h1 className="mb-2 text-sm font-light sm:mb-4 sm:text-base text-slate-300">Тоглолт үзэх өдрөө сонгоно уу.</h1>
 
       <Popover open={open} onOpenChange={setOpen}>
@@ -110,9 +112,18 @@ const TicketDetail = ({ event }: { event: Event }) => {
                     </button>
                   );
                 })}
-                <Link href={`/user/order/${product._id}?event=${event._id}&venue=${event.venue._id}`} className="w-full">
-                  <button className="bg-[#00B7F4] w-full h-9 sm:h-10 rounded-md text-sm sm:text-base hover:bg-[#00a3d8] transition-colors">Тасалбар захиалах</button>
-                </Link>
+                {!user ? (
+                     <Link href={'/user/sign-in'} className="w-full">
+                     <button className="bg-[#00B7F4] w-full h-9 sm:h-10 rounded-md text-sm sm:text-base hover:bg-[#00a3d8] transition-colors"
+                     onClick={()=>{ toast.error('Хэрэглэгч нэвтэрнэ үү.')}}
+                     >Тасалбар захиалах</button>
+                     </Link>
+                ):(
+                  <Link href={`/user/order/${product._id}?event=${event._id}&venue=${event.venue._id}`} className="w-full">
+                  <button className="bg-[#00B7F4] w-full h-9 sm:h-10 rounded-md text-sm sm:text-base hover:bg-[#00a3d8] transition-colors"
+                  >Тасалбар захиалах</button>
+                  </Link>
+                )}
               </div>
             ))}
           </div>
@@ -127,3 +138,4 @@ const TicketDetail = ({ event }: { event: Event }) => {
 };
 
 export default TicketDetail;
+

@@ -2,10 +2,10 @@
 import CreateEventModal from './_components/EvenModal';
 import { Container } from '@/components/Container';
 import { AdminDashboard } from './_components/AdminDashboard';
-import { useGetEventsQuery } from '@/generated';
+import { useGetEventsPagedLazyQuery, useGetEventsQuery } from '@/generated';
 import { useAuth } from '@/components/providers';
 import { useQueryState } from 'nuqs';
-import { Event, useGetEventsLazyQuery } from '@/generated';
+import { Event } from '@/generated';
 import { useEffect } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Input } from '@/components/ui/input';
@@ -19,10 +19,25 @@ const HomePage = () => {
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const [artist, setArtist] = useQueryState('artist', { defaultValue: '' });
   const [date] = useQueryState('date', { defaultValue: '' });
+  const [page, setPage] = useQueryState('page', { defaultValue: '1' });
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data }] = useGetEventsLazyQuery();
+  const [getEvents1, { data }] = useGetEventsPagedLazyQuery();
+
+  useEffect(() => {
+    setPage('1');
+    getEvents1({
+      variables: {
+        filter: {
+          q: debouncedQ,
+          artist: artist,
+          date: date,
+          page: '1',
+        },
+      },
+    });
+  }, [debouncedQ, artist, date]);
 
   useEffect(() => {
     getEvents1({
@@ -31,10 +46,11 @@ const HomePage = () => {
           q: debouncedQ,
           artist: artist,
           date: date,
+          page: page,
         },
       },
     });
-  }, [debouncedQ, artist, date]);
+  }, [page]);
 
   if (!user || user.role !== 'admin') {
     return (
@@ -81,7 +97,7 @@ const HomePage = () => {
           <DatePicker />
         </div>
 
-        <AdminDashboard data={data?.getEvents as Event[]} refetch={refetch} />
+        {data && <AdminDashboard data={data.getEventsPaged?.events as Event[]} refetch={refetch} totalPages={data.getEventsPaged.totalPages} />}
       </div>
     </Container>
   );

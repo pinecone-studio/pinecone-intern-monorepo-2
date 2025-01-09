@@ -1,8 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { userModel } from '../../../../src/models';
-import { getMe } from '../../../../src/resolvers/mutations/user/get-me';
+import { userModel } from '../../../src/models/user/user.model';
+import { getMe } from '../../../src/resolvers/queries/get-me';
 
-jest.mock('../../../../src/models', () => ({
+
+jest.mock('../../../src/models/user/user.model', () => ({
   userModel: {
     findById: jest.fn(),
   },
@@ -36,10 +37,9 @@ describe('give user details', () => {
   };
 
   it('should return user details', async () => {
-    (userModel.findById as jest.Mock).mockResolvedValueOnce(mockUser);
 
+    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
     const result = await getMe!({}, {}, { userId: mockId }, info);
-
     expect(result).toEqual(mockUser);
   });
 

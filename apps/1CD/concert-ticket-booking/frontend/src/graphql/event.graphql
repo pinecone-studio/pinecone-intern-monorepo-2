@@ -78,6 +78,35 @@ query GetEventById($id: ID!) {
   }
 }
 
+query GetEventsPaged($filter: EventsPagedFilter) {
+  getEventsPaged(filter: $filter) {
+    totalPages
+    events {
+      _id
+      isArchived
+      mainArtists {
+        name
+      }
+      name
+      priority
+      products {
+        _id
+        scheduledDay
+        ticketType {
+          _id
+          additional
+          discount
+          soldQuantity
+          totalQuantity
+          unitPrice
+          zoneName
+        }
+      }
+      scheduledDays
+    }
+  }
+}
+
 mutation UpdateEventPriority($id: ID!, $input: EventPriorityUpdateInput!) {
   updateEventPriority(_id: $id, input: $input) {
     priority

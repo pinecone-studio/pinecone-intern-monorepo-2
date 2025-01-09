@@ -23,7 +23,7 @@ describe('InputGenreWithLocation Component', () => {
       },
     });
     cy.visit('/admin/home');
-
+    cy.wait(2000);
     cy.intercept('POST', '/api/graphql').as('graphqlRequest');
 
     cy.get('[data-testid="create-event-button"]').click();

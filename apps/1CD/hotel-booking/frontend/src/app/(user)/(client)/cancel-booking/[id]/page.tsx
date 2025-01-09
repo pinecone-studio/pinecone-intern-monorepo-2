@@ -2,29 +2,39 @@
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
+import { BookingStatus, useUpdateBookingStatusMutation } from '@/generated';
 
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
 
-const Page = () => {
+const Page = ({ params }: { params: { id: string } }) => {
   const [open, setOpen] = useState(false);
-
+  const [updateStatus] = useUpdateBookingStatusMutation();
+  const udpateBookingStatus = async () => {
+    updateStatus({
+      variables: {
+        id: params.id,
+        status: BookingStatus.Cancelled,
+      },
+    });
+    setOpen(false);
+  };
   return (
     <CheckLoginUser>
-      <div data-cy="get-cancel-booking-page" className="container mx-auto max-w-[690px] bg-pink-200">
+      <div data-cy="get-cancel-booking-page" className="container mx-auto max-w-[690px]">
         <Dialog open={open}>
           <DialogContent>
-            <div data-cy={`open-dialog`}>
+            <div data-cy={`Open-Dialog`}>
               <DialogTitle data-cy="Cancel-booking-text" className="text-[20px] font-semibold">
                 Cancel booking?
               </DialogTitle>
               <DialogDescription>{"The property won't change you."}</DialogDescription>
             </div>
             <div className="flex justify-end gap-3">
-              <Button data-cy="Keep-booking-button" onClick={() => setOpen(false)} className="text-black bg-white border-2">
+              <Button data-cy="Keep-booking-button" onClick={() => setOpen(false)} className="text-black bg-white border-2 hover:bg-slate-100">
                 keep booking
               </Button>
-              <Button data-cy="confirm-button" className="bg-[#2563EB]">
+              <Button data-cy="Confirm-Button" className="bg-[#2563EB] hover:bg-blue-500" onClick={udpateBookingStatus}>
                 Confirm cancellation
               </Button>
             </div>
@@ -52,7 +62,7 @@ const Page = () => {
               Standard Single Room, 1 King Bed
             </p>
 
-            <Button data-cy="Open-Dialog-Button" onClick={() => setOpen(true)} className="bg-[#2563EB] text-[14px] w-full">
+            <Button data-cy="Open-Dialog-Button" onClick={() => setOpen(true)} className="bg-[#2563EB] text-[14px] w-full hover:bg-blue-500">
               Cancel Booking
             </Button>
           </div>
