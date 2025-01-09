@@ -1,14 +1,18 @@
 import React from 'react';
 
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { Room } from '@/generated';
+import { Badge } from '@/components/ui/badge';
 export type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
 };
-const RoomServiceDialog = ({ open, setOpen }: DialogType) => {
+export type RoomProps = DialogType & {
+  room: Room | undefined;
+};
+const RoomServiceDialog: React.FC<RoomProps> = ({ open, setOpen, room }) => {
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[625px]">
@@ -18,27 +22,63 @@ const RoomServiceDialog = ({ open, setOpen }: DialogType) => {
         <div className="flex flex-col gap-4 mt-2">
           <div className="flex flex-col gap-2">
             <Label>Bathroom</Label>
-            <Input />
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.bathroom?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Accessibility</Label>
-            <Input />
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.accessability?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Entertaiment</Label>
-            <Input />
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.entertaiment?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
-            <Label>Food and drinknk</Label>
-            <Input />
+            <Label>Food and drink</Label>
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.foodDrink?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Bedroom</Label>
-            <Input />
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.bedroom?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Other</Label>
-            <Input />
+            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
+              {room?.roomService?.other?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="grid gap-4 py-4"></div>

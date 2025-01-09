@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const StoryCarouselCard = ({ storyImg, user }: { storyImg: any; user: any }) => {
+const StoryCarouselCard = ({ storyImg, user }: { storyImg: string[]; user: { _id: string; userName: string; profileImg?: string | null } }) => {
   console.log('Storimh', storyImg[0]);
   const firstImage = storyImg?.[0] || '/images/default-story.jpg';
   return (

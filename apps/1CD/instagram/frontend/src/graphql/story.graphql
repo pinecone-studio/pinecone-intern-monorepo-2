@@ -28,6 +28,7 @@ query GetFollowingUserStories($user: ID!) {
       _id
       userName
       accountVisibility
+      profileImg
     }
   }
 }

@@ -4,12 +4,16 @@ import { CardContent } from '@mui/material';
 
 import React from 'react';
 import RoomServiceDialog from './RoomServiceDialog';
+import { Room } from '@/generated';
 type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
 };
+export type CardType = DialogType & {
+  room: Room | undefined;
+};
 
-const RoomServiceCard = ({ open, setOpen }: DialogType) => {
+const RoomServiceCard: React.FC<CardType> = ({ open, setOpen, room }) => {
   return (
     <Card className="w-[780px] h-[500px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
@@ -19,53 +23,70 @@ const RoomServiceCard = ({ open, setOpen }: DialogType) => {
         </button>
       </CardHeader>
       <div data-cy={`Room-Services-Dialog`}>
-        <RoomServiceDialog open={open} setOpen={setOpen} />
+        <RoomServiceDialog open={open} setOpen={setOpen} room={room} />
       </div>
-
       <CardContent className="flex flex-row justify-between">
         <section className="flex flex-col flex-1 gap-8">
           <div>
             <p className="font-light text-gray-500">Bathroom</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.bathroom?.map((bath, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                </div>
+              ))}
             </div>
           </div>
           <div>
-            <p className="font-light text-gray-500">Bathroom</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <p className="font-light text-gray-500">Bedroom</p>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.bedroom?.map((bdr, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{bdr}</Badge>
+                </div>
+              ))}
             </div>
           </div>
           <div>
             <p className="font-light text-gray-500">Food and drink</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
-            </div>
-          </div>
-          <div>
-            <p className="font-light text-gray-500">Other</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.foodDrink?.map((fd, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{fd}</Badge>
+                </div>
+              ))}
             </div>
           </div>
         </section>
         <section className="flex flex-col flex-1 gap-10">
           <div>
             <p className="font-light text-gray-500">Accesabillity</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.accessability?.map((accs, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{accs}</Badge>
+                </div>
+              ))}
             </div>
           </div>
           <div>
             <p className="font-light text-gray-500">Internet</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.entertaiment?.map((ent, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{ent}</Badge>
+                </div>
+              ))}
             </div>
           </div>
           <div>
-            <p className="font-light text-gray-500">Bedroom</p>
-            <div className="pt-3">
-              <Badge className="text-black bg-slate-200">Bathrobes</Badge>
+            <p className="font-light text-gray-500">Other</p>
+            <div className="flex flex-wrap gap-2">
+              {room?.roomService?.other?.map((oth, index) => (
+                <div className="pt-3" key={index}>
+                  <Badge className="text-black bg-slate-200">{oth}</Badge>
+                </div>
+              ))}
             </div>
           </div>
         </section>

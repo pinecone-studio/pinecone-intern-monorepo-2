@@ -32,8 +32,7 @@ const filter = (supervisorEmail: string, search: string, status: string[], start
   return query;
 };
 
-export const groupedByStatusRequestLength: QueryResolvers['groupedByStatusRequestLength'] = async (_, {input}) => {
-  const {supervisorEmail, startDate, endDate} = input
+export const groupedByStatusRequestLength: QueryResolvers['groupedByStatusRequestLength'] = async (_, {supervisorEmail, startDate, endDate}) => {
   const matchQuery = calculateFilter(supervisorEmail, startDate, endDate);
   const res = await RequestModel.aggregate([
     { $match: matchQuery },

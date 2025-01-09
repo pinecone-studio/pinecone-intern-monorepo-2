@@ -38,5 +38,5 @@ const calculateFilter = (email?: string | undefined, startDate?: Date, endDate?:
   return matchQuery;
 };
 const dateFilter = (startDate: Date, endDate?: Date) => {
-  return { $gte: new Date(startDate), $lte: new Date(endDate!) };
+  return { $gte: new Date(startDate), $lte: new Date(endDate!gi) };
 };

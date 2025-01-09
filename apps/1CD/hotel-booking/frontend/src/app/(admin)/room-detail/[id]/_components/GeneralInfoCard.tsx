@@ -3,13 +3,18 @@ import { Zap } from 'lucide-react';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import GeneralInfoDialog from './GeneralinfoDialog';
+import { Room } from '@/generated';
 
 export type DialogOpenType = {
   openGen: boolean;
   setOpenGen: (_: boolean) => void;
 };
 
-const GeneralInfoCard = ({ openGen, setOpenGen }: DialogOpenType) => {
+export type GeneralInfoCardProps = DialogOpenType & {
+  roomData: Room | undefined;
+};
+
+const GeneralInfoCard: React.FC<GeneralInfoCardProps> = ({ openGen, setOpenGen, roomData }) => {
   return (
     <Card className="w-[780px] h-[350px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
@@ -18,32 +23,54 @@ const GeneralInfoCard = ({ openGen, setOpenGen }: DialogOpenType) => {
           Edit
         </Button>
       </CardHeader>
-      <div data-cy={`General-Info-Fields-Dialog`}>
-        <GeneralInfoDialog openGen={openGen} setOpenGen={setOpenGen} />
+      <div data-cy="General-Info-Fields-Dialog">
+        <GeneralInfoDialog openGen={openGen} setOpenGen={setOpenGen} room={roomData} />
       </div>
       <CardContent>
-        <div className="flex flex-row flex-1 gap-32 pt-5">
-          <ul>
-            <li className="font-light text-gray-500">Name</li>
-            <li>Economy Single Room</li>
-          </ul>
-          <ul>
-            <li className="font-light text-gray-500">Type</li>
-            <li>Single</li>
-          </ul>
-          <ul>
-            <li className="font-light text-gray-500">Price per night</li>
-            <li>150,000</li>
-          </ul>
-        </div>
-        <div className="flex flex-col items-start pt-6">
-          <p className="font-light text-gray-500">Room information</p>
-          <div className="flex items-between">
-            <div className="flex  flex-col flex-wrap gap-2 max-h-[160px]">
-              <div className="flex items-center gap-2 pt-1">
-                <Zap size={16} />
-                <p>Free breakfast</p>
+        <div className="flex flex-row justify-start flex-1 pt-5 gap-x-24">
+          <div>
+            <ul>
+              <li className="font-light text-gray-500">Name</li>
+              <li>{roomData?.roomName || 'N/A'}</li>
+            </ul>
+            <div className="flex flex-col items-start pt-6">
+              <p className="font-light text-gray-500">Room information</p>
+              <div className=" flex flex-col max-h-[110px] mt-3 gap-2">
+                {roomData?.roomInformation?.slice(0, 3).map((info, index) => (
+                  <div className="flex items-center gap-2" key={index}>
+                    <Zap size={16} />
+                    <p className="font-medium text-gray-800">{info}</p>
+                  </div>
+                ))}
               </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-start">
+            <ul>
+              <li className="font-light text-gray-500">Type</li>
+              <li>{roomData?.roomType || 'N/A'}</li>
+            </ul>
+            <div className="flex flex-col max-h-[110px] gap-2 mt-14">
+              {roomData?.roomInformation?.slice(3, 5).map((info, index) => (
+                <div className="flex items-center gap-2" key={index}>
+                  <Zap size={16} />
+                  <p className="font-medium text-gray-800">{info}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <ul>
+              <li className="font-light text-gray-500">Price per night</li>
+              <li>{roomData?.price?.toLocaleString() || 'N/A'}</li>
+            </ul>
+            <div className="flex flex-col max-h-[110px] gap-2 mt-14">
+              {roomData?.roomInformation?.slice(3, 5).map((info, index) => (
+                <div className="flex items-center gap-2" key={index}>
+                  <Zap size={16} />
+                  <p className="font-medium text-gray-800">{info}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

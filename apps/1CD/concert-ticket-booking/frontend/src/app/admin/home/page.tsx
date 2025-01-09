@@ -2,10 +2,10 @@
 import CreateEventModal from './_components/EvenModal';
 import { Container } from '@/components/Container';
 import { AdminDashboard } from './_components/AdminDashboard';
-import { useGetEventsQuery } from '@/generated';
+import { useGetEventsPagedLazyQuery } from '@/generated';
 import { useAuth } from '@/components/providers';
 import { useQueryState } from 'nuqs';
-import { Event, useGetEventsLazyQuery } from '@/generated';
+import { Event } from '@/generated';
 import { useEffect } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { Input } from '@/components/ui/input';
@@ -14,15 +14,28 @@ import DatePicker from './_components/DatePicker2';
 
 const HomePage = () => {
   const { user } = useAuth();
-
-  const { refetch } = useGetEventsQuery();
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const [artist, setArtist] = useQueryState('artist', { defaultValue: '' });
   const [date] = useQueryState('date', { defaultValue: '' });
+  const [page, setPage] = useQueryState('page', { defaultValue: '1' });
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data }] = useGetEventsLazyQuery();
+  const [getEvents1, { data, refetch }] = useGetEventsPagedLazyQuery();
+
+  useEffect(() => {
+    setPage('1');
+    getEvents1({
+      variables: {
+        filter: {
+          q: debouncedQ,
+          artist: artist,
+          date: date,
+          page: '1',
+        },
+      },
+    });
+  }, [debouncedQ, artist, date]);
 
   useEffect(() => {
     getEvents1({
@@ -31,10 +44,11 @@ const HomePage = () => {
           q: debouncedQ,
           artist: artist,
           date: date,
+          page: page,
         },
       },
     });
-  }, [debouncedQ, artist, date]);
+  }, [page]);
 
   if (!user || user.role !== 'admin') {
     return (
@@ -62,26 +76,28 @@ const HomePage = () => {
           <CreateEventModal refetch={refetch} />
         </div>
         <div className="border-t-[1px] my-6"></div>
-        <div className="flex gap-2">
-          <div className="relative flex items-center w-[263px] ">
-            <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
-            <Search className="absolute w-4 h-4 right-4 color-white" />
-          </div>
-          <div className="relative flex items-center  w-[263px]">
-            <Input
-              data-testid="Artist-Search-Input"
-              type="text"
-              placeholder="Уран бүтээлчээр хайх"
-              className="w-full border-gray-600 md:w-80"
-              value={artist}
-              onChange={(e) => setArtist(e.target.value)}
-            />
-            <Search className="absolute w-4 h-4 right-4" />
+        <div className="flex justify-between">
+          <div className="flex gap-2">
+            <div className="relative flex items-center w-[263px] ">
+              <Input data-testid="Search-Input" type="text" placeholder="Тасалбар хайх" className="w-full border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
+              <Search className="absolute w-4 h-4 right-4 color-white" />
+            </div>
+            <div className="relative flex items-center  w-[263px]">
+              <Input
+                data-testid="Artist-Search-Input"
+                type="text"
+                placeholder="Уран бүтээлчээр хайх"
+                className="w-full border-gray-600 md:w-80"
+                value={artist}
+                onChange={(e) => setArtist(e.target.value)}
+              />
+              <Search className="absolute w-4 h-4 right-4" />
+            </div>
           </div>
           <DatePicker />
         </div>
 
-        <AdminDashboard data={data?.getEvents as Event[]} refetch={refetch} />
+        {data && <AdminDashboard data={data.getEventsPaged?.events as Event[]} refetch={refetch} totalPages={data.getEventsPaged.totalPages} />}
       </div>
     </Container>
   );

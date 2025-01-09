@@ -4,13 +4,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus} from 'lucide-react';
+import { Check, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner'; // Assuming you're using sonner for notifications
 import { useCreateUserMutation } from '@/generated';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useMessage } from '@/context/MessageContext';
 
 export const CreateEmployeeModal = () => {
+  const { setMessage } = useMessage();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     userName: '',
@@ -50,6 +52,8 @@ export const CreateEmployeeModal = () => {
           hireDate: formData.hireDate,
         },
       });
+      setOpen(false);
+      setMessage(<SuccessfulMessage />);
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -73,9 +77,7 @@ export const CreateEmployeeModal = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            Шинэ ажилтан бүртгэх
-          </DialogTitle>
+          <DialogTitle className="flex items-center justify-between">Шинэ ажилтан бүртгэх</DialogTitle>
           <p className="text-sm text-gray-500">Дараах формыг бөглөж шинэ ажилтны мэдээллийг оруулна уу.</p>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -129,5 +131,18 @@ export const CreateEmployeeModal = () => {
         </form>
       </DialogContent>
     </Dialog>
+  );
+};
+
+const SuccessfulMessage = () => {
+  return (
+    <div className="bg-[#0000004D] fixed inset-0 z-[10000] flex justify-center items-center">
+      <div className="flex flex-col gap-8 items-center p-8 rounded-[8px] border-[#E4E4E7] border-[1px]   bg-[#FFFFFF]">
+        <div className="w-9 h-9 rounded-full border-[2px] border-[#18BA51] flex justify-center items-center">
+          <Check className="w-4 text-[#18BA51]" />
+        </div>
+        <span className="font-semibold text-[32px] text-center w-full max-w-[544px]">Ажилтан амжилттай бүртгэгдлээ</span>
+      </div>
+    </div>
   );
 };
