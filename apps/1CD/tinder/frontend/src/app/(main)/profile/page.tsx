@@ -124,9 +124,7 @@ const Profile = () => {
                 <ToggleGroupItem value="Art" aria-label="Toggle bold" className="h-6" data-cy="toggle-item">
                   Art
                 </ToggleGroupItem>
-                <ToggleGroupItem value="Music" aria-label="Toggle italic" className="h-6">
-                  Music
-                </ToggleGroupItem>
+
                 <ToggleGroupItem value="Investment" aria-label="Toggle underline" className="h-6">
                   Investment
                 </ToggleGroupItem>
