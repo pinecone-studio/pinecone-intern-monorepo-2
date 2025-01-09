@@ -100,6 +100,16 @@ export const RequestTypeDefs = gql`
 
 
   }
+
+  input requestInput {
+    supervisorEmail: String!
+    startDate: Date
+    endDate: Date
+    status: [String]
+
+  }
+
+
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
@@ -112,6 +122,8 @@ export const RequestTypeDefs = gql`
     getcalculateFilter(email: String, startDate: Date, endDate: Date, status: String): [AllGroupedRequests!]
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
+    groupedByStatusRequestLength: [GroupedRequestLength!]
+    groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
     groupedByStatusRequestLength(endDate: Date,startDate: Date, supervisorEmail: String!): [GroupedRequestLength!]
   }
 `;
