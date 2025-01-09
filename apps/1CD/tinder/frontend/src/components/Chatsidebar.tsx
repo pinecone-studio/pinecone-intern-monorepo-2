@@ -11,6 +11,9 @@ export const Chatsidebar = () => {
   const handlechat = (_id: string) => {
     router.push(`/chat/${_id}`);
   };
+
+console.log({matchedData})
+
   return (
     <div className="flex flex-col items-start border-r" data-cy="Chat-Sidebar-Page">
       {matchedData?.map(
@@ -22,7 +25,7 @@ export const Chatsidebar = () => {
               key={matchedUser._id}
               data-cy={`Matched-User-${matchedUser._id}`}
             >
-              <div className="rounded-full w-12 h-12 overflow-hidden">
+              <div className="w-12 h-12 overflow-hidden rounded-full">
                 <Image src={matchedUser.photos[0]} alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
               </div>
               <div className="flex flex-col gap-1">

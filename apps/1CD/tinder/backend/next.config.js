@@ -30,6 +30,8 @@ const nextConfig = {
     OTP_SECRET:process.env.OTP_SECRET,
     PASS_SALT:process.env.PASS_SALT,
     TOKEN_SECRET:process.env.TOKEN_SECRET,
+    ENVIRONMENT:process.env.ENVIRONMENT,
+    UPLOAD_PRESETL:process.env.UPLOAD_PRESET,
   },
   nx: {
     svgr: false,

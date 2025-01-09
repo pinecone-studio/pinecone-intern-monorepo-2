@@ -11,8 +11,7 @@
       "options": {
         "outputPath": "dist/apps/1CD/leave-request/backend"
       },
-      "configurations": {
-        "development": {
+      "configurations": {        "development": {
           "outputPath": "dist/apps/1CD/leave-request/backend"
         }
       },

@@ -28,7 +28,7 @@ const Chat = () => {
       variables: {
         input: {
           content: message,
-          user2: user2
+          user2: user2,
         },
       },
     });
@@ -45,7 +45,7 @@ const Chat = () => {
   }
   if (matchedData) {
     return (
-      <div className='flex flex-col h-screen w-full'>
+      <div className="flex flex-col h-screen w-full">
         <Header />
         <div className="max-w-[1000px] m-auto flex-1 flex flex-col pt-6 w-full" data-cy="Chat-Matches-Part">
           <Matches />
@@ -65,7 +65,6 @@ const Chat = () => {
       </div>
     );
   }
-
   <div className="flex flex-col items-center justify-center h-screen" data-cy="Error occured">
     <p>Error occurred, try again</p>
   </div>;

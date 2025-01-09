@@ -17,7 +17,6 @@ const Page = () => {
   const firstEvent = eventData?.getSpecialEvent;
 
   useEffect(() => {
-    console.log({ q, debouncedQ });
     getEvents1({
       variables: {
         filter: {

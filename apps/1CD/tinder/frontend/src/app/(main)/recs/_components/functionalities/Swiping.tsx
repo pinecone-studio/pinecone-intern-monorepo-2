@@ -78,9 +78,9 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     console.log(currentPosition.current);
     const rotationAngle = newX / 15;
     setRotate(rotationAngle);
-    const DislikedcalculatedOpacity = Math.min(Math.max(-newX / 150, 0), 1); 
+    const DislikedcalculatedOpacity = Math.min(Math.max(-newX / 150, 0), 1);
     setLikeOpacity(DislikedcalculatedOpacity);
-    const LikecalculatedOpacity = Math.min(Math.max(newX / 150, 0), 1); 
+    const LikecalculatedOpacity = Math.min(Math.max(newX / 150, 0), 1);
     setDisOpacity(LikecalculatedOpacity);
   };
   const resetCardPosition = () => {
@@ -101,6 +101,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
       resetCardPosition();
     }
   };
+
+
   return (
     <div>
       <div className="relative h-[560px] flex justify-center" data-cy="swipingImg-2">
@@ -140,7 +142,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
             }}
           >
             <Dislike opacity={likeOpacity} position={currentPosition.current.x} />
-            <Like position={currentPosition.current.x} opacity={DisOpacity}/>
+            <Like position={currentPosition.current.x} opacity={DisOpacity} />
 
             {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
