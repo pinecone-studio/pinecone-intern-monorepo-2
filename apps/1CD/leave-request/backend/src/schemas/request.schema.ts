@@ -60,7 +60,7 @@ export const RequestTypeDefs = gql`
   }
 
   type GroupedRequests {
-    _id: ID!
+    _id: String!
     requests: [RequestType]
   }
 
@@ -101,13 +101,6 @@ export const RequestTypeDefs = gql`
 
   }
 
-  input requestInput {
-    supervisorEmail: String!
-    startDate: Date
-    endDate: Date
-    status: [String]
-
-  }
 
 
   type Query {
@@ -122,8 +115,6 @@ export const RequestTypeDefs = gql`
     getcalculateFilter(email: String, startDate: Date, endDate: Date, status: String): [AllGroupedRequests!]
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
-    groupedByStatusRequestLength: [GroupedRequestLength!]
-    groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
     groupedByStatusRequestLength(endDate: Date,startDate: Date, supervisorEmail: String!): [GroupedRequestLength!]
   }
 `;
