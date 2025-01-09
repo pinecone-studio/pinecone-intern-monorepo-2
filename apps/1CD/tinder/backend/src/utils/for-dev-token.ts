@@ -1,4 +1,4 @@
-const DevEnv = `${process.env.ENVIRONEMNT}`==='development';
+const DevEnv = `${process.env.ENVIRONMENT}`==='development';
 const DevEnvIsTesting = `${process.env.ENVIRONMENT}`==='testing';
 const Onlocal = process.env.NODE_ENV === 'development';
 
