@@ -5,8 +5,22 @@ import { Hotel, useUpdateHotelLocationMutation } from '@/generated';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-const UpdateHotelLocation = ({ open, hotel, setOpen, hotelId }: { open: boolean; setOpen: (_value: boolean) => void; hotelId: string; hotel: Hotel }) => {
-  const [updateLocation] = useUpdateHotelLocationMutation();
+const UpdateHotelLocation = ({
+  open,
+  hotel,
+  setOpen,
+  AllQueriesRefetch,
+  hotelId,
+}: {
+  open: boolean;
+  setOpen: (_value: boolean) => void;
+  hotelId: string;
+  hotel: Hotel;
+  AllQueriesRefetch: () => void;
+}) => {
+  const [updateLocation] = useUpdateHotelLocationMutation({
+    onCompleted: () => AllQueriesRefetch(),
+  });
   const [locationValue, setLocationValue] = useState('');
   const updateHotelLocation = async () => {
     await updateLocation({

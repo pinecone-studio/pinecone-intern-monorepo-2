@@ -12,10 +12,12 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 const CLOUDINARYPRESET = `${process.env.CLOUDINARYPRESET}`;
 const CLOUDINARYNAME = `${process.env.CLOUDINARYNAME}`;
-const ImageUpdate = ({ open, setOpen, hotelId, hotel }: { open: boolean; setOpen: (_value: boolean) => void; hotelId: string; hotel: Hotel }) => {
+const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { open: boolean; setOpen: (_value: boolean) => void; hotelId: string; hotel: Hotel; AllQueriesRefetch: () => void }) => {
   const [image, setImage] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
-  const [createImage] = useUpdateHotelImagesMutation();
+  const [createImage] = useUpdateHotelImagesMutation({
+    onCompleted: () => AllQueriesRefetch(),
+  });
 
   const [images, setImages] = useState<JSX.Element[]>([]);
   const [value, setValue] = useState('');

@@ -27,23 +27,27 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [isOpenLocationDialog, setIsOpenLocationDialog] = useState(false);
   const [isOpenImageDialog, setIsOpenImageDialog] = useState(false);
   const [isOpenHotelGeneralInfoDialog, setIsOpenHotelGeneralInfoDialog] = useState(false);
-  const { data } = useHotelDetailQuery({
+  const { data, refetch: hotelDatailRefetch } = useHotelDetailQuery({
     variables: {
       hotelId: params.id,
     },
   });
 
-  const { data: oneHotelData } = useGetHotelQuery({
+  const { data: oneHotelData, refetch: getHotelRefetch } = useGetHotelQuery({
     variables: {
       id: params.id,
     },
   });
-  const { data: Bookings } = useGetBookingsQuery({
+  const { data: Bookings, refetch: getBookingRefetch } = useGetBookingsQuery({
     variables: {
       hotelId: params.id,
     },
   });
-
+  const AllQueriesRefetch = () => {
+    hotelDatailRefetch();
+    getHotelRefetch();
+    getBookingRefetch();
+  };
   return (
     <div className="min-h-screen px-4 py-[18px] bg-slate-50">
       <div data-cy="Admin-Hotel-Detail-Page">
@@ -131,11 +135,23 @@ const Page = ({ params }: { params: { id: string } }) => {
           <RightSide setIsOpenImageDialog={setIsOpenImageDialog} setIsOpenLocationDialog={setIsOpenLocationDialog} hotel={oneHotelData?.getHotel} />
         </div>
       </div>
-      <AddRoomGeneralInfo open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
-      <AddHotelGeneralInfo hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
-      {oneHotelData?.getHotel._id && <UpdateHotelLocation hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenLocationDialog} setOpen={setIsOpenLocationDialog} />}
-      {oneHotelData?.getHotel._id && <HotelAmenitiesDialog open={isOpenHotelAmenitiesDialog} setOpen={setIsOpenHotelAmenitiesDialog} hotelId={oneHotelData.getHotel._id} />}
-      {oneHotelData?.getHotel._id && <ImageUpdate hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenImageDialog} setOpen={setIsOpenImageDialog} />}
+      <AddRoomGeneralInfo AllQueriesRefetch={AllQueriesRefetch} open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
+      <AddHotelGeneralInfo AllQueriesRefetch={AllQueriesRefetch} hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
+      {oneHotelData?.getHotel._id && (
+        <UpdateHotelLocation AllQueriesRefetch={AllQueriesRefetch} hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenLocationDialog} setOpen={setIsOpenLocationDialog} />
+      )}
+      {oneHotelData?.getHotel._id && (
+        <HotelAmenitiesDialog
+          hotel={oneHotelData.getHotel}
+          AllQueriesRefetch={AllQueriesRefetch}
+          open={isOpenHotelAmenitiesDialog}
+          setOpen={setIsOpenHotelAmenitiesDialog}
+          hotelId={oneHotelData.getHotel._id}
+        />
+      )}
+      {oneHotelData?.getHotel._id && (
+        <ImageUpdate AllQueriesRefetch={AllQueriesRefetch} hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenImageDialog} setOpen={setIsOpenImageDialog} />
+      )}
     </div>
   );
 };

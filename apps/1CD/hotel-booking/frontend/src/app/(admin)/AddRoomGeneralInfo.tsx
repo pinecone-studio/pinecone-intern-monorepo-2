@@ -10,6 +10,7 @@ import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
+  AllQueriesRefetch: () => void;
 };
 type Option = {
   value: string;
@@ -41,8 +42,12 @@ const options: Option[] = [
     label: 'shower',
   },
 ];
-const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
-  const [addRoomGeneralInfo] = useAddRoomMutation();
+const AddRoomGeneralInfo = ({ open, setOpen, AllQueriesRefetch }: AddHotelGeneralInfoType) => {
+  const [addRoomGeneralInfo] = useAddRoomMutation({
+    onCompleted: () => {
+      AllQueriesRefetch();
+    },
+  });
   const PricePerNight = () => {
     if (formik.errors.pricePerNight && formik.touched.pricePerNight)
       return (

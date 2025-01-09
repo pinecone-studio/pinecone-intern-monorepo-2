@@ -386,3 +386,10 @@ query GetUser($email: String!) {
     createdAt
   }
 }
+
+mutation AddAmenity($input: AmenityTypeInput!) {
+  addAmenity(input: $input) {
+    _id
+    hotelAmenities
+  }
+}

@@ -13,9 +13,14 @@ type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
   hotelData: Hotel | undefined;
+  AllQueriesRefetch: () => void;
 };
-const AddHotelGeneralInfo = ({ open, setOpen, hotelData }: AddHotelGeneralInfoType) => {
-  const [addHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+const AddHotelGeneralInfo = ({ open, setOpen, hotelData, AllQueriesRefetch }: AddHotelGeneralInfoType) => {
+  const [addHotelGeneralInfo] = useAddHotelGeneralInfoMutation({
+    onCompleted: () => {
+      AllQueriesRefetch();
+    },
+  });
 
   const PhoneNumberError = () => {
     if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
