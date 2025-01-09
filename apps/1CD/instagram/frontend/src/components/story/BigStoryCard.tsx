@@ -4,7 +4,7 @@
 // import { Progress } from '@/components/ui/progress';
 // import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
-// const BigStoryCard = ({ progress, allStories }: { progress: number }) => {
+// const BigStoryCard = ({ progress, allStories }: { progress: number; allStories: any }) => {
 //   console.log('ost', allStories);
 //   return (
 //     <>
@@ -14,7 +14,7 @@
 //             <CarouselItem key={index}>
 //               <div
 //                 style={{
-//                   backgroundImage: `url(${story.userStories?.map((e) => e.story.image)})`,
+//                   backgroundImage: `url(${story.stories.map((imgs) => imgs.img.map((image) => image.image))})`,
 //                 }}
 //                 className="h-[800px] w-[521px] bg-no-repeat bg-cover bg-center rounded-md"
 //               >
@@ -25,10 +25,10 @@
 
 //                 <div className="flex items-center gap-3 p-3">
 //                   <Avatar className="w-[44px] h-[44px]">
-//                     <AvatarImage src={story.userId.profileImg || '/images/profileImg.webp'} alt="@shadcn" />
+//                     <AvatarImage src={allStories || '/images/profileImg.webp'} alt="@shadcn" />
 //                     <AvatarFallback>CN</AvatarFallback>
 //                   </Avatar>
-//                   <span className="text-sm text-white">{story.userId.userName}</span>
+//                   <span className="text-sm text-white">{}</span>
 //                   <span className="text-[#71717A] text-xs">5h</span>
 //                 </div>
 //               </div>

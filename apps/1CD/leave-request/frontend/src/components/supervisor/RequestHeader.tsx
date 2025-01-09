@@ -14,7 +14,7 @@ export interface filterProps {
 }
 
 // eslint-disable-next-line no-unused-vars
-const RequestHeader = ({ onChange }: { onChange: (arg0: filterProps) => void }) => {
+const RequestHeader = ({ onChange, email }: {email: string, onChange: (arg0: filterProps) => void }) => {
   const [filter, setFilter] = useState<filterProps>({
     endDate: new Date(),
     startDate: addDays(new Date(), -30),
@@ -40,6 +40,8 @@ const RequestHeader = ({ onChange }: { onChange: (arg0: filterProps) => void }) 
           </div>
 
           <RequestCategory
+          email={email}
+          filter={filter}
             onChange={(status) => {
               updateFilter({ status });
             }}

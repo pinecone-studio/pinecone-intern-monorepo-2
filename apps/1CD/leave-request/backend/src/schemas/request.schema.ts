@@ -100,6 +100,7 @@ export const RequestTypeDefs = gql`
 
 
   }
+
   input requestInput {
     supervisorEmail: String!
     startDate: Date
@@ -107,6 +108,8 @@ export const RequestTypeDefs = gql`
     status: [String]
 
   }
+
+
   type Query {
     checkAvailablePaidLeaveInGivenYear(email: String!): AvailablePaidLeaves
     checkAvailavleRemoteLeaveInGivenMonth(email: String!): AvailableRemoteLeaves
@@ -121,6 +124,6 @@ export const RequestTypeDefs = gql`
     openRequest(_id: ID): OpenRequestType
     groupedByStatusRequestLength: [GroupedRequestLength!]
     groupedByStatusRequestLength(input: requestInput!): [GroupedRequestLength!]
-
+    groupedByStatusRequestLength(endDate: Date,startDate: Date, supervisorEmail: String!): [GroupedRequestLength!]
   }
 `;

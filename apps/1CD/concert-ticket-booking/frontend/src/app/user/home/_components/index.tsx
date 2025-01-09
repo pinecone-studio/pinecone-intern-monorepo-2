@@ -43,29 +43,31 @@ const CarouselMain = ({ event }: { event: GetSpecialEventQuery['getSpecialEvent'
         <CarouselContent className="relative mx-0">
           {event?.map((prod) => (
             <CarouselItem className="relative w-full" key={prod._id}>
-              <div className="flex items-center justify-center w-full aspect-[16/9] md:aspect-[21/9]">
-                <Link href={`/user/home/event/${prod._id}`} className="relative w-full h-full">
-                  <Image alt={prod.name} src={prod.image} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw" priority />
-                </Link>
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white bg-black/30">
-                  <div className="flex flex-wrap justify-center gap-2 mb-2">
-                    {prod.mainArtists.map((artist, index) => (
-                      <span className="rounded-2xl border-white border-[1px] px-2 py-1 text-xs md:text-sm border-opacity-25" key={index}>
-                        {artist.name}
-                      </span>
-                    ))}
+              <Link href={`/user/home/event/${prod._id}`}>
+                <div className="flex items-center justify-center w-full aspect-[16/9] md:aspect-[21/9]">
+                  <div className="relative w-full h-full">
+                    <Image alt={prod.name} src={prod.image} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw" priority />
                   </div>
-                  <h2 className="text-2xl md:text-4xl lg:text-[60px] font-bold text-center">{prod.name}</h2>
-                  <div className="flex items-center justify-center gap-2 mt-2">
-                    <Calendar className="w-3 h-3 md:w-4 md:h-4" />
-                    <div className="flex gap-2 text-sm md:text-base">
-                      {prod.scheduledDays.map((day, index) => (
-                        <span key={index}>{dayjs(day).format('MM.DD')}</span>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white bg-black/30 md:gap-8">
+                    <div className="flex flex-wrap justify-center gap-2 mb-2">
+                      {prod.mainArtists.map((artist, index) => (
+                        <span className="rounded-2xl border-white border-[1px] px-2 py-1 text-xs md:text-sm border-opacity-25" key={index}>
+                          {artist.name}
+                        </span>
                       ))}
+                    </div>
+                    <h2 className="text-2xl md:text-4xl lg:text-[60px] font-bold text-center">{prod.name}</h2>
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <Calendar className="w-3 h-3 md:w-4 md:h-4" />
+                      <div className="flex gap-2 text-sm md:text-base">
+                        {prod.scheduledDays.map((day, index) => (
+                          <span key={index}>{dayjs(day).format('MM.DD')}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>

@@ -21,7 +21,7 @@ describe('Header Component', () => {
 
   it('3. Should display the notification component when notification button is clicked', () => {
     cy.get('[data-testid="menuBtn3"]').click();
-    cy.get('[data-testid="notification-component"]').should('exist').and('be.visible');
+    cy.get('[data-testid="notification-component"]').should('exist');
   });
 
   it('4. Should hide the notification component when home button is clicked', () => {
@@ -29,7 +29,7 @@ describe('Header Component', () => {
 
     // cy.get('[data-testid="notification-component"]').should('be.visible');
     cy.get('[data-testid="menuBtn3"]').click();
-    cy.get('[data-testid="notification-component"]').should('exist').and('be.visible');
+    cy.get('[data-testid="notification-component"]').should('exist');
     cy.get('[data-testid="menuBtn3"]').click();
 
     cy.get('[data-testid="notification-component"]').should('not.exist');

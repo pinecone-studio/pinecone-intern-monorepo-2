@@ -4,7 +4,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useGetAllUsersWithLatestStoriesQuery } from '@/generated';
-import StoryCarouselCard from '@/app/(main)/_components/StoryCarouselCard';
+import StoryCarouselCard from '@/app/(main)/_components/story/StoryCarouselCard';
 
 const StoryPage = () => {
   const { data: latestStories } = useGetAllUsersWithLatestStoriesQuery();
@@ -42,12 +42,13 @@ const StoryPage = () => {
       </div>
       {/* <div className="flex items-center justify-center gap-8 px-11"> */}
       <Swiper
-        className="flex justify-center m-auto mySwiper"
-        slidesPerView={2}
+        className="flex mySwiper"
+        slidesPerView={4}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        // autoplay={{ delay: 2500, disableOnInteraction: false }}
         navigation={true}
         modules={[Autoplay, Navigation]}
+        style={{ marginLeft: '100px' }}
       >
         {allStories?.flatMap((story, i) => (
           <SwiperSlide key={i} className="p-4 transition-transform duration-300 hover:scale-105">
