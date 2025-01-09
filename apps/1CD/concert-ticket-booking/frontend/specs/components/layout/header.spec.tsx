@@ -72,4 +72,30 @@ describe('Header Component', () => {
     // Verify setQ is called with the correct value
     expect(setQMock).toHaveBeenCalledWith('salhi');
   });
+  it('closes the dropdown when a link is clicked', async () => {
+    const setQMock = jest.fn();
+
+    // Mock useQueryState
+    (useQueryState as jest.Mock).mockReturnValue(['', setQMock]);
+    (useAuth as jest.Mock).mockReturnValue({
+      user: null,
+      signout: mockSignout,
+    });
+
+    render(<Header />);
+
+    // Wait for dropdown trigger to appear
+    const dropdownTrigger = await screen.findByTestId('dropdown-trigger');
+    fireEvent.click(dropdownTrigger);
+
+    // Wait for dropdown content to be visible
+    const eventsLink = await screen.findByTestId('EventsCl');
+    expect(eventsLink).toBeInTheDocument();
+
+    // Click on the "Events" link to close the dropdown
+    fireEvent.click(eventsLink);
+
+    // Ensure the dropdown is now closed
+    await waitFor(() => expect(screen.queryByTestId('EventsCl')).not.toBeInTheDocument());
+  });
 });
