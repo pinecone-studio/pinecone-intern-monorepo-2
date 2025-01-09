@@ -24,7 +24,7 @@ type AdminDashboardProps = {
 export const AdminDashboard = ({ data, refetch, totalPages }: AdminDashboardProps) => {
   const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
     onCompleted: () => {
-      toast.success('Successfully archived the event');
+      toast.success('Тоглолтыг амжилттай архивлалаа.');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -38,19 +38,6 @@ export const AdminDashboard = ({ data, refetch, totalPages }: AdminDashboardProp
       return sum + soldQuantity * unit;
     }, 0);
   };
-  // const filterDeletedEvents = filteredData?.filter((event) => event?.priority === 'high' || event?.priority === 'low');
-
-  // const sortedEvents = filterDeletedEvents?.sort((a, b) => {
-  //   if (a?.priority === 'Онцлох' && b?.priority !== 'Онцлох') {
-  //     return -1;
-  //   }
-  //   if (b?.priority === 'Онцлох' && a?.priority !== 'Онцлох') {
-  //     return 1;
-  //   }
-  //   return 0;
-  // });
-  // const totalPages = sortedEvents && sortedEvents.length > 0 ? Math.ceil(sortedEvents.length / itemsPerPage) : 0;
-  // const currentPageData = sortedEvents?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   const handleSubmit = async (id: string) => {
     await deleteEvent({

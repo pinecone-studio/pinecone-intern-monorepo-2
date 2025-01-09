@@ -4,11 +4,11 @@ export const typeDefs = gql`
   scalar Date
   type AmenitiesType {
     _id: ID
-    name: String
+    hotelAmenities: [String]
   }
   input AmenityTypeInput {
     _id: ID
-    name: String
+    hotelAmenities: [String]
   }
   type Mutation {
     addAmenity(input: AmenityTypeInput!): AmenitiesType!
