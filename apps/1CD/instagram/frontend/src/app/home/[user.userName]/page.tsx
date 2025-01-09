@@ -13,6 +13,7 @@ import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
   const userId: string = user?._id as string;
+  console.log('idiig harah', userId);
   const { data: postData } = useGetMyPostsQuery();
   const [proImgData, setProImgData] = useState<string>('');
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
