@@ -31,4 +31,8 @@ export const typeDefs = gql`
   type Query {
     getNotificationsByLoggedUser: [Notifications!]!
   }
+
+  type Mutation {
+    viewNotify(_id: ID!): Notifications!
+  }
 `;

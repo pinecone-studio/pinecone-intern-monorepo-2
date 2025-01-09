@@ -8,3 +8,4 @@ export * from './user/delete-user-mutation';
 export * from './post-like';
 export * from './story';
 export * from './view-story';
+export * from './notifications/view-notify';
