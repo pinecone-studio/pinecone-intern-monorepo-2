@@ -21,6 +21,7 @@ const ProImg = ({
   const [image, setImage] = useState<string>(proImgData);
 
   const handleUploadImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('working');
     const files = event?.target?.files;
     if (!files || files.length === 0) return;
 
@@ -45,8 +46,8 @@ const ProImg = ({
   return (
     <div>
       <label htmlFor="file-upload">
-        <div className="relative w-36 h-36 rounded-full">
-          <Image sizes="h-auto w-auto" data-testid="proImage" src={prevProImg} alt="profilezurag" fill className="absolute rounded-full object-cover" />
+        <div className="relative rounded-full w-36 h-36">
+          <Image sizes="h-auto w-auto" data-testid="proImage" src={prevProImg} alt="profilezurag" fill className="absolute object-cover rounded-full" />
         </div>
       </label>
       <input data-testid="inputImage" id="file-upload" type="file" accept="image/*,video/*" className="hidden" onChange={handleUploadImg} />

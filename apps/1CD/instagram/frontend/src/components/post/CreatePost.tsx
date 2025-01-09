@@ -40,7 +40,7 @@ export const CreatePost = ({
   };
   return (
     <Dialog open={openModal}>
-      <DialogContent className="[&>button]:hidden p-0 m-0 border-none ">
+      <DialogContent className="[&>button]:hidden p-0 m-0 border-none max-w-[1256px]  ">
         <div className="bg-white rounded-lg w-[997px] h-[679px] [&>button]:hidden p-0 flex flex-col gap-4  ">
           <div>
             <DialogTitle className="text-center text-[16px] h-[35px] py-3  ">
@@ -68,7 +68,7 @@ export const CreatePost = ({
                 </div>
                 <h1 className="text-sm font-bold ">{user?.getUser.userName}</h1>
               </div>
-              <input data-testid="input" type="text" className="w-full h-[132px] border rounded-lg p-2" placeholder="Description ..." onChange={(e) => setHandleDesc(e.target.value)} />
+              <input data-testid="input" type="text" className="w-full h-[132px] border rounded-lg p-2 text-start " placeholder="Description ..." onChange={(e) => setHandleDesc(e.target.value)} />
               <div className="flex justify-between border-b-[1px] py-3 text-[12px] text-[#71717A] ">
                 <SmileIcon width={20} height={20} />
                 <p>{handleDesc.length}/200</p>

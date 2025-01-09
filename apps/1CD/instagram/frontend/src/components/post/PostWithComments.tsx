@@ -31,8 +31,8 @@ export const PostWithComments = ({ id }: { id: string }) => {
       </DialogTrigger>
       <DialogTitle className="hidden"></DialogTitle>
       <DialogDescription className="hidden"></DialogDescription>
-      <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none ">
-        <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  " data-testid="postWithComments">
+      <DialogContent className="[&>button]:hidden p-0 m-0 bg-none border-none flex justify-center max-w-[1256px]  ">
+        <div className=" rounded-lg w-[1256px] h-[800px] [&>button]:hidden p-0 flex  relataive" data-testid="postWithComments">
           <PostImg images={PostData?.getPostByPostId?.images || []} />
           <div className="flex flex-col justify-between w-full h-full px-3 py-4 bg-white">
             <div className="flex flex-col w-full">
@@ -56,7 +56,7 @@ export const PostWithComments = ({ id }: { id: string }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              <ScrollArea className="w-full h-[560px]">
+              <ScrollArea className="w-full h-[560px] pr-3">
                 <Link href={`/home/viewprofile/${PostData?.getPostByPostId?.user._id}`} className="flex items-center w-full gap-4 py-1">
                   <div className="">
                     <div className="relative w-8 h-8 rounded-full">

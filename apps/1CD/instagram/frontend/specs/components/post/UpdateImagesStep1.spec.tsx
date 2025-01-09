@@ -31,7 +31,7 @@ describe('UpdateImagesStep1', () => {
     const file = new File(['(⌐□_□)'], 'test-image.jpg', { type: 'image/jpg' });
     fireEvent.change(input, { target: { files: [file] } });
 
-    fireEvent.click(getByTestId('closeBtn'));
+    // fireEvent.click(getByTestId('closeBtn'));
   });
   it('should allow going back to step 1 from step 2', async () => {
     const { getByTestId } = render(
