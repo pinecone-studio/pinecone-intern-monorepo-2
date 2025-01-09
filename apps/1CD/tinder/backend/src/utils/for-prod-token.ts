@@ -6,6 +6,7 @@ export const checkTokenInProd = ({req}:{ req: NextRequest}) => {
   const authHeader = `${req.headers.get('Authorization')}`;
   const authToken = authHeader?.split(' ')[1];
   const isProd = process.env.ENVIRONMENT === 'production';
+  console.log(process.env.ENVIRONMENT)
   
   console.log({secretKey, authToken,authHeader, isProd},'secretKey || authToken || authHeader || isProd'); 
   if (authToken && isProd) {

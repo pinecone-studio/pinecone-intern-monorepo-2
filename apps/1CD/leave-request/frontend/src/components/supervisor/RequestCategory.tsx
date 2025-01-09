@@ -109,7 +109,7 @@ const RequestCategory = ({ onChange, email, filter }: { email: string; filter: f
           className="flex justify-between text-sm text-[#09090B]"
         >
           <p>Хүлээгдэж байна</p>
-          <p>{data?.groupedByStatusRequestLength?.find((item) => item._id === 'pending')?.res || '0' + data?.groupedByStatusRequestLength?.find((item) => item._id === 'sent')?.res || 0}</p>
+          <p>{(Number(data?.groupedByStatusRequestLength?.find((item) => item._id === 'pending')?.res || '0')) + (Number(data?.groupedByStatusRequestLength?.find((item) => item._id === 'sent')?.res || 0))}</p>
         </DropdownMenuCheckboxItem>
 
         <DropdownMenuCheckboxItem

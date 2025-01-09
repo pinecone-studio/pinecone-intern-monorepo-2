@@ -6,7 +6,7 @@ jest.mock('src/models', () => ({
     find: jest.fn().mockResolvedValueOnce([
       {
         _id: '1',
-        hotelId: '2',
+        roomName: 'Economy Single Room',
         price: 22000,
         roomType: 'Single',
         roomInformation: ['Air conditioning'],
@@ -29,7 +29,7 @@ jest.mock('src/models', () => ({
 describe('update room general info', () => {
   const input: UpdateRoomInfoInput = {
     _id: '1',
-    hotelId: '2',
+    roomName: 'Economy Single Room',
     roomType: 'Single',
     price: 22000,
     roomInformation: ['Air conditioning'],
