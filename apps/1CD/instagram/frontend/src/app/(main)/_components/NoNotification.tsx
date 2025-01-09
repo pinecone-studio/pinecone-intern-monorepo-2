@@ -1,7 +1,7 @@
 import { Heart } from 'lucide-react';
 const NoNotification = () => {
   return (
-    <div className="flex flex-col items-center text-slate-500" data-testid="noNotificationComp">
+    <div className="flex flex-col items-center text-slate-500" data-cy="noNotificationComp">
       <div>
         <section className="relative flex items-center justify-center w-12 h-12 mb-5 border-2 rounded-full border-slate-500">
           <Heart />
