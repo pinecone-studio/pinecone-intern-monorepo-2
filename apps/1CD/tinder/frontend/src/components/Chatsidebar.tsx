@@ -12,8 +12,6 @@ export const Chatsidebar = () => {
     router.push(`/chat/${_id}`);
   };
 
-console.log({matchedData})
-
   return (
     <div className="flex flex-col items-start border-r" data-cy="Chat-Sidebar-Page">
       {matchedData?.map(

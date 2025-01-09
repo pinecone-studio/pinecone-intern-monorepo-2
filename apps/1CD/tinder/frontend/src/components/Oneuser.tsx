@@ -60,7 +60,7 @@ export const Oneuser = () => {
               Unmatch
             </Button>
           </div>
-          <Unmatch open={open} closeDialog={closeDialog} user1={id}/>
+          <Unmatch open={open} closeDialog={closeDialog} user1={id} />
         </div>
       </div>
     </>

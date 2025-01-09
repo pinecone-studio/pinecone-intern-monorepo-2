@@ -15,8 +15,8 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useUserId();
   const currentDate = new Date();
-  const [clickedMessages, setClickedMessages]=useState<string[]>([])
-  
+  const [clickedMessages, setClickedMessages] = useState<string[]>([]);
+
   const mongolianDate = new Intl.DateTimeFormat('mn-MN', {
     year: 'numeric',
     month: '2-digit',
@@ -24,15 +24,15 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
     timeZone: 'Asia/Ulaanbaatar',
   }).format(currentDate);
 
-  const addtoClickedmessages = (_id:any)=>{
-    if(clickedMessages.includes(_id)){
-      const newClickedMessageArray = clickedMessages.filter((clickedMessageId)=>clickedMessageId !== _id)
-      setClickedMessages(newClickedMessageArray)
-      return
+  const addtoClickedmessages = (_id: any) => {
+    if (clickedMessages.includes(_id)) {
+      const newClickedMessageArray = clickedMessages.filter((clickedMessageId) => clickedMessageId !== _id);
+      setClickedMessages(newClickedMessageArray);
+      return;
     }
-    setClickedMessages((previousclickedmessage)=>[...previousclickedmessage,_id])
-  }
-  
+    setClickedMessages((previousclickedmessage) => [...previousclickedmessage, _id]);
+  };
+
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -41,7 +41,7 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
   return (
     <div className="flex flex-col w-full p-4 flex-1  " data-cy="Chat-Part-Page">
       {errormessage ? (
-        <Chatloadingerror errormessage={errormessage}/>
+        <Chatloadingerror errormessage={errormessage} />
       ) : !response || response.length === 0 ? (
         <div className="flex flex-col justify-center items-center flex-1">
           <MessageSquareDashed size={18} />
@@ -50,7 +50,7 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
         </div>
       ) : (
         <div className="p-4 flex flex-col flex-1 overflow-y-scroll max-h-[50vh]">
-          {response.map((resp: { content: string; senderId: string; createdAt: string, _id:string }, index: number) => {
+          {response.map((resp: { content: string; senderId: string; createdAt: string; _id: string }, index: number) => {
             const date = new Date(resp.createdAt);
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -76,13 +76,14 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
             }).format(date);
             return (
               <div key={resp.createdAt} className="flex flex-col gap-12">
-                <Chatdate dayOfWeek={dayOfWeek} previousDayOfWeek={previousDayOfWeek} formattedDate={formattedDate} mongolianDate={mongolianDate}/>
+                <Chatdate dayOfWeek={dayOfWeek} previousDayOfWeek={previousDayOfWeek} formattedDate={formattedDate} mongolianDate={mongolianDate} />
                 <button
                   className={`${userId === resp.senderId ? 'bg-[#E11D48] self-end max-w-fit' : 'bg-[#F4F4F5] max-w-fit'} ${
                     previousMessage && previousMessage.senderId == resp.senderId ? 'rounded-b-2xl rounded-tr-2xl' : 'rounded-2xl'
-                  } py-2 px-6 mb-2 flex flex-col place-content-start`} onClick={()=> addtoClickedmessages(resp._id)}
+                  } py-2 px-6 mb-2 flex flex-col place-content-start`}
+                  onClick={() => addtoClickedmessages(resp._id)}
                 >
-                  <Chatcontent userId={userId} resp={resp} clickedMessages={clickedMessages} time={time}/>
+                  <Chatcontent userId={userId} resp={resp} clickedMessages={clickedMessages} time={time} />
                 </button>
               </div>
             );
@@ -93,4 +94,3 @@ export const Chatmessages = ({ errormessage, response }: Props) => {
     </div>
   );
 };
-

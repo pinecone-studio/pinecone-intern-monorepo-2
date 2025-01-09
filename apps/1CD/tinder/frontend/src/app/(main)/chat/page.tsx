@@ -20,7 +20,7 @@ const Chat = () => {
 
   if (haveMatch) {
     return (
-      <div className='flex flex-col h-screen w-full'>
+      <div className="flex flex-col h-screen w-full">
         <Header />
         <div className="max-w-[1000px] m-auto flex-1 flex flex-col pt-6 w-full" data-cy="Matches-Found">
           <Matches />
@@ -38,7 +38,7 @@ const Chat = () => {
 
   if (noMatch) {
     return (
-      <div className='flex flex-col h-screen'>
+      <div className="flex flex-col h-screen">
         <Header />
         <div className="text-center mt-10 flex flex-col justify-center items-center flex-1" data-cy="No-Matches-Found">
           <HeartOff size={40} />

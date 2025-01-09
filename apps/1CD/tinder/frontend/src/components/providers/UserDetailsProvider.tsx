@@ -4,7 +4,6 @@ import { PropsWithChildren, createContext, useContext, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_USER } from '@/graphql/Userdetailsgraphql';
 
-
 type UserDetailsInput = {
   variables: {
     name: string;
@@ -19,7 +18,7 @@ type UserDetailsContextType = {
   updateUser: (_variables: UserDetailsInput) => void;
   data: any;
   error: any;
-  errors:unknown
+  errors: unknown;
 };
 
 const UserDetailsContext = createContext<UserDetailsContextType>({} as UserDetailsContextType);
@@ -28,7 +27,7 @@ export const UserDetailsProvider = ({ children }: PropsWithChildren) => {
   const [error, setError] = useState({});
   const [errors, setErrors] = useState<any>([]);
   const [updateUserMutation] = useMutation(UPDATE_USER);
-  const updateUser = async ({ variables: {name, bio, profession, schoolWork, interests } }: UserDetailsInput) => {
+  const updateUser = async ({ variables: { name, bio, profession, schoolWork, interests } }: UserDetailsInput) => {
     try {
       const { data, errors } = await updateUserMutation({
         variables: {
@@ -42,10 +41,10 @@ export const UserDetailsProvider = ({ children }: PropsWithChildren) => {
       if (data.updateUser) {
         setData(data.updateUser.email);
       }
-      if(errors){
-        setErrors(errors)  
+      if (errors) {
+        setErrors(errors);
       }
-    } catch (error:any) {
+    } catch (error: any) {
       if (error) {
         setError(error);
       }
