@@ -4,7 +4,7 @@ import { followModel } from '../../../models/follow.model';
 export const confirmFollowReq: MutationResolvers['confirmFollowReq'] = async (_: unknown, { followerId }, { userId }) => {
   checkUserIsAuth(userId);
 
-  const followRequest = await followModel.findOne({ followerId });
+  const followRequest = await followModel.findOne({ followerId, followingId: userId });
   if (!followRequest) throw new Error('Follow request not found');
 
   if (String(followRequest.followingId) !== String(userId)) {
