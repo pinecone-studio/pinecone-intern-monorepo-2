@@ -14,9 +14,9 @@ query getUsers {
     updatedAt
     attraction
     photos
+    otpCreatedAt
   }
 }
-
 
 mutation swipeUser($input: SwipeInput!) {
   swipeUser(input: $input) {
