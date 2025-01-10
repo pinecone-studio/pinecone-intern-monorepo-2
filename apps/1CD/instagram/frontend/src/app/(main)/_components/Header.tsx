@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { MenuBar } from '../../../components/header/MenuBar';
+import { MenuBar } from './header/MenuBar';
 import Image from 'next/image';
 import { BookOpenCheck, Heart, House, ImagePlus, SquarePlus, Search } from 'lucide-react';
 import SearchFromAllUsers from '@/app/(main)/_components/SearchComponent';
