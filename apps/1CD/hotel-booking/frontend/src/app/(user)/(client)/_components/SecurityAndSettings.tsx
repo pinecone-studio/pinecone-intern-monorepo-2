@@ -1,8 +1,18 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React from 'react';
+import { CiMail } from 'react-icons/ci';
+import { IoKeyOutline } from 'react-icons/io5';
+import { FaAngleRight } from 'react-icons/fa6';
 
 const SecurityAndSettings = () => {
+  const router = useRouter();
+
+  const user = {
+    firstName: 'Shagai',
+    email: 'shagai@pinecone.mn',
+  };
   return (
     <div className="flex flex-col w-full gap-6">
       <div className="flex flex-col gap-1">
@@ -13,7 +23,17 @@ const SecurityAndSettings = () => {
       <div className="w-full border border-gray-200" />
 
       <div className="flex gap-6">
-        <div className="border rounded-xl"></div>
+        <div className="flex items-center gap-2 p-5 border rounded-xl w-[20rem]">
+          <CiMail />
+          {user.email}
+        </div>
+        <button className="flex items-center w-[20rem] justify-between gap-2 p-5 border rounded-xl" onClick={() => router.push('/forget-password')}>
+          <div className="flex items-center gap-2">
+            <IoKeyOutline />
+            Change password
+          </div>
+          <FaAngleRight />
+        </button>
       </div>
     </div>
   );

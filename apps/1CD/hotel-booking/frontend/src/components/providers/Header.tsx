@@ -11,10 +11,10 @@ const Header = () => {
       <div className="bg-[#013B94] py-4 min-h-[230px] md:min-h-[250px]">
         <div className="max-w-[1450px] w-full px-4 mx-auto sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
-            <div className="flex items-center gap-2">
+            <button onClick={() => router.push('/')} className="flex items-center gap-2">
               <div className="w-5 h-5 bg-white rounded-full"></div>
               <p className="text-lg font-medium text-white">Pedia</p>
-            </div>
+            </button>
             <div className="flex gap-4">
               <button
                 className="text-sm font-medium text-[#FAFAFA] hover:opacity-80"
