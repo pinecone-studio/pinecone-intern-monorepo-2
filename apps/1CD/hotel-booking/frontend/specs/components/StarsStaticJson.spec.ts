@@ -14,6 +14,6 @@ describe('static stars', () => {
     expect(Countries).toHaveLength(3);
   });
   it('Room general info types', () => {
-    expect(RoomTypes).toHaveLength(3);
+    expect(RoomTypes).toHaveLength(2);
   });
 });
