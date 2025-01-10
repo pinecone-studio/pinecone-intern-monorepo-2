@@ -14,6 +14,10 @@ const navigation = [
     name: 'Цуцлах хүсэлт',
     link: '/admin/cancel-request',
   },
+  {
+    name: 'Артист',
+    link: '/admin/artist'
+  }
 ];
 
 export const AdminHeader = () => {
@@ -49,7 +53,7 @@ export const AdminHeader = () => {
       </div>
       <div data-cy="AdminHeader-Navigation-link" className="flex gap-10 px-12 bg-white">
         {navigation.map((nav, idx) => (
-          <Link key={idx} href={nav.link} className={`  ${activeLink === nav.link ? 'font-bold text-black underline underline-offset-8 ' : 'text-gray-800'}`} onClick={() => handleLinkClick(nav.link)}>
+          <Link key={idx} href={nav.link} className={`  ${activeLink === nav.link ? 'border-b-black border-b-2 text-black' : 'text-gray-800'}`} onClick={() => handleLinkClick(nav.link)}>
             {nav.name}
           </Link>
         ))}
