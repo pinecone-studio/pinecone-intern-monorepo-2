@@ -7,7 +7,7 @@ import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
 import FollowerDialog from '@/app/(main)/_components/follow/FollowerDialog';
-import FollowingDialog from '@/components/user-profile/FollowingDialog';
+import FollowingDialog from '@/app/(main)/_components/follow/FollowingDialog';
 import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
 
 const UserProfile = () => {
