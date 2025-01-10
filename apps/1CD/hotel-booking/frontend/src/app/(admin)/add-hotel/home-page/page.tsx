@@ -18,7 +18,7 @@ import SelectUserRating from './_components/SelectUserRating';
 const Page = () => {
   const [searchValue, setSearchValue] = useState('');
   const [hotelOpen, setHotelOpen] = useState(false);
-  const [getHotels, { data, loading }] = useGetHotelsLazyQuery();
+  const [getHotels, { data, loading, refetch }] = useGetHotelsLazyQuery();
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectRooms, setSelectRooms] = useState('');
   const [selectStarRating, setSelectStarRating] = useState(0);
@@ -54,7 +54,7 @@ const Page = () => {
 
   return (
     <div className="w-full">
-      <div className="bg-slate-100 flex">
+      <div className="flex bg-slate-100">
         <div className="bg-[#F4F4F5] h-full">
           <div className="flex items-center gap-2 px-4 py-5">
             <SidebarTrigger />
@@ -103,7 +103,7 @@ const Page = () => {
                       <TableCell className="border-2 w-[892px]">
                         <Link data-cy="hotel-info" className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
                           <div className="w-12 h-12">
-                            <Image className="w-full h-full object-cover" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
+                            <Image className="object-cover w-full h-full" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
                           </div>
                           {hotel.hotelName}
                         </Link>
@@ -128,7 +128,7 @@ const Page = () => {
         </div>
       </div>
       <div data-cy="Add-Hotel-General-Info-Dialog">
-        <AddHotelGeneralInfo setOpen={setHotelOpen} open={hotelOpen} />
+        <AddHotelGeneralInfo hotelData={undefined} AllQueriesRefetch={refetch} setOpen={setHotelOpen} open={hotelOpen} />
       </div>
     </div>
   );

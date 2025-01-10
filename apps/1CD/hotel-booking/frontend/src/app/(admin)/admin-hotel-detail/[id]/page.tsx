@@ -68,7 +68,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className="p-6 bg-white rounded-md">
               <div className="flex justify-between">
                 <div className="font-semibold text-black">General Info</div>
-                <Button className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200" onClick={() => setIsOpenHotelGeneralInfoDialog(true)}>
+                <Button
+                  data-cy="Hotel-General-Info-Create-Dialog-Open"
+                  className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200"
+                  onClick={() => setIsOpenHotelGeneralInfoDialog(true)}
+                >
                   Edit
                 </Button>
               </div>
@@ -107,7 +111,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className="p-6 bg-white rounded-md">
               <div className="flex justify-between">
                 <div className="font-semibold text-black">Amenities</div>
-                <Button onClick={() => setIsOpenHotelAmenitiesDialog(true)} className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">
+                <Button data-cy="Open-Amenities-Dialog" onClick={() => setIsOpenHotelAmenitiesDialog(true)} className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">
                   Edit
                 </Button>
               </div>
@@ -116,7 +120,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
               <div className="flex flex-wrap gap-2" data-cy="Aminities-Badge">
                 {oneHotelData?.getHotel.hotelAmenities?.map((amenity, index) => (
-                  <Badge key={index} className="px-2.5 py-0.5 bg-[#F4F4F5] text-[#18181B] text-base">
+                  <Badge key={index} className="px-2.5 py-0.5 bg-[#F4F4F5] hover:bg-slate-200 select-none text-[#18181B] font-normal text-base">
                     {amenity}
                   </Badge>
                 ))}

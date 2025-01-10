@@ -46,12 +46,12 @@ const UpdateHotelLocation = ({
     <Dialog data-cy="Location-Dialog" open={open}>
       <DialogContent>
         <div className="text-[#09090B] text-foreground">Location</div>
-        <Textarea value={locationValue} onChange={(e) => setLocationValue(e.target.value)} />
-        <div className="flex justify-between">
-          <Button onClick={() => setOpen(false)} className="text-black bg-white border hover:bg-slate-100 active:bg-slate-200">
+        <Textarea placeholder="Please Write..." value={locationValue} onChange={(e) => setLocationValue(e.target.value)} />
+        <div data-cy="Update-Location-Dialog" className="flex justify-between">
+          <Button data-cy="Location-Cancel-Button" onClick={() => setOpen(false)} className="text-black bg-white border hover:bg-slate-100 active:bg-slate-200">
             Cancel
           </Button>
-          <Button onClick={updateHotelLocation} className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-600">
+          <Button data-cy="Update-Location-Button" onClick={updateHotelLocation} className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-600">
             Save
           </Button>
         </div>

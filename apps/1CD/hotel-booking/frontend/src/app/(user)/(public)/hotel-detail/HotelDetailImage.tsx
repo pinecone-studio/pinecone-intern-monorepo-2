@@ -10,7 +10,7 @@ const HotelDetailImage = ({ images, open, setIsOpenImageDialog }: { images: (str
       <Dialog open={open}>
         <DialogContent className=" flex flex-col gap-3 max-h-[1090px] overflow-y-scroll max-w-[1160px] w-full p-6">
           <DialogHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="text-base font-bold text-foreground">Images</div>
               <button onClick={() => setIsOpenImageDialog(false)} className="outline-none" data-cy="image-detail-dialog-close">
                 <X className="w-5 h-5" data-cy="image-detail-dialog-close" />
@@ -19,7 +19,7 @@ const HotelDetailImage = ({ images, open, setIsOpenImageDialog }: { images: (str
           </DialogHeader>
           <div className="grid grid-cols-2 gap-2" data-cy="Hotel-detail-image">
             {images.map((image, index) => (
-              <Image key={String(image) + index} src={image || '/'} alt="hotel images" width={580} height={433} className="object-cover col-span-1" />
+              <Image key={String(image) + index} src={image || '/'} alt="hotel images" width={580} height={433} className="object-cover h-full col-span-1 rounded-sm" />
             ))}
           </div>
         </DialogContent>

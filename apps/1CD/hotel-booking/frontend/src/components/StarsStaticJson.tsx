@@ -57,4 +57,4 @@ export const Countries = [
   { text: 'English 🇬🇧', value: 'English' },
 ];
 
-export const RoomTypes = ['Single', 'Deluxe', 'Standart'];
+export const RoomTypes = ['1bed', '2beds'];

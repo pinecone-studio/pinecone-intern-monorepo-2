@@ -1,13 +1,9 @@
 'use client';
-
 import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-
 import { Hotel, useUpdateHotelImagesMutation } from '@/generated';
-
-import { Loader2, Plus } from 'lucide-react';
+import { Loader2, Plus, X } from 'lucide-react';
 import Image from 'next/image';
-
 import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 const CLOUDINARYPRESET = `${process.env.CLOUDINARYPRESET}`;
@@ -18,20 +14,22 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
   const [createImage] = useUpdateHotelImagesMutation({
     onCompleted: () => AllQueriesRefetch(),
   });
-
-  const [images, setImages] = useState<JSX.Element[]>([]);
-  const [value, setValue] = useState('');
+  const [images, setImages] = useState<{ id: string; jsx: JSX.Element }[]>([]);
   const showImage = async (e: ChangeEvent<HTMLInputElement>) => {
-    setValue('value');
     const file = e.currentTarget.files?.[0] as File;
-    const img = <Image alt="image" className="object-cover max-w-[552px] w-full max-h-[310px] h-full" src={URL.createObjectURL(file)} width={500} height={500} />;
-    const array = [...images];
-    array.unshift(img);
-    setImages(array);
-    setValue('');
+    const id = URL.createObjectURL(file);
+    const img = (
+      <div className="relative">
+        <Image alt="image" className="object-cover max-w-[552px] bg-slate-400 w-full max-h-[310px] h-full" src={id} width={500} height={500} />
+        <X data-cy="Remove-Image-Button1" onClick={() => removeImage(id)} className="absolute z-50 bg-white cursor-pointer top-1 right-1" width={32} height={32} />
+      </div>
+    );
+    setImages((prev) => [{ id, jsx: img }, ...prev]);
     setImage((prevFiles) => [...prevFiles, file]);
   };
-
+  const removeImage = (imageId: string) => {
+    setImages((prev) => prev.filter((image) => image.id !== imageId));
+  };
   const addImage = async () => {
     setLoading(true);
     const promises = image.map((file) => {
@@ -62,13 +60,19 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
     setOpen(false);
   };
   useEffect(() => {
-    const imagesArray: JSX.Element[] = [];
-    if (hotel.images?.length) {
-      hotel.images.forEach((image) => {
-        imagesArray.push(<Image className="object-cover max-w-[552px] w-full max-h-[310px] h-full" src={String(image)} width={500} height={500} alt="image" />);
-      });
-      setImages(imagesArray);
-    }
+    const imagesArray = hotel.images?.map((image) => {
+      const id = String(image);
+      return {
+        id,
+        jsx: (
+          <div className="relative">
+            <Image className="object-cover max-w-[552px] w-full max-h-[310px] h-full bg-slate-400" src={id} width={500} height={500} alt="image" />
+            <X data-cy="Remove-Image-Button" onClick={() => removeImage(id)} className="absolute z-50 bg-white cursor-pointer top-1 right-1" width={32} height={32} />
+          </div>
+        ),
+      };
+    });
+    if (imagesArray?.length) setImages(imagesArray);
   }, [hotel.images]);
   return (
     <div className="max-w-[1920px]">
@@ -86,11 +90,11 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
                     <Plus />
                     <div className="">drag update photo</div>
                   </div>
-                  <input data-cy="Image-Upload-Input" multiple value={value} onChange={showImage} className="absolute inset-0 opacity-0" type="file" />
+                  <input data-cy="Image-Upload-Input" multiple onChange={showImage} className="absolute inset-0 opacity-0" type="file" />
                 </div>
               </div>
               {images.map((image, index) => (
-                <div key={index}>{image}</div>
+                <div key={image.id + index}>{image.jsx}</div>
               ))}
             </div>
           </div>

@@ -65,23 +65,15 @@ const HotelDetail = ({ id }: { id: string }) => {
   });
 
   if (loading) return <div>loading...</div>;
+  console.log(data?.getHotel.images);
   return (
     <div data-cy="Hotel-Detail-Page" className="container flex flex-col items-center gap-8 mx-auto">
-      {data?.getHotel.images?.length && data?.getHotel?.images?.length > 0 && (
-        <div onClick={() => setIsOpenImageDialog(true)} data-cy="Hotel-Detail-Room-Image" className="max-w-[1160px] w-full flex gap-1 cursor-pointer">
-          <div className="flex-1">{<Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={580} height={433} className="object-cover w-full h-full" />}</div>
-          <div className="flex flex-col flex-1 gap-1" data-cy="Hotel-images">
-            <div className="flex flex-1 gap-1">
-              <Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={286} height={214} className="flex-1" />
-              <Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={286} height={214} className="flex-1" />
-            </div>
-            <div className="flex flex-1 gap-1">
-              <Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={286} height={214} className="flex-1" />
-              <Image src={`${data?.getHotel.images[0]}`} alt="hotel image" width={286} height={214} className="flex-1" />
-            </div>
-          </div>
-        </div>
-      )}
+      <div className="grid grid-cols-4 gap-2">
+        {data?.getHotel?.images?.length &&
+          data.getHotel.images
+            .slice(0, 4)
+            .map((image, index) => <Image src={`${image}`} alt="hotel image" width={580} height={433} className={`${index == 0 && 'col-span-2'} object-cover w-full h-full rounded-sm`} />)}
+      </div>
       <div className="px-10 flex flex-col items-center max-w-[1160px] gap-14">
         <div className="flex gap-14">
           <div className="flex flex-col flex-1 gap-2">

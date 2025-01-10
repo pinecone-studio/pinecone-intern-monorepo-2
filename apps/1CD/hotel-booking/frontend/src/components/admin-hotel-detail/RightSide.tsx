@@ -16,7 +16,12 @@ const RightSide = ({
       <div className="flex flex-col gap-4 px-6 py-4 bg-white rounded-md">
         <div className="flex justify-between">
           <div className="font-semibold text-black">Location</div>
-          <Button onClick={() => setIsOpenLocationDialog(true)} className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">
+          <Button
+            data-cy="Update-Location-Dialog-Open-Button"
+            data-testid="Location-Dialog-Open-Button"
+            onClick={() => setIsOpenLocationDialog(true)}
+            className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200"
+          >
             Edit
           </Button>
         </div>
@@ -26,7 +31,12 @@ const RightSide = ({
       <div className="px-6 py-4 bg-white rounded-md">
         <div className="flex justify-between mb-4">
           <div className="font-semibold text-black">Images</div>
-          <Button onClick={() => setIsOpenImageDialog(true)} className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200">
+          <Button
+            data-cy="Image-Update-Dialog-Open-Button"
+            data-testid="Location-Dialog-Close-Button"
+            onClick={() => setIsOpenImageDialog(true)}
+            className="text-blue-400 bg-white border hover:bg-slate-100 active:bg-slate-200"
+          >
             Edit
           </Button>
         </div>

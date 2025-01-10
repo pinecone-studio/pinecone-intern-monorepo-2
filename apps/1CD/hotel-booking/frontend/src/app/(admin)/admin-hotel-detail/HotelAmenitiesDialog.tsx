@@ -62,10 +62,8 @@ const HotelAmenitiesDialog = ({
     validationSchema,
   });
   useEffect(() => {
-    if (hotel.hotelAmenities) {
+    if (hotel.hotelAmenities?.length) {
       const array: Option[] = [];
-
-      console.log(hotel.hotelAmenities);
       hotel.hotelAmenities.forEach((amenity) => {
         const object = {} as Option;
         object.value = String(amenity);
@@ -77,20 +75,25 @@ const HotelAmenitiesDialog = ({
   }, [open]);
 
   const ErrorMessege = () => {
-    if (formik.touched.amenities && formik.errors.amenities) return <p className="text-red-500">{formik.errors.amenities}</p>;
+    if (formik.touched.amenities && formik.errors.amenities)
+      return (
+        <p data-cy="Error-Message-Amenities" className="text-red-500">
+          {formik.errors.amenities}
+        </p>
+      );
   };
 
   return (
-    <Dialog data-cy="Location-Dialog" open={open}>
+    <Dialog open={open}>
       <DialogContent>
         <div className="text-[#09090B] text-foreground">Amenities</div>
-        <MultiSelect options={options} value={formik.values.amenities} onValueChange={handleAmenities} />
+        <MultiSelect placeholder="Select-Value" options={options} value={formik.values.amenities} onValueChange={handleAmenities} />
         <ErrorMessege />
-        <form onSubmit={formik.handleSubmit} className="flex justify-between">
-          <Button type="button" onClick={() => setOpen(false)} className="text-black bg-white border hover:bg-slate-100 active:bg-slate-200">
+        <form data-cy="Update-Amenities-Dialog" onSubmit={formik.handleSubmit} className="flex justify-between">
+          <Button data-cy="Hotel-Amenities-Cancel-Button" type="button" onClick={() => setOpen(false)} className="text-black bg-white border hover:bg-slate-100 active:bg-slate-200">
             Cancel
           </Button>
-          <Button type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-600">
+          <Button data-cy="Hotel-Amenities-Update-Button" type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-600">
             Save
           </Button>
         </form>
