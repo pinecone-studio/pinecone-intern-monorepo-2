@@ -14,9 +14,7 @@ export const resolvers = {
     createChat:authorization(Mutation.createChat),
     updateMatch:authorization(Mutation.updateMatch),
     imageSubmit:authorization(Mutation.imageSubmit),
-    resendOtp:authorization(Mutation.resendOtp),
     updateUser:authorization(Mutation.updateUser),
-    verifyOtp:authorization(Mutation.verifyOtp),
     editProfile:authorization(Mutation.editProfile),
   },
   Query:{
