@@ -6,7 +6,7 @@ jest.mock('../../../../src/models/request', () => ({
     aggregate: jest
       .fn()
       .mockResolvedValueOnce([])
-      .mockResolvedValueOnce([
+      .mockResolvedValue([
         {
           _id: '01-09',
           requests: [
@@ -43,6 +43,10 @@ describe('leave calendar test', () => {
   });
   it('when there is one request in given time', async () => {
     const res = await leaveCalendar!({}, { startDate: '2025-1-08', endDate: '2025-1-30' }, {}, {} as GraphQLResolveInfo);
+    expect(res);
+  });
+  it('when there is one request in given time', async () => {
+    const res = await leaveCalendar!({}, { startDate: '2025-1-09', endDate: '2025-1-30' }, {}, {} as GraphQLResolveInfo);
     expect(res);
   });
 });
