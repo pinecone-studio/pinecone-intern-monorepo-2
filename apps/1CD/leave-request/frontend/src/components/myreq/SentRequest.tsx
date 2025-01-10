@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ClientDatePicker } from './DatePicker';
 import { useGetRequestsQuery } from '@/generated';
 import { Calendar, Tag } from 'lucide-react';
-import { addDays, format } from 'date-fns';
+import { addDays, format, formatDate } from 'date-fns';
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader } from '@/context/SecurePageWrapper';
@@ -26,8 +26,8 @@ const RequestGroup = ({ date, requests }: { date?: string; requests: Array<reque
   if (!requests || !date) {
     return null;
   }
-
-  const formatedDate = date?.split('-').slice(1).join('-');
+console.log(date)
+  const formatedDate = formatDate(new Date(date), 'MM-dd');
   const dateObj = new Date(date).setHours(0, 0, 0, 0);
   const today = new Date().setHours(0, 0, 0, 0);
   const gap = Math.abs(dateObj - today) / (1000 * 60 * 60 * 24);
@@ -104,7 +104,7 @@ const Status = ({ result }: { result?: string | null }) => {
 const SentRequest = ({ email }: { email: string }) => {
   const dateRange = useRef({
     startDate: addDays(new Date(), -30),
-    endDate: new Date(),
+    endDate: addDays(new Date(), 365),
   });
   const router = useRouter();
   const { data, loading, refetch } = useGetRequestsQuery({ variables: { email, ...dateRange.current } });

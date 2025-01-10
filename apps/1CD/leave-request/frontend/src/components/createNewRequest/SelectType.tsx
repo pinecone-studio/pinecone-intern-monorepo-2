@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 'use client';
 
 import { RequestFormValues } from './CreateNewRequest';
@@ -27,34 +28,66 @@ export const ChooseHourlyOrDaily = ({ formik, data }: { formik: FormikProps<Requ
 
   function renderRequestTypeSelector() {
     if (formik.values.requestType !== 'remote') {
-      return <RequestTypeSelector typeRequest={typeRequest} setType={setType} />;
+      return <RequestTypeSelector formik={formik} data={data} typeRequest={typeRequest} setType={setType} />;
     }
     return null;
   }
 
   function renderPickDate() {
-    if (formik.values.requestType === 'remote' || typeRequest) {
-      return <PickDate formik={formik} />;
+    const { thisMonth } = data!.checkAvailavleRemoteLeaveInGivenMonth!;
+    if (formik.values.requestType === 'remote') {
+      if (!thisMonth) {
+        return;
+      }
+      if (thisMonth > 0) return <PickDate formik={formik} />;
     }
+
+    if (typeRequest) return <PickDate formik={formik} />;
     return null;
   }
 };
 
-const RequestTypeSelector = ({ typeRequest, setType }: { typeRequest: string; setType: React.Dispatch<React.SetStateAction<string>> }) => (
-  <>
-    <div className="text-[#000000] text-sm">
-      Төрөл{typeRequest && <></>}
-      <span className="text-[#EF4444]">*</span>
-    </div>
-    <span className="text-[12px] text-[#71717A]">
-      Хэрэв та ажлын 1 өдөрт багтаан 8 цагаас доош чөлөө авах бол <b>цагаар</b>, 8 цагаас илүү бол <b>өдрөөр</b> гэдгийг сонгоно уу.
-    </span>
-    <RadioGroup onValueChange={setType} className="flex gap-4 mt-1">
-      <RadioOption value="hourly" label="Цагаар" />
-      <RadioOption value="daily" label="Өдрөөр" />
-    </RadioGroup>
-  </>
-);
+// eslint-disable-next-line complexity
+const RequestTypeSelector = ({
+  formik,
+  data,
+  typeRequest,
+  setType,
+}: {
+  formik: FormikProps<RequestFormValues>;
+  data: CreateRequestQuery | undefined;
+  typeRequest: string;
+  setType: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const thisYear = data?.checkAvailablePaidLeaveInGivenYear?.thisYear;
+  if (!thisYear) {
+    return null;
+  }
+  return (
+    <>
+      <div className="text-[#000000] text-sm">
+        Төрөл{typeRequest && <></>}
+        <span className="text-[#EF4444]">*</span>
+      </div>
+      <span className="text-[12px] text-[#71717A]">
+        Хэрэв та ажлын 1 өдөрт багтаан 8 цагаас доош чөлөө авах бол <b>цагаар</b>, 8 цагаас илүү бол <b>өдрөөр</b> гэдгийг сонгоно уу.
+      </span>
+      <RadioGroup onValueChange={setType} className="flex gap-4 mt-1">
+        {(formik.values.requestType == 'unpaid' && (
+          <>
+            <RadioOption value="hourly" label="Цагаар" />
+            <RadioOption value="daily" label="Өдрөөр" />
+          </>
+        )) || (
+          <>
+            {thisYear > 0 && <RadioOption value="hourly" label="Цагаар" />}
+            {thisYear > 8 && <RadioOption value="daily" label="Өдрөөр" />}
+          </>
+        )}
+      </RadioGroup>
+    </>
+  );
+};
 
 const RadioOption = ({ value, label }: { value: string; label: string }) => (
   <div className="flex items-center space-x-2">
@@ -126,6 +159,7 @@ const AdditionalInfo = ({ formik, data }: { formik: FormikProps<RequestFormValue
 
   const supervisorOptions = data.getAllSupervisors
     .map((supervisor) => (supervisor ? { label: supervisor.userName, value: supervisor.email } : null))
+    // eslint-disable-next-line max-lines
     .filter((option): option is { label: string; value: string } => option !== null);
 
   return (
