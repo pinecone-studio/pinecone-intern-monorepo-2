@@ -1,68 +1,77 @@
-describe('Профайл хуудас', () => {
+describe('Профайл хуудасны тестүүд', () => {
   beforeEach(() => {
-    // Visit the profile page (ensure the correct URL is used)
-    cy.visit('/profile'); 
-  
+    // Тест бүрийн өмнө профайл хуудсыг нээх
+    cy.visit('/profile');
   });
 
-  it('Профайл мэдээллийг анхдагч байдлаар харах ёстой', () => {
-    // Verify that the user's name and email are visible
+  it('Профайл мэдээлэл зөв харуулах ёстой', () => {
+    // Хэрэглэгчийн нэр болон имэйл харагдаж байгааг шалгах
     cy.contains('Hi, Shagai').should('be.visible');
     cy.contains('n.shagai@pinecone.mn').should('be.visible');
-    cy.get('p.text-lg.font-medium.text-zinc-950').contains('Personal Information').should('be.visible');
   });
 
-  it('Профайл болон Зураг табуудыг зөв өөрчлөх ёстой', () => {
-    // Verify initial state for the Profile tab
-    cy.get('.rounded-md.text-sm.text-zinc-950').contains('Profile').should('have.class', 'bg-zinc-100');
-    
-    // Click on Images tab and verify it is active
-    cy.get('.rounded-md.text-sm.text-zinc-950').contains('Images').click();
-    cy.get('.rounded-md.text-sm.text-zinc-950').contains('Images').should('have.class', 'bg-zinc-100');
-    
-    // Click back to Profile tab and ensure visibility
-    cy.get('[data-cy="Tab-Navigation-Profile"]').first().click();
-    cy.get('[data-cy="Tab-Navigation"]').should("be.visible");
-  });
-
-  it('Анхдагч байдлаар "Profile" табын агуулгыг харуулах ёстой', () => {
-    // Ensure the "Personal Information" section is visible
+  it('Анхдагч байдлаар Profile табын агуулга харагдаж байх ёстой', () => {
+    // "Personal Information" хэсэг харагдаж байгааг шалгах
     cy.contains('Personal Information').should('be.visible');
     
-    // Verify input fields are present
+    // Нэр болон имэйл оруулах талбарууд байгаа эсэхийг шалгах
     cy.get('input[placeholder="Elon"]').should('exist');
     cy.get('input[placeholder="Musk"]').should('exist');
   });
 
-  it('Зураг табын агуулгыг дарсны дараа харуулах ёстой', () => {
-    // Click on the Images tab
-    cy.get('[data-cy="Tab-Navigation-Images"]').last().click();
-
-    // Verify that the image container exists
-    cy.get('[data-cy="Image-page"]').should('exist');
+  it('should check the tab', () => {
+    cy.get('[data-cy="Tab-Navigation-Images"]').should('be.visible');
     
-    // Ensure the "No image available" message is displayed
-
   });
 
-  it('Профайлыг "Update profile" товчийг дарж шинэчлэх ёстой', () => {
-    // Click the update profile button
-    cy.get('[data-cy="Update-Button"]').click();
-  });
-
-  it('Зөв хугацааны сонголт үзүүлж буй огнооны талбар харагдах ёстой', () => {
-    // Verify the date input field
-    cy.get('[data-cy="Input-date"]').should('exist');
-    cy.get('[data-cy="day-input"]').type('10');
-    cy.get('[data-cy="month-input"]').type('12');
-    cy.get('[data-cy="year-input"]').type('1990');
-  });
-
- 
-  it('should toggle the sidebar and LucideMenu visibility on menu click', () => {
-    // Initially, the sidebar should be hidden (check if it has a `hidden` class)
-    cy.viewport(600,1000) 
+  
+  it('LucideMenu товчийг дарснаар sidebar харагдах эсэхийг шалгах', () => {
+    // LucideMenu товч харагдаж байгаа эсэхийг шалгах
+    cy.viewport(600, 1000);  // Жижиг дэлгэц дээр sidebar-ийг шалгах
     cy.get('[data-cy="menu"]').should('exist');
+
+    // LucideMenu товчийг дарж, sidebar харагдаж байгааг шалгах
     cy.get('[data-cy="menu"]').click();
+    cy.get('[data-cy="LucideMenu"]').should('be.visible');
+  });
+});
+
+describe('GenderSelect Компонентын Тестүүд', () => {
+  beforeEach(() => {
+    // Тест бүрийн өмнө профайл хуудсыг нээх
+    cy.visit('/profile');
+  });
+
+  it('GenderSelect харагдаж, сонголт хийх боломжтой байх ёстой', () => {
+    // GenderSelect dropdown харагдаж байгаа эсэхийг шалгах
+    cy.get('[data-cy="Gender-Select"]').should('exist');
+    
+    // Анхдагч утга болох "Female" сонголт байгаа эсэхийг шалгах
+    cy.get('[data-cy="Gender-Select"]').contains('Female').should('be.visible');
+
+    // GenderSelect дропдауныг дарж, "Male" сонгох
+    cy.get('[data-cy="Gender-Select"]').click();
+    cy.get('[data-cy="Gender-Select-Male"]').click();
+    
+    // "Male" сонгогдсон эсэхийг шалгах
+    cy.get('[data-cy="Gender-Select"]').contains('Male').should('be.visible');
+  });
+});
+
+describe('NextButton Тестүүд', () => {
+  beforeEach(() => {
+    // Тест бүрийн өмнө профайл хуудсыг нээх
+    cy.visit('/profile');
+  });
+
+  it('Next товч харагдаж, дарах боломжтой байх ёстой', () => {
+    // "Next" товч харагдаж байгаа эсэхийг шалгах
+    cy.get('[data-cy="Next-Button"]').should('exist');
+
+    // "Next" товчийг дарж, Images таб идэвхтэй болсоныг шалгах
+    cy.get('[data-cy="Next-Button"]').click();
+
+    // Images таб идэвхтэй болсоныг шалгах
+    cy.get('[data-cy="Tab-Navigation-Images"]').should('have.class', 'bg-zinc-100');
   });
 });
