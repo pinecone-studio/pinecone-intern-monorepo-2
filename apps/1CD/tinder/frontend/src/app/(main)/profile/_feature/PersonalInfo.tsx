@@ -1,4 +1,6 @@
 import React from 'react';
+import { User } from '@/generated';
+import { Input } from '@/components/ui/input';
 
 interface PersonalInfoProps {
   day: string;
@@ -7,20 +9,21 @@ interface PersonalInfoProps {
   handleDayChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleMonthChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleYearChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  data:User | undefined
 }
 
-const PersonalInfo: React.FC<PersonalInfoProps> = ({
+const PersonalInfo: React.FC<PersonalInfoProps> = ({ data,
   day, month, year, handleDayChange, handleMonthChange, handleYearChange,
 }) => {
   return (
     <div className="space-y-6" data-cy="PersonalInfo">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <p className="text-sm text-zinc-950" data-cy="NameLabel">Name</p>
-          <input
+          <Input
             data-cy="NameInput"
-            placeholder="Elon"
-            className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
+            value={data?.name}
+            className="w-full px-3 py-2 text-sm font-normal border rounded-md placeholder-zinc-950 border-zinc-400"
           />
         </div>
         <div>
@@ -28,7 +31,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
           <input
             data-cy="EmailInput"
             placeholder="Musk"
-            className="w-full rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3"
+            className="w-full px-3 py-2 text-sm font-normal border rounded-md placeholder-zinc-950 border-zinc-400"
           />
         </div>
       </div>
@@ -46,7 +49,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             value={day}
             onChange={handleDayChange}
             placeholder="DD"
-            className="px-4 py-2 border rounded-lg w-20"
+            className="w-20 px-4 py-2 border rounded-lg"
             maxLength={2}
           />
           <input
@@ -57,7 +60,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             value={month}
             onChange={handleMonthChange}
             placeholder="MM"
-            className="px-4 py-2 border rounded-lg w-20"
+            className="w-20 px-4 py-2 border rounded-lg"
             maxLength={2}
           />
           <input
@@ -67,7 +70,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
             value={year}
             onChange={handleYearChange}
             placeholder="YYYY"
-            className="px-4 py-2 border rounded-lg w-32"
+            className="w-32 px-4 py-2 border rounded-lg"
             maxLength={4}
           />
         </div>
@@ -82,7 +85,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({
         <textarea
           data-cy="BioInput"
           placeholder="Adventurous spirit with a passion for travel, photography, and discovering new cultures while pursuing a career in graphic design."
-          className="w-full h-20 rounded-md placeholder-zinc-950 font-normal text-sm border-zinc-400 border py-2 px-3 mt-2 resize-none"
+          className="w-full h-20 px-3 py-2 mt-2 text-sm font-normal border rounded-md resize-none placeholder-zinc-950 border-zinc-400"
           style={{ minHeight: '3rem', maxHeight: '4.5rem' }}
         />
       </div>
