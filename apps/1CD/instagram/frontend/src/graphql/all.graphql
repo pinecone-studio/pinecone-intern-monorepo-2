@@ -175,21 +175,24 @@ query GetNotificationsByLoggedUser {
     isViewed
     notificationType
     otherUserId {
-      _id
-      accountVisibility
-      bio
-      email
       userName
       profileImg
-      fullName
+    }
+  }
+}
+
+mutation ViewNotify($id: ID!) {
+  viewNotify(_id: $id) {
+    _id
+    createdAt
+    currentUserId
+    isViewed
+    notificationType
+    otherUserId {
+      _id
     }
     postId {
       _id
-      description
-      images
-      user {
-        _id
-      }
     }
   }
 }
