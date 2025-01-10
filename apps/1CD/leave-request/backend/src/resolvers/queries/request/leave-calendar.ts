@@ -65,7 +65,6 @@ export const leaveCalendar: QueryResolvers['leaveCalendar'] = async (_, { startD
     }
     if (existingRequests) {
       lastIndex = Number(i);
-      console.log(endPoint)
       val.push({ _id: `${startPoint} ${endPoint && `- ${endPoint}`}`, request: null });
       val.push(existingRequests);
       startPoint = '';
