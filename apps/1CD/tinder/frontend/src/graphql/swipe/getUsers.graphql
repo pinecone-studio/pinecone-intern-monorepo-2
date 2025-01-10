@@ -14,6 +14,7 @@ query getUsers {
     updatedAt
     attraction
     photos
+    otpCreatedAt
   }
 }
 

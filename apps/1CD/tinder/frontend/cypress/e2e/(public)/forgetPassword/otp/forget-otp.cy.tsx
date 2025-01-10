@@ -17,7 +17,7 @@ describe('verifying the otp', () => {
       });
       cy.get('[data-cy="otp-instruction"]').contains('cypress@gmail.com');
       cy.get('[data-cy="otp-input"]').type('0000');
-      cy.url().should('include', '/register/password');
+      cy.url().should('include', '/forgetPassword/password');
     });
     it('3.should reject otp and show toast', () => {
       cy.get('[data-cy="otp-input"]').type('1345');
