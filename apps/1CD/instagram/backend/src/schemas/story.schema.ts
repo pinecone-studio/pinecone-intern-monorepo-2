@@ -91,7 +91,7 @@ export const typeDefs = gql`
     getFollowingUserStories(user: ID!): UserPopulatedStory! # For inner carousel
     getFollowingStories: [UserStory!]
     getMyStory(_id: ID!): [UserStory!]
-    getMyActiveStories: UserStory!
+    getMyActiveStories: UserPopulatedStory!
     getMyStories: UserStory!
   }
 
