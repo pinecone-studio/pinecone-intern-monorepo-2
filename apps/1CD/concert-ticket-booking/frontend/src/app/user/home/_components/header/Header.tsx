@@ -9,12 +9,14 @@ import { useQueryState } from 'nuqs';
 import { Filter, House, LogOut, Search, ShoppingCart } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const { user, signout } = useAuth();
   const [open, setOpen] = useState(false);
-
+  const pathname = usePathname();
+  const isDetailOrProfilePage = pathname?.includes('/user/home/event/') || pathname?.includes('/user/home/user-profile');
   const handleItemClick = () => {
     setOpen(false);
   };
@@ -26,10 +28,12 @@ export const Header = () => {
         </Link>
       </div>
 
-      <div className="relative flex items-center px-2 text-xs w-36 md:px-6 md:w-80 lg:w-96 ">
-        <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs bg-black border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
-        <Search className="absolute w-4 h-4 right-4 md:right-16 color-white" />
-      </div>
+      {!isDetailOrProfilePage && (
+        <div className="relative flex items-center px-2 text-xs w-36 md:px-6 md:w-80 lg:w-96 ">
+          <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs bg-black border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
+          <Search className="absolute w-4 h-4 right-4 md:right-16 color-white" />
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-1 md:justify-end md:gap-4">
         <Link href="/user/home/filter">
