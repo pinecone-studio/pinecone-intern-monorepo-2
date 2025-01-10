@@ -384,8 +384,8 @@ query GetRoom($id: ID!) {
 mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
   updateBookingStatus(_id: $id, status: $status)
 }
-query GetUser() {
-  getUser() {
+query GetUser {
+  getUser {
     _id
     email
     firstName
