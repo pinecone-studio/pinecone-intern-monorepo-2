@@ -8,11 +8,16 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { useQueryState } from 'nuqs';
 import { Filter, House, LogOut, Search, ShoppingCart } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
 
 export const Header = () => {
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const { user, signout } = useAuth();
+  const [open, setOpen] = useState(false);
 
+  const handleItemClick = () => {
+    setOpen(false);
+  };
   return (
     <div className="z-10 flex justify-between px-4 py-4 text-white bg-black border-b border-gray-600 md:flex-row md:px-12 md:py-6 ">
       <div className="flex items-center justify-center flex-none md:justify-start">
@@ -34,24 +39,30 @@ export const Header = () => {
           <div>
             <div className="flex items-center gap-2 md:gap-4">
               <div className="flex items-center gap-2 lg:hidden">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
+                <DropdownMenu open={open} onOpenChange={setOpen}>
+                  <DropdownMenuTrigger data-testid="dropdown-trigger">
                     <House className="w-5 h-5 text-gray-200 hover:text-white" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="text-white bg-gray-800 shadow-lg">
                     <DropdownMenuItem>
                       <Link href="/user/home/filter" className="hover:text-gray-300">
-                        Эвентүүд
+                        <button data-testid="EventsCl" onClick={handleItemClick}>
+                          Эвентүүд
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href="/user/sign-in" className="hover:text-gray-300">
-                        Нэвтрэх
+                        <button data-testid="SignInCl" onClick={handleItemClick}>
+                          Нэвтрэх
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href="/user/sign-up" className="hover:text-gray-300">
-                        Бүртгүүлэх
+                        <button data-testid="SignUpCl" onClick={handleItemClick}>
+                          Бүртгүүлэх
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -66,7 +77,6 @@ export const Header = () => {
                   Бүртгүүлэх
                 </Button>
               </Link>
-
               <Link href="/user/sign-in">
                 <Button
                   data-cy="SignInBtn"
@@ -88,8 +98,8 @@ export const Header = () => {
               {user.email}
             </span>
             <div className="flex items-center gap-2 lg:hidden">
-              <DropdownMenu>
-                <DropdownMenuTrigger>
+              <DropdownMenu open={open} onOpenChange={setOpen}>
+                <DropdownMenuTrigger data-testid="dropdown-trigger">
                   <House className="w-5 h-5 text-gray-200 hover:text-white" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="text-white bg-gray-800 shadow-lg">
@@ -97,16 +107,20 @@ export const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Link href="/user/home/user-profile" className="hover:text-gray-300">
-                      Хэрэглэгчийн мэдээлэл
+                      <button data-testid="user-close-button" onClick={handleItemClick}>
+                        Хэрэглэгчийн мэдээлэл
+                      </button>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href="/user/home/filter" className="hover:text-gray-300">
-                      Эвентүүд
+                      <button data-testid="ClEvents" onClick={handleItemClick}>
+                        Эвентүүд
+                      </button>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Button onClick={signout} variant="ghost" className="text-red-500">
+                    <Button data-testid="SignOutCl" onClick={signout} variant="ghost" className="text-red-500">
                       <LogOut className="w-4 h-4" />
                       <span>Гарах</span>
                     </Button>
