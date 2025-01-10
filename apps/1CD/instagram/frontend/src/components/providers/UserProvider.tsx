@@ -21,17 +21,20 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchUsers, { data, loading, refetch }] = useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument);
 
-
   const refresh = async () => {
     await refetch();
   };
 
   const searchHandleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    if (searchTerm.trim()) {
-      searchUsers({ variables: { searchTerm } });
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (value.trim()) {
+      searchUsers({ variables: { searchTerm: value } });
+    } else {
+      // Reset the search results when the search term is cleared
+      await refetch({ searchTerm: '' });
     }
-    await refresh();
   };
 
   const [sendFollowReq, { loading: followLoading, error: followError }] = useSendFollowReqMutation();
