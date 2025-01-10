@@ -13,7 +13,7 @@ const HotelDetailImage = ({ images, open, setIsOpenImageDialog }: { images: (str
             <div className="flex items-center justify-between">
               <div className="text-base font-bold text-foreground">Images</div>
               <button onClick={() => setIsOpenImageDialog(false)} className="outline-none" data-cy="image-detail-dialog-close">
-                <X className="w-5 h-5" data-cy="image-detail-dialog-close" />
+                <X className="w-5 h-5" />
               </button>
             </div>
           </DialogHeader>

@@ -1,6 +1,7 @@
+/* eslint-disable max-lines */
 describe('admin hotel detail test', () => {
   beforeEach(() => {
-    cy.visit('/admin-hotel-detail/67734d4aa494d000fe224b6d');
+    cy.visit('/admin-hotel-detail/677f185640701c4dfe6637f4');
   });
   it('1. it should render', () => {
     cy.get('[data-cy=Admin-Hotel-Detail-Page]').should('be.visible');
@@ -21,10 +22,30 @@ describe('admin hotel detail test', () => {
     });
     cy.get('[data-cy=Aminities-Badge]').should('be.visible');
   });
-  // it('click room types edit button then open dialog can update fields', () => {
-  //   cy.get('');
-  // });
+  it('2. click room types edit button then open dialog can update fields', () => {
+    cy.get('[data-cy=Hotel-General-Info-Create-Dialog-Open]').click();
+    cy.get('[data-cy=Update-Hotel-General-Info-Page]').should('be.visible');
+    cy.get('[data-cy=PhoneNumber-Input]').clear();
+    cy.get('[data-cy=PhoneNumber-Input]').should('not.have.text');
+    cy.get('[data-cy=Hotel-Name-Input]').clear();
+    cy.get('[data-cy=Hotel-Name-Input]').should('not.have.text');
+    cy.get('[data-cy=Save-Button]').click();
+    cy.get('[data-cy=Hotel-Name-Error]').should('be.visible');
+    cy.get('[data-cy=Cancel-Button]').click();
+    cy.get('[data-cy=Update-Hotel-General-Info-Page]').should('not.exist');
+    cy.get('[data-cy=Hotel-General-Info-Create-Dialog-Open]').click();
+    cy.get('[data-cy=Hotel-Name-Input]').clear().type('hotel test');
+    cy.get('[data-cy="Stars-Rating-Select-Value1"]').click();
+    cy.get('[data-cy=Selected-Stars2]').click();
+    cy.get('[data-cy="Stars-Rating-Select-Value"]').should('have.text', '2 ⭐ hotel');
 
+    cy.get('[data-cy=PhoneNumber-Input]').clear().type('80808080');
+    cy.get('[data-cy=Review-Rating-Stars-Trigger]').click();
+    cy.get('[data-cy=Review-Rating-Item1]').click();
+    cy.get('[data-cy="Review-Rating-Stars"]').should('have.text', '1 ⭐');
+    cy.get('[data-cy=Save-Button]').click();
+    cy.get('[data-cy=Update-Hotel-General-Info-Page]').should('not.exist');
+  });
   it('3. if user should all room input filled and click save button', () => {
     cy.get('[data-cy=Add-Room-General-Info-Dialog]').click();
     cy.get('[data-cy=Room-General-Info-Page]').should('be.visible');
@@ -84,7 +105,6 @@ describe('admin hotel detail test', () => {
         });
       }
     });
-
     cy.get('[data-cy=Open-Amenities-Dialog]').click({ force: true });
     cy.get('[data-cy=Update-Amenities-Dialog]').should('exist');
   });
@@ -124,7 +144,6 @@ describe('admin hotel detail test', () => {
     cy.get('[data-cy=Dialog-Element]').should('not.exist');
     cy.get('[data-cy=Image-Update-Dialog-Open-Button]').click();
     cy.get('[data-cy=Dialog-Element]').should('be.visible');
-
     cy.get('[data-cy=Cancel-Button]').click();
     cy.get('[data-cy=Image-Update-Dialog-Open-Button]').click();
     cy.get('[data-cy=Dialog-Element]').should('be.visible');

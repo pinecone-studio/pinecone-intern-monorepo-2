@@ -374,8 +374,8 @@ query GetRoom($id: ID!) {
 mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
   updateBookingStatus(_id: $id, status: $status)
 }
-query GetUser($email: String!) {
-  getUser(email: $email) {
+query GetUser {
+  getUser {
     _id
     email
     firstName
@@ -391,5 +391,21 @@ mutation AddAmenity($input: AmenityTypeInput!) {
   addAmenity(input: $input) {
     _id
     hotelAmenities
+  }
+}
+
+mutation UpdateHotelGeneralInfo($id: String!, $input: HotelInput!) {
+  updateHotelGeneralInfo(_id: $id, input: $input) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+    hotelAmenities
+    location
+    roomsAveragePrice
   }
 }

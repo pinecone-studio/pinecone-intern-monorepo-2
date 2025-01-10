@@ -3,7 +3,6 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import BreadCrumb from '../../guests/_components/BreadCrumb';
 import { ChevronLeft, Phone } from 'lucide-react';
 import { useGetBookingsQuery, useGetHotelQuery, useHotelDetailQuery } from '@/generated';
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,9 +17,8 @@ import RoomTypes from '@/components/admin-hotel-detail/RoomTypes';
 import UpdateHotelLocation from '../UpdateHotelLocation';
 import ImageUpdate from '../AddHotelImage';
 import AddRoomGeneralInfo from '../../AddRoomGeneralInfo';
-import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
 import HotelAmenitiesDialog from '../HotelAmenitiesDialog';
-
+import UpdateHotelGeneralInfo from '../../UpdateHotelGeneralInfo';
 const Page = ({ params }: { params: { id: string } }) => {
   const [isOpenHotelAmenitiesDialog, setIsOpenHotelAmenitiesDialog] = useState(false);
   const [isOpenRoomGeneralInfo, setIsOpenRoomGeneralInfo] = useState(false);
@@ -32,7 +30,6 @@ const Page = ({ params }: { params: { id: string } }) => {
       hotelId: params.id,
     },
   });
-
   const { data: oneHotelData, refetch: getHotelRefetch } = useGetHotelQuery({
     variables: {
       id: params.id,
@@ -140,7 +137,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <AddRoomGeneralInfo AllQueriesRefetch={AllQueriesRefetch} open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
-      <AddHotelGeneralInfo AllQueriesRefetch={AllQueriesRefetch} hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
+      <UpdateHotelGeneralInfo AllQueriesRefetch={AllQueriesRefetch} hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
       {oneHotelData?.getHotel._id && (
         <UpdateHotelLocation AllQueriesRefetch={AllQueriesRefetch} hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenLocationDialog} setOpen={setIsOpenLocationDialog} />
       )}

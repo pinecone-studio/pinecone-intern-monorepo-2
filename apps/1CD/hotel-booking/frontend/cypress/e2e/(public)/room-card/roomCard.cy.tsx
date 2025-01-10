@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 describe('HotelDetail', () => {
   beforeEach(() => {
     cy.visit('/hotel-detail/67734d4aa494d000fe224b6d');
@@ -54,10 +56,22 @@ describe('HotelDetail', () => {
     });
   });
   it('6. should render', () => {
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetHotel') {
+        req.reply({
+          data: {
+            getHotel: {
+              images: ['https://res.cloudinary.com/dwf0svulc/image/upload/v1735648227/gdwlt9szuwnqmzwwd415.avif'],
+            },
+          },
+        });
+      }
+    });
+    cy.visit('/hotel-detail/67734d4aa494d000fe224b6d');
     cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
-    cy.get('[data-cy="Hotel-images"]').click().should('exist', '[data-cy="Hotel-detail-image"]');
-    cy.scrollTo('bottom').should('exist', '[data-cy="Hotel-detail-image"]').should('exist');
-    cy.get('[data-cy="image-detail-dialog-close"]').click({ multiple: true }).should('not.exist');
+    cy.scrollTo('top').should('exist', '[data-cy="Hotel-detail-image"]').should('exist');
+    cy.get('[data-cy="image-open-dialog-button"]').click();
+    cy.get('[data-cy="image-detail-dialog-close"]').click();
     cy.get('[data-cy="Hotel-Detail-Page"]').should('exist');
   });
 });

@@ -8,17 +8,18 @@ import { Star } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+
 import { useEffect, useState } from 'react';
 import StatusLocation from './_components/SelectLocation';
 import SelectRooms from './_components/SelectRooms';
 import SelectStarRating from './_components/SelectStarRating';
 import SelectUserRating from './_components/SelectUserRating';
+import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
 
 const Page = () => {
   const [searchValue, setSearchValue] = useState('');
   const [hotelOpen, setHotelOpen] = useState(false);
-  const [getHotels, { data, loading, refetch }] = useGetHotelsLazyQuery();
+  const [getHotels, { data, loading }] = useGetHotelsLazyQuery();
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectRooms, setSelectRooms] = useState('');
   const [selectStarRating, setSelectStarRating] = useState(0);
@@ -128,7 +129,7 @@ const Page = () => {
         </div>
       </div>
       <div data-cy="Add-Hotel-General-Info-Dialog">
-        <AddHotelGeneralInfo hotelData={undefined} AllQueriesRefetch={refetch} setOpen={setHotelOpen} open={hotelOpen} />
+        <AddHotelGeneralInfo setOpen={setHotelOpen} open={hotelOpen} />
       </div>
     </div>
   );

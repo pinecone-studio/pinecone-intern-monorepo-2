@@ -65,14 +65,14 @@ const HotelDetail = ({ id }: { id: string }) => {
   });
 
   if (loading) return <div>loading...</div>;
-  console.log(data?.getHotel.images);
+
   return (
     <div data-cy="Hotel-Detail-Page" className="container flex flex-col items-center gap-8 mx-auto">
-      <div className="grid grid-cols-4 gap-2">
+      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="grid grid-cols-4 gap-2">
         {data?.getHotel?.images?.length &&
           data.getHotel.images
             .slice(0, 4)
-            .map((image, index) => <Image src={`${image}`} alt="hotel image" width={580} height={433} className={`${index == 0 && 'col-span-2'} object-cover w-full h-full rounded-sm`} />)}
+            .map((image, index) => <Image key={index} src={`${image}`} alt="hotel image" width={580} height={433} className={`${index == 0 && 'col-span-2'} object-cover w-full h-full rounded-sm`} />)}
       </div>
       <div className="px-10 flex flex-col items-center max-w-[1160px] gap-14">
         <div className="flex gap-14">
