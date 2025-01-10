@@ -4,12 +4,12 @@ import { useGetUsersQuery, User } from '@/generated';
 import StackImgs from './StackImg';
 import Swiping from './Swiping';
 import Image from 'next/image';
+import { Loader } from '@/components/Loader';
 
 const Swiper = () => {
-  const { data } = useGetUsersQuery();
+  const { data , loading} = useGetUsersQuery();
   const [cards, setCards] = useState<User[]>([]);
   const [swiping, setSwiping] = useState<User>();
-
 
   useEffect(() => {
     if (data?.getUsers) {
@@ -18,10 +18,20 @@ const Swiper = () => {
     }
   }, [data?.getUsers]);
 
-  if (swiping === undefined) return;
-  <div className="flex items-center justify-center h-screen">
-    <Image src="/loading.svg" width={40} height={40} alt="loading" />
-  </div>;
+
+  if(loading){
+    return (
+          <div className="flex items-center justify-center h-screen">
+            <Loader />
+          </div>
+        );
+  }
+
+  if(swiping===undefined) return 
+  <div className='flex items-center justify-center h-screen'>
+    <Image src="/loading.svg" width={40} height={40} alt='loading'/>
+  </div>
+
 
   return (
     <div>

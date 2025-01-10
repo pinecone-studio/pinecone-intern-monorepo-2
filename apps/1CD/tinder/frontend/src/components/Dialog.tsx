@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 import { UPDATE_MATCH } from '@/graphql/chatgraphql';
 import { useMutation } from '@apollo/client';
 import { useMatchedUsersContext } from './providers/MatchProvider';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from './providers/Dialog2';
 type Props = {
   open: boolean;
   closeDialog: () => void;
