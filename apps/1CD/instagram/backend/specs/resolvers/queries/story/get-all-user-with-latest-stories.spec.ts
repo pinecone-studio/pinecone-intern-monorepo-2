@@ -68,8 +68,8 @@ describe('getAllUsersWithLatestStories', () => {
       {
         user: { $in: ['user1', 'user2'] },
         'stories.createdAt': { $gte: expect.any(Date) },
-      },
-      { stories: { $slice: -1 } }
+      }
+      // { stories: { $slice: -1 } }
     );
     expect(result).toEqual([
       {
@@ -108,7 +108,7 @@ describe('getAllUsersWithLatestStories', () => {
   });
 
   it('should return an empty array if no approved followings exist', async () => {
-    (followModel.find as jest.Mock).mockResolvedValueOnce([]); // No followings
+    (followModel.find as jest.Mock).mockResolvedValueOnce([]);
 
     const result = await getAllUsersWithLatestStories!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
 
@@ -121,7 +121,7 @@ describe('getAllUsersWithLatestStories', () => {
     (followModel.find as jest.Mock).mockResolvedValueOnce([{ followerId: '1', status: 'APPROVED', followingId: 'user1' }]);
 
     (storyModel.find as jest.Mock).mockImplementation(() => ({
-      populate: jest.fn().mockResolvedValueOnce([]), // No stories
+      populate: jest.fn().mockResolvedValueOnce([]),
     }));
 
     const result = await getAllUsersWithLatestStories!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
@@ -131,8 +131,8 @@ describe('getAllUsersWithLatestStories', () => {
       {
         user: { $in: ['user1'] },
         'stories.createdAt': { $gte: expect.any(Date) },
-      },
-      { stories: { $slice: -1 } }
+      }
+      // { stories: { $slice: -1 } }
     );
     expect(result).toEqual([]);
   });

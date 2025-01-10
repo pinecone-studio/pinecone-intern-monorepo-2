@@ -17,8 +17,8 @@ export const getAllUsersWithLatestStories: QueryResolvers['getAllUsersWithLatest
       {
         user: { $in: approvedFollowings.map((item) => item.followingId) },
         'stories.createdAt': { $gte: twentyFourHoursAgo },
-      },
-      { stories: { $slice: -1 } }
+      }
+      // { stories: { $slice: -1 } }
     )
     .populate({
       path: 'user',
