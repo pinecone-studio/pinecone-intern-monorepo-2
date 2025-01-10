@@ -29,7 +29,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    confirmFollowReq(_id: ID!): FollowInfo!
+    confirmFollowReq(followerId: ID!): FollowInfo!
   }
 
   type Mutation {
