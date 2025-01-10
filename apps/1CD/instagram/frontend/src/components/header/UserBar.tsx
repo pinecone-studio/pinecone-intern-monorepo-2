@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { SuggestUser } from '../SuggestUser';
+import { SuggestUser } from '../../app/(main)/_components/SuggestUser';
 import { useAuth } from '../providers';
 import Link from 'next/link';
 

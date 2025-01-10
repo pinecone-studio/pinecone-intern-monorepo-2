@@ -1,7 +1,7 @@
 import { render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 
-import { SuggestUser } from '@/components/SuggestUser';
+import { SuggestUser } from '@/app/(main)/_components/SuggestUser';
 
 describe('SuggestUserComponent', () => {
   it('should render succes cpmponenet', async () => {
