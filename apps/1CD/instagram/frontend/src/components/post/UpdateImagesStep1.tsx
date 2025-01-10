@@ -36,7 +36,7 @@ export const UpdateImagesStep1 = ({ openCreatePostModal, setOpenCreatePostModal 
 
   return (
     <Dialog open={openCreatePostModal} onOpenChange={setOpenCreatePostModal}>
-      <DialogContent className="  [&>button]:hidden p-0  " data-testid="step1">
+      <DialogContent className="  [&>button]:hidden p-0 " data-testid="step1">
         <DialogTitle className="text-center text-[16px]">Create new post</DialogTitle>
 
         <div className="flex flex-col gap-2 py-[190px]">
@@ -45,7 +45,7 @@ export const UpdateImagesStep1 = ({ openCreatePostModal, setOpenCreatePostModal 
               <Image sizes="h-auto w-auto" src="/images/Frame.png" alt="ImportPhoto" fill={true} className="w-auto h-auto" />
             </div>
             <p className="text-[20px]">Drag photos and videos here</p>
-            <p className="bg-[#2563EB] text-sm px-4 py-[10px]   text-white rounded-lg">Select from computer</p>
+            <p className="bg-[#2563EB] text-sm px-4 py-[10px] text-white rounded-lg">Select from computer</p>
           </label>
 
           <input data-testid="input" id="file-upload-22" type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleUploadImg2} />

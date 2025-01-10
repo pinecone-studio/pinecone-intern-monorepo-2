@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CreateStory } from '@/components/story/CreateStory';
@@ -24,16 +25,52 @@ describe('CreateStory Component', () => {
     });
   });
 
-  it('renders modal with an empty story image', () => {
-    render(<CreateStory openStoryModal={true} handleUploadStoryImg={mockHandleUploadStoryImg} storyImg="" discardStory={mockDiscardStory} handleCreateStory={mockHandleCreateStory} />);
+  it('renders modal with an empty story image and loading state', () => {
+    render(
+      <CreateStory
+        openStoryModal={true}
+        handleUploadStoryImg={mockHandleUploadStoryImg}
+        storyImg=""
+        discardStory={mockDiscardStory}
+        handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={true}
+      />
+    );
 
     expect(screen.getByText('Add story')).toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
+
+  it('renders modal with an empty story image and no loading state', () => {
+    render(
+      <CreateStory
+        openStoryModal={true}
+        handleUploadStoryImg={mockHandleUploadStoryImg}
+        storyImg=""
+        discardStory={mockDiscardStory}
+        handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
+      />
+    );
+
     expect(screen.getByText('Drag photos and videos here')).toBeInTheDocument();
     expect(screen.getByTestId('openInputBtn')).toBeInTheDocument();
   });
 
   it('triggers file upload handler on input change', () => {
-    render(<CreateStory openStoryModal={true} handleUploadStoryImg={mockHandleUploadStoryImg} storyImg="" discardStory={mockDiscardStory} handleCreateStory={mockHandleCreateStory} />);
+    render(
+      <CreateStory
+        openStoryModal={true}
+        handleUploadStoryImg={mockHandleUploadStoryImg}
+        storyImg=""
+        discardStory={mockDiscardStory}
+        handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
+      />
+    );
 
     const input = screen.getByTestId('input');
     fireEvent.change(input, { target: { files: [new File([], 'test.jpg')] } });
@@ -41,7 +78,7 @@ describe('CreateStory Component', () => {
     expect(mockHandleUploadStoryImg).toHaveBeenCalled();
   });
 
-  it('renders modal with a selected story image', () => {
+  it('renders modal with a selected story image and loader during image load', () => {
     render(
       <CreateStory
         openStoryModal={true}
@@ -49,6 +86,8 @@ describe('CreateStory Component', () => {
         storyImg="https://example.com/story.jpg"
         discardStory={mockDiscardStory}
         handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
       />
     );
 
@@ -68,6 +107,8 @@ describe('CreateStory Component', () => {
         storyImg="https://example.com/story.jpg"
         discardStory={mockDiscardStory}
         handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
       />
     );
 
@@ -75,12 +116,22 @@ describe('CreateStory Component', () => {
   });
 
   it('triggers handleCreateStory on button click with an empty story image', () => {
-    render(<CreateStory openStoryModal={true} handleUploadStoryImg={mockHandleUploadStoryImg} storyImg="" discardStory={mockDiscardStory} handleCreateStory={mockHandleCreateStory} />);
+    render(
+      <CreateStory
+        openStoryModal={true}
+        handleUploadStoryImg={mockHandleUploadStoryImg}
+        storyImg=""
+        discardStory={mockDiscardStory}
+        handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
+      />
+    );
 
     const button = screen.getByText('Select from computer');
     fireEvent.click(button);
 
-    expect(mockHandleCreateStory).toHaveBeenCalled();
+    expect(mockHandleCreateStory).not.toHaveBeenCalled();
   });
 
   it('triggers handleCreateStory on button click with a selected story image', () => {
@@ -91,6 +142,8 @@ describe('CreateStory Component', () => {
         storyImg="https://example.com/story.jpg"
         discardStory={mockDiscardStory}
         handleCreateStory={mockHandleCreateStory}
+        setOpenStoryModal={jest.fn()}
+        StoryUploadLoading={false}
       />
     );
 

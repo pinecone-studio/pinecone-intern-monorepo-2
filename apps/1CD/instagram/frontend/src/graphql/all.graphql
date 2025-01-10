@@ -128,17 +128,6 @@ mutation Login($input: LoginInput!) {
   }
 }
 
-mutation ConfirmFollowReq($id: ID!) {
-  confirmFollowReq(_id: $id) {
-    _id
-    createdAt
-    followerId
-    followingId
-    status
-    updatedAt
-  }
-}
-
 mutation ChangeProImg($input: UpdateInput!) {
   updateUserData(input: $input) {
     _id
