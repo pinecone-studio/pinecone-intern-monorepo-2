@@ -14,6 +14,12 @@ export const getSuggestUser: QueryResolvers['getSuggestUser'] = async (_, __, { 
     .populate<FollowerPopulatedType>('followerId')
     .populate<FollowPopulatedType>('followingId');
 
+  // const followingsOfMyFollowings2 = await followModel.find({
+  //   followerId: { $in: myFollowingInfo.map((item) => item.followingId._id) },
+  //   followingId: { $ne: userId },
+  // });
+  // console.log('followingsOfMyFollowings2', followingsOfMyFollowings2);
+
   // const SuggestFollowingsWithUser = followingsOfMyFollowings.filter((item) => !myFollowingInfo.map((i) => String(i.followingId._id)).includes(String((item?.followingId as any)._id)));
 
   // const SuggestFollowerDuplicate = SuggestFollowingsWithUser.filter((item) => String((item?.followingId as any)._id) !== userId);
