@@ -5,8 +5,8 @@ import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Loader } from 'lucide-react';
-import { DiscardStory } from './DiscardStory';
-import { useAuth } from '../providers';
+import { DiscardStory } from '../../../../components/story/DiscardStory';
+import { useAuth } from '../../../../components/providers';
 import { Dispatch, SetStateAction } from 'react';
 
 export const CreateStory = ({

@@ -12,7 +12,7 @@ import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/toolti
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
-import { CreateStory } from '@/components/story/CreateStory';
+import { CreateStory } from '@/app/(main)/_components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
 import Notification from '@/app/(main)/_components/notification';
 
