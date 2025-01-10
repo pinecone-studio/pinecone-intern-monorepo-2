@@ -8,9 +8,20 @@ export type CommentReplyType = {
   createdAt: Date;
 };
 const commentReplySchema = new Schema<CommentReplyType>({
-  commentId: { type: Schema.Types.ObjectId, required: true, ref: 'commentModel' },
-  repliedUser: { type: Schema.Types.ObjectId, required: true, ref: 'userModel' },
-  replyText: { type: String, required: true },
+  commentId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'commentModel',
+  },
+  repliedUser: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'userModel',
+  },
+  replyText: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: new Date(),
