@@ -46,6 +46,7 @@ query SearchUsers($searchTerm: String!) {
     _id
     userName
     fullName
+    profileImg
   }
 }
 

@@ -150,7 +150,7 @@ export const Header = () => {
       </aside>
       {showSearchComponent && (
         <div className="" data-testid="search-users-component">
-          <SearchFromAllUsers />
+          <SearchFromAllUsers setShowSearchComponent={setShowSearchComponent} />
         </div>
       )}
       {showNotification && (
