@@ -17,6 +17,7 @@ export type UserType = {
   attraction: string;
   createdAt: Date;
   updatedAt: Date;
+  otpCreatedAt: Date;
 };
 
 const userSchema = new Schema<UserType>({
@@ -69,6 +70,10 @@ const userSchema = new Schema<UserType>({
     required: true,
   },
   updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  otpCreatedAt: { 
     type: Date,
     default: Date.now,
   },

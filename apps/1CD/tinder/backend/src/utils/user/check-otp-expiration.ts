@@ -1,15 +1,19 @@
+
 import { GraphQLError } from "graphql";
 
-export const checkOtpDate=(user:{createdAt: Date,email:string})=>{
+export const checkOtpDate=(user:{otpCreatedAt: Date,email:string})=>{
     if(user.email==="cypress@gmail.com"){
         return 'otp is valid'
     }
     const currentTime=new Date();
-    const otpCreatedAt=user.createdAt;
+    const otpUpdatedAt=user.otpCreatedAt;
     const expirationTime=5*60*1000;
     
-    const timeDifference=currentTime.getTime()-otpCreatedAt.getTime(); //can use number(), valueof()
+    const timeDifference=currentTime.getTime()-otpUpdatedAt.getTime(); //can use number(), valueof()
     if(timeDifference>expirationTime){
+        console.log(timeDifference,'di');
+        console.log(expirationTime,'si');
+        console.log(timeDifference>expirationTime,'difference');
         throw new GraphQLError('otp is invalid', {
             extensions: { code: 'OTP_IS_INVALID' },
           });
