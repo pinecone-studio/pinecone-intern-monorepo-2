@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button';
+'use client';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/app/(main)/_components/FollowerFollowingDialog';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FollowBtn } from '@/app/(main)/_components/follow/FollowButton';
 
 export interface Following {
   _id: string;
@@ -70,7 +71,8 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </Link>
-                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button>
+
+                <FollowBtn userId={oneFollowing?._id} />
               </div>
             ))}
           </div>

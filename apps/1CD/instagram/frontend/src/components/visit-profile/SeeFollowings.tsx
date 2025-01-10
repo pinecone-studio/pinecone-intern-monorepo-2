@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import { FollowingDialogProps } from '../user-profile/FollowingDialog';
+import { FollowingDialogProps } from '../../app/(main)/_components/follow/FollowingDialog';
 import Link from 'next/link';
 
 const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {

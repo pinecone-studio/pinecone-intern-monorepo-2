@@ -32,7 +32,8 @@
     "../../../../dist/aapps/1CD/instagram/frontend/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../../../dist/apps/1CD/instagram/frontend/.next/types/**/*.ts",
-    "specs/components/user-profile/FollowerDialog"
+    "specs/components/user-profile/FollowerDialog",
+    "specs/components/user-profile/FollowingDialog"
   ],
   "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

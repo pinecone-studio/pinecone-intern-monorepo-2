@@ -6,7 +6,7 @@ import { OtherUser } from '@/generated';
 import SeeFollowersDialog from './SeeFollowers';
 import SeeFollowingsDialog from './SeeFollowings';
 import { Follower } from '../../app/(main)/_components/follow/FollowerDialog';
-import { Following } from '../user-profile/FollowingDialog';
+import { Following } from '../../app/(main)/_components/follow/FollowingDialog';
 import Image from 'next/image';
 
 const HeadingSection = ({
