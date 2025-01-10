@@ -24,6 +24,11 @@ export const typeDefs = gql`
     followerId: User!
   }
 
+  type SuggestUserInfo {
+    followerId: User!
+    followingId: User!
+  }
+
   type Mutation {
     sendFollowReq(followerId: ID!, followingId: ID!): FollowInfo!
   }
@@ -50,5 +55,11 @@ export const typeDefs = gql`
 
   type Query {
     getFollowStatus(followingId: ID!, followerId: ID!): FollowInfo
+  }
+  type Query {
+    getSuggestUser: [SuggestUserInfo]!
+  }
+  type Query {
+    suggestUser: [SuggestUserInfo]!
   }
 `;
