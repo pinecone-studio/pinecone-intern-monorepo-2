@@ -35,9 +35,11 @@ export const AdminHeader = () => {
           <h1 className="text-2xl">TICKET BOOKING</h1>
         </div>
         <div className="flex items-center gap-2">
+          <Link href={'/admin/home/admin-profile'}>
           <span data-cy="AdminEmail" data-testid="AdminEmail">
             {user?.email}
           </span>
+          </Link>
           <div data-cy="Admin-Header-Exit-Account">
             <Link href="/user/sign-in" className="text-black bg-white">
               <LogOut className="w-5 h-5" />
