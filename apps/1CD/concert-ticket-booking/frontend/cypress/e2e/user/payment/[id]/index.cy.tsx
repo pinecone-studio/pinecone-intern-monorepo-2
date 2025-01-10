@@ -20,6 +20,7 @@ describe('QRGeneratePage', () => {
     });
     cy.get('[data-cy="payment-page-title"]').should('exist');
     cy.get('[data-cy="payment-page-title"]').should('contain.text', 'Payment page');
+    cy.wait(3000);
     cy.get('.toast').should('contain', 'Thank you for your purchase, please check your email');
     cy.url().should('include', '/user/home');
   });
@@ -38,6 +39,7 @@ describe('QRGeneratePage', () => {
       },
     });
     cy.get('[data-cy="payment-page-title"]').should('exist');
+    cy.wait(3000);
     cy.get('.toast').should('contain', 'Payment failed');
   });
 });
