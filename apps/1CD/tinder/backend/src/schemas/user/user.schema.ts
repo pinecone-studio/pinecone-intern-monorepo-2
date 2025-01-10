@@ -16,6 +16,7 @@ export const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date!
     attraction: String
+    otpCreatedAt: Date!
   }
 
   input RegisterEmailInput {
