@@ -31,9 +31,11 @@ const EventInputSchema = z.object({
     .min(1, 'Үндсэн артистууд оруулах шаардлагатай'),
   guestArtists: z
     .array(
-      z.object({
-        name: z.string({ message: ' Артистын нэр оруулах шаардлагатай' }),
-      })
+      z
+        .object({
+          name: z.string({ message: ' Артистын нэр оруулах шаардлагатай' }),
+        })
+        .required()
     )
     .optional(),
   venue: z.string().min(1, { message: 'Байршил сонгоно уу' }),
