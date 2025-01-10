@@ -12,7 +12,7 @@ import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/toolti
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
-import { CreateStory } from '@/components/story/CreateStory';
+import { CreateStory } from '@/app/(main)/_components/story/CreateStory';
 import { useCreateStoryMutation } from '@/generated';
 import Notification from '@/app/(main)/_components/notification';
 
@@ -23,8 +23,10 @@ export const Header = () => {
   const [storyImg, setStoryImg] = useState('');
   const [showSearchComponent, setShowSearchComponent] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [uploadingToCloudinary, setUploadingToCloudinary] = useState(false);
   const { user } = useAuth();
   const hideSideBar = () => setHide((prev) => !prev);
+  const showSideBar = () => setHide(false);
 
   const renderNavLink = (icon: React.ReactNode, label: string, onClick: () => void, testId: string) => (
     <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId}>
@@ -32,22 +34,34 @@ export const Header = () => {
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>
   );
-  const [createStory] = useCreateStoryMutation();
+  const [createStory, { loading: StoryUploadLoading }] = useCreateStoryMutation();
+
   const handleUploadStoryImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    setUploadingToCloudinary(true);
+
     const data = new FormData();
     data.append('file', file);
     data.append('upload_preset', 'instagram-intern');
     data.append('cloud_name', 'dka8klbhn');
-    const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-      method: 'POST',
-      body: data,
-    });
-    const uploadedImage = await res.json();
-    const uploadedImageUrl: string = uploadedImage.secure_url;
-    setStoryImg(uploadedImageUrl);
+
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
+        method: 'POST',
+        body: data,
+      });
+      const uploadedImage = await res.json();
+      const uploadedImageUrl: string = uploadedImage.secure_url;
+      setStoryImg(uploadedImageUrl);
+    } catch (error) {
+      console.error('Error uploading to Cloudinary:', error);
+    } finally {
+      setUploadingToCloudinary(false);
+    }
   };
+
   const handleCreateStory = async () => {
     if (!storyImg) {
       return;
@@ -63,9 +77,13 @@ export const Header = () => {
     setStoryImg('');
     setOpenStoryModal(false);
   };
+
   const discardStory = () => {
     setStoryImg('');
   };
+
+  const isLoading = uploadingToCloudinary || StoryUploadLoading;
+
   return (
     <>
       <aside data-testid="header" className={`relative h-screen flex-none border-r bg-card ${hide ? 'w-20' : 'w-[260px]'} overflow-hidden`}>
@@ -75,7 +93,7 @@ export const Header = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href="/home">{renderNavLink(<House />, 'Home', hideSideBar, 'menuBtn1')}</Link>
+                  <Link href="/home">{renderNavLink(<House />, 'Home', showSideBar, 'menuBtn1')}</Link>
                 </TooltipTrigger>
 
                 <TooltipTrigger asChild>
@@ -132,7 +150,6 @@ export const Header = () => {
                     data-cy="userProfileButton"
                     onClick={() => {
                       setShowSearchComponent(false);
-                      hideSideBar();
                     }}
                   >
                     <div className="relative w-6 h-6 rounded-full">
@@ -143,7 +160,15 @@ export const Header = () => {
                 </TooltipTrigger>
               </Tooltip>
               <UpdateImagesStep1 data-testid="UpdateImagesStep1" openCreatePostModal={openCreatePostModal} setOpenCreatePostModal={setOpenCreatePostModal} />
-              <CreateStory openStoryModal={openStoryModal} handleUploadStoryImg={handleUploadStoryImg} storyImg={storyImg} handleCreateStory={handleCreateStory} discardStory={discardStory} />
+              <CreateStory
+                openStoryModal={openStoryModal}
+                setOpenStoryModal={setOpenStoryModal}
+                handleUploadStoryImg={handleUploadStoryImg}
+                storyImg={storyImg}
+                handleCreateStory={handleCreateStory}
+                discardStory={discardStory}
+                StoryUploadLoading={isLoading}
+              />
             </TooltipProvider>
           </nav>
         </div>
