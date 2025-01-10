@@ -1,7 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 
-import { UserBar } from '@/components/header/UserBar';
+import { UserBar } from '@/app/(main)/_components/header/UserBar';
 
 describe('Userbar', () => {
   it('should render', async () => {

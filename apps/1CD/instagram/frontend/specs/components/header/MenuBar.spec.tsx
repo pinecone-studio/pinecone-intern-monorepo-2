@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuBar } from '@/components/header/MenuBar';
+import { MenuBar } from '@/app/(main)/_components/header/MenuBar';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 

@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { SuggestUser } from '../../app/(main)/_components/SuggestUser';
-import { useAuth } from '../providers';
+import { SuggestUser } from '../SuggestUser';
+import { useAuth } from '../../../../components/providers';
 import Link from 'next/link';
 
 export const UserBar = () => {
