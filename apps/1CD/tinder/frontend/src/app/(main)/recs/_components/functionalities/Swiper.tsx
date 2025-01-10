@@ -10,6 +10,7 @@ const Swiper = () => {
   const [cards, setCards] = useState<User[]>([]);
   const [swiping, setSwiping] = useState<User>();
 
+
   useEffect(() => {
     if (data?.getUsers) {
       setSwiping(data.getUsers[0]);
