@@ -2,9 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import React from 'react';
-import { Room } from '@/generated';
-import { Badge } from '@/components/ui/badge';
+import React, { useEffect, useState } from 'react';
+import { Room, useUpdateRoomInfoMutation } from '@/generated';
+import { MultiSelect } from '@/components/ui/multi-select';
+import { Option } from 'lucide-react';
 
 export type DialogStates = {
   openGen: boolean;
@@ -13,10 +14,81 @@ export type DialogStates = {
 export type RoomProps = DialogStates & {
   room: Room | undefined;
 };
-
+export type Option = {
+  value: string;
+  label: string;
+};
+const options: Option[] = [
+  {
+    value: '24-hour front desk',
+    label: '24-hour front desk',
+  },
+  {
+    value: 'Conceirge services',
+    label: 'Conceirge services',
+  },
+  {
+    value: 'Tour/ticket assistance',
+    label: 'Tour/ticket assistance',
+  },
+  {
+    value: 'Dry cleaning/laundry services',
+    label: 'Dry cleaning/laundry services',
+  },
+  {
+    value: 'Luggage storage',
+    label: 'Luggage storage',
+  },
+  {
+    value: 'shower',
+    label: 'shower',
+  },
+];
 const GeneralInfoDialog: React.FC<RoomProps> = ({ openGen, setOpenGen, room }) => {
-  const [hotelName, setHotelName] = React.useState(room?.hotelId?.hotelName || '');
+  const [roomName, setRoomName] = useState('');
+  const [roomType, setRoomType] = useState('');
+  const [roomPrice, setRoomPrice] = useState(0);
+  const [roomInformation, setRoomInformation] = useState<Option[]>([]);
 
+  const [updateRoomInfo] = useUpdateRoomInfoMutation();
+
+  const handleSave = async () => {
+    if (!room?.id) return;
+    try {
+      await updateRoomInfo({
+        variables: {
+          input: {
+            _id: room?.id,
+            roomName: roomName,
+            price: roomPrice,
+            roomType: roomType,
+            roomInformation: roomInformation.map((information) => information.value),
+          },
+        },
+      });
+      setOpenGen(false);
+    } catch (err) {
+      console.error('Failed to update room info:', err);
+    }
+  };
+  useEffect(() => {
+    if (room?.roomName) setRoomName(room.roomName);
+    if (room?.roomType) setRoomType(room.roomType);
+    if (room?.price) setRoomPrice(room.price);
+    if (room?.roomInformation) {
+      const array = room.roomInformation.map((oneInformation) => {
+        const object = {} as Option;
+        object.value = String(oneInformation);
+        object.label = String(oneInformation);
+        return object;
+      });
+
+      setRoomInformation(array);
+    }
+  }, [room]);
+  const handleMultiSelect = (value: Option[]) => {
+    setRoomInformation(value);
+  };
   return (
     <Dialog open={openGen}>
       <DialogContent className="sm:max-w-[525px]">
@@ -26,24 +98,20 @@ const GeneralInfoDialog: React.FC<RoomProps> = ({ openGen, setOpenGen, room }) =
         <div className="flex flex-col gap-4 mt-2">
           <div className="flex flex-col gap-2">
             <Label htmlFor="hotelName">Name</Label>
-            <Input value={hotelName} type="text" onChange={(e) => setHotelName(e.target.value)} />
+            <Input value={roomName} type="text" onChange={(e) => setRoomName(e.target.value)} data-cy="Room-Name-Input" />
           </div>
           <div className="flex flex-col gap-2">
             <Label>Type</Label>
-            <Input value={hotelName} type="text" onChange={(e) => setHotelName(e.target.value)} />
+            <Input value={roomType} type="text" onChange={(e) => setRoomType(e.target.value)} data-cy="Room-Type-Input" />
           </div>
           <div className="flex flex-col gap-2">
             <Label>Price per night</Label>
-            <Input value={hotelName} type="text" onChange={(e) => setHotelName(e.target.value)} />
+            <Input value={roomPrice} type="text" onChange={(e) => setRoomPrice(Number(e.target.value))} data-cy="Room-Price-Input" />
           </div>
-          <div className="flex flex-col gap-2">
-            <Label>Room information</Label>
-            <div className="flex flex-wrap gap-2 pb-3 pl-2 border rounded-lg min-h-16">
-              {room?.roomInformation?.map((info, index) => (
-                <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{info}</Badge>
-                </div>
-              ))}
+          <div className="flex flex-col gap-2 text-sm">
+            <div>Room information</div>
+            <div>
+              <MultiSelect options={options} value={roomInformation} onValueChange={handleMultiSelect} data-cy="Update-Room-Info-Multi-Select" placeholder="Select options..." />
             </div>
           </div>
         </div>
@@ -56,7 +124,7 @@ const GeneralInfoDialog: React.FC<RoomProps> = ({ openGen, setOpenGen, room }) =
               </Button>
             </div>
             <div>
-              <Button type="submit" data-cy="General-Info-Save-Button" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300">
+              <Button type="submit" data-cy="General-Info-Save-Button" className="text-white bg-[#2563EB] hover:bg-blue-400 active:bg-blue-300" onClick={handleSave}>
                 Save
               </Button>
             </div>
@@ -66,5 +134,4 @@ const GeneralInfoDialog: React.FC<RoomProps> = ({ openGen, setOpenGen, room }) =
     </Dialog>
   );
 };
-
 export default GeneralInfoDialog;

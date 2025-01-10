@@ -10,7 +10,7 @@ const SideBar = () => {
     { title: 'Guests', icon: <Users />, link: '/guests' },
   ];
   return (
-    <Sidebar className="w-[17%]">
+    <Sidebar className="">
       <SidebarHeader>
         <div className="flex gap-2 pl-2 pt-2.5 items-center">
           <div className="w-[32px] h-[32px] bg-[#2563EB] rounded-lg flex justify-center items-center">

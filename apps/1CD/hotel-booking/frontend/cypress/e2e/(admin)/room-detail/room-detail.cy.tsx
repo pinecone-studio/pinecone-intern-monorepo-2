@@ -1,10 +1,10 @@
 describe('Room detail page in admin folder', () => {
   const mockRoomDetail = {
     getRoom: {
-      hotelId: '',
-      roomType: 'Economy Single Room',
-      roomCount: 2,
-      roomNumber: 1,
+      roomName: 'Economy Single Room',
+      roomType: 'Single',
+      price: 1200,
+      roomInformation: ['Air conditioning', 'Free WIFI', 'Room service'],
       roomService: {
         bathroom: ['eee', 'eee', 'aaa'],
         accessability: ['rrr', 'ddd', 'eedd'],
@@ -35,14 +35,29 @@ describe('Room detail page in admin folder', () => {
     cy.get('[data-cy=General-Info-Fields-Dialog]').should('not.be.visible');
   });
 
-  it('3.RoomServices-Dialog should be visible when edit button is clicked', () => {
+  it('3.GeneralInfo Dialog should be editable', () => {
+    cy.get('[data-cy=General-Info-Dialog-Button]').should('exist').click();
+    cy.get('[data-cy=General-Info-Fields-Dialog]').should('exist');
+    cy.get('[data-cy=Room-Name-Input]').type(mockRoomDetail.getRoom.roomName).clear().type('Standard room');
+    cy.get('[data-cy=Room-Type-Input]').type(mockRoomDetail.getRoom.roomType).clear().type('Luxury');
+    cy.get('[data-cy=Room-Price-Input]').type(mockRoomDetail.getRoom.price.toString()).clear().type('300');
+
+    cy.get('input[placeholder="Select options..."]').clear().type('show');
+    cy.get('input[placeholder="Select options..."]').trigger('keydown', { key: 'Enter', keyCode: 13, code: 'Enter' });
+    cy.get('[data-cy=General-Info-Save-Button]').should('exist').click({ force: true });
+    cy.get('[data-cy=General-Info-Fields-Dialog]').should('not.be.visible');
+    cy.get('[data-cy=General-Info-Cancel-Button]').should('exist').click();
+    cy.get('[data-cy=General-Info-Fields-Dialog]').should('not.be.visible');
+  });
+
+  it('4.RoomServices-Dialog should be visible when edit button is clicked', () => {
     cy.get('[data-cy=Room-Service-Dialog-Button]').should('exist').click();
     cy.get('[data-cy=Room-Services-Dialog]').should('exist');
     cy.get('[data-cy=Room-Services-Cancel-Button]').click();
     cy.get('[data-cy=Room-Services-Dialog]').should('not.be.visible');
   });
 
-  it('4.ImagesDialog should be visible when edit button is clicked', () => {
+  it('5.ImagesDialog should be visible when edit button is clicked', () => {
     cy.get('[data-cy=Images-Dialog-Button]').should('exist').click();
     cy.get('[data-cy=Images-Dialog]').should('exist');
     cy.get('[data-cy=Images-Cancel-Button]').should('exist').click();
