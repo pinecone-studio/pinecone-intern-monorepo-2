@@ -6,5 +6,7 @@ export const getComments: QueryResolvers['getComments'] = async (_: unknown, { p
 
   const postsComments = await commentModel.find({ postId }).populate<CommentPopulatedType>('commentedUser');
 
-  return postsComments;
+  return postsComments.sort((a, b) => {
+    return b.createdAt.valueOf() - a.createdAt.valueOf();
+  });
 };
