@@ -3,13 +3,14 @@ import React from 'react';
 import Image from 'next/image';
 import { SuggestUser } from '../SuggestUser';
 import { useAuth } from '../providers';
+import Link from 'next/link';
 
 export const UserBar = () => {
   const { signout, user } = useAuth();
   return (
     <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4  pt-10 ">
       <div className="flex items-center justify-between w-full ">
-        <div className="flex items-center gap-2">
+        <Link href={`/home/viewprofile/${user?._id}`} className="flex items-center gap-2">
           <div className="relative flex rounded-full w-14 h-14">
             <Image fill={true} src={user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
           </div>
@@ -17,7 +18,7 @@ export const UserBar = () => {
             <h1 className="text-sm font-bold ">{user?.userName}</h1>
             <p className="text-[12px] text-gray-500 ">{user?.fullName}</p>
           </div>
-        </div>
+        </Link>
         <div>
           <button className="text-[11px] font-bold text-[#2563EB]" data-testid="logoutBtn" onClick={signout}>
             Log out

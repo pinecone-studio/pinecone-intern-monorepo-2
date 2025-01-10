@@ -103,6 +103,16 @@ query GetEventsPaged($filter: EventsPagedFilter) {
         }
       }
       scheduledDays
+      description
+      category
+      guestArtists {
+        name
+      }
+      image
+      venue {
+        _id
+        name
+      }
     }
   }
 }
@@ -117,5 +127,11 @@ mutation UpdateEventPriority($id: ID!, $input: EventPriorityUpdateInput!) {
 mutation DeleteEvent($id: ID!) {
   deleteEvent(_id: $id) {
     message
+  }
+}
+
+mutation UpdateEvent($id: ID!, $event: EventUpdateInput!) {
+  updateEvent(_id: $id, event: $event) {
+    _id
   }
 }

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
 import { Footer } from '@/components/footer/Footer';
-import { Header } from '@/components/header/Header';
+import { Header } from '@/app/user/home/_components/header/Header';
 
 export const metadata = {
   title: 'Welcome to example-frontend',

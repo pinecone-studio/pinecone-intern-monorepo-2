@@ -91,7 +91,7 @@ export const CreateNewRequest = ({ email }: { email: string }) => {
               <SelectRequestType formik={formik} data={data} />
               {formik.values.requestType && <ChooseHourlyOrDaily formik={formik} data={data} />}
               <div className="flex justify-end w-full">
-                <Button type="submit" className="w-[150px] gap-1.5 text-[#FAFAFA]">
+                <Button disabled={!formik.values.message} type="submit" className="w-[150px] gap-1.5 text-[#FAFAFA]">
                   <Send size={14} />
                   Хүсэлт илгээх
                 </Button>

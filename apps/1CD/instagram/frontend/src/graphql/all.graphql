@@ -46,6 +46,7 @@ query SearchUsers($searchTerm: String!) {
     _id
     userName
     fullName
+    profileImg
   }
 }
 
@@ -127,8 +128,8 @@ mutation Login($input: LoginInput!) {
   }
 }
 
-mutation ConfirmFollowReq($id: ID!) {
-  confirmFollowReq(_id: $id) {
+mutation ConfirmFollowReq($followerId: ID!) {
+  confirmFollowReq(followerId: $followerId) {
     _id
     createdAt
     followerId
@@ -175,21 +176,25 @@ query GetNotificationsByLoggedUser {
     isViewed
     notificationType
     otherUserId {
-      _id
-      accountVisibility
-      bio
-      email
       userName
       profileImg
-      fullName
+      _id
+    }
+  }
+}
+
+mutation ViewNotify($id: ID!) {
+  viewNotify(_id: $id) {
+    _id
+    createdAt
+    currentUserId
+    isViewed
+    notificationType
+    otherUserId {
+      _id
     }
     postId {
       _id
-      description
-      images
-      user {
-        _id
-      }
     }
   }
 }

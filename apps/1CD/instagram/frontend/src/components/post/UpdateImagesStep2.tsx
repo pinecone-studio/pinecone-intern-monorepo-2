@@ -28,7 +28,7 @@ export const UpdateImagesStep2 = ({
     setStep(false);
   };
   return (
-    <Dialog open={step}>
+    <Dialog open={step} onOpenChange={setStep}>
       <DialogContent data-testid="step2" className=" [&>button]:hidden p-0  m-0">
         <DialogTitle className="text-center text-[16px] h-[35px] py-3 ">
           <div className="flex justify-between text-center text-[16px] px-1">

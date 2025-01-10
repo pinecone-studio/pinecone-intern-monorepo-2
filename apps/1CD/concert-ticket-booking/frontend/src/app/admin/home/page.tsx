@@ -2,7 +2,7 @@
 import CreateEventModal from './_components/EvenModal';
 import { Container } from '@/components/Container';
 import { AdminDashboard } from './_components/AdminDashboard';
-import { useGetEventsPagedLazyQuery, useGetEventsQuery } from '@/generated';
+import { useGetEventsPagedLazyQuery } from '@/generated';
 import { useAuth } from '@/components/providers';
 import { useQueryState } from 'nuqs';
 import { Event } from '@/generated';
@@ -14,8 +14,6 @@ import DatePicker from './_components/DatePicker2';
 
 const HomePage = () => {
   const { user } = useAuth();
-
-  const { refetch } = useGetEventsQuery();
   const [q, setQ] = useQueryState('q', { defaultValue: '' });
   const [artist, setArtist] = useQueryState('artist', { defaultValue: '' });
   const [date] = useQueryState('date', { defaultValue: '' });
@@ -23,7 +21,7 @@ const HomePage = () => {
 
   const debouncedQ = useDebounce(q, 300);
 
-  const [getEvents1, { data }] = useGetEventsPagedLazyQuery();
+  const [getEvents1, { data, refetch }] = useGetEventsPagedLazyQuery();
 
   useEffect(() => {
     setPage('1');
@@ -78,21 +76,23 @@ const HomePage = () => {
           <CreateEventModal refetch={refetch} />
         </div>
         <div className="border-t-[1px] my-6"></div>
-        <div className="flex gap-2">
-          <div className="relative flex items-center w-[263px] ">
-            <Input data-testid="Search-Input" type="text" placeholder="Хайлт" className="w-full text-xs border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
-            <Search className="absolute w-4 h-4 right-4 color-white" />
-          </div>
-          <div className="relative flex items-center  w-[263px]">
-            <Input
-              data-testid="Artist-Search-Input"
-              type="text"
-              placeholder="Уран бүтээлчээр хайх"
-              className="w-full border-gray-600 md:w-80"
-              value={artist}
-              onChange={(e) => setArtist(e.target.value)}
-            />
-            <Search className="absolute w-4 h-4 right-4" />
+        <div className="flex justify-between">
+          <div className="flex gap-2">
+            <div className="relative flex items-center w-[263px] ">
+              <Input data-testid="Search-Input" type="text" placeholder="Тасалбар хайх" className="w-full border-gray-600 " value={q} onChange={(e) => setQ(e.target.value)} />
+              <Search className="absolute w-4 h-4 right-4 color-white" />
+            </div>
+            <div className="relative flex items-center  w-[263px]">
+              <Input
+                data-testid="Artist-Search-Input"
+                type="text"
+                placeholder="Уран бүтээлчээр хайх"
+                className="w-full border-gray-600 md:w-80"
+                value={artist}
+                onChange={(e) => setArtist(e.target.value)}
+              />
+              <Search className="absolute w-4 h-4 right-4" />
+            </div>
           </div>
           <DatePicker />
         </div>

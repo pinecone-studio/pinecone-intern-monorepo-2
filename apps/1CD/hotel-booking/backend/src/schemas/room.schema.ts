@@ -64,6 +64,13 @@ export const typeDefs = gql`
     price: Int
     roomType: String
   }
+  input UpdateRoomInfoInput {
+    _id: ID!
+    roomName: String!
+    roomType: String!
+    price: Int!
+    roomInformation: [String]!
+  }
 
   type Query {
     getFilterByPropertiesHotels(input: RoomFilterType): [Hotel!]!
@@ -74,5 +81,6 @@ export const typeDefs = gql`
   type Mutation {
     addRoom(input: RoomTypeInput!): RoomType!
     addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
+    updateRoomInfo(input: UpdateRoomInfoInput!): Room!
   }
 `;

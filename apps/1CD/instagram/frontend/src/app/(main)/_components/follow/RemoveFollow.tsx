@@ -1,9 +1,10 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useRemoveFollowerMutation } from '@/generated';
+import { useGetFollowersQuery, useRemoveFollowerMutation } from '@/generated';
 import React, { Dispatch, SetStateAction } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/app/(main)/_components/comment/DeleteDialog';
 import Image from 'next/image';
+import { useAuth } from '@/components/providers';
 
 export const RemoveFollow = ({
   id,
@@ -18,7 +19,12 @@ export const RemoveFollow = ({
   openRemoveDialog: boolean;
   setOpenRemoveDialog: Dispatch<SetStateAction<boolean>>;
 }) => {
-  console.log('id', id);
+  const { user } = useAuth();
+  const { refetch } = useGetFollowersQuery({
+    variables: {
+      followingId: user?._id || '',
+    },
+  });
   const [removeFollower, { loading }] = useRemoveFollowerMutation();
   const handleRemoveFollewer = async () => {
     await removeFollower({
@@ -26,6 +32,8 @@ export const RemoveFollow = ({
         id: id,
       },
     });
+    refetch();
+    setOpenRemoveDialog(false);
   };
   return (
     <Dialog open={openRemoveDialog} onOpenChange={setOpenRemoveDialog}>
