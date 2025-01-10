@@ -1,15 +1,24 @@
 import { Button } from '@/components/ui/button';
-import { AccountVisibility } from '@/generated';
+import { AccountVisibility, FollowStatus } from '@/generated';
 import { formatDistanceToNowStrict } from 'date-fns';
 import Image from 'next/image';
 
-type FollowReqNotifyType = { accountVisible: AccountVisibility; profileImg: string; userName: string; createdDate: Date; isViewed: boolean; onClick: () => Promise<void>; appReq: () => Promise<void> };
-const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, appReq }: FollowReqNotifyType) => {
+type FollowReqNotifyType = {
+  accountVisible: AccountVisibility;
+  profileImg: string;
+  userName: string;
+  createdDate: Date;
+  isViewed: boolean;
+  onClick: () => Promise<void>;
+  appReq: () => Promise<void>;
+  status: FollowStatus;
+};
+const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, appReq, status }: FollowReqNotifyType) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
 
   return (
     <>
-      {accountVisible === 'PRIVATE' && (
+      {(accountVisible === 'PRIVATE' || status === 'PENDING') && (
         <div className={`flex items-center justify-between gap-4 px-3 py-2 ${isViewed ? '' : 'bg-sky-50'}`} data-cy="notify-followReqPri-card" onClick={onClick}>
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">
@@ -37,7 +46,7 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
           </div>
         </div>
       )}
-      {accountVisible === 'PUBLIC' && (
+      {(accountVisible === 'PUBLIC' || status === 'APPROVED') && (
         <div className={`flex items-center justify-between gap-4 px-3 py-2 ${isViewed ? '' : 'bg-sky-50'}`} data-cy="notify-followReqPub-card" onClick={onClick}>
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">

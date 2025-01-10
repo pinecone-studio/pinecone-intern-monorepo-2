@@ -1,10 +1,18 @@
 /* eslint-disable complexity */
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import NotifyFollowRequestCard from '@/app/(main)/_components/NotifyFollowReqCard';
 import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
 import NoNotification from '../NoNotification';
-import { NotificationType, useConfirmFollowReqMutation, useGetNotificationsByLoggedUserQuery, useViewNotifyMutation } from '@/generated';
+import {
+  FollowStatus,
+  NotificationType,
+  useConfirmFollowReqMutation,
+  useGetFollowStatusLazyQuery,
+  useGetFollowStatusQuery,
+  useGetNotificationsByLoggedUserQuery,
+  useViewNotifyMutation,
+} from '@/generated';
 import { useAuth } from '@/components/providers';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { isThisWeek, isThisYear, isToday, isYesterday } from 'date-fns';
@@ -18,32 +26,35 @@ export type notification = {
   currentUserId: string;
 };
 const Notification = () => {
+  const [followStatus, setFollowStatus] = useState<FollowStatus | undefined>(undefined);
   const { user } = useAuth();
   const accountVis = user?.accountVisibility;
-  const { data: notifyData, loading, refetch } = useGetNotificationsByLoggedUserQuery();
-  console.log('notify datag harah', notifyData);
-  console.log('current useriig harah', notifyData?.getNotificationsByLoggedUser[0].currentUserId);
-  console.log('nevtersen useriin id iig harah', user?._id);
-  console.log('notify datagiin otheruseriig harah', notifyData?.getNotificationsByLoggedUser[0].otherUserId._id);
+  const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
   const [viewNotify] = useViewNotifyMutation();
   const [confirmFollowReq] = useConfirmFollowReqMutation({
     onCompleted: () => {
       toast({ variant: 'default', title: 'Success', description: 'Follow request approved' });
-      refetch();
     },
     onError: (error) => {
       toast({ variant: 'destructive', title: `${error.message}`, description: 'Follow request approve failed' });
     },
   });
+  const [getFollowStatus] = useGetFollowStatusLazyQuery();
   if (!notifyData || !accountVis) return;
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
   const notificationView = async (id: string) => {
     await viewNotify({ variables: { id: id } });
   };
   const followReqCon = async (followerId: string) => {
-    await confirmFollowReq({ variables: { followerId: followerId } });
+    try {
+      await confirmFollowReq({ variables: { followerId: followerId } });
+      const res = await getFollowStatus({ variables: { followerId: followerId, followingId: user._id } });
+      setFollowStatus(res.data?.getFollowStatus?.status);
+      console.log('followstatusiig harah', followStatus);
+    } catch (error) {
+      toast({ variant: 'destructive', title: `${error}`, description: 'something wrong' });
+    }
   };
-  // console.log('follow reqiin following idiig harah');
   const sortedNotify = notifyData.getNotificationsByLoggedUser.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   const todayNotify = sortedNotify.filter((oneNotify) => isToday(new Date(oneNotify.createdAt)));
   const yesterdayNotify = sortedNotify.filter((oneNotify) => isYesterday(new Date(oneNotify.createdAt)) && !isToday(new Date(oneNotify.createdAt)));
@@ -76,6 +87,7 @@ const Notification = () => {
             isViewed={oneNotification.isViewed}
             onClick={() => notificationView(oneNotification._id)}
             appReq={() => followReqCon(oneNotification.otherUserId._id)}
+            status={followStatus!}
           />
         );
       }
