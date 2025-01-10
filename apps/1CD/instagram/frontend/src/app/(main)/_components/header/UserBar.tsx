@@ -28,7 +28,9 @@ export const UserBar = () => {
       </div>
       <div className="flex justify-between text-sm">
         <p className="text-gray-500">Suggestions for you</p>
-        <button className="">See All</button>
+        <Link href="/home/suggestuser" className="">
+          See All
+        </Link>
       </div>
       <SuggestUser />
       <div className="text-gray-500 text-wrap text-[12px] flex flex-col gap-4 mt-8">

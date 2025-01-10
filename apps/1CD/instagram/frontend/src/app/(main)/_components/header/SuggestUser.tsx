@@ -4,6 +4,7 @@ import { useGetFollowingsQuery, useGetSuggestUserQuery } from '@/generated';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { FollowBtnSuggest } from './FollowBtnSuggest';
 
 export const SuggestUser = () => {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ export const SuggestUser = () => {
   const SuggestUser = SuggestFollowerDuplicate?.filter((obj, index, self) => index === self.findIndex((t) => t?.followingId._id === obj?.followingId._id));
   return (
     <>
-      {SuggestUser?.map((user) => {
+      {SuggestUser?.slice(-8).map((user) => {
         return (
           <div key={user?.followerId._id} data-testid="suggest-user-comp" className="flex items-center justify-between w-full">
             <Link href={`/home/viewprofile/${user?.followingId._id}`} className="flex items-center gap-2">
@@ -34,7 +35,8 @@ export const SuggestUser = () => {
               </div>
             </Link>
             <div>
-              <button className="text-[11px] font-bold text-[#2563EB]">Follow</button>
+              {/* <button className="text-[11px] font-bold text-[#2563EB]">Follow</button> */}
+              <FollowBtnSuggest userId={user?.followingId?._id || ''} />
             </div>
           </div>
         );

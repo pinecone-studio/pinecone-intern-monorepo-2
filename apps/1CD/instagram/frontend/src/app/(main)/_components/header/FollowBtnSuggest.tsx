@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { useAuth } from '../../../../components/providers';
-import { Button } from '@/components/ui/button';
+
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetFollowStatusQuery, useUnfollowMutation } from '@/generated';
 import { useUser } from '@/components/providers/UserProvider';
 
-export const FollowBtn = ({ userId }: { userId: string }) => {
+export const FollowBtnSuggest = ({ userId }: { userId: string }) => {
   const { user } = useAuth();
   const [buttonState, setButtonState] = useState<'Follow'>('Follow');
   const { refetch: FollowingRefetch } = useGetFollowingsQuery({ variables: { followerId: user?._id as string } });
@@ -36,7 +36,7 @@ export const FollowBtn = ({ userId }: { userId: string }) => {
 
     await unfollowMutation({
       variables: {
-        id: followData.getFollowStatus._id,
+        id: _id,
         followerId: user?._id as string,
       },
     });
@@ -74,8 +74,8 @@ export const FollowBtn = ({ userId }: { userId: string }) => {
     }
   };
   return (
-    <Button className={`h-8 text-black bg-gray-200 ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
+    <button className={`text-[11px] font-bold text-[#2563EB]  ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
       {buttonText}
-    </Button>
+    </button>
   );
 };
