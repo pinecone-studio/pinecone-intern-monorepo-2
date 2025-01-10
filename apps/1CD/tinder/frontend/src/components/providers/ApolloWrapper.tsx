@@ -2,7 +2,6 @@
 
 import { HttpLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
-// import { PropsWithChildren } from 'react';
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
@@ -27,13 +26,14 @@ const makeClient = (authToken:string) => {
       },
     };
   });
-
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: authLink.concat(httpLink),
   });
 };
 
+
 export const ApolloWrapper = ({ children, authToken }: ApolloWrapperProps) => {
   return <ApolloNextAppProvider makeClient={()=>makeClient(authToken)}>{children}</ApolloNextAppProvider>;
 };
+

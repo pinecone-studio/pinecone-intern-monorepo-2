@@ -108,7 +108,7 @@ describe('Chat page should be visible', () => {
         const chatResponse = intercept?.response?.body;
         assert.isNotNull(chatResponse, 'Successfully fetched chat');
       });
-      cy.get('[data-cy="Chat-Part-Page"]').should('have.text', 'Hi, how are you');
+      cy.get('[data-cy="Chat-Part-Page"]').should('have.text', 'Thu 12/26/2024Hi, how are youSent: 11:47');
     } else {
       throw new Error('Response is undefined or malformed');
     }
