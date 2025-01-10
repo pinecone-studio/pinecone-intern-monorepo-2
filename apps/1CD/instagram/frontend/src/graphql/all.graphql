@@ -127,15 +127,18 @@ mutation Login($input: LoginInput!) {
     token
   }
 }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 mutation ConfirmFollowReq($followerId: ID!) {
   confirmFollowReq(followerId: $followerId) {
     _id
-    createdAt
     followerId
     followingId
-    status
+    createdAt
     updatedAt
+    status
   }
 }
 
