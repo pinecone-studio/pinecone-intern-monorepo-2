@@ -8,18 +8,19 @@ import Image from 'next/image';
 const Swiper = () => {
   const { data } = useGetUsersQuery();
   const [cards, setCards] = useState<User[]>([]);
-  
+  const [swiping, setSwiping] = useState<User>();
+
   useEffect(() => {
     if (data?.getUsers) {
       setSwiping(data.getUsers[0]);
       setCards(data.getUsers.slice(1, data.getUsers.length));
     }
   }, [data?.getUsers]);
-  const [swiping, setSwiping] = useState<User>();
-  if(swiping===undefined) return 
-  <div className='flex items-center justify-center h-screen'>
-    <Image src="/loading.svg" width={40} height={40} alt='loading'/>
-  </div>
+
+  if (swiping === undefined) return;
+  <div className="flex items-center justify-center h-screen">
+    <Image src="/loading.svg" width={40} height={40} alt="loading" />
+  </div>;
 
   return (
     <div>
