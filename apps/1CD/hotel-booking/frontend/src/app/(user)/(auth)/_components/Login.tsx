@@ -74,7 +74,7 @@ const Login = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <Input className="p-2 rounded-sm" placeholder="Password" {...field} data-cy="Login-Password-Input" />
+                    <Input className="p-2 rounded-sm" type="password" placeholder="Password" {...field} data-cy="Login-Password-Input" />
                   </FormControl>
                   <FormMessage className="text-xs text-red-500" data-cy="Login-Password-Input-Error-Message" />
                 </FormItem>
