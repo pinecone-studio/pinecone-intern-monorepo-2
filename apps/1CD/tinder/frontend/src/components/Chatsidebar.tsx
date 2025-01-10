@@ -12,15 +12,13 @@ export const Chatsidebar = () => {
     router.push(`/chat/${_id}`);
   };
 
-console.log({matchedData})
-
   return (
     <div className="flex flex-col items-start border-r" data-cy="Chat-Sidebar-Page">
       {matchedData?.map(
         (matchedUser) =>
           matchedUser.hasChatted == true && (
             <button
-              className="py-6 pl-6 pr-[114px] flex justify-center items-center  gap-3 border-b border-t"
+              className={`py-6 pl-6 pr-[114px] flex  items-center w-full gap-3 border-b border-t ${id == matchedUser._id ? 'bg-[#F4F4F5]' : 'bg-white'}`}
               onClick={() => handlechat(matchedUser._id)}
               key={matchedUser._id}
               data-cy={`Matched-User-${matchedUser._id}`}
@@ -29,7 +27,7 @@ console.log({matchedData})
                 <Image src={matchedUser.photos[0]} alt="Profile pic" width={48} height={48} className="object-cover w-full h-full aspect-square" />
               </div>
               <div className="flex flex-col gap-1">
-                <div className="flex gap-1 ">
+                <div className="flex gap-1">
                   <p className={`text-sm text-start ${id == matchedUser._id ? 'text-[#E11D48]' : 'text-black'}`}>{matchedUser.name},</p>
                   <p className={`text-sm text-start ${id == matchedUser._id ? 'text-[#E11D48]' : 'text-black'}`}>{matchedUser.age}</p>
                 </div>

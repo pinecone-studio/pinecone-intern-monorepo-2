@@ -13,5 +13,6 @@ query getMe {
     createdAt
     updatedAt
     attraction
+    otpCreatedAt
   }
 }

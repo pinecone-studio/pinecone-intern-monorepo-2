@@ -24,7 +24,7 @@ const TimePicker = ({ form }: FormProps) => {
           name="time.hour"
           render={({ field }) => (
             <FormItem data-testid="hour-field">
-              <Select onValueChange={field.onChange}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger data-testid="hour-select">
                     <SelectValue placeholder="Цаг" />
@@ -46,7 +46,7 @@ const TimePicker = ({ form }: FormProps) => {
           name="time.minute"
           render={({ field }) => (
             <FormItem data-testid="minute-field">
-              <Select onValueChange={field.onChange}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger data-testid="minute-select">
                     <SelectValue placeholder="Минут" />

@@ -18,8 +18,8 @@ export const RequestTypeDefs = gql`
   type User {
     _id: ID!
     email: String!
-    userName: String!
-    profile: String!
+    userName: String
+    profile: String
     role: String!
     position: String!
     supervisor: [ID]!
@@ -62,6 +62,11 @@ export const RequestTypeDefs = gql`
   type GroupedRequests {
     _id: String!
     requests: [RequestType]
+  }
+
+  type leaveCalendarType {
+    _id: String!
+    requests: [RequestTypePop]
   }
 
   type AvailablePaidLeaves {
@@ -116,5 +121,6 @@ export const RequestTypeDefs = gql`
     getAllRequestLength(supervisorEmail: String, status: [String], startDate: Date, endDate: Date, search: String): NumberOutput!
     openRequest(_id: ID): OpenRequestType
     groupedByStatusRequestLength(endDate: Date,startDate: Date, supervisorEmail: String!): [GroupedRequestLength!]
+    leaveCalendar(startDate: Date!, endDate: Date!): [leaveCalendarType!]
   }
 `;

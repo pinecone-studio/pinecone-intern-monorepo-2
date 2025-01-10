@@ -74,7 +74,7 @@ const SignIn = () => {
         <Input data-cy="signIn-password-input" placeholder="Tinder12345@" className="w-[350px] border-[#E4E4E7] border-2" id="password" type="password" {...register('password')} />
         {errors.password?.message && <p className='pt-2 text-sm text-red-600'>{errors.password.message}</p>}
         <Button className="w-[350px] h-9 bg-[#E11D48E5] rounded-full text-[#FAFAFA] text-sm font-medium mt-4"  type='submit' disabled={loading}>
-          Continue
+          {loading ? <Image src="/sw.svg" alt="loading" width={20} height={20} className="animate-spin" /> : 'Continue'}
         </Button>
         <div className="flex">
           <Separator className="my-8 w-[145px]" color="#E4E4E7" />
