@@ -67,7 +67,7 @@ const AdminInfo = () => {
   }, [user, form]);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='xl:w-[841px] md:w-[400px] sm:w-[200px] m-auto flex flex-col mt-10 py-5 bg-[#fff] rounded-md'
+      <form onSubmit={form.handleSubmit(onSubmit)} className='xl:w-[841px] md:w-[400px]  sm:w-[200px] m-auto flex flex-col mt-10 py-5 bg-[#fff] rounded-md'
       data-cy="Admin-Info-Title">
         <h1 className='font-semibold text-center'>Хэрэглэгчийн мэдээлэл</h1>
         {inputs.map((user)=>(
