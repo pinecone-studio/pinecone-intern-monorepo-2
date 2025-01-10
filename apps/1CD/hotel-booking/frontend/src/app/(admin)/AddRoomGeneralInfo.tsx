@@ -11,7 +11,7 @@ type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
 };
-type Option = {
+export type Option = {
   value: string;
   label: string;
 };
@@ -127,14 +127,14 @@ const AddRoomGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               <div className="flex flex-col gap-2 text-sm">
                 <div>Price per night</div>
                 <div>
-                  <Input data-cy="Price-Per-Night-Input" value={formik.values.pricePerNight === 0 ? '' : formik.values.pricePerNight} onChange={formik.handleChange} id="pricePerNight" />
+                  <Input data-cy="Room-Price-Input" value={formik.values.pricePerNight === 0 ? '' : formik.values.pricePerNight} onChange={formik.handleChange} id="pricePerNight" />
                   <PricePerNight />
                 </div>
               </div>
               <div className="flex flex-col gap-2 text-sm">
                 <div>Room information</div>
                 <div>
-                  <MultiSelect data-cy="Add-Room-General-Info-Multi-Select" options={options} value={formik.values.roomInformation} placeholder="Select options..." onValueChange={handleValue} />
+                  <MultiSelect data-cy="Update-Room-General-Info-Multi-Select" options={options} value={formik.values.roomInformation} placeholder="Select options..." onValueChange={handleValue} />
                 </div>
               </div>
             </div>
