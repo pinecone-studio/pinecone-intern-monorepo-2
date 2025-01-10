@@ -46,23 +46,23 @@ export const Header = () => {
                   <DropdownMenuContent className="text-white bg-gray-800 shadow-lg">
                     <DropdownMenuItem>
                       <Link href="/user/home/filter" className="hover:text-gray-300">
-                        <span data-testid="EventsCl" onClick={handleItemClick}>
+                        <button data-testid="EventsCl" onClick={handleItemClick}>
                           Эвентүүд
-                        </span>
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href="/user/sign-in" className="hover:text-gray-300">
-                        <span data-testid="SignInCl" onClick={handleItemClick}>
+                        <button data-testid="SignInCl" onClick={handleItemClick}>
                           Нэвтрэх
-                        </span>
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <Link href="/user/sign-up" className="hover:text-gray-300">
-                        <span data-testid="SignUpCl" onClick={handleItemClick}>
+                        <button data-testid="SignUpCl" onClick={handleItemClick}>
                           Бүртгүүлэх
-                        </span>
+                        </button>
                       </Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -77,7 +77,6 @@ export const Header = () => {
                   Бүртгүүлэх
                 </Button>
               </Link>
-
               <Link href="/user/sign-in">
                 <Button
                   data-cy="SignInBtn"
@@ -108,16 +107,16 @@ export const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <Link href="/user/home/user-profile" className="hover:text-gray-300">
-                      <span data-testid="UserCl" onClick={handleItemClick}>
+                      <button data-testid="user-close-button" onClick={handleItemClick}>
                         Хэрэглэгчийн мэдээлэл
-                      </span>
+                      </button>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Link href="/user/home/filter" className="hover:text-gray-300">
-                      <span data-testid="ClEvents" onClick={handleItemClick}>
+                      <button data-testid="ClEvents" onClick={handleItemClick}>
                         Эвентүүд
-                      </span>
+                      </button>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
