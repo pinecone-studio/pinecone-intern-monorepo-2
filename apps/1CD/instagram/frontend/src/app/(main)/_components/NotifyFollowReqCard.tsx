@@ -3,8 +3,8 @@ import { AccountVisibility } from '@/generated';
 import { formatDistanceToNowStrict } from 'date-fns';
 import Image from 'next/image';
 
-type FollowReqNotifyType = { accountVisible: AccountVisibility; profileImg: string; userName: string; createdDate: Date; isViewed: boolean; onClick: () => Promise<void> };
-const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick }: FollowReqNotifyType) => {
+type FollowReqNotifyType = { accountVisible: AccountVisibility; profileImg: string; userName: string; createdDate: Date; isViewed: boolean; onClick: () => Promise<void>; appReq: () => Promise<void> };
+const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, appReq }: FollowReqNotifyType) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
 
   return (
@@ -28,7 +28,7 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
             </div>
           </div>
           <div className="flex gap-2">
-            <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA]" data-cy="confirm-btn-followReq">
+            <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA]" data-cy="confirm-btn-followReq" onClick={appReq}>
               Confirm
             </Button>
             <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B]" data-cy="delete-btn-followReq">
