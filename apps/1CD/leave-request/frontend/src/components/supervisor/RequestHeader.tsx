@@ -16,7 +16,7 @@ export interface filterProps {
 // eslint-disable-next-line no-unused-vars
 const RequestHeader = ({ onChange, email }: {email: string, onChange: (arg0: filterProps) => void }) => {
   const [filter, setFilter] = useState<filterProps>({
-    endDate: new Date(),
+    endDate: addDays(new Date(), 365),
     startDate: addDays(new Date(), -30),
     search: undefined,
     status: []

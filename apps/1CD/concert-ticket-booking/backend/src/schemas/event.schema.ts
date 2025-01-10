@@ -74,11 +74,12 @@ export const typeDefs = gql`
   input EventPriorityUpdateInput {
     priority: String!
   }
+
   input EventUpdateInput {
     name: String
     description: String
-    mainArtists: [String]
-    guestArtists: [String]
+    mainArtists: [ArtistInput]
+    guestArtists: [ArtistInput]
     products: [ProductInput]
     image: String
     discount: String

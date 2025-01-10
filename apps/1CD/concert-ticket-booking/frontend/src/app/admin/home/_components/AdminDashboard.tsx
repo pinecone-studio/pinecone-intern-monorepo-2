@@ -11,10 +11,11 @@ import Paper from '@mui/material/Paper';
 import { Event, TicketType, useDeleteEventMutation } from '@/generated';
 import dayjs from 'dayjs';
 import { headers } from './AdminDashboardType';
-import { Loader2, Star, Trash } from 'lucide-react';
+import { Star, Trash } from 'lucide-react';
 import { UpdateEventPriority } from './UpdateEventPriority';
 import { toast } from 'sonner';
 import { AdminPagination } from '@/app/admin/home/_components/AdminDashboardPagination';
+import EditingDialog from './EditingDialog';
 
 type AdminDashboardProps = {
   data: Event[];
@@ -22,7 +23,7 @@ type AdminDashboardProps = {
   totalPages: number;
 };
 export const AdminDashboard = ({ data, refetch, totalPages }: AdminDashboardProps) => {
-  const [deleteEvent, { loading: loadingDelete }] = useDeleteEventMutation({
+  const [deleteEvent] = useDeleteEventMutation({
     onCompleted: () => {
       toast.success('Тоглолтыг амжилттай архивлалаа.');
     },
@@ -134,14 +135,11 @@ export const AdminDashboard = ({ data, refetch, totalPages }: AdminDashboardProp
                     <TableCell>
                       <div className="flex items-center justify-center gap-2">
                         <UpdateEventPriority eventId={item!._id} index={index} />
-                        <p>edit</p>
-                        {loadingDelete ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-[#00B7F4]" />
-                        ) : (
-                          <p onClick={() => handleSubmit(item!._id)}>
-                            <Trash className="h-4 w-4" />
-                          </p>
-                        )}
+
+                        <EditingDialog event={item as Event} refetch={refetch} />
+                        <p onClick={() => handleSubmit(item!._id)}>
+                          <Trash className="h-5 w-5 bg-[#F4F4F5] rounded cursor-pointer p-[2px]" />
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
