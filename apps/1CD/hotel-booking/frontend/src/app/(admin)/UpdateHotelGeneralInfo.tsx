@@ -1,47 +1,30 @@
+/* eslint-disable */
+
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useAddHotelGeneralInfoMutation } from '@/generated';
+import { Hotel, useUpdateHotelGeneralInfoMutation } from '@/generated';
 import SelectHotelStars from '@/components/SelectHotelStars';
 import SelectHotelReviewRating from '@/components/ReviewRating';
 import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
-
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
+  hotelData: Hotel | undefined;
+  AllQueriesRefetch: () => void;
 };
-const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
-  const [AddHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+const UpdateHotelGeneralInfo = ({ open, setOpen, hotelData, AllQueriesRefetch }: AddHotelGeneralInfoType) => {
+  const [updateHotelGeneralInfo] = useUpdateHotelGeneralInfoMutation({
+    onCompleted: () => {
+      AllQueriesRefetch();
+    },
+  });
 
-  const PhoneNumberError = () => {
-    if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
-    return (
-      <p data-cy="Phonenumber-Error" className="text-red-500">
-        {formik.errors.phoneNumber}
-      </p>
-    );
-  };
-
-  const StarsRating = () => {
-    if (!formik.errors.starsRating || !formik.touched.starsRating) return <div></div>;
-    return (
-      <p data-cy="Hotel-Stars-Rating" className="text-red-500">
-        {formik.errors.starsRating}
-      </p>
-    );
-  };
-  const ReviewRating = () => {
-    if (!formik.errors.rating || !formik.touched.rating) return <div></div>;
-    return (
-      <p data-cy="Review-Rating" className="text-red-500">
-        {formik.errors.rating}
-      </p>
-    );
-  };
   const HotelName = () => {
     if (!formik.errors.hotelName || !formik.touched.hotelName) return <div></div>;
     return (
@@ -67,8 +50,9 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      await AddHotelGeneralInfo({
+      await updateHotelGeneralInfo({
         variables: {
+          id: String(hotelData?._id),
           input: {
             hotelName: values.hotelName,
             description: values.description,
@@ -88,12 +72,18 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     },
     validationSchema,
   });
-
+  useEffect(() => {
+    if (hotelData?.hotelName) formik.setFieldValue('hotelName', hotelData.hotelName);
+    if (hotelData?.description) formik.setFieldValue('description', hotelData.description);
+    if (hotelData?.starRating) formik.setFieldValue('starsRating', hotelData.starRating);
+    if (hotelData?.userRating) formik.setFieldValue('rating', hotelData.userRating);
+    if (hotelData?.phoneNumber) formik.setFieldValue('phoneNumber', hotelData.phoneNumber);
+  }, [hotelData]);
   return (
     <div>
       <Dialog open={open}>
         <DialogContent className="max-w-[626px] w-full">
-          <form data-cy="Hotel-General-Info-Page" onSubmit={formik.handleSubmit} className="text-[#09090B]">
+          <form data-cy="Update-Hotel-General-Info-Page" onSubmit={formik.handleSubmit} className="text-[#09090B]">
             <div className="pb-6 text-base">General Info</div>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-2 text-sm">
@@ -113,21 +103,18 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
                 <div>Stars Rating</div>
                 <div>
                   <SelectHotelStars value={formik.values.starsRating} setFieldValue={formik.setFieldValue} />
-                  <StarsRating />
                 </div>
               </div>
               <div className="flex flex-col gap-2 text-sm">
                 <div>Phone Number</div>
                 <div>
                   <Input data-cy="PhoneNumber-Input" value={formik.values.phoneNumber === 0 ? '' : formik.values.phoneNumber} onChange={formik.handleChange} id="phoneNumber" />
-                  <PhoneNumberError />
                 </div>
               </div>
               <div className="flex flex-col gap-2 text-sm">
                 <div>Rating</div>
                 <div>
                   <SelectHotelReviewRating value={formik.values.rating} setFieldValue={formik.setFieldValue} />
-                  <ReviewRating />
                 </div>
               </div>
             </div>
@@ -149,4 +136,4 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
     </div>
   );
 };
-export default AddHotelGeneralInfo;
+export default UpdateHotelGeneralInfo;
