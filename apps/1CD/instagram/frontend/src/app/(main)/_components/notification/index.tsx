@@ -1,5 +1,6 @@
 /* eslint-disable complexity */
 import React from 'react';
+import { toast } from '@/components/ui/use-toast';
 import NotifyFollowRequestCard from '@/app/(main)/_components/NotifyFollowReqCard';
 import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
 import NoNotification from '../NoNotification';
@@ -19,13 +20,21 @@ export type notification = {
 const Notification = () => {
   const { user } = useAuth();
   const accountVis = user?.accountVisibility;
-  const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
+  const { data: notifyData, loading, refetch } = useGetNotificationsByLoggedUserQuery();
   console.log('notify datag harah', notifyData);
   console.log('current useriig harah', notifyData?.getNotificationsByLoggedUser[0].currentUserId);
   console.log('nevtersen useriin id iig harah', user?._id);
   console.log('notify datagiin otheruseriig harah', notifyData?.getNotificationsByLoggedUser[0].otherUserId._id);
   const [viewNotify] = useViewNotifyMutation();
-  const [confirmFollowReq] = useConfirmFollowReqMutation();
+  const [confirmFollowReq] = useConfirmFollowReqMutation({
+    onCompleted: () => {
+      toast({ variant: 'default', title: 'Success', description: 'Follow request approved' });
+      refetch();
+    },
+    onError: (error) => {
+      toast({ variant: 'destructive', title: `${error.message}`, description: 'Follow request approve failed' });
+    },
+  });
   if (!notifyData || !accountVis) return;
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
   const notificationView = async (id: string) => {
@@ -72,6 +81,7 @@ const Notification = () => {
       }
     });
   };
+
   return (
     <div className="px-4 py-8 border w-[470px] h-full" data-testid="notification-component">
       <h3 className="text-[#262626] text-2xl font-[550] leading-8 tracking-wide mb-5">Notifications</h3>
