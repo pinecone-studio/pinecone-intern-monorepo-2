@@ -128,8 +128,8 @@ mutation Login($input: LoginInput!) {
   }
 }
 
-mutation ConfirmFollowReq($id: ID!) {
-  confirmFollowReq(_id: $id) {
+mutation ConfirmFollowReq($followerId: ID!) {
+  confirmFollowReq(followerId: $followerId) {
     _id
     createdAt
     followerId
@@ -178,6 +178,7 @@ query GetNotificationsByLoggedUser {
     otherUserId {
       userName
       profileImg
+      _id
     }
   }
 }
