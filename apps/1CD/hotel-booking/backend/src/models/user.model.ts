@@ -36,6 +36,12 @@ const userSchema = new Schema<UserType>({
   emergencyContact: {
     type: String,
   },
+
+  emergencyStatus: {
+    type: String,
+    enum: ['spouse', 'parents', 'sibling', 'friend', 'partner', 'child', 'neighbor', 'roommate'],
+  },
+
   dateOfBirth: {
     type: Date,
   },

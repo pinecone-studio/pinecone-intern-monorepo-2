@@ -25,6 +25,7 @@ export const typeDefs = gql`
     dateOfBirth: Date
     phoneNumber: String
     emergencyContact: String
+    emergencyStatus: emergencyStatusEnum
     createdAt: Date!
   }
 
