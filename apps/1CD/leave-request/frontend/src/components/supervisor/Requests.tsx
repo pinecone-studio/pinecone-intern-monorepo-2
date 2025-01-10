@@ -18,7 +18,7 @@ interface filterProps {
 }
 
 const Requests = ({ email }: { email: string }) => {
-  const [filter, setFilter] = useState<filterProps>({ endDate: new Date(), startDate: addDays(new Date(), -30) });
+  const [filter, setFilter] = useState<filterProps>({ endDate: addDays(new Date(), 365), startDate: addDays(new Date(), -30) });
 
   return (
     <div className="flex flex-col bg-[#f4f4f5] mt-11">

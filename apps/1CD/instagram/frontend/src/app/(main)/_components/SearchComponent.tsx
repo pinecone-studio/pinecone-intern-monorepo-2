@@ -1,13 +1,49 @@
-import React from 'react';
+/* eslint-disable complexity */
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiSearch } from 'react-icons/ci';
 import { useUser } from '@/components/providers/UserProvider';
 import { Dot } from 'lucide-react';
 
-const SearchFromAllUsers = () => {
-  const { searchTerm, searchHandleChange, data, loading } = useUser();
+// Define User type
+type User = {
+  _id: string;
+  userName: string;
+  fullName: string;
+  profileImg?: string | null;
+};
+
+const SearchFromAllUsers = ({ setShowSearchComponent }: { setShowSearchComponent: (_value: boolean) => void }) => {
+  const { searchTerm, setSearchTerm, searchHandleChange, data, loading } = useUser();
+  const [recentSearches, setRecentSearches] = useState<User[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const savedSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    setRecentSearches(savedSearches);
+  }, []);
+
+  const saveUserToRecentSearches = (user: User) => {
+    const savedSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    if (savedSearches.find((savedUser: User) => savedUser._id === user._id)) return;
+
+    const updatedSearches = [user, ...savedSearches].slice(0, 5);
+    localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+  };
+
+  const clearSearchItems = () => {
+    setRecentSearches([]);
+    localStorage.removeItem('recentSearches');
+  };
+
+  const handleProfileClick = (user: User) => {
+    saveUserToRecentSearches(user);
+    setShowSearchComponent(false);
+    setSearchTerm('');
+    router.push(`/home/viewprofile/${user._id}`);
+  };
 
   return (
     <div className="px-4 py-8 border-y border-r w-[350px] h-screen" data-testid="search-users-component">
@@ -23,26 +59,60 @@ const SearchFromAllUsers = () => {
         />
       </div>
 
+      {!searchTerm && recentSearches.length > 0 && (
+        <div className="my-4">
+          <div className="flex justify-between">
+            <h2 className="text-base font-semibold text-gray-600">Recent</h2>
+            <button className="text-sm font-medium text-[#2563EB] pr-1" onClick={clearSearchItems}>
+              Clear all
+            </button>
+          </div>
+          <ul className="mt-2">
+            {recentSearches.map((user) => (
+              <li key={user._id} className="py-1 text-sm text-blue-600 cursor-pointer">
+                <div onClick={() => handleProfileClick(user)} className="flex items-center gap-3">
+                  <div className="relative flex rounded-full w-[44px] h-[44px]">
+                    <Image fill={true} src={user.profileImg || '/images/img.avif'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
+                  </div>
+                  <div className="flex flex-col text-[#09090B]">
+                    <span className="text-sm font-[550]">{user.userName}</span>
+                    <div className="flex items-center text-xs">
+                      <span className="mr-1">{user.fullName}</span>
+                      <Dot className="w-3" />
+                      <span className="text-[#71717A]">Follower</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {loading ? <div>Loading...</div> : null}
 
-      {data?.searchUsers.map((user) => (
-        <Link href={`/home/viewprofile/${user._id}`} key={user._id} className="flex flex-col justify-center gap-4 px-3 py-2">
-          <div className="flex items-center gap-3">
-            <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src="/images/img.avif" alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
-            </div>
-            <div className="flex flex-col text-[#09090B]">
-              <span className="text-sm font-[550]">{user.userName}</span>
-              <div className="flex items-center text-xs">
-                <span className="mr-1">{user.fullName}</span>
-                <Dot className="w-3" />
-
-                <span className="text-[#71717A]">Follower</span>
+      {searchTerm && data?.searchUsers && data.searchUsers.length > 0 && (
+        <div className="my-4">
+          <h2 className="text-base font-semibold text-gray-600">Search Results</h2>
+          {data?.searchUsers.map((user: User) => (
+            <div key={user._id} className="flex flex-col justify-center gap-4 py-2 cursor-pointer">
+              <div onClick={() => handleProfileClick(user)} className="flex items-center gap-3">
+                <div className="relative flex rounded-full w-[44px] h-[44px]">
+                  <Image fill={true} src={user.profileImg || '/images/img.avif'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
+                </div>
+                <div className="flex flex-col text-[#09090B]">
+                  <span className="text-sm font-[550]">{user.userName}</span>
+                  <div className="flex items-center text-xs">
+                    <span className="mr-1">{user.fullName}</span>
+                    <Dot className="w-3" />
+                    <span className="text-[#71717A]">Follower</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          ))}
+        </div>
+      )}
     </div>
   );
 };

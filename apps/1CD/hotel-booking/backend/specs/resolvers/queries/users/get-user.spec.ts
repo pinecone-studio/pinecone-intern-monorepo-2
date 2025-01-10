@@ -1,27 +1,26 @@
-import { getUser } from 'src/resolvers/queries';
+import { GraphQLResolveInfo } from 'graphql';
+import { getUser } from '../../../../src/resolvers/queries/users/get-user';
 
-jest.mock('src/models', () => ({
+jest.mock('../../../../src/models', () => ({
   userModel: {
-    findOne: jest
-      .fn()
-      .mockResolvedValueOnce({
-        _id: '1',
-        email: 'test',
-      })
-      .mockResolvedValueOnce(null),
+    findById: jest.fn().mockResolvedValue({ _id: '1' }),
   },
 }));
 
-describe("get user query's test", () => {
-  it('found user by email', async () => {
-    const result = await getUser({}, { email: 'test' });
-    expect(result).toEqual({ _id: '1', email: 'test' });
-  });
-  it('not found entered email', async () => {
+describe('get logged user', () => {
+  it('should throw authorization error', async () => {
     try {
-      await getUser({}, { email: 'test' });
-    } catch (err) {
-      expect((err as Error).message).toEqual('email is not found');
+      await getUser!({}, {}, { userId: null }, {} as GraphQLResolveInfo);
+    } catch (error) {
+      expect(error).toEqual(new Error('email is not found'));
     }
+  });
+
+  it('should get user', async () => {
+    const response = await getUser!({}, {}, { userId: '1' }, {} as GraphQLResolveInfo);
+
+    expect(response).toEqual({
+      _id: '1',
+    });
   });
 });

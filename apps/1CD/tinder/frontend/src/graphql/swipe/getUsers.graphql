@@ -18,7 +18,6 @@ query getUsers {
   }
 }
 
-
 mutation swipeUser($input: SwipeInput!) {
   swipeUser(input: $input) {
     swiped

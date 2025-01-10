@@ -1,5 +1,4 @@
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Image from 'next/image';
 import { MdOutlineDateRange } from 'react-icons/md';
 import { GoTag } from 'react-icons/go';
 import { GoDotFill } from 'react-icons/go';
@@ -94,7 +93,7 @@ const SingleItem = ({ item, refetch }: { item: dataProps; refetch: () => void })
       }}
     >
       <div className="flex items-center">
-        <Image className="rounded-full" src={item.email.profile} width={48} height={48} alt="Avatar" />
+        <img className="rounded-full" src={item.email.profile} width={48} height={48} alt="Avatar"/>
         <div className="text-xs text-[#09090B] ml-3">
           <div className="flex items-center gap-[6px]">
             <p className="text-sm text-[#09090B]">{item.email.userName}</p>
