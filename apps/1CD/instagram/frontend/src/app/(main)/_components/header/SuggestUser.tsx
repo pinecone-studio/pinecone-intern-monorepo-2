@@ -1,8 +1,8 @@
 'use client';
+import { useAuth } from '@/components/providers';
 import { useGetFollowingsQuery, useGetSuggestUserQuery } from '@/generated';
 import Image from 'next/image';
 import React from 'react';
-import { useAuth } from '../../../components/providers';
 
 export const SuggestUser = () => {
   const { user } = useAuth();

@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { SuggestUser } from '../SuggestUser';
+
 import { useAuth } from '../../../../components/providers';
 import Link from 'next/link';
+import { SuggestUser } from './SuggestUser';
 
 export const UserBar = () => {
   const { signout, user } = useAuth();
