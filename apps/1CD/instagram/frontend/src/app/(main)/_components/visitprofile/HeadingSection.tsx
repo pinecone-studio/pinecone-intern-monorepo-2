@@ -5,8 +5,8 @@ import { Ellipsis } from 'lucide-react';
 import { OtherUser } from '@/generated';
 import SeeFollowersDialog from './SeeFollowers';
 import SeeFollowingsDialog from './SeeFollowings';
-import { Follower } from '../../app/(main)/_components/follow/FollowerDialog';
-import { Following } from '../../app/(main)/_components/follow/FollowingDialog';
+import { Follower } from '../follow/FollowerDialog';
+import { Following } from '../follow/FollowingDialog';
 import Image from 'next/image';
 
 const HeadingSection = ({

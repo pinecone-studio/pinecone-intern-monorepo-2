@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../../../components/providers';
 import { Button } from '@/components/ui/button';
-import { useGetFollowingsQuery, useGetFollowStatusQuery, useUnfollowMutation } from '@/generated';
+import { useGetFollowersQuery, useGetFollowingsQuery, useGetFollowStatusQuery, useUnfollowMutation } from '@/generated';
 import { useUser } from '@/components/providers/UserProvider';
 
 export const FollowBtn = ({ userId }: { userId: string }) => {
   const { user } = useAuth();
   const [buttonState, setButtonState] = useState<'Follow'>('Follow');
   const { refetch: FollowingRefetch } = useGetFollowingsQuery({ variables: { followerId: user?._id as string } });
+  const { refetch: followerRefetch } = useGetFollowersQuery({ variables: { followingId: user?._id as string } });
   const { data: followData } = useGetFollowStatusQuery({
     variables: {
       followerId: user?._id as string,
@@ -34,7 +35,8 @@ export const FollowBtn = ({ userId }: { userId: string }) => {
         followerId: user?._id as string,
       },
     });
-    FollowingRefetch();
+    await FollowingRefetch();
+    await followerRefetch();
   };
 
   const handleFollowClick = async () => {
@@ -45,6 +47,8 @@ export const FollowBtn = ({ userId }: { userId: string }) => {
           followingId: userId as string,
         },
       });
+      await FollowingRefetch();
+      await followerRefetch();
       if (data?.sendFollowReq.status === undefined) {
         setButtonState('Follow');
       }
