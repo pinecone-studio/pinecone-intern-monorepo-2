@@ -5,7 +5,7 @@ describe('check whether otp is expired or not', () => {
   it('should return user when otp is valid', () => {
     const currentTime = new Date();
     const user = {
-      createdAt: new Date(currentTime.getTime() - 3 * 60 * 1000),
+      otpCreatedAt: new Date(currentTime.getTime() - 3 * 60 * 1000),
       email:"cypress@gmail.com"
     };
     const res = checkOtpDate(user);
@@ -14,7 +14,7 @@ describe('check whether otp is expired or not', () => {
   it('should return error when otp is invalid', async () => {
     const currentTime = new Date();
     const user = {
-      createdAt: new Date(currentTime.getTime() - 6 * 60 * 1000),
+      otpCreatedAt: new Date(currentTime.getTime() - 6 * 60 * 1000),
       email:"test@gmail.com"
     };
     expect(() => checkOtpDate(user)).toThrow(GraphQLError);

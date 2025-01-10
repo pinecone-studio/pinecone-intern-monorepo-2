@@ -66,10 +66,10 @@ export const typeDefs = gql`
   }
   input UpdateRoomInfoInput {
     _id: ID!
-    hotelId: ID!
-    roomType: String
-    price: Int
-    roomInformation: [String]
+    roomName: String!
+    roomType: String!
+    price: Int!
+    roomInformation: [String]!
   }
 
   type Query {

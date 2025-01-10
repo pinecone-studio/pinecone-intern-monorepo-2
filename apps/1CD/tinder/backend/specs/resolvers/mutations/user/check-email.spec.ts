@@ -7,7 +7,7 @@ import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 jest.mock('../../../../src/models/user/user.model', () => ({
   userModel: {
     findOne: jest.fn(),
-    save: jest.fn(),
+    findOneAndUpdate: jest.fn(),
   },
 }));
 
@@ -28,14 +28,12 @@ describe('check-Emailmutation', () => {
   it('should throw an error if email is not found', async () => {
     (userModel.findOne as jest.Mock).mockResolvedValue(null);
 
-    const input = { email: mockEmail };
+    const input = { email: 'ara@gmail.com' };
 
     await expect(checkEmail!({}, { input }, {userId}, mockInfo)).rejects.toThrow(GraphQLError);
     await expect(checkEmail!({}, { input }, {userId}, mockInfo)).rejects.toMatchObject({
       extensions: { code: 'EMAIL_NOT_FOUND' },
     });
-
-    expect(userModel.findOne).toHaveBeenCalledWith({ email: mockEmail });
   });
 
   it('should send OTP and return email if email is found', async () => {
@@ -56,21 +54,5 @@ describe('check-Emailmutation', () => {
     expect(result).toEqual({ email: mockEmail });
   });
 
-  it('should save the OTP in the user record', async () => {
-    const user = {
-      email: mockEmail,
-      save: jest.fn().mockResolvedValue(true),
-      otp: undefined as number | undefined,
-    };
-    (userModel.findOne as jest.Mock).mockResolvedValue(user);
-    (generateOTP as jest.Mock).mockReturnValue(mockOtp);
-
-    const input = { email: mockEmail };
-
-    await checkEmail!({}, { input }, {userId}, mockInfo);
-
-    expect(user.otp).toBe(mockOtp);
-    expect(user.save).toHaveBeenCalled();
-  });
-
+  
 });

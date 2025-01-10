@@ -14,10 +14,8 @@ export const checkEmail: MutationResolvers['checkEmail'] = async (_, { input }) 
   }
 
   const otp = generateOTP(email);
-  user.otp = otp;
-  await user.save();
-
   await sendOtpMail(email, otp);
-
+  await userModel
+    .findOneAndUpdate({ email }, { otp, otpCreatedAt: new Date()}); 
   return { email };
 };

@@ -37,6 +37,10 @@ export const typeDefs = gql`
     password: String!
     resetToken: String!
   }
+  input UpdateUserRole {
+    email:String!
+    role:String!
+  }
   type Query {
     getMe: User!
   }
@@ -51,5 +55,6 @@ export const typeDefs = gql`
     changePassword(input: ChangePasswordInput!): Response!
     verifyOtp(input: VerifyOtpInput!): Response!
     recoverPassword(input: RecoverPasswordInput!): Response!
+    updateUserRole(input: UpdateUserRole!): User!
   }
 `;

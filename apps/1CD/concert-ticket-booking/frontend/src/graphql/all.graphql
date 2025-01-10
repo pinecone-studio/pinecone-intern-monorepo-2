@@ -88,6 +88,13 @@ mutation ChangePassword($input: ChangePasswordInput!) {
   }
 }
 
+mutation UpdateUserRole($input: UpdateUserRole!){
+  updateUserRole(input: $input){
+    email
+    role
+  }
+}
+
 query GetRelatedEvents($eventId: String!) {
   getRelatedEvents(eventId: $eventId) {
     eventDetail {
