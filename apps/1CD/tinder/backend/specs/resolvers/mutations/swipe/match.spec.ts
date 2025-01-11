@@ -1,7 +1,6 @@
 import { getMatchedUser } from "../../../../src/resolvers/queries";
 import {  Matchmodel, userModel } from "../../../../src/models";
-import { GraphQLError, GraphQLResolveInfo } from "graphql";
-
+import { GraphQLResolveInfo } from "graphql";
 
 jest.mock('../../../../src/models/user/user.model',()=>({
     userModel:{
@@ -51,11 +50,14 @@ describe('should test matched user query',()=>{
 
     });
     
-    it('should throw new error',async()=>{
-        (userModel.findById as jest.Mock).mockResolvedValueOnce(null);
+    it('should successfully return data',async()=>{
         (Matchmodel.find as jest.Mock).mockResolvedValueOnce(null);
-        expect( getMatchedUser!({}, { matchedUser:mockUser1.id }, {userId:mockUser2.id}, mockInfo)).rejects.toThrow(GraphQLError);
-        expect( getMatchedUser!({}, { matchedUser:mockUser1.id }, {userId:mockUser2.id}, mockInfo)).rejects.toThrow('no matched user found');
-        
-    })
+        const result = await getMatchedUser!({}, { matchedUser:mockUser1.id }, {userId:mockUser2.id}, mockInfo);
+        expect(result).toEqual({
+            swipedUserImg:null,
+            userImg:null,
+            swipedName:null
+        })
+
+    });
 })

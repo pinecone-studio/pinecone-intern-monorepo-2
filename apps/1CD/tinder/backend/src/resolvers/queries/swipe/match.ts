@@ -1,4 +1,4 @@
-import { GraphQLError } from "graphql";
+
 import { QueryResolvers } from "../../../generated";
 import { Matchmodel, userModel } from "../../../models";
 import { Context } from "../../../types";
@@ -10,5 +10,5 @@ export const getMatchedUser:QueryResolvers['getMatchedUser']=async(_,{matchedUse
             const swipingOne=await userModel.findById(userId);
             return {swipedUserImg:swipedOne.photos[0], userImg:swipingOne.photos[0],swipedName:swipedOne.name}
         }
-        throw new GraphQLError('no matched user found')
+        return {swipedUserImg:null, userImg:null,swipedName:null}
 }
