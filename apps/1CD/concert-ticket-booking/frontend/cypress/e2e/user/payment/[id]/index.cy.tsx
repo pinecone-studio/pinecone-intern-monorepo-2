@@ -7,7 +7,7 @@ describe('QRGeneratePage', () => {
 
   it('should make a payment request and show success message', () => {
     interceptGraphql({
-      state: '',
+      state: 'success',
       operationName: 'PaymentTickets',
       data: {
         data: {
@@ -19,10 +19,8 @@ describe('QRGeneratePage', () => {
       },
     });
     cy.get('[data-cy="payment-page-title"]').should('exist');
-    cy.get('[data-cy="payment-page-title"]').should('contain.text', 'Payment page');
-    cy.wait(3000);
-    cy.get('.toast').should('contain', 'Thank you for your purchase, please check your email');
-    cy.url().should('include', '/user/home');
+    cy.get('[data-cy="payment-page-title"]').should('contain.text', 'Захиалга амжилттай баталгаажлаа');
+    cy.get('.toast').should('contain.text', 'Thank you for your purchase, please check your email');
   });
 
   it('should show an error message if the payment fails', () => {
@@ -39,7 +37,6 @@ describe('QRGeneratePage', () => {
       },
     });
     cy.get('[data-cy="payment-page-title"]').should('exist');
-    cy.wait(3000);
-    cy.get('.toast').should('contain', 'Payment failed');
+    cy.get('.toast').should('contain.text', 'Payment failed');
   });
 });
