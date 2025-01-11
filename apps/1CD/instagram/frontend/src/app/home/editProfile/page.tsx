@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/components/providers';
-export default function editProfile() {
+const EditProfile = () => {
   const { user } = useAuth();
+
   const [info, setInfo] = useState({
     fullName: user?.fullName || '',
     userName: user?.userName || '',
@@ -80,4 +81,6 @@ export default function editProfile() {
       </div>
     </div>
   );
-}
+};
+
+export default EditProfile;
