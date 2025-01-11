@@ -4,14 +4,15 @@ import { RatingStars } from './StarsStaticJson';
 
 type SelectHotelStarsType = {
   setFieldValue: (_name: string, _value: number) => void;
+  value: number;
 };
-const SelectHotelStars = ({ setFieldValue }: SelectHotelStarsType) => {
+const SelectHotelStars = ({ setFieldValue, value }: SelectHotelStarsType) => {
   const handleValueChange = (value: string) => {
     setFieldValue('starsRating', Number(value));
   };
 
   return (
-    <Select onValueChange={(e) => handleValueChange(e)}>
+    <Select defaultValue={String(value)} onValueChange={(e) => handleValueChange(e)}>
       <SelectTrigger data-testid="Stars-Rating-Select-Trigger" className="w-full" data-cy="Stars-Rating-Select-Value1">
         <SelectValue data-cy="Stars-Rating-Select-Value" id="starsRating" placeholder="Select" />
       </SelectTrigger>

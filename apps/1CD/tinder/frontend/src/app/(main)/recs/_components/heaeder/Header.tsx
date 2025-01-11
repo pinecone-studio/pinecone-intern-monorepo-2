@@ -18,11 +18,14 @@ const Header = () => {
     await fetch('/deleteToken');
     window.location.href = "/signIn";
   };
+  const handleReload = () => {
+    window.location.reload(); 
+  };
 
   return (
     <div className="border-b-[1px] border-[#E4E4E7]" data-cy="header">
       <div className="flex justify-between items-center mx-[10%] py-1 relative max-w-[1280px]">
-        <div data-cy="register-email-header" className="flex items-center">
+        <div data-cy="register-email-header" className="flex items-center" onClick={handleReload}>
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
           <div className="text-[#ff5864] font-bold text-2xl">Tinder</div>
         </div>

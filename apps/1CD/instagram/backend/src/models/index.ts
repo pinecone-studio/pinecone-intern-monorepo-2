@@ -7,3 +7,4 @@ export * from './story.model';
 export * from './post-like.model';
 export * from './notifications.model';
 export * from './story-view.model';
+export * from './comment-like.model';

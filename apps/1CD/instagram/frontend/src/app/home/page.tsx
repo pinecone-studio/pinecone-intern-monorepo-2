@@ -1,5 +1,5 @@
 'use client';
-import { UserBar } from '@/components/header/UserBar';
+import { UserBar } from '@/app/(main)/_components/header/UserBar';
 import { PostCard } from '../(main)/_components/post/PostCard';
 import { useGetAllUsersWithLatestStoriesQuery } from '@/generated';
 import MainPageStory from '../(main)/_components/story/MainPageStory';

@@ -1,6 +1,6 @@
 import RightSide from '@/components/admin-hotel-detail/RightSide';
 import { Hotel } from '@/generated';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 describe('admin hotel detail right side test', () => {
   const hotel: Hotel = {
@@ -9,9 +9,11 @@ describe('admin hotel detail right side test', () => {
     images: ['/'],
   };
   it('1. it should render ', () => {
-    render(<RightSide hotel={hotel} />);
+    const { getByTestId } = render(<RightSide setIsOpenLocationDialog={jest.fn()} setIsOpenImageDialog={jest.fn()} hotel={hotel} />);
+    fireEvent.click(getByTestId('Location-Dialog-Open-Button'));
+    fireEvent.click(getByTestId('Location-Dialog-Close-Button'));
   });
   it('2. it should render with image is empty', () => {
-    render(<RightSide hotel={{ images: [''] }} />);
+    render(<RightSide setIsOpenLocationDialog={jest.fn()} setIsOpenImageDialog={jest.fn()} hotel={{ images: [''] }} />);
   });
 });

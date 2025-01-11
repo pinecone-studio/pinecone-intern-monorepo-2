@@ -1,0 +1,13 @@
+mutation editProfile($input: EditProfileInput!) {
+  editProfile(input: $input) {
+    name
+    email
+    bio
+    age
+    interests
+    photos
+    profession
+    schoolWork
+    attraction
+  }
+}

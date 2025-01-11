@@ -8,12 +8,13 @@ import { Star } from 'lucide-react';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+
 import { useEffect, useState } from 'react';
 import StatusLocation from './_components/SelectLocation';
 import SelectRooms from './_components/SelectRooms';
 import SelectStarRating from './_components/SelectStarRating';
 import SelectUserRating from './_components/SelectUserRating';
+import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
 
 const Page = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -54,7 +55,7 @@ const Page = () => {
 
   return (
     <div className="w-full">
-      <div className="bg-slate-100 flex">
+      <div className="flex bg-slate-100">
         <div className="bg-[#F4F4F5] h-full">
           <div className="flex items-center gap-2 px-4 py-5">
             <SidebarTrigger />
@@ -103,7 +104,7 @@ const Page = () => {
                       <TableCell className="border-2 w-[892px]">
                         <Link data-cy="hotel-info" className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
                           <div className="w-12 h-12">
-                            <Image className="w-full h-full object-cover" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
+                            <Image className="object-cover w-full h-full" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
                           </div>
                           {hotel.hotelName}
                         </Link>

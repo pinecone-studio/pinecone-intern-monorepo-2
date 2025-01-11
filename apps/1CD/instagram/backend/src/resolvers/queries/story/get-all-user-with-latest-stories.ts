@@ -8,7 +8,7 @@ export const getAllUsersWithLatestStories: QueryResolvers['getAllUsersWithLatest
   const followings = await followModel.find({ followerId: userId });
   const approvedFollowings = followings.filter((following) => following.status === FollowStatus.Approved);
 
-  if (approvedFollowings.length === 0) return []; // Return early if no approved followings
+  if (approvedFollowings.length === 0) return [];
 
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -17,8 +17,8 @@ export const getAllUsersWithLatestStories: QueryResolvers['getAllUsersWithLatest
       {
         user: { $in: approvedFollowings.map((item) => item.followingId) },
         'stories.createdAt': { $gte: twentyFourHoursAgo },
-      },
-      { stories: { $slice: -1 } }
+      }
+      // { stories: { $slice: -1 } }
     )
     .populate({
       path: 'user',
