@@ -50,7 +50,7 @@ const GeneralInfoCard: React.FC<GeneralInfoCardProps> = ({ openGen, setOpenGen, 
               <li className="font-light text-gray-500">Type</li>
               <li>{roomData?.roomType || 'N/A'}</li>
             </ul>
-            <div className="flex flex-col max-h-[110px] gap-2 mt-14">
+            <div className="flex flex-col max-h-[110px] gap-2 mt-14" data-cy="Room-Information-Map">
               {roomData?.roomInformation?.slice(3, 5).map((info, index) => (
                 <div className="flex items-center gap-2" key={index}>
                   <Zap size={16} />

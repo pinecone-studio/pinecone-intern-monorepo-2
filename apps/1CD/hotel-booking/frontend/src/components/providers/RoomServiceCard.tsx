@@ -8,12 +8,10 @@ import { Room } from '@/generated';
 type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
-};
-export type CardType = DialogType & {
   room: Room | undefined;
 };
 
-const RoomServiceCard: React.FC<CardType> = ({ open, setOpen, room }) => {
+const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, room }) => {
   return (
     <Card className="w-[780px] h-[500px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">

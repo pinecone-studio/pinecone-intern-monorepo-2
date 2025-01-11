@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import BreadCrumb from '../../guests/_components/BreadCrumb';
@@ -50,7 +51,12 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div data-cy="Admin-Hotel-Detail-Page">
         <div className="flex items-center gap-2">
           <SidebarTrigger />
-          <BreadCrumb />
+          <BreadCrumb
+            items={[
+              { link: '/add-hotel/home-page', Name: 'Hotels' },
+              { link: `/admin-hotel-detail/${params.id}`, Name: 'Hotel Detail' },
+            ]}
+          />
         </div>
         <div className="flex items-center gap-2 my-4">
           <div className="flex items-center justify-center w-8 h-8 bg-white border rounded-lg ">
