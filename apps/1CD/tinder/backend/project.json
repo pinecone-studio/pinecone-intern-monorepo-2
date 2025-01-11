@@ -39,12 +39,7 @@
           "buildTarget": "tinder-backend:build:production",
           "dev": false
         }
-      },
-      "dependsOn": [
-        {
-          "target": "get-secrets:dev"
-        }
-      ]
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

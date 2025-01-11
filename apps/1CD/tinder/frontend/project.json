@@ -45,10 +45,6 @@
         {
           "target": "codegen:dev",
           "params": "forward"
-        },
-        {
-          "target": "export-env",
-          "params": "forward"
         }
       ]
     },

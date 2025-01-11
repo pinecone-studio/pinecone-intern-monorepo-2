@@ -40,7 +40,9 @@ const VerifyOtp = () => {
 
     onCompleted: async(data) => {
       const token=data.verifyOtp.token
-      fetch(`/token?token=${token}`);
+      console.log(data.verifyOtp.token,'data in front1')
+      console.log(token,'token in fornt')
+      await fetch(`/token?token=${token}`, { cache: 'no-store' });
       router.push('/register/password');
     },
 
