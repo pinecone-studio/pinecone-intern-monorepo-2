@@ -62,4 +62,7 @@ export const typeDefs = gql`
   type Query {
     suggestUser: [SuggestUserInfo]!
   }
+  type Query {
+    getFollowStatusByFollowingId(followingId: ID!, followerId: ID!): FollowInfo
+  }
 `;
