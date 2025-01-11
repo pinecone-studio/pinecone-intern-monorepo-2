@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { CreatePost } from './CreatePost';
+import { CreatePost } from '../../app/(main)/_components/post/CreatePost';
 import { ArrowLeft, Loader } from 'lucide-react';
 
 export const UpdateImagesStep2 = ({

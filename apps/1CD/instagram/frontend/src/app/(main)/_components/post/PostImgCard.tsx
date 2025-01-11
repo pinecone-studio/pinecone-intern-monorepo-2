@@ -18,11 +18,12 @@ import { PostLikes } from '@/app/(main)/_components/like/PostLikes';
 import { CommentCard } from '../comment/CommentCard';
 import { PostImg } from '@/components/visit-profile/PostImgCarousel';
 import { useAuth } from '@/components/providers';
-import { DeleteModal } from '@/components/post/DeleteModal';
+import { DeleteModal } from '@/app/(main)/_components/post/DeleteModal';
 export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
   const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [close, setClose] = useState<boolean>(false);
+
   const { data: PostData } = useGetPostByPostIdQuery({
     variables: {
       postId: id,
@@ -55,7 +56,7 @@ export const PostImgCard = ({ id, image }: { id: string; image: string }) => {
                     <div className="relative flex w-8 h-8 rounded-full">
                       <Image sizes="h-auto w-auto" fill={true} src={PostData?.getPostByPostId?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" />
                     </div>
-                    <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user?.userName}</h1>
+                    <h1 className="text-sm font-bold ">{PostData?.getPostByPostId?.user?.userName}pp</h1>
                   </Link>
                   <div className="" data-testid="postSection1">
                     <DropMenu setClose={setClose} isUser={isUser} setOpenUpdateModal={setOpenUpdateModal} setOpenDeleteModal={setOpenDeleteModal} />

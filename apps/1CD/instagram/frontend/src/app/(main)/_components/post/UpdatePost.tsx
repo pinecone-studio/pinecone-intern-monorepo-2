@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useGetPostByPostIdQuery, useUpdatePostMutation } from '@/generated';
+import { useGetMyPostsQuery, useGetPostByPostIdQuery, useUpdatePostMutation } from '@/generated';
 import { SmileIcon } from 'lucide-react';
 
 export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: string; setOpenUpdateModal: Dispatch<SetStateAction<boolean>>; openUpdateModal: boolean }) => {
@@ -15,7 +15,7 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
     },
   });
   const [handleDesc, setHandleDesc] = useState(PostData?.getPostByPostId?.description);
-
+  const { refetch } = useGetMyPostsQuery();
   const handleEditPost = async () => {
     await updatePost({
       variables: {
@@ -25,6 +25,7 @@ export const UpdatePost = ({ id, setOpenUpdateModal, openUpdateModal }: { id: st
         },
       },
     });
+    await refetch();
     setOpenUpdateModal(false);
   };
 

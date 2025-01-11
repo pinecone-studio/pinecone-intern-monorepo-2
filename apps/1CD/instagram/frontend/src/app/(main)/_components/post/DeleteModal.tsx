@@ -1,18 +1,19 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useDeletePostMutation } from '@/generated';
+import { useDeletePostMutation, useGetMyPostsQuery } from '@/generated';
 import { Dispatch, SetStateAction } from 'react';
 
 export const DeleteModal = ({ setOpenDeleteModal, openDeleteModal, id }: { setOpenDeleteModal: Dispatch<SetStateAction<boolean>>; openDeleteModal: boolean; id: string }) => {
   const [deletePost, { loading }] = useDeletePostMutation();
-
+  const { refetch } = useGetMyPostsQuery();
   const handleDalete = async () => {
     await deletePost({
       variables: {
         _id: id,
       },
     });
+    await refetch();
     setOpenDeleteModal(false);
   };
 
