@@ -9,3 +9,4 @@ export * from './update-attraction';
 export * from './sign-in';
 export * from './image';
 export * from './profile-edit';
+export * from './update-gender';

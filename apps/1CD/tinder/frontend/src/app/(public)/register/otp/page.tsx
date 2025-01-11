@@ -8,10 +8,10 @@ import { toast } from 'sonner';
 import { useResendOtpMutation, useVerifyOtpMutation } from '@/generated';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Loading } from '@/components/Loading';
 
 
-
-const COUNTDOWN_DURATION = 15; 
+const COUNTDOWN_DURATION = 15;
 
 const VerifyOtp = () => {
   const [countdown, setCountdown] = useState(0);
@@ -36,38 +36,45 @@ const VerifyOtp = () => {
     }
   }, [countdown]);
 
-  const [verifyOtp] = useVerifyOtpMutation({
-
-    onCompleted: async(data) => {
-      const token=data.verifyOtp.token
+  const [verifyOtp, { loading }] = useVerifyOtpMutation({
+    
+    onCompleted: async (data) => {
+      const token = data.verifyOtp.token;
       await fetch(`/token?token=${token}`);
       router.push('/register/password');
     },
+    
 
     onError: () => {
       toast.error('Failed to verify OTP. Please try again later.');
     },
   });
 
-  const [resendOtp] = useResendOtpMutation({
+  if (loading) {
+    <div className="flex items-center justify-center h-screen">
+      <Loading />
+    </div>;
+  }
 
+  const [resendOtp] = useResendOtpMutation({
     variables: {
       input: {
         email,
-
       },
     },
     onCompleted: () => {
-        toast.success('New OTP sent to your email. Please check your email!');
+      toast.success('New OTP sent to your email. Please check your email!');
     },
   });
 
   const handleResend = () => {
     if (canResend) {
-      setCountdown(COUNTDOWN_DURATION); 
+      setCountdown(COUNTDOWN_DURATION);
       resendOtp();
     }
   };
+
+ 
 
   return (
     <div className="pt-[150px] justify-items-center">
@@ -82,16 +89,13 @@ const VerifyOtp = () => {
 
       <InputOTP
         data-cy="otp-input"
-        onComplete={(value) =>{
+        onComplete={(value) => {
           verifyOtp({
             variables: {
               input: { email, otp: value },
             },
-          })
-        }
-         
-        
-        }
+          });
+        }}
         maxLength={4}
         pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
       >
@@ -104,10 +108,7 @@ const VerifyOtp = () => {
       </InputOTP>
       <Toaster />
 
-      <div
-        className="text-[#090a90B] font-medium text-sm mt-6 cursor-pointer"
-        onClick={handleResend}
-      >
+      <div className="text-[#090a90B] font-medium text-sm mt-6 cursor-pointer" onClick={handleResend}>
         {canResend ? 'Send again' : `Send again (${countdown})`}
       </div>
       <p className="text-[#71717A] text-sm pt-[35%] ">©2024 Tinder</p>

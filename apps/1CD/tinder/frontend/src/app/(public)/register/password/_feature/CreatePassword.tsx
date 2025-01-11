@@ -33,8 +33,8 @@ const Password = () => {
   const router=useRouter();
 
   useEffect(() => {
-    router.refresh();
-  },[router]);
+    router.push('/register/password');
+  },[]);
    
   const {
     register,

@@ -4,7 +4,9 @@ import { useGetUsersQuery, User } from '@/generated';
 import StackImgs from './StackImg';
 import Swiping from './Swiping';
 import Image from 'next/image';
-import { Loader } from '@/components/Loader';
+import { Loading } from '@/components/Loading';
+
+
 
 const Swiper = () => {
   const { data , loading} = useGetUsersQuery();
@@ -21,7 +23,7 @@ const Swiper = () => {
   if(loading){
     return (
           <div className="flex items-center justify-center h-screen">
-            <Loader />
+            <Loading />
           </div>
         );
   }
