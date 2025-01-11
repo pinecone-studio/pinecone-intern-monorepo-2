@@ -26,8 +26,8 @@ export const ComboboxDemo = () => {
     setOpen(false);
   };
   const cancelRoomTypeFilt = () => {
+    setRoomType('');
     setAdultQuantity(1);
-
     setOpen(false);
   };
 

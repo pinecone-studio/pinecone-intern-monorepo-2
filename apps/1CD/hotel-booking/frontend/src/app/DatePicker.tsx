@@ -26,6 +26,9 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
     if (date?.from && date.to) {
       setDateFrom(date?.from?.toISOString());
       setDateTo(date?.to?.toISOString());
+    } else {
+      setDateFrom('');
+      setDateTo('');
     }
   }, [date]);
   return (
