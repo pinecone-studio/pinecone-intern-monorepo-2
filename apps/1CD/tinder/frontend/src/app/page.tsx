@@ -37,10 +37,13 @@ const HomePage = () => {
 
         <div className="flex items-center justify-center flex-1" data-cy="main-content">
           <div className="px-4 space-y-8 text-center" data-cy="cta-container">
-            <h1 className="text-6xl font-bold text-white" data-cy="main-heading">
+            <h1 className="sm:text-6xl sm:font-bold sm:text-white text-white text-3xl font-semibold" data-cy="main-heading">
               Swipe Right®
             </h1>
-            <Button size="lg" className="px-8 text-lg text-white rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600">
+            <Button
+              size="lg"
+              className="sm:px-8 sm:text-lg sm:text-white sm:rounded-full sm:bg-gradient-to-r sm:from-pink-500 sm:to-rose-500 sm:hover:from-pink-600 sm:hover:to-rose-600 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 font-medium text-lg"
+            >
               <Link href="/register/email" data-cy="main-cta-button">
                 Create Account
               </Link>

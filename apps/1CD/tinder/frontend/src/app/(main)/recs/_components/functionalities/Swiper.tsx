@@ -9,6 +9,7 @@ import { Loader } from '@/components/Loader';
 const Swiper = () => {
   const { data , loading} = useGetUsersQuery();
   const [cards, setCards] = useState<User[]>([]);
+
   const [swiping, setSwiping] = useState<User>();
 
   useEffect(() => {
@@ -17,8 +18,6 @@ const Swiper = () => {
       setCards(data.getUsers.slice(1, data.getUsers.length));
     }
   }, [data?.getUsers]);
-
-
   if(loading){
     return (
           <div className="flex items-center justify-center h-screen">
@@ -31,6 +30,7 @@ const Swiper = () => {
   <div className='flex items-center justify-center h-screen'>
     <Image src="/loading.svg" width={40} height={40} alt='loading'/>
   </div>
+
 
 
   return (

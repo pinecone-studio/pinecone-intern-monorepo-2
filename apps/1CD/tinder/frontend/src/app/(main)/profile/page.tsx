@@ -43,14 +43,14 @@ const Profile = () => {
           <div className="border-t-[1px]"></div>
         </div>
 
-        <div className="flex gap-12 w-full">
+        <div className="flex gap-12 w-full max-sm:flex-col ">
           <div className="flex flex-col">
-            <ToggleGroup defaultValue="Profile" type="single" className="flex flex-col gap-1">
+            <ToggleGroup defaultValue="Profile" type="single" className="sm:flex sm:flex-col sm:gap-1 max-sm:flex max-sm:justify-start">
               <ToggleGroupItem value="Profile" aria-label="Toggle bold">
-                <div className="w-[250px] h-[36px] flex items-center">Profile</div>
+                <div className="w-[250px] h-[36px] flex items-center max-sm:w-[100px]">Profile</div>
               </ToggleGroupItem>
               <ToggleGroupItem value="Image" aria-label="Toggle italic">
-                <div className="w-[250px] h-[36px] flex items-center">Image</div>
+                <div className="w-[250px] h-[36px] flex items-center max-sm:w-[100px]">Image</div>
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
@@ -63,14 +63,22 @@ const Profile = () => {
             </div>
             <div className="border-t-[1px]"></div>
             {/* Name */}
-            <div className="flex gap-6">
+            <div className="flex gap-6 max-sm:flex-col">
               <div>
                 <label className="block text-sm font-medium text-gray-700 w-[324px]">Name</label>
-                <input data-cy="profile-name-input" type="text" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <input
+                  data-cy="profile-name-input"
+                  type="text"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm max-sm:w-[350px]"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 w-[324px]">Email</label>
-                <input data-cy="profile-email-input" type="text" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+                <input
+                  data-cy="profile-email-input"
+                  type="text"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm max-sm:w-[350px]"
+                />
               </div>
             </div>
             {/* Date of Birth */}
@@ -98,7 +106,7 @@ const Profile = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Gender Preferences</label>
 
               <Select>
-                <SelectTrigger className="w-[672px]">
+                <SelectTrigger className="w-[672px] max-sm:w-[350px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,12 +123,16 @@ const Profile = () => {
             {/* Bio */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Bio</label>
-              <textarea rows={3} data-cy="profile-bio-input" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <textarea
+                rows={3}
+                data-cy="profile-bio-input"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm max-sm:w-[350px]"
+              />
             </div>
             {/* Interests */}
             <div>
               <label className="block text-sm font-medium text-gray-700">Interests</label>
-              <ToggleGroup variant="outline" type="multiple" className="border rounded-xl px-3 py-4 mt-1">
+              <ToggleGroup variant="outline" type="multiple" className="border rounded-xl px-3 py-4 mt-1 max-sm:w-[350px] max-sm:flex-wrap">
                 <ToggleGroupItem value="Art" aria-label="Toggle bold" className="h-6" data-cy="toggle-item">
                   Art
                 </ToggleGroupItem>
