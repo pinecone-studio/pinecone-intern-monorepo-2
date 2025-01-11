@@ -47,6 +47,10 @@ export const typeDefs = gql`
     unfollow(_id: ID!, followerId: ID!): FollowInfo!
   }
 
+  type Mutation {
+    removeFollowReqFromNotifyByPrivateFollowingIdUser(followerId: ID!, followingId: ID!): Response!
+  }
+
   type Query {
     seeFollowings(followerId: ID!): [FollowingInfo!]!
   }
