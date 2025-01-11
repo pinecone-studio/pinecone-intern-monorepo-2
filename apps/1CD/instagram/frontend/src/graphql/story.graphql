@@ -50,6 +50,23 @@ query GetMyActiveStories {
   }
 }
 
+query GetPublicAccStories($user: ID!) {
+  getPublicAccStories(user: $user) {
+    _id
+    stories {
+      createdAt
+      _id
+      endDate
+      image
+    }
+    user {
+      _id
+      userName
+      profileImg
+    }
+  }
+}
+
 mutation CreateStory($input: StoryInput!) {
   createStory(input: $input) {
     _id
@@ -60,5 +77,21 @@ mutation CreateStory($input: StoryInput!) {
       image
     }
     user
+  }
+}
+
+mutation DeleteStory($storyId: ID!) {
+  deleteStory(storyId: $storyId) {
+    message
+    story {
+      user
+      stories {
+        _id
+        createdAt
+        endDate
+        image
+      }
+      _id
+    }
   }
 }
