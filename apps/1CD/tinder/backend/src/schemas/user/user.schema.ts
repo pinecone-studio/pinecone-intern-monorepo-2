@@ -103,5 +103,6 @@ export const typeDefs = gql`
     updateAttraction(attraction: String!): RegisterEmailResponse!
     imageSubmit(input: ImageSubmitInput!): ImageSubmitResponse!
     editProfile(input: EditProfileInput!): ResponseEditProfileInput!
+    updateGender(gender: String!): RegisterEmailResponse!
   }
 `;

@@ -1,5 +1,5 @@
-import { GraphQLResolveInfo } from 'graphql';
-import { userModel } from '../../../../src/models';
+import { GraphQLError, GraphQLResolveInfo } from 'graphql';
+import { swipeModel, userModel } from '../../../../src/models';
 import { getUsers } from '../../../../src/resolvers/queries';
 
 
@@ -8,93 +8,65 @@ jest.mock('../../../../src/models', () => ({
     find: jest.fn(),
     findById: jest.fn(),
   },
+  swipeModel: {
+    find: jest.fn(),
+  },
 }));
 
 describe('should return user', () => {
-//   const users = [
-//     {
-//       _id: '123',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//       gender: 'both',
-//     },
-//     {
-//       _id: '1234',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//       gender: 'both',
-//     },
-//     {
-//       _id: '12345',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//      gender: 'female',
-//     },
-//   ];
-//   const users1 = [
-//     {
-//       _id: '123',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//       gender: 'male',
-//     },
-//     {
-//       _id: '1234',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//       gender: 'male',
-//     },
-//     {
-//       _id: '12345',
-//       name: 'user1',
-//       email: 'cypress@gmail.com',
-//       photos: 'jjjj',
-//       gender:'male'
-//     },
-//   ];
-//   const user = {
-//     _id: '12345',
-//     name: 'user1',
-//     email: 'cypress@gmail.com',
-//     photos: 'jjjj',
-//     attraction:'both'
-//   };
-//   const user1 = {
-//     _id: '12345',
-//     name: 'user1',
-//     email: 'cypress@gmail.com',
-//     photos: 'jjjj',
-//     attraction:'male'
-//   };
+
+  const mockUserId = 'user123';
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  it('should throw an error if user is not found', async () => {
 
-  it('should successfully return users with attraction both', async () => {
-    (userModel.findById as jest.Mock).mockResolvedValueOnce({ attraction: 'both' });
-    (userModel.find as jest.Mock).mockResolvedValueOnce([{
-        _id: '123',
-        name: 'user1',
-        email: ""
-    }]);
-    const res = await getUsers!({}, {}, { userId: '675675e84bd85fce3de34006' }, {} as GraphQLResolveInfo);
-    expect(res).toEqual([{ _id: '123', name: 'user1', email: "" }]);
+    (userModel.findById as jest.Mock).mockResolvedValue(null);
+
+    await expect(getUsers!({}, {}, { userId: mockUserId }, {} as GraphQLResolveInfo))
+      .rejects.toThrow(GraphQLError);
   });
-  it('should return user if user attract to female',async () => {
-    (userModel.findById as jest.Mock).mockResolvedValueOnce({ attraction:""});
-    (userModel.find as jest.Mock).mockResolvedValueOnce([{
-        _id: '123',
-        name: 'user1',
-        email: "",
-        
-    }]);
-    const res = await getUsers!({}, {}, { userId: '675675e84bd85fce3de34006' }, {} as GraphQLResolveInfo);
-    expect(res).toEqual([{ _id: '123', name: 'user1', email: "" }]);
+
+  it('should return all users when attraction is "both"', async () => {
+    const mockUser = { _id: mockUserId, attraction: 'both' };
+    const mockUsers = [{ _id: 'user1' }, { _id: 'user2' }];
+
+    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
+    (swipeModel.find as jest.Mock).mockResolvedValue([]);
+    (userModel.find as jest.Mock).mockResolvedValue(mockUsers);
+
+    const result = await getUsers!({}, {}, { userId: mockUserId }, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual(mockUsers);
+
+  });
+  it('should filter users based on attraction', async () => {
+    const mockUser = { _id: mockUserId, attraction: 'female' };
+    const mockUsers = [{ _id: 'user1', gender: 'female' }];
+
+    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
+    (swipeModel.find as jest.Mock).mockResolvedValue([]);
+    (userModel.find as jest.Mock).mockResolvedValue(mockUsers);
+
+    const result = await getUsers!({}, {}, { userId: mockUserId }, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual(mockUsers);
+
+  });
+
+  it('should exclude swiped users', async () => {
+    const mockUser = { _id: mockUserId, attraction: 'male' };
+    const swipedUsers = [{ swipedUser: 'swipedUser1' }];
+    const mockUsers = [{ _id: 'user2', gender: 'male' }];
+
+    (userModel.findById as jest.Mock).mockResolvedValue(mockUser);
+    (swipeModel.find as jest.Mock).mockResolvedValue(swipedUsers);
+    (userModel.find as jest.Mock).mockResolvedValue(mockUsers);
+
+    const result = await getUsers!({}, {}, { userId: mockUserId }, {} as GraphQLResolveInfo);
+
+    expect(result).toEqual(mockUsers);
+
   });
 
 });
