@@ -82,5 +82,6 @@ export const typeDefs = gql`
     addRoom(input: RoomTypeInput!): RoomType!
     addRoomService(input: RoomServiceInput!, roomId: ID!): Room!
     updateRoomInfo(input: UpdateRoomInfoInput!): Room!
+    updateRoomImage(_id: ID!, images: [String!]!): Room!
   }
 `;
