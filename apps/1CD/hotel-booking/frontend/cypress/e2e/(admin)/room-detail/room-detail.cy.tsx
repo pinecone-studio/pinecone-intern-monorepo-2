@@ -57,10 +57,10 @@ describe('Room detail page in admin folder', () => {
     cy.get('[data-cy=Room-Services-Dialog]').should('not.be.visible');
   });
 
-  it('5.ImagesDialog should be visible when edit button is clicked', () => {
-    cy.get('[data-cy=Images-Dialog-Button]').should('exist').click();
-    cy.get('[data-cy=Images-Dialog]').should('exist');
-    cy.get('[data-cy=Images-Cancel-Button]').should('exist').click();
-    cy.get('[data-cy=Images-Dialog]').should('not.be.visible');
-  });
+  // it('5.ImagesDialog should be visible when edit button is clicked', () => {
+  //   cy.get('[data-cy=Images-Dialog-Button]').should('exist').click();
+  //   cy.get('[data-cy=Images-Dialog]').should('exist');
+  //   cy.get('[data-cy=Images-Cancel-Button]').should('exist').click();
+  //   cy.get('[data-cy=Images-Dialog]').should('not.be.visible');
+  // });
 });

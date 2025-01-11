@@ -419,3 +419,16 @@ mutation UpdateHotelGeneralInfo($id: String!, $input: HotelInput!) {
     roomsAveragePrice
   }
 }
+
+mutation UpdateRoomImage($id: ID!, $images: [String!]!) {
+  updateRoomImage(_id: $id, images: $images) {
+    id
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+    amenities
+    images
+  }
+}

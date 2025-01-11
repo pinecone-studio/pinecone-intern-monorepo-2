@@ -23,7 +23,14 @@ const GuestInfo = ({ params }: { params: { id: string } }) => {
         <div className="ml-4">
           <div className="flex items-center gap-2">
             <SidebarTrigger />
-            <BreadCrumb />
+            <BreadCrumb
+              items={[
+                { link: '/add-hotel/home-page', Name: 'Hotels' },
+                { link: `/admin-hotel-detail/${data?.getBooking.hotelId}`, Name: 'Hotel Detail' },
+                { link: `/room-detail/${data?.getBooking.roomId}`, Name: 'Room Detail' },
+                { link: `/guests/info/${data?.getBooking._id}`, Name: 'Guest Info' },
+              ]}
+            />
           </div>
           <div className="flex flex-col gap-3 mt-8 item-center">
             <div className="flex items-center gap-2">

@@ -1,18 +1,18 @@
 'use client';
 import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-import { Hotel, useUpdateHotelImagesMutation } from '@/generated';
+import { Room, useUpdateRoomImageMutation } from '@/generated';
 import { Loader2, Plus, X } from 'lucide-react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 const CLOUDINARYPRESET = `${process.env.CLOUDINARYPRESET}`;
 const CLOUDINARYNAME = `${process.env.CLOUDINARYNAME}`;
-const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { open: boolean; setOpen: (_value: boolean) => void; hotelId: string; hotel: Hotel; AllQueriesRefetch: () => void }) => {
+const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; setOpen: (_value: boolean) => void; room: Room | undefined; roomRefetch: () => void }) => {
   const [image, setImage] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
-  const [createImage] = useUpdateHotelImagesMutation({
-    onCompleted: () => AllQueriesRefetch(),
+  const [updateRoomImages] = useUpdateRoomImageMutation({
+    onCompleted: () => roomRefetch(),
   });
   const [images, setImages] = useState<{ id: string; jsx: JSX.Element }[]>([]);
   const showImage = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
   };
   const removeImage = (imageId: string) => {
     setImages((prev) => prev.filter((image) => image.id !== imageId));
-    setImage((prev) => prev.filter((file) => URL.createObjectURL(file) !== imageId));
+    setImage((prevFiles) => prevFiles.filter((_, index) => URL.createObjectURL(prevFiles[index]) !== imageId));
   };
   const addImage = async () => {
     setLoading(true);
@@ -44,10 +44,9 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
     });
 
     const imageUrls = (await Promise.all(promises)).map((data) => data.secure_url);
-
-    await createImage({
+    await updateRoomImages({
       variables: {
-        id: hotelId,
+        id: String(room?.id),
         images: imageUrls,
       },
     });
@@ -61,7 +60,7 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
     setOpen(false);
   };
   useEffect(() => {
-    const imagesArray = hotel.images?.map((image) => {
+    const imagesArray = room?.images?.map((image) => {
       const id = String(image);
       return {
         id,
@@ -74,7 +73,7 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
       };
     });
     if (imagesArray?.length) setImages(imagesArray);
-  }, [hotel.images]);
+  }, [room?.images]);
   return (
     <div className="max-w-[1920px]">
       <Dialog open={open}>
@@ -115,4 +114,4 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
     </div>
   );
 };
-export default ImageUpdate;
+export default ImagesDialog;

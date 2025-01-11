@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 export type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
-  room: Room;
+  room: Room | undefined;
 };
 
 const RoomServiceDialog: React.FC<DialogType> = ({ open, setOpen, room }) => {

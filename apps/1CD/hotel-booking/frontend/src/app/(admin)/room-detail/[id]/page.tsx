@@ -1,25 +1,36 @@
 'use client';
 import React, { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
-import GeneralInfoCard from '@/app/(admin)/room-detail/[id]/_components/GeneralInfoCard';
-import UpcomingBookings from '@/app/(admin)/room-detail/[id]/_components/UpcomingBookings';
-import RoomServiceCard from '@/app/(admin)/room-detail/[id]/_components/RoomServiceCard';
 
 import { useGetRoomQuery } from '@/generated';
-import ImagesCard from './_components/ImagesCard';
+import GeneralInfoCard from '@/components/providers/_components/GeneralInfoCard';
+import UpcomingBookings from '@/components/providers/_components/UpcomingBookings';
+import RoomServiceCard from '@/components/providers/_components/RoomServiceCard';
+import ImagesCard from '@/components/providers/_components/ImagesCard';
+import BreadCrumb from '../../guests/_components/BreadCrumb';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 const RoomDetail = ({ params }: { params: { id: string } }) => {
-  const { data } = useGetRoomQuery({
+  const { data, refetch } = useGetRoomQuery({
     variables: {
       id: params.id,
     },
   });
-
   const [openGen, setOpenGen] = useState(false);
   const [openService, setOpenService] = useState(false);
   const [open, setOpen] = useState(false);
   return (
     <div className="w-full h-full pt-10 pb-10 bg-slate-50">
+      <div className="flex items-center gap-2 mb-4 ml-4">
+        <SidebarTrigger />
+        <BreadCrumb
+          items={[
+            { link: '/add-hotel/home-page', Name: 'Hotels' },
+            { link: `/admin-hotel-detail/${data?.getRoom.hotelId?._id}`, Name: 'Hotel Detail' },
+            { link: `/room-detail/${data?.getRoom.id}`, Name: 'Room Detail' },
+          ]}
+        />
+      </div>
       <section className="ml-4" data-cy="Room-Detail-Page">
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-8 h-8 bg-white border rounded-lg">
@@ -33,7 +44,7 @@ const RoomDetail = ({ params }: { params: { id: string } }) => {
             <UpcomingBookings />
             <RoomServiceCard open={openService} setOpen={setOpenService} room={data?.getRoom} />
           </div>
-          <ImagesCard open={open} setOpen={setOpen} />
+          <ImagesCard roomRefetch={refetch} room={data?.getRoom} open={open} setOpen={setOpen} />
         </section>
       </section>
     </div>

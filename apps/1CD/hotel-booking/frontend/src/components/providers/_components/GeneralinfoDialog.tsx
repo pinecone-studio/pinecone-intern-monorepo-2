@@ -7,6 +7,7 @@ import { Room, useUpdateRoomInfoMutation } from '@/generated';
 import { MultiSelect } from '@/components/ui/multi-select';
 import { Option } from 'lucide-react';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
+import { toast } from 'sonner';
 
 export type DialogStates = {
   openGen: boolean;
@@ -65,6 +66,12 @@ const GeneralInfoDialog: React.FC<RoomProps> = ({ openGen, setOpenGen, room }) =
             roomType: roomType,
             roomInformation: roomInformation.map((information) => information.value),
           },
+        },
+      });
+      toast("successfully update room's general info", {
+        style: {
+          border: 'green solid 1px',
+          color: 'green',
         },
       });
       setOpenGen(false);
