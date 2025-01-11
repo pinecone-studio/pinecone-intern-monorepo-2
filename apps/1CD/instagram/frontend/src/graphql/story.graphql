@@ -33,6 +33,23 @@ query GetFollowingUserStories($user: ID!) {
   }
 }
 
+query GetMyActiveStories {
+  getMyActiveStories {
+    _id
+    stories {
+      endDate
+      createdAt
+      _id
+      image
+    }
+    user {
+      _id
+      userName
+      profileImg
+    }
+  }
+}
+
 mutation CreateStory($input: StoryInput!) {
   createStory(input: $input) {
     _id

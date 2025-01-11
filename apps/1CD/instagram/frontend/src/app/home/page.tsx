@@ -1,7 +1,7 @@
 'use client';
 import { UserBar } from '@/app/(main)/_components/header/UserBar';
 import { PostCard } from '../(main)/_components/post/PostCard';
-import { useGetAllUsersWithLatestStoriesQuery } from '@/generated';
+import { useGetAllUsersWithLatestStoriesQuery, useGetMyActiveStoriesQuery } from '@/generated';
 import MainPageStory from '../(main)/_components/story/MainPageStory';
 
 const Page = () => {
@@ -11,6 +11,9 @@ const Page = () => {
     stories: data.stories,
     _id: data._id,
   }));
+
+  const { data: myOwnStories } = useGetMyActiveStoriesQuery();
+  const myStories = myOwnStories?.getMyActiveStories.stories;
 
   return (
     <>
@@ -23,7 +26,7 @@ const Page = () => {
           </div>
           <PostCard />
         </div>
-        <UserBar />
+        <UserBar myStories={myStories} />
       </div>
     </>
   );
