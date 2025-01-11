@@ -58,7 +58,7 @@ const InterestedIn = () => {
                 render={({ field }) => (
                   <FormItem data-cy="select-button">
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-[400px]">
+                      <SelectTrigger className="sm:w-[400px] w-[350px]">
                         <SelectValue placeholder="Select" />
                       </SelectTrigger>
                       <SelectContent>

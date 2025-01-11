@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 
 export const UserdetailsName = ({ formik }: any) => {
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="sm:grid sm:w-full sm:max-w-sm sm:items-center sm:gap-1.5 flex flex-col w-[350px] gap-1.5">
       <Label htmlFor="name" className="text-[#09090B] font-medium text-sm">
         Name
       </Label>

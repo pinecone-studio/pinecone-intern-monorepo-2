@@ -58,7 +58,7 @@ const ImageUpload = () => {
     const gridItems = [];
     for (let i = 0; i < placeholders; i++) {
       gridItems.push(
-        <div key={i} className="h-[296px] aspect-[2/3] rounded-md flex justify-end" data-cy="image-placeholder">
+        <div key={i} className="h-[296px] aspect-[2/3] rounded-md flex justify-end max-sm:h-[148px]" data-cy="image-placeholder">
           {selectedImages[i] ? (
             <div className="relative w-full h-full">
               <Image src={URL.createObjectURL(selectedImages[i])} alt={`Selected image ${i + 1}`} fill style={{ objectFit: 'cover' }} className="rounded-md" />
@@ -104,14 +104,14 @@ const ImageUpload = () => {
         <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} id="file-input" multiple />
         <button
           onClick={handleButtonClick}
-          className="rounded-full border border-1 border-[#E11D48] flex gap-2 w-[640px] justify-center py-2 mt-4 items-center hover:bg-gray-100"
+          className="rounded-full border border-1 border-[#E11D48] flex gap-2 w-[640px] justify-center py-2 mt-4 items-center hover:bg-gray-100 max-sm:w-[350px]"
           data-cy="upload-image-button"
           disabled={selectedImages.length >= 9}
         >
           <p className="text-[#E11D48] text-xl font-thin">+</p>
           <p className="text-sm">Upload image</p>
         </button>
-        <div className="flex justify-between w-[640px] mt-2" data-cy="navigation-buttons">
+        <div className="flex justify-between w-[640px] mt-2 max-sm:w-[350px]" data-cy="navigation-buttons">
           <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
             Back
           </button>

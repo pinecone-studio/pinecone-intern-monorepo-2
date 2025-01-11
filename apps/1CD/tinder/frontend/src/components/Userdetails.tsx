@@ -81,15 +81,15 @@ export const Userdetails = () => {
           <Image src="/logo.svg" width={20} height={24} alt="logo" className="w-5 h-6" />
           <div className="text-[#424242] font-bold text-2xl">tinder</div>
         </div>
-        <form className="flex flex-col max-w-sm gap-6" onSubmit={formik.handleSubmit}>
+        <form className="flex flex-col max-w-sm gap-6 items-center" onSubmit={formik.handleSubmit}>
           <div className="text-center">
             <p className="text-[#09090B] font-semibold text-2xl">Your Details</p>
             <p className="text-[#71717A] font-normal text-sm">Please provide the following information to help us get to know you better.</p>
           </div>
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 items-center">
             <UserdetailsName formik={formik} />
             <UserdetailsBio formik={formik} />
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="sm:grid sm:w-full sm:max-w-sm sm:items-center sm:gap-1.5 flex flex-col w-[350px] gap-1.5">
               <Label htmlFor="interests" className="text-[#09090B] font-medium text-sm">
                 Interests
               </Label>
@@ -110,7 +110,7 @@ export const Userdetails = () => {
             <UserdetailsProfession formik={formik} />
             <UserdetailsSchool formik={formik} />
           </div>
-          <div className="flex justify-between max-w-sm">
+          <div className="sm:flex sm:justify-between sm:max-w-sm flex justify-between w-[350px]">
             <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={() => back()}>
               Back
             </Button>
