@@ -48,7 +48,6 @@ export const SignupProvider = ({ children }: PropsWithChildren) => {
       },
       onError: (error) => {
         toast.error(error.message);
-        console.log('error message', error.message);
       },
     });
   };
@@ -85,7 +84,6 @@ export const SignupProvider = ({ children }: PropsWithChildren) => {
       },
       onError: (error) => {
         toast.error(error.message);
-        console.log('error message', error.message);
       },
     });
   };

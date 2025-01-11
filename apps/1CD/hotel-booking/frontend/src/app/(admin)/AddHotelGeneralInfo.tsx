@@ -13,9 +13,12 @@ import { toast } from 'sonner';
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
+  refetch: () => void;
 };
-const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
-  const [AddHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+const AddHotelGeneralInfo = ({ open, setOpen, refetch }: AddHotelGeneralInfoType) => {
+  const [AddHotelGeneralInfo] = useAddHotelGeneralInfoMutation({
+    onCompleted: () => refetch(),
+  });
 
   const PhoneNumberError = () => {
     if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
