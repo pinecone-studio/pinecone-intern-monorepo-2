@@ -2,23 +2,29 @@
 import React, { useEffect, useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { useGetMyActiveStoriesQuery } from '@/generated';
+import { useGetFollowingUserStoriesQuery } from '@/generated';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Progress } from '@/app/(main)/_components/ProgressStyle';
-import DeleteStory from '@/app/(main)/_components/story/DeleteStoryDialog';
+import { formatDistanceToNowStrict } from 'date-fns';
 
-const MyStoriesPage = () => {
+const OneUserStoriesPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
+  const { data: userStories } = useGetFollowingUserStoriesQuery({
+    variables: {
+      user: '',
+    },
+  });
 
-  const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
-  const currentUserData = myOwnStories?.getMyActiveStories.user;
+  const currentUserStories = userStories?.getFollowingUserStories.stories || [];
+  const currentUserData = userStories?.getFollowingUserStories.user;
+
+  const date: Date = currentUserStories[0]?.createdAt;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
@@ -52,17 +58,8 @@ const MyStoriesPage = () => {
     }
   };
 
-  const handleDialogOpen = () => {
-    setProgress(0);
-  };
-
-  const handleDelete = async () => {
-    await refetch();
-    if (currentUserStories.length === 1) {
-      router.push('/home');
-    } else if (currentStoryIndex >= currentUserStories.length - 1) {
-      setCurrentStoryIndex((prev) => Math.max(0, prev - 1));
-    }
+  const returnToMainPage = () => {
+    router.push('/home');
   };
 
   return (
@@ -70,7 +67,7 @@ const MyStoriesPage = () => {
       <div className="absolute top-0 flex justify-between w-full p-6">
         <img src="https://umamiharstad.no/wp-content/uploads/2018/09/instagram-font-logo-white-png.png" className="w-[103px] h-[29px]" />
       </div>
-      <Button className="absolute top-0 right-0 p-6" onClick={() => router.push('/home')}>
+      <Button className="absolute top-0 right-0 p-6" onClick={returnToMainPage}>
         <X />
       </Button>
       <div className="flex items-center justify-center w-full h-full gap-4 p-10">
@@ -87,15 +84,13 @@ const MyStoriesPage = () => {
                   <div className="px-3 pt-3">
                     <Progress value={progress} className="w-[100%] bg-[#8C8C8C] h-1" />
                   </div>
-                  <div className="flex justify-between">
-                    <div className="flex items-center gap-3 p-3">
-                      <Avatar className="w-[44px] h-[44px]">
-                        <AvatarImage src={currentUserData?.profileImg || '/images/profileImg.webp'} alt={currentUserData?.userName} />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <span className="text-sm text-white">{currentUserData?.userName}</span>
-                    </div>
-                    <DeleteStory storyId={story._id} onDialogOpen={handleDialogOpen} onDelete={handleDelete} />
+                  <div className="flex items-center gap-3 p-3">
+                    <Avatar className="w-[44px] h-[44px]">
+                      <AvatarImage src={currentUserData?.profileImg || '/images/profileImg.webp'} alt={currentUserData?.userName} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm text-white">{currentUserData?.userName}</span>
+                    <span className="text-[#71717A] text-xs">{formatDistanceToNowStrict(new Date(date)).slice(0, 4)}</span>
                   </div>
                 </div>
               </CarouselItem>
@@ -109,5 +104,4 @@ const MyStoriesPage = () => {
     </div>
   );
 };
-
-export default MyStoriesPage;
+export default OneUserStoriesPage;
