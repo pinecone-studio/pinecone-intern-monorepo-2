@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useCreatePostMutation, useGetUserQuery } from '@/generated';
+import { useCreatePostMutation, useGetMyPostsQuery, useGetUserQuery } from '@/generated';
 import { ArrowLeft, Loader, SmileIcon } from 'lucide-react';
 
 export const CreatePost = ({
@@ -22,7 +22,7 @@ export const CreatePost = ({
   setStep: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [handleDesc, setHandleDesc] = useState('');
-
+  const { refetch } = useGetMyPostsQuery();
   const [createPost] = useCreatePostMutation();
   const { data: user } = useGetUserQuery();
 
@@ -33,6 +33,7 @@ export const CreatePost = ({
         description: handleDesc,
       },
     });
+    await refetch();
   };
   const createPostBtn = () => {
     setLoading(true);

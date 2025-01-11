@@ -9,6 +9,7 @@ import { NoPost } from '@/components/user-profile/NoPost';
 import FollowerDialog from '@/app/(main)/_components/follow/FollowerDialog';
 import FollowingDialog from '@/app/(main)/_components/follow/FollowingDialog';
 import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
+import Link from 'next/link';
 
 const UserProfile = () => {
   const { user, changeProfileImg } = useAuth();
@@ -56,7 +57,10 @@ const UserProfile = () => {
               <h1 className="text-2xl font-bold" data-cy="username">
                 {user?.userName}
               </h1>
-              <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Edit Profile</Button>
+              <Link href="/editProfile">
+                <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Edit Profile</Button>
+              </Link>
+
               {/* <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Add tools</Button> */}
               <div>
                 <Settings />

@@ -4,7 +4,7 @@
 import { useAuth } from '@/components/providers';
 import { useUser } from '@/components/providers/UserProvider';
 import HeadingSection from '@/app/(main)/_components/visitprofile/HeadingSection';
-import PostsSection from '@/components/visit-profile/PostsSection';
+import PostsSection from '@/app/(main)/_components/visitprofile/PostsSection';
 import PrivateProfile from '@/components/visit-profile/PrivateProfile';
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetFollowStatusQuery, useGetOneUserQuery, useGetUserPostsQuery, useUnfollowMutation } from '@/generated';
 import { Grid3x3 } from 'lucide-react';

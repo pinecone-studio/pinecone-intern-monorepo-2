@@ -16,10 +16,16 @@ export const DropMenu = ({
   isUser: boolean;
 }) => {
   const handleUpdateModal = () => {
-    return setClose(false), setOpenUpdateModal(true);
+    if (isUser) {
+      return setClose(false), setOpenUpdateModal(true);
+    }
+    return;
   };
   const handleDeleteModal = () => {
-    return setClose(false), setOpenDeleteModal(true);
+    if (isUser) {
+      return setClose(false), setOpenDeleteModal(true);
+    }
+    return;
   };
 
   return (
