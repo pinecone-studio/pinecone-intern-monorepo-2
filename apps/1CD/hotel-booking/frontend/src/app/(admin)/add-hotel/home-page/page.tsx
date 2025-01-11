@@ -19,7 +19,7 @@ import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
 const Page = () => {
   const [searchValue, setSearchValue] = useState('');
   const [hotelOpen, setHotelOpen] = useState(false);
-  const [getHotels, { data, loading }] = useGetHotelsLazyQuery();
+  const [getHotels, { data, loading, refetch }] = useGetHotelsLazyQuery();
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectRooms, setSelectRooms] = useState('');
   const [selectStarRating, setSelectStarRating] = useState(0);
@@ -44,7 +44,6 @@ const Page = () => {
     data?.getHotels.forEach((hotel) => {
       if (hotel.location?.toLowerCase().includes(selectedStatus.toLowerCase())) {
         hotels.push(hotel);
-        console.log(hotels);
       }
     });
   } else {
@@ -129,7 +128,7 @@ const Page = () => {
         </div>
       </div>
       <div data-cy="Add-Hotel-General-Info-Dialog">
-        <AddHotelGeneralInfo setOpen={setHotelOpen} open={hotelOpen} />
+        <AddHotelGeneralInfo refetch={refetch} setOpen={setHotelOpen} open={hotelOpen} />
       </div>
     </div>
   );
