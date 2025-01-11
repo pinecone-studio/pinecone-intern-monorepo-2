@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { ChevronLeft } from 'lucide-react';
 
 import { useGetRoomQuery } from '@/generated';
-import GeneralInfoCard from '@/components/providers/_components/GeneralInfoCard';
-import UpcomingBookings from '@/components/providers/_components/UpcomingBookings';
-import RoomServiceCard from '@/components/providers/_components/RoomServiceCard';
-import ImagesCard from '@/components/providers/_components/ImagesCard';
+
+import UpcomingBookings from '@/components/providers/UpcomingBookings';
+
 import BreadCrumb from '../../guests/_components/BreadCrumb';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import GeneralInfoCard from '@/components/providers/GeneralInfoCard';
+import RoomServiceCard from '@/components/providers/RoomServiceCard';
+import ImagesCard from '@/components/providers/ImagesCard';
 
 const RoomDetail = ({ params }: { params: { id: string } }) => {
   const { data, refetch } = useGetRoomQuery({
