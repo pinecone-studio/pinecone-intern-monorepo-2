@@ -7,7 +7,6 @@ import { CiSearch } from 'react-icons/ci';
 import { useUser } from '@/components/providers/UserProvider';
 import { Dot } from 'lucide-react';
 
-// Define User type
 type User = {
   _id: string;
   userName: string;
@@ -105,7 +104,6 @@ const SearchFromAllUsers = ({ setShowSearchComponent }: { setShowSearchComponent
                   <div className="flex items-center text-xs">
                     <span className="mr-1">{user.fullName}</span>
                     <Dot className="w-3" />
-                    <span className="text-[#71717A]">Follower</span>
                   </div>
                 </div>
               </div>

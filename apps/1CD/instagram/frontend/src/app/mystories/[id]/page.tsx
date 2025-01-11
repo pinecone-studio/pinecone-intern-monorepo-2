@@ -15,13 +15,14 @@ const MyStoriesPage = () => {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
+  const { data: myOwnStories } = useGetMyActiveStoriesQuery();
 
   const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
   const currentUserData = myOwnStories?.getMyActiveStories.user;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
+
     let progress = 0;
     const interval = setInterval(() => {
       progress += 1.5;
@@ -57,7 +58,7 @@ const MyStoriesPage = () => {
   };
 
   const handleDelete = async () => {
-    await refetch();
+    // await refetch();
     if (currentUserStories.length === 1) {
       router.push('/home');
     } else if (currentStoryIndex >= currentUserStories.length - 1) {

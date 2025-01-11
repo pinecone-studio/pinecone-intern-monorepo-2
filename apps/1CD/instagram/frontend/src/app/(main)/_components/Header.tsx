@@ -47,19 +47,14 @@ export const Header = () => {
     data.append('upload_preset', 'instagram-intern');
     data.append('cloud_name', 'dka8klbhn');
 
-    try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-        method: 'POST',
-        body: data,
-      });
-      const uploadedImage = await res.json();
-      const uploadedImageUrl: string = uploadedImage.secure_url;
-      setStoryImg(uploadedImageUrl);
-    } catch (error) {
-      console.error('Error uploading to Cloudinary:', error);
-    } finally {
-      setUploadingToCloudinary(false);
-    }
+    const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
+      method: 'POST',
+      body: data,
+    });
+    const uploadedImage = await res.json();
+    const uploadedImageUrl: string = uploadedImage.secure_url;
+    setStoryImg(uploadedImageUrl);
+    setUploadingToCloudinary(false);
   };
 
   const handleCreateStory = async () => {

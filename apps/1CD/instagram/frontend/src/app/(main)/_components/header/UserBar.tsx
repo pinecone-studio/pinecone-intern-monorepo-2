@@ -17,7 +17,7 @@ export type myStoriesType =
 
 export const UserBar = ({ myStories }: { myStories: myStoriesType }) => {
   const { signout, user } = useAuth();
-  console.log('my stroe', myStories);
+
   return (
     <div data-testid="user-bar" className="w-[326px] flex flex-col gap-4  pt-10 ">
       <div className="flex items-center justify-between w-full ">
@@ -34,7 +34,7 @@ export const UserBar = ({ myStories }: { myStories: myStoriesType }) => {
               </div>
             </Link>
           ) : (
-            <Link href={`/home/viewprofile/${user?._id}`}>
+            <Link href={`/home/${user?.userName}`}>
               <div className="relative flex rounded-full w-14 h-14">
                 <Image fill={true} src={user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
               </div>

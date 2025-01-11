@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { EllipsisVertical } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from './DeleteDialogStyle';
-
 import { useDeleteStoryMutation } from '@/generated';
 import { toast } from '@/components/ui/use-toast';
 
@@ -21,7 +20,7 @@ const DeleteStory = ({ storyId, onDialogOpen, onDelete }: { storyId: string; onD
         throw new Error('Failed to delete story');
       }
     } catch (error) {
-      toast({ variant: 'destructive', title: 'Success', description: 'Deleted story successfully' });
+      toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete story' });
       console.error(error);
     }
   };
