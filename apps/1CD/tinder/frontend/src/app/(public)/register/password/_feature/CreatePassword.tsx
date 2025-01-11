@@ -3,12 +3,13 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useCreatePasswordMutation } from '@/generated';
+import { useCreatePasswordMutation,} from '@/generated';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const passwordSchema = z
   .object({
@@ -30,7 +31,11 @@ type ValidationSchemaType = z.infer<typeof passwordSchema>;
 
 const Password = () => {
   const router=useRouter();
-  
+
+  useEffect(() => {
+    router.refresh();
+  },[router]);
+   
   const {
     register,
     handleSubmit,

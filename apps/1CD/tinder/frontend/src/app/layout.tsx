@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
 import { MatchProvider } from '@/components/providers/MatchProvider';
 import { OneUserProvider } from '@/components/providers/OneuserProvider';
+import jwt , { JwtPayload } from 'jsonwebtoken';
+import { UserProvider } from '@/components/providers/UserContext';
 
 
 export const metadata = {
@@ -14,18 +16,23 @@ export const metadata = {
 
 const RootLayout = async ({ children }: PropsWithChildren) => {
   const authToken = (await cookies().get('authToken')?.value) || '';
+  const decoded = jwt.decode(authToken) as JwtPayload | null
+  const userId = decoded?.userId
+  console.log(userId)
   return (
     <html lang="en">
       <body className="bg-white">
         <ApolloWrapper authToken={authToken}>
-        <MatchProvider>
-            <OneUserProvider>
-              <div >
-              {React.cloneElement(children as React.ReactElement, { authToken })}
-                <Toaster />
-              </div>
-            </OneUserProvider>
-          </MatchProvider>
+        <UserProvider userId={userId}>
+            <MatchProvider>
+              <OneUserProvider>
+                <div>
+                  {React.cloneElement(children as React.ReactElement, { userId })}
+                  <Toaster />
+                </div>
+              </OneUserProvider>
+            </MatchProvider>
+            </UserProvider>
         </ApolloWrapper>
       </body>
     </html>
