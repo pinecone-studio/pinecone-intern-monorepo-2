@@ -1,9 +1,10 @@
 'use client';
-import { RoomType, useHotelDetailQuery } from '@/generated';
+import { RoomType, useHotelDetailLazyQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
 import RoomCard from './RoomCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HotelDetailImage from '@/app/(user)/(public)/hotel-detail/HotelDetailImage';
+import { useQueryState } from 'nuqs';
 
 const HotelRooms = ({
   images,
@@ -16,7 +17,18 @@ const HotelRooms = ({
   images: (string | null)[];
   setIsOpenImageDialog: (_value: boolean) => void;
 }) => {
-  const { data } = useHotelDetailQuery({ variables: { hotelId: id } });
+  const [dateFrom] = useQueryState('dateFrom');
+  const [dateTo] = useQueryState('dateTo');
+  const [GetFilteredRooms, { data }] = useHotelDetailLazyQuery({
+    variables: {
+      hotelId: id,
+      input: {
+        checkInDate: dateFrom,
+        checkOutDate: dateTo,
+      },
+    },
+  });
+
   const [selected, setSelected] = useState('');
   const cards: RoomType[] = [];
   const imagesArray = [...images];
@@ -30,6 +42,9 @@ const HotelRooms = ({
       imagesArray.push(room.images[0]);
     }
   });
+  useEffect(() => {
+    GetFilteredRooms();
+  }, [dateFrom, dateTo]);
   return (
     <div data-cy="Hotel-Rooms" className="flex flex-col gap-4">
       <div className="text-2xl font-semibold">Choose your room</div>

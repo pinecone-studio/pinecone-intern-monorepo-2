@@ -28,6 +28,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [isOpenHotelGeneralInfoDialog, setIsOpenHotelGeneralInfoDialog] = useState(false);
   const { data, refetch: hotelDatailRefetch } = useHotelDetailQuery({
     variables: {
+      input: {},
       hotelId: params.id,
     },
   });

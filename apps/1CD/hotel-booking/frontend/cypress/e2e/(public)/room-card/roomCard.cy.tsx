@@ -35,8 +35,8 @@ describe('HotelDetail', () => {
     // cy.contains('Reserve').first().click();
     cy.get('[data-cy=Trigger-Test]').click();
     cy.get('[data-cy=Date-Picker-Calendar]').should('be.visible').as('calendar');
-    cy.get('@calendar').contains('7').click();
-    cy.get('@calendar').contains('10').click();
+    cy.get('@calendar').contains('16').click();
+    cy.get('@calendar').contains('17').click();
     cy.scrollTo(0, 1000);
     cy.get('[data-cy=Reserve-Button]').first().click();
     cy.visit('/hotel-detail/674bfbd6a111c70660b55541');
