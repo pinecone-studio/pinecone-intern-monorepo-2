@@ -50,3 +50,14 @@ query GetSuggestUser {
     }
   }
 }
+
+query GetFollowStatusByFollowingId($followingId: ID!, $followerId: ID!) {
+  getFollowStatusByFollowingId(followingId: $followingId, followerId: $followerId) {
+    _id
+    createdAt
+    followerId
+    followingId
+    status
+    updatedAt
+  }
+}

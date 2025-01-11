@@ -71,6 +71,7 @@ const Notification = () => {
             onClick={() => notificationView(oneNotification._id)}
             followerId={oneNotification.otherUserId._id}
             followingId={user._id}
+            userId={oneNotification.otherUserId._id}
           />
         );
       }

@@ -1,11 +1,12 @@
 /* eslint-disable complexity */
 
 import { Button } from '@/components/ui/button';
-import { AccountVisibility, FollowStatus, useConfirmFollowReqMutation, useGetFollowStatusQuery } from '@/generated';
+import { AccountVisibility, FollowStatus, useConfirmFollowReqMutation, useGetFollowStatusByFollowingIdQuery } from '@/generated';
 import { formatDistanceToNowStrict } from 'date-fns';
 import Image from 'next/image';
 import { toast } from '@/components/ui/use-toast';
 import { Loader } from 'lucide-react';
+import { FollowBtn } from './follow/FollowButton';
 
 type FollowReqNotifyType = {
   accountVisible: AccountVisibility;
@@ -16,14 +17,14 @@ type FollowReqNotifyType = {
   onClick: () => Promise<void>;
   followerId: string;
   followingId: string;
+  userId: string;
 };
-const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, followerId, followingId }: FollowReqNotifyType) => {
+const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, followerId, followingId, userId }: FollowReqNotifyType) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
-  console.log('follow statusiig harah=====.......', followerId, followingId);
-
-  const { data: followStatus, loading: followStatusLoading } = useGetFollowStatusQuery({ variables: { followerId: '675911e5a5fa39b22efb46ae', followingId: '676115ef991135fb65e9cb47' } });
+  const { data: followStatus, loading: followStatusLoading, refetch: followStatusRefetch } = useGetFollowStatusByFollowingIdQuery({ variables: { followerId: followerId, followingId: followingId } });
   const [confirmFollowReq, { loading: confirmLoading }] = useConfirmFollowReqMutation({
     onCompleted: () => {
+      followStatusRefetch();
       toast({ variant: 'default', title: 'Success', description: 'Follow request approved' });
     },
     onError: (error) => {
@@ -34,22 +35,20 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
   const confirmFollowReqHandler = async () => {
     await confirmFollowReq({ variables: { followerId: followerId } });
   };
-  console.log('follow statusiig harah=====', followStatus, followerId, followingId);
-
   return (
     <>
-      {(accountVisible === AccountVisibility.Private || followStatus?.getFollowStatus?.status === FollowStatus.Pending) && (
+      {accountVisible === AccountVisibility.Private && (
         <div className={`flex items-center justify-between gap-4 px-3 py-2 ${isViewed ? '' : 'bg-sky-50'}`} data-cy="notify-followReqPri-card" onClick={onClick}>
           <div className="flex items-center gap-3">
             <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src={profileImg} alt="Photo1" className="absolute object-cover h-full rounded-full" data-cy="notify-followReq-private-img" />
+              <Image fill={true} src={profileImg} alt="Photo1" className="absolute object-cover h-full rounded-full" data-cy="notify-followReq-img" />
             </div>
             <div className="flex flex-col text-[#09090B]">
               <div className="">
                 <span className="text-sm font-semibold" data-cy="notify-followReq-username">
                   {userName}
                 </span>
-                <span className="ml-2 text-sm">has requested to follow you</span>
+                <span className="ml-2 text-sm">{accountVisible === AccountVisibility.Private ? 'has requested to follow you' : 'started following you'}</span>
               </div>
               <span className="text-[#71717A] text-xs" data-cy="notify-followReq-dateDistance">
                 {dateDistance}
@@ -57,37 +56,18 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
             </div>
           </div>
           <div className="flex gap-2">
-            <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA] w-20" data-cy="confirm-btn-followReq" onClick={confirmFollowReqHandler}>
-              {confirmLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Confirm'}
-            </Button>
-            <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] w-20 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq">
-              Delete
-            </Button>
-          </div>
-        </div>
-      )}
-      {(accountVisible === AccountVisibility.Public || followStatus?.getFollowStatus?.status === FollowStatus.Approved) && (
-        <div className={`flex items-center justify-between gap-4 px-3 py-2 ${isViewed ? '' : 'bg-sky-50'}`} data-cy="notify-followReqPub-card" onClick={onClick}>
-          <div className="flex items-center gap-3">
-            <div className="relative flex rounded-full w-[44px] h-[44px]">
-              <Image fill={true} src={profileImg} alt="Photo1" className="absolute object-cover h-full rounded-full" data-cy="notify-followReq-public-img" />
-            </div>
-            <div className="flex flex-col text-[#09090B]">
-              <div className="">
-                <span className="text-sm font-semibold" data-cy="notify-followReq-username">
-                  {userName}
-                </span>
-                <span className="ml-2 text-sm">started following you</span>
-              </div>
-              <span className="text-[#71717A] text-xs" data-cy="notify-followReq-dateDistance">
-                {dateDistance}
-              </span>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA]" data-cy="follow-btn-followReq">
-              Follow
-            </Button>
+            {followStatus?.getFollowStatusByFollowingId?.status === FollowStatus.Approved ? (
+              <FollowBtn userId={userId} />
+            ) : (
+              <>
+                <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA] min-w-20 h-8" data-cy="confirm-btn-followReq" onClick={confirmFollowReqHandler}>
+                  {confirmLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Confirm'}
+                </Button>
+                <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] h-8 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq">
+                  Delete
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}
