@@ -32,14 +32,7 @@ const UserProfile = () => {
     fullName: oneFollowing.followingId.fullName,
     profileImg: oneFollowing.followingId.profileImg || '/images/profileImg.webp',
   }));
-  // const postNumberDiv = () => {
-  //   if (postData.getMyPosts.length > 0) return postData?.getMyPosts.length;
-  //   else if (postLoading) return <Skeleton className="w-4 h-4" data-cy="postNumLoading" />;
-  //   else if (postData.getMyPosts.length === 0) return 0;
-  // };
-
   const postDiv = () => {
-    // if (postLoading) return <Skeleton className="w-full h-full" data-cy="postDivLoading" />;
     if (postData.getMyPosts.length)
       return (
         <div className="grid grid-cols-3 gap-3 " data-cy="myPosts">
@@ -52,7 +45,6 @@ const UserProfile = () => {
       );
     else return <NoPost data-cy="zeroPost" />;
   };
-  // console.log('useriig harah', user);
   return (
     <div className="mx-auto my-10" data-cy="user-profile-page">
       <div className="w-[900px]">

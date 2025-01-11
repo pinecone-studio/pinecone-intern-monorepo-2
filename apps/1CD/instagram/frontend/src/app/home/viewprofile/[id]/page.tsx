@@ -35,7 +35,7 @@ const ViewProfile = () => {
       followingId: profileUser?._id as string,
     },
   });
-
+  console.log('view profileiin followDatag harah', followData);
   const refresh = async () => {
     await refetch();
   };
