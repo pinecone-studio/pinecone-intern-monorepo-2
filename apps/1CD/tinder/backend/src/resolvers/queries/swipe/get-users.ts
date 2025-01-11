@@ -8,7 +8,7 @@ export const getUsers: QueryResolvers['getUsers'] = async (_, __, { userId }: Co
 
   const swipes = await swipeModel.find({ swiperUser: userId });
   const swipedUserIds: string[] = swipes
-    .map((swipe) => swipe.swipedUser?.toString()) 
+    .map((swipe) => swipe.swipedUser.toString()) 
     .filter((id): id is string => Boolean(id));
 
   const filter = { _id: { $nin: [userId, ...swipedUserIds] } };
