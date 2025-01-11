@@ -18,12 +18,14 @@ const UserProfile = () => {
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: userId } });
   const { data: followerData } = useGetFollowersQuery({ variables: { followingId: userId } });
   if (!followingData || !followerData || !postData) return;
-  const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({
+
+  const fetchedFollowerData = followerData?.seeFollowers?.map((oneFollower) => ({
     _id: oneFollower.followerId._id,
     userName: oneFollower.followerId.userName,
     profileImg: oneFollower.followerId.profileImg || '/images/profileImg.webp',
     fullName: oneFollower.followerId.fullName,
   }));
+
   const fetchedFollowingData = followingData.seeFollowings.map((oneFollowing) => ({
     _id: oneFollowing.followingId._id,
     userName: oneFollowing.followingId.userName,

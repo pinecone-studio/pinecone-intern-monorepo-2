@@ -74,8 +74,10 @@ export const FollowBtn = ({ userId }: { userId: string }) => {
     }
   };
   return (
-    <Button className={`h-8 text-black bg-gray-200 ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
-      {buttonText}
-    </Button>
+    <>
+      <Button className={`h-8 text-black bg-gray-200 ${followLoading && 'opacity-50 cursor-not-allowed'}`} onClick={handleButtonClick} disabled={followLoading}>
+        {buttonText}
+      </Button>
+    </>
   );
 };
