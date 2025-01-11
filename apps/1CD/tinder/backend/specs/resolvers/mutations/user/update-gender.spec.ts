@@ -1,8 +1,7 @@
 
-
-import { updateGender } from '../../../../src/resolvers/mutations';
 import { GraphQLResolveInfo } from 'graphql';
 import { userModel } from '../../../../src/models';
+import { updateGender } from '../../../../src/resolvers/mutations/user/update-gender';
 
 
 jest.mock('../../../../src/models', () => ({
