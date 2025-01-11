@@ -107,7 +107,7 @@ const Page = () => {
           ) : (
             <div className="h-full max-h-screen overflow-scroll">
               {data?.getFilterByPropertiesHotels.map((hotelData) => (
-                <div key={hotelData._id} onClick={() => router.push(`/hotel-detail/${hotelData._id}`)}>
+                <div key={hotelData._id} onClick={() => router.push(`/hotel-detail/${hotelData._id}?dateTo=${dateTo}&dateFrom=${dateFrom}&roomType=${roomType}`)}>
                   <SearchedHotelCards hotelData={hotelData} />
                 </div>
               ))}
