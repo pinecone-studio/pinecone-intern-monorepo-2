@@ -86,16 +86,23 @@ export const typeDefs = gql`
     image: String!
   }
 
+  type DeleteStoryResponse {
+    message: String!
+    story: UserStory
+  }
+
   type Query {
-    getAllUsersWithLatestStories: [UserPopulatedStory!]! # For outer carousel
-    getFollowingUserStories(user: ID!): UserPopulatedStory! # For inner carousel
+    getAllUsersWithLatestStories: [UserPopulatedStory!]!
+    getFollowingUserStories(user: ID!): UserPopulatedStory!
     getFollowingStories: [UserStory!]
     getMyStory(_id: ID!): [UserStory!]
     getMyActiveStories: UserPopulatedStory!
     getMyStories: UserStory!
+    getPublicAccStories(user: ID!): UserPopulatedStory!
   }
 
   type Mutation {
     createStory(input: StoryInput!): UserStory!
+    deleteStory(storyId: ID!): DeleteStoryResponse!
   }
 `;
