@@ -1,7 +1,8 @@
+import { QueryResolvers } from 'src/generated';
 import { userModel } from 'src/models';
 
-export const getUser = async (_: unknown, { email }: { email: string }) => {
-  const user = await userModel.findOne({ email });
-  if (!user) throw new Error('email is not found');
+export const getUser: QueryResolvers['getUser'] = async (_, __, { userId }) => {
+  if (!userId) throw new Error('email is not found');
+  const user = await userModel.findById({ _id: userId });
   return user;
 };

@@ -8,3 +8,45 @@ mutation RemoveFollower($id: ID!) {
     status
   }
 }
+
+query GetSuggestUser {
+  getSuggestUser {
+    followerId {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+
+    followingId {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+  }
+}

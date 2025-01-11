@@ -4,13 +4,14 @@ import { ReviewRating } from './StarsStaticJson';
 
 type SelectHotelReviewRatingType = {
   setFieldValue: (_name: string, _value: number) => void;
+  value: number;
 };
-const SelectHotelReviewRating = ({ setFieldValue }: SelectHotelReviewRatingType) => {
+const SelectHotelReviewRating = ({ setFieldValue, value }: SelectHotelReviewRatingType) => {
   const handleValueChange = (value: string) => {
     setFieldValue('rating', Number(value));
   };
   return (
-    <Select data-testid="Reveiw-Rating-Select" onValueChange={(e) => handleValueChange(e)}>
+    <Select defaultValue={String(value)} data-testid="Reveiw-Rating-Select" onValueChange={(e) => handleValueChange(e)}>
       <SelectTrigger data-cy="Review-Rating-Stars-Trigger" data-testid="Review-Rating-Stars-Trigger" className="w-full">
         <SelectValue data-testid="Jest-Rating" data-cy="Review-Rating-Stars" id="rating" placeholder="Select" />
       </SelectTrigger>

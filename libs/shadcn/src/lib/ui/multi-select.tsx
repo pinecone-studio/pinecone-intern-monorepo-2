@@ -40,7 +40,7 @@ export const MultiSelect = ({ options, value, onValueChange, placeholder }: Mult
     }
   }, []);
 
-  const selectables = options.filter((option) => !value.includes(option));
+  const selectables = options.filter((option) => !value.map((v) => v.value).includes(option.value));
 
   return (
     <Command onKeyDown={handleKeyDown} className="overflow-visible bg-transparent">

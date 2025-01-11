@@ -35,7 +35,13 @@ describe('register with email page', () => {
           });
         cy.url().should('include', 'register/otp') 
       
-    })
+    });
+    it('7.should return sign in  ',()=>{
+      
+      cy.get('[data-cy="signIn"]').click();
+      cy.url().should('include', 'signIn') 
+    
+  })
    
     
 })

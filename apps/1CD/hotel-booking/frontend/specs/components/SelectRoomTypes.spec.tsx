@@ -7,8 +7,8 @@ describe('select room', () => {
     const { getByTestId, getByText } = render(<SelectRoomTypes setFieldValue={setMockData} />);
     const trigger = getByTestId('Select-Room-Type-Trigger');
     fireEvent.click(trigger);
-    const toSelectItem = getByText('Deluxe');
+    const toSelectItem = getByText('1bed');
     fireEvent.click(toSelectItem);
-    expect(setMockData).toHaveBeenCalledWith('roomType', 'Deluxe');
+    expect(setMockData).toHaveBeenCalledWith('roomType', '1bed');
   });
 });

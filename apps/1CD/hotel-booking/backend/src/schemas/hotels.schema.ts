@@ -35,7 +35,9 @@ export const typeDefs = gql`
     addHotelGeneralInfo(input: HotelInput!): Hotel!
     updateHotelLocation(location: String!, _id: String!): Hotel!
     updateHotelImages(images: [String!]!, _id: String!): Hotel!
+    updateHotelGeneralInfo(_id: String!, input: HotelInput!): Hotel!
   }
+
   input AdminHotelFilter {
     starRating: Int
     userRating: Int

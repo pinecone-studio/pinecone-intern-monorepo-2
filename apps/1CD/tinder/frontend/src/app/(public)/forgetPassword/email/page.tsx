@@ -58,7 +58,7 @@ const CheckEmail = () => {
             onClick={() => checkEmail()}
             disabled={loading}
           >
-            Continue
+           {loading ? <Image src="/sw.svg" alt="loading" width={20} height={20} className="animate-spin" /> : 'Continue'}
           </Button>
         </div>
       </div>

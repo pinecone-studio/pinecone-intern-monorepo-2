@@ -25,6 +25,7 @@ export const typeDefs = gql`
     dateOfBirth: Date
     phoneNumber: String
     emergencyContact: String
+    emergencyStatus: emergencyStatusEnum
     createdAt: Date!
   }
 
@@ -71,7 +72,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    getUser(email: String!): User!
+    getUser: User!
   }
 
   type Mutation {

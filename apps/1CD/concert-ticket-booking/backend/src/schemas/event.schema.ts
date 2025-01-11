@@ -74,6 +74,7 @@ export const typeDefs = gql`
   input EventPriorityUpdateInput {
     priority: String!
   }
+
   input EventUpdateInput {
     name: String
     description: String

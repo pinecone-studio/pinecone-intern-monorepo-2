@@ -40,8 +40,8 @@ const VerifyOtp = () => {
 
     onCompleted: async(data) => {
       const token=data.verifyOtp.token
-      fetch(`/token?token=${token}`);
-      router.push('/register/password');
+      await fetch(`/token?token=${token}`);
+      router.push('/forgetPassword/password');
     },
 
     onError: () => {

@@ -40,7 +40,7 @@ const Password = () => {
 
 
 
-  const [createPassword] = useCreatePasswordMutation({
+  const [createPassword,{loading}] = useCreatePasswordMutation({
 
     onCompleted:()=>{
       router.push('/register/attraction');
@@ -75,8 +75,9 @@ const Password = () => {
           <Input data-cy="register-confirm-password-input" placeholder="password1234@" className="w-[350px] border-[#E4E4E7] border-2" id="confirmPassword" type="password" {...register('confirmPassword')} />
           {errors.confirmPassword?.message && <p className="pt-2 text-sm text-red-600">{errors.confirmPassword?.message}</p>}
           <Button data-cy="register-continue-button" className="w-[350px] h-9 bg-[#E11D48E5] rounded-full text-[#FAFAFA] text-sm font-medium mt-4" type="submit">
-            Continue
+           {loading ? <Image src="/sw.svg" alt="loading" width={20} height={20} className="animate-spin" /> : 'Continue'}
           </Button>
+          
         </div>
         <p className="text-[#71717A] text-sm pt-[25%] ">©2024 Tinder</p>
       </div>
