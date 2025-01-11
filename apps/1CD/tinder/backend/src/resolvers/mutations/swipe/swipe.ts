@@ -10,7 +10,9 @@ export const swipeUser: MutationResolvers['swipeUser'] = async (_, { input }, { 
     try{
       await swipeModel.create({ ...input, swiperUser });
       if(input.type==='liked'){
-        await swipeModel.findOne({swiperUser:swipedUser,swipedUser:swiperUser,type:'liked'})
+
+        const res=await swipeModel.findOne({swiperUser:swipedUser,swipedUser:swiperUser,type:'liked'})
+        if(!res)return {matchedWith:swipedUser,swiped:'successful',matched:false}
         await Matchmodel.create({user1:swipedUser, user2:swiperUser, matched:'true'})
         return {matchedWith:swipedUser,swiped:'successful',matched:true}
       }

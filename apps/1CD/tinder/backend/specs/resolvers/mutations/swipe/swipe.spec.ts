@@ -70,9 +70,30 @@ describe('mutation of swipe', () => {
       matched: true,
     });
   });
+
+  it('should successfully swiped and matched', async () => {
+    const user = {
+      swipedUser: mockSwipedUser,
+      swiperUser: mockUserId,
+      type:'liked',
+    };
+  
+    (swipeModel.create as jest.Mock).mockResolvedValue(user);
+    (swipeModel.findOne as jest.Mock).mockResolvedValue(null);
+    const res = await swipeUser!({}, { input: user }, { userId: mockUserId }, mockInfo);
+    expect(res).toEqual({
+      matchedWith:'4567',
+      swiped:'successful',
+      matched:false,
+    }
+);
+  });
+
+
   it('should throw error when database error occured ', async () => {
     (swipeModel.create as jest.Mock).mockRejectedValue(null);
     await expect(swipeUser!({}, { input: mockInput }, { userId: mockUserId }, mockInfo)).rejects.toThrowError(GraphQLError);
     await expect(swipeUser!({}, { input: mockInput }, { userId: mockUserId }, mockInfo)).rejects.toThrowError('Database error occured');
   });
+  
 });
