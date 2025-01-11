@@ -18,10 +18,12 @@ export const typeDefs = gql`
 
   type FollowingInfo {
     followingId: User!
+    status: FollowStatus!
   }
 
   type FollowerInfo {
     followerId: User!
+    status: FollowStatus!
   }
 
   type SuggestUserInfo {
