@@ -24,7 +24,7 @@ export const DeleteCommentModal = ({
         id: id,
       },
     });
-    refetch();
+    await refetch();
     setOpenDeleteCommentModal(false);
   };
 

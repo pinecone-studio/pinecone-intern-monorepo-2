@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useGetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { PostLikes } from '@/components/like/PostLikes';
+import { PostLikes } from '@/app/(main)/_components/like/PostLikes';
 
 import Link from 'next/link';
 import { CreateComment } from '@/components/comment/CreateComment';

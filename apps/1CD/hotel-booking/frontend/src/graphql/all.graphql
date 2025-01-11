@@ -337,6 +337,16 @@ mutation UpdateHotelImages($images: [String!]!, $id: String!) {
   }
 }
 
+mutation UpdateRoomInfo($input: UpdateRoomInfoInput!) {
+  updateRoomInfo(input: $input) {
+    id
+    roomName
+    roomType
+    price
+    roomInformation
+  }
+}
+
 query GetRoom($id: ID!) {
   getRoom(_id: $id) {
     id
@@ -407,5 +417,18 @@ mutation UpdateHotelGeneralInfo($id: String!, $input: HotelInput!) {
     hotelAmenities
     location
     roomsAveragePrice
+  }
+}
+
+mutation UpdateRoomImage($id: ID!, $images: [String!]!) {
+  updateRoomImage(_id: $id, images: $images) {
+    id
+    roomName
+    roomType
+    price
+    roomInformation
+    createdAt
+    amenities
+    images
   }
 }

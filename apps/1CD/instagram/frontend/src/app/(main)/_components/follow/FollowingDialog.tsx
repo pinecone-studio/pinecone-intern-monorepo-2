@@ -5,6 +5,7 @@ import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FollowBtn } from '@/app/(main)/_components/follow/FollowButton';
+import { useAuth } from '@/components/providers';
 
 export interface Following {
   _id: string;
@@ -24,6 +25,7 @@ export interface FollowingDialogProps {
   followingDataCount: number;
 }
 const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
+  const { user } = useAuth();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -71,8 +73,7 @@ const FollowingDialog: React.FC<FollowingDialogProps> = ({ followingData, follow
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </Link>
-
-                <FollowBtn userId={oneFollowing?._id} />
+                {oneFollowing?._id === user?._id ? '' : <FollowBtn userId={oneFollowing?._id} />}
               </div>
             ))}
           </div>

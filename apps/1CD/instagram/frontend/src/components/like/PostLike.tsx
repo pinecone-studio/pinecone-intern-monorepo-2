@@ -41,7 +41,7 @@ export const PostLike = ({ id }: { id: string }) => {
 
   return (
     <p className="cursor-pointer" onClick={handleChangePostLike} data-testid="LikeBtn">
-      {data?.getPostLike?.isLike ? <Heart fill="111" /> : <Heart />}
+      {data?.getPostLike?.isLike ? <Heart fill="#FF0000" color="#FF0000" /> : <Heart />}
     </p>
   );
 };

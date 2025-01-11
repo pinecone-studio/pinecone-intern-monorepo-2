@@ -14,7 +14,7 @@ import { UpdatePost } from './UpdatePost';
 import Link from 'next/link';
 import { CreateComment } from '@/components/comment/CreateComment';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { PostLikes } from '@/components/like/PostLikes';
+import { PostLikes } from '@/app/(main)/_components/like/PostLikes';
 import { CommentCard } from '../comment/CommentCard';
 import { PostImg } from '@/components/visit-profile/PostImgCarousel';
 import { useAuth } from '@/components/providers';

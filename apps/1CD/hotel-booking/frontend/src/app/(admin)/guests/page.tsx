@@ -30,7 +30,7 @@ const Page = () => {
     <section data-cy="Get-Bookings-Page" className="w-full bg-gray-50">
       <div className="flex items-center gap-2 my-6 ml-5">
         <SidebarTrigger />
-        <BreadCrumb />
+        <BreadCrumb items={[{ link: '/add-hotel/home-page', Name: 'Hotels' }]} />
       </div>
       <section data-cy="Bookings-Data-Table" className="flex flex-col gap-6 p-5 border-t-[2px]">
         <div className="flex flex-col gap-4">

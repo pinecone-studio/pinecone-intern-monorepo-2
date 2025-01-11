@@ -120,7 +120,7 @@ const UpdateHotelGeneralInfo = ({ open, setOpen, hotelData, AllQueriesRefetch }:
             </div>
             <div className="flex justify-between mt-6">
               <div>
-                <Button data-cy="Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] border hover:bg-slate-100 active:bg-slate-200 text-black">
+                <Button type="button" data-cy="Cancel-Button" onClick={() => setOpen(false)} className="bg-[#FFFFFF] border hover:bg-slate-100 active:bg-slate-200 text-black">
                   Cancel
                 </Button>
               </div>

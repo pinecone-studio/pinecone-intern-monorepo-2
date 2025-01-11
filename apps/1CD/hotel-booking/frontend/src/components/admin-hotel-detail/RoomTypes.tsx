@@ -3,6 +3,7 @@ import { Table, TableCell, TableHead, TableHeader, TableRow } from '@/components
 import { RoomType } from '@/generated';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const RoomTypes = ({ rooms, setRoomOpen }: { rooms: RoomType[] | undefined; setRoomOpen: (_value: boolean) => void }) => {
   return (
@@ -36,15 +37,17 @@ const RoomTypes = ({ rooms, setRoomOpen }: { rooms: RoomType[] | undefined; setR
           </TableHeader>
           <TableHeader className="rounded-xl max-h-[400px] overflow-y-scroll">
             {rooms?.map((room) => (
-              <TableRow className="flex items-center gap-4 border" key={room._id}>
-                <TableCell className="flex w-[50px] h-16 px-4 py-3 text-black border-r-[1px]">{room._id?.slice(5, 8)}</TableCell>
-                <TableCell className="flex flex-1 p-4 border-r-[1px] h-16 items-center gap-2">
-                  {room?.images?.[0] && <Image src={room.images[0]} alt="image" width={2000} height={2000} className="object-cover w-12 h-12 rounded-sm" />}
-                  <div>{room.roomName}</div>
-                </TableCell>
-                <TableCell className="flex h-16  p-4 flex-1 gap-2  text-black border-r-[1px]">{room.price}</TableCell>
-                <TableCell className="flex flex-1 w-40 h-16 p-4 text-black">{room.roomType}</TableCell>
-              </TableRow>
+              <Link key={room._id} href={`/room-detail/${room._id}`}>
+                <TableRow className="flex items-center gap-4 border">
+                  <TableCell className="flex w-[50px] h-16 px-4 py-3 text-black border-r-[1px]">{room._id?.slice(5, 8)}</TableCell>
+                  <TableCell className="flex flex-1 p-4 border-r-[1px] h-16 items-center gap-2">
+                    {room?.images?.[0] && <Image src={room.images[0]} alt="image" width={2000} height={2000} className="object-cover w-12 h-12 rounded-sm" />}
+                    <div>{room.roomName}</div>
+                  </TableCell>
+                  <TableCell className="flex h-16  p-4 flex-1 gap-2  text-black border-r-[1px]">{room.price}</TableCell>
+                  <TableCell className="flex flex-1 w-40 h-16 p-4 text-black">{room.roomType}</TableCell>
+                </TableRow>
+              </Link>
             ))}
           </TableHeader>
         </Table>

@@ -6,8 +6,10 @@ import Image from 'next/image';
 import { FollowerDialogProps } from '../follow/FollowerDialog';
 import Link from 'next/link';
 import { FollowBtn } from '../follow/FollowButton';
+import { useAuth } from '@/components/providers';
 
 const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, followerDataCount }) => {
+  const { user } = useAuth();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -47,7 +49,7 @@ const SeeFollowersDialog: React.FC<FollowerDialogProps> = ({ followerData, follo
                   </div>
                 </Link>
                 {/* <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button> */}
-                <FollowBtn userId={oneFollower?._id} />
+                {oneFollower?._id === user?._id ? '' : <FollowBtn userId={oneFollower?._id} />}
               </div>
             ))}
           </div>

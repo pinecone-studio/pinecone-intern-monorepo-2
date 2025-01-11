@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Bookmark, MessageCircle, MoreVertical } from 'lucide-react';
 import { CommentCard } from '../../app/(main)/_components/comment/CommentCard';
-import { PostLikes } from '../like/PostLikes';
+import { PostLikes } from '../../app/(main)/_components/like/PostLikes';
 import { CommentCount } from '@/components/comment/CommentCount';
 import { PostLike } from '@/components/like/PostLike';
 import { ScrollArea } from '@/components/ui/scroll-area';

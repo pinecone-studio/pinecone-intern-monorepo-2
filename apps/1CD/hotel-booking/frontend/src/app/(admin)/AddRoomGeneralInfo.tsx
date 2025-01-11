@@ -11,7 +11,7 @@ type AddHotelGeneralInfoType = {
   setOpen: (_: boolean) => void;
   AllQueriesRefetch: () => void;
 };
-type Option = {
+export type Option = {
   value: string;
   label: string;
 };

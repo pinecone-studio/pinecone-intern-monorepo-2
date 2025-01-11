@@ -2,11 +2,12 @@
 import { useGetCommentsQuery } from '@/generated';
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Ellipsis, Heart } from 'lucide-react';
+import { Ellipsis } from 'lucide-react';
 import Link from 'next/link';
 import { DeleteCommentModal } from './DeleteComment';
 import { useAuth } from '@/components/providers';
-
+import { CommentLikes } from '@/app/(main)/_components/like/CommentLikes';
+import { CommentLike } from '@/components/comment-like/CommentLike';
 
 export const CommentCard = ({ id }: { id: string }) => {
   const [openDeleteCommentModal, setOpenDeleteCommentModal] = useState(false);
@@ -41,21 +42,23 @@ export const CommentCard = ({ id }: { id: string }) => {
               </h1>
               <div className="flex gap-3 text-[12px] text-[#71717A] items-center">
                 <p>1d</p>
-                <p>1 like</p>
+                <CommentLikes id={item._id} />
                 <p>Reply</p>
                 {user?._id === item.commentedUser._id ? (
                   <p data-testid="deleteModalBtn" onClick={() => setOpenDeleteCommentModal(true)}>
-                    <Ellipsis />
+                    <Ellipsis strokeWidth={1} size={15} />
                   </p>
                 ) : (
-                  ''
+                  <p data-testid="deleteModalBtn" onClick={() => setOpenDeleteCommentModal(true)}>
+                    <Ellipsis strokeWidth={1} size={15} />
+                  </p>
                 )}
               </div>
             </div>
           </div>
 
           <div className="pt-2">
-            <Heart strokeWidth={1} size={15} />
+            <CommentLike id={item._id} />
           </div>
           <DeleteCommentModal openDeleteCommentModal={openDeleteCommentModal} setOpenDeleteCommentModal={setOpenDeleteCommentModal} id={item?._id} refetch={refetch} />
         </div>

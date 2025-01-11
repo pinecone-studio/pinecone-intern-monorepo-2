@@ -1,18 +1,23 @@
 import React from 'react';
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-
-const BreadCrumb = () => {
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from '@/components/ui/breadcrumb';
+import { ChevronRight } from 'lucide-react';
+type BreaCrumbType = {
+  link: string;
+  Name: string;
+};
+const BreadCrumb = ({ items }: { items: BreaCrumbType[] }) => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/add-hotel">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Guests</BreadcrumbPage>
-        </BreadcrumbItem>
+        {items.map((item, index) => (
+          <BreadcrumbItem key={index}>
+            <BreadcrumbLink className={`${index == items.length - 1 && 'text-[#64748B] text-foreground'}`} href={item.link}>
+              {item.Name}
+            </BreadcrumbLink>
+            {index !== items.length - 1 && <ChevronRight width={16} height={16} />}
+          </BreadcrumbItem>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );

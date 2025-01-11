@@ -1,0 +1,60 @@
+mutation CreateCommentLike($commentId: ID!, $isLike: Boolean!) {
+  createCommentLike(commentId: $commentId, isLike: $isLike) {
+    _id
+    likedUser {
+      _id
+    }
+    comment {
+      _id
+    }
+    isLike
+    createdAt
+  }
+}
+
+mutation DeleteCommentLike($commentLikeId: ID!) {
+  deleteCommentLike(commentLikeId: $commentLikeId) {
+    _id
+    likedUser {
+      _id
+    }
+    comment {
+      _id
+    }
+    isLike
+    createdAt
+  }
+}
+
+query GetCommentLike($commentId: ID!) {
+  getCommentLike(commentId: $commentId) {
+    _id
+
+    isLike
+    createdAt
+  }
+}
+
+query GetCommentLikes($commentId: ID!) {
+  getCommentLikes(commentId: $commentId) {
+    _id
+    likedUser {
+      _id
+      userName
+      fullName
+      email
+      phone
+      bio
+      gender
+      profileImg
+      accountVisibility
+      followerCount
+      followingCount
+      createdAt
+      updatedAt
+      otp
+      resetPasswordToken
+      resetPasswordTokenExpire
+    }
+  }
+}

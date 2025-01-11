@@ -1,26 +1,27 @@
 'use client';
-import { useGetPostLikesQuery } from '@/generated';
+import { useGetCommentLikesQuery } from '@/generated';
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { FollowBtn } from '@/app/(main)/_components/follow/FollowButton';
+import { useAuth } from '../../../../components/providers';
 
-export const PostLikes = ({ id }: { id: string }) => {
-  const { data } = useGetPostLikesQuery({
+export const CommentLikes = ({ id }: { id: string }) => {
+  const { data } = useGetCommentLikesQuery({
     variables: {
-      postId: id,
+      commentId: id,
     },
   });
-
+  const { user } = useAuth();
   return (
     <Dialog>
       <DialogTrigger asChild>
         <div className="flex flex-row space-x-2 hover:cursor-pointer">
-          <h1 className="text-sm cursor-pointer" data-testid="likeNumber" data-cy="likeNum">
-            {data?.getPostLikes?.length === 0 ? '' : `${data?.getPostLikes?.length === 1 ? `${data?.getPostLikes?.length} like` : `${data?.getPostLikes?.length} likes`}`}
+          <h1 className="text-[12px] text-[#71717A] cursor-pointer" data-testid="likeNumber" data-cy="likeNum">
+            {data?.getCommentLikes?.length === 0 ? '' : `${data?.getCommentLikes?.length === 1 ? `${data?.getCommentLikes?.length} like` : `${data?.getCommentLikes?.length} likes`}`}
           </h1>
         </div>
       </DialogTrigger>
@@ -34,25 +35,25 @@ export const PostLikes = ({ id }: { id: string }) => {
             <Input type="text" placeholder="Search.." className="w-10/12 bg-transparent border-none input md:w-auto focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-base" />
           </div>
           <div className="w-full space-y-2">
-            {data?.getPostLikes.map((item) => (
+            {data?.getCommentLikes.map((item) => (
               <div key={item?._id} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="dialogLikesCard">
-                <Link href={`/home/viewprofile/${item?.user._id}`} className="flex items-center space-x-4">
-                  <section className="relative rounded-full w-14 h-14">
+                <Link href={`/home/viewprofile/${item?.likedUser._id}`} className="flex items-center space-x-4">
+                  <div className="relative rounded-full w-14 h-14">
                     <Image
-                      src={item?.user.profileImg || '/images/profileImg.webp'}
+                      src={item?.likedUser.profileImg || '/images/profileImg.webp'}
                       alt="proZurag"
                       fill
                       className="absolute object-cover rounded-full"
                       data-cy="followerCardImg"
                       sizes="w-auto h-auto"
                     />
-                  </section>
+                  </div>
                   <div className="flex flex-col space-y-0">
-                    <h1 className="text-lg font-semibold text-gray-700">{item?.user.userName}</h1>
-                    <h1 className="text-sm font-medium">{item?.user.fullName}</h1>
+                    <h1 className="text-lg font-semibold text-gray-700">{item?.likedUser.userName}</h1>
+                    <h1 className="text-sm font-medium">{item?.likedUser.fullName}</h1>
                   </div>
                 </Link>
-                <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Remove</Button>
+                {item?.likedUser._id === user?._id ? '' : <FollowBtn userId={item?.likedUser._id || ''} />}
               </div>
             ))}
           </div>

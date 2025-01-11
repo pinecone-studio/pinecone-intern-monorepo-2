@@ -6,9 +6,10 @@ import Image from 'next/image';
 import { FollowingDialogProps } from '../follow/FollowingDialog';
 import Link from 'next/link';
 import { FollowBtn } from '../follow/FollowButton';
+import { useAuth } from '@/components/providers';
 
 const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, followingDataCount }) => {
-  console.log(followingData);
+  const { user } = useAuth();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,7 +33,7 @@ const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, fo
             {followingData.map((oneFollowing) => (
               <div key={`key${oneFollowing._id}`} className="flex flex-row items-center justify-between w-11/12 mx-auto" data-cy="followingCard">
                 <Link href={`/home/viewprofile/${oneFollowing._id}`} className="flex items-center space-x-4">
-                  <section className="relative rounded-full w-14 h-14">
+                  <div className="relative rounded-full w-14 h-14">
                     <Image
                       sizes="h-auto w-auto"
                       src={oneFollowing.profileImg || '/images/profileImg.webp'}
@@ -41,14 +42,15 @@ const SeeFollowingsDialog: React.FC<FollowingDialogProps> = ({ followingData, fo
                       className="absolute object-cover rounded-full"
                       data-cy="followingCardImg"
                     />
-                  </section>
+                  </div>
                   <div className="flex flex-col space-y-0">
                     <h1 className="text-lg font-semibold text-gray-700">{oneFollowing.userName}</h1>
                     <h1 className="text-sm font-medium">{oneFollowing.fullName}</h1>
                   </div>
                 </Link>
                 {/* <Button className="text-black bg-gray-200 h-9 hover:bg-gray-300">Following</Button> */}
-                <FollowBtn userId={oneFollowing?._id} />
+
+                {oneFollowing?._id === user?._id ? '' : <FollowBtn userId={oneFollowing?._id} />}
               </div>
             ))}
           </div>
