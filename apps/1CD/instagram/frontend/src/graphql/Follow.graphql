@@ -61,3 +61,7 @@ query GetFollowStatusByFollowingId($followingId: ID!, $followerId: ID!) {
     updatedAt
   }
 }
+
+mutation RemoveFollowReqFromNotifyByPrivateFollowingIdUser($followerId: ID!, $followingId: ID!) {
+  removeFollowReqFromNotifyByPrivateFollowingIdUser(followerId: $followerId, followingId: $followingId)
+}
