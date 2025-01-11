@@ -377,8 +377,6 @@ mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
 }
 mutation UpdateProfile($input: ProfileInput!) {
   updateProfile(input: $input) {
-<<<<<<< Updated upstream
-=======
     _id
     email
     firstName
@@ -392,7 +390,6 @@ mutation UpdateProfile($input: ProfileInput!) {
 
 query GetUser {
   getUser {
->>>>>>> Stashed changes
     _id
     email
     firstName
