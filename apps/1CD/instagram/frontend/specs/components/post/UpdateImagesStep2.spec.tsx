@@ -10,7 +10,7 @@ describe('UpdateImagesStep2', () => {
   it('should allow going back to step 2 from step 1', async () => {
     const { getByTestId } = render(
       <MockedProvider>
-        <UpdateImagesStep2 step={true} setStep={jest.fn()} setOpenCreatePostModal={jest.fn()} images={mockImages} />
+        <UpdateImagesStep2 step={true} setStep={jest.fn()} setOpenCreatePostModal={jest.fn()} images={mockImages} loading={true} setLoading={jest.fn()} />
       </MockedProvider>
     );
 
@@ -20,7 +20,7 @@ describe('UpdateImagesStep2', () => {
   it('should UpdateImagesStep2 ', async () => {
     const { getByTestId } = render(
       <MockedProvider>
-        <UpdateImagesStep2 step={true} setStep={jest.fn()} setOpenCreatePostModal={jest.fn()} images={mockImages} />
+        <UpdateImagesStep2 step={true} setStep={jest.fn()} setOpenCreatePostModal={jest.fn()} images={mockImages} loading={true} setLoading={jest.fn()} />
       </MockedProvider>
     );
 
