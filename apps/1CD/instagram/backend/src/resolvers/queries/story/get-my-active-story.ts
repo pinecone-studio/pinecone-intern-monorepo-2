@@ -6,11 +6,10 @@ export const getMyActiveStories: QueryResolvers['getMyActiveStories'] = async (_
 
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  const stories = await storyModel.find({ user: userId })
-    .populate({
-      path: 'user',
-      model: 'userModel',
-    });
+  const stories = await storyModel.find({ user: userId }).populate({
+    path: 'user',
+    model: 'userModel',
+  });
 
   if (!stories || stories.length === 0) {
     throw new Error('No stories found or they are archived');
@@ -19,7 +18,6 @@ export const getMyActiveStories: QueryResolvers['getMyActiveStories'] = async (_
   const activeStory = stories
     .map((story) => ({
       ...(typeof story.toObject === 'function' ? story.toObject() : story),
-      //   stories: story.stories.filter((stories: { createdAt: Date }) => new Date(stories.createdAt) >= twentyFourHoursAgo),
       stories: story.stories.filter((userStory: { createdAt: Date }) => userStory.createdAt >= twentyFourHoursAgo),
     }))
     .find((story) => story.stories.length > 0);
