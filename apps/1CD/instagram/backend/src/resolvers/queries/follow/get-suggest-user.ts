@@ -5,11 +5,12 @@ import { FollowerPopulatedType, followModel, FollowPopulatedType } from 'src/mod
 export const getSuggestUser: QueryResolvers['getSuggestUser'] = async (_, __, { userId }) => {
   if (!userId) throw new Error('Unauthorized');
 
-  const myFollowingInfo = await followModel.find({ followerId: userId }).populate<FollowPopulatedType>('followingId');
+  const myFollowingInfo = await followModel.find({ followerId: userId, status: 'APPROVED' }).populate<FollowPopulatedType>('followingId');
 
   const followingsOfMyFollowings = await followModel
     .find({
       followerId: myFollowingInfo.map((item) => item.followingId._id),
+      status: 'APPROVED',
     })
     .populate<FollowerPopulatedType>('followerId')
     .populate<FollowPopulatedType>('followingId');
