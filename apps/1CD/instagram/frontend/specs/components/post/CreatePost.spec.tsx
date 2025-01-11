@@ -42,7 +42,7 @@ describe('CreatePost', () => {
   it('should render succes CreatePost', async () => {
     const { getByTestId } = render(
       <MockedProvider mocks={createPostMock} addTypename={false}>
-        <CreatePost setOpenModal={mockSetOpenModal} openModal={true} images={['http://img1']} setStep={jest.fn()} />
+        <CreatePost setOpenModal={mockSetOpenModal} openModal={true} images={['http://img1']} setStep={jest.fn()} loading={true} setLoading={jest.fn()} />
       </MockedProvider>
     );
 
@@ -54,7 +54,7 @@ describe('CreatePost', () => {
   it('should render succes CreatePost', async () => {
     const { getByTestId } = render(
       <MockedProvider mocks={createPostMock} addTypename={false}>
-        <CreatePost setOpenModal={jest.fn()} openModal={true} images={['http://img1']} setStep={jest.fn()} />
+        <CreatePost setOpenModal={jest.fn()} openModal={true} images={['http://img1']} setStep={jest.fn()} loading={true} setLoading={jest.fn()} />
       </MockedProvider>
     );
 

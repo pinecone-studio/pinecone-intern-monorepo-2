@@ -4,14 +4,18 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useCreatePostMutation, useGetUserQuery } from '@/generated';
-import { ArrowLeft, SmileIcon } from 'lucide-react';
+import { ArrowLeft, Loader, SmileIcon } from 'lucide-react';
 
 export const CreatePost = ({
   openModal,
   setOpenModal,
   images,
   setStep,
+  setLoading,
+  loading,
 }: {
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
   images: string[];
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
@@ -31,16 +35,20 @@ export const CreatePost = ({
     });
   };
   const createPostBtn = () => {
+    setLoading(true);
     handleCreatePost();
     setOpenModal(false);
+    setLoading(false);
   };
   const closeModal = () => {
+    setLoading(true);
     setOpenModal(false);
     setStep(true);
+    setLoading(false);
   };
   return (
     <Dialog open={openModal}>
-      <DialogContent className="[&>button]:hidden p-0 m-0 border-none max-w-[1256px]  ">
+      <DialogContent className="[&>button]:hidden p-0 m-0 border-none max-w-[997px]  ">
         <div className="bg-white rounded-lg w-[997px] h-[679px] [&>button]:hidden p-0 flex flex-col gap-4  ">
           <div>
             <DialogTitle className="text-center text-[16px] h-[35px] py-3  ">
@@ -59,6 +67,13 @@ export const CreatePost = ({
 
           <div className="flex w-full h-full m-0">
             <div className="relative w-[654px] h-[628px]">
+              {loading === false ? (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                  <Loader className="w-10 h-10 text-2xl animate-spin" />
+                </div>
+              ) : (
+                ''
+              )}
               <Image src={images[0]} alt="img" fill={true} sizes="h-auto w-auto" className="object-cover w-auto h-auto rounded-bl-lg" />
             </div>
             <div className="w-[343px] p-4 gap-2 flex flex-col border-t-[1px] ">
