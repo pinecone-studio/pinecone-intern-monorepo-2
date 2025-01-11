@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 
 import { Button } from '@/components/ui/button';
-import { AccountVisibility, FollowStatus, useConfirmFollowReqMutation, useGetFollowStatusByFollowingIdQuery } from '@/generated';
+import { AccountVisibility, FollowStatus, useConfirmFollowReqMutation, useGetFollowStatusByFollowingIdQuery, useRemoveFollowReqFromNotifyByPrivateFollowingIdUserMutation } from '@/generated';
 import { formatDistanceToNowStrict } from 'date-fns';
 import Image from 'next/image';
 import { toast } from '@/components/ui/use-toast';
@@ -17,9 +17,8 @@ type FollowReqNotifyType = {
   onClick: () => Promise<void>;
   followerId: string;
   followingId: string;
-  userId: string;
 };
-const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, followerId, followingId, userId }: FollowReqNotifyType) => {
+const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, followerId, followingId }: FollowReqNotifyType) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
   const { data: followStatus, loading: followStatusLoading, refetch: followStatusRefetch } = useGetFollowStatusByFollowingIdQuery({ variables: { followerId: followerId, followingId: followingId } });
   const [confirmFollowReq, { loading: confirmLoading }] = useConfirmFollowReqMutation({
@@ -31,9 +30,21 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
       toast({ variant: 'destructive', title: `${error.message}`, description: 'Follow request approve failed' });
     },
   });
+  const [removeFollowRequest, { loading: removeFollowRequestLoading }] = useRemoveFollowReqFromNotifyByPrivateFollowingIdUserMutation({
+    onCompleted: () => {
+      followStatusRefetch();
+      toast({ variant: 'default', title: 'Success', description: 'Remove follow request successful.' });
+    },
+    onError: (error) => {
+      toast({ variant: 'destructive', title: `${error.message}`, description: 'Remove follow request failed.' });
+    },
+  });
   if (followStatusLoading) return <p>loading...</p>;
   const confirmFollowReqHandler = async () => {
     await confirmFollowReq({ variables: { followerId: followerId } });
+  };
+  const removeFollowRequestHandler = async () => {
+    await removeFollowRequest({ variables: { followerId: followerId, followingId: followingId } });
   };
   return (
     <>
@@ -57,14 +68,14 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
           </div>
           <div className="flex gap-2">
             {followStatus?.getFollowStatusByFollowingId?.status === FollowStatus.Approved ? (
-              <FollowBtn userId={userId} />
+              <FollowBtn userId={followerId} />
             ) : (
               <>
                 <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA] min-w-20 h-8" data-cy="confirm-btn-followReq" onClick={confirmFollowReqHandler}>
                   {confirmLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Confirm'}
                 </Button>
-                <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] h-8 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq">
-                  Delete
+                <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] mon-w-20 h-8 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq" onClick={removeFollowRequestHandler}>
+                  {removeFollowRequestLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Remove'}
                 </Button>
               </>
             )}

@@ -17,27 +17,15 @@ export type notification = {
   currentUserId: string;
 };
 const Notification = () => {
-  // const [followStatus, setFollowStatus] = useState<FollowStatus | undefined>(undefined);
   const { user } = useAuth();
   const accountVis = user?.accountVisibility;
   const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
   const [viewNotify] = useViewNotifyMutation();
-
   if (!notifyData || !accountVis) return;
   if (loading) return <p data-testid="notificationLoading">loading...</p>;
   const notificationView = async (id: string) => {
     await viewNotify({ variables: { id: id } });
   };
-  // const followReqCon = async (followerId: string) => {
-  //   try {
-  //     await confirmFollowReq({ variables: { followerId: followerId } });
-  //     const res = await getFollowStatus({ variables: { followerId: followerId, followingId: user._id } });
-  //     setFollowStatus(res.data?.getFollowStatus?.status);
-  //     console.log('followstatusiig harah', followStatus);
-  //   } catch (error) {
-  //     toast({ variant: 'destructive', title: `${error}`, description: 'something wrong' });
-  //   }
-  // };
   const sortedNotify = notifyData.getNotificationsByLoggedUser.slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   const todayNotify = sortedNotify.filter((oneNotify) => isToday(new Date(oneNotify.createdAt)));
   const yesterdayNotify = sortedNotify.filter((oneNotify) => isYesterday(new Date(oneNotify.createdAt)) && !isToday(new Date(oneNotify.createdAt)));
@@ -71,7 +59,6 @@ const Notification = () => {
             onClick={() => notificationView(oneNotification._id)}
             followerId={oneNotification.otherUserId._id}
             followingId={user._id}
-            userId={oneNotification.otherUserId._id}
           />
         );
       }
