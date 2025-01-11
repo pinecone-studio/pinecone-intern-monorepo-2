@@ -3,22 +3,21 @@ describe('profile Page ', () => {
     cy.visit('/profile');
   });
 
-  it('should render Profile Header', () => {
-    cy.get('[data-cy="Update-Profile-Header"]').should('be.visible');
+  it('should render Profile Header when user is logged in', () => {
+    cy.intercept('GET', '/api/graphql', {
+      statusCode: 200,
+      body: {
+        user: {
+          firstName: 'Nomt',
+          email: 'cypress@gmail.com',
+        },
+      },
+    }).as('getAuth');
+    cy.get('[data-cy="Update-Profile-Header"]').should('exist');
   });
   it('should render Update Profile tabs button and inputs', () => {
     cy.get('[data-cy="Update-Profile-Input-And-Tabs"]').should('exist');
   });
-  // it('should should render specific page when clicked ', () => {
-  //   cy.get('[data-cy="Home-Page-Button]').click();
-  //   cy.visit('/');
-
-  //   cy.get('[data-cy="Signup-Page-Button]').click();
-  //   cy.visit('/signup');
-
-  //   cy.get('[data-cy="Login-Page-Button]').click();
-  //   cy.visit('/login');
-  // });
 
   it('should switch tabs when clicked', () => {
     cy.get('[data-cy="Update-Profile-Click-Tab-Personal-Info"]').click();

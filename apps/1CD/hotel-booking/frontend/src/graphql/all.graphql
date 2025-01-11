@@ -375,6 +375,35 @@ query GetRoom($id: ID!) {
 mutation UpdateBookingStatus($id: ID!, $status: BookingStatus!) {
   updateBookingStatus(_id: $id, status: $status)
 }
+mutation UpdateProfile($input: ProfileInput!) {
+  updateProfile(input: $input) {
+<<<<<<< Updated upstream
+=======
+    _id
+    email
+    firstName
+    lastName
+    dateOfBirth
+    phoneNumber
+    emergencyContact
+    createdAt
+  }
+}
+
+query GetUser {
+  getUser {
+>>>>>>> Stashed changes
+    _id
+    email
+    firstName
+    lastName
+    dateOfBirth
+    phoneNumber
+    emergencyContact
+    createdAt
+  }
+}
+
 query GetUser {
   getUser {
     _id
