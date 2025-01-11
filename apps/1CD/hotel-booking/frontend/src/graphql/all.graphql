@@ -396,3 +396,26 @@ query GetUser {
     createdAt
   }
 }
+
+mutation AddAmenity($input: AmenityTypeInput!) {
+  addAmenity(input: $input) {
+    _id
+    hotelAmenities
+  }
+}
+
+mutation UpdateHotelGeneralInfo($id: String!, $input: HotelInput!) {
+  updateHotelGeneralInfo(_id: $id, input: $input) {
+    createdAt
+    _id
+    hotelName
+    description
+    starRating
+    userRating
+    phoneNumber
+    images
+    hotelAmenities
+    location
+    roomsAveragePrice
+  }
+}

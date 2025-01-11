@@ -1,11 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import React, { useEffect, useState } from 'react';
 import { Room, useUpdateRoomInfoMutation } from '@/generated';
 import { MultiSelect } from '@/components/ui/multi-select';
 import { Option } from 'lucide-react';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
 
 export type DialogStates = {
   openGen: boolean;

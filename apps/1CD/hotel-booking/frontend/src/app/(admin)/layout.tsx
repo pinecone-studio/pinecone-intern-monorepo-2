@@ -1,6 +1,7 @@
 import SideBar from '@/components/providers/Sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { ReactNode } from 'react';
+import { Toaster } from 'sonner';
 
 const AdminLayout = async ({ children }: { children: ReactNode }) => {
   // const cookieStore = await cookies();
@@ -12,6 +13,7 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <div>
+      <Toaster />
       <SidebarProvider className="flex">
         <SideBar />
         <div className="flex-1">{children}</div>

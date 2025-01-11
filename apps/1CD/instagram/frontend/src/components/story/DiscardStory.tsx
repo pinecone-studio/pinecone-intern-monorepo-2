@@ -7,7 +7,7 @@ export const DiscardStory = ({ discardStory }: { discardStory: () => void }) => 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button aria-label="Go back" className="p-2">
+        <button aria-label="Go back" className="ml-4">
           <ArrowLeft />
         </button>
       </DialogTrigger>

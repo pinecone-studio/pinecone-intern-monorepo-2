@@ -6,7 +6,7 @@ import React from 'react';
 import ImagesDialog from './ImagesDialog';
 import { DialogType } from './RoomServiceDialog';
 
-const ImagesCard = ({ open, setOpen }: DialogType) => {
+const ImagesCard = ({ open, setOpen, room }: DialogType) => {
   return (
     <div className="xl:min-w-[340px] h-[600px] mt-5 shadow-lg border-[1px] bg-white rounded-xl">
       <CardHeader className="flex flex-row justify-between">
@@ -16,9 +16,8 @@ const ImagesCard = ({ open, setOpen }: DialogType) => {
         </button>
       </CardHeader>
       <div data-cy={`Images-Dialog`}>
-        <ImagesDialog open={open} setOpen={setOpen} />
+        <ImagesDialog room={room} open={open} setOpen={setOpen} />
       </div>
-
       <CardContent>
         <div className="border h-52 rounded-xl">
           <Image src="/" height={100} width={100} alt="room photo" />

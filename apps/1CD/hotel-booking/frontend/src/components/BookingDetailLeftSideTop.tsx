@@ -5,6 +5,7 @@ import { useState } from 'react';
 import BookingDetailViewPriceDetail from './BookingDetailViewPriceDetail';
 import { BookingType } from './BookingDetailLeftSide';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 export type BookingDetailLeftSideCheckInDialogType = {
   openCheckInDialog: boolean;
@@ -52,7 +53,9 @@ const BookingDetailLeftSideTop = ({ booking }: BookingType) => {
       </div>
       <div className="flex flex-col gap-2">
         <Button className="bg-[#FFFFFF] border text-[#18181B] hover:bg-slate-50 active:bg-slate-100">Contract property</Button>
-        <Button className="bg-[#2563EB] text-[#FAFAFA] hover:bg-blue-300 active:bg-blue-400">Cancel booking</Button>
+        <Link href={`/cancel-booking/${booking?._id}`} className="bg-[#2563EB] text-center p-2 rounded-md text-[#FAFAFA] hover:bg-blue-500 active:bg-blue-600">
+          Cancel booking
+        </Link>
       </div>
       <BookingDetailCheckInDialog setOpenCheckInDialog={setOpenCheckInDialog} openCheckInDialog={openCheckInDialog} />
       <BookingDetailViewPriceDetail booking={booking} openViewPriceDialog={openViewPriceDialog} setOpenViewPriceDialog={setOpenViewPriceDialog} />

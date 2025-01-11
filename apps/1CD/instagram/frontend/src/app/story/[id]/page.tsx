@@ -39,25 +39,13 @@ const UserStoryPage = () => {
     const interval = setInterval(() => {
       progress += 1.5;
       setProgress(progress);
-
       if (progress >= 100) {
+        clearInterval(interval);
         setProgress(0);
-
         if (currentStoryIndex + 1 < currentUserStories.length) {
           setCurrentStoryIndex(currentStoryIndex + 1);
         } else {
-          const allSeen = seenStories.length + 1 === allStories.length;
-          if (allSeen) {
-            returnToMainPage();
-          } else {
-            setSeenStories((prev) => [...prev, currentUserData._id]);
-            setCurrentStoryIndex(0);
-
-            setCurrentUserIndex((prevIndex) => {
-              const unseenIndex = allStories.findIndex((story, index) => index > prevIndex && !seenStories.includes(story.user._id));
-              return unseenIndex !== -1 ? unseenIndex : (prevIndex + 1) % allStories.length;
-            });
-          }
+          handleNextUser();
         }
       }
     }, 100);
@@ -65,15 +53,48 @@ const UserStoryPage = () => {
     return () => clearInterval(interval);
   }, [currentStoryIndex, currentUserIndex, currentUserStories.length]);
 
-  const seenUsers = allStories.filter((story) => seenStories.includes(story.user._id));
-  const unseenUsers = allStories.filter(
-    (story) => !seenStories.includes(story.user._id)
-    // && story.user._id !== currentUserData?._id
-  );
+  const handleNextStory = () => {
+    setProgress(0);
+    if (currentStoryIndex + 1 < currentUserStories.length) {
+      setCurrentStoryIndex(currentStoryIndex + 1);
+    } else {
+      handleNextUser();
+    }
+  };
+
+  const handlePreviousStory = () => {
+    setProgress(0);
+    if (currentStoryIndex > 0) {
+      setCurrentStoryIndex(currentStoryIndex - 1);
+    } else {
+      handlePreviousUser();
+    }
+  };
+
+  const handleNextUser = () => {
+    setSeenStories((prev) => [...prev, currentUserData._id]);
+    const unseenUsers = allStories.filter((story) => !seenStories.includes(story.user._id));
+    if (unseenUsers.length === 1 && unseenUsers[0].user._id === currentUserData._id) {
+      returnToMainPage();
+    } else {
+      const nextUserIndex = (currentUserIndex + 1) % allStories.length;
+      setCurrentUserIndex(nextUserIndex);
+      setCurrentStoryIndex(0);
+    }
+  };
+
+  const handlePreviousUser = () => {
+    const previousUserIndex = (currentUserIndex - 1 + allStories.length) % allStories.length;
+    setCurrentUserIndex(previousUserIndex);
+    setCurrentStoryIndex(allStories[previousUserIndex]?.stories.length - 1 || 0);
+  };
 
   const returnToMainPage = () => {
     router.push('/home');
   };
+
+  const seenUsers = allStories.filter((story) => seenStories.includes(story.user._id));
+  const unseenUsers = allStories.filter((story) => !seenStories.includes(story.user._id));
 
   return (
     <div className="bg-[#18181B] h-screen relative flex items-center">
@@ -83,8 +104,7 @@ const UserStoryPage = () => {
       <Button className="absolute top-0 right-0 p-6" onClick={returnToMainPage}>
         <X />
       </Button>
-
-      <div className="flex items-center justify-center w-full gap-4">
+      <div className="flex items-center justify-center w-full h-full gap-4 p-10">
         <div className="w-[500px]">
           <div className="flex justify-end gap-10">
             {seenUsers.slice(-2).map((user) => (
@@ -94,7 +114,7 @@ const UserStoryPage = () => {
         </div>
 
         <div className="mx-20">
-          <Carousel className="w-full max-w-[530px] m-auto transition-all duration-500 ease-in-out">
+          <Carousel className="w-full max-w-[600px] m-auto transition-all duration-500 ease-in-out">
             <CarouselContent>
               {currentUserStories.map((story, index) => (
                 <CarouselItem key={index} className={currentStoryIndex === index ? 'block transition-all duration-500 ease-in-out' : 'hidden'}>
@@ -102,7 +122,7 @@ const UserStoryPage = () => {
                     style={{
                       backgroundImage: `url(${story.image})`,
                     }}
-                    className="h-[750px] w-[500px] bg-no-repeat bg-cover bg-center rounded-md"
+                    className="h-[800px] w-[521px] bg-no-repeat bg-cover bg-center rounded-md"
                   >
                     <div className="px-3 pt-3">
                       <Progress value={progress} className="w-[100%] bg-[#8C8C8C] h-1" />
@@ -120,18 +140,8 @@ const UserStoryPage = () => {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious
-              onClick={() => {
-                setProgress(0);
-                setCurrentStoryIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : currentUserStories.length - 1));
-              }}
-            />
-            <CarouselNext
-              onClick={() => {
-                setProgress(0);
-                setCurrentStoryIndex((prevIndex) => (prevIndex + 1) % currentUserStories.length);
-              }}
-            />
+            <CarouselPrevious disabled={false} onClick={handlePreviousStory} />
+            <CarouselNext disabled={false} onClick={handleNextStory} />
           </Carousel>
         </div>
 
@@ -146,5 +156,4 @@ const UserStoryPage = () => {
     </div>
   );
 };
-
 export default UserStoryPage;

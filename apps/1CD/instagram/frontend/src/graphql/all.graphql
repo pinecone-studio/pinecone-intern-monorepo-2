@@ -127,15 +127,14 @@ mutation Login($input: LoginInput!) {
     token
   }
 }
-
 mutation ConfirmFollowReq($followerId: ID!) {
   confirmFollowReq(followerId: $followerId) {
     _id
-    createdAt
     followerId
     followingId
-    status
+    createdAt
     updatedAt
+    status
   }
 }
 

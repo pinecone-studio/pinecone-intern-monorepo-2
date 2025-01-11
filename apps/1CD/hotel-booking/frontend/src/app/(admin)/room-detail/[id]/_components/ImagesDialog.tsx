@@ -1,29 +1,27 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
+import { Room, RoomType } from '@/generated';
 
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
+  room: Room;
 };
 
-const ImagesDialog = ({ open, setOpen }: AddHotelGeneralInfoType) => {
+const ImagesDialog = ({ open, setOpen, room }: AddHotelGeneralInfoType) => {
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>General Info</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4 mt-2">
-          <div className="border h-52 rounded-xl">
-            <Image src="/" height={100} width={100} alt="room photo" />
-          </div>
-          <div className="grid grid-cols-2 grid-rows-2 gap-1 pt-1 border">
-            <div className="w-40 h-32 border"></div>
-            <div className="w-40 h-32 border"></div>
-            <div className="w-40 h-32 border"></div>
-          </div>
+        <div className="grid grid-cols-2">
+          {room?.images?.map((image, index) => (
+            <Image className={`${index == 0 && 'col-span-2'}`} src={String(image)} height={100} width={100} alt="room photo" />
+          ))}
         </div>
         <DialogFooter>
           <div className="flex justify-between w-full mt-6">

@@ -22,7 +22,7 @@ export type SignInParams = {
 export type AuthContextType = {
   signin: (_params: SignInParams) => void;
   signout: () => void;
-  user: User | null;
+  user: User | null | undefined;
   loginButton: () => void;
   signupButton: () => void;
 };

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { RoomType } from '@/generated';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
@@ -9,7 +9,6 @@ const RoomTypes = ({ rooms, setRoomOpen }: { rooms: RoomType[] | undefined; setR
     <div className="bg-[#FFFFFF] p-6 flex flex-col gap-4">
       <div className="text-[#09090B] flex justify-between mb-4">
         <div className="text-lg text-foreground">Room Types</div>
-
         <Button
           data-testid="Add-Room-General-Info-Dialog"
           data-cy="Add-Room-General-Info-Dialog"
@@ -38,13 +37,13 @@ const RoomTypes = ({ rooms, setRoomOpen }: { rooms: RoomType[] | undefined; setR
           <TableHeader className="rounded-xl max-h-[400px] overflow-y-scroll">
             {rooms?.map((room) => (
               <TableRow className="flex items-center gap-4 border" key={room._id}>
-                <TableHead className="flex w-[50px] p-4   px-4 py-3 text-black border-r-[1px]">{room._id?.slice(5, 8)}</TableHead>
-                <TableHead className="flex flex-1 p-4 border-r-[1px]">
-                  {room?.images?.[0] && <Image src={room.images[0]} alt="image" width={2000} height={2000} className="object-cover w-12 h-12" />}
+                <TableCell className="flex w-[50px] h-16 px-4 py-3 text-black border-r-[1px]">{room._id?.slice(5, 8)}</TableCell>
+                <TableCell className="flex flex-1 p-4 border-r-[1px] h-16 items-center gap-2">
+                  {room?.images?.[0] && <Image src={room.images[0]} alt="image" width={2000} height={2000} className="object-cover w-12 h-12 rounded-sm" />}
                   <div>{room.roomName}</div>
-                </TableHead>
-                <TableHead className="flex  p-4 flex-1 gap-2  text-black border-r-[1px]">{room.price}</TableHead>
-                <TableHead className="flex flex-1 w-40 p-4 text-black">{room.roomType}</TableHead>
+                </TableCell>
+                <TableCell className="flex h-16  p-4 flex-1 gap-2  text-black border-r-[1px]">{room.price}</TableCell>
+                <TableCell className="flex flex-1 w-40 h-16 p-4 text-black">{room.roomType}</TableCell>
               </TableRow>
             ))}
           </TableHeader>

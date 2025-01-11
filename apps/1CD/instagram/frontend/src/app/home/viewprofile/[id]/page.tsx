@@ -3,7 +3,7 @@
 
 import { useAuth } from '@/components/providers';
 import { useUser } from '@/components/providers/UserProvider';
-import HeadingSection from '@/components/visit-profile/HeadingSection';
+import HeadingSection from '@/app/(main)/_components/visitprofile/HeadingSection';
 import PostsSection from '@/components/visit-profile/PostsSection';
 import PrivateProfile from '@/components/visit-profile/PrivateProfile';
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetFollowStatusQuery, useGetOneUserQuery, useGetUserPostsQuery, useUnfollowMutation } from '@/generated';
@@ -73,6 +73,7 @@ const ViewProfile = () => {
         setButtonState('Follow');
       }
       await refresh();
+      followerRefetch();
     } catch (err) {
       throw new Error();
     }
@@ -83,13 +84,15 @@ const ViewProfile = () => {
   const handleButtonClick = async () => {
     if ((buttonText === 'Following' || buttonText === 'Requested') && followData?.getFollowStatus?._id) {
       await unfollowUser({ _id: followData.getFollowStatus._id });
+      followerRefetch();
     } else if (buttonText === 'Follow') {
       await handleFollowClick();
+      followerRefetch();
     }
   };
 
   const { data: followingData } = useGetFollowingsQuery({ variables: { followerId: profileUser?._id as string } });
-  const { data: followerData } = useGetFollowersQuery({ variables: { followingId: profileUser?._id as string } });
+  const { data: followerData, refetch: followerRefetch } = useGetFollowersQuery({ variables: { followingId: profileUser?._id as string } });
 
   if (!followingData || !followerData) return;
   const fetchedFollowerData = followerData.seeFollowers.map((oneFollower) => ({

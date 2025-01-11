@@ -1,18 +1,17 @@
 import React from 'react';
 
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Room } from '@/generated';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
 export type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
+  room: Room;
 };
-export type RoomProps = DialogType & {
-  room: Room | undefined;
-};
-const RoomServiceDialog: React.FC<RoomProps> = ({ open, setOpen, room }) => {
+
+const RoomServiceDialog: React.FC<DialogType> = ({ open, setOpen, room }) => {
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[625px]">

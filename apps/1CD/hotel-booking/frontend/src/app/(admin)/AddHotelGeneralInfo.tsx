@@ -8,12 +8,14 @@ import SelectHotelStars from '@/components/SelectHotelStars';
 import SelectHotelReviewRating from '@/components/ReviewRating';
 import { Dialog, DialogContent } from '@/components/providers/HotelBookingDialog';
 
+import { toast } from 'sonner';
+
 type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
 };
 const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
-  const [addHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
+  const [AddHotelGeneralInfo] = useAddHotelGeneralInfoMutation();
 
   const PhoneNumberError = () => {
     if (!formik.errors.phoneNumber || !formik.touched.phoneNumber) return <div></div>;
@@ -64,8 +66,8 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
   });
   const formik = useFormik({
     initialValues,
-    onSubmit: async (values, { resetForm }) => {
-      await addHotelGeneralInfo({
+    onSubmit: async (values) => {
+      await AddHotelGeneralInfo({
         variables: {
           input: {
             hotelName: values.hotelName,
@@ -76,12 +78,17 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
           },
         },
       });
-      resetForm();
-
+      toast('successfully updated your general info', {
+        style: {
+          border: 'green solid 1px',
+          color: 'green',
+        },
+      });
       setOpen(false);
     },
     validationSchema,
   });
+
   return (
     <div>
       <Dialog open={open}>
@@ -105,7 +112,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               <div className="flex flex-col gap-2 text-sm">
                 <div>Stars Rating</div>
                 <div>
-                  <SelectHotelStars setFieldValue={formik.setFieldValue} />
+                  <SelectHotelStars value={formik.values.starsRating} setFieldValue={formik.setFieldValue} />
                   <StarsRating />
                 </div>
               </div>
@@ -119,7 +126,7 @@ const AddHotelGeneralInfo = ({ open, setOpen }: AddHotelGeneralInfoType) => {
               <div className="flex flex-col gap-2 text-sm">
                 <div>Rating</div>
                 <div>
-                  <SelectHotelReviewRating setFieldValue={formik.setFieldValue} />
+                  <SelectHotelReviewRating value={formik.values.rating} setFieldValue={formik.setFieldValue} />
                   <ReviewRating />
                 </div>
               </div>
