@@ -53,6 +53,7 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
             onSelect={setDate}
             numberOfMonths={2}
             className={cn('max-w-full', 'overflow-x-auto', 'block')}
+            disabled={{ before: new Date() }}
           />
         </PopoverContent>
       </Popover>

@@ -12,7 +12,7 @@ export const BookingPageRightSide = ({ room }: { room: Room | undefined }) => {
   return (
     <div data-testid="Booking-Right-Side" className="max-w-[515px] w-full">
       <div className="w-full h-auto">
-        {room?.images && <Image src={`${room?.images[0]}`} className="object-cover w-full h-full rounded-t-[8px] bg-slate-500" width={1000} height={1000} alt="image" />}
+        {room?.images?.[0] && <Image src={`${room?.images[0]}`} className="object-cover w-full h-full rounded-t-[8px] bg-slate-500" width={1000} height={1000} alt="image" />}
       </div>
 
       <div className="p-4 text-[#09090B] border rounded-b-[8px] mb-6">

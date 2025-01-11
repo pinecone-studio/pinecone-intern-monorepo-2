@@ -164,25 +164,16 @@ query GetBooking($id: ID) {
   }
 }
 
-query HotelDetail($hotelId: ID!) {
-  hotelDetail(hotelId: $hotelId) {
+query HotelDetail($hotelId: ID!, $input: RoomsFilterInput!) {
+  hotelDetail(hotelId: $hotelId, input: $input) {
     _id
     hotelId
     roomName
     roomType
     price
-    images
     roomInformation
     createdAt
     images
-    roomService {
-      bathroom
-      accessability
-      entertaiment
-      foodDrink
-      bedroom
-      other
-    }
     amenities
   }
 }
