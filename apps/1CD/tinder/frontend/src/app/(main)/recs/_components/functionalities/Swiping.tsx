@@ -3,7 +3,7 @@ import CarouselImg from './Carouselmg';
 import { useEffect, useRef, useState } from 'react';
 import { User, useSwipeUserMutation } from '@/generated';
 import Buttons from './Buttons';
-import Match from '../match/Match';
+import Match from '../../../../../components/providers/match/Match';
 import Like from '../like/Like';
 import Dislike from '../like/Dislike';
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
