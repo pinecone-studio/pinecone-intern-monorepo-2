@@ -28,11 +28,14 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
           </div>
           <div className="flex items-center justify-between px-5 py-5">
             <div>
-              <div className="flex gap-2">
-                <div className="text-[#71717A] font-normal">Check in:</div>
-                <div>{format(String(booking?.checkInDate), 'EEEE, MMM d')}</div>
-                <div>{format(String(booking?.checkInDate), 'h:mma')}</div>
-              </div>
+              {booking.checkInDate && (
+                <div className="flex gap-2">
+                  <div className="text-[#71717A] font-normal">Check in:</div>
+                  <div>{format(String(booking?.checkInDate), 'EEEE, MMM d')}</div>
+                  <div>{format(String(booking?.checkInDate), 'h:mma')}</div>
+                </div>
+              )}
+
               <div className="flex items-center gap-2">
                 <div className="text-[#71717A] font-normal">Itinerary:</div>
                 <div>{booking?._id}</div>
