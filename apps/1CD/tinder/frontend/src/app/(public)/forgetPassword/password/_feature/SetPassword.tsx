@@ -11,6 +11,7 @@ import { z } from 'zod';
 
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const passwordSchema = z
   .object({
@@ -33,6 +34,11 @@ type ValidationSchemaType = z.infer<typeof passwordSchema>;
 const SetPassword = () => {
  
   const router=useRouter();
+
+  
+    useEffect(() => {
+      router.push('/forgetPassword/password');
+    },[router]);
   const {
     register,
     handleSubmit,

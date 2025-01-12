@@ -33,7 +33,7 @@ const Password = () => {
   const router=useRouter();
 
   useEffect(() => {
-    router.refresh();
+    router.push('/register/password');
   },[router]);
    
   const {
@@ -48,7 +48,7 @@ const Password = () => {
   const [createPassword,{loading}] = useCreatePasswordMutation({
 
     onCompleted:()=>{
-      router.push('/register/attraction');
+      router.push('/register/gender');
     }
   
   });

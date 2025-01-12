@@ -3,9 +3,11 @@ import CarouselImg from './Carouselmg';
 import { useEffect, useRef, useState } from 'react';
 import { User, useSwipeUserMutation } from '@/generated';
 import Buttons from './Buttons';
-import Match from '../match/Match';
+
 import Like from '../like/Like';
 import Dislike from '../like/Dislike';
+import { useRouter } from 'next/navigation';
+import Match from '@/components/providers/Match';
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
   const [rotate, setRotate] = useState(0);
   const [duration, setDuration] = useState(0.3);
@@ -14,16 +16,27 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
   const [isMatchOpen, setIsMatchOpen] = useState(false);
   const [likeOpacity, setLikeOpacity] = useState(0);
   const [DisOpacity, setDisOpacity] = useState(0);
-
   const [swipeUser, { data }] = useSwipeUserMutation();
-
+  const [lastSwipedUserId, setLastSwipedUserId] = useState<string | null>(null);
+  const router = useRouter();
   useEffect(() => {
+    router.refresh();
     if (data?.swipeUser.matched === true) {
       setIsMatchOpen(!isMatchOpen);
     }
   }, [data]);
-
   const swipeLeft = () => {
+
+    const swipedUserId = swiping?._id || ''; 
+    setLastSwipedUserId(swipedUserId);
+    swipeUser({
+      variables: {
+        input: {
+          swipedUser: swipedUserId,
+          type: 'disliked',
+        },
+      },
+    });
     setDuration(0.5);
     setRotate(-30);
     currentPosition.current = { x: -1500, y: 0 };
@@ -31,18 +44,18 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       resetCardPosition();
     }, 300);
-    if (swiping)
-      swipeUser({
-        variables: {
-          input: {
-            swipedUser: swiping?._id,
-            type: 'disliked',
-          },
-        },
-      });
   };
-
   const swipeRight = () => {
+  const swipedUserId = swiping?._id || '';
+  setLastSwipedUserId(swipedUserId);
+  swipeUser({
+    variables: {
+      input: {
+        swipedUser: swipedUserId, 
+        type: 'liked',
+      },
+    },
+  });
     setDuration(0.5);
     setRotate(30);
     currentPosition.current = { x: 1500, y: 0 };
@@ -50,15 +63,6 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       resetCardPosition();
     }, 300);
-    if (swiping)
-      swipeUser({
-        variables: {
-          input: {
-            swipedUser: swiping?._id,
-            type: 'liked',
-          },
-        },
-      });
   };
 
   const removeTopCard = () => {
@@ -101,8 +105,6 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
       resetCardPosition();
     }
   };
-
-
   return (
     <div>
       <div className="relative h-[560px] flex justify-center" data-cy="swipingImg-2">
@@ -143,11 +145,10 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
           >
             <Dislike opacity={likeOpacity} position={currentPosition.current.x} />
             <Like position={currentPosition.current.x} opacity={DisOpacity} />
-
             {!open && <CarouselImg swiping={swiping} />}
           </motion.div>
         )}
-        {isMatchOpen && swiping?._id && <Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUser={swiping._id} />}
+{isMatchOpen && swiping?._id && <Match isMatchOpen={isMatchOpen} setIsMatchOpen={setIsMatchOpen} swipedUserId={lastSwipedUserId} />}
       </div>
       <div className="absolute left-0 right-0 z-[10000] flex justify-center">
         <Buttons currentPosition={currentPosition.current} open={open} swipeLeft={swipeLeft} swipeRight={swipeRight} />
