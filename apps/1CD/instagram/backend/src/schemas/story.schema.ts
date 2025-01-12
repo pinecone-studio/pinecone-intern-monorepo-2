@@ -96,7 +96,7 @@ export const typeDefs = gql`
     getFollowingUserStories(user: ID!): UserPopulatedStory!
     getFollowingStories: [UserStory!]
     getMyStory(_id: ID!): [UserStory!]
-    getMyActiveStories: UserPopulatedStory!
+    getMyActiveStories: UserPopulatedStory
     getMyStories: UserStory!
     getPublicAccStories(user: ID!): UserPopulatedStory!
   }

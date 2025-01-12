@@ -12,7 +12,7 @@ export const getMyActiveStories: QueryResolvers['getMyActiveStories'] = async (_
   });
 
   if (!stories || stories.length === 0) {
-    throw new Error('No stories found or they are archived');
+    throw new Error('No stories found or archived');
   }
 
   const activeStory = stories
@@ -22,9 +22,9 @@ export const getMyActiveStories: QueryResolvers['getMyActiveStories'] = async (_
     }))
     .find((story) => story.stories.length > 0);
 
-  if (!activeStory) {
-    throw new Error('No active stories found');
-  }
+  // if (!activeStory) {
+  //   console.log('No active stories found');
+  // }
 
   return activeStory;
 };
