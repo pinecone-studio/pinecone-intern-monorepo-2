@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatDistanceToNowStrict } from 'date-fns';
 import React from 'react';
 
-// Define the expected props for SeenStoryCard
 export interface SeenStoryCardProps {
   user: {
     __typename?: 'UserPopulatedStory';

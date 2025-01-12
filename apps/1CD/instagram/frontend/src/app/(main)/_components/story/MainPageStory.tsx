@@ -9,7 +9,7 @@ const MainPageStory = ({ user }: { user: { _id: string; userName: string; profil
         <div className="rounded-full w-fit bg-[linear-gradient(to_top_right,#f9ce34_10%,#ee2a7b_60%)] p-[3px]">
           <div className="rounded-full bg-white w-[70px] h-[70px] flex items-center justify-center">
             <Avatar className="w-[64px] h-[64px]">
-              <AvatarImage src={user.profileImg || '/images/profileImg.webp'} alt="@shadcn" />
+              <AvatarImage data-testid="avatar-image" src={user.profileImg || '/images/profileImg.webp'} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>

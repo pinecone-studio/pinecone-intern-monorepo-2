@@ -20,14 +20,17 @@ const MyStoriesPage = () => {
   const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
   const currentUserData = myOwnStories?.getMyActiveStories.user;
 
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
+
   useEffect(() => {
     if (!currentUserStories.length) return;
+
     let progress = 0;
-    const interval = setInterval(() => {
+    const id = setInterval(() => {
       progress += 1.5;
       setProgress(progress);
       if (progress >= 100) {
-        clearInterval(interval);
+        clearInterval(id);
         setProgress(0);
         if (currentStoryIndex + 1 < currentUserStories.length) {
           setCurrentStoryIndex(currentStoryIndex + 1);
@@ -35,7 +38,9 @@ const MyStoriesPage = () => {
       }
     }, 100);
 
-    return () => clearInterval(interval);
+    setIntervalId(id);
+
+    return () => clearInterval(id);
   }, [currentStoryIndex, currentUserStories.length]);
 
   const handleNextStory = () => {
@@ -53,16 +58,19 @@ const MyStoriesPage = () => {
   };
 
   const handleDialogOpen = () => {
-    setProgress(0);
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
   };
 
   const handleDelete = async () => {
-    await refetch();
     if (currentUserStories.length === 1) {
       router.push('/home');
     } else if (currentStoryIndex >= currentUserStories.length - 1) {
       setCurrentStoryIndex((prev) => Math.max(0, prev - 1));
     }
+    await refetch();
   };
 
   return (
@@ -95,7 +103,14 @@ const MyStoriesPage = () => {
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
                     </div>
-                    <DeleteStory storyId={story._id} onDialogOpen={handleDialogOpen} onDelete={handleDelete} />
+                    <DeleteStory
+                      storyId={story._id}
+                      onDialogOpen={handleDialogOpen}
+                      onDelete={() => {
+                        handleDelete();
+                        handleDialogOpen(); // Ensure progress stops after delete
+                      }}
+                    />
                   </div>
                 </div>
               </CarouselItem>

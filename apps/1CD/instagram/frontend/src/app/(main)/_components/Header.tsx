@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { MenuBar } from './header/MenuBar';
 import Image from 'next/image';
 import { BookOpenCheck, Heart, House, ImagePlus, SquarePlus, Search } from 'lucide-react';
-import SearchFromAllUsers from '@/app/(main)/_components/SearchComponent';
+import SearchFromAllUsers from '@/app/(main)/_components/search/SearchComponent';
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
@@ -47,19 +47,14 @@ export const Header = () => {
     data.append('upload_preset', 'instagram-intern');
     data.append('cloud_name', 'dka8klbhn');
 
-    try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-        method: 'POST',
-        body: data,
-      });
-      const uploadedImage = await res.json();
-      const uploadedImageUrl: string = uploadedImage.secure_url;
-      setStoryImg(uploadedImageUrl);
-    } catch (error) {
-      console.error('Error uploading to Cloudinary:', error);
-    } finally {
-      setUploadingToCloudinary(false);
-    }
+    const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
+      method: 'POST',
+      body: data,
+    });
+    const uploadedImage = await res.json();
+    const uploadedImageUrl: string = uploadedImage.secure_url;
+    setStoryImg(uploadedImageUrl);
+    setUploadingToCloudinary(false);
   };
 
   const handleCreateStory = async () => {
