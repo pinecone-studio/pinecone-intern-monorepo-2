@@ -19,7 +19,6 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
   const [lastSwipedUserId, setLastSwipedUserId] = useState<string | null>(null);
  
   useEffect(() => {
-    window.location.href=('/recs');
     if (data?.swipeUser.matched === true) {
       setIsMatchOpen(!isMatchOpen);
     }
