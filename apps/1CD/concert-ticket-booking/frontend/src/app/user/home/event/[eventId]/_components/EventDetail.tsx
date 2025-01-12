@@ -57,7 +57,7 @@ const EventDetail = ({ event }: { event: Event }) => {
           <div data-cy="Special-Artist">
             <h1 className="text-sm font-light leading-5 text-[#fafafa]">Special Artist:</h1>
             {event?.guestArtists?.map((guest, index) => (
-              <span className="text-sm font-semibold text-white" key={index} data-cy={`Guest-Artist-${index}`}>
+              <span className="flex gap-1 text-sm font-semibold text-white" key={index} data-cy={`Guest-Artist-${index}`}>
                 {guest?.name}
               </span>
             ))}
