@@ -69,7 +69,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       setSwiping(cards?.[0]);
       setTimeout(() => {
-        const updatedCards = [...cards.slice(1), cards[0]];
+        const updatedCards = cards.slice(1);
         setCards(updatedCards);
       }, 300);
     }, 299);
