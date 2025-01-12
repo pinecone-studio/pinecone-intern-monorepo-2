@@ -16,6 +16,7 @@ export const resolvers = {
     imageSubmit:authorization(Mutation.imageSubmit),
     updateUser:authorization(Mutation.updateUser),
     editProfile:authorization(Mutation.editProfile),
+    updateGender:authorization(Mutation.updateGender),
   },
   Query:{
     ...Query,
