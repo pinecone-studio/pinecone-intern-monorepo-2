@@ -10,6 +10,7 @@ type AddHotelGeneralInfoType = {
   open: boolean;
   setOpen: (_: boolean) => void;
   AllQueriesRefetch: () => void;
+  hotelId: string;
 };
 export type Option = {
   value: string;
@@ -41,7 +42,7 @@ const options: Option[] = [
     label: 'shower',
   },
 ];
-const AddRoomGeneralInfo = ({ open, setOpen, AllQueriesRefetch }: AddHotelGeneralInfoType) => {
+const AddRoomGeneralInfo = ({ open, hotelId, setOpen, AllQueriesRefetch }: AddHotelGeneralInfoType) => {
   const [addRoomGeneralInfo] = useAddRoomMutation({
     onCompleted: () => {
       AllQueriesRefetch();
@@ -92,7 +93,7 @@ const AddRoomGeneralInfo = ({ open, setOpen, AllQueriesRefetch }: AddHotelGenera
       await addRoomGeneralInfo({
         variables: {
           input: {
-            hotelId: '674bfbd6a111c70660b55541',
+            hotelId: hotelId,
             roomName: values.roomName,
             roomInformation: values.roomInformation.map((option: Option) => option.value),
             price: Number(values.pricePerNight),
