@@ -2,7 +2,7 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
-import { Grid3x3, Save, Settings } from 'lucide-react';
+import { Grid3x3, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
