@@ -20,7 +20,7 @@ type FollowReqNotifyType = {
 };
 const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, createdDate, isViewed, onClick, followerId, followingId }: FollowReqNotifyType) => {
   const dateDistance = formatDistanceToNowStrict(createdDate);
-  const { data: followStatus, loading: followStatusLoading, refetch: followStatusRefetch } = useGetFollowStatusByFollowingIdQuery({ variables: { followerId: followerId, followingId: followingId } });
+  const { data: followStatus, refetch: followStatusRefetch } = useGetFollowStatusByFollowingIdQuery({ variables: { followerId: followerId, followingId: followingId } });
   const [confirmFollowReq, { loading: confirmLoading }] = useConfirmFollowReqMutation({
     onCompleted: () => {
       followStatusRefetch();
@@ -39,7 +39,6 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
       toast({ variant: 'destructive', title: `${error.message}`, description: 'Remove follow request failed.' });
     },
   });
-  if (followStatusLoading) return <p>loading...</p>;
   const confirmFollowReqHandler = async () => {
     await confirmFollowReq({ variables: { followerId: followerId } });
   };
@@ -74,7 +73,7 @@ const NotifyFollowRequestCard = ({ accountVisible, profileImg, userName, created
                 <Button className="bg-[#2563EB] rounded-lg text-[#FAFAFA] min-w-20 h-8" data-cy="confirm-btn-followReq" onClick={confirmFollowReqHandler}>
                   {confirmLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Confirm'}
                 </Button>
-                <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] mon-w-20 h-8 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq" onClick={removeFollowRequestHandler}>
+                <Button className="bg-[#F4F4F5] rounded-lg text-[#18181B] min-w-20 h-8 hover:bg-[#F3F4F5]" data-cy="delete-btn-followReq" onClick={removeFollowRequestHandler}>
                   {removeFollowRequestLoading ? <Loader className="w-4 h-4 animate-spin" /> : 'Remove'}
                 </Button>
               </>

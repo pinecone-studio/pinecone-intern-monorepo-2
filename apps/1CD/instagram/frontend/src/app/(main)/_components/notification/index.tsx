@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import React from 'react';
+import React, { useEffect } from 'react';
 import NotifyFollowRequestCard from '@/app/(main)/_components/NotifyFollowReqCard';
 import NotifyPostLikeCard from '@/app/(main)/_components/NotifyPostLikeCard';
 import NoNotification from '../NoNotification';
@@ -7,6 +7,8 @@ import { NotificationType, useGetNotificationsByLoggedUserQuery, useViewNotifyMu
 import { useAuth } from '@/components/providers';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { isThisWeek, isThisYear, isToday, isYesterday } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
+
 export type notification = {
   __typeName?: string;
   _id: string;
@@ -19,10 +21,14 @@ export type notification = {
 const Notification = () => {
   const { user } = useAuth();
   const accountVis = user?.accountVisibility;
-  const { data: notifyData, loading } = useGetNotificationsByLoggedUserQuery();
+  const { data: notifyData, loading, refetch } = useGetNotificationsByLoggedUserQuery();
+  useEffect(() => {
+    refetch();
+  }, [notifyData]);
+  console.log('notify datanuudiig harah isviewed false baih', notifyData?.getNotificationsByLoggedUser.filter((oneNotify) => oneNotify.isViewed === false).length);
   const [viewNotify] = useViewNotifyMutation();
   if (!notifyData || !accountVis) return;
-  if (loading) return <p data-testid="notificationLoading">loading...</p>;
+  if (loading) return <Skeleton className="w-[470px] h-full" data-testid="notificationLoading"></Skeleton>;
   const notificationView = async (id: string) => {
     await viewNotify({ variables: { id: id } });
   };
@@ -33,6 +39,7 @@ const Notification = () => {
   const earlierNotify = sortedNotify.filter(
     (oneNotify) => isThisYear(new Date(oneNotify.createdAt)) && !isThisWeek(new Date(oneNotify.createdAt)) && !isYesterday(new Date(oneNotify.createdAt)) && !isToday(new Date(oneNotify.createdAt))
   );
+
   const notifyDiv = (notifies: notification[]): React.ReactNode => {
     return notifies.map((oneNotification) => {
       if (oneNotification.notificationType === 'POSTLIKE') {

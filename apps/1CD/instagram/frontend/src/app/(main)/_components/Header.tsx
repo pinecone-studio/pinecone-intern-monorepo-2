@@ -13,7 +13,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/app/(main)/_components/story/CreateStory';
-import { useCreateStoryMutation } from '@/generated';
+import { useCreateStoryMutation, useGetNotificationsByLoggedUserQuery } from '@/generated';
 import Notification from '@/app/(main)/_components/notification';
 
 export const Header = () => {
@@ -27,15 +27,20 @@ export const Header = () => {
   const { user } = useAuth();
   const hideSideBar = () => setHide((prev) => !prev);
   const showSideBar = () => setHide(false);
-
+  const { data: notifyData } = useGetNotificationsByLoggedUserQuery();
+  const notifyPopupNumber = notifyData?.getNotificationsByLoggedUser.filter((oneNotify) => oneNotify.isViewed === false).length;
   const renderNavLink = (icon: React.ReactNode, label: string, onClick: () => void, testId: string) => (
     <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId}>
-      <p>{icon}</p>
+      <p className="relative">
+        {icon}
+        {label === 'Notification' && notifyPopupNumber! > 0 && (
+          <div className="absolute w-4 h-4 text-sm font-medium text-center text-white bg-red-500 rounded-full -top-2 -right-2">{notifyPopupNumber}</div>
+        )}
+      </p>
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>
   );
   const [createStory, { loading: StoryUploadLoading }] = useCreateStoryMutation();
-
   const handleUploadStoryImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
