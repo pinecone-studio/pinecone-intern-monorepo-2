@@ -1,6 +1,6 @@
 describe('Guest info page', () => {
   beforeEach(() => {
-    cy.visit('/guests/info/6773da088b2831ac69d0286d');
+    cy.visit('/guests/info/6783cb82d1f2090809af97a0');
   });
   it('1.Should render the booking info page', () => {
     cy.intercept('POST', '/api/graphql', (req) => {

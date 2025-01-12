@@ -15,7 +15,7 @@ describe('Booking Confirmation Page', () => {
           userRating: 4.5,
         },
         amenities: ['WiFi', 'Pool'],
-        roomInformation: 'Spacious room with a king-sized bed.',
+        roomInformation: ['WiFi', 'Pool'],
       },
       checkInDate: '2024-12-20T14:00:00Z',
       checkOutDate: '2024-12-22T11:00:00Z',
@@ -36,7 +36,7 @@ describe('Booking Confirmation Page', () => {
   });
 
   it('Handles no amenities gracefully', () => {
-    const noAmenitiesBooking = { ...mockBooking, getBooking: { ...mockBooking.getBooking, roomId: { ...mockBooking.getBooking.roomId, amenities: null } } };
+    const noAmenitiesBooking = { ...mockBooking, getBooking: { ...mockBooking.getBooking, roomId: { ...mockBooking.getBooking.roomId, roomInformation: null } } };
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'GetBooking') {
         req.reply({ data: noAmenitiesBooking });

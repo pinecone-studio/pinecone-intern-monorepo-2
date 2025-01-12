@@ -72,10 +72,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             <CheckOutDate />
           </div>
           <div className="my-4 w-full bg-[#E4E4E7] h-[1px]"></div>
-          <div>{data?.getBooking.roomId?.roomInformation}</div>
+          <div>{data?.getBooking.roomId?.roomName}</div>
+
           <div className="flex flex-col gap-2" data-cy="Room-Amenities">
-            {data?.getBooking.roomId?.amenities?.length ? (
-              data.getBooking.roomId.amenities.map((amenity, index) => (
+            {data?.getBooking.roomId?.roomInformation?.length ? (
+              data.getBooking.roomId.roomInformation.map((amenity, index) => (
                 <div data-cy={`Room-Amenities${index}`} key={amenity} className="flex items-center gap-2">
                   <Zap width={16} height={16} />
                   <div>{amenity}</div>

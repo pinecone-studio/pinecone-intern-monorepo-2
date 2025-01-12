@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 describe('admin hotel detail test', () => {
   beforeEach(() => {
-    cy.visit('/admin-hotel-detail/677f185640701c4dfe6637f4');
+    cy.visit('/admin-hotel-detail/6783cddad1f2090809af97d7');
   });
   it('1. it should render', () => {
     cy.get('[data-cy=Admin-Hotel-Detail-Page]').should('be.visible');
