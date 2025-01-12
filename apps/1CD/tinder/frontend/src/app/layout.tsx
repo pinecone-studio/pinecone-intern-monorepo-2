@@ -15,7 +15,7 @@ export const metadata = {
 };
 
 const RootLayout = async ({ children }: PropsWithChildren) => {
-  const authToken = (await cookies().get('authToken')?.value) || '';
+  const authToken = await cookies().get('authToken')?.value || '';
   const decoded = jwt.decode(authToken) as JwtPayload | null
   const userId = decoded?.userId
   console.log(userId)

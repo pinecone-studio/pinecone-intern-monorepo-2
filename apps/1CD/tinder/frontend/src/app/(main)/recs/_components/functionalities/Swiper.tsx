@@ -14,6 +14,7 @@ const Swiper = () => {
   const [swiping, setSwiping] = useState<User>();
 
   useEffect(() => {
+    window.location.href=('/recs');
     if (data?.getUsers) {
       setSwiping(data.getUsers[0]);
       setCards(data.getUsers.slice(1, data.getUsers.length));
