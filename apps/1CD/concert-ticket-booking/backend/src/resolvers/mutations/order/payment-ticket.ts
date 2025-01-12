@@ -43,6 +43,6 @@ export const paymentTickets: MutationResolvers['paymentTickets'] = async (_, { o
   const newUnitTicket = await UnitTicket.insertMany(unitTicketArr);
   const ids = newUnitTicket.map((item) => item._id);
   const qrCodeDataUrl = await qrCodes(ids);
-  sendEmailWithQr(order.email, qrCodeDataUrl);
+  await sendEmailWithQr(order.email, qrCodeDataUrl);
   return { message: 'success' };
 };
