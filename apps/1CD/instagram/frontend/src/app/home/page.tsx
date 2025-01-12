@@ -25,7 +25,7 @@ const Page = () => {
 
   useEffect(() => {
     refresh();
-  }, []);
+  }, [myStories]);
 
   return (
     <>

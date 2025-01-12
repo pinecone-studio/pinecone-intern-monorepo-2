@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Progress } from '@/app/(main)/_components/ProgressStyle';
 import DeleteStory from '@/app/(main)/_components/story/DeleteStoryDialog';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const MyStoriesPage = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const MyStoriesPage = () => {
   const currentUserData = myOwnStories?.getMyActiveStories?.user;
 
   const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
+
+  const date: Date = currentUserStories[currentStoryIndex]?.createdAt;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
@@ -102,13 +105,19 @@ const MyStoriesPage = () => {
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
+                      <span className="text-[#71717A] text-xs">
+                        {formatDistanceToNowStrict(new Date(date), { addSuffix: false })
+                          .split(' ')
+                          .map((word, index) => (index === 1 ? word[0] : word))
+                          .join(' ')}
+                      </span>
                     </div>
                     <DeleteStory
                       storyId={story._id}
                       onDialogOpen={handleDialogOpen}
                       onDelete={() => {
                         handleDelete();
-                        handleDialogOpen(); // Ensure progress stops after delete
+                        handleDialogOpen();
                       }}
                     />
                   </div>

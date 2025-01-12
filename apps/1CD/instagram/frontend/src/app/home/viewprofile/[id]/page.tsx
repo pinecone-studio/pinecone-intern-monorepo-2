@@ -35,7 +35,7 @@ const ViewProfile = () => {
       followingId: profileUser?._id as string,
     },
   });
-  // console.log('view profileiin followDatag harah', followData);
+
   const refresh = async () => {
     await refetch();
   };
@@ -45,8 +45,6 @@ const ViewProfile = () => {
       user: id as string,
     },
   });
-
-  const userPosts = userPostData?.getUserPosts;
 
   const [unfollowMutation] = useUnfollowMutation({
     onCompleted: () => {
@@ -133,7 +131,7 @@ const ViewProfile = () => {
 
         {profileUser?.accountVisibility === 'PUBLIC' ? (
           <div className="relative flex mb-10 border-t border-t-gray-200" data-cy="public-user">
-            <div className=" border-t border-t-black hover:text-black absolute left-[50%]">
+            <div className=" border-t border-t-black hover:text-black absolute left-[45%]">
               <div className="flex items-center mt-3 mb-8">
                 <Grid3x3 />
                 <p>POSTS</p>
