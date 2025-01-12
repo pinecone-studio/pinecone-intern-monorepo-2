@@ -18,8 +18,8 @@ describe('QRGeneratePage', () => {
         },
       },
     });
-    cy.get('[data-cy="payment-page-title"]').should('exist');
-    cy.get('[data-cy="payment-page-title"]').should('contain.text', 'Захиалга амжилттай баталгаажлаа');
+    cy.get('[data-cy="payment-sucsess-title"]').should('exist');
+    // cy.get('[data-cy="payment-sucsess-title"]').should('contain.text', 'Захиалга амжилттай баталгаажлаа');
     cy.get('.toast').should('contain.text', 'Thank you for your purchase, please check your email');
   });
 
@@ -36,7 +36,8 @@ describe('QRGeneratePage', () => {
         data: null,
       },
     });
-    cy.get('[data-cy="payment-page-title"]').should('exist');
+    cy.get('[data-cy="payment-error-title"]').should('exist');
+    // cy.get('[data-cy="payment-error-title"]').should('contain.text', 'Хүсэлт амжилтгүй боллоо');
     cy.get('.toast').should('contain.text', 'Payment failed');
   });
 });

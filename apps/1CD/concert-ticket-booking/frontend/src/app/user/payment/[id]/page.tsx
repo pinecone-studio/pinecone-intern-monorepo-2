@@ -30,9 +30,9 @@ const QRGeneratePage = ({ params }: { params: { id: string } }) => {
   }, []);
   return (
     <div>
-      <div data-cy="payment-page-title">
+      <div>
         {check ? (
-          <div className="flex flex-col items-center justify-center w-full h-screen gap-6 text-white">
+          <div data-cy="payment-sucsess-title" className="flex flex-col items-center justify-center w-full h-screen gap-6 text-white">
             <div className="w-24 h-24 flex flex-col justify-center bg-[#131313] rounded-full items-center">
               <Check className="w-10 h-9 text-[#00B7F4]" />
             </div>
@@ -45,9 +45,9 @@ const QRGeneratePage = ({ params }: { params: { id: string } }) => {
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center w-full h-screen gap-6 text-white">
+          <div data-cy="payment-error-title" className="flex flex-col items-center justify-center w-full h-screen gap-6 text-white">
             <CircleX className="w-24 h-24 text-red-500" />
-            <p className="text-lg font-normal leading-9 text-white">Худалдан авалт хийгдсэн байна</p>
+            <p className="text-lg font-normal leading-9 text-white">Хүсэлт ажилтгүй боллоо</p>
             <Link href="/user/home">
               <button className="font-medium leading-5 text-white m-4 p-2  text-[12px] rounded-md bg-[#00B7f4] w-34">Үндсэн хуудас руу буцах </button>
             </Link>
