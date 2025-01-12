@@ -1,9 +1,9 @@
 import { GraphQLResolveInfo } from 'graphql';
 import { FollowStatus } from 'src/generated';
-import { followModel } from 'src/models';
+import { followModel, notificationModel } from 'src/models';
 import { removeFollowReqFromNotifyByPrivateFollowingIdUser } from 'src/resolvers/mutations/follow/remove-follow-req-from-notify-by-private-following-id-user';
 
-jest.mock('src/models', () => ({ followModel: { findOne: jest.fn(), findByIdAndDelete: jest.fn() } }));
+jest.mock('src/models', () => ({ followModel: { findOne: jest.fn(), findByIdAndDelete: jest.fn() }, notificationModel: { findOneAndDelete: jest.fn() } }));
 
 describe('remove follow request from nitification by private following user', () => {
   const mockFollowReq = { _id: '1221', followerId: '1226', followingId: 'user-126', status: FollowStatus.Pending };
@@ -35,8 +35,10 @@ describe('remove follow request from nitification by private following user', ()
   it('4. should successfully delete the follow request', async () => {
     (followModel.findOne as jest.Mock).mockResolvedValueOnce(mockFollowReq);
     (followModel.findByIdAndDelete as jest.Mock).mockResolvedValueOnce(mockFollowReq);
+    (notificationModel.findOneAndDelete as jest.Mock).mockResolvedValueOnce({ otherUserId: '1226', currentUserId: 'user-126' });
     await removeFollowReqFromNotifyByPrivateFollowingIdUser!({}, { followerId: mockFollowReq.followerId, followingId: mockFollowReq.followingId }, { userId: 'user-126' }, {} as GraphQLResolveInfo);
     expect(followModel.findOne).toHaveBeenCalledWith({ followerId: '1226', followingId: 'user-126' });
     expect(followModel.findByIdAndDelete).toHaveBeenCalledWith('1221');
+    expect(notificationModel.findOneAndDelete).toHaveBeenCalledWith({ otherUserId: '1226', currentUserId: 'user-126' });
   });
 });
