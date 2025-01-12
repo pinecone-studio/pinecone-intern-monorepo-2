@@ -19,7 +19,7 @@ const HotelDetailImage = ({ images, open, setIsOpenImageDialog }: { images: (str
           </DialogHeader>
           <div className="grid grid-cols-2 gap-2" data-cy="Hotel-detail-image">
             {images.map((image, index) => (
-              <Image key={String(image) + index} src={image || '/'} alt="hotel images" width={580} height={433} className="object-cover h-full col-span-1 rounded-sm" />
+              <Image key={String(image) + index} src={image || '/'} alt="hotel images" width={580} height={433} className="object-cover h-full max-h-[310px] col-span-1 rounded-sm" />
             ))}
           </div>
         </DialogContent>

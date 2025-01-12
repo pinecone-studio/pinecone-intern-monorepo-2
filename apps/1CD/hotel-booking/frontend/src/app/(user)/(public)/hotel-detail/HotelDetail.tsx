@@ -67,14 +67,21 @@ const HotelDetail = ({ id }: { id: string }) => {
   if (loading) return <div>loading...</div>;
 
   return (
-    <div data-cy="Hotel-Detail-Page" className="container flex flex-col items-center gap-8 mx-auto">
-      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="grid grid-cols-4 gap-2">
-        {data?.getHotel?.images?.slice(0, 4).map((image, index) => (
-          <Image key={index} src={`${image}`} alt="hotel image" width={580} height={433} className={`${index == 0 && 'col-span-2'} object-cover w-full h-full rounded-sm`} />
-        ))}
+    <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto">
+      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="flex gap-2 max-h-[550px]">
+        <div className="flex-1">
+          <Image className="object-cover h-full w-full" src={data?.getHotel.images?.[0] || '/'} alt="image" width={1000} height={1000} />
+        </div>
+        <div className="flex-1 grid grid-cols-2 gap-2">
+          {data?.getHotel?.images?.slice(1, 5).map((image, index) => (
+            <div className={'h-[270px]'}>
+              <Image key={index} src={`${image}`} alt="hotel image" width={580} height={433} className={`object-cover h-full rounded-sm`} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="px-10 flex flex-col items-center max-w-[1160px] gap-14">
-        <div className="flex gap-14">
+        <div className="flex gap-14 w-full">
           <div className="flex flex-col flex-1 gap-2">
             <div className="flex flex-col gap-6">
               <div>
@@ -101,7 +108,7 @@ const HotelDetail = ({ id }: { id: string }) => {
           <div className="flex flex-col flex-1 gap-2">
             <div className="text-base font-bold">Location</div>
             <div className="p-4 border border-solid 1px">
-              <div>Damdinbazar street-52, Bayangol district, Bayangol, 212513 Ulaanbaatar, Mongolia</div>
+              <div>{data?.getHotel.location}</div>
             </div>
             <div>
               <div className="text-base font-bold">Contact</div>
