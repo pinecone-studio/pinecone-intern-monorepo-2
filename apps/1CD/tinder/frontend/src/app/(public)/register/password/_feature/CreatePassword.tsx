@@ -33,7 +33,7 @@ const Password = () => {
   const router=useRouter();
 
   useEffect(() => {
-    router.refresh();
+    router.push('/register/password');
   },[router]);
    
   const {

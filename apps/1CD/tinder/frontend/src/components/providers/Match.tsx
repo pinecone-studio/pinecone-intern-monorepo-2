@@ -10,16 +10,17 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, ChangeEvent } from 'react';
 
-const Match = ({ setIsMatchOpen, isMatchOpen, swipedUser }: { setIsMatchOpen: (_value: boolean) => void; isMatchOpen: boolean; swipedUser: string }) => {
+const Match = ({ setIsMatchOpen, isMatchOpen, swipedUserId }: { setIsMatchOpen: (_value: boolean) => void; isMatchOpen: boolean; swipedUserId: string | null }) => {
+  const [message, setMessage] = useState<string>('');
+  const router = useRouter();
+  
   const { data } = useGetMatchedUserQuery({
     variables: {
-      matchedUser: swipedUser,
+      matchedUser: swipedUserId ?? '',
     },
   });
-  const router = useRouter();
+  
   const [createChat] = useMutation(CREATE_CHAT);
-  const [message, setMessage] = useState<string>('');
-
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
@@ -33,11 +34,11 @@ const Match = ({ setIsMatchOpen, isMatchOpen, swipedUser }: { setIsMatchOpen: (_
         variables: {
           input: {
             content: message,
-            user2: swipedUser,
+            user2: swipedUserId,
           },
         },
       });
-      router.push(`/chat/${swipedUser}`);
+      router.push(`/chat/${swipedUserId}`);
     } catch (error) {
       console.error('Error sending message', error);
     }
