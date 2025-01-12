@@ -1,14 +1,15 @@
 'use client';
 import React from 'react';
-import { useGetUserPostsQuery } from '@/generated';
-import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
 
-const PostsSection = ({ id }: { id: string }) => {
-  const { data: userPostData } = useGetUserPostsQuery({
-    variables: {
-      user: id,
-    },
-  });
+import { PostImgCard } from '@/app/(main)/_components/post/PostImgCard';
+import { GetUserPostsQuery } from '@/generated';
+
+const PostsSection = ({ userPostData }: { userPostData: GetUserPostsQuery | undefined }) => {
+  // const { data: userPostData } = useGetUserPostsQuery({
+  //   variables: {
+  //     user: id,
+  //   },
+  // });
   return (
     <div className="grid grid-cols-3 gap-3 " data-cy="userPosts" data-testid="userPosts">
       {userPostData?.getUserPosts?.map((myOnePost) => (

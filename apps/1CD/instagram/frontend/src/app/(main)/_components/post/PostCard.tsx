@@ -1,44 +1,35 @@
 'use client';
-
-import Image from 'next/image';
 import React from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Bookmark, Dot, Loader, MessageCircle, MoreVertical } from 'lucide-react';
+import { Bookmark, Dot, MessageCircle, MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useGetMyFollowingsPostsQuery } from '@/generated';
+import { GetMyFollowingsPostsQuery } from '@/generated';
 import { PostLike } from '@/components/like/PostLike';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { PostLikes } from '@/app/(main)/_components/like/PostLikes';
-
-import Link from 'next/link';
 import { CreateComment } from '@/components/comment/CreateComment';
 import { PostImg } from '@/components/post/PostImgCarousel';
 import { PostWithComments } from '@/components/post/PostWithComments';
 import { LastCommentCard } from '@/components/comment/LastCommentCard';
+import SeeEachUserStory from '@/app/home/SeeEachUserStory';
 
-export const PostCard = () => {
-  const { data, loading } = useGetMyFollowingsPostsQuery();
+export const PostCard = ({ postData }: { postData: GetMyFollowingsPostsQuery | undefined }) => {
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center w-full h-[300px]" data-testid="loader">
+  //       <Loader className="text-2xl animate-spin " />
+  //     </div>
+  //   );
+  // }
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center w-full h-[300px]" data-testid="loader">
-        <Loader className="text-2xl animate-spin " />
-      </div>
-    );
-  }
   return (
     <div className="w-full md:px-[40px] px-5" data-testid="post-card">
-      {data?.getMyFollowingsPosts.map((post) => {
+      {postData?.getMyFollowingsPosts.map((post) => {
         return (
           <div key={post?._id} className="md:border-b-[1px] md:pb-5">
             <div className="flex items-center justify-between py-[12px]">
               <div className="flex items-center gap-[0.5px]">
-                <Link href={`/home/viewprofile/${post.user._id}`} className="flex items-center gap-2">
-                  <div className="relative flex rounded-full w-9 h-9">
-                    <Image fill={true} src={post?.user?.profileImg || '/images/profileImg.webp'} alt="Photo1" className="object-cover w-auto h-auto rounded-full" sizes="w-auto h-auto" priority />
-                  </div>
-                  <h1 className="flex items-center font-bold ">{post?.user?.userName}</h1>
-                </Link>
+                <SeeEachUserStory post={post} />
 
                 <span className="flex items-center font-normal text-gray-600 ">
                   <Dot />

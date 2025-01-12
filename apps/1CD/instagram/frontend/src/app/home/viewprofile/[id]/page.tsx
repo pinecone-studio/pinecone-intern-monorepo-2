@@ -40,6 +40,14 @@ const ViewProfile = () => {
     await refetch();
   };
 
+  const { data: userPostData } = useGetUserPostsQuery({
+    variables: {
+      user: id as string,
+    },
+  });
+
+  const userPosts = userPostData?.getUserPosts;
+
   const [unfollowMutation] = useUnfollowMutation({
     onCompleted: () => {
       setButtonState('Follow');
@@ -119,6 +127,7 @@ const ViewProfile = () => {
             handleButtonClick={handleButtonClick}
             fetchedFollowerData={fetchedFollowerData}
             fetchedFollowingData={fetchedFollowingData}
+            userPostData={userPostData}
           />
         </div>
 
@@ -145,7 +154,7 @@ const ViewProfile = () => {
         </div> */}
         {(profileUser?.accountVisibility === 'PUBLIC' || buttonText === 'Following') && (
           <div className="mt-20">
-            <PostsSection id={profileUser?._id || ''} />
+            <PostsSection userPostData={userPostData} />
           </div>
         )}
       </div>

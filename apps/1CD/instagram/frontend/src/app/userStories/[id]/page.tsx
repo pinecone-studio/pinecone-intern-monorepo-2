@@ -1,26 +1,26 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { useGetMyActiveStoriesQuery } from '@/generated';
-import { useRouter } from 'next/navigation';
+import { useGetFollowingUserStoriesQuery } from '@/generated';
+import { useParams, useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Progress } from '@/app/(main)/_components/ProgressStyle';
-import DeleteStory from '@/app/(main)/_components/story/DeleteStoryDialog';
 
-const MyStoriesPage = () => {
+const UserStoryPage = () => {
+  const { id } = useParams();
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
+  const { data: userStories } = useGetFollowingUserStoriesQuery({
+    variables: {
+      user: id as string,
+    },
+  });
 
-  const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
-  const currentUserData = myOwnStories?.getMyActiveStories.user;
-
-  const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
+  const currentUserStories = userStories?.getFollowingUserStories.stories || [];
+  const currentUserData = userStories?.getFollowingUserStories.user;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
@@ -38,8 +38,6 @@ const MyStoriesPage = () => {
       }
     }, 100);
 
-    setIntervalId(id);
-
     return () => clearInterval(id);
   }, [currentStoryIndex, currentUserStories.length]);
 
@@ -55,22 +53,6 @@ const MyStoriesPage = () => {
     if (currentStoryIndex > 0) {
       setCurrentStoryIndex(currentStoryIndex - 1);
     }
-  };
-
-  const handleDialogOpen = () => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (currentUserStories.length === 1) {
-      router.push('/home');
-    } else if (currentStoryIndex >= currentUserStories.length - 1) {
-      setCurrentStoryIndex((prev) => Math.max(0, prev - 1));
-    }
-    await refetch();
   };
 
   return (
@@ -103,14 +85,6 @@ const MyStoriesPage = () => {
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
                     </div>
-                    <DeleteStory
-                      storyId={story._id}
-                      onDialogOpen={handleDialogOpen}
-                      onDelete={() => {
-                        handleDelete();
-                        handleDialogOpen(); // Ensure progress stops after delete
-                      }}
-                    />
                   </div>
                 </div>
               </CarouselItem>
@@ -125,4 +99,4 @@ const MyStoriesPage = () => {
   );
 };
 
-export default MyStoriesPage;
+export default UserStoryPage;
