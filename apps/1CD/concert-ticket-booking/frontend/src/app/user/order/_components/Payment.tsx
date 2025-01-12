@@ -7,6 +7,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import QRCode from 'qrcode';
+import { useAuth } from '@/components/providers';
 
 type PaymentProp = {
   order: Order[] | null;
@@ -14,6 +15,7 @@ type PaymentProp = {
 };
 
 const Payment = ({ order, buyer }: PaymentProp) => {
+  const { setRefetchOrder } = useAuth();
   const { id } = useParams();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
@@ -60,6 +62,7 @@ const Payment = ({ order, buyer }: PaymentProp) => {
     onCompleted: (data) => {
       if (data.paymentCheck.message === 'paid') {
         toast.success('Successfully bought ticket, check your email');
+        setRefetchOrder((pre) => !pre);
         router.push('/user/home');
       }
     },

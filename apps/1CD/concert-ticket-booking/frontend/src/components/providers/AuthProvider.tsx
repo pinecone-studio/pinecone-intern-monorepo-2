@@ -15,12 +15,15 @@ type AuthContextType = {
   signout: () => void;
   user: LoginMutation['login']['user'] | null;
   loading: boolean;
+  refetchOrder: boolean;
   setRefresh: Dispatch<SetStateAction<boolean>>;
+  setRefetchOrder: Dispatch<SetStateAction<boolean>>;
 };
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [refetchOrder, setRefetchOrder] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<LoginMutation['login']['user'] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -93,7 +96,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }, [token, refresh]);
 
-  return <AuthContext.Provider value={{ setRefresh, handleSignUp, handleSignIn, user, signout, loading }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ setRefresh, refetchOrder, setRefetchOrder, handleSignUp, handleSignIn, user, signout, loading }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
