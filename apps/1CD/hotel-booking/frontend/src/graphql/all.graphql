@@ -106,6 +106,19 @@ mutation addPayment($input: PaymentInput!) {
     status
   }
 }
+mutation AddRoomService($input: RoomServiceInput!, $roomId: ID!) {
+  addRoomService(input: $input, roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+  }
+}
 
 mutation AddRoom($input: RoomTypeInput!) {
   addRoom(input: $input) {

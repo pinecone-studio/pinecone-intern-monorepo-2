@@ -20,7 +20,7 @@ export type Option = {
   value: string;
   label: string;
 };
-const options: Option[] = [
+export const options: Option[] = [
   {
     value: '24-hour front desk',
     label: '24-hour front desk',

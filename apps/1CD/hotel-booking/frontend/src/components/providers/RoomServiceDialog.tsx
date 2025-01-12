@@ -1,17 +1,99 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Room } from '@/generated';
+import { Room, useAddRoomServiceMutation } from '@/generated';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/providers/HotelBookingDialog';
+import { MultiSelect } from '@/components/ui/multi-select';
+import { Option } from './GeneralinfoDialog';
+import { toast } from 'react-toastify';
+
 export type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
   room: Room | undefined;
 };
+type RoomService = {
+  bathroom: Option[];
+  accessability: Option[];
+  entertaiment: Option[];
+  foodDrink: Option[];
+  bedroom: Option[];
+  other: Option[];
+};
 
 const RoomServiceDialog: React.FC<DialogType> = ({ open, setOpen, room }) => {
+  const [roomService, setRoomService] = useState<RoomService>({
+    bathroom: [],
+    accessability: [],
+    entertaiment: [],
+    foodDrink: [],
+    bedroom: [],
+    other: [],
+  });
+  const [addRoomService] = useAddRoomServiceMutation();
+
+  const options: Option[] = [
+    { value: 'wifi', label: 'WiFi' },
+    { value: 'tv', label: 'TV' },
+    { value: 'ac', label: 'Air Conditioning' },
+  ];
+
+  const handleSave = async () => {
+    if (!room?.id) return;
+    try {
+      await addRoomService({
+        variables: {
+          roomId: room.id,
+          input: {
+            bathroom: roomService.bathroom.map((bath) => bath.value),
+            accessability: roomService.accessability.map((acc) => acc.value),
+            entertaiment: roomService.entertaiment.map((ent) => ent.value),
+            foodDrink: roomService.foodDrink.map((food) => food.value),
+            other: roomService.other.map((other) => other.value),
+            bedroom: roomService.bedroom.map((bed) => bed.value),
+          },
+        },
+      });
+      toast("successfully update room's general info", {
+        style: {
+          border: 'green solid 1px',
+          color: 'green',
+        },
+      });
+      setOpen(false);
+    } catch (err) {
+      console.error('Failed to update room info:', err);
+    }
+  };
+
+  const handleMultiSelect = (category: keyof RoomService, value: Option[]) => {
+    setRoomService((prev) => ({
+      ...prev,
+      [category]: value,
+    }));
+  };
+  useEffect(() => {
+    if (room?.roomService) {
+      const mapToOptions = (service: any[]) =>
+        service.map((oneInformation) => ({
+          value: String(oneInformation),
+          label: String(oneInformation),
+        }));
+
+      const services = {
+        bathroom: room.roomService.bathroom ? mapToOptions(room.roomService.bathroom) : [],
+        accessability: room.roomService.accessability ? mapToOptions(room.roomService.accessability) : [],
+        entertaiment: room.roomService.entertaiment ? mapToOptions(room.roomService.entertaiment) : [],
+        foodDrink: room.roomService.foodDrink ? mapToOptions(room.roomService.foodDrink) : [],
+        bedroom: room.roomService.bedroom ? mapToOptions(room.roomService.bedroom) : [],
+        other: room.roomService.other ? mapToOptions(room.roomService.other) : [],
+      };
+
+      setRoomService(services);
+    }
+  }, [room]);
   return (
     <Dialog open={open}>
       <DialogContent className="sm:max-w-[625px]">
@@ -19,24 +101,29 @@ const RoomServiceDialog: React.FC<DialogType> = ({ open, setOpen, room }) => {
           <DialogTitle>Room Services</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4 mt-2">
+          <div className="flex flex-col gap-4 mt-2">
+            {Object.keys(roomService).map((category) => (
+              <div key={category} className="flex flex-col gap-2">
+                <Label>{category.charAt(0).toUpperCase() + category.slice(1)}</Label>
+                <MultiSelect
+                  options={options}
+                  value={roomService[category as keyof RoomService]}
+                  onValueChange={(value) => handleMultiSelect(category as keyof RoomService, value)}
+                  placeholder="Select options..."
+                />
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col gap-2">
             <Label>Bathroom</Label>
-            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
-              {room?.roomService?.bathroom?.map((bath, index) => (
-                <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{bath}</Badge>
-                </div>
-              ))}
+            <div>
+              <MultiSelect options={options} value={roomService.bathroom} onValueChange={handleMultiSelect} data-cy="Update-Room-Info-Multi-Select" placeholder="Select options..." />
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Accessibility</Label>
-            <div className="flex flex-wrap gap-2 pl-2 border rounded-lg min-h-16">
-              {room?.roomService?.accessability?.map((bath, index) => (
-                <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{bath}</Badge>
-                </div>
-              ))}
+            <div>
+              <MultiSelect options={options} value={roomService.accessability} onValueChange={handleMultiSelect} data-cy="Update-Room-Info-Multi-Select" placeholder="Select options..." />
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -99,5 +186,4 @@ const RoomServiceDialog: React.FC<DialogType> = ({ open, setOpen, room }) => {
     </Dialog>
   );
 };
-
 export default RoomServiceDialog;
