@@ -2,7 +2,7 @@
 
 describe('HotelDetail', () => {
   beforeEach(() => {
-    cy.visit('/hotel-detail/67734d4aa494d000fe224b6d');
+    cy.visit('/hotel-detail/67839526ebbbeb70f8be2978');
   });
   it('1. should render', () => {
     cy.scrollTo('bottom').should('exist', '[data-cy="Show-More"]');
@@ -67,7 +67,7 @@ describe('HotelDetail', () => {
         });
       }
     });
-    cy.visit('/hotel-detail/67734d4aa494d000fe224b6d');
+    cy.visit('/hotel-detail/67839526ebbbeb70f8be2978');
     cy.get('[data-cy="Hotel-Detail-Page"]').should('be.visible');
     cy.scrollTo('top').should('exist', '[data-cy="Hotel-detail-image"]').should('exist');
     cy.get('[data-cy="image-open-dialog-button"]').click();

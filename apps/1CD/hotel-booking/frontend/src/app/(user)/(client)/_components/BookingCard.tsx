@@ -10,8 +10,8 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
   return (
     <div className="max-w-[986px] border rounded-md">
       <div className="flex">
-        <div className="border-2 max-w-[395px] w-full">
-          {booking.roomId?.hotelId?.images && <Image src={booking.roomId?.hotelId?.images[0] || '/'} alt="image" width={1000} height={1000} className="object-cover w-full h-full" />}
+        <div className="border-2 max-w-[395px]  w-full">
+          {booking.roomId?.hotelId?.images && <Image src={booking.roomId?.hotelId?.images[0] || '/'} alt="image" width={1000} height={1000} className="object-cover max-h-[250px] h-full" />}
         </div>
         <div className="flex-1 gap-2">
           <div className="gap-2 px-5 py-5">
@@ -28,17 +28,20 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
           </div>
           <div className="flex items-center justify-between px-5 py-5">
             <div>
-              <div className="flex gap-2">
-                <div className="text-[#71717A] font-normal">Check in:</div>
-                <div>{format(String(booking?.checkInDate), 'EEEE, MMM d')}</div>
-                <div>{format(String(booking?.checkInDate), 'h:mma')}</div>
-              </div>
+              {booking.checkInDate && (
+                <div className="flex gap-2">
+                  <div className="text-[#71717A] font-normal">Check in:</div>
+                  <div>{format(String(booking?.checkInDate), 'EEEE, MMM d')}</div>
+                  <div>{format(String(booking?.checkInDate), 'h:mma')}</div>
+                </div>
+              )}
+
               <div className="flex items-center gap-2">
                 <div className="text-[#71717A] font-normal">Itinerary:</div>
                 <div>{booking?._id}</div>
               </div>
             </div>
-            <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="p-2 text-black bg-white border rounded-md">
+            <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="p-2 text-black bg-white border rounded-md hover:bg-slate-200">
               View Detail
             </Button>
           </div>

@@ -54,7 +54,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { resetForm }) => {
-      await addBooking({
+      const res = await addBooking({
         variables: {
           input: {
             totalPrice: 50000,
@@ -80,7 +80,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           borderColor: 'green',
         },
       });
-      router.push(`/booking-confirm/${params.id}`);
+
+      router.push(`/booking-confirm/${res.data?.addNewBooking._id}`);
     },
 
     validationSchema,

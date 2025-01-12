@@ -5,6 +5,7 @@ import { ReturnBooking } from '@/generated';
 
 const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
   const taxes = 50000;
+  console.log(data);
   return (
     <>
       <section className="flex flex-col gap-2">
@@ -14,7 +15,7 @@ const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
               <h2>{data?.roomId?.roomName}</h2>
               <p className="text-blue-600">View</p>
             </CardHeader>
-            <Image alt="room-pic" src="/" width={340} height={250} className="border rounded-xl" />
+            {data?.roomId?.hotelId?.images?.[0] && <Image alt="room-pic" src={data?.roomId?.hotelId.images[0] || '/'} width={340} height={250} className="border max-h-[250px] w-full rounded-xl" />}
           </CardContent>
         </Card>
         <Card className="xl:min-w-[340px] h-[250px] text-sm">

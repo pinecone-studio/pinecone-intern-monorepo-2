@@ -1,3 +1,4 @@
+/* eslint-disable */
 describe('cancel-booking', () => {
   beforeEach(() => {
     cy.visit('/login');
@@ -6,7 +7,7 @@ describe('cancel-booking', () => {
     cy.get('[data-cy=Login-Submit-Button]').click();
     cy.url().should('not.include', '/login');
     cy.getAllLocalStorage();
-    cy.visit('/cancel-booking/6773d8e0afce7f8d639ba62c');
+    cy.visit('/cancel-booking/6783cba1d1f2090809af97a5');
     cy.get('[data-cy="Cancellation-rules"]').should('be.visible').should('have.text', 'Cancellation rules');
   });
   it('1. should be button ChevronLeft', () => {
