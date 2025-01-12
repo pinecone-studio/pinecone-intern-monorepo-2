@@ -7,6 +7,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Progress } from '@/app/(main)/_components/ProgressStyle';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const UserStoryPage = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const UserStoryPage = () => {
 
   const currentUserStories = userStories?.getFollowingUserStories.stories || [];
   const currentUserData = userStories?.getFollowingUserStories.user;
+  const date: Date = currentUserStories[currentStoryIndex]?.createdAt;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
@@ -84,6 +86,12 @@ const UserStoryPage = () => {
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
+                      <span className="text-[#71717A] text-xs">
+                        {formatDistanceToNowStrict(new Date(date), { addSuffix: false })
+                          .split(' ')
+                          .map((word, index) => (index === 1 ? word[0] : word))
+                          .join(' ')}
+                      </span>
                     </div>
                   </div>
                 </div>
