@@ -58,9 +58,7 @@ const HomePage = () => {
           background: 'radial-gradient(32.61% 32.62% at 50% 125%, #00B7F4 0%, #0D0D0F 100%)',
         }}
       >
-        <p className="text-xl text-center text-white">
-          Админ эрхтэй мэйл хаягаар <br /> нэвтэрч цааш үргэлжлүүлнэ үү!
-        </p>
+        <p className="text-xl text-center text-white">Та нэвтрэх эрхгүй байна!</p>
       </div>
     );
   }
