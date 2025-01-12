@@ -17,8 +17,8 @@ const MyStoriesPage = () => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
 
-  const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
-  const currentUserData = myOwnStories?.getMyActiveStories.user;
+  const currentUserStories = myOwnStories?.getMyActiveStories?.stories || [];
+  const currentUserData = myOwnStories?.getMyActiveStories?.user;
 
   const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
 
