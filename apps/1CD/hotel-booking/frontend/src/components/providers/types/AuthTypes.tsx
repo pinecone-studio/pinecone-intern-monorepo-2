@@ -1,4 +1,5 @@
 import { User } from '@/generated';
+import { Dispatch, SetStateAction } from 'react';
 
 export type OtpParams = {
   otp: string;
@@ -21,8 +22,11 @@ export type SignInParams = {
 };
 export type AuthContextType = {
   signin: (_params: SignInParams) => void;
+  setRefresh: Dispatch<SetStateAction<boolean>>;
+  setUser: Dispatch<SetStateAction<User | null>>;
   signout: () => void;
-  user: User | null | undefined;
+  getUser: () => void;
+  user: User | null;
   loginButton: () => void;
   signupButton: () => void;
 };

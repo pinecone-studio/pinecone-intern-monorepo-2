@@ -7,9 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { DateOfBirthDatePicker } from './DateOfBirthDatePicker';
+import { useUpdateProfile } from '@/components/providers/UpdateUserProvider';
+import { useAuth } from '@/components/providers';
 
 const PersonalInfo = () => {
   const [date, setDate] = useState<Date | undefined>();
+  const updateProfileData = useUpdateProfile().updateProfileData;
+  const { user } = useAuth();
 
   const inputs = [
     {
@@ -38,7 +42,14 @@ const PersonalInfo = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('Form Values:', { ...values, date });
+    await updateProfileData({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      dateOfBirth: user?.dateOfBirth || '', // Keep existing value
+      phoneNumber: user?.phoneNumber || '', // Keep existing value
+      emergencyContact: user?.emergencyContact || '', // Keep existing value
+      emergencyStatus: user?.emergencyStatus || null,
+    });
   };
 
   return (
