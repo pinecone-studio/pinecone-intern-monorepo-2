@@ -83,7 +83,7 @@ export const handleReserve = (user: User | null | undefined, router: AppRouterIn
     return;
   }
   if (dateTo && dateFrom) {
-    router.push(`/checkout/${id}`);
+    router.push(`/checkout/${id}/dateTo=${dateTo}/dateFrom=${dateFrom}`);
     return;
   }
   toast('you must enter checkin date and checkout date', {
