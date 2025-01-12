@@ -48,7 +48,7 @@ const Password = () => {
   const [createPassword,{loading}] = useCreatePasswordMutation({
 
     onCompleted:()=>{
-      router.push('/register/attraction');
+      router.push('/register/gender');
     }
   
   });

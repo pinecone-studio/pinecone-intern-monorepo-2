@@ -3,3 +3,9 @@ mutation updateAttraction($attraction: String!) {
     email
   }
 }
+
+mutation UpdateGender($gender: String!) {
+  updateGender(gender: $gender) {
+    email
+  }
+}

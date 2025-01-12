@@ -2,7 +2,7 @@
 'use client';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useUpdateAttractionMutation } from '@/generated';
+import {useUpdateGenderMutation } from '@/generated';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -10,16 +10,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 
-const InterestedIn = () => {
-  const [updateAttraction] = useUpdateAttractionMutation({
+const Gender = () => {
+  const [ UpdateGender] = useUpdateGenderMutation({
     onCompleted: () => {
-      router.push('/register/birthday');
+      router.push('/register/attraction');
     },
   });
 
   const FormSchema = z.object({
     interestedIn: z.string({
-      message: 'Please select one',
+      message: 'Please select one.',
     }),
   });
 
@@ -31,9 +31,9 @@ const InterestedIn = () => {
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    await updateAttraction({
+    await UpdateGender({
       variables: {
-        attraction: data.interestedIn,
+        gender: data.interestedIn,
       },
     });
   };
@@ -47,7 +47,7 @@ const InterestedIn = () => {
             <div className="text-[#424242] font-bold text-2xl">tinder</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="text-[#09090B] font-semibold text-2xl">Who are you interested in?</div>
+            <div className="text-[#09090B] font-semibold text-2xl">How do you identify?</div>
             <div className="text-[#71717A] w-[330px] text-sm font-normal pt-1 text-center">Pick the one that feels right for you!</div>
           </div>
           <Form {...form}>
@@ -90,4 +90,4 @@ const InterestedIn = () => {
   );
 };
 
-export default InterestedIn;
+export default Gender;
