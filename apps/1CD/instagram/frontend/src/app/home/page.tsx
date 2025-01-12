@@ -17,7 +17,7 @@ const Page = () => {
   }));
 
   const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
-  const myStories = myOwnStories?.getMyActiveStories.stories;
+  const myStories = myOwnStories?.getMyActiveStories?.stories;
 
   const refresh = async () => {
     await refetch();
