@@ -57,7 +57,7 @@ const UserProfile = () => {
               <h1 className="text-2xl font-bold" data-cy="username">
                 {user?.userName}
               </h1>
-              <Link href="/home/editProfile">
+              <Link href={`/home/editProfile`}>
                 <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Edit Profile</Button>
               </Link>
 

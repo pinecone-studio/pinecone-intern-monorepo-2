@@ -26,6 +26,7 @@ type AuthContextType = {
   login: (_params: LogIn) => void;
   signout: () => void;
   user: User | null;
+
   forgetPassword: (_params: ForgetPassword) => void;
   resetPassword: (_params: ResetPassword) => void;
   changeProfileImg: (_params: ChangeProImage) => void;
@@ -128,6 +129,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const changeProfileImg = async ({ _id, profileImg }: ChangeProImage) => {
     await changeProImg({ variables: { input: { _id, profileImg } } });
   };
+
   useEffect(() => {
     getUser();
   }, [user]);

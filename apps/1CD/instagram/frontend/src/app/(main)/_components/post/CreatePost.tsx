@@ -23,7 +23,7 @@ export const CreatePost = ({
 }) => {
   const [handleDesc, setHandleDesc] = useState('');
   const { refetch } = useGetMyPostsQuery();
-  const [createPost] = useCreatePostMutation();
+  const [createPost, { loading: loadingPost }] = useCreatePostMutation();
   const { data: user } = useGetUserQuery();
 
   const handleCreatePost = async () => {
@@ -60,7 +60,7 @@ export const CreatePost = ({
                 </button>
                 <p>Create new post</p>
                 <button data-testid="createBtn" className="text-[#2563EB]" onClick={() => createPostBtn()}>
-                  Share
+                  {loadingPost ? 'Sharing' : 'Share'}
                 </button>
               </div>
             </DialogTitle>
