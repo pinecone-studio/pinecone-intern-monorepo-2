@@ -27,7 +27,7 @@ const RequestDetail = () => {
     return <div className=' max-h-[371px] max-w-[608px] w-full items-center flex justify-center'>Хүсэлтэн дээр даран хариу өгөх боломжтой</div>;
   }
   if (loading) {
-    return <div className=' max-h-[371px] w-full items-center flex justify-center'><Loader/></div>;
+    return <div className=' max-h-[371px] w-full max-w-[608px] items-center flex justify-center'><Loader/></div>;
   }
 
   const { openRequest } = data!;
