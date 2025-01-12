@@ -34,10 +34,6 @@ const ImageUpload = () => {
     }
   };
 
-  const handleBack = () => {
-    router.push('/register/details');
-  };
-
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as FileList;
     const newFiles = Array.from(files);
@@ -143,9 +139,6 @@ const ImageUpload = () => {
           <p className="text-sm">Upload image</p>
         </button>
         <div className="flex justify-between w-[640px] mt-2 max-sm:w-[350px]" data-cy="navigation-buttons">
-          <button type="button" onClick={handleBack} className="px-4 py-2 border rounded-full hover:bg-gray-100 border-1" data-cy="back-button">
-            Back
-          </button>
           <button type="button" onClick={handleNext} className="hover:bg-gray-800 bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
             {uploading ? 'Uploading...' : 'Update Images'}
           </button>
