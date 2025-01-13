@@ -5,6 +5,7 @@ import { CardContent } from '@mui/material';
 import React from 'react';
 import RoomServiceDialog from './RoomServiceDialog';
 import { Room } from '@/generated';
+
 type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
@@ -25,16 +26,6 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, room }) => {
       </div>
       <CardContent className="flex flex-row justify-between">
         <section className="flex flex-col flex-1 gap-8">
-          <div>
-            <p className="font-light text-gray-500">Bathroom</p>
-            <div className="flex flex-wrap gap-2">
-              {room?.roomService?.bathroom?.map((bath, index) => (
-                <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{bath}</Badge>
-                </div>
-              ))}
-            </div>
-          </div>
           <div>
             <p className="font-light text-gray-500">Bedroom</p>
             <div className="flex flex-wrap gap-2">

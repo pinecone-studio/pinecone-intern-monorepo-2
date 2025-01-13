@@ -96,6 +96,19 @@ mutation updateHotelLocation($location: String!, $id: String!) {
     phoneNumber
   }
 }
+mutation AddRoomService($input: RoomServiceInput!, $roomId: ID!) {
+  addRoomService(input: $input, roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+  }
+}
 mutation addPayment($input: PaymentInput!) {
   addPayment(input: $input) {
     _id
