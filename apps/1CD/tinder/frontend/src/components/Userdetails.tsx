@@ -110,7 +110,7 @@ export const Userdetails = () => {
             <UserdetailsProfession formik={formik} />
             <UserdetailsSchool formik={formik} />
           </div>
-          <div className="sm:flex sm:justify-between sm:max-w-sm flex justify-between w-[350px]">
+          <div className="sm:flex sm:justify-between sm:max-w-sm flex justify-between w-[400px]">
             <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={() => back()}>
               Back
             </Button>
