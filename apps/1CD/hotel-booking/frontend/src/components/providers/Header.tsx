@@ -9,7 +9,6 @@ const Header = () => {
   const router = useRouter();
 
   const { user } = useAuth();
-  console.log('first', user);
 
   return (
     <div className="relative flex flex-col w-full gap-4 mb-20">
