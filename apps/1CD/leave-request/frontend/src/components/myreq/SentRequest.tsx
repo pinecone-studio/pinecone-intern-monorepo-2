@@ -26,7 +26,6 @@ const RequestGroup = ({ date, requests }: { date?: string; requests: Array<reque
   if (!requests || !date) {
     return null;
   }
-console.log(date)
   const formatedDate = formatDate(new Date(date), 'MM-dd');
   const dateObj = new Date(date).setHours(0, 0, 0, 0);
   const today = new Date().setHours(0, 0, 0, 0);
@@ -75,11 +74,11 @@ const RequestItem = ({ requestType, result, startTime, endTime, requestDate }: r
   );
 };
 
-const RequestType = ({ requestType }: { requestType?: string | null }) => {
+export const RequestType = ({ requestType }: { requestType?: string | null }) => {
   return (requestType == 'paid' && 'Цалинтай чөлөө') || (requestType == 'remote' && 'Зайнаас ажиллах') || 'Чөлөө';
 };
 
-const RequestTimeCal = ({ startTime, endTime }: { startTime: requestProps['startTime']; endTime: requestProps['endTime'] }) => {
+export const RequestTimeCal = ({ startTime, endTime }: { startTime: requestProps['startTime']; endTime: requestProps['endTime'] }) => {
   if (!startTime || !endTime) return '(1 хоног)';
   const findHourGap = (hour1: string, hour2: string) => {
     const gap = Number(hour1.split(':')[0]) - Number(hour2.split(':')[0]);
