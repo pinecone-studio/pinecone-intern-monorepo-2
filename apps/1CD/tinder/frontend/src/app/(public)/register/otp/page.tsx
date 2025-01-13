@@ -6,7 +6,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { useResendOtpMutation, useVerifyOtpMutation } from '@/generated';
-import { useRouter } from 'next/navigation';
+
 import { useEffect, useState } from 'react';
 
 
@@ -17,7 +17,7 @@ const VerifyOtp = () => {
   const [countdown, setCountdown] = useState(0);
   const [canResend, setCanResend] = useState(true);
   const [email, setEmail] = useState('');
-  const router = useRouter();
+
 
   useEffect(() => {
     const storedEmail = localStorage.getItem('userEmail');
@@ -41,7 +41,7 @@ const VerifyOtp = () => {
     onCompleted: async(data) => {
       const token=data.verifyOtp.token
       await fetch(`/token?token=${token}`);
-      router.push('/register/password');
+      window.location.href = '/register/password';
     },
 
     onError: () => {

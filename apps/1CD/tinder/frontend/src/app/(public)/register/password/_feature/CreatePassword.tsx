@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+
 
 const passwordSchema = z
   .object({
@@ -32,9 +32,7 @@ type ValidationSchemaType = z.infer<typeof passwordSchema>;
 const Password = () => {
   const router=useRouter();
 
-  useEffect(() => {
-    router.push('/register/password');
-  },[router]);
+
    
   const {
     register,
