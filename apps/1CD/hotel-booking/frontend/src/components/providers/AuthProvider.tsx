@@ -4,14 +4,16 @@
 import { useRouter } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useLoginMutation, User } from 'src/generated';
+import { useGetUserLazyQuery, useLoginMutation, User } from 'src/generated';
 import { AuthContextType, SignInParams } from './types/AuthTypes';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null | undefined>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
   const [signinMutation] = useLoginMutation();
 
   const loginButton = () => {
@@ -20,6 +22,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signupButton = () => () => {
     router.push('/signup');
   };
+
+  const [getUser] = useGetUserLazyQuery({
+    onCompleted: (data) => {
+      setUser(data.getUser);
+    },
+  });
+
   const signin = async ({ email, password }: SignInParams) => {
     await signinMutation({
       variables: {
@@ -30,7 +39,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
       onCompleted: (data) => {
         localStorage.setItem('token', data.login.token);
-        localStorage.setItem('userInfo', JSON.stringify(data.login.user));
+
         setUser(data.login.user);
         router.push('/');
       },
@@ -45,12 +54,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setUser(null);
   };
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
-    if (userInfo) {
-      setUser(userInfo);
+    if (token) {
+      getUser();
+    } else {
+      setToken(localStorage.getItem('token'));
     }
-  }, []);
-  return <AuthContext.Provider value={{ signin, signout, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
+  }, [token, refresh]);
+
+  return <AuthContext.Provider value={{ signin, signout, setRefresh, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
