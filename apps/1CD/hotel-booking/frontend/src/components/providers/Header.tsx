@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import HeaderFilter from './HeaderFilter';
 import { useAuth } from './AuthProvider';
-import ProfilePopover from '../ProfilePopover';
+import ProfilePopover from './ProfilePopover';
 
 const Header = () => {
   const router = useRouter();
