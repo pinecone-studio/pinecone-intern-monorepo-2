@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import { Maybe } from 'yup';
-import { useAuth } from './providers';
+import { useAuth } from '.';
 import { useRouter } from 'next/navigation';
 
 const ProfilePopover = ({ firstName }: { firstName: Maybe<string> | undefined }) => {
