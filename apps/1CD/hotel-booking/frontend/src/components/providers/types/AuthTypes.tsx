@@ -25,9 +25,6 @@ export type AuthContextType = {
   setRefresh: Dispatch<SetStateAction<boolean>>;
   setUser: Dispatch<SetStateAction<User | null>>;
   signout: () => void;
-
-  setRefresh: Dispatch<SetStateAction<boolean>>;
-
   getUser: () => void;
   user: User | null;
   loginButton: () => void;
