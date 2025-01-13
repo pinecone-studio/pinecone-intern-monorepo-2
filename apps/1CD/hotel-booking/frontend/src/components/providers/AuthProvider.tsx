@@ -39,6 +39,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       },
       onCompleted: (data) => {
         localStorage.setItem('token', data.login.token);
+
+
+
+
         setUser(data.login.user);
         router.push('/');
       },
@@ -59,7 +63,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setToken(localStorage.getItem('token'));
     }
   }, [token, refresh]);
+
+
+
+
   return <AuthContext.Provider value={{ signin, setRefresh, setUser, signout, user, getUser, loginButton, signupButton }}>{children}</AuthContext.Provider>;
+
 };
 
 export const useAuth = () => useContext(AuthContext);
