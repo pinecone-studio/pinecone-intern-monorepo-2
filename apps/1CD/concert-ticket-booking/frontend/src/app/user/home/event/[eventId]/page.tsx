@@ -37,10 +37,10 @@ const Page = () => {
           </div>
           <div className="py-8 m-auto lg:flex lg:justify-center max-w-7xl md:py-12 sm:px-6 lg:px-8">
             <div className="lg:flex lg:gap-20 md:flex-row sm:max-w-flex sm:max-w-flex-col">
-              <div data-cy="Event-Detail" className="w-full md:w-1/2z">
+              <div data-cy="Event-Detail" className="w-full md:w-3/5">
                 <EventDetail event={data?.getRelatedEvents?.eventDetail as Event} />
               </div>
-              <div data-cy="Ticket-Detail" className="w-full md:w-1/2">
+              <div data-cy="Ticket-Detail" className="w-full md:w-2/5">
                 <TicketDetail event={data?.getRelatedEvents?.eventDetail as Event} />
               </div>
             </div>
@@ -62,4 +62,3 @@ const Page = () => {
 };
 
 export default Page;
-

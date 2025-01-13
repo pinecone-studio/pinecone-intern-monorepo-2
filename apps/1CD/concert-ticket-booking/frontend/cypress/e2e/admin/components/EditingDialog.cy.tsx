@@ -23,7 +23,7 @@ describe('EditingDialog Component', () => {
       },
     });
     cy.visit('/admin/home');
-    cy.get('[data-testid="edit-event-button-677211f01ba81855c94a81f7"]').click();
+    cy.get('[data-testid="edit-event-button-6783e3c08516e7cebc45071a"]').click();
   });
 
   it('should render all fields correctly', () => {
