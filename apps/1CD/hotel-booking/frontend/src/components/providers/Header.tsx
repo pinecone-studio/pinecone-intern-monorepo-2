@@ -2,8 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import HeaderFilter from './HeaderFilter';
+import { useAuth } from './AuthProvider';
+import ProfilePopover from './ProfilePopover';
 
 const Header = () => {
+  const { user } = useAuth();
   const router = useRouter();
 
   return (
@@ -15,24 +18,38 @@ const Header = () => {
               <div className="w-5 h-5 bg-white rounded-full"></div>
               <p className="text-lg font-medium text-white">Pedia</p>
             </button>
-            <div className="flex gap-4">
-              <button
-                className="text-sm font-medium text-[#FAFAFA] hover:opacity-80"
-                onClick={() => {
-                  router.push('/signup');
-                }}
-              >
-                Register
-              </button>
-              <button
-                className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80"
-                onClick={() => {
-                  router.push('/login');
-                }}
-              >
-                Sign in
-              </button>
-            </div>
+            {user?.email ? (
+              <div className="flex gap-4">
+                <button
+                  className="text-sm font-medium text-[#FAFAFA] hover:opacity-80"
+                  onClick={() => {
+                    router.push('/booking');
+                  }}
+                >
+                  My Booking
+                </button>
+                <ProfilePopover firstName={user.firstName} />
+              </div>
+            ) : (
+              <div className="flex gap-4">
+                <button
+                  className="text-sm font-medium text-[#FAFAFA] hover:opacity-80"
+                  onClick={() => {
+                    router.push('/signup');
+                  }}
+                >
+                  Register
+                </button>
+                <button
+                  className="text-sm font-medium text-[#FAFAFA] cursor-pointer hover:opacity-80"
+                  onClick={() => {
+                    router.push('/login');
+                  }}
+                >
+                  Sign in
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="text-center text-white pt-14 ">
