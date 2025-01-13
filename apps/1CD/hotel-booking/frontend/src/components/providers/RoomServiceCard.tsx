@@ -9,11 +9,12 @@ type DialogType = {
   open: boolean;
   setOpen: (_: boolean) => void;
   room: Room | undefined;
+  refetch: () => void;
 };
 
-const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, room }) => {
+const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room }) => {
   return (
-    <Card className="w-[780px] h-[500px] shadow-lg">
+    <Card className="w-[780px] h-[600px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
         <h3 className="font-semibold">Room Services</h3>
         <button className="text-blue-600" onClick={() => setOpen(true)} data-cy="Room-Service-Dialog-Button">
@@ -21,7 +22,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, room }) => {
         </button>
       </CardHeader>
       <div data-cy={`Room-Services-Dialog`}>
-        <RoomServiceDialog open={open} setOpen={setOpen} room={room} />
+        <RoomServiceDialog refetch={refetch} open={open} setOpen={setOpen} room={room} />
       </div>
       <CardContent className="flex flex-row justify-between">
         <section className="flex flex-col flex-1 gap-8">
