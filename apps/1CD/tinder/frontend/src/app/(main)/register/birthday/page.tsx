@@ -1,3 +1,4 @@
+/* eslint-disable complexity */ 
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -10,7 +11,7 @@ const Birthday = () => {
   const [month, setMonth] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const [birthdaySubmit] = useBirthdaySubmitMutation({
+  const [birthdaySubmit,{loading}] = useBirthdaySubmitMutation({
     onCompleted: () => {
       router.push('/register/details');
     },
@@ -43,7 +44,6 @@ const Birthday = () => {
       setError('Please complete the date of birth');
       return;
     }
-
     const birthDate = new Date(`${year}-${month}-${day}`);
     const age = calculateAge(birthDate);
 
@@ -147,7 +147,7 @@ const Birthday = () => {
                 Back
               </button>
               <button type="submit" className="hover:bg-black bg-[#E11D48] text-white font-light rounded-full px-4 py-2" data-cy="next-button">
-                Next
+                   {loading ? <Image src="/sw.svg" alt="loading" width={20} height={20} className="animate-spin" /> : 'Next'}
               </button>
             </div>
           </form>

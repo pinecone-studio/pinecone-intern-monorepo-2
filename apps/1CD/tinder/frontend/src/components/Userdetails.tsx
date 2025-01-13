@@ -89,7 +89,7 @@ export const Userdetails = () => {
           <div className="flex flex-col items-center gap-6">
             <UserdetailsName formik={formik} />
             <UserdetailsBio formik={formik} />
-            <div className="sm:grid sm:w-full sm:max-w-sm sm:items-center sm:gap-1.5 flex flex-col w-[350px] gap-1.5">
+            <div className="grid w-[400px] max-w-sm items-center gap-1.5 max-sm:w-[350px] ">
               <Label htmlFor="interests" className="text-[#09090B] font-medium text-sm">
                 Interests
               </Label>
@@ -110,7 +110,7 @@ export const Userdetails = () => {
             <UserdetailsProfession formik={formik} />
             <UserdetailsSchool formik={formik} />
           </div>
-          <div className="sm:flex sm:justify-between sm:max-w-sm flex justify-between w-[350px]">
+          <div className="sm:flex sm:justify-between sm:max-w-sm flex justify-between w-[400px]">
             <Button variant="outline" type="button" className="text-[#18181B] font-medium text-sm rounded-full" data-cy="User-Details-Back-Button" onClick={() => back()}>
               Back
             </Button>
