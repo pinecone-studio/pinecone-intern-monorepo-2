@@ -5,9 +5,12 @@ import { Button } from '@/components/ui/button';
 import { BookingStatus, useUpdateBookingStatusMutation } from '@/generated';
 
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Page = ({ params }: { params: { id: string } }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [updateStatus] = useUpdateBookingStatusMutation();
   const udpateBookingStatus = async () => {
@@ -15,6 +18,12 @@ const Page = ({ params }: { params: { id: string } }) => {
       variables: {
         id: params.id,
         status: BookingStatus.Cancelled,
+      },
+      onCompleted: () => {
+        toast.success('Successful');
+      },
+      onError: (error) => {
+        toast.error(error.message);
       },
     });
     setOpen(false);
@@ -41,7 +50,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </DialogContent>
         </Dialog>
         <div className="py-8 pl-8">
-          <Button data-cy="ChevronLeft" variant="outline" size="icon">
+          <Button data-cy="ChevronLeft" variant="outline" size="icon" onClick={() => router.push(`/booking-detail/${params.id}`)}>
             <ChevronLeft />
           </Button>
         </div>
