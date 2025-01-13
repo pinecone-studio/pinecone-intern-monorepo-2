@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 
 const InterestedIn = () => {
-  const [updateAttraction] = useUpdateAttractionMutation({
+  const [updateAttraction,{loading}] = useUpdateAttractionMutation({
     onCompleted: () => {
       router.push('/register/birthday');
     },
@@ -78,7 +78,7 @@ const InterestedIn = () => {
 
               <div className="flex justify-end">
                 <button type="submit" className="bg-[#E11D48E5] w-[64px] h-[36px] rounded-3xl text-white" data-cy="next-button">
-                  Next
+                     {loading ? <Image src="/sw.svg" alt="loading" width={20} height={20} className="mx-auto animate-spin" /> : 'Next'}
                 </button>
               </div>
             </form>
