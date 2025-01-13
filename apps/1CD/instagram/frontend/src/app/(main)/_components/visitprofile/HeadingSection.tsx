@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Ellipsis } from 'lucide-react';
-import { OtherUser } from '@/generated';
+import { GetUserPostsQuery, OtherUser } from '@/generated';
 import SeeFollowersDialog from './SeeFollowers';
 import SeeFollowingsDialog from './SeeFollowings';
 import { Follower } from '../follow/FollowerDialog';
@@ -16,6 +16,7 @@ const HeadingSection = ({
   handleButtonClick,
   fetchedFollowerData,
   fetchedFollowingData,
+  userPostData,
 }: {
   profileUser: OtherUser | undefined;
   followLoading: boolean;
@@ -23,6 +24,7 @@ const HeadingSection = ({
   handleButtonClick: () => Promise<void>;
   fetchedFollowerData: Follower[];
   fetchedFollowingData: Following[];
+  userPostData: GetUserPostsQuery | undefined;
 }) => {
   return (
     <div className="flex flex-row mb-10 justify-evenly">
@@ -54,7 +56,8 @@ const HeadingSection = ({
         </div>
         <div className="flex flex-row space-x-8">
           <div className="flex flex-row items-center space-x-2">
-            <span>0 posts</span>
+            <span className="font-semibold">{userPostData?.getUserPosts?.length}</span>
+            {userPostData?.getUserPosts?.length === 1 ? <span>post</span> : <span>posts</span>}{' '}
           </div>
 
           <SeeFollowersDialog followerData={fetchedFollowerData} followerDataCount={fetchedFollowerData.length} />

@@ -11,6 +11,7 @@ const CLOUDINARYNAME = `${process.env.CLOUDINARYNAME}`;
 const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { open: boolean; setOpen: (_value: boolean) => void; hotelId: string; hotel: Hotel; AllQueriesRefetch: () => void }) => {
   const [image, setImage] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const [createImage] = useUpdateHotelImagesMutation({
     onCompleted: () => AllQueriesRefetch(),
   });
@@ -30,6 +31,7 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
   const removeImage = (imageId: string) => {
     setImages((prev) => prev.filter((image) => image.id !== imageId));
     setImage((prev) => prev.filter((file) => URL.createObjectURL(file) !== imageId));
+    setImagesUrl((prev) => prev.filter((url) => url !== imageId));
   };
   const addImage = async () => {
     setLoading(true);
@@ -48,9 +50,10 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
     await createImage({
       variables: {
         id: hotelId,
-        images: imageUrls,
+        images: [...imagesUrl, ...imageUrls],
       },
     });
+    setImage([]);
     toast('successfully updated your image', {
       style: {
         color: 'green',
@@ -73,8 +76,12 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
         ),
       };
     });
-    if (imagesArray?.length) setImages(imagesArray);
+    if (imagesArray?.length) {
+      setImages(imagesArray);
+      setImagesUrl(imagesArray.map((image) => image.id));
+    }
   }, [hotel.images]);
+
   return (
     <div className="max-w-[1920px]">
       <Dialog open={open}>

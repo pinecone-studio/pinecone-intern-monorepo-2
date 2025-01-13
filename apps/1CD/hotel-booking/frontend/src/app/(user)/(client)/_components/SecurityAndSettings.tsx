@@ -5,14 +5,17 @@ import React from 'react';
 import { CiMail } from 'react-icons/ci';
 import { IoKeyOutline } from 'react-icons/io5';
 import { FaAngleRight } from 'react-icons/fa6';
+import { useAuth } from '@/components/providers';
 
 const SecurityAndSettings = () => {
   const router = useRouter();
 
-  const user = {
-    firstName: 'Shagai',
-    email: 'shagai@pinecone.mn',
-  };
+  const { user } = useAuth();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col w-full gap-6">
       <div className="flex flex-col gap-1">

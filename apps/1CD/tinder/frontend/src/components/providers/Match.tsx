@@ -1,3 +1,4 @@
+/* eslint-disable complexity */ 
 import { Dialog, DialogContent } from '@/components/providers/Dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,18 +10,27 @@ import { Send } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, ChangeEvent } from 'react';
+import { Loading } from '@/components/Loading';
 
 const Match = ({ setIsMatchOpen, isMatchOpen, swipedUserId }: { setIsMatchOpen: (_value: boolean) => void; isMatchOpen: boolean; swipedUserId: string | null }) => {
   const [message, setMessage] = useState<string>('');
   const router = useRouter();
-  
-  const { data } = useGetMatchedUserQuery({
+
+  const { data, loading } = useGetMatchedUserQuery({
     variables: {
       matchedUser: swipedUserId ?? '',
     },
   });
-  
   const [createChat] = useMutation(CREATE_CHAT);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loading />
+      </div>
+    );
+  }
+
   const handleMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
@@ -87,9 +97,15 @@ const Match = ({ setIsMatchOpen, isMatchOpen, swipedUserId }: { setIsMatchOpen: 
                 onClick={sendMessage}
                 data-cy="send-button"
               >
-                <Send size={16} />
-                Send
+                {loading ? (
+                  'Loading'
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Send size={13} /> Send
+                  </div>
+                )}
               </Button>
+              
             </div>
           </div>
         </DialogContent>

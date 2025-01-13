@@ -2,7 +2,7 @@
 import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { useGetFollowersQuery, useGetFollowingsQuery, useGetMyPostsQuery } from '@/generated';
-import { Grid3x3, Save, Settings } from 'lucide-react';
+import { Grid3x3, Settings } from 'lucide-react';
 import { useState } from 'react';
 import ProImg from '@/components/user-profile/ChangeProImg';
 import { NoPost } from '@/components/user-profile/NoPost';
@@ -57,7 +57,7 @@ const UserProfile = () => {
               <h1 className="text-2xl font-bold" data-cy="username">
                 {user?.userName}
               </h1>
-              <Link href="/editProfile">
+              <Link href={`/home/editProfile`}>
                 <Button className="h-8 text-black bg-gray-200 hover:bg-gray-300">Edit Profile</Button>
               </Link>
 
@@ -85,14 +85,14 @@ const UserProfile = () => {
           </div>
         </div>
         <div className="relative flex border-t-4 border-t-gray-200">
-          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 left-[40%]">
+          <div className="text-black border-black pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 left-[45%]">
             <Grid3x3 />
             <p>POSTS</p>
           </div>
-          <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 right-[40%]">
+          {/* <div className="text-gray-400 pt-4 flex flex-row space-x-1 items-center border-t-4  absolute -top-1 right-[40%]">
             <Save />
             <p>SAVED</p>
-          </div>
+          </div> */}
         </div>
         <div className="mt-16" data-cy="postSection">
           {postDiv()}

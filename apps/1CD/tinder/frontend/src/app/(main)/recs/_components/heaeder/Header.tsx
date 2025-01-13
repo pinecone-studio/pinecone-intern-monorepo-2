@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useGetMeQuery } from '@/generated';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const router = useRouter();
   
   const { data } = useGetMeQuery();
   console.log(data);
@@ -19,7 +21,7 @@ const Header = () => {
     window.location.href = "/signIn";
   };
   const handleReload = () => {
-    window.location.reload(); 
+    router.push('/recs'); 
   };
 
   return (

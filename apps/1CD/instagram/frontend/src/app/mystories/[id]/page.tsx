@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Progress } from '@/app/(main)/_components/ProgressStyle';
 import DeleteStory from '@/app/(main)/_components/story/DeleteStoryDialog';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 const MyStoriesPage = () => {
   const router = useRouter();
@@ -17,17 +18,22 @@ const MyStoriesPage = () => {
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const { data: myOwnStories, refetch } = useGetMyActiveStoriesQuery();
 
-  const currentUserStories = myOwnStories?.getMyActiveStories.stories || [];
-  const currentUserData = myOwnStories?.getMyActiveStories.user;
+  const currentUserStories = myOwnStories?.getMyActiveStories?.stories || [];
+  const currentUserData = myOwnStories?.getMyActiveStories?.user;
+
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
+
+  const date: Date = currentUserStories[currentStoryIndex]?.createdAt;
 
   useEffect(() => {
     if (!currentUserStories.length) return;
+
     let progress = 0;
-    const interval = setInterval(() => {
+    const id = setInterval(() => {
       progress += 1.5;
       setProgress(progress);
       if (progress >= 100) {
-        clearInterval(interval);
+        clearInterval(id);
         setProgress(0);
         if (currentStoryIndex + 1 < currentUserStories.length) {
           setCurrentStoryIndex(currentStoryIndex + 1);
@@ -35,7 +41,9 @@ const MyStoriesPage = () => {
       }
     }, 100);
 
-    return () => clearInterval(interval);
+    setIntervalId(id);
+
+    return () => clearInterval(id);
   }, [currentStoryIndex, currentUserStories.length]);
 
   const handleNextStory = () => {
@@ -53,16 +61,19 @@ const MyStoriesPage = () => {
   };
 
   const handleDialogOpen = () => {
-    setProgress(0);
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
   };
 
   const handleDelete = async () => {
-    await refetch();
     if (currentUserStories.length === 1) {
       router.push('/home');
     } else if (currentStoryIndex >= currentUserStories.length - 1) {
       setCurrentStoryIndex((prev) => Math.max(0, prev - 1));
     }
+    await refetch();
   };
 
   return (
@@ -94,8 +105,21 @@ const MyStoriesPage = () => {
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
+                      <span className="text-[#71717A] text-xs">
+                        {formatDistanceToNowStrict(new Date(date), { addSuffix: false })
+                          .split(' ')
+                          .map((word, index) => (index === 1 ? word[0] : word))
+                          .join(' ')}
+                      </span>
                     </div>
-                    <DeleteStory storyId={story._id} onDialogOpen={handleDialogOpen} onDelete={handleDelete} />
+                    <DeleteStory
+                      storyId={story._id}
+                      onDialogOpen={handleDialogOpen}
+                      onDelete={() => {
+                        handleDelete();
+                        handleDialogOpen();
+                      }}
+                    />
                   </div>
                 </div>
               </CarouselItem>

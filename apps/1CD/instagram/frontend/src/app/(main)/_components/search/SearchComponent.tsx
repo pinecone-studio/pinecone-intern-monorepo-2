@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiSearch } from 'react-icons/ci';
 import { useUser } from '@/components/providers/UserProvider';
-import { Dot } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { SearchUserStatus } from './SearchUserStatus';
 
-// Define User type
 type User = {
   _id: string;
   userName: string;
@@ -72,14 +72,13 @@ const SearchFromAllUsers = ({ setShowSearchComponent }: { setShowSearchComponent
               <li key={user._id} className="py-1 text-sm text-blue-600 cursor-pointer">
                 <div onClick={() => handleProfileClick(user)} className="flex items-center gap-3">
                   <div className="relative flex rounded-full w-[44px] h-[44px]">
-                    <Image fill={true} src={user.profileImg || '/images/img.avif'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
+                    <Image fill={true} src={user.profileImg || '/images/profileImg.webp'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
                   </div>
                   <div className="flex flex-col text-[#09090B]">
                     <span className="text-sm font-[550]">{user.userName}</span>
                     <div className="flex items-center text-xs">
                       <span className="mr-1">{user.fullName}</span>
-                      <Dot className="w-3" />
-                      <span className="text-[#71717A]">Follower</span>
+                      <SearchUserStatus userId={user._id} />
                     </div>
                   </div>
                 </div>
@@ -94,23 +93,24 @@ const SearchFromAllUsers = ({ setShowSearchComponent }: { setShowSearchComponent
       {searchTerm && data?.searchUsers && data.searchUsers.length > 0 && (
         <div className="my-4">
           <h2 className="text-base font-semibold text-gray-600">Search Results</h2>
-          {data?.searchUsers.map((user: User) => (
-            <div key={user._id} className="flex flex-col justify-center gap-4 py-2 cursor-pointer">
-              <div onClick={() => handleProfileClick(user)} className="flex items-center gap-3">
-                <div className="relative flex rounded-full w-[44px] h-[44px]">
-                  <Image fill={true} src={user.profileImg || '/images/img.avif'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
-                </div>
-                <div className="flex flex-col text-[#09090B]">
-                  <span className="text-sm font-[550]">{user.userName}</span>
-                  <div className="flex items-center text-xs">
-                    <span className="mr-1">{user.fullName}</span>
-                    <Dot className="w-3" />
-                    <span className="text-[#71717A]">Follower</span>
+          <ScrollArea className="h-[calc(100vh-200px)]">
+            {data?.searchUsers.map((user: User) => (
+              <div key={user._id} className="flex flex-col justify-center gap-4 py-2 cursor-pointer">
+                <div onClick={() => handleProfileClick(user)} className="flex items-center gap-3">
+                  <div className="relative flex rounded-full w-[44px] h-[44px]">
+                    <Image fill={true} src={user.profileImg || '/images/img.avif'} alt="User Profile" sizes="h-auto w-auto" className="h-full rounded-full w-fit" />
+                  </div>
+                  <div className="flex flex-col text-[#09090B]">
+                    <span className="text-sm font-[550]">{user.userName}</span>
+                    <div className="flex items-center text-xs">
+                      <span className="mr-1">{user.fullName}</span>
+                      <SearchUserStatus userId={user._id} />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </ScrollArea>
         </div>
       )}
     </div>

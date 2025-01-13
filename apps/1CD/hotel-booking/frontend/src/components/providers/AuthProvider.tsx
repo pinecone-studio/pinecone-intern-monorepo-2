@@ -12,8 +12,8 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [refresh, setRefresh] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const [signinMutation] = useLoginMutation();
 
   const loginButton = () => {
@@ -40,6 +40,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       onCompleted: (data) => {
         localStorage.setItem('token', data.login.token);
 
+
+
+
         setUser(data.login.user);
         router.push('/');
       },
@@ -61,7 +64,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }, [token, refresh]);
 
-  return <AuthContext.Provider value={{ signin, signout, setRefresh, user, loginButton, signupButton }}>{children}</AuthContext.Provider>;
+
+
+
+  return <AuthContext.Provider value={{ signin, setRefresh, setUser, signout, user, getUser, loginButton, signupButton }}>{children}</AuthContext.Provider>;
+
 };
 
 export const useAuth = () => useContext(AuthContext);

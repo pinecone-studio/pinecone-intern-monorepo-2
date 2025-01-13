@@ -80,7 +80,7 @@ export const CreateStory = ({
           <DialogFooter className="pb-3 pr-6 my-0">
             <Button type="submit" className="bg-[#F4F4F5] text-sm px-6 py-[10px] text-black rounded-lg" onClick={handleCreateStory}>
               <Avatar className="w-5 h-5 mr-3">
-                <AvatarImage src={user?.profileImg || 'https://github.com/shadcn.png'} alt="@shadcn" />
+                <AvatarImage src={user?.profileImg || '/images/profileImg.webp'} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <span>Your story</span>

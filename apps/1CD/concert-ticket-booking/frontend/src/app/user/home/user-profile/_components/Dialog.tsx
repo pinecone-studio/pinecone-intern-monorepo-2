@@ -1,17 +1,21 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Order, useCancelTicketMutation } from '@/generated';
-import { calculateTotalAmount } from '@/utils/calculate';
+import { useCancelTicketMutation } from '@/generated';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
-const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onClose: () => void; order: Order; refetch: () => void }) => {
-  const orderId = order._id;
-  const eventId = order.eventId;
-  const totalAmount = calculateTotalAmount(order.ticketType);
+type DialogProps = {
+  orderId: string;
+  eventId: string;
+  totalAmount: number | undefined;
+  refetch: () => void;
+};
+const DialogComponent = ({ totalAmount, eventId, orderId, refetch }: DialogProps) => {
+  const [open, setOpen] = useState(false);
 
   const [createRequest, { loading }] = useCancelTicketMutation({
     onCompleted: () => {
@@ -60,12 +64,11 @@ const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onC
             accountOwner: values.ownerName,
             phoneNumber: values.phoneNumber,
             eventId: eventId,
-            totalPrice: totalAmount,
+            totalPrice: totalAmount!,
           },
         },
       },
     });
-    onClose();
   };
 
   const renderInputField = (label: string, field: keyof typeof formik.values, placeholder: string, type = 'text') => (
@@ -79,11 +82,16 @@ const DialogComponent = ({ open, onClose, order, refetch }: { open: boolean; onC
   );
 
   return (
-    <Dialog open={open} data-cy="dialog-component">
-      <DialogContent onClose={onClose} data-cy="dialog-content">
+    <Dialog open={open} onOpenChange={setOpen} data-cy="dialog-component">
+      <DialogTrigger asChild>
+        <Button className="bg-[#27272A]" data-cy={`cancel-button-${orderId}`}>
+          Цуцлах
+        </Button>
+      </DialogTrigger>
+      <DialogContent data-cy="dialog-content">
         <DialogHeader data-cy="dialog-header">
           <DialogTitle data-cy="dialog-title">Тасалбар цуцлах</DialogTitle>
-          <DialogDescription data-cy="dialog-description">{order._id} тасалбараа цуцлахдаа итгэлтэй байна уу?</DialogDescription>
+          <DialogDescription data-cy="dialog-description">{orderId} тасалбараа цуцлахдаа итгэлтэй байна уу?</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">

@@ -22,9 +22,14 @@ export type SignInParams = {
 };
 export type AuthContextType = {
   signin: (_params: SignInParams) => void;
-  signout: () => void;
   setRefresh: Dispatch<SetStateAction<boolean>>;
-  user: User | null | undefined;
+  setUser: Dispatch<SetStateAction<User | null>>;
+  signout: () => void;
+
+  setRefresh: Dispatch<SetStateAction<boolean>>;
+
+  getUser: () => void;
+  user: User | null;
   loginButton: () => void;
   signupButton: () => void;
 };

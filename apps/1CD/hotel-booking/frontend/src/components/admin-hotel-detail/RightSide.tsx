@@ -42,7 +42,7 @@ const RightSide = ({
         </div>
         <div className="grid grid-cols-2">
           {hotel?.images?.map((image, index) => (
-            <Image key={index} width={1000} height={1000} className={`${index == 0 && 'col-span-2'} rounded-sm`} src={image || '/'} alt="image" />
+            <Image key={index} width={1000} height={1000} className={`${index == 0 && 'col-span-2'} h-[200px] rounded-sm`} src={image || '/'} alt="image" />
           ))}
         </div>
       </div>

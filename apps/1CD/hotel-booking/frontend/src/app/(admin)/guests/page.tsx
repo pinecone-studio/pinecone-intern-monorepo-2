@@ -16,15 +16,22 @@ const Page = () => {
   const [searchValue, setSearchValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
 
-  const filteredBookings = data?.getBookings.filter((booking) => {
-    const matchesStatus = selectedStatus === 'all' || booking.status === selectedStatus;
-    const matchesSearch = booking.userId?.firstName?.toLowerCase().includes(searchValue.toLowerCase());
-    return matchesStatus && matchesSearch;
-  });
+  let filteredBookings = data?.getBookings;
+  if (searchValue) {
+    filteredBookings = data?.getBookings.filter((booking) => {
+      booking.firstName?.includes(searchValue.toLowerCase());
+    });
+  }
+
+  if (selectedStatus !== 'all') {
+    filteredBookings = filteredBookings?.filter((booking) => {
+      return booking.status == selectedStatus.toLowerCase();
+    });
+  }
 
   useEffect(() => {
     getBookings();
-  }, [setSelectedStatus, getBookings]);
+  }, [setSelectedStatus, getBookings, data?.getBookings]);
 
   return (
     <section data-cy="Get-Bookings-Page" className="w-full bg-gray-50">

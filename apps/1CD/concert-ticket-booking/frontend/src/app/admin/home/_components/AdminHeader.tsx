@@ -14,10 +14,6 @@ const navigation = [
     name: 'Цуцлах хүсэлт',
     link: '/admin/cancel-request',
   },
-  {
-    name: 'Артист',
-    link: '/admin/artist'
-  }
 ];
 
 export const AdminHeader = () => {
@@ -40,9 +36,9 @@ export const AdminHeader = () => {
         </div>
         <div className="flex items-center gap-2">
           <Link href={'/admin/home/admin-profile'}>
-          <span data-cy="AdminEmail" data-testid="AdminEmail">
-            {user?.email}
-          </span>
+            <span data-cy="AdminEmail" data-testid="AdminEmail">
+              {user?.email}
+            </span>
           </Link>
           <div data-cy="Admin-Header-Exit-Account">
             <Link href="/user/sign-in" className="text-black bg-white">

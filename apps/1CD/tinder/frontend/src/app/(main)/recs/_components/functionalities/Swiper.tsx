@@ -5,6 +5,7 @@ import StackImgs from './StackImg';
 import Swiping from './Swiping';
 import Image from 'next/image';
 import { Loading } from '@/components/Loading';
+import { useRouter } from 'next/navigation';
 
 
 const Swiper = () => {
@@ -12,13 +13,15 @@ const Swiper = () => {
   const [cards, setCards] = useState<User[]>([]);
 
   const [swiping, setSwiping] = useState<User>();
+  const router = useRouter();
 
   useEffect(() => {
+    router.push('/recs'); 
     if (data?.getUsers) {
       setSwiping(data.getUsers[0]);
       setCards(data.getUsers.slice(1, data.getUsers.length));
     }
-  }, [data?.getUsers]);
+  }, [data?.getUsers,router]);
   if(loading){
     return (
           <div className="flex items-center justify-center h-screen">

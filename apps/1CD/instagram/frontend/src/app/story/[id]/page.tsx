@@ -24,7 +24,6 @@ const UserStoryPage = () => {
   const allStories = latestStories?.getAllUsersWithLatestStories || [];
   const currentUserStories = allStories[currentUserIndex]?.stories || [];
   const currentUserData = allStories[currentUserIndex]?.user;
-
   const date: Date = currentUserStories[currentStoryIndex]?.createdAt;
 
   useEffect(() => {
@@ -112,7 +111,6 @@ const UserStoryPage = () => {
             ))}
           </div>
         </div>
-
         <div className="mx-20">
           <Carousel className="w-full max-w-[600px] m-auto transition-all duration-500 ease-in-out">
             <CarouselContent>
@@ -133,18 +131,21 @@ const UserStoryPage = () => {
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <span className="text-sm text-white">{currentUserData?.userName}</span>
-                      <span className="text-[#71717A] text-xs">{formatDistanceToNowStrict(new Date(date)).slice(0, 4)}</span>
+                      <span className="text-[#71717A] text-xs">
+                        {formatDistanceToNowStrict(new Date(date), { addSuffix: false })
+                          .split(' ')
+                          .map((word, index) => (index === 1 ? word[0] : word))
+                          .join(' ')}
+                      </span>
                     </div>
                   </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-
             <CarouselPrevious disabled={false} onClick={handlePreviousStory} />
             <CarouselNext disabled={false} onClick={handleNextStory} />
           </Carousel>
         </div>
-
         <div className="w-[500px]">
           <div className="flex gap-10">
             {unseenUsers.slice(1, 3).map((user) => (

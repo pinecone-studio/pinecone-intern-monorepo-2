@@ -91,7 +91,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     <div className="mb-1 text-[#71717A] text-muted-foreground">Phone Number</div>
                     <div className="text-foreground text-[#09090B] flex gap-1">
                       <Phone />
-                      <div>72700800</div>
+                      <div>{oneHotelData?.getHotel.phoneNumber}</div>
                     </div>
                   </div>
                   <div className="flex-1">
@@ -143,7 +143,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <RightSide setIsOpenImageDialog={setIsOpenImageDialog} setIsOpenLocationDialog={setIsOpenLocationDialog} hotel={oneHotelData?.getHotel} />
         </div>
       </div>
-      <AddRoomGeneralInfo AllQueriesRefetch={AllQueriesRefetch} open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
+      <AddRoomGeneralInfo hotelId={params.id} AllQueriesRefetch={AllQueriesRefetch} open={isOpenRoomGeneralInfo} setOpen={setIsOpenRoomGeneralInfo} />
       <UpdateHotelGeneralInfo AllQueriesRefetch={AllQueriesRefetch} hotelData={oneHotelData?.getHotel} open={isOpenHotelGeneralInfoDialog} setOpen={setIsOpenHotelGeneralInfoDialog} />
       {oneHotelData?.getHotel._id && (
         <UpdateHotelLocation AllQueriesRefetch={AllQueriesRefetch} hotel={oneHotelData.getHotel} hotelId={oneHotelData?.getHotel._id} open={isOpenLocationDialog} setOpen={setIsOpenLocationDialog} />

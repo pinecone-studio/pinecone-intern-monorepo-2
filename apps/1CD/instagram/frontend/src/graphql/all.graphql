@@ -197,3 +197,24 @@ mutation ViewNotify($id: ID!) {
     }
   }
 }
+
+mutation UpdateUserData($input: UpdateInput!) {
+  updateUserData(input: $input) {
+    _id
+    userName
+    fullName
+    email
+    phone
+    bio
+    gender
+    profileImg
+    accountVisibility
+    followerCount
+    followingCount
+    createdAt
+    updatedAt
+    otp
+    resetPasswordToken
+    resetPasswordTokenExpire
+  }
+}

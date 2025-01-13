@@ -11,6 +11,8 @@ const CLOUDINARYNAME = `${process.env.CLOUDINARYNAME}`;
 const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; setOpen: (_value: boolean) => void; room: Room | undefined; roomRefetch: () => void }) => {
   const [image, setImage] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
+
   const [updateRoomImages] = useUpdateRoomImageMutation({
     onCompleted: () => roomRefetch(),
   });
@@ -30,6 +32,7 @@ const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; set
   const removeImage = (imageId: string) => {
     setImages((prev) => prev.filter((image) => image.id !== imageId));
     setImage((prevFiles) => prevFiles.filter((_, index) => URL.createObjectURL(prevFiles[index]) !== imageId));
+    setImagesUrl((prev) => prev.filter((url) => url !== imageId));
   };
   const addImage = async () => {
     setLoading(true);
@@ -47,9 +50,10 @@ const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; set
     await updateRoomImages({
       variables: {
         id: String(room?.id),
-        images: imageUrls,
+        images: [...imagesUrl, ...imageUrls],
       },
     });
+    setImage([]);
     toast('successfully updated your image', {
       style: {
         color: 'green',
@@ -72,7 +76,10 @@ const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; set
         ),
       };
     });
-    if (imagesArray?.length) setImages(imagesArray);
+    if (imagesArray?.length) {
+      setImages(imagesArray);
+      setImagesUrl(imagesArray.map((image) => image.id));
+    }
   }, [room?.images]);
   return (
     <div className="max-w-[1920px]">

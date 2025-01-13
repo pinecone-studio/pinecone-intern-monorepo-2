@@ -6,7 +6,6 @@ import Buttons from './Buttons';
 
 import Like from '../like/Like';
 import Dislike from '../like/Dislike';
-import { useRouter } from 'next/navigation';
 import Match from '@/components/providers/Match';
 const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swiping: User | undefined; setSwiping: (_value: User) => void; setCards: (_value: User[]) => void }) => {
   const [rotate, setRotate] = useState(0);
@@ -18,9 +17,8 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
   const [DisOpacity, setDisOpacity] = useState(0);
   const [swipeUser, { data }] = useSwipeUserMutation();
   const [lastSwipedUserId, setLastSwipedUserId] = useState<string | null>(null);
-  const router = useRouter();
+ 
   useEffect(() => {
-    router.refresh();
     if (data?.swipeUser.matched === true) {
       setIsMatchOpen(!isMatchOpen);
     }
@@ -69,7 +67,7 @@ const Swiping = ({ cards, swiping, setSwiping, setCards }: { cards: User[]; swip
     setTimeout(() => {
       setSwiping(cards?.[0]);
       setTimeout(() => {
-        const updatedCards = [...cards.slice(1), cards[0]];
+        const updatedCards = cards.slice(1);
         setCards(updatedCards);
       }, 300);
     }, 299);

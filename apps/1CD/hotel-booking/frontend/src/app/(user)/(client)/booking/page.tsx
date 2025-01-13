@@ -1,5 +1,6 @@
 'use client';
 import BookingCard from '@/app/(user)/(client)/_components/BookingCard';
+import { useAuth } from '@/components/providers';
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
 import { Button } from '@/components/ui/button';
 import { BookingStatus, ReturnBooking, useGetBookingFindByUserIdQuery } from '@/generated';
@@ -9,9 +10,10 @@ import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const { data, loading } = useGetBookingFindByUserIdQuery({
     variables: {
-      userId: '6746fe2b288837dc694368dc',
+      userId: user?._id,
     },
   });
 
@@ -19,11 +21,12 @@ const Page = () => {
   const confirmed: ReturnBooking[] = [];
   const previous: ReturnBooking[] = [];
   data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Booked && confirmed.push(booking));
-  data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Cancelled || (BookingStatus.Completed && previous.push(booking)));
+  data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Cancelled && previous.push(booking));
+  data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Completed && previous.push(booking));
 
   return (
     <CheckLoginUser>
-      <div className="container mx-auto max-w-[960px] flex flex-col gap-8" data-cy="Confirmed-Booking">
+      <div className="container mx-auto max-w-[960px] flex flex-col" data-cy="Confirmed-Booking">
         <div className="p-4 text-2xl font-semibold">Confirmed Booking</div>
         {confirmed.length ? (
           <div className="flex flex-col gap-3" data-cy="Booking-Card-Status">

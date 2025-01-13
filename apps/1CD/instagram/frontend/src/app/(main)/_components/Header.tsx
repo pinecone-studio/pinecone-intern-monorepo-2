@@ -7,13 +7,13 @@ import Link from 'next/link';
 import { MenuBar } from './header/MenuBar';
 import Image from 'next/image';
 import { BookOpenCheck, Heart, House, ImagePlus, SquarePlus, Search } from 'lucide-react';
-import SearchFromAllUsers from '@/app/(main)/_components/SearchComponent';
+import SearchFromAllUsers from '@/app/(main)/_components/search/SearchComponent';
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { UpdateImagesStep1 } from '../../../components/post/UpdateImagesStep1';
 import { useAuth } from '../../../components/providers';
 import { CreateStory } from '@/app/(main)/_components/story/CreateStory';
-import { useCreateStoryMutation } from '@/generated';
+import { useCreateStoryMutation, useGetNotificationsByLoggedUserQuery } from '@/generated';
 import Notification from '@/app/(main)/_components/notification';
 
 export const Header = () => {
@@ -27,15 +27,20 @@ export const Header = () => {
   const { user } = useAuth();
   const hideSideBar = () => setHide((prev) => !prev);
   const showSideBar = () => setHide(false);
-
+  const { data: notifyData } = useGetNotificationsByLoggedUserQuery();
+  const notifyPopupNumber = notifyData?.getNotificationsByLoggedUser.filter((oneNotify) => oneNotify.isViewed === false).length;
   const renderNavLink = (icon: React.ReactNode, label: string, onClick: () => void, testId: string) => (
     <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId}>
-      <p>{icon}</p>
+      <p className="relative">
+        {icon}
+        {label === 'Notification' && notifyPopupNumber! > 0 && (
+          <div className="absolute w-4 h-4 text-sm font-medium text-center text-white bg-red-500 rounded-full -top-2 -right-2">{notifyPopupNumber}</div>
+        )}
+      </p>
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>
   );
   const [createStory, { loading: StoryUploadLoading }] = useCreateStoryMutation();
-
   const handleUploadStoryImg = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -47,19 +52,14 @@ export const Header = () => {
     data.append('upload_preset', 'instagram-intern');
     data.append('cloud_name', 'dka8klbhn');
 
-    try {
-      const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
-        method: 'POST',
-        body: data,
-      });
-      const uploadedImage = await res.json();
-      const uploadedImageUrl: string = uploadedImage.secure_url;
-      setStoryImg(uploadedImageUrl);
-    } catch (error) {
-      console.error('Error uploading to Cloudinary:', error);
-    } finally {
-      setUploadingToCloudinary(false);
-    }
+    const res = await fetch('https://api.cloudinary.com/v1_1/dka8klbhn/image/upload', {
+      method: 'POST',
+      body: data,
+    });
+    const uploadedImage = await res.json();
+    const uploadedImageUrl: string = uploadedImage.secure_url;
+    setStoryImg(uploadedImageUrl);
+    setUploadingToCloudinary(false);
   };
 
   const handleCreateStory = async () => {
