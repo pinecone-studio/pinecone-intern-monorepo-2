@@ -39,7 +39,7 @@ export const getEventsPaged: QueryResolvers['getEventsPaged'] = async (_, { filt
     });
   }
 
-  const size = 6;
+  const size = 10;
 
   if (artist) {
     findFilter.$and.push({
