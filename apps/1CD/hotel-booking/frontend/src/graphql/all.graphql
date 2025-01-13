@@ -449,3 +449,17 @@ mutation UpdateRoomImage($id: ID!, $images: [String!]!) {
     images
   }
 }
+
+mutation AddRoomService($input: RoomServiceInput!, $roomId: ID!) {
+  addRoomService(input: $input, roomId: $roomId) {
+    id
+    roomService {
+      bathroom
+      accessability
+      entertaiment
+      foodDrink
+      bedroom
+      other
+    }
+  }
+}
