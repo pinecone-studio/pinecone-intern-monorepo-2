@@ -61,7 +61,7 @@ const Page = () => {
     }, [user,form])
   return (
     <div className='lg:flex lg:items-center sm:max-w-flex sm:max-w-flex-col max-sm:mx-10 max-sm:my-10 md:flex' data-cy="Admin-Info-Page">
-        <div className='flex flex-col gap-5 m-auto'>
+        <div className='flex flex-col gap-4 m-auto'>
             <Button className='bg-[#fff] border border-[#000] text-black hover:text-white'
             data-cy="Info-Step-Button"
             onClick={()=>setStep(1)}>Хувийн мэдээлэл шинэчлэх</Button>
