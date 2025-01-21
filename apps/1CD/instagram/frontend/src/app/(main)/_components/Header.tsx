@@ -33,9 +33,7 @@ export const Header = () => {
     <div onClick={onClick} className="flex items-center gap-4 py-2 text-sm font-medium rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground" data-testid={testId}>
       <p className="relative">
         {icon}
-        {label === 'Notification' && notifyPopupNumber! > 0 && (
-          <div className="absolute w-4 h-4 text-sm font-medium text-center text-white bg-red-500 rounded-full -top-2 -right-2">{notifyPopupNumber}</div>
-        )}
+        {label === 'Notification' && notifyPopupNumber! > 0 && <div className="absolute w-2 h-2 text-sm font-medium text-center text-white bg-red-500 rounded-full -top-1 -right-1"></div>}
       </p>
       <p className={`${hide ? 'hidden' : ''}`}>{label}</p>
     </div>

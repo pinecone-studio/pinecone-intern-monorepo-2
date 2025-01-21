@@ -21,14 +21,13 @@ export type notification = {
 const Notification = () => {
   const { user } = useAuth();
   const accountVis = user?.accountVisibility;
-  const { data: notifyData, loading, refetch } = useGetNotificationsByLoggedUserQuery();
+  const { data: notifyData, refetch } = useGetNotificationsByLoggedUserQuery();
   useEffect(() => {
     refetch();
   }, [notifyData]);
   console.log('notify datanuudiig harah isviewed false baih', notifyData?.getNotificationsByLoggedUser.filter((oneNotify) => oneNotify.isViewed === false).length);
   const [viewNotify] = useViewNotifyMutation();
   if (!notifyData || !accountVis) return;
-  if (loading) return <Skeleton className="w-[470px] h-full" data-testid="notificationLoading"></Skeleton>;
   const notificationView = async (id: string) => {
     await viewNotify({ variables: { id: id } });
   };
