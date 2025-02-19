@@ -10,11 +10,9 @@
     "src/components/**",
     "src/common/**",
     "node_modules",
-    "src/app/**"
-  ],
-  "include": [
     "src/app/**/*"
   ],
+  "include": [],
   "excludeAfterRemap": true,
   "all": true,
   "check-coverage": true,
