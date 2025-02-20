@@ -10,7 +10,8 @@
     "src/components/**",
     "src/common/**",
     "node_modules",
-    "src/app/**/*"
+    "src/app/(admin)/**",
+    "src/app/(user)/**"
   ],
   "include": [],
   "excludeAfterRemap": true,
