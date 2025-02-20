@@ -116,22 +116,7 @@
         "commands": ["rm -rf dist/apps/1CD/hotel-booking/frontend", "rm -rf .vercel"]
       }
     },
-    "e2e": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["npx nx cypress hotel-booking-frontend"],
-        "parallel": false
-      },
-      "dependsOn": [{ "target": "cypress:clean" }]
-    },
-    "e2e:open": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["npx nx cypress hotel-booking-frontend --watch"],
-        "parallel": false
-      },
-      "dependsOn": [{ "target": "cypress:clean" }]
-    },
+
     "cypress:clean": {
       "executor": "nx:run-commands",
       "options": {
