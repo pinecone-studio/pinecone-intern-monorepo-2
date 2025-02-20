@@ -15,7 +15,7 @@ const config: Cypress.ConfigOptions<unknown> = {
     supportFolder: './cypress/support',
     supportFile: './cypress/support/e2e.ts',
     fileServerFolder: './src',
-    specPattern: [],
+    specPattern: false,
     screenshotsFolder: './cypress/results/assets',
     videosFolder: './cypress/results/assets',
     viewportWidth: 1536,
