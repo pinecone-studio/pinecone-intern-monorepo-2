@@ -1,5 +1,5 @@
 import { connect } from 'mongoose';
 
 export const connectToDb = async () => {
-  await connect(process.env.MONGO_URI!, { bufferCommands: false });
+  await connect(process.env.MONGO_URI!);
 };

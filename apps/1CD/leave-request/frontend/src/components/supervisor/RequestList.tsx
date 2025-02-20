@@ -12,9 +12,9 @@ export interface dataProps {
   _id: string;
   requestType: string;
   message: string;
-  requestDate: Date;
-  startTime: string;
-  endTime: string;
+  requestDate: any;
+  startTime: any;
+  endTime: any;
   supervisorEmail: string;
   result: string;
   optionalFile: string;
@@ -23,11 +23,13 @@ export interface dataProps {
     _id: string;
     email: string;
     userName: string;
-    profile: string;
+    profile?: string | null;
     role: string;
     position: string;
     supervisor: Array<string | null>;
-    hireDate: Date;
+    hireDate: any;
+    createdAt: any;
+    updatedAt: any;
   };
 }
 
@@ -42,11 +44,11 @@ const RequestList = () => {
     return null;
   }
 
-  if(loading){
-    return <Loader/>
+  if (loading) {
+    return <Loader />;
   }
 
-  const maxPage = Number((data.getAllRequestLength.res / 10).toFixed());
+  const maxPage = Math.ceil(Number(data.getAllRequestLength.res / 10));
   return (
     <div className="flex flex-col w-[414px]">
       <div className="flex flex-col gap-3">
@@ -93,7 +95,7 @@ const SingleItem = ({ item, refetch }: { item: dataProps; refetch: () => void })
       }}
     >
       <div className="flex items-center">
-        <img className="rounded-full" src={item.email.profile} width={48} height={48} alt="Avatar"/>
+        <img className="rounded-full" src={item.email.profile as string} width={48} height={48} alt="Avatar" />
         <div className="text-xs text-[#09090B] ml-3">
           <div className="flex items-center gap-[6px]">
             <p className="text-sm text-[#09090B]">{item.email.userName}</p>

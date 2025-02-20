@@ -39,13 +39,14 @@ const CancelRequestPage = () => {
   return (
     <div data-cy="cancel-request-page" className="min-h-[calc(100vh-140px)] py-10">
       <div className="container m-auto">
-        <div className="flex flex-col items-start gap-2">
-          <h3 className="text-xl font-semibold" data-cy="page-title">
+        <div className="flex flex-col items-start">
+          <h3 className="text-lg" data-cy="page-title">
             Хүсэлтүүд
           </h3>
           <p className="text-sm text-gray-500" data-cy="page-description">
             Ирсэн цуцлах хүсэлтүүд
           </p>
+          <div className="border-t-[1px] border bg-[#E4E4E7] py-6"></div>
         </div>
         <TableContainer component="div" className="overflow-hidden bg-white rounded-lg shadow-lg" data-cy="table-container">
           <Table aria-label="simple table" className="min-w-full" data-cy="request-table">

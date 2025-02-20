@@ -4,11 +4,21 @@ import BookingDetailRightSide from '@/components/BookingDetailRightSide';
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
 import { useGetBookingQuery } from '@/generated';
 import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const Page = ({ params }: { params: { id: string } }) => {
+  const router = useRouter();
+
   const { data, loading } = useGetBookingQuery({
     variables: {
       id: params.id,
+    },
+    onCompleted: () => {
+      toast.success('success');
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
   if (loading) return <div className="min-h-screen text-3xl font-bold text-center">loading...</div>;
@@ -16,7 +26,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     <CheckLoginUser>
       <div data-cy="Booking-Detail-Home-Page" className="max-w-[1280px] mx-auto w-full p-8">
         <div className="flex w-8 h-8 bg-[#FFFFFF] p-2 mb-6 border rounded-md items-center justify-center hover:cursor-pointer active:bg-slate-50">
-          <ChevronLeft width={16} height={16} />
+          <ChevronLeft width={16} height={16} onClick={() => router.push('/booking')} />
         </div>
         <div className="flex gap-6">
           <BookingDetailLeftSide booking={data?.getBooking} />
