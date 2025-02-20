@@ -4,6 +4,7 @@ import HomePageCard from '@/components/HomePageCard';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';
+import Link from 'next/link';
 
 import { useState } from 'react';
 
@@ -13,18 +14,20 @@ const Page = () => {
   if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
   return (
     <div data-cy="Home-Page" className="w-full">
-      <div className="flex flex-col md:flex-row justify-between pt-8 pb-4 mx-auto max-w-[1400px]">
+      <div className="flex flex-col md:flex-row items-center justify-between pt-8 pb-4 mx-auto max-w-[1400px]">
         <p data-cy="Popular-Hotels" className="font-semibold text-[24px] text-[#09090B]">
           Popular Hotels
         </p>
-        <Button variant="outline" className="hover:bg-slate-200" data-cy="View-All-Btn" onClick={() => setSliceNum(data?.getHotels.length)}>
+        <Button variant="outline" className="hover:bg-slate-200 max-w-[356px] w-full sm:max-w-20" data-cy="View-All-Btn" onClick={() => setSliceNum(data?.getHotels.length)}>
           View all
         </Button>
       </div>
       <section className="max-w-[1400px] mx-auto md:mx-auto">
         <div className="grid grid-cols-1 gap-4 rounded-md cursor-pointer sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, sliceNum).map((hotel) => (
-            <HomePageCard key={hotel._id} hotel={hotel} />
+            <Link key={hotel._id} href={'/search-result'}>
+              <HomePageCard hotel={hotel} />
+            </Link>
           ))}
         </div>
         <div className="flex gap-3 pb-4 mt-24 md:justify-between">
@@ -33,7 +36,9 @@ const Page = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 mb-20 rounded-md cursor-pointer sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.getHotels.slice(0, 4).map((hotel) => (
-            <HomePageCard key={hotel._id} hotel={hotel} />
+            <Link key={hotel._id} href={'/search-result'}>
+              <HomePageCard hotel={hotel} />
+            </Link>
           ))}
         </div>
       </section>

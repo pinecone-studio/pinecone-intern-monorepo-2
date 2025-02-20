@@ -5,7 +5,6 @@ import CheckLoginUser from '@/components/providers/CheckLoginUser';
 import { useGetBookingQuery } from '@/generated';
 import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -13,12 +12,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { data, loading } = useGetBookingQuery({
     variables: {
       id: params.id,
-    },
-    onCompleted: () => {
-      toast.success('success');
-    },
-    onError: (error) => {
-      toast.error(error.message);
     },
   });
   if (loading) return <div className="min-h-screen text-3xl font-bold text-center">loading...</div>;

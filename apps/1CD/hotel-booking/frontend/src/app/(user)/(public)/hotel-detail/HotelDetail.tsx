@@ -67,21 +67,19 @@ const HotelDetail = ({ id }: { id: string }) => {
   if (loading) return <div>loading...</div>;
 
   return (
-    <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto">
-      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="flex gap-2 max-h-[550px]">
-        <div className="flex-1">
-          <Image className="object-cover w-full h-full" src={data?.getHotel.images?.[0] || '/'} alt="image" width={1000} height={1000} />
-        </div>
-        <div className="grid flex-1 grid-cols-2 gap-2">
-          {data?.getHotel?.images?.slice(1, 5).map((image, index) => (
-            <div key={index} className={'h-[270px]'}>
-              <Image src={`${image}`} alt="hotel image" width={580} height={433} className={`object-cover h-full rounded-sm`} />
-            </div>
-          ))}
-        </div>
+    <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto px-4 md:px-0">
+      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="flex gap-2">
+        <Image src={`${data?.getHotel?.images?.[0] ?? '/'}`} alt="hotel image" width={1000} height={1000} className={`object-cover flex-1 rounded-sm`} />
+        {data?.getHotel.images?.length && data?.getHotel.images?.length > 1 && (
+          <div className="flex-wrap flex-1 hidden gap-2 md:flex">
+            {data?.getHotel?.images?.slice(1, 5).map((image, index) => (
+              <Image key={index} src={`${image}`} alt="hotel image" width={1000} height={1000} className={`object-cover flex-1 max-w-[49%] rounded-sm`} />
+            ))}
+          </div>
+        )}
       </div>
       <div className="px-10 flex flex-col items-center max-w-[1160px] gap-14">
-        <div className="flex w-full gap-14">
+        <div className="flex flex-col w-full md:flex-row gap-14">
           <div className="flex flex-col flex-1 gap-2">
             <div className="flex flex-col gap-6">
               <div>
@@ -124,7 +122,6 @@ const HotelDetail = ({ id }: { id: string }) => {
         </div>
         <div className="flex flex-col gap-14">
           <HotelRooms setIsOpenImageDialog={setIsOpenImageDialog} isOpenImageDialog={isOpenImageDialog} images={images} id={id} />
-          <div className="flex flex-col gap-20"></div>
           <HotelAbout hotel={data?.getHotel} />
           <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
           <HotelPolicies />

@@ -38,7 +38,7 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
 
               <div className="flex items-center gap-2">
                 <div className="text-[#71717A] font-normal">Itinerary:</div>
-                <div>{booking?._id}</div>
+                <div>{booking?._id?.slice(0, 3)}</div>
               </div>
             </div>
             <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="p-2 text-black bg-white border rounded-md hover:bg-slate-200">

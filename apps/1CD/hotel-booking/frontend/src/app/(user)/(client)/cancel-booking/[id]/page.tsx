@@ -6,8 +6,8 @@ import { BookingStatus, useUpdateBookingStatusMutation } from '@/generated';
 
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -20,11 +20,11 @@ const Page = ({ params }: { params: { id: string } }) => {
         id: params.id,
         status: BookingStatus.Cancelled,
       },
-      onCompleted: () => {
-        toast.success('Successful');
-      },
-      onError: (error) => {
-        toast.error(error.message);
+    });
+    toast('Booking is succussfully', {
+      style: {
+        color: 'green',
+        borderColor: 'green',
       },
     });
     setOpen(false);

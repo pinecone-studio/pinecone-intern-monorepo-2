@@ -9,7 +9,7 @@ import { HotelReveiwRating } from '../BookingDetailRightSide';
 export const SearchedHotelCards = ({ hotelData }: { hotelData: Hotel }) => {
   return (
     <Card data-cy="room-card" className="max-w-[872px] w-full mt-4">
-      <CardContent className="flex p-0">
+      <CardContent className="flex flex-col p-0 md:flex-row">
         <Image src={hotelData.images?.[0] || '/'} alt="hotel image" className="flex-1 w-full max-h-[230px] border-black object-cover rounded-l-md" height={1000} width={1000} />
         <section className="flex-col items-end flex-1 p-5 rounded-r-md">
           <div className="flex-1 text-center md:text-left">

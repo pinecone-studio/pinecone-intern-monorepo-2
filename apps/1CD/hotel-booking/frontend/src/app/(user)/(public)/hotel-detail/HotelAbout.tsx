@@ -1,14 +1,13 @@
 'use client';
 
-import { Hotel } from "@/generated";
+import { Hotel } from '@/generated';
 
-const HotelAbout = ({hotel}: {hotel: Hotel | undefined}) => {
-
+const HotelAbout = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
-    <div className="flex gap-20" data-cy="hotel-about">
+    <div className="flex flex-col gap-20 md:flex-row" data-cy="hotel-about">
       <div className="w-[264px] text-2xl font-semibold">About this property </div>
-      <div className="flex-1 flex flex-col gap-10">
-        <div className="flex flex-1 flex-col gap-2">
+      <div className="flex flex-col flex-1 gap-10">
+        <div className="flex flex-col flex-1 gap-2">
           <div className="text-xl font-semibold">{hotel?.hotelName}</div>
           <div className="text-sm font-normal">{hotel?.location}</div>
           <div className="text-sm font-normal">{hotel?.description}</div>

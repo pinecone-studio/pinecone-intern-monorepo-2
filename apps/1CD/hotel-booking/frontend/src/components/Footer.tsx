@@ -2,7 +2,7 @@ import { Copyright } from 'lucide-react';
 const Footer = () => {
   return (
     <div>
-      <div className="container mx-auto text-black max-w-[1280px] h-[192px]">
+      <div className="container mx-auto text-black px-4 max-w-[1280px] h-[192px]">
         <div className="flex gap-1 pt-10">
           <div className="w-5 h-5 bg-black rounded-full"></div>
           <p className="text-[16px] text-[#09090B]">Pedia</p>
