@@ -23,20 +23,19 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { user } = useAuth();
   const [addBooking, { loading: mutationLoading }] = useAddNewBookingMutation();
   const { data, loading } = useGetRoomQuery({
-    variables: {
-      id: params.id,
-    },
+    variables: { id: params.id },
   });
   const router = useRouter();
+
   const validationSchema = yup.object({
-    cardNumber: yup.string().required('card information is all required'),
-    cardName: yup.string().required('card information is all required'),
-    ExpirationDate: yup.string().min(4, 'expiration year and month are required').required('card information is all required'),
-    securityCode: yup.string().required('card information is all required'),
-    country: yup.string().required('card information is all required'),
-    firstName: yup.string().required('firstName is required'),
-    email: yup.string().email("it's only email").required('email is required'),
-    phoneNumber: yup.string().required('phone number is required'),
+    cardNumber: yup.string().required('Card information is required'),
+    cardName: yup.string().required('Card information is required'),
+    ExpirationDate: yup.string().min(4, 'Expiration date is required').required('Card information is required'),
+    securityCode: yup.string().required('Card information is required'),
+    country: yup.string().required('Country is required'),
+    firstName: yup.string().required('First name is required'),
+    email: yup.string().email('Invalid email').required('Email is required'),
+    phoneNumber: yup.string().required('Phone number is required'),
   });
 
   const initialValues = {
@@ -51,6 +50,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     middleName: '',
     lastName: '',
   };
+
   const formik = useFormik({
     initialValues,
     onSubmit: async (values, { resetForm }) => {
@@ -74,51 +74,52 @@ const Page = ({ params }: { params: { id: string } }) => {
 
       resetForm();
 
-      toast('booking is succussfully', {
-        style: {
-          color: 'green',
-          borderColor: 'green',
-        },
+      toast.success('Booking successfully completed', {
+        style: { color: 'green', borderColor: 'green' },
       });
 
       router.push(`/booking-confirm/${res.data?.addNewBooking._id}`);
     },
-
     validationSchema,
   });
-  if (loading) return <div>loading...</div>;
+
+  if (loading) return <div className="flex justify-center mt-16"><Image src={'/loader.svg'} alt="Loading..." width={200} height={200} /></div>;
 
   return (
     <CheckLoginUser>
-      <form data-cy="Checkout-Home-Page" onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-[60px] flex gap-16">
-        <div className="max-w-[581px] w-full">
+      <form onSubmit={formik.handleSubmit} className="max-w-[1280px] w-full mx-auto py-8 px-7 md:px-14 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <BookingPageRightSide room={data?.getRoom} />
+        <div className="w-full">
           <BookingInformationInput errors={formik.errors} touched={formik.touched} values={formik.values} formikHandleChange={formik.handleChange} />
-          <div className="flex flex-col gap-4 text-[#09090B] mt-[40px]">
+          <div className="mt-8 space-y-4">
             <div className="flex items-start justify-between">
               <div>
-                <div className="mb-2">3. Reservation card detail</div>
-                <div className="text-[#71717A] text-sm">Safe, secure transactions. Your personal information is protectd</div>
+                <p className="mb-1 font-semibold">3. Reservation Card Details</p>
+                <p className="text-sm text-gray-500">Safe, secure transactions. Your personal information is protected.</p>
               </div>
-              <div className="flex items-center">
+              <div className="flex flex-wrap items-center gap-2">
                 {Cards.map((card) => (
-                  <Image className="w-[30px] h-4" key={card} src={card} alt="a" width={1000} height={1000} />
+                  <Image key={card} src={card} alt="Card" width={30} height={16} className="w-8 h-5" />
                 ))}
               </div>
             </div>
             <CardInformation errors={formik.errors} touched={formik.touched} setFieldValue={formik.setFieldValue} values={formik.values} formikHandleChange={formik.handleChange} />
           </div>
-          <div className="h-[1px] w-full bg-[#E4E4E7] my-[40px]"></div>
+
+          <div className="w-full h-px my-8 bg-gray-300"></div>
           <BookingImportantInformation />
-          <div className="flex justify-end mt-8">
-            <Button data-cy="Complete-Booking-Button" disabled={mutationLoading} type="submit" className="bg-[#2563EB] hover:bg-blue-500 active:bg-blue-300">
-              {mutationLoading ? <Loader2 /> : 'Complete Booking'}
+          <div className="flex justify-end mt-6">
+            <Button disabled={mutationLoading} type="submit" className="px-6 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-500 active:bg-blue-400">
+              {mutationLoading ? <Loader2 className="animate-spin" /> : 'Complete Booking'}
             </Button>
           </div>
         </div>
+
+        
         <Toaster />
-        <BookingPageRightSide room={data?.getRoom} />
       </form>
     </CheckLoginUser>
   );
 };
+
 export default Page;

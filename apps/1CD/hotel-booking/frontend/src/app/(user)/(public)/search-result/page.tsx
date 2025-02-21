@@ -8,10 +8,10 @@ import RatingCheckbox from '@/components/search-hotel/RatingRadio';
 import StarRatingCheckbox from '@/components/search-hotel/StarRating';
 import { AmenitiesMock, StarRatingMock, UserRatingMock } from 'public/filters-data';
 import AmenitiesCheckbox from '@/components/search-hotel/AmenitiesCheckbox';
-import { Loader2 } from 'lucide-react';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useQueryState } from 'nuqs';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const Page = () => {
   // eslint-disable-next-line no-unused-vars
@@ -106,8 +106,7 @@ const Page = () => {
           {loading ? (
             <div className="flex items-center justify-center w-full min-h-screen">
               <div className="flex items-center justify-center gap-2 text-3xl font-bold">
-                <Loader2 className="animate-spin" />
-                <div>Loading...</div>
+                <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
               </div>
             </div>
           ) : (

@@ -53,9 +53,9 @@ const Page = () => {
   }
 
   return (
-    <div className="w-full">
-      <div className="flex bg-slate-100">
-        <div className="bg-[#F4F4F5] h-full">
+    <div className="w-full rounded-2xl ">
+      <div className="flex h-full bg-[#F4F4F5] rounded-2xl">
+        <div className="bg-[#F4F4F5] h-screen rounded-2xl">
           <div className="flex items-center gap-2 px-4 py-5">
             <SidebarTrigger />
             <div data-cy="Hotel-Text" className="font-normal text-sm text-[#020617]">
@@ -72,7 +72,7 @@ const Page = () => {
             </div>
           </div>
           <div className="flex w-full gap-1 px-4 py-3">
-            <div className="flex-1">
+            <div className="flex-1 w-[500px]">
               <Input value={searchValue} data-cy="Input-Element" placeholder="Search" onChange={(e) => setSearchValue(e.target.value)} />
             </div>
             <Select>
@@ -83,24 +83,24 @@ const Page = () => {
             </Select>
           </div>
           {loading ? (
-            <div>Loading</div>
+            <div className='flex justify-center w-full mt-[150px]'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
           ) : (
-            <div className="px-4">
-              <Table className="bg-white border-2">
-                <TableBody>
-                  <TableRow className="border-2">
-                    <TableCell className="border-2 w-[82px]">ID</TableCell>
-                    <TableCell className="border-2">Name</TableCell>
-                    <TableCell className="border-2 w-[320px]">Rooms</TableCell>
-                    <TableCell className="border-2 w-[160px]">Stars Rating</TableCell>
-                    <TableCell className="border-2 w-[160px]">User Rating</TableCell>
+            <div className="px-4 bg-[#F4F4F5] rounded-2xl" >
+              <Table className="h-full bg-white border rounded-2xl">
+                <TableBody className=''>
+                  <TableRow className="border-1">
+                    <TableCell className="border w-[82px]">ID</TableCell>
+                    <TableCell className="border">Name</TableCell>
+                    <TableCell className="border w-[320px]">Rooms</TableCell>
+                    <TableCell className="border w-[160px]">Stars Rating</TableCell>
+                    <TableCell className="border w-[160px]">User Rating</TableCell>
                   </TableRow>
                 </TableBody>
-                <TableBody>
+                <TableBody className=''>
                   {hotels?.map((hotel) => (
                     <TableRow key={hotel._id}>
-                      <TableCell className="border-2 w-[82px]">{hotel._id?.slice(5, 8)}</TableCell>
-                      <TableCell className="border-2 w-[892px]">
+                      <TableCell className="border w-[82px]">{hotel._id?.slice(5, 8)}</TableCell>
+                      <TableCell className="border w-[892px]">
                         <Link data-cy="hotel-info" className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
                           <div className="w-12 h-12">
                             <Image className="object-cover w-full h-full" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
@@ -108,14 +108,14 @@ const Page = () => {
                           {hotel.hotelName}
                         </Link>
                       </TableCell>
-                      <TableCell className="border-2 w-[160px]">{hotel.description}</TableCell>
-                      <TableCell className="border-2 w-[160px]">
+                      <TableCell className="border w-[160px]">{hotel.description}</TableCell>
+                      <TableCell className="border w-[160px]">
                         <div className="flex items-center gap-2">
                           <Star className="w-[18px]" />
                           {hotel.starRating}
                         </div>
                       </TableCell>
-                      <TableCell className="border-2 w-[160px]">
+                      <TableCell className="border w-[160px]">
                         <span>{hotel.userRating}</span>
                         <span className="text-[#71717A]">/10</span>
                       </TableCell>

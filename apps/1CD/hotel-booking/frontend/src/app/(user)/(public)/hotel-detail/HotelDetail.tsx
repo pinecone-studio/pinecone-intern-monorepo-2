@@ -64,7 +64,7 @@ const HotelDetail = ({ id }: { id: string }) => {
     }
   });
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
 
   return (
     <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto px-4 md:px-0">

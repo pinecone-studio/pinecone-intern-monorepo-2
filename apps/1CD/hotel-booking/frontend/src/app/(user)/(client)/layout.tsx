@@ -1,7 +1,8 @@
 import { PropsWithChildren } from 'react';
-import Footer from '@/components/Footer';
+
 import HeaderCheckout from '@/app/(user)/(client)/_components/HeaderCheckout';
 import { Toaster } from '@/components/ui/sonner';
+import Footer from '@/components/Footer';
 
 const ClientLayout = ({ children }: PropsWithChildren) => {
   return (

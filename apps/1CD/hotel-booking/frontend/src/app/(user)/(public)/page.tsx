@@ -4,6 +4,7 @@ import HomePageCard from '@/components/HomePageCard';
 import { Button } from '@/components/ui/button';
 
 import { useGetHotelsQuery } from '@/generated';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { useState } from 'react';
@@ -11,7 +12,12 @@ import { useState } from 'react';
 const Page = () => {
   const { data, loading } = useGetHotelsQuery();
   const [sliceNum, setSliceNum] = useState<number | undefined>(13);
-  if (loading) return <div className="text-2xl text-center text-blue-500 ">loading...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center">
+        <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
+      </div>
+    );
   return (
     <div data-cy="Home-Page" className="w-full">
       <div className="flex flex-col md:flex-row items-center justify-between pt-8 pb-4 mx-auto max-w-[1400px]">
