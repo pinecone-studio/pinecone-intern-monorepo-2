@@ -21,7 +21,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         status: BookingStatus.Cancelled,
       },
     });
-    toast('Booking is succussfully', {
+    toast('Booking is succussfully cancelled', {
       style: {
         color: 'green',
         borderColor: 'green',
