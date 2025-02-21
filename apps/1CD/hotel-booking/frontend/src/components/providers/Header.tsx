@@ -28,7 +28,7 @@ const Header = () => {
                 >
                   My Booking
                 </button>
-                <ProfilePopover firstName={user.firstName} />
+                <ProfilePopover />
               </div>
             ) : (
               <div className="flex gap-4">

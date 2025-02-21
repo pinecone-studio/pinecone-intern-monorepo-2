@@ -1,19 +1,24 @@
-import { Button } from '@/components/ui/button';
+
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-import { Maybe } from 'yup';
 import { useAuth } from '.';
 import { useRouter } from 'next/navigation';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const ProfilePopover = ({ firstName }: { firstName: Maybe<string> | undefined }) => {
+const ProfilePopover = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const { signout } = useAuth();
+
 
   return (
     <div>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline">{firstName}</Button>
+        <Avatar className='cursor-pointer'>
+                <AvatarImage src="/" alt="@shadcn" />
+                <AvatarFallback className='text-blue-900'>{user?.email.slice(0,2).toLocaleUpperCase()}</AvatarFallback>
+              </Avatar>
         </PopoverTrigger>
         <PopoverContent className="w-40">
           <div className="grid gap-4">

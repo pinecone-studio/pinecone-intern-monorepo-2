@@ -17,7 +17,7 @@ const Page = () => {
     },
   });
 
-  if (loading) return <div>loading...</div>;
+  if (loading) return <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
   const confirmed: ReturnBooking[] = [];
   const previous: ReturnBooking[] = [];
   data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Booked && confirmed.push(booking));

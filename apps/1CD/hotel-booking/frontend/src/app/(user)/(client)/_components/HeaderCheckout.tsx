@@ -1,6 +1,7 @@
 'use client';
 import { useAuth } from '@/components/providers';
 import { useRouter } from 'next/navigation';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const HeaderCheckout = () => {
   const { user } = useAuth();
@@ -19,7 +20,10 @@ const HeaderCheckout = () => {
               <button className="text-sm font-medium text-[#09090B]" onClick={() => router.push('/booking')}>
                 My Booking
               </button>
-              <button className="text-sm font-medium text-[#09090B]"></button>
+              <Avatar className='cursor-pointer'>
+               
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </div>
@@ -39,7 +43,12 @@ const HeaderCheckout = () => {
             <button className="text-sm font-medium text-[#09090B]" onClick={() => router.push('/booking')}>
               My Booking
             </button>
-            <button className="text-sm font-medium text-[#09090B]">{user.firstName ? user.firstName : user.email}</button>
+            <button className="text-sm font-medium text-[#09090B]">
+              {' '}
+              <Avatar>
+                <AvatarFallback className='text-blue-700 bg-blue-600/20'>{user.email.slice(0,2).toLocaleUpperCase()}</AvatarFallback>
+              </Avatar>
+            </button>
           </div>
         </div>
       </div>
