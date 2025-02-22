@@ -21,7 +21,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="flex w-8 h-8 bg-[#FFFFFF] p-2 mb-6 border rounded-md items-center justify-center hover:cursor-pointer active:bg-slate-50">
           <ChevronLeft width={16} height={16} onClick={() => router.push('/booking')} />
         </div>
-        <div className="flex gap-6">
+        <div className="flex gap-6 flex-col-reverse md:flex-row">
           <BookingDetailLeftSide booking={data?.getBooking} />
           <BookingDetailRightSide booking={data?.getBooking} />
         </div>

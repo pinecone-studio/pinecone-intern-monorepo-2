@@ -13,9 +13,9 @@ const UpdateProfileTab = () => {
   };
 
   return (
-    <div className="flex w-2/3 h-screen" data-cy="Update-Profile-Input-And-Tabs">
-      <div className="w-64 p-2">
-        <ul className="mt-4 space-y-4">
+    <div className="flex md:w-2/3 md:flex-row flex-col w-full" data-cy="Update-Profile-Input-And-Tabs">
+      <div className="p-2">
+        <ul className="mt-4  flex flex-col gap-4 ">
           <li>
             <label htmlFor="tab-1" className="block px-2 py-2 w-[12rem] rounded cursor-pointer hover:bg-gray-200" data-cy="Update-Profile-Click-Tab-Personal-Info">
               Personal Information
@@ -35,7 +35,7 @@ const UpdateProfileTab = () => {
       </div>
 
       <div className="flex-1 p-4">
-        <div className="tabs-container">
+        <div className="tabs-container ">
           <input type="radio" id="tab-1" name="tab" className="hidden" checked={selectedTab === 'tab-1'} onChange={handleTabChange} />
           <div className={`tab-content p-4 ${selectedTab === 'tab-1' ? '' : 'hidden'}`} data-cy="Update-Profile-Personal-Info-Tab">
             <PersonalInfo />

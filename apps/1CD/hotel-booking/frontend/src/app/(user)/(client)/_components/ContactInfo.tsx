@@ -40,7 +40,7 @@ const ContactInfo = () => {
 
             <div className="w-full border border-gray-200" />
 
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <FormField
                 key="phoneNumber"
                 control={form.control}
@@ -80,7 +80,7 @@ const ContactInfo = () => {
               <p className="text-2xl font-semibold">Emergency Contact</p>
               <p className="text-xs text-gray-400">In case of emergencies, having someone we can reach out to is essential.</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-col  md:flex-row">
               <FormField
                 key="emergencyPhoneNumber"
                 control={form.control}
@@ -91,7 +91,6 @@ const ContactInfo = () => {
                     <FormControl className="flex gap-2">
                       <div className="flex gap-1">
                         <CountryCodeInput />
-
                         <Input className=" w-[20rem] p-2 rounded-sm" placeholder="Enter your emergency contact" {...field} />
                       </div>
                     </FormControl>

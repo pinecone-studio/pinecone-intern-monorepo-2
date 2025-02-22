@@ -4,6 +4,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useGetUserLazyQuery, useLoginMutation, User } from 'src/generated';
 import { AuthContextType, SignInParams } from './types/AuthTypes';
 import { useQueryState } from 'nuqs';

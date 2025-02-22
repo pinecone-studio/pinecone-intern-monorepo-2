@@ -17,7 +17,12 @@ const Page = () => {
     },
   });
 
-  if (loading) return <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
+  if (loading)
+    return (
+      <div className="flex justify-center">
+        <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
+      </div>
+    );
   const confirmed: ReturnBooking[] = [];
   const previous: ReturnBooking[] = [];
   data?.getBookingFindByUserId.forEach((booking) => booking.status == BookingStatus.Booked && confirmed.push(booking));
@@ -31,7 +36,7 @@ const Page = () => {
         {confirmed.length ? (
           <div className="flex flex-col gap-3" data-cy="Booking-Card-Status">
             {confirmed.map((booking) => (
-              <div key={booking._id}>
+              <div className="px-6 sm:px-0" key={booking._id}>
                 <BookingCard booking={booking} />
               </div>
             ))}
