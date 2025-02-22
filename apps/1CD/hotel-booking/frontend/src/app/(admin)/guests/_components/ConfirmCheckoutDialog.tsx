@@ -1,14 +1,11 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-import { BookingStatus, useGetBookingLazyQuery, useUpdateBookingStatusMutation } from '@/generated';
+import { BookingStatus, useUpdateBookingStatusMutation } from '@/generated';
+import { toast } from 'react-toastify';
 
-const ConfirmCheckoutDialog = ({ open, id, setOpen }: { open: boolean; id: string; setOpen: (_value: boolean) => void }) => {
+const ConfirmCheckoutDialog = ({ open, id, setOpen, refetch }: { open: boolean; id: string; setOpen: (_value: boolean) => void; refetch: () => void }) => {
   const [updateStatus] = useUpdateBookingStatusMutation();
-  const [getBooking] = useGetBookingLazyQuery({
-    variables: {
-      id: id,
-    },
-  });
+
   const handleDialog = () => {
     setOpen(false);
   };
@@ -19,7 +16,8 @@ const ConfirmCheckoutDialog = ({ open, id, setOpen }: { open: boolean; id: strin
         status: BookingStatus.Completed,
       },
     });
-    await getBooking();
+    refetch();
+    toast.success('Successfully updated');
     setOpen(false);
   };
   return (

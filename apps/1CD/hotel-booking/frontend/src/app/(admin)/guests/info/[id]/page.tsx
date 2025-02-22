@@ -11,7 +11,7 @@ import ConfirmCheckoutDialog from '../../_components/ConfirmCheckoutDialog';
 
 const GuestInfo = ({ params }: { params: { id: string } }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data } = useGetBookingQuery({
+  const { data, refetch } = useGetBookingQuery({
     variables: {
       id: params.id,
     },
@@ -44,7 +44,7 @@ const GuestInfo = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <ConfirmCheckoutDialog id={params.id} open={isOpen} setOpen={setIsOpen} />
+        <ConfirmCheckoutDialog refetch={refetch} id={params.id} open={isOpen} setOpen={setIsOpen} />
       </div>
     </>
   );
