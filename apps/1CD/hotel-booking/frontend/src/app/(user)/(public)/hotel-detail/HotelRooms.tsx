@@ -17,8 +17,12 @@ const HotelRooms = ({
   images: (string | null)[];
   setIsOpenImageDialog: (_value: boolean) => void;
 }) => {
-  const [dateFrom] = useQueryState('dateFrom');
-  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom', {
+    defaultValue: '',
+  });
+  const [dateTo] = useQueryState('dateTo', {
+    defaultValue: '',
+  });
   const [GetFilteredRooms, { data }] = useHotelDetailLazyQuery({
     variables: {
       hotelId: id,

@@ -5,15 +5,13 @@ import { ReturnBooking } from '@/generated';
 
 const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
   const taxes = 50000;
-  console.log(data);
   return (
     <>
       <section className="flex flex-col gap-2">
-        <Card className="xl:min-w-[340px] h-[360px]">
+        <Card className="xl:min-w-[340px] h-[300px]">
           <CardContent>
             <CardHeader className="flex flex-row items-center justify-between pl-0">
               <h2>{data?.roomId?.roomName}</h2>
-              <p className="text-blue-600">View</p>
             </CardHeader>
             {data?.roomId?.hotelId?.images?.[0] && <Image alt="room-pic" src={data?.roomId?.hotelId.images[0] || '/'} width={340} height={250} className="border max-h-[250px] w-full rounded-xl" />}
           </CardContent>

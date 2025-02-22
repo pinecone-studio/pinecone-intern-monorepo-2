@@ -60,9 +60,6 @@ const Page = ({ params }: { params: { id: string } }) => {
           />
         </div>
         <div className="flex items-center gap-2 my-4">
-          <div className="flex items-center justify-center w-8 h-8 bg-white border rounded-lg ">
-            <ChevronLeft size={16} />
-          </div>
           <h2 className="font-semibold">{oneHotelData?.getHotel.hotelName}</h2>
         </div>
         <div className="flex gap-4">
