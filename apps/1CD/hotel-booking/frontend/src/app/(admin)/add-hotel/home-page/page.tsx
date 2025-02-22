@@ -15,8 +15,10 @@ import SelectRooms from './_components/SelectRooms';
 import SelectStarRating from './_components/SelectStarRating';
 import SelectUserRating from './_components/SelectUserRating';
 import AddHotelGeneralInfo from '../../AddHotelGeneralInfo';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState('');
   const [hotelOpen, setHotelOpen] = useState(false);
   const [getHotels, { data, loading, refetch }] = useGetHotelsLazyQuery();
@@ -83,11 +85,13 @@ const Page = () => {
             </Select>
           </div>
           {loading ? (
-            <div className='flex justify-center w-full mt-[150px]'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
+            <div className="flex justify-center w-full mt-[150px]">
+              <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
+            </div>
           ) : (
-            <div className="px-4 bg-[#F4F4F5] rounded-2xl" >
+            <div className="px-4 bg-[#F4F4F5] rounded-2xl">
               <Table className="h-full bg-white border rounded-2xl">
-                <TableBody className=''>
+                <TableBody className="">
                   <TableRow className="border-1">
                     <TableCell className="border w-[82px]">ID</TableCell>
                     <TableCell className="border">Name</TableCell>
@@ -96,17 +100,17 @@ const Page = () => {
                     <TableCell className="border w-[160px]">User Rating</TableCell>
                   </TableRow>
                 </TableBody>
-                <TableBody className=''>
+                <TableBody className="">
                   {hotels?.map((hotel) => (
-                    <TableRow key={hotel._id}>
+                    <TableRow className="hover:cursor-pointer" onClick={() => router.push(`/admin-hotel-detail/${hotel._id}`)} key={hotel._id}>
                       <TableCell className="border w-[82px]">{hotel._id?.slice(5, 8)}</TableCell>
                       <TableCell className="border w-[892px]">
-                        <Link data-cy="hotel-info" className="flex items-center gap-2" href={`/admin-hotel-detail/${hotel._id}`}>
+                        <div className="flex items-center gap-2">
                           <div className="w-12 h-12">
                             <Image className="object-cover w-full h-full" src={hotel?.images?.[0] || '/'} alt="image" width={1000} height={1000} />
                           </div>
                           {hotel.hotelName}
-                        </Link>
+                        </div>
                       </TableCell>
                       <TableCell className="border w-[160px]">{hotel.description}</TableCell>
                       <TableCell className="border w-[160px]">

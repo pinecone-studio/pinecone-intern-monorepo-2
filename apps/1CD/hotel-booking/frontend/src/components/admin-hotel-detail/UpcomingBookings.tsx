@@ -1,8 +1,10 @@
 import { Table, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BookingsType } from '@/generated';
 import { differenceInCalendarDays, format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 const UpcomingBookings = ({ bookings }: { bookings: BookingsType[] | undefined }) => {
+  const router = useRouter();
   return (
     <div className="bg-[#FFFFFF] p-6">
       <div className="text-[#09090B] text-foreground text-lg mb-4">Upcoming Bookings</div>
@@ -18,9 +20,9 @@ const UpcomingBookings = ({ bookings }: { bookings: BookingsType[] | undefined }
           </TableHeader>
           <TableHeader className="rounded-xl max-h-[400px] overflow-y-scroll">
             {bookings?.map((booking) => (
-              <TableRow className="flex items-center gap-4 border" key={booking._id}>
+              <TableRow onClick={() => router.push(`/guests/info/${booking._id}`)} className="flex items-center gap-4 border hover:cursor-pointer" key={booking._id}>
                 <TableCell className="flex w-[50px] p-4 h-16 items-center text-black border-r-[1px]">{booking._id?.slice(5, 8)}</TableCell>
-                <TableCell className="flex flex-1 p-4 h-16 items-center border-r-[1px]">{booking.firstName}</TableCell>
+                <TableCell className="flex flex-1 p-4 h-16 items-center border-r-[1px]">{booking.phoneNumber}</TableCell>
                 <TableCell className="flex items-center h-16 p-4 flex-1 gap-2 text-black border-r-[1px] justify-center">
                   <div className="">{format(booking.checkInDate, 'MMM dd')}</div>
                   <div>-</div>

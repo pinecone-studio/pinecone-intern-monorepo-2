@@ -3,6 +3,7 @@ import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { ToastContainer } from 'react-toastify';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
