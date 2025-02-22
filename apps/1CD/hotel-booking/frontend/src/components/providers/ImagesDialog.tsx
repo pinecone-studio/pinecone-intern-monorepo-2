@@ -84,7 +84,7 @@ const ImagesDialog = ({ open, setOpen, roomRefetch, room }: { open: boolean; set
   return (
     <div className="max-w-[1920px]">
       <Dialog open={open}>
-        <DialogContent data-cy="Dialog-Element" className="max-w-[1160px] w-full  max-h-[800px] h-full overflow-scroll">
+        <DialogContent data-cy="Dialog-Element" className="max-w-[1160px] w-full bg-blue-50 max-h-[800px] h-full overflow-scroll">
           <div>
             <p className="text-[16px] py-2">Images</p>
             <div className="grid grid-cols-2 gap-2 rounded-sm">

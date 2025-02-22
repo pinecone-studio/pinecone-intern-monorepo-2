@@ -40,7 +40,7 @@ const RightSide = ({
             Edit
           </Button>
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-3">
           {hotel?.images?.map((image, index) => (
             <Image key={index} width={1000} height={1000} className={`${index == 0 && 'col-span-2'} h-[200px] rounded-sm`} src={image || '/'} alt="image" />
           ))}

@@ -108,10 +108,10 @@ const AddRoomGeneralInfo = ({ open, hotelId, setOpen, AllQueriesRefetch }: AddHo
   });
   return (
     <Dialog open={open}>
-      <DialogContent className="max-w-[626px] w-full">
+      <DialogContent className="max-w-[626px] w-full bg-blue-50">
         <form data-cy="Room-General-Info-Page" onSubmit={formik.handleSubmit} className="text-[#09090B]">
-          <div className="pb-6 text-base">General Info</div>
-          <div className="flex flex-col gap-6">
+          <div className="pb-6 font-semibold text-[#2563EB]">General Info</div>
+          <div className="flex flex-col gap-6 bg-blue-50">
             <div className="flex flex-col gap-2 text-sm">
               <div>Name</div>
               <div>

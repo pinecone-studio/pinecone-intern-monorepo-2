@@ -83,18 +83,18 @@ const ImageUpdate = ({ open, setOpen, hotelId, hotel, AllQueriesRefetch }: { ope
   }, [hotel.images]);
 
   return (
-    <div className="max-w-[1920px]">
+    <div className="max-w-[1920px] ">
       <Dialog open={open}>
-        <DialogContent data-cy="Dialog-Element" className="max-w-[1160px] w-full  max-h-[800px] h-full overflow-scroll">
+        <DialogContent data-cy="Dialog-Element" className="max-w-[1160px] w-full  bg-blue-50 max-h-[800px] h-full overflow-scroll">
           <div>
-            <p className="text-[16px] py-2">Images</p>
+            <p className="text-[20px] py-2 text-blue-700 font-semibold ">Images</p>
             <div className="grid grid-cols-2 gap-2 rounded-sm">
               <div>
                 <div
                   className="relative flex justify-center
-                bg-[#e4e4e7] w-[552px] h-[310px] rounded-sm"
+                bg-white border-gray-600 w-[552px] h-[310px] rounded-sm"
                 >
-                  <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="flex flex-col items-center justify-center gap-2 border-gray-700">
                     <Plus />
                     <div className="">drag update photo</div>
                   </div>

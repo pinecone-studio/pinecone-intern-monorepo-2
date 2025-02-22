@@ -95,14 +95,14 @@ const AddHotelGeneralInfo = ({ open, setOpen, refetch }: AddHotelGeneralInfoType
   return (
     <div>
       <Dialog open={open}>
-        <DialogContent className="max-w-[626px] w-full">
+        <DialogContent className="max-w-[626px] bg-blue-50 w-full">
           <form data-cy="Hotel-General-Info-Page" onSubmit={formik.handleSubmit} className="text-[#09090B]">
-            <div className="pb-6 text-base">General Info</div>
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2 text-sm">
+            <div className="pb-6 text-base text-[#2563EB] font-semibold">General Info</div>
+            <div className="flex flex-col gap-6 ">
+              <div className="flex flex-col gap-2 text-sm bg-blue-50">
                 <div>Name</div>
                 <div>
-                  <Input data-cy="Hotel-Name-Input" value={formik.values.hotelName} onChange={formik.handleChange} id="hotelName" />
+                  <Input  data-cy="Hotel-Name-Input" value={formik.values.hotelName} onChange={formik.handleChange} id="hotelName" />
                   <HotelName />
                 </div>
               </div>

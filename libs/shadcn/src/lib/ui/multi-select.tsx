@@ -44,14 +44,14 @@ export const MultiSelect = ({ options, value, onValueChange, placeholder }: Mult
 
   return (
     <Command onKeyDown={handleKeyDown} className="overflow-visible bg-transparent">
-      <div className="px-3 py-2 text-sm border rounded-md group border-input ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="px-3 py-2 text-sm bg-white border rounded-md group border-input ring-offset-background">
         <div className="flex flex-wrap gap-1">
           {value.map((option) => {
             return (
               <Badge key={option.value} variant="secondary">
                 {option.label}
                 <button
-                  className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  className="ml-1 rounded-full outline-none ring-offset-background"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       handleUnselect(option);

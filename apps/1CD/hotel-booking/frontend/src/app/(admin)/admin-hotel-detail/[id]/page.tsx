@@ -52,18 +52,19 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div data-cy="Admin-Hotel-Detail-Page">
         <div className="flex items-center gap-2">
           <SidebarTrigger />
-          <BreadCrumb
+          <BreadCrumb  
             items={[
               { link: '/add-hotel/home-page', Name: 'Hotels' },
               { link: `/admin-hotel-detail/${params.id}`, Name: 'Hotel Detail' },
             ]}
+            
           />
         </div>
         <div className="flex items-center gap-2 my-4">
           <div className="flex items-center justify-center w-8 h-8 bg-white border rounded-lg ">
             <ChevronLeft size={16} />
           </div>
-          <h2 className="font-semibold">{oneHotelData?.getHotel.hotelName}</h2>
+          <h2 className="font-semibold text-[#2563EB]">{oneHotelData?.getHotel.hotelName}</h2>
         </div>
         <div className="flex gap-4">
           <div className="w-[70%] flex flex-col gap-4">
