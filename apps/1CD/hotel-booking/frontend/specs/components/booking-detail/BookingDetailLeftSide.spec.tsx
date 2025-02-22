@@ -2,7 +2,7 @@ import BookingDetailLeftSide from '@/components/BookingDetailLeftSide';
 
 import { BookingStatus } from '@/generated';
 import { fireEvent, render } from '@testing-library/react';
-
+jest.mock('next/navigation');
 describe('booking detail left side test', () => {
   const bookingmock = {
     _id: '6757dfb4687cb83ca69ff3cb',

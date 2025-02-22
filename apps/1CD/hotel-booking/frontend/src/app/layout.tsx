@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, Suspense } from 'react';
 import './global.css';
 import { ApolloWrapper } from '@/components/providers';
 import { ToastContainer } from 'react-toastify';
@@ -9,8 +9,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <ApolloWrapper>
       <html lang="en">
         <body>
-          <NuqsAdapter>{children}</NuqsAdapter>
-          <ToastContainer />
+          <Suspense>
+            <NuqsAdapter>{children}</NuqsAdapter>
+            <ToastContainer />
+          </Suspense>
         </body>
       </html>
     </ApolloWrapper>

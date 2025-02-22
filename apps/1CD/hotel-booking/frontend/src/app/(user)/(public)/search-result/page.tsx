@@ -57,34 +57,40 @@ const Page = () => {
   );
 
   return (
-    <main data-cy="Get-Rooms-Page" className="h-full">
-      <section className="flex justify-center w-full gap-16 pb-20">
-        <main className="flex flex-col gap-4 w-60">
-          <div className="flex flex-col gap-2 mt-12">
+    <main data-cy="Get-Rooms-Page" className="h-full px-4">
+      <section className="flex flex-col items-center w-full gap-16 pb-20 md:items-start md:justify-center md:flex-row">
+        <main className="flex flex-col items-center w-full gap-4 md:p-0 md:w-60 md:mt-12">
+          <div className="flex flex-col w-full gap-2">
             <p>Search by property name</p>
             <Input data-cy="Search-By-Property-Name" value={hotelName} onChange={handlePropertyName} type="text" placeholder="Search" className="max-w-96" data-testid="search-hotel-by-name-input" />
           </div>
-          <div className="flex flex-col gap-3 pt-3 pl-3 border-t-2">
+          <div className="flex flex-col w-full gap-3 pt-3 pl-3 border-t-2">
             <h2>Rating</h2>
-            {UserRatingMock.map((rating, index) => (
-              <RatingCheckbox index={index} userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
-            ))}
+            <div className="flex flex-row-reverse justify-end gap-3 md:flex-col">
+              {UserRatingMock.map((rating, index) => (
+                <RatingCheckbox index={index} userReviewRating={userReviewRating} setUserReviewRating={setUserReviewRating} key={index} rating={rating} />
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col gap-3 pt-3 pl-3">
+          <div className="flex flex-col w-full gap-3 pt-3 pl-3">
             <h2>Stars</h2>
-            {StarRatingMock.map((stars, index) => (
-              <StarRatingCheckbox index={index} starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
-            ))}
+            <div className="flex flex-row-reverse justify-end gap-3 whitespace-nowrap md:flex-col">
+              {StarRatingMock.map((stars, index) => (
+                <StarRatingCheckbox index={index} starRating={starRating} setStarRating={setStarRating} key={index} stars={stars} />
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col gap-3 pt-3 pl-3">
+          <div className="flex flex-col w-full gap-3 pt-3 pl-3">
             <h2>Amenities</h2>
-            {AmenitiesMock.map((amenities, index) => (
-              <AmenitiesCheckbox index={index} key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
-            ))}
+            <div className="flex flex-row-reverse justify-end gap-3 md:flex-col">
+              {AmenitiesMock.map((amenities, index) => (
+                <AmenitiesCheckbox index={index} key={index} setHotelAmenities={setHotelAmenities} hotelAmenities={hotelAmenities} amenities={amenities} />
+              ))}
+            </div>
           </div>
         </main>
         <section className="max-w-[872px] w-full h-full  mt-10">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:items-center md:justify-between md:flex-row">
             <p>{data?.getFilterByPropertiesHotels.length} properties</p>
             <Select onValueChange={handlePriceSort}>
               <SelectTrigger data-cy="Sort-By-Price" data-testid="filter-select" className="w-80">

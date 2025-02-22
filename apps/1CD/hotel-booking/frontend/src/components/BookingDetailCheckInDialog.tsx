@@ -1,6 +1,6 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { BookingDetailLeftSideCheckInDialogType } from './BookingDetailLeftSideTop';
+import { Dialog, DialogContent } from './providers/HotelBookingDialog';
 
 const BookingDetailCheckInDialog = ({ setOpenCheckInDialog, openCheckInDialog }: BookingDetailLeftSideCheckInDialogType) => {
   return (

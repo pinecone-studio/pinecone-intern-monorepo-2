@@ -1,10 +1,14 @@
 import BookingDetailLeftSideTop from '@/components/BookingDetailLeftSideTop';
-import { BookingStatus } from '@/generated';
+import { BookingStatus, BookingType } from '@/generated';
 
 import { fireEvent, render } from '@testing-library/react';
-
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(),
+  }),
+}));
 describe('Booking detail view rules dialog', () => {
-  const bookingmock = {
+  const bookingmock: BookingType = {
     _id: '6757dfb4687cb83ca69ff3cb',
     userId: '123',
     roomId: {
@@ -44,7 +48,9 @@ describe('Booking detail view rules dialog', () => {
     const { getByTestId } = render(<BookingDetailLeftSideTop booking={bookingmock} />);
     const openCheckInDialog = getByTestId('Open-CheckIn-Dialog');
     const openViewRulesDialogButton = getByTestId('Open-View-Price-Details');
+    const routerPushButton = getByTestId('cancen-booking-button');
     fireEvent.click(openViewRulesDialogButton);
     fireEvent.click(openCheckInDialog);
+    fireEvent.click(routerPushButton);
   });
 });

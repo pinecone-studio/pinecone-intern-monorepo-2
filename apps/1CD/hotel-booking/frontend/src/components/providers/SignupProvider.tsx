@@ -1,9 +1,10 @@
 'use client';
 import { createContext, PropsWithChildren, useContext } from 'react';
 import { OtpParams, PasswordParams, SendOtpParams, SignupContextType } from './types/AuthTypes';
-import { Response, useSendOtpMutation, useSetPasswordMutation, useVerifyEmailMutation, useVerifyOtpMutation } from '@/generated';
-import { toast } from 'react-toastify';
+import { Response, useSendOtpMutation, useSetPasswordMutation, useUpdatePasswordMutation, useVerifyEmailMutation, useVerifyOtpMutation } from '@/generated';
+
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const SignupContext = createContext<SignupContextType>({} as SignupContextType);
 
@@ -14,7 +15,7 @@ export const SignupProvider = ({ children }: PropsWithChildren) => {
   const [verifyOtpMutation] = useVerifyOtpMutation();
   const [setPasswordMutation] = useSetPasswordMutation();
   const [verifyEmailMutation] = useVerifyEmailMutation();
-  const [updatePasswordMutation] = useSetPasswordMutation();
+  const [updatePasswordMutation] = useUpdatePasswordMutation();
 
   const sendOtp = async ({ email }: SendOtpParams) => {
     await sendOtpMutation({

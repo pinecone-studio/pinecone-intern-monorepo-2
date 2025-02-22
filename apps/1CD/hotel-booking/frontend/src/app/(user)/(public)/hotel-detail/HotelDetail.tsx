@@ -10,6 +10,8 @@ import HotelAsked from './HotelAsked';
 import { HotelReveiwRating } from '@/components/BookingDetailRightSide';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Services = [
   <>
@@ -64,24 +66,38 @@ const HotelDetail = ({ id }: { id: string }) => {
     }
   });
 
-  if (loading) return <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
+  if (loading)
+    return (
+      <div className="flex justify-center">
+        <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
+      </div>
+    );
 
   return (
-    <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto">
-      <div data-cy="image-open-dialog-button" onClick={() => setIsOpenImageDialog(true)} className="flex gap-2 max-h-[550px]">
-        <div className="flex-1">
-          <Image className="object-cover w-full h-full" src={data?.getHotel.images?.[0] || '/'} alt="image" width={1000} height={1000} />
-        </div>
-        <div className="grid flex-1 grid-cols-2 gap-2">
-          {data?.getHotel?.images?.slice(1, 5).map((image, index) => (
-            <div key={index} className={'h-[270px]'}>
-              <Image src={`${image}`} alt="hotel image" width={580} height={433} className={`object-cover h-full rounded-sm`} />
-            </div>
-          ))}
-        </div>
+    <div data-cy="Hotel-Detail-Page" className="max-w-[1160px] flex flex-col items-center gap-8 mx-auto px-4 md:px-0">
+      <div data-cy="image-open-dialog-button" className="flex gap-2">
+        {data?.getHotel?.images?.length && (
+          <Carousel className="xl:w-full w-[80%] sm:w-[90%] mx-auto">
+            <CarouselContent>
+              {data.getHotel.images.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                    <Card className="border-none">
+                      <CardContent className="flex w-full p-0 border-none rounded-2xl">
+                        <Image className="object-cover w-full rounded-2xl h-[500px]" src={image || '/'} alt="image" width={1000} height={1000} />
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        )}
       </div>
       <div className="px-10 flex flex-col items-center max-w-[1160px] gap-14">
-        <div className="flex w-full gap-14">
+        <div className="flex flex-col w-full md:flex-row gap-14">
           <div className="flex flex-col flex-1 gap-2">
             <div className="flex flex-col gap-6">
               <div>
@@ -124,7 +140,6 @@ const HotelDetail = ({ id }: { id: string }) => {
         </div>
         <div className="flex flex-col gap-14">
           <HotelRooms setIsOpenImageDialog={setIsOpenImageDialog} isOpenImageDialog={isOpenImageDialog} images={images} id={id} />
-          <div className="flex flex-col gap-20"></div>
           <HotelAbout hotel={data?.getHotel} />
           <div className="w-full border border-solid 1px bg-[#E4E4E7]"></div>
           <HotelPolicies />

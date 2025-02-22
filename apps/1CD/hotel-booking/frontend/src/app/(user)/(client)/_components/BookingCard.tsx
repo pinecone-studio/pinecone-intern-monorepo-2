@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
   const router = useRouter();
   return (
-    <div className="max-w-[986px] border rounded-md">
-      <div className="flex">
-        <div className="border-2 max-w-[395px]  w-full">
-          {booking.roomId?.hotelId?.images && <Image src={booking.roomId?.hotelId?.images[0] || '/'} alt="image" width={1000} height={1000} className="object-cover max-h-[250px] h-full" />}
+    <div className="max-w-[540px] sm:max-w-[986px] w-full border rounded-md">
+      <div className="flex flex-col sm:flex-row">
+        <div className="border-2 sm:max-w-[395px] w-full">
+          {booking.roomId?.hotelId?.images && <Image src={booking.roomId?.hotelId?.images[0] || '/'} alt="image" width={1000} height={1000} className="object-cover md:max-h-[250px] h-full" />}
         </div>
         <div className="flex-1 gap-2">
           <div className="gap-2 px-5 py-5">
@@ -38,7 +38,7 @@ const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
 
               <div className="flex items-center gap-2">
                 <div className="text-[#71717A] font-normal">Itinerary:</div>
-                <div>{booking?._id}</div>
+                <div>{booking?._id?.slice(0, 3)}</div>
               </div>
             </div>
             <Button data-cy="View-Button" onClick={() => router.push(`booking-detail/${booking._id}`)} className="p-2 text-black bg-white border rounded-md hover:bg-slate-200">

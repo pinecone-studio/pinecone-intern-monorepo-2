@@ -2,17 +2,21 @@
 import CheckLoginUser from '@/components/providers/CheckLoginUser';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/providers/HotelBookingDialog';
 import { Button } from '@/components/ui/button';
-import { BookingStatus, useUpdateBookingStatusMutation } from '@/generated';
+import { BookingStatus, useGetBookingQuery, useUpdateBookingStatusMutation } from '@/generated';
 
 import { ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
-
   const [open, setOpen] = useState(false);
+  const { data } = useGetBookingQuery({
+    variables: {
+      id: params.id,
+    },
+  });
   const [updateStatus] = useUpdateBookingStatusMutation();
   const udpateBookingStatus = async () => {
     updateStatus({
@@ -20,14 +24,15 @@ const Page = ({ params }: { params: { id: string } }) => {
         id: params.id,
         status: BookingStatus.Cancelled,
       },
-      onCompleted: () => {
-        toast.success('Successful');
-      },
-      onError: (error) => {
-        toast.error(error.message);
+    });
+    toast('Booking is succussfully cancelled', {
+      style: {
+        color: 'green',
+        borderColor: 'green',
       },
     });
     setOpen(false);
+    router.push('/booking');
   };
   return (
     <CheckLoginUser>
@@ -44,7 +49,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Button data-cy="Keep-booking-button" onClick={() => setOpen(false)} className="text-black bg-white border-2 hover:bg-slate-100">
                 keep booking
               </Button>
-              <Button data-cy="Confirm-Button" className="bg-[#2563EB] hover:bg-blue-500" onClick={udpateBookingStatus}>
+              <Button disabled={data?.getBooking.status == BookingStatus.Cancelled} data-cy="Confirm-Button" className="bg-[#2563EB] hover:bg-blue-500" onClick={udpateBookingStatus}>
                 Confirm cancellation
               </Button>
             </div>

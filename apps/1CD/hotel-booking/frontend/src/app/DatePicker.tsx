@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client';
 
 import { format } from 'date-fns';
@@ -19,8 +20,10 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
   const [dateFromQuery, setDateFrom] = useQueryState('dateFrom');
   const [dateToQuery, setDateTo] = useQueryState('dateTo');
   const [date, setDate] = useState<DateRange | undefined>();
-  const dateFromParsed = dateFromQuery ? new Date(dateFromQuery) : null;
-  const dateToParsed = dateToQuery ? new Date(dateToQuery) : null;
+  const value1 = dateFromQuery == 'null' ? null : dateFromQuery;
+  const value2 = dateToQuery == 'null' ? null : dateToQuery;
+  const dateFromParsed = value1 ? new Date(String(dateFromQuery)) : null;
+  const dateToParsed = value2 ? new Date(String(dateToQuery)) : null;
 
   useEffect(() => {
     if (date?.from && date.to) {
@@ -31,11 +34,12 @@ export const DatePickerWithRange = ({ className }: React.HTMLAttributes<HTMLDivE
       setDateTo('');
     }
   }, [date]);
+
   return (
-    <div data-cy="Date-Picker-Modal" className={cn('grid gap-2 min-w-[500px]', className)}>
+    <div data-cy="Date-Picker-Modal" className={cn('grid gap-2 sm:max-w-[700px] md:max-w-[500px]', className)}>
       <Popover>
         <PopoverTrigger data-cy="Trigger-Test" asChild>
-          <Button data-testid="Date-Picker-Btn" id="date" variant={'outline'} className={cn('w-[500px] justify-between text-left font-normal')}>
+          <Button data-testid="Date-Picker-Btn" id="date" variant={'outline'} className={cn('sm:min-w-[300px] md:w-[500px] justify-between text-left font-normal')}>
             {dateFromParsed && dateToParsed ? (
               <>
                 {format(dateFromParsed, 'LLL dd, y')} - {format(dateToParsed, 'LLL dd, y')}

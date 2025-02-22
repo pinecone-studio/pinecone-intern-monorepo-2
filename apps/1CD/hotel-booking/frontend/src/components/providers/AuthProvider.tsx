@@ -1,16 +1,23 @@
 /* eslint-disable-max-line */
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useGetUserLazyQuery, useLoginMutation, User } from 'src/generated';
 import { AuthContextType, SignInParams } from './types/AuthTypes';
+import { useQueryState } from 'nuqs';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom');
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [refresh, setRefresh] = useState<boolean>(false);
@@ -30,6 +37,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   });
 
   const signin = async ({ email, password }: SignInParams) => {
+    const redirctTo = searchParams.get('redirect');
     await signinMutation({
       variables: {
         input: {
@@ -40,7 +48,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       onCompleted: (data) => {
         localStorage.setItem('token', data.login.token);
         setUser(data.login.user);
-        router.push('/');
+        if (redirctTo) {
+          router.push(`${redirctTo}?dateTo=${dateTo}&dateFrom=${dateFrom}`);
+        } else {
+          router.push('/');
+        }
       },
       onError: (error) => {
         toast.error(error.message);

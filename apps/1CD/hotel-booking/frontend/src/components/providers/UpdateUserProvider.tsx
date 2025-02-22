@@ -6,6 +6,7 @@ import { createContext, PropsWithChildren, useContext } from 'react';
 import { UpdateContextType, UpdateParams } from './types/UpdateTypes';
 import { Response, useUpdateProfileMutation } from '@/generated';
 import { toast } from 'react-toastify';
+
 import { useAuth } from './AuthProvider';
 
 const UpdateContext = createContext<UpdateContextType>({} as UpdateContextType);

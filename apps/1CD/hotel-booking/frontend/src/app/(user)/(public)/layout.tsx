@@ -3,7 +3,6 @@ import FooterHome from '@/components/FooterHome';
 import Header from '@/components/providers/Header';
 import { PropsWithChildren, Suspense } from 'react';
 import { Toaster } from 'sonner';
-
 // type DateRangeContextType = {
 //   date: DateRange | undefined;
 //   setDate: Dispatch<SetStateAction<DateRange | undefined>>;

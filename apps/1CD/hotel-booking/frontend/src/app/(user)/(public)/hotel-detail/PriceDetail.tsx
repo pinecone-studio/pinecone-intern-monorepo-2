@@ -66,7 +66,6 @@ export const totalPrice = (dateFrom: string | null, dateTo: string | null, roomP
     const date2 = new Date(dateTo);
     const date1 = new Date(dateFrom);
     let diff = Math.abs(date2.getTime() - date1.getTime());
-    console.log(diff);
     diff = diff / (1000 * 60 * 60 * 24);
     return diff * roomPrice;
   }
@@ -79,7 +78,7 @@ export const handleReserve = (user: User | null | undefined, router: AppRouterIn
         borderColor: 'red',
       },
     });
-    router.push('/login');
+    router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}&dateTo=${dateTo}&dateFrom=${dateFrom}`);
     return;
   }
   if (dateTo && dateFrom) {

@@ -1,7 +1,7 @@
 import BookingDetailLeftSideTop from '@/components/BookingDetailLeftSideTop';
 import { BookingStatus } from '@/generated';
 import { render } from '@testing-library/react';
-
+jest.mock('next/navigation');
 describe('booking detail checkin dialog test', () => {
   const bookingmock = {
     _id: '6757dfb4687cb83ca69ff3cb',
