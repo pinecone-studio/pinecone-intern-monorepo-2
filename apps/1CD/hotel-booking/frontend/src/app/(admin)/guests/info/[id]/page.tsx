@@ -27,7 +27,7 @@ const GuestInfo = ({ params }: { params: { id: string } }) => {
               items={[
                 { link: '/add-hotel/home-page', Name: 'Hotels' },
                 { link: `/admin-hotel-detail/${data?.getBooking.hotelId}`, Name: 'Hotel Detail' },
-                { link: `/room-detail/${data?.getBooking.roomId}`, Name: 'Room Detail' },
+                { link: `/room-detail/${data?.getBooking.roomId?.id}`, Name: 'Room Detail' },
                 { link: `/guests/info/${data?.getBooking._id}`, Name: 'Guest Info' },
               ]}
             />

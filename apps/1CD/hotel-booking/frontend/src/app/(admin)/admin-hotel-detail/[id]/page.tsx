@@ -2,7 +2,7 @@
 'use client';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import BreadCrumb from '../../guests/_components/BreadCrumb';
-import { ChevronLeft, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { useGetBookingsQuery, useGetHotelQuery, useHotelDetailQuery } from '@/generated';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,9 @@ import ImageUpdate from '../AddHotelImage';
 import AddRoomGeneralInfo from '../../AddRoomGeneralInfo';
 import HotelAmenitiesDialog from '../HotelAmenitiesDialog';
 import UpdateHotelGeneralInfo from '../../UpdateHotelGeneralInfo';
+import HotelAbout from '@/app/(user)/(public)/hotel-detail/HotelAbout';
+import HotelPolicies from '@/components/HotelPolicies';
+import HotelAsked from '@/app/(user)/(public)/hotel-detail/HotelAsked';
 const Page = ({ params }: { params: { id: string } }) => {
   const [isOpenHotelAmenitiesDialog, setIsOpenHotelAmenitiesDialog] = useState(false);
   const [isOpenRoomGeneralInfo, setIsOpenRoomGeneralInfo] = useState(false);

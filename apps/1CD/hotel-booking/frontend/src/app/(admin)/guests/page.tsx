@@ -1,13 +1,9 @@
 'use client';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-
 import { Input } from '@/components/ui/input';
-
 import StatusSelect from './_components/Select';
 import React, { useEffect, useState } from 'react';
 import { useGetBookingsLazyQuery } from '@/generated';
 import DataTable from './_components/DataTable';
-import BreadCrumb from './_components/BreadCrumb';
 import { Table, TableHeader, TableHead, TableRow } from '@/components/ui/table';
 import Link from 'next/link';
 
@@ -16,11 +12,10 @@ const Page = () => {
   const [searchValue, setSearchValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
 
-
   let filteredBookings = data?.getBookings;
   if (searchValue) {
     filteredBookings = data?.getBookings.filter((booking) => {
-      booking.firstName?.includes(searchValue.toLowerCase());
+      return `${booking?.userId?.firstName} ${booking?.userId?.lastName}`.toLowerCase()?.includes(searchValue.toLowerCase());
     });
   }
 
@@ -33,8 +28,6 @@ const Page = () => {
   useEffect(() => {
     getBookings();
   }, [setSelectedStatus, getBookings, data?.getBookings]);
-
-
 
   return (
     <section data-cy="Get-Bookings-Page" className="w-full h-full bg-blue-50">
