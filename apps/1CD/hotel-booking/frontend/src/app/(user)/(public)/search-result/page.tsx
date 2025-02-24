@@ -17,8 +17,12 @@ const Page = () => {
   // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const [roomType] = useQueryState('roomType');
-  const [dateFrom] = useQueryState('dateFrom');
-  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom', {
+    defaultValue: '',
+  });
+  const [dateTo] = useQueryState('dateTo', {
+    defaultValue: '',
+  });
   const [price, setPrice] = useState(0);
 
   const [userReviewRating, setUserReviewRating] = useState<number>(0);
@@ -106,7 +110,9 @@ const Page = () => {
           {loading ? (
             <div className="flex items-center justify-center w-full min-h-screen">
               <div className="flex items-center justify-center gap-2 text-3xl font-bold">
-                <div className='flex justify-center'><Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]"/></div>
+                <div className="flex justify-center">
+                  <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
+                </div>
               </div>
             </div>
           ) : (

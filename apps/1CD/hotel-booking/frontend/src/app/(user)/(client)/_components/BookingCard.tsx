@@ -4,6 +4,7 @@ import { BookingStatus, ReturnBooking } from '@/generated';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
 
 const BookingCard = ({ booking }: { booking: ReturnBooking }) => {
   const router = useRouter();
@@ -58,5 +59,8 @@ export const BookedStatus = ({ status }: { status: string | null | undefined }) 
   }
   if (status == BookingStatus.Cancelled) {
     return <div className={`bg-[#E11D48] text-white text-[12px] rounded-full w-[62px] h-[20px] px-2.5 py-1 flex items-center justify-center`}>{status}</div>;
+  }
+  if (status == BookingStatus.Completed) {
+    return <Badge className="font-normal text-white bg-green-400 hover:bg-green-400">{status}</Badge>;
   }
 };
