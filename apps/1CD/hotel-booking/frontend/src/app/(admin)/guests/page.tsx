@@ -1,13 +1,9 @@
 'use client';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-
 import { Input } from '@/components/ui/input';
-
 import StatusSelect from './_components/Select';
 import React, { useEffect, useState } from 'react';
 import { useGetBookingsLazyQuery } from '@/generated';
 import DataTable from './_components/DataTable';
-import BreadCrumb from './_components/BreadCrumb';
 import { Table, TableHeader, TableHead, TableRow } from '@/components/ui/table';
 import Link from 'next/link';
 
@@ -19,7 +15,7 @@ const Page = () => {
   let filteredBookings = data?.getBookings;
   if (searchValue) {
     filteredBookings = data?.getBookings.filter((booking) => {
-      booking.firstName?.includes(searchValue.toLowerCase());
+      return `${booking?.userId?.firstName} ${booking?.userId?.lastName}`.toLowerCase()?.includes(searchValue.toLowerCase());
     });
   }
 
@@ -34,14 +30,10 @@ const Page = () => {
   }, [setSelectedStatus, getBookings, data?.getBookings]);
 
   return (
-    <section data-cy="Get-Bookings-Page" className="w-full bg-gray-50">
-      <div className="flex items-center gap-2 my-6 ml-5">
-        <SidebarTrigger />
-        <BreadCrumb items={[{ link: '/add-hotel/home-page', Name: 'Hotels' }]} />
-      </div>
+    <section data-cy="Get-Bookings-Page" className="w-full h-full bg-blue-50">
       <section data-cy="Bookings-Data-Table" className="flex flex-col gap-6 p-5 border-t-[2px]">
         <div className="flex flex-col gap-4">
-          <h2 className="text-2xl font-semibold">Guests</h2>
+          <h2 className="text-[24px] text-[#2563EB] font-bold pl-1">Guests</h2>
           <div className="flex gap-3" data-cy="Bookings-Filters">
             <Input className="w-full bg-white" data-cy="Bookings-Search-Input" placeholder="Search" onChange={(e) => setSearchValue(e.target.value)} />
             <StatusSelect setSelectedStatus={setSelectedStatus} />
@@ -59,6 +51,7 @@ const Page = () => {
               <TableHead className="flex items-center flex-1 w-40 h-8 font-semibold text-black">Status</TableHead>
             </TableRow>
           </TableHeader>
+
           {filteredBookings?.map((bookingsData) => (
             <Link key={bookingsData._id} href={`/guests/info/${bookingsData._id}`}>
               <DataTable bookingsData={bookingsData} />

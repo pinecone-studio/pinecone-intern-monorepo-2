@@ -4,11 +4,11 @@ import { Hotel } from '@/generated';
 
 const HotelAbout = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
-    <div className="flex flex-col gap-20 md:flex-row" data-cy="hotel-about">
-      <div className="w-[264px] text-2xl font-semibold">About this property </div>
+    <div className="flex gap-20" data-cy="hotel-about">
+      <div className="w-[264px] text-lg font-semibold text-gray-500">About this property </div>
       <div className="flex flex-col flex-1 gap-10">
         <div className="flex flex-col flex-1 gap-2">
-          <div className="text-xl font-semibold">{hotel?.hotelName}</div>
+          <div className="text-lg font-semibold text-gray-500">{hotel?.hotelName}</div>
           <div className="text-sm font-normal">{hotel?.location}</div>
           <div className="text-sm font-normal">{hotel?.description}</div>
         </div>
@@ -25,7 +25,7 @@ const HotelAbout = ({ hotel }: { hotel: Hotel | undefined }) => {
           <li className="text-sm font-normal">Electric kettles, ceiling fans, and daily housekeeping</li>
         </div>
         <div className="flex flex-col gap-2">
-          <h4 className="text-xl font-semibold">Languages</h4>
+          <h4 className="text-lg font-semibold text-gray-500">Languages</h4>
           <p className="text-sm font-normal">English, Japanese, Mongolian, Russian</p>
         </div>
       </div>

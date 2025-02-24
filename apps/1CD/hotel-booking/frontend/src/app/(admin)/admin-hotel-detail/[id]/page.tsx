@@ -2,16 +2,13 @@
 'use client';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import BreadCrumb from '../../guests/_components/BreadCrumb';
-import { ChevronLeft, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { useGetBookingsQuery, useGetHotelQuery, useHotelDetailQuery } from '@/generated';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { HotelReveiwRating } from '@/components/BookingDetailRightSide';
 import { Rating } from '@mui/material';
-import HotelAbout from '@/app/(user)/(public)/hotel-detail/HotelAbout';
-import HotelPolicies from '@/components/HotelPolicies';
-import HotelAsked from '@/app/(user)/(public)/hotel-detail/HotelAsked';
 import RightSide from '@/components/admin-hotel-detail/RightSide';
 import UpcomingBookings from '@/components/admin-hotel-detail/UpcomingBookings';
 import RoomTypes from '@/components/admin-hotel-detail/RoomTypes';
@@ -20,6 +17,9 @@ import ImageUpdate from '../AddHotelImage';
 import AddRoomGeneralInfo from '../../AddRoomGeneralInfo';
 import HotelAmenitiesDialog from '../HotelAmenitiesDialog';
 import UpdateHotelGeneralInfo from '../../UpdateHotelGeneralInfo';
+import HotelAbout from '@/app/(user)/(public)/hotel-detail/HotelAbout';
+import HotelPolicies from '@/components/HotelPolicies';
+import HotelAsked from '@/app/(user)/(public)/hotel-detail/HotelAsked';
 const Page = ({ params }: { params: { id: string } }) => {
   const [isOpenHotelAmenitiesDialog, setIsOpenHotelAmenitiesDialog] = useState(false);
   const [isOpenRoomGeneralInfo, setIsOpenRoomGeneralInfo] = useState(false);
@@ -60,7 +60,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           />
         </div>
         <div className="flex items-center gap-2 my-4">
-          <h2 className="font-semibold">{oneHotelData?.getHotel.hotelName}</h2>
+          <h2 className="font-semibold">{oneHotelData?.getHotel?.hotelName}</h2>
         </div>
         <div className="flex gap-4">
           <div className="w-[70%] flex flex-col gap-4">

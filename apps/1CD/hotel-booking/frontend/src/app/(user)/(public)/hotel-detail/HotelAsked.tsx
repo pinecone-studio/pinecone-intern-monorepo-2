@@ -5,8 +5,8 @@ import { Hotel } from '@/generated';
 
 const HotelAsked = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
-    <div className="flex flex-col gap-20 md:flex-row">
-      <div className="w-[264px] text-2xl font-semibold">Frequently asked questions</div>
+    <div className="flex gap-20">
+      <div className="w-[264px] text-lg font-semibold text-gray-500">Frequently asked questions</div>
       <Accordion type="single" collapsible data-cy="Hotel-Asked" className="flex-1 w-full">
         <AccordionItem value="item-1">
           <AccordionTrigger data-cy="hotel-ask-trigger" className="text-base font-medium">

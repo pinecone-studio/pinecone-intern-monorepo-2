@@ -55,26 +55,20 @@ const Page = () => {
   }
 
   return (
-    <div className="w-full rounded-2xl ">
-      <div className="flex h-full bg-[#F4F4F5] rounded-2xl">
-        <div className="bg-[#F4F4F5] h-screen rounded-2xl">
-          <div className="flex items-center gap-2 px-4 py-5">
-            <SidebarTrigger />
-            <div data-cy="Hotel-Text" className="font-normal text-sm text-[#020617]">
-              Hotels
-            </div>
-          </div>
+    <div className="w-full">
+      <div className="flex h-full bg-white ">
+        <div className="h-screen bg-blue-50 rounded-2xl">
           <div>
             <div className="flex justify-between px-4 pt-5">
-              <div className="text-[24px] text-[#020617] font-bold">Hotels</div>
-              <Button data-cy="Add-Hotel-button" onClick={() => setHotelOpen(true)} className="bg-[#2563EB] rounded-md py-2 px-8 gap-3">
+              <div className="text-[24px] text-[#2563EB] font-bold pl-1">Hotels</div>
+              <Button data-cy="Add-Hotel-button" onClick={() => setHotelOpen(true)} className="bg-[#2563EB] hover:bg-blue-500 rounded-md py-2 px-8 gap-3">
                 <p>+</p>
                 <p>Add Hotel</p>
               </Button>
             </div>
           </div>
           <div className="flex w-full gap-1 px-4 py-3">
-            <div className="flex-1 w-[500px]">
+            <div className="flex-1 w-[500px] border-none hover:border-none ">
               <Input value={searchValue} data-cy="Input-Element" placeholder="Search" onChange={(e) => setSearchValue(e.target.value)} />
             </div>
             <Select>
@@ -89,9 +83,9 @@ const Page = () => {
               <Image src={'/loader.svg'} alt="loader" width={200} height={200} className="w-[200px] h-[200px]" />
             </div>
           ) : (
-            <div className="px-4 bg-[#F4F4F5] rounded-2xl">
-              <Table className="h-full bg-white border rounded-2xl">
-                <TableBody className="">
+            <div className="px-4 border-none bg-blue-50 rounded-2xl ">
+              <Table className="h-full bg-white border border-none rounded-2xl">
+                <TableBody className="border-none">
                   <TableRow className="border-1">
                     <TableCell className="border w-[82px]">ID</TableCell>
                     <TableCell className="border">Name</TableCell>
