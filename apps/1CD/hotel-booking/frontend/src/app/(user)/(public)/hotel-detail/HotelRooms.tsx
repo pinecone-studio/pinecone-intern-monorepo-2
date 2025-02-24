@@ -17,8 +17,12 @@ const HotelRooms = ({
   images: (string | null)[];
   setIsOpenImageDialog: (_value: boolean) => void;
 }) => {
-  const [dateFrom] = useQueryState('dateFrom');
-  const [dateTo] = useQueryState('dateTo');
+  const [dateFrom] = useQueryState('dateFrom', {
+    defaultValue: '',
+  });
+  const [dateTo] = useQueryState('dateTo', {
+    defaultValue: '',
+  });
   const [GetFilteredRooms, { data }] = useHotelDetailLazyQuery({
     variables: {
       hotelId: id,
@@ -46,7 +50,7 @@ const HotelRooms = ({
     GetFilteredRooms();
   }, [dateFrom, dateTo]);
   return (
-    <div data-cy="Hotel-Rooms" className="flex flex-col gap-4">
+    <div data-cy="Hotel-Rooms" className="flex flex-col flex-1 gap-4">
       <div className="text-2xl font-semibold">Choose your room</div>
       <div className="bg-[#F4F4F5] rounded-lg max-w-56 flex justify-between p-1">
         <Button
@@ -69,7 +73,7 @@ const HotelRooms = ({
           2 beds
         </Button>
       </div>
-      <div data-cy="Room-Card" className="grid grid-cols-3 gap-4">
+      <div data-cy="Room-Card" className="grid justify-center grid-cols-1 gap-4 md:grid-cols-3">
         {cards.slice(0, 5).map((room) => (
           <div key={room._id}>
             <RoomCard room={room} />

@@ -31,7 +31,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.bathroom?.map((bath, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{bath}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{bath}</Badge>
                 </div>
               ))}
             </div>
@@ -41,7 +41,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.bedroom?.map((bdr, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{bdr}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{bdr}</Badge>
                 </div>
               ))}
             </div>
@@ -51,7 +51,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.foodDrink?.map((fd, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{fd}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{fd}</Badge>
                 </div>
               ))}
             </div>
@@ -63,7 +63,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.accessability?.map((accs, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{accs}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{accs}</Badge>
                 </div>
               ))}
             </div>
@@ -73,7 +73,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.entertaiment?.map((ent, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{ent}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{ent}</Badge>
                 </div>
               ))}
             </div>
@@ -83,7 +83,7 @@ const RoomServiceCard: React.FC<DialogType> = ({ open, setOpen, refetch, room })
             <div className="flex flex-wrap gap-2">
               {room?.roomService?.other?.map((oth, index) => (
                 <div className="pt-3" key={index}>
-                  <Badge className="text-black bg-slate-200">{oth}</Badge>
+                  <Badge className="text-black bg-slate-200 hover:bg-slate-300">{oth}</Badge>
                 </div>
               ))}
             </div>

@@ -65,7 +65,7 @@ const PersonalInfo = () => {
 
               <div className="w-full border border-gray-200" />
 
-              <div className="flex w-full gap-6">
+              <div className="flex w-full gap-6 flex-col md:flex-row">
                 {inputs.map(({ title, label, placeholder }) => (
                   <FormField
                     key={title}

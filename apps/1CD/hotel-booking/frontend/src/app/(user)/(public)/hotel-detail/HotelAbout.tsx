@@ -1,9 +1,8 @@
 'use client';
 
-import { Hotel } from "@/generated";
+import { Hotel } from '@/generated';
 
-const HotelAbout = ({hotel}: {hotel: Hotel | undefined}) => {
-
+const HotelAbout = ({ hotel }: { hotel: Hotel | undefined }) => {
   return (
     <div className="flex gap-20" data-cy="hotel-about">
       <div className="w-[264px] text-lg font-semibold text-gray-500">About this property </div>

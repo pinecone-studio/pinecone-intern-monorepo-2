@@ -1,11 +1,9 @@
-import { Button } from '@/components/ui/button';
-
 import Image from 'next/image';
 import { BookingType } from './BookingDetailLeftSide';
 
 const BookingDetailRightSide = ({ booking }: BookingType) => {
   return (
-    <div className="max-w-[480px] w-full text-[#09090B]">
+    <div className="md:max-w-[480px] w-full text-[#09090B]">
       <div className="w-full h-auto">
         {booking?.roomId?.hotelId?.images && (
           <Image src={booking?.roomId?.hotelId?.images[0] || '/'} className="object-cover w-full max-h-[400px] h-full rounded-t-md bg-slate-500" width={1000} height={1000} alt="image" />
@@ -23,7 +21,6 @@ const BookingDetailRightSide = ({ booking }: BookingType) => {
           </div>
         </div>
         <div className="my-5 w-full bg-[#E4E4E7] h-[1px]"></div>
-        <Button className="text-[#18181B] bg-[#FFFFFF] hover:bg-slate-50 border active:bg-slate-100">View in Google Maps</Button>
       </div>
     </div>
   );

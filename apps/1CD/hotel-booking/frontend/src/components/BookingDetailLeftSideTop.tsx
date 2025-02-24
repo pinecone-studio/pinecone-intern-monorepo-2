@@ -5,13 +5,15 @@ import { useState } from 'react';
 import BookingDetailViewPriceDetail from './BookingDetailViewPriceDetail';
 import { BookingType } from './BookingDetailLeftSide';
 import { format } from 'date-fns';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { BookingStatus } from '@/generated';
 
 export type BookingDetailLeftSideCheckInDialogType = {
   openCheckInDialog: boolean;
   setOpenCheckInDialog: (_value: boolean) => void;
 };
 const BookingDetailLeftSideTop = ({ booking }: BookingType) => {
+  const router = useRouter();
   const [openCheckInDialog, setOpenCheckInDialog] = useState(false);
   const [openViewPriceDialog, setOpenViewPriceDialog] = useState(false);
 
@@ -53,9 +55,16 @@ const BookingDetailLeftSideTop = ({ booking }: BookingType) => {
       </div>
       <div className="flex flex-col gap-2">
         <Button className="bg-[#FFFFFF] border text-[#18181B] hover:bg-slate-50 active:bg-slate-100">Contract property</Button>
-        <Link href={`/cancel-booking/${booking?._id}`} className="bg-[#2563EB] text-center p-2 rounded-md text-[#FAFAFA] hover:bg-blue-500 active:bg-blue-600">
+        <Button
+          data-testid="cancen-booking-button"
+          disabled={booking?.status == BookingStatus.Cancelled}
+          onClick={() => {
+            router.push(`/cancel-booking/${booking?._id}`);
+          }}
+          className="bg-[#2563EB] text-center p-2 rounded-md text-[#FAFAFA] hover:bg-blue-500 active:bg-blue-600"
+        >
           Cancel booking
-        </Link>
+        </Button>
       </div>
       <BookingDetailCheckInDialog setOpenCheckInDialog={setOpenCheckInDialog} openCheckInDialog={openCheckInDialog} />
       <BookingDetailViewPriceDetail booking={booking} openViewPriceDialog={openViewPriceDialog} setOpenViewPriceDialog={setOpenViewPriceDialog} />

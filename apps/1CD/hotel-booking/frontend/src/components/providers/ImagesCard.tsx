@@ -9,8 +9,8 @@ import { Room } from '@/generated';
 
 const ImagesCard = ({ open, roomRefetch, setOpen, room }: { open: boolean; setOpen: (_value: boolean) => void; room: Room | undefined; roomRefetch: () => void }) => {
   return (
-    <div className="xl:min-w-[340px] max-h-[800px] overflow-scroll mt-5 shadow-lg border-[1px] bg-white rounded-xl">
-      <CardHeader className="flex flex-row justify-between">
+    <div className="xl:min-w-[340px] px-6 overflow-scroll mt-5 shadow-lg border-[1px] bg-white rounded-xl">
+      <CardHeader className="flex flex-row justify-between px-0">
         <h3 className="font-semibold">Images</h3>
         <button className="text-blue-600" onClick={() => setOpen(true)} data-cy="Images-Dialog-Button">
           Edit

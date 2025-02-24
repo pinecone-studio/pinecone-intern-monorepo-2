@@ -6,9 +6,9 @@ import Image from 'next/image';
 
 const FooterHome = () => {
   return (
-    <div className="container mx-auto max-w-[1600px] h-auto flex flex-col md:flex-row justify-around mb-10">
-      <div className="flex flex-col justify-between pt-10">
-        <div>
+    <div className="container mx-auto max-w-[1600px] h-auto px-4 flex flex-col md:flex-row justify-around mb-10">
+      <div className="flex flex-col pt-10 md:justify-between">
+        <div className="mb-4 md:mb-0">
           <div className="flex gap-1">
             <div className="w-5 h-5 bg-black rounded-full"></div>
             <p className="text-[16.8px] pb-2">Pedia</p>

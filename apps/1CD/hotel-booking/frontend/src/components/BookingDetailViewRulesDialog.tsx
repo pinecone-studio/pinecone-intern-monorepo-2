@@ -1,5 +1,5 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
+import { Dialog, DialogContent } from './providers/HotelBookingDialog';
 type BookingDetailViewRulesDialogType = {
   setOpenViewRulesDialog: (_value: boolean) => void;
   openViewRulesDialog: boolean;

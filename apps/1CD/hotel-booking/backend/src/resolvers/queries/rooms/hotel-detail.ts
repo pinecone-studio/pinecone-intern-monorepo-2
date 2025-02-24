@@ -1,5 +1,5 @@
 import { bookingModel, roomsModel } from 'src/models';
-import { QueryResolvers, RoomsFilterInput } from '../../../generated';
+import { BookingStatus, QueryResolvers, RoomsFilterInput } from '../../../generated';
 import { FilterType } from './filter-types';
 
 export const hotelDetail: QueryResolvers['hotelDetail'] = async (_, variables) => {
@@ -19,15 +19,23 @@ const filterDate = async ({ filterRoom, input }: { filterRoom: FilterType; input
   let booked = [];
   if (checkInDate && checkOutDate) {
     booked = await bookingModel.find({
-      checkInDate: { $lt: checkOutDate },
-      checkOutDate: { $gt: checkInDate },
+      $or: [
+        {
+          status: { $ne: BookingStatus.Booked },
+        },
+        {
+          status: BookingStatus.Booked,
+          checkInDate: { $lt: checkOutDate },
+          checkOutDate: { $gt: checkInDate },
+        },
+      ],
     });
   }
 
   if (!booked.length) return;
 
   const bookedRoomIds = booked.map((booking) => booking.roomId);
-  console.log(bookedRoomIds);
+
   filterRoom._id = {
     $nin: bookedRoomIds,
   };

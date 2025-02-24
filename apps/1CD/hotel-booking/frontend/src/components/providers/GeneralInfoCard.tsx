@@ -16,7 +16,7 @@ export type GeneralInfoCardProps = DialogOpenType & {
 
 const GeneralInfoCard: React.FC<GeneralInfoCardProps> = ({ openGen, setOpenGen, roomData }) => {
   return (
-    <Card className="w-[780px] h-[350px] shadow-lg">
+    <Card className="w-[780px] h-[400px] shadow-lg">
       <CardHeader className="flex flex-row justify-between border-b-[1px]">
         <h3 className="font-semibold">General Info</h3>
         <Button variant="link" className="text-blue-600" data-cy="General-Info-Dialog-Button" onClick={() => setOpenGen(true)}>
@@ -27,7 +27,7 @@ const GeneralInfoCard: React.FC<GeneralInfoCardProps> = ({ openGen, setOpenGen, 
         <GeneralInfoDialog openGen={openGen} setOpenGen={setOpenGen} room={roomData} />
       </div>
       <CardContent>
-        <div className="flex flex-row justify-start flex-1 pt-5 gap-x-24">
+        <div className="flex flex-row justify-between flex-1 pt-5 ">
           <div>
             <ul>
               <li className="font-light text-gray-500">Name</li>
