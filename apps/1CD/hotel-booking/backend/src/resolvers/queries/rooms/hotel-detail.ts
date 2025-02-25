@@ -21,7 +21,9 @@ const filterDate = async ({ filterRoom, input }: { filterRoom: FilterType; input
     booked = await bookingModel.find({
       $or: [
         {
-          status: { $ne: BookingStatus.Booked },
+          status: BookingStatus.Completed,
+          checkInDate: { $lt: checkOutDate },
+          checkOutDate: { $gt: checkInDate },
         },
         {
           status: BookingStatus.Booked,
