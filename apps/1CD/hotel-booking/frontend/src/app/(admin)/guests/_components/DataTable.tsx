@@ -4,7 +4,7 @@ import BookingStatusBadge from '@/components/BookingStatusBadge';
 
 const DataTable = ({ bookingsData }: { bookingsData: BookingsType }) => {
   return (
-    <div key={bookingsData._id} data-cy="Bookings-Data-Table-Component" className="h-full">
+    <div key={bookingsData._id} data-cy="Bookings-Data-Table-Component" className='h-full'>
       <TableRow className="flex gap-4 border">
         <TableCell className="border-r-[1px] py-3 px-4 w-[50px]">{bookingsData._id?.slice(0, 3)}</TableCell>
         <TableCell className="border-r-[1px] flex-1">{showName({ firstName: bookingsData?.firstName, lastName: bookingsData?.lastName, email: bookingsData?.email })}</TableCell>
