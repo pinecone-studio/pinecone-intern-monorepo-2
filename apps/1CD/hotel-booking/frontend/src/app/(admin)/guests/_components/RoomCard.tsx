@@ -8,7 +8,7 @@ const RoomInfo = ({ data }: { data: ReturnBooking | undefined | null }) => {
   return (
     <>
       <section className="flex flex-col gap-2">
-        <Card className="xl:min-w-[340px] h-[300px]">
+        <Card className="xl:min-w-[340px] h-[350px]">
           <CardContent>
             <CardHeader className="flex flex-row items-center justify-between pl-0">
               <h2>{data?.roomId?.roomName}</h2>
