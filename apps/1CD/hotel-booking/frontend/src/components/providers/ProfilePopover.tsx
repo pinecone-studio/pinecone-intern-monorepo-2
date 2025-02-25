@@ -1,4 +1,3 @@
-
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import { useAuth } from '.';
@@ -10,15 +9,14 @@ const ProfilePopover = () => {
   const { user } = useAuth();
   const { signout } = useAuth();
 
-
   return (
     <div>
       <Popover>
         <PopoverTrigger asChild>
-        <Avatar className='cursor-pointer'>
-                <AvatarImage src="/" alt="@shadcn" />
-                <AvatarFallback className='text-blue-900'>{user?.email.slice(0,2).toLocaleUpperCase()}</AvatarFallback>
-              </Avatar>
+          <Avatar className="cursor-pointer">
+            <AvatarImage src="/" alt="@shadcn" />
+            <AvatarFallback className="text-blue-900">{user?.email.slice(0, 2).toLocaleUpperCase()}</AvatarFallback>
+          </Avatar>
         </PopoverTrigger>
         <PopoverContent className="w-40">
           <div className="grid gap-4">
