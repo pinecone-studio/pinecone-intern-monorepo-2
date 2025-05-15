@@ -1,5 +1,0 @@
-mutation birthdaySubmit($input: BirthdaySubmitInput!) {
-  birthdaySubmit(input: $input) {
-    email
-  }
-}

@@ -1,5 +1,0 @@
-query checkMe($roles: [String]!) {
-  checkMe(roles: $roles) {
-    res
-  }
-}
