@@ -61,7 +61,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["hotel-backend"],
+          "groups": ["Hotel-backend-2025-2CD"],
           "env": "dev"
         }
       }
@@ -71,7 +71,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["hotel-backend"],
+          "groups": ["Hotel-backend-2025-2CD"],
           "env": "test"
         }
       }
@@ -81,7 +81,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["hotel-backend"],
+          "groups": ["Hotel-backend-2025-2CD"],
           "env": "prod"
         }
       }
