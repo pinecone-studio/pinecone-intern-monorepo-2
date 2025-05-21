@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'Concert-client-2025-2CD',
+  displayName: 'concert-client-2025-2cd',
   preset: '../../../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
