@@ -177,8 +177,8 @@
       "options": {
         "commands": [
           "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_YJCeYcBEa1LLVPmvFXMbHmmWNTuP vercel pull --yes --environment=preview --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_YJCeYcBEa1LLVPmvFXMbHmmWNTuP vercel --archive=tgz --prebuilt --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
+          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_YJCeYcBEa1LLVPmvFXMbHmmWNTuP vercel --archive=tgz --prebuilt --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
         ],
         "parallel": false
       },
