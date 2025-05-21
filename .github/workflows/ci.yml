@@ -30,8 +30,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - name: Install dependencies
-        run: yarn install
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+      - run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -39,7 +41,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
       - name: Run lint on affected projects
-        run: yarn nx affected -t lint --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t lint --parallel=5 --output-style=stream-without-prefixes
 
   test:
     runs-on: ubuntu-latest
@@ -53,8 +55,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - name: Install dependencies
-        run: yarn install
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+      - run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -62,7 +66,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
       - run: git branch --track main origin/main
       - name: Run test on affected projects
-        run: yarn nx affected -t test --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t test --parallel=5 --output-style=stream-without-prefixes
 
   build:
     runs-on: ubuntu-latest
@@ -80,10 +84,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - name: Install dependencies
-        run: yarn install
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+      - run: bun install -y
       - name: Install Vercel CLI
-        run: yarn global add vercel
+        run: bun add --global vercel@latest
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
@@ -100,7 +106,7 @@ jobs:
           export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
           bash ./tools/scripts/export-action-env.sh
       - name: Run build on affected projects
-        run: yarn nx affected -t build --parallel=5 --output-style=stream-without-prefixes
+        run: bunx nx affected -t build --parallel=5 --output-style=stream-without-prefixes
 
   preview-and-E2E:
     runs-on: ubuntu-latest
@@ -119,13 +125,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.19.1'
-      - name: Install dependencies
-        run: yarn install
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.1.10
+      - run: bun install -y
       - name: Install Vercel CLI
-        run: yarn global add vercel
+        run: bun add --global vercel@latest
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Install Cypress
-        run: yarn add cypress install
+        run: bunx cypress install
       - name: Setup Canvas
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
         run: npm rebuild canvas
@@ -139,4 +147,4 @@ jobs:
           export GITHUB_TOKEN=${{ env.GITHUB_TOKEN }}
           bash ./tools/scripts/export-action-env.sh
       - name: Generate Preview Links
-        run: yarn nx preview-action scripts
+        run: bunx nx preview-action scripts
