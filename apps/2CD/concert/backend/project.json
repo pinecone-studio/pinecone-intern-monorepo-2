@@ -131,18 +131,6 @@
       },
       "dependsOn": [{ "target": "clean" }, { "target": "get-secrets:testing" }, { "target": "export-env" }, { "target": "codegen", "params": "forward" }]
     },
-    "deploy-dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=production",
-          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod",
-          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prebuilt --prod"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [{ "target": "clean" }, { "target": "get-secrets:dev" }, { "target": "export-env" }, { "target": "codegen", "params": "forward" }]
-    },
     "deploy-prod": {
       "executor": "nx:run-commands",
       "options": {
