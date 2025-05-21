@@ -42,7 +42,8 @@
     "../../../../dist/apps/Concert-2025-2CD/.next/types/**/*.ts",
     "../../../../dist/apps/2CD/Concert-2025-2CD/.next/types/**/*.ts",
     "../../../../.next/.next/types/**/*.ts",
-    "../../../../.next/types/**/*.ts"
+    "../../../../.next/types/**/*.ts",
+    "../../../../dist/apps/2cd/concert/backend/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

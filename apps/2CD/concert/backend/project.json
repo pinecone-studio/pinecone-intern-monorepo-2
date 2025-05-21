@@ -1,5 +1,5 @@
 {
-  "name": "Concert-2025-2CD",
+  "name": "concert-2025-2cd",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/2CD/concert/backend",
   "projectType": "application",
@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/2CD/Concert-2025-2CD"
+        "outputPath": "./dist/apps/2cd/concert/backend"
       },
       "configurations": {
         "development": {
-          "outputPath": "dist/apps/2CD/Concert-2025-2CD"
+          "outputPath": "./dist/apps/2cd/concert/backend"
         }
       },
       "dependsOn": [
@@ -27,17 +27,17 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "Concert-2025-2CD:build",
+        "buildTarget": "concert-2025-2cd:build",
         "dev": true,
         "port": 8000
       },
       "configurations": {
         "development": {
-          "buildTarget": "Concert-2025-2CD:build:development",
+          "buildTarget": "concert-2025-2cd:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "Concert-2025-2CD:build:production",
+          "buildTarget": "concert-2025-2cd:build:production",
           "dev": false
         }
       }
@@ -62,7 +62,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["Concert-2025-2CD"],
+          "groups": ["concert-2025-2cd"],
           "env": "dev"
         }
       }
@@ -72,7 +72,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["Concert-2025-2CD"],
+          "groups": ["concert-2025-2cd"],
           "env": "test"
         }
       }
@@ -82,7 +82,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["Concert-2025-2CD"],
+          "groups": ["concert-2025-2cd"],
           "env": "prod"
         }
       }
@@ -120,56 +120,41 @@
       }
     },
     "preview": {
-  "executor": "nx:run-commands",
-  "options": {
-    "commands": [
-      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=preview",
-      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build",
-      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --archive=tgz --prebuilt"
-    ],
-    "parallel": false
-  },
-  "dependsOn": [
-    { "target": "clean" },
-    { "target": "get-secrets:testing" },
-    { "target": "export-env" },
-    { "target": "codegen", "params": "forward" }
-  ]
-},
-   "deploy-dev": {
-  "executor": "nx:run-commands",
-  "options": {
-    "commands": [
-      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=production",
-      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod",
-      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prebuilt --prod"
-    ],
-    "parallel": false
-  },
-  "dependsOn": [
-    { "target": "clean" },
-    { "target": "get-secrets:dev" },
-    { "target": "export-env" },
-    { "target": "codegen", "params": "forward" }
-  ]
-},
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=preview",
+          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build",
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --archive=tgz --prebuilt"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [{ "target": "clean" }, { "target": "get-secrets:testing" }, { "target": "export-env" }, { "target": "codegen", "params": "forward" }]
+    },
+    "deploy-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=production",
+          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod",
+          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prebuilt --prod"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [{ "target": "clean" }, { "target": "get-secrets:dev" }, { "target": "export-env" }, { "target": "codegen", "params": "forward" }]
+    },
     "deploy-prod": {
-  "executor": "nx:run-commands",
-  "options": {
-    "commands": [
-      "VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 VERCEL_PROJECT_ID=your_project_id VERCEL_TOKEN=$VERCEL_TOKEN vercel pull --yes --environment=production",
-      "VERCEL_TOKEN=$VERCEL_TOKEN vercel build --prod",
-      "VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 VERCEL_PROJECT_ID=your_project_id VERCEL_TOKEN=$VERCEL_TOKEN vercel --prebuilt --prod"
-    ],
-    "parallel": false
-  },
-  "dependsOn": [
-    { "target": "clean" },
-    { "target": "get-secrets:prod" },
-    { "target": "export-env" },
-    { "target": "codegen", "params": "forward" }
-  ]
-}
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_5RoFKdsXCTzItPERQqCAu0XDLZGT VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=production",
+          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod",
+          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_5RoFKdsXCTzItPERQqCAu0XDLZGT VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prebuilt --prod"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [{ "target": "clean" }, { "target": "get-secrets:prod" }, { "target": "export-env" }, { "target": "codegen", "params": "forward" }]
+    }
   },
   "tags": []
 }
