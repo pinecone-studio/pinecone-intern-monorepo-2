@@ -7,19 +7,19 @@ terraform {
   }
 }
 
-resource "vercel_project" "Concert-client-2025-2CD-prod" {
-  name             = "Concert-client-2025-2CD-prod"
-  build_command    = "nx build --skip-nx-cache Concert-client-2025-2CD"
+resource "vercel_project" "concert-client-2025-2cd-prod" {
+  name             = "concert-client-2025-2cd-prod"
+  build_command    = "nx build --skip-nx-cache concert-client-2025-2cd"
   output_directory = "./dist/apps/2CD/concert/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
 }
-resource "vercel_project" "Concert-client-2025-2CD-testing" {
-  name             = "Concert-client-2025-2CD-testing"
-  build_command    = "nx build --skip-nx-cache Concert-client-2025-2CD"
+resource "vercel_project" "concert-client-2025-2cd-testing" {
+  name             = "concert-client-2025-2cd-testing"
+  build_command    = "nx build --skip-nx-cache concert-client-2025-2cd"
   output_directory = "./dist/apps/2CD/concert/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
 }
 
 variable "VERCEL_TOKEN" {
@@ -33,5 +33,5 @@ provider "vercel" {
   api_token = var.VERCEL_TOKEN
 
   # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
 }
