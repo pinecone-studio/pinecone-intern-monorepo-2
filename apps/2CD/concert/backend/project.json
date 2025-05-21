@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/2CD/concert/backend"
+        "outputPath": "dist/apps/2CD/Concert-2025-2CD"
       },
       "configurations": {
         "development": {
-          "outputPath": "dist/apps/2CD/concert/backend"
+          "outputPath": "dist/apps/2CD/Concert-2025-2CD"
         }
       },
       "dependsOn": [
@@ -120,83 +120,56 @@
       }
     },
     "preview": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
-          "npx env-cmd -f apps/2CD/concert/backend/.env vercel build --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --archive=tgz --prebuilt --token=$VERCEL_TOKEN"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "clean"
-        },
-        {
-          "target": "get-secrets:testing"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen",
-          "params": "forward"
-        }
-      ]
-    },
-    "deploy-dev": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "clean"
-        },
-        {
-          "target": "get-secrets:dev"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen",
-          "params": "forward"
-        }
-      ]
-    },
+  "executor": "nx:run-commands",
+  "options": {
+    "commands": [
+      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=preview",
+      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build",
+      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --archive=tgz --prebuilt"
+    ],
+    "parallel": false
+  },
+  "dependsOn": [
+    { "target": "clean" },
+    { "target": "get-secrets:testing" },
+    { "target": "export-env" },
+    { "target": "codegen", "params": "forward" }
+  ]
+},
+   "deploy-dev": {
+  "executor": "nx:run-commands",
+  "options": {
+    "commands": [
+      "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_dvacyVQkTU633PmiysyUajz5Ypvn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel pull --yes --environment=production",
+      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod",
+      "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prebuilt --prod"
+    ],
+    "parallel": false
+  },
+  "dependsOn": [
+    { "target": "clean" },
+    { "target": "get-secrets:dev" },
+    { "target": "export-env" },
+    { "target": "codegen", "params": "forward" }
+  ]
+},
     "deploy-prod": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
-        ],
-        "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "clean"
-        },
-        {
-          "target": "get-secrets:prod"
-        },
-        {
-          "target": "export-env"
-        },
-        {
-          "target": "codegen",
-          "params": "forward"
-        }
-      ]
-    }
+  "executor": "nx:run-commands",
+  "options": {
+    "commands": [
+      "VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 VERCEL_PROJECT_ID=your_project_id VERCEL_TOKEN=$VERCEL_TOKEN vercel pull --yes --environment=production",
+      "VERCEL_TOKEN=$VERCEL_TOKEN vercel build --prod",
+      "VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 VERCEL_PROJECT_ID=your_project_id VERCEL_TOKEN=$VERCEL_TOKEN vercel --prebuilt --prod"
+    ],
+    "parallel": false
+  },
+  "dependsOn": [
+    { "target": "clean" },
+    { "target": "get-secrets:prod" },
+    { "target": "export-env" },
+    { "target": "codegen", "params": "forward" }
+  ]
+}
   },
   "tags": []
 }

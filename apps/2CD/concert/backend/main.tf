@@ -7,31 +7,39 @@ terraform {
   }
 }
 
-resource "vercel_project" "Concert-2025-2CD-prod" {
-  name             = "Concert-2025-2CD-prod"
-  build_command    = "nx build --skip-nx-cache Concert-2025-2CD"
-  output_directory = "./dist/apps/2CD/concert/backend/.next"
-  framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
-}
-resource "vercel_project" "Concert-2025-2CD-testing" {
-  name             = "Concert-2025-2CD-testing"
-  build_command    = "nx build --skip-nx-cache Concert-2025-2CD"
-  output_directory = "./dist/apps/2CD/concert/backend/.next"
-  framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
-}
-
 variable "VERCEL_TOKEN" {
   type        = string
-  description = "Optionally say something about this variable"
+  description = "Vercel API token for authentication"
 }
 
 provider "vercel" {
-  # Or omit this for the api_token to be read
-  # from the VERCEL_API_TOKEN environment variable
-  api_token = var.VERCEL_TOKEN
+  api_token = "wo6r3mEUqYSKN7pT5CGE4ucJ"
+  team      = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
+}
 
-  # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+resource "vercel_project" "concert_2025_2cd_prod" {
+  name                     = "concert-2025-2cd-prod"
+  build_command            = "nx build --skip-nx-cache concert-2025-2cd"
+  output_directory         = "./dist/apps/2cd/concert/backend/.next"
+  framework                = "nextjs"
+  team_id                  = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
+  serverless_function_region = "sfo1"
+}
+
+resource "vercel_project" "concert_2025_2cd_testing" {
+  name                     = "concert-2025-2cd-testing"
+  build_command            = "nx build --skip-nx-cache concert-2025-2cd"
+  output_directory         = "./dist/apps/2cd/concert/backend/.next"
+  framework                = "nextjs"
+  team_id                  = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
+  serverless_function_region = "sfo1"
+}
+
+resource "vercel_project" "concert_2025_2cd_preview" {
+  name                     = "concert-2025-2cd-preview"
+  build_command            = "nx build --skip-nx-cache concert-2025-2cd"
+  output_directory         = "./dist/apps/2cd/concert/backend/.next"
+  framework                = "nextjs"
+  team_id                  = "team_dW0Tpe7DOfLR9xLRD2tSqkVp"
+  serverless_function_region = "sfo1"
 }
