@@ -62,7 +62,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["concert-2025-2cd"],
+          "groups": ["Concert-2025-2CD"],
           "env": "dev"
         }
       }
@@ -72,7 +72,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["concert-2025-2cd"],
+          "groups": ["Concert-2025-2CD"],
           "env": "test"
         }
       }
@@ -82,7 +82,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["concert-2025-2cd"],
+          "groups": ["Concert-2025-2CD"],
           "env": "prod"
         }
       }
