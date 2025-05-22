@@ -1,8 +1,9 @@
 import User from 'src/models/user';
 import { updateProfile } from 'src/resolvers/mutations/update-profile';
 
-
-jest.mock('src/models/User');
+jest.mock('src/models/user', () => ({
+  findByIdAndUpdate: jest.fn()
+}));
 
 describe('updateProfile', () => {
   const mockUser = {
@@ -17,7 +18,7 @@ describe('updateProfile', () => {
   });
 
   it('should update the user profile', async () => {
-    User.findByIdAndUpdate = jest.fn().mockResolvedValue(mockUser);
+    (User.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUser);
 
     const args = {
       input: {
@@ -30,11 +31,7 @@ describe('updateProfile', () => {
       userId: 'user123',
     };
 
-    const result = await updateProfile(
-      {},
-      args,
-      context,
-    );
+    const result = await updateProfile({}, args, context);
 
     expect(User.findByIdAndUpdate).toHaveBeenCalledWith(
       'user123',
