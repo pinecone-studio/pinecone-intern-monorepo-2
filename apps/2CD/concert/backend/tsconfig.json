@@ -1,0 +1,54 @@
+{
+  "extends": "../../../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "module": "esnext",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "../../../../apps/2CD/concert/backend/.next/types/**/*.ts",
+    "../../../../dist/aapps/2CD/concert/backend/.next/types/**/*.ts",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "../../../../dist/apps/2CD/concert/backend/.next/types/**/*.ts",
+    "../../../../dist/apps/Concert-2025-2CD/.next/types/**/*.ts",
+    "../../../../dist/apps/2CD/Concert-2025-2CD/.next/types/**/*.ts",
+    "../../../../.next/.next/types/**/*.ts",
+    "../../../../.next/types/**/*.ts",
+    "../../../../dist/apps/2cd/concert/backend/.next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}
