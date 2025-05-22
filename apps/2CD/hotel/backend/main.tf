@@ -12,14 +12,14 @@ resource "vercel_project" "hotel-backend-prod" {
   build_command    = "nx build --skip-nx-cache hotel-backend"
   output_directory = "./dist/apps/2CD/hotel/backend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_LmxW3bf5rw6hcMihNJwnRl0G"
 }
 resource "vercel_project" "hotel-backend-testing" {
   name             = "hotel-backend-testing"
   build_command    = "nx build --skip-nx-cache hotel-backend"
   output_directory = "./dist/apps/2CD/hotel/backend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_LmxW3bf5rw6hcMihNJwnRl0G"
 }
 
 variable "VERCEL_TOKEN" {
@@ -33,5 +33,5 @@ provider "vercel" {
   api_token = var.VERCEL_TOKEN
 
   # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team = "team_LmxW3bf5rw6hcMihNJwnRl0G"
 }
