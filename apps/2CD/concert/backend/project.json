@@ -40,7 +40,18 @@
           "buildTarget": "concert-2025-2cd:build:production",
           "dev": false
         }
-      }
+      },
+         "dependsOn": [
+        {
+          "target": "get-secrets:dev"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen"
+        }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
