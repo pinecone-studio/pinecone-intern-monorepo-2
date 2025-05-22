@@ -92,7 +92,7 @@
         "commands": ["graphql-codegen --config ./apps/2CD/hotel/backend/codegen.ts"]
       }
     },
-    "export": {
+   "export": {
       "executor": "@nx/next:export",
       "options": {
         "buildTarget": "hotel-backend:build:production"
@@ -123,8 +123,8 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_9dPHgw68OeCP8xsN7kzQ93b29L8B -- vercel pull --yes --environment=preview --token=qjSItmaBuemm5H4Q6AXRrrhA",
-          "npx env-cmd -f apps/2CD/hotel/backend/.env vercel build --token=qjSItmaBuemm5H4Q6AXRrrhA",
-          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_9dPHgw68OeCP8xsN7kzQ93b29L8B -- vercel --archive=tgz --prebuilt --token=qjSItmaBuemm5H4Q6AXRrrhA"
+          "npx env-cmd -f apps/2CD/hotel/backend/.env vercel build --prod --token=qjSItmaBuemm5H4Q6AXRrrhA",
+          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_9dPHgw68OeCP8xsN7kzQ93b29L8B -- vercel --archive=tgz --prebuilt --prod --token=qjSItmaBuemm5H4Q6AXRrrhA"
         ],
         "parallel": false
       },
