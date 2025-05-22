@@ -10,6 +10,9 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
+    env: {
+    BACKEND_URI: process.env.BACKEND_URI,
+  },
   images: {
     remotePatterns: [
       {

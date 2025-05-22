@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress example-frontend"],
+        "commands": ["npx nx cypress hotel-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
