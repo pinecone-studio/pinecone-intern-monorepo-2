@@ -198,7 +198,7 @@
         }
       ]
     },
-  
+
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
@@ -229,13 +229,39 @@
         }
       ]
     },
+    "deploy-testing": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_YJCeYcBEa1LLVPmvFXMbHmmWNTuP -- vercel pull --yes --environment=production --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_YJCeYcBEa1LLVPmvFXMbHmmWNTuP -- vercel --prebuilt --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [
+        {
+          "target": "clean"
+        },
+        {
+          "target": "get-secrets:testing"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen:testing",
+          "params": "forward"
+        }
+      ]
+    },
     "deploy-prod": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_ZqYAemVCMAh90TYVFat1ZU47ZBJB vercel pull --yes --environment=production --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_ZqYAemVCMAh90TYVFat1ZU47ZBJB -- vercel pull --yes --environment=production --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
           "vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_ZqYAemVCMAh90TYVFat1ZU47ZBJB vercel --prebuilt --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_ZqYAemVCMAh90TYVFat1ZU47ZBJB -- vercel --prebuilt --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
         ],
         "parallel": false
       },
