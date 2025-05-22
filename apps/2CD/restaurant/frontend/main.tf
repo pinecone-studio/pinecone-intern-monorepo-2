@@ -12,14 +12,14 @@ resource "vercel_project" "restaurant-frontend-prod" {
   build_command    = "nx build --skip-nx-cache restaurant-frontend"
   output_directory = "./dist/apps/2CD/restaurant/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_HbSZDXUZ2D5X62DiPHXnFXAn"
 }
 resource "vercel_project" "restaurant-frontend-testing" {
   name             = "restaurant-frontend-testing"
   build_command    = "nx build --skip-nx-cache restaurant-frontend"
   output_directory = "./dist/apps/2CD/restaurant/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_HbSZDXUZ2D5X62DiPHXnFXAn"
 }
 
 variable "VERCEL_TOKEN" {
@@ -33,5 +33,5 @@ provider "vercel" {
   api_token = var.VERCEL_TOKEN
 
   # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team = "team_HbSZDXUZ2D5X62DiPHXnFXAn"
 }
