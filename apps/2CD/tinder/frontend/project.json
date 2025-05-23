@@ -124,6 +124,7 @@
       },
       "dependsOn": [{ "target": "cypress:clean" }]
     },
+
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
@@ -132,6 +133,7 @@
       },
       "dependsOn": [{ "target": "cypress:clean" }]
     },
+
     "cypress:clean": {
       "executor": "nx:run-commands",
       "options": {
@@ -144,6 +146,7 @@
         "parallel": false
       }
     },
+
     "cypress": {
       "executor": "@nx/cypress:cypress",
       "options": {
@@ -165,6 +168,7 @@
         }
       ]
     },
+
     "cypress-generate-all-page-json": {
       "executor": "nx:run-commands",
       "options": {
@@ -172,13 +176,14 @@
         "parallel": false
       }
     },
+
     "preview": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_F0om3pKiHPPtSa6Bpjgmv4Zhzd8t -- vercel pull --yes --environment=preview --token=eFOtAiXszDoE59mYZaeN8ElX",
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_jK72WEkqZbFReZ58MSQO5GhUrNE3 -- vercel pull --yes --environment=preview --token=eFOtAiXszDoE59mYZaeN8ElX",
           "npx env-cmd -f apps/2CD/tinder/frontend/.env vercel build --token=eFOtAiXszDoE59mYZaeN8ElX",
-          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_F0om3pKiHPPtSa6Bpjgmv4Zhzd8t -- vercel --archive=tgz --prebuilt --token=eFOtAiXszDoE59mYZaeN8ElX"
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_jK72WEkqZbFReZ58MSQO5GhUrNE3 -- vercel --archive=tgz --prebuilt --token=eFOtAiXszDoE59mYZaeN8ElX"
         ],
         "parallel": false
       },
@@ -198,13 +203,13 @@
         }
       ]
     },
-    "deploy-dev": {
+    "deploy-testing": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_F0om3pKiHPPtSa6Bpjgmv4Zhzd8t -- vercel pull --yes --environment=production --token=eFOtAiXszDoE59mYZaeN8ElX",
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_jK72WEkqZbFReZ58MSQO5GhUrNE3 -- vercel pull --yes --environment=production --token=eFOtAiXszDoE59mYZaeN8ElX",
           "vercel build --prod --token=eFOtAiXszDoE59mYZaeN8ElX",
-          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_F0om3pKiHPPtSa6Bpjgmv4Zhzd8t -- vercel --prebuilt --prod --token=eFOtAiXszDoE59mYZaeN8ElX"
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_jK72WEkqZbFReZ58MSQO5GhUrNE3 -- vercel --prebuilt --prod --token=eFOtAiXszDoE59mYZaeN8ElX"
         ],
         "parallel": false
       },
@@ -213,7 +218,7 @@
           "target": "clean"
         },
         {
-          "target": "get-secrets:dev"
+          "target": "get-secrets:testing"
         },
         {
           "target": "export-env"
@@ -260,13 +265,14 @@
         }
       ]
     },
+
     "deploy-prod": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_qSn35WZdQZe0flADpZDEAq1Qx5Ry -- vercel pull --yes --environment=production --token=eFOtAiXszDoE59mYZaeN8ElX",
+          "vercel build --prod --token=eFOtAiXszDoE59mYZaeN8ElX",
+          "npx dotenv -v VERCEL_ORG_ID=team_1b5tGWrRixp4WvAsEStkE8rv -v VERCEL_PROJECT_ID=prj_qSn35WZdQZe0flADpZDEAq1Qx5Ry -- vercel --prebuilt --prod --token=eFOtAiXszDoE59mYZaeN8ElX"
         ],
         "parallel": false
       },

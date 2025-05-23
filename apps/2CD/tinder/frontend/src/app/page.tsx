@@ -1,7 +1,7 @@
 'use client';
 
 const Page = () => {
-  return <div>Home Page</div>;
+  return <div>Home Page of Frontend</div>;
 };
 
 export default Page;
