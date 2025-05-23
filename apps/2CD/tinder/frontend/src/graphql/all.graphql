@@ -1,0 +1,15 @@
+
+query GetUserById($id: ID!) {
+  getUserById(id: $id) {
+    _id
+    name
+    email
+  }
+}
+
+mutation RegisterUser($name: String!, $email: String!, $password: String!, $age: Int!, $gender: String!, $lookingFor: String!) {
+  registerUser(name: $name, email: $email, password: $password, age: $age, gender: $gender, lookingFor: $lookingFor) {
+    _id
+    name
+  }
+}
