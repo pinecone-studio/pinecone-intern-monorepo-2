@@ -8,6 +8,7 @@ const bookingSchema = new Schema(
     status: {
       type: String,
       required: true,
+      enum : ['PENDING', "REJECTED", "COMPLETED"]
     },
     totalAmount: { type: Number, required: true },
   },
