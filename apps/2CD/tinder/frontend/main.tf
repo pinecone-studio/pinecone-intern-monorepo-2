@@ -12,14 +12,14 @@ resource "vercel_project" "tinder-frontend-prod" {
   build_command    = "nx build --skip-nx-cache tinder-frontend"
   output_directory = "./dist/apps/2CD/tinder/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_1b5tGWrRixp4WvAsEStkE8rv"
 }
 resource "vercel_project" "tinder-frontend-testing" {
   name             = "tinder-frontend-testing"
   build_command    = "nx build --skip-nx-cache tinder-frontend"
   output_directory = "./dist/apps/2CD/tinder/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_1b5tGWrRixp4WvAsEStkE8rv"
 }
 
 variable "VERCEL_TOKEN" {
@@ -33,5 +33,5 @@ provider "vercel" {
   api_token = var.VERCEL_TOKEN
 
   # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team = "team_1b5tGWrRixp4WvAsEStkE8rv"
 }

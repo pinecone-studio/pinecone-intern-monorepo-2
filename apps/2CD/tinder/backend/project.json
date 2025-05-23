@@ -144,7 +144,7 @@
         }
       ]
     },
-    "deploy-dev": {
+    "deploy-testing": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
@@ -159,7 +159,7 @@
           "target": "clean"
         },
         {
-          "target": "get-secrets:dev"
+          "target": "get-secrets:testing"
         },
         {
           "target": "export-env"
