@@ -3,7 +3,7 @@ import { Schema, model, models, Types } from 'mongoose';
 const ticketSchema = new Schema(
   {
     concert: { type: Types.ObjectId, ref: 'Concert', required: true },
-    price: { type: Number },
+    price: { type: Number, required: true },
     type: {
       type: String,
       enum: ['VIP', 'STANDARD', 'BACKSEAT'],

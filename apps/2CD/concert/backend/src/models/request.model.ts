@@ -9,9 +9,9 @@ const RequestSchema = new Schema(
       required: true,
       enum: ['PENDING', 'DONE'],
     },
-    bank : {type : String, required : true},
-    bankAccount : {type : String, required : true},
-    name : {type : String, required : true}
+    bank: { type: String, required: true },
+    bankAccount: { type: String, required: true },
+    name: { type: String, required: true },
   },
   {
     timestamps: { createdAt: true, updatedAt: false },

@@ -107,7 +107,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "Concert-2025-2CD:build:production"
+        "buildTarget": "concert-2025-2cd:build:production"
       }
     },
     "export-env": {
