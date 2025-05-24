@@ -1,0 +1,286 @@
+{
+  "name": "hotel-frontend",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/2CD/hotel/frontend",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/2CD/hotel/frontend"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "dist/apps/2CD/hotel/frontend"
+        }
+      },
+      "dependsOn": [
+        {
+          "target": "codegen:dev",
+          "params": "forward"
+        }
+      ]
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "hotel-frontend:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "hotel-frontend:build:development",
+          "dev": true,
+          "port": 4201
+        },
+        "production": {
+          "buildTarget": "hotel-frontend:build:production",
+          "dev": false
+        }
+      },
+      "dependsOn": [
+        {
+          "target": "codegen:dev",
+          "params": "forward"
+        },
+        {
+          "target": "export-env",
+          "params": "forward"
+        }
+      ]
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "hotel-frontend:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "passWithNoTests": true,
+        "codeCoverage": true
+      },
+      "dependsOn": [
+        {
+          "target": "codegen:testing",
+          "params": "forward"
+        }
+      ]
+    },
+    "get-secrets:dev": {
+      "executor": "@pinecone-intern-monorepo/secrets:get",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "development": {
+          "groups": ["Hotel-frontend-2025-2CD"],
+          "env": "dev"
+        }
+      }
+    },
+    "get-secrets:testing": {
+      "executor": "@pinecone-intern-monorepo/secrets:get",
+      "defaultConfiguration": "testing",
+      "configurations": {
+        "testing": {
+          "groups": ["Hotel-frontend-2025-2CD"],
+          "env": "test"
+        }
+      }
+    },
+    "get-secrets:prod": {
+      "executor": "@pinecone-intern-monorepo/secrets:get",
+      "defaultConfiguration": "prod",
+      "configurations": {
+        "prod": {
+          "groups": ["hotel-frontend"],
+          "env": "prod"
+        }
+      }
+    },
+    "export-env": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["export $(cat apps/2CD/hotel/frontend/.env | xargs)"],
+        "parallel": false
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["rm -rf dist/apps/2CD/hotel/frontend", "rm -rf .vercel"]
+      }
+    },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx nx cypress hotel-frontend"],
+        "parallel": false
+      },
+      "dependsOn": [{ "target": "cypress:clean" }]
+    },
+    "e2e:open": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx nx cypress hotel-frontend --watch"],
+        "parallel": false
+      },
+      "dependsOn": [{ "target": "cypress:clean" }]
+    },
+    "cypress:clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["rm -rf apps/2CD/hotel/frontend/cypress/results", "rm -rf apps/2CD/hotel/frontend/.nyc_output", "rm -rf apps/2CD/hotel/frontend/.cy", "rm -rf apps/2CD/hotel/frontend/coverage"],
+        "parallel": false
+      }
+    },
+    "cypress": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/2CD/hotel/frontend/cypress.config.ts",
+        "testingType": "e2e",
+        "reporter": "mochawesome",
+        "devServerTarget": "hotel-frontend:serve:development",
+        "browser": "chrome"
+      },
+      "dependsOn": [
+        {
+          "target": "cypress-generate-all-page-json"
+        },
+        {
+          "target": "get-secrets"
+        },
+        {
+          "target": "export-env"
+        }
+      ]
+    },
+    "cypress-generate-all-page-json": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx ts-node apps/2CD/hotel/frontend/cypress/utils/get-all-pages.ts"],
+        "parallel": false
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d VERCEL_PROJECT_ID=prj_POefdgygjGjDkaIXoE64mkS8uPhE vercel pull --yes --environment=preview --token=ph38eHU5EmADngqftlB1YfBr",
+          "VERCEL_TOKEN=ph38eHU5EmADngqftlB1YfBr vercel build --prod --token=ph38eHU5EmADngqftlB1YfBr",
+          "VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d VERCEL_PROJECT_ID=prj_POefdgygjGjDkaIXoE64mkS8uPhE vercel --archive=tgz --prebuilt --prod --token=ph38eHU5EmADngqftlB1YfBr"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [
+        {
+          "target": "clean"
+        },
+        {
+          "target": "get-secrets:testing"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen:testing",
+          "params": "forward"
+        }
+      ]
+    },
+    "deploy-testing": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_POefdgygjGjDkaIXoE64mkS8uPhE -- vercel pull --yes --environment=production --token=ph38eHU5EmADngqftlB1YfBr",
+          "vercel build --prod --token=ph38eHU5EmADngqftlB1YfBr",
+          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_POefdgygjGjDkaIXoE64mkS8uPhE -- vercel --prebuilt --prod --token=ph38eHU5EmADngqftlB1YfBr"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [
+        {
+          "target": "clean"
+        },
+        {
+          "target": "get-secrets:testing"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen:testing",
+          "params": "forward"
+        }
+      ]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/2CD/hotel/frontend/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "codegen:prod": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["graphql-codegen --config ./apps/2CD/hotel/frontend/codegen.ts"]
+      },
+      "dependsOn": [
+        {
+          "target": "get-secrets:prod"
+        }
+      ]
+    },
+    "codegen:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["graphql-codegen --config ./apps/2CD/hotel/frontend/codegen.ts"]
+      },
+      "dependsOn": [{ "target": "get-secrets:dev" }]
+    },
+    "codegen:testing": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["graphql-codegen --config ./apps/2CD/hotel/frontend/codegen.ts"]
+      },
+      "dependsOn": [
+        {
+          "target": "get-secrets:testing"
+        }
+      ]
+    },
+    "deploy-prod": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_TAKU5Xlp2YgMSw6TKjRoUX9c4LiM -- vercel pull --yes --environment=production --token=ph38eHU5EmADngqftlB1YfBr",
+          "vercel build --prod --token=ph38eHU5EmADngqftlB1YfBr",
+          "npx dotenv -v VERCEL_ORG_ID=team_itOWBF7o0k0pUnW6N52B1l0d -v VERCEL_PROJECT_ID=prj_TAKU5Xlp2YgMSw6TKjRoUX9c4LiM -- vercel --prebuilt --prod --token=ph38eHU5EmADngqftlB1YfBr"
+        ],
+        "parallel": false
+      },
+      "dependsOn": [
+        {
+          "target": "clean"
+        },
+        {
+          "target": "get-secrets:prod"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen:prod",
+          "params": "forward"
+        }
+      ]
+    }
+  },
+  "tags": []
+}

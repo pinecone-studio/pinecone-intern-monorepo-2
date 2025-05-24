@@ -1,0 +1,12 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "reporter": ["text", "lcov"],
+  "exclude": ["coverage", "libs/**", "src/components/**", "src/common/**", "node_modules"],
+  "include": ["src/app/**/*"],
+  "excludeAfterRemap": true,
+  "all": true,
+  "check-coverage": true,
+  "extension": [".js", ".cjs", ".mjs", ".ts", ".tsx", ".jsx"],
+  "report-dir": "./coverage",
+  "cache": false
+}

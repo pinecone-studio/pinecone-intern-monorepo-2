@@ -1,0 +1,5 @@
+{
+  "buildCommand": "nx build Hotel-2025-2CD",
+  "outputDirectory": "dist/apps/2CD/Hotel-2025-2CD",
+  "framework": "nextjs"
+}
