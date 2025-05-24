@@ -40,7 +40,18 @@
           "buildTarget": "concert-2025-2cd:build:production",
           "dev": false
         }
-      }
+      },
+         "dependsOn": [
+        {
+          "target": "get-secrets:dev"
+        },
+        {
+          "target": "export-env"
+        },
+        {
+          "target": "codegen"
+        }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -96,7 +107,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "Concert-2025-2CD:build:production"
+        "buildTarget": "concert-2025-2cd:build:production"
       }
     },
     "export-env": {
@@ -123,9 +134,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn vercel pull --yes --environment=preview --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn VERCEL_TOKEN=wo6r3mEUqYSKN7pT5CGE4ucJ vercel --prod --archive=tgz --prebuilt --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn -- vercel pull --yes --environment=preview --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "npx env-cmd -f apps/2CD/concert/backend/.env vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_2BKm8SLpvc7fLtVhJSc9PuOM5QZn -- vercel --prod --archive=tgz --prebuilt --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
         ],
         "parallel": false
       },
@@ -148,7 +159,7 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_5RoFKdsXCTzItPERQqCAu0XDLZGT -- vercel pull --yes --environment=production --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
-          "vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
+          "npx env-cmd -f apps/2CD/concert/backend/.env vercel build --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ",
           "npx dotenv -v VERCEL_ORG_ID=team_dW0Tpe7DOfLR9xLRD2tSqkVp -v VERCEL_PROJECT_ID=prj_5RoFKdsXCTzItPERQqCAu0XDLZGT -- vercel --prebuilt --prod --token=wo6r3mEUqYSKN7pT5CGE4ucJ"
         ],
         "parallel": false
