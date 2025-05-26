@@ -198,7 +198,7 @@
         }
       ]
     },
-    "deploy-dev": {
+    "deploy-testing": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
