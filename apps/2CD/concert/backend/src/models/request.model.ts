@@ -1,30 +1,17 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, Types, model, models } from 'mongoose';
 
 const RequestSchema = new Schema(
   {
-    concert: {
-      type: Schema.Types.ObjectId,
-      ref: 'Concert',
-      required: true,
-    },
-    ticket: {
-      type: Schema.Types.ObjectId,
-      ref: 'Ticket',
-      required: true,
-    },
-    accountInfo: {
-      type: String,
-      required: true,
-    },
-    ownerName: {
-      type: String,
-      required: true,
-    },
+    booking: { type: Types.ObjectId, ref: 'Booking', required: true },
+    user: { type: Types.ObjectId, ref: 'User', required: true },
     status: {
       type: String,
       required: true,
-      enum: ['ШИЛЖҮҮЛСЭН', 'ДУУСГАХ'],
+      enum: ['PENDING', 'DONE'],
     },
+    bank: { type: String, required: true },
+    bankAccount: { type: String, required: true },
+    name: { type: String, required: true },
   },
   {
     timestamps: { createdAt: true, updatedAt: false },

@@ -3,8 +3,7 @@ import { Schema, model, models, Types } from 'mongoose';
 const ticketSchema = new Schema(
   {
     concert: { type: Types.ObjectId, ref: 'Concert', required: true },
-    seatNumber: { type: String, required: true },
-    price: { type: Number },
+    price: { type: Number, required: true },
     type: {
       type: String,
       enum: ['VIP', 'STANDARD', 'BACKSEAT'],
@@ -14,12 +13,6 @@ const ticketSchema = new Schema(
       type: String,
       enum: ['AVAILABLE', 'RESERVED', 'SOLD'],
       default: 'AVAILABLE',
-    },
-    cancelRequest: { type: Boolean, default: false },
-    refundStatus: {
-      type: String,
-      enum: ['PENDING', 'APPROVED', 'REJECTED'],
-      default: 'PENDING',
     },
   },
   { timestamps: true }
