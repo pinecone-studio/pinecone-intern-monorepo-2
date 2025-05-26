@@ -4,7 +4,16 @@ const bookingSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     concert: { type: Schema.Types.ObjectId, ref: 'Concert', required: true },
-    tickets: [{ type: Schema.Types.ObjectId, ref: 'Ticket', required: true }],
+    tickets: [
+      {
+        type: {
+          ticket: { type: Schema.Types.ObjectId, required: true },
+          quantity: { type: Number, required: true },
+        },
+        ref: 'Ticket',
+        required: true,
+      },
+    ],
     status: {
       type: String,
       required: true,

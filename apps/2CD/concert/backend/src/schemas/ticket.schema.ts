@@ -5,7 +5,7 @@ export const ticketDef = gql`
     id: ID!
     price: Int!
     type: ticketType!
-    status: ticketStatus!
+    quantity: Number!
     createdAt: Date!
     updatedAt: Date!
   }
