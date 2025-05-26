@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.BACKEND_URI ?? 'http://localhost:6789/api/graphql',
+  schema: process.env.BACKEND_URI ?? process.env.LOCAL_BACKEND_URI,
   documents: ['apps/2CD/restaurant/frontend/src/**/*.graphql'],
   generates: {
     'apps/2CD/restaurant/frontend/src/generated/index.ts': {
