@@ -6,8 +6,17 @@ export const venueDef = gql`
     name: String!
     address: String!
     city: String!
-    capacity: String!
+    capacity: Int!
     createdAt: Date!
     updatedAt: Date!
+  }
+  input VenueInput {
+    name: String!
+    address: String!
+    city: String!
+    capacity: Int!
+  }
+  type Mutation {
+    createVenue(input: VenueInput!):Venue!
   }
 `;

@@ -10,4 +10,9 @@ export const scheduleDef = gql`
     createdAt: Date!
     updatedAt: Date!
   }
+
+  input ScheduleInput {
+    endDate: Date!
+    startDate: Date!
+  }
 `;
