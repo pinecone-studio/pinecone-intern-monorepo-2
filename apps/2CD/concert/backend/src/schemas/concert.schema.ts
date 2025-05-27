@@ -6,7 +6,7 @@ export const concertDef = gql`
     title: String!
     description: String!
     thumbnailUrl: String!
-    artists: [String!]!
+    artists: [Artist!]!
     featured: Boolean!
     ticket: [Ticket!]!
     createdAt: Date!

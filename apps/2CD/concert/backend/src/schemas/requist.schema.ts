@@ -16,4 +16,11 @@ export const requestDef = gql`
     PENDING
     DONE
   }
+  input updateReqInput {
+    status: requestStatus!
+    id: ID!
+  }
+  type Mutation {
+    updateRequest(input: updateReqInput): Response!
+  }
 `;
