@@ -9,10 +9,6 @@ export const typeDefs = gql`
     Success
   }
 
-  type Query {
-    sampleQuery: String!
-    getAllHotels: [Hotel!]!
-  }
   input AddHotelInput {
     hotelName: String!
     price: Float!
@@ -40,8 +36,14 @@ export const typeDefs = gql`
     createdAt: String!
     updatedAt: String!
   }
+
   type Mutation {
     sampleMutation: String!
     addHotel(input: AddHotelInput!): Hotel!
+  }
+
+  type Query {
+    sampleQuery: String!
+    getAllHotels: [Hotel!]!
   }
 `;

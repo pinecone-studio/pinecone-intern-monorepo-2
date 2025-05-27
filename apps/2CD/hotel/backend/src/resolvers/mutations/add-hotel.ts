@@ -1,24 +1,42 @@
 import { Hotel } from '../../models/hotel';
+import { GraphQLError } from 'graphql';
 
-export const addHotel = async (_: any, { input }: any) => {
+interface AddHotelInput {
+  hotelName: string;
+  price: number;
+  description: string;
+  phoneNumber: string;
+  amenities?: string[];
+  rooms?: string[];
+  hotelStar?: number;
+  guestReviews?: string[];
+  bookings?: string[];
+  roomServices?: string[];
+}
+
+const defaultValues = {
+  amenities: [],
+  rooms: [],
+  guestReviews: [],
+  bookings: [],
+  roomServices: [],
+};
+
+const createHotelData = (input: AddHotelInput) => ({
+  ...defaultValues,
+  ...input,
+});
+
+export const addHotel = async (_parent: unknown, { input }: { input: AddHotelInput }) => {
   try {
-    const newHotel = new Hotel({
-      hotelName: input.hotelName,
-      price: input.price,
-      description: input.description,
-      phoneNumber: input.phoneNumber,
-      amenities: input.amenities || [],
-      rooms: input.rooms || [],
-      hotelStar: input.hotelStar,
-      guestReviews: input.guestReviews || [],
-      bookings: input.bookings || [],
-      roomServices: input.roomServices || [],
-    });
-
+    const hotelData = createHotelData(input);
+    const newHotel = new Hotel(hotelData);
     const savedHotel = await newHotel.save();
     return savedHotel;
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in addHotel mutation:', error);
-    throw new Error('Failed to add hotel: ' + error.message);
+    throw new GraphQLError(
+      error instanceof Error ? `Failed to add hotel: ${error.message}` : 'Failed to add hotel: Unknown error'
+    );
   }
 };

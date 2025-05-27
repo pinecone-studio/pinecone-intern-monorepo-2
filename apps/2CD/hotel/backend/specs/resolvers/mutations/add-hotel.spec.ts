@@ -3,12 +3,10 @@ import { addHotel } from '../../../src/resolvers/mutations/add-hotel';
 import { IHotel } from '../../../src/models/hotel';
 
 jest.mock('../../../src/models/hotel', () => ({
-  Hotel: jest.fn().mockImplementation(function(this: Partial<IHotel>) {
-    return {
-      save: jest.fn().mockResolvedValue(this),
-      ...this,
-    };
-  }),
+  Hotel: jest.fn().mockImplementation((data: Partial<IHotel>) => ({
+    save: jest.fn().mockResolvedValue(data),
+    ...data,
+  })),
 }));
 
 describe('addHotel mutation', () => {
@@ -19,6 +17,10 @@ describe('addHotel mutation', () => {
     phoneNumber: '123-456-7890',
     amenities: ['WiFi', 'Pool'],
     hotelStar: 4,
+    rooms: [],
+    guestReviews: [],
+    bookings: [],
+    roomServices: [],
   };
 
   beforeEach(() => {
@@ -39,7 +41,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockResolvedValue(mockSavedHotel),
     }));
 
-    const result = await addHotel(null, { input: mockInput });
+    const result = await addHotel(null, { input: mockInput }, {});
     expect(Hotel).toHaveBeenCalledWith(expect.objectContaining(mockInput));
     expect(result).toEqual(mockSavedHotel);
   });
@@ -52,7 +54,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockRejectedValue(new Error(errorMessage)),
     }));
 
-    await expect(addHotel(null, { input: mockInput }))
+    await expect(addHotel(null, { input: mockInput }, {}))
       .rejects
       .toThrow(`Failed to add hotel: ${errorMessage}`);
   });
@@ -83,7 +85,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockResolvedValue(mockSavedHotel),
     }));
 
-    const result = await addHotel(null, { input: minimalInput });
+    const result = await addHotel(null, { input: minimalInput }, {});
     expect(Hotel).toHaveBeenCalledWith(expect.objectContaining(minimalInput));
     expect(result).toEqual(mockSavedHotel);
   });
