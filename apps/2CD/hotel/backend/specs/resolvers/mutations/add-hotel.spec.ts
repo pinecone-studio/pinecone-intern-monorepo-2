@@ -41,7 +41,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockResolvedValue(mockSavedHotel),
     }));
 
-    const result = await addHotel(null, { input: mockInput }, {});
+    const result = await addHotel(null, { input: mockInput });
     expect(Hotel).toHaveBeenCalledWith(expect.objectContaining(mockInput));
     expect(result).toEqual(mockSavedHotel);
   });
@@ -54,7 +54,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockRejectedValue(new Error(errorMessage)),
     }));
 
-    await expect(addHotel(null, { input: mockInput }, {}))
+    await expect(addHotel(null, { input: mockInput }))
       .rejects
       .toThrow(`Failed to add hotel: ${errorMessage}`);
   });
@@ -85,7 +85,7 @@ describe('addHotel mutation', () => {
       save: jest.fn().mockResolvedValue(mockSavedHotel),
     }));
 
-    const result = await addHotel(null, { input: minimalInput }, {});
+    const result = await addHotel(null, { input: minimalInput });
     expect(Hotel).toHaveBeenCalledWith(expect.objectContaining(minimalInput));
     expect(result).toEqual(mockSavedHotel);
   });
