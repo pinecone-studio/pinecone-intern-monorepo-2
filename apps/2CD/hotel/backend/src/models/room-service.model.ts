@@ -4,23 +4,23 @@ import mongoose from "mongoose";
 const RoomServiceSchema=new mongoose.Schema({
     bathroom:{
         type:[String],
-        require:true
+        required:true
     },
       accesibility:{
         type:[String],
-        require:true
+        required:true
     },
     entertainment:{
         type:[String],
-        require:true
+        required:true
     },
     foodAndDrink:{
         type:[String],
-        require:true
+        required:true
     },
     bedroom:{
         type:[String],
-        require:true
+        required:true
     },
 })
-export const RoomService=mongoose.model("RoomService",RoomServiceSchema)
+export const RoomService=mongoose.models.RoomService || mongoose.model("RoomService",RoomServiceSchema)
