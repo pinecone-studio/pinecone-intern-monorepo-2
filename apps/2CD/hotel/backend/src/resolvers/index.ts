@@ -1,6 +1,4 @@
-import * as Mutation from './mutations';
 import { createUser } from './mutations/create-user';
-import * as Query from './queries';
 import { getAllUsers } from './queries/get-all-user';
 import { getUserById } from './queries/get-user-by-id';
 
