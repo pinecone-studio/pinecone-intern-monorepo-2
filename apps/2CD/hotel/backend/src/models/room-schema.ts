@@ -4,34 +4,39 @@ import mongoose from "mongoose";
 const RoomSchema=new mongoose.Schema({
     roomNumber:{
         type:Number,
-        require:true
+        required:true
     },
     price:{
         type:String,
-        require:true
+        required:true
     },
     description:{
         type:String,
-        require:true
+        required:true
     },
     roomImage:{
         type:[String],
-        require:true
+        required:true
     },
     isAvailable:{
+        type:String,
         enum:['BOOKED','AVAILABLE'],
         default:"AVAILABLE"
     },
     bedType:{
+        type:String,
         enum:['King','Queen','Double','Single'],
         default:'Single'
     },
     numberOfBed:{
+        type:String,
         enum:['1','2','3','4'],
         default:'1'
     },
     hotel:{
- 
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Hotel',
+        required:true
     },
     roomService: {
         type: mongoose.Schema.Types.ObjectId,

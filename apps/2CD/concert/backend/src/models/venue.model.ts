@@ -2,7 +2,7 @@ import { model, models, Schema } from 'mongoose';
 
 const venueSchema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
     capacity: { type: Number, required: true },

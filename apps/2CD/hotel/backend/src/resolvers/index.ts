@@ -1,7 +1,11 @@
-import * as Mutation from './mutations';
-import * as Query from './queries';
+import { addHotel } from './mutations/add-hotel';
+import { getAllHotels } from './queries/get-all-hotels';
 
 export const resolvers = {
-  Mutation,
-  Query,
+  Mutation: {
+    addHotel,
+  },
+  Query: {
+    getAllHotels,
+  },
 };

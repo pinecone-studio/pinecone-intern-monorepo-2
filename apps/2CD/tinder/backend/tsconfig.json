@@ -38,7 +38,7 @@
     "../../../../dist/aapps/2CD/tinder/backend/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../../../dist/apps/2CD/tinder/backend/.next/types/**/*.ts"
-  ],
+, "specs/resolvers/mutations/like/get-all-likes.spec.ts"  ],
   "exclude": [
     "node_modules",
     "jest.config.ts",

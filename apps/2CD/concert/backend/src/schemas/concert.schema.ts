@@ -14,4 +14,16 @@ export const concertDef = gql`
     venue: Venue!
     schedule: [Schedule!]!
   }
+  input CreateConcertInput {
+    title: String!
+    description: String!
+    artists: [String!]!
+    ticket: [CreateTicketInput!]!
+    thumbnailUrl: String!
+    schedule: [ScheduleInput!]!
+    venueId: ID!
+  }
+  type Mutation {
+    createConcert(input: CreateConcertInput!): Response!
+  }
 `;
