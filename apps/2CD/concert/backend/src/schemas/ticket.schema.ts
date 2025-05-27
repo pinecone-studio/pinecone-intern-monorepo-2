@@ -4,7 +4,6 @@ export const ticketDef = gql`
   type Ticket {
     id: ID!
     price: Int!
-    quantity: Int!
     type: ticketType!
     quantity: Int!
     createdAt: Date!
