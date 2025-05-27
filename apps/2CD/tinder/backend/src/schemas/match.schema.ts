@@ -10,4 +10,8 @@ export const typeDefs = gql`
   extend type Query {
     getMyMatches: [Match!]!
   }
+
+  extend type Mutation {
+    unMatched(userId: String!): Match!
+  }
 `;
