@@ -5,11 +5,10 @@ export const typeDefs = gql`
     _id: ID!
     from: User!
     to: User!
-    status: String!
     createdAt: Date
     updatedAt: Date
  }
- type Query {
+ type Query {  
     getAllLikes: [Like!]!
     getLikesFromUser(userId: ID!): [Like!]!
     getLikesToUser(userId: ID!): [Like!]!

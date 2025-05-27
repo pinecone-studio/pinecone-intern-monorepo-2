@@ -1,5 +1,10 @@
 import { connect } from 'mongoose';
 
 export const connectToDb = async () => {
-  await connect(process.env.MONGO_URI!);
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    throw new Error("🚨 MONGO_URI not set in environment variables");
+  }
+
+  await connect(uri);
 };
