@@ -49,7 +49,7 @@ describe('getAllHotels query', () => {
     expect(result).toEqual(mockHotels);
   });
 
-  it('should throw an error if fetching hotels fails', async () => {
+  it('should throw an error if fetching hotels fails with Error instance', async () => {
     const errorMessage = 'Database error';
     
     const execMock = jest.fn().mockRejectedValue(new Error(errorMessage));
@@ -59,6 +59,16 @@ describe('getAllHotels query', () => {
     await expect(getAllHotels())
       .rejects
       .toThrow(`Failed to fetch hotels: ${errorMessage}`);
+  });
+
+  it('should throw an error if fetching hotels fails with non-Error', async () => {
+    const execMock = jest.fn().mockRejectedValue('Unknown error occurred');
+    const findMock = jest.fn().mockReturnValue({ exec: execMock });
+    (Hotel.find as jest.Mock).mockImplementation(findMock);
+
+    await expect(getAllHotels())
+      .rejects
+      .toThrow('Failed to fetch hotels: Unknown error');
   });
 
   it('should return empty array when no hotels exist', async () => {

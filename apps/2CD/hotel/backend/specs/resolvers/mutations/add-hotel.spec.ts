@@ -46,7 +46,7 @@ describe('addHotel mutation', () => {
     expect(result).toEqual(mockSavedHotel);
   });
 
-  it('should throw an error if hotel creation fails', async () => {
+  it('should throw an error if hotel creation fails with Error instance', async () => {
     const errorMessage = 'Database error';
     
     ((Hotel as unknown) as jest.Mock).mockImplementationOnce((data: Partial<IHotel>) => ({
@@ -57,6 +57,17 @@ describe('addHotel mutation', () => {
     await expect(addHotel(null, { input: mockInput }))
       .rejects
       .toThrow(`Failed to add hotel: ${errorMessage}`);
+  });
+
+  it('should throw an error if hotel creation fails with non-Error', async () => {
+    ((Hotel as unknown) as jest.Mock).mockImplementationOnce((data: Partial<IHotel>) => ({
+      ...data,
+      save: jest.fn().mockRejectedValue('Unknown error occurred'),
+    }));
+
+    await expect(addHotel(null, { input: mockInput }))
+      .rejects
+      .toThrow('Failed to add hotel: Unknown error');
   });
 
   it('should handle missing optional fields', async () => {
