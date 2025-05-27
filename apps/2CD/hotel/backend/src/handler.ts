@@ -6,9 +6,10 @@ import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
 
-connectToDb();
+connectToDb().catch(console.error);
 
-const server = new ApolloServer<Context>({
+
+const server = new ApolloServer<Context>({  
   resolvers,
   typeDefs,
   introspection: true,
