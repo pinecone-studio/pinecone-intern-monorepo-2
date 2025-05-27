@@ -1,6 +1,14 @@
 import { PropsWithChildren } from 'react';
-import './global.css';
+import './global.css'; 
 import { ApolloWrapper } from '@/components/providers';
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -9,11 +17,22 @@ export const metadata = {
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
-      <body>
-        <ApolloWrapper>{children}</ApolloWrapper>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className="font-sans antialiased">
+          <header className="flex justify-end items-center p-4 gap-4 h-16">
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header>
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 };
 

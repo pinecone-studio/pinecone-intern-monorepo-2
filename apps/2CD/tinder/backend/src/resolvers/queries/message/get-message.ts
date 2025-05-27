@@ -6,18 +6,24 @@ function validateUser(context: any) {
   }
 }
 
+function handleError(error: any): never {
+  if (error && error.message) {
+    throw new Error(error.message);
+  }
+  throw new Error('Unknown error');
+}
+
 const getMessage = async (_: any, { messageId }: { messageId: string }, context: any) => {
-  validateUser(context);  
+  validateUser(context);
 
   try {
     const message = await Message.findById(messageId);
-    if (!message) throw new Error('Message not found'); 
+    if (!message) throw new Error('Message not found');
 
     return message;
   } catch (error: any) {
-    throw new Error(error?.message || 'Unknown error'); 
+    handleError(error);
   }
 };
-
 
 export default getMessage;

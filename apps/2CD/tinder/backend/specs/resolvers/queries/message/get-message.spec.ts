@@ -40,14 +40,26 @@ describe('getMessage', () => {
     expect(result).toEqual(mockMessage);
     expect(Message.findById).toHaveBeenCalledWith(mockMessageId);
   });
+
   it('should handle unexpected errors and throw the original message', async () => {
-  (Message.findById as jest.Mock).mockImplementation(() => {
-    throw new Error('Database error');
+    const customError = new Error('Database error');
+    (Message.findById as jest.Mock).mockImplementation(() => {
+      throw customError;
+    });
+
+    await expect(getMessage(null, { messageId: mockMessageId }, mockContext))
+      .rejects
+      .toThrow('Database error');
   });
 
-  await expect(getMessage(null, { messageId: mockMessageId }, mockContext))
-    .rejects
-    .toThrow('Database error');
-});
+  it('should throw "Unknown error" when error.message is undefined', async () => {
+    // Mock Message.findById to throw an error without a message
+    (Message.findById as jest.Mock).mockImplementation(() => {
+      throw {};
+    });
 
+    await expect(getMessage(null, { messageId: 'msg123' }, mockContext))
+      .rejects
+      .toThrow('Unknown error');
+  });
 });
