@@ -12,7 +12,7 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    getMessages(matchId: ID!): [Message!]!
+    getMessage(matchId: ID!): [Message!]!
   }
 
   extend type Mutation {
