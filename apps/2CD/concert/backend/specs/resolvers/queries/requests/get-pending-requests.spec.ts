@@ -25,6 +25,9 @@ describe('getPendingRequests', () => {
   it('should return only pending requests', async () => {
     (RequestModel.find as jest.Mock).mockResolvedValue(pendingOnly);
     const result = await getPendingRequests!({}, {}, {}, {} as GraphQLResolveInfo);
-    expect(result).toEqual(pendingOnly);
+    expect(result).toEqual([
+      { status: 'PENDING', name: 'test' },
+      { status: 'PENDING', name: 'test1' },
+    ]);
   });
 });
