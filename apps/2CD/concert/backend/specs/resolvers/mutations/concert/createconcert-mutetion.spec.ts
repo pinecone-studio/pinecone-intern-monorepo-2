@@ -4,7 +4,7 @@ import { concertModel, ticketModel, venueModel } from 'src/models';
 import { timeScheduleModel } from 'src/models/timeschedule.model';
 import { GraphQLResolveInfo } from 'graphql';
 import { Response, TicketType } from 'src/generated';
-import { concertSchema, schedule } from 'src/zodSchemas';
+import { concertSchema } from 'src/zodSchemas';
 
 const mockInput = {
   artists: ['artist'],
