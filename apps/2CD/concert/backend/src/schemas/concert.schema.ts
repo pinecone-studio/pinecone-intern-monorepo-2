@@ -17,7 +17,7 @@ export const concertDef = gql`
   input CreateConcertInput {
     title: String!
     description: String!
-    artists: [String!]!
+    artists: [ID!]!
     ticket: [CreateTicketInput!]!
     thumbnailUrl: String!
     schedule: [ScheduleInput!]!
