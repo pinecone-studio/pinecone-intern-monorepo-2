@@ -1,5 +1,5 @@
 'use client';
-import Caro from './components/Carousel';
+import Caro from './components/Caro';
 
 const Page = () => {
   return (
