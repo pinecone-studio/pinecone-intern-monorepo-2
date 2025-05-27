@@ -15,8 +15,8 @@ describe("createLike", () => {
 
   it("should create a like and a match if mutual like exists", async () => {
     (Like.findOne as jest.Mock)
-      .mockResolvedValueOnce(null) // No existing like (from → to)
-      .mockResolvedValueOnce({}); // Mutual like exists (to → from)
+      .mockResolvedValueOnce(null) 
+      .mockResolvedValueOnce({}); 
 
     const mockLike = {
       populate: jest.fn().mockReturnThis(),
@@ -37,7 +37,7 @@ describe("createLike", () => {
   });
 
   it("should throw an error if like already exists", async () => {
-    (Like.findOne as jest.Mock).mockResolvedValueOnce({}); // existing like found
+    (Like.findOne as jest.Mock).mockResolvedValueOnce({}); 
 
     await expect(createLike({}, { from, to })).rejects.toThrow("Failed to create like");
     expect(Like.create).not.toHaveBeenCalled();
@@ -46,8 +46,8 @@ describe("createLike", () => {
 
   it("should create a like without match if mutual like does not exist", async () => {
     (Like.findOne as jest.Mock)
-      .mockResolvedValueOnce(null) // no existing like
-      .mockResolvedValueOnce(null); // no mutual like
+      .mockResolvedValueOnce(null) 
+      .mockResolvedValueOnce(null); 
 
     const mockLike = {
       populate: jest.fn().mockReturnThis(),

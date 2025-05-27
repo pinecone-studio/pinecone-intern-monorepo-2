@@ -1,7 +1,7 @@
 import Like from 'src/models/like';
 import { getLikesFromUser } from 'src/resolvers/queries/like/get-likes-from-user';
 
-jest.mock('src/models/like'); // Automatically mock Like model
+jest.mock('src/models/like');
 
 describe('getLikesFromUser', () => {
   afterEach(() => {
@@ -18,7 +18,6 @@ describe('getLikesFromUser', () => {
       },
     ];
 
-    // Chainable mocks for Mongoose's .find().populate().populate().sort()
     const sortMock = jest.fn().mockResolvedValue(mockLikes);
     const populateToMock = jest.fn().mockReturnValue({ sort: sortMock });
     const populateFromMock = jest.fn().mockReturnValue({ populate: populateToMock });
