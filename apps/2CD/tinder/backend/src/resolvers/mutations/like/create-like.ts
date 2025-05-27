@@ -1,9 +1,8 @@
 import Like from "src/models/like";
 import Match from "src/models/match";
-import { connectToDb } from "src/utils/connect-to-db";
 
 export const createLike = async (_: any, args: { from: string; to: string }) => {
-      await connectToDb();
+    //   await connectToDb();
     try {
         const existingLike = await Like.findOne({ from: args.from, to: args.to });
         if (existingLike) {
