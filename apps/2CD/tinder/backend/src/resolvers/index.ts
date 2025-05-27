@@ -1,5 +1,4 @@
 
-import { get } from 'http';
 import { updateProfile } from './mutations/update-profile';
 import { getLikesFromUser } from './queries/like/get-likes-from-user';
 import { getLikesToUser } from './queries/like/get-likes-to-user';
