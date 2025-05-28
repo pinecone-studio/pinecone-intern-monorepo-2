@@ -10,7 +10,9 @@ type Room {
   isAvailable: String!
   bedType: String!
   # hotel:Hotel!
-  numberOfBed: String!
+  numberOfBed: Int
+  createdAt: String!
+  updatedAt: String!
   # roomService: RoomService
 }
 type Hotel {
@@ -21,17 +23,18 @@ type Hotel {
 }
 input RoomInput{
   roomNumber: Int!
-  price: Float!
+  price: String!
   description: String!
   roomImage: [String!]!
   isAvailable: String!
   bedType: String!
   numberOfBed: Int!
 }
-# type Mutation{
-#   # createRoom(input:RoomInput!):Room!
-# }
+type Mutation{
+  createRoom(input:RoomInput!):Room!
+}
 # type Query{
 #   getRoom:Response!
 # }
+
 `;
