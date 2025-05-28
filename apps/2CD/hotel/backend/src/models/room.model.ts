@@ -15,7 +15,7 @@ export enum BedType {
 
 export interface IRoom extends Document {
   roomNumber: number;
-  price: number;
+  price: string;
   description: string;
   roomImage: string[];
   isAvailable: RoomAvailabilityRole;
@@ -32,7 +32,7 @@ const RoomSchema: Schema = new Schema({
     unique: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {
@@ -66,6 +66,7 @@ const RoomSchema: Schema = new Schema({
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: 'RoomService',
   // },
-});
+},
+  { timestamps: true });
 
-export const Room = mongoose.model<IRoom>('Room', RoomSchema);
+export const Room =mongoose.models.Room || mongoose.model<IRoom>('Room', RoomSchema);

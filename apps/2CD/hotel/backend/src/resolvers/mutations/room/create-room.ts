@@ -1,39 +1,39 @@
-// import { Room } from "src/models";
+import { Room } from "src/models/room.model";
+interface RoomInput{
+  roomNumber: number
+  price: string
+  description: string
+  roomImage: string[]
+  isAvailable: string
+  bedType: string
+  numberOfBed: number
+}
+export const createRoom = async (_parent: unknown, { input }:{input:RoomInput }) => {
+  try {
+    const newRoom = new Room({
+      roomNumber: input.roomNumber,
+      price: input.price,
+      description: input.description,
+      roomImage: input.roomImage,
+      isAvailable: input.isAvailable,
+      bedType: input.bedType,
+      numberOfBed: input.numberOfBed,
+    });
 
-// export const createRoom = async (_: any, { input }: any) => {
-//   try {
-//     const newRoom = new Room({
-//       roomNumber: input.roomNumber,
-//       price: input.price,
-//       description: input.description,
-//       roomImage: input.roomImage,
-//       isAvailable: input.isAvailable,
-//       bedType: input.bedType,
-//       numberOfBed: input.numberOfBed,
-//     });
+    const savedRoom = await newRoom.save();
 
-//     const savedRoom = await newRoom.save();
-
-//     return {
-//   success: true,
-//   message: "Room created successfully",
-//   data: {
-//     id: savedRoom._id.toString(),  
-//     roomNumber: savedRoom.roomNumber,
-//     price: savedRoom.price,
-//     description: savedRoom.description,
-//     roomImage: savedRoom.roomImage,
-//     isAvailable: savedRoom.isAvailable,
-//     bedType: savedRoom.bedType,
-//     numberOfBed: savedRoom.numberOfBed,
-//   },
-// };
-//   } catch (error: any) {
-//     console.log(error);
-//     return {
-//       success: false,
-//       message: error.message || "Failed to create room",
-//       data: null,
-//     };
-//   }
-// };
+    return {
+  success: true,
+  message: "Room created successfully",
+  data: {
+savedRoom
+  },
+};
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      data: null,
+    };
+  }
+};

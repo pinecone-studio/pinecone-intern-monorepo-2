@@ -6,6 +6,8 @@ import { createLike } from './mutations/like/create-like';
 import { registerUser } from './mutations/user/register-user';
 import { updateUser } from './mutations/user/update-user';
 import { login } from './mutations/user/login';
+import { getMatchById } from './queries/match/get-match-by-id';
+import { getMyMatches } from './queries/match/get-my-matches';
 
 export const resolvers = {
   Mutation: {
@@ -18,6 +20,10 @@ export const resolvers = {
   Query: {
     getLikesFromUser,
     getLikesToUser,
-    getMessage,
+
+getMessage,
+        getMyMatches,
+    getMatchById,
   },
+
 };
