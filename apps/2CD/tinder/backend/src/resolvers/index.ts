@@ -8,6 +8,7 @@ import { updateUser } from './mutations/user/update-user';
 import { login } from './mutations/user/login';
 import { getMatchById } from './queries/match/get-match-by-id';
 import { getMyMatches } from './queries/match/get-my-matches';
+import { unMatched } from './mutations/unMatch/deleted-match';
 
 export const resolvers = {
   Mutation: {
@@ -16,14 +17,14 @@ export const resolvers = {
     registerUser,
     updateUser,
     login,
+    unMatched
   },
   Query: {
     getLikesFromUser,
     getLikesToUser,
 
-getMessage,
-        getMyMatches,
+    getMessage,
+    getMyMatches,
     getMatchById,
   },
-
 };
