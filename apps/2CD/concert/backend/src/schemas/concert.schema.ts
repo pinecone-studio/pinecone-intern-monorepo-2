@@ -23,7 +23,20 @@ export const concertDef = gql`
     schedule: [ScheduleInput!]!
     venueId: ID!
   }
+  input UpdateConcert {
+    id: ID!
+    title: String
+    description: String
+    artists: [ID!]
+    ticket: [CreateTicketInput!]
+    thumbnailUrl: String
+    schedule: [ScheduleInput!]
+    venueId: ID
+    featured: Boolean
+  }
   type Mutation {
     createConcert(input: CreateConcertInput!): Response!
+    updateConcert(input: UpdateConcert!): Response!
+    deleteConcert(input: UpdateConcert!): Response!
   }
 `;
