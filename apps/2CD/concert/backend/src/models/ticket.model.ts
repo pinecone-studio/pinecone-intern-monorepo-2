@@ -9,7 +9,10 @@ const ticketSchema = new Schema(
       enum: ['VIP', 'STANDARD', 'BACKSEAT'],
       required: true,
     },
-    quantity: { type: Number, required: true },
+    quantity: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

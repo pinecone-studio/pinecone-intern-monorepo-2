@@ -24,4 +24,4 @@ const RoomServiceSchema = new mongoose.Schema({
     },
 });
 
-export const RoomService = mongoose.model('RoomService', RoomServiceSchema);
+export const RoomService=mongoose.models.RoomService || mongoose.model("RoomService",RoomServiceSchema)

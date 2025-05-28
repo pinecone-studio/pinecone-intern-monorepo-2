@@ -30,11 +30,11 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    registerUser(name: String!, email: String!, password: String!, age: Int!, gender: String!, lookingFor: String!): User
+    registerUser(name: String!, email: String!, password: String!, age: Int!, gender: String!, lookingFor: String!, images: [String!]): User
     login(email: String!, password: String!): String
     likeUser(targetUserId: ID!): User
     dislikeUser(targetUserId: ID!): User
-    updateProfile(input: UpdateProfileInput!): User
+    updateUser(input: UpdateProfileInput!): User
   }
 
   input UpdateProfileInput {
@@ -43,5 +43,6 @@ export const typeDefs = gql`
     profession: String
     education: String
     interests: [String!]
+    images: [String!]
   }
 `;
