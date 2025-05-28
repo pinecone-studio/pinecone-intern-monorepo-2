@@ -1,7 +1,7 @@
 import { concertModel } from 'src/models';
 import { Types } from 'mongoose';
-import { getConcert } from 'src/resolvers/queries';
 import { GraphQLResolveInfo } from 'graphql';
+import { getConcert } from 'src/resolvers/queries';
 
 // Mock concertModel and its methods
 jest.mock('src/models', () => ({
@@ -78,6 +78,24 @@ describe('getConcert', () => {
 
     const result = await getConcert!({}, { input }, {}, mockInfo);
 
+    expect(result).toEqual([]);
+  });
+  it('should handle input without date', async () => {
+    (concertModel.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValueOnce([]),
+    });
+
+    const result = await getConcert!({}, { input: { title: 'Rock' } }, {}, {} as any);
+    expect(result).toEqual([]);
+  });
+  it('should handle undefined input', async () => {
+    (concertModel.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValueOnce([]),
+    });
+
+    const result = await getConcert!({}, {}, {}, {} as any);
     expect(result).toEqual([]);
   });
 });
