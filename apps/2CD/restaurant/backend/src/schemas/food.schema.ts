@@ -4,6 +4,7 @@ const FoodTypeDef = gql`
 
 
 type Food {
+  _id: ID!
   name: String!
   price: Float!
   description: String
@@ -14,5 +15,9 @@ type Food {
   type Mutation {
 createFood(name: String!, price: Float!, description: String, image: String): Food!
   }
+  type Query {
+    getAllFood: [Food!]!
+  }
+
 `;
 export default FoodTypeDef;
