@@ -7,9 +7,11 @@ export const resolvers = {
     getAllUsers,
     sampleQuery: () => 'This is a sample query',
     getUserById, 
+    getAllHotels,
   },
   Mutation: {
     createUser,
     sampleMutation: () => 'This is a sample mutation',
+    addHotel,
   },
 };

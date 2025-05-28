@@ -79,3 +79,9 @@ generated.tsx
 **/cypress/results
 .cy
 **/cypress/downloads
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

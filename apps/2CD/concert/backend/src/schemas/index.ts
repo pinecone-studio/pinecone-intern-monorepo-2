@@ -8,5 +8,6 @@ import { requestDef } from './requist.schema';
 import { scheduleDef } from './schedule.schema';
 import { ticketDef } from './ticket.schema';
 import { venueDef } from './venue.schema';
+import { artistDef } from './artist.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, userDefs, bookingDef, concertDef, otpDef, requestDef, scheduleDef, ticketDef, venueDef]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, userDefs, bookingDef, concertDef, otpDef, requestDef, scheduleDef, ticketDef, venueDef, artistDef]);

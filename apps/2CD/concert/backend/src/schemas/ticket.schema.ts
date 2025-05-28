@@ -5,7 +5,7 @@ export const ticketDef = gql`
     id: ID!
     price: Int!
     type: ticketType!
-    status: ticketStatus!
+    quantity: Int!
     createdAt: Date!
     updatedAt: Date!
   }
@@ -14,9 +14,9 @@ export const ticketDef = gql`
     STANDARD
     BACKSEAT
   }
-  enum ticketStatus {
-    AVAILABLE
-    RESERVED
-    SOLD
+  input CreateTicketInput {
+    price: Int!
+    quantity: Int!
+    type: ticketType
   }
 `;

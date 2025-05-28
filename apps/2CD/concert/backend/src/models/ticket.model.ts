@@ -9,10 +9,9 @@ const ticketSchema = new Schema(
       enum: ['VIP', 'STANDARD', 'BACKSEAT'],
       required: true,
     },
-    status: {
-      type: String,
-      enum: ['AVAILABLE', 'RESERVED', 'SOLD'],
-      default: 'AVAILABLE',
+    quantity: {
+      type: Number,
+      required: true,
     },
   },
   { timestamps: true }
