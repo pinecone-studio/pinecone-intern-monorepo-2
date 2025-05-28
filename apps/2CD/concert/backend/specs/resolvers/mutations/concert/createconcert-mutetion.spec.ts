@@ -30,6 +30,7 @@ const mockInput = {
 jest.mock('src/models', () => ({
   concertModel: {
     create: jest.fn(),
+    findByIdAndUpdate : jest.fn()
   },
   ticketModel: {
     insertMany: jest.fn(),
@@ -129,9 +130,8 @@ describe('createConcert', () => {
       { _id: 'artist1', name: 'Artist One' },
       { _id: '2', name: 'artist two' },
     ]);
-
+    (concertModel.findByIdAndUpdate as jest.Mock).mockResolvedValueOnce({ _id: 'mockConcertId' });
     const result = await createConcert!({}, { input: mockInput }, {}, mockInfo);
-
     expect(concertModel.create).toHaveBeenCalled();
     expect(timeScheduleModel.insertMany).toHaveBeenCalled();
     expect(ticketModel.insertMany).toHaveBeenCalled();

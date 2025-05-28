@@ -23,6 +23,14 @@ export const concertDef = gql`
     schedule: [ScheduleInput!]!
     venueId: ID!
   }
+  input GetConcertFilter {
+    artist: [ID!]
+    title: String
+    date: Date
+  }
+  type Query {
+    getConcert(input: GetConcertFilter): [Concert!]!
+  }
   type Mutation {
     createConcert(input: CreateConcertInput!): Response!
   }
