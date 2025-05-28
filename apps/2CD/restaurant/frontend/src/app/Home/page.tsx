@@ -1,5 +1,6 @@
 'use client';
 import Caro from './components/Caro';
+import HomeContainer from './components/HomeContainer';
 
 const Page = () => {
   return (
@@ -10,6 +11,9 @@ const Page = () => {
           <h1 className="text-[20px] text-[#441500] font-semibold leading-8">Хоолны цэс</h1>
           <div className="w-full gap-1 flex items-center">
             <Caro />
+          </div>
+          <div>
+            <HomeContainer />
           </div>
         </div>
         <div className="sticky bottom-4 pt-6 bg-white/80 backdrop-blur-[2px]">
