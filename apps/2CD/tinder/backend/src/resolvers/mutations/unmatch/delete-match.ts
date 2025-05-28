@@ -1,8 +1,8 @@
 import Match from 'src/models/match';
 
-export const unMatched = async (userId: string) => {
+export const unMatched = async (_id: string) => {
   try {
-    const result = await Match.findOneAndDelete({ users: userId });
+    const result = await Match.findOneAndDelete({ _id });
 
     if (!result) {
       throw new Error('No matches found for this user');
@@ -10,6 +10,10 @@ export const unMatched = async (userId: string) => {
 
     return { success: true, message: `1 match unmatched successfully` };
   } catch (error) {
-    console.error("Error unmatching:", error);
+    console.error('Error not ', error);
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Unexpected error',
+    };
   }
 };

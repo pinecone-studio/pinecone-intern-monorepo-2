@@ -7,11 +7,19 @@ export const typeDefs = gql`
     createdAt: Date
   }
 
+  type Response {
+    success: Boolean!
+    message: String!
+  }
+
+  type Mutation {
+    unMatched(_id: ID!): Response!
+  }
   extend type Query {
     getMyMatches: [Match!]!
   }
 
   extend type Mutation {
-    unMatched(userId: String!): Match!
+    unMatched(_id: String!): Response!
   }
 `;
