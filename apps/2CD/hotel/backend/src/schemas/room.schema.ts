@@ -33,8 +33,9 @@ input RoomInput{
 type Mutation{
   createRoom(input:RoomInput!):Room!
 }
-# type Query{
-#   getRoom:Response!
-# }
+ type Query{
+   getAllRooms:[Room!]!
+   getRoomForId(id:ID!):Room!
+ }
 
 `;
