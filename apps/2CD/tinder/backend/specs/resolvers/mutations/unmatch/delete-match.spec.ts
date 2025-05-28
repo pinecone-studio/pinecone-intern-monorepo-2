@@ -1,5 +1,5 @@
 import Match from 'src/models/match';
-import { unMatched } from 'src/resolvers/mutations/unmatch/umatch';
+import { unMatched } from 'src/resolvers/mutations/unmatch/delete-match';
 
 
 jest.mock('src/models/match');

@@ -10,6 +10,6 @@ export const unMatched = async (userId: string) => {
 
     return { success: true, message: `1 match unmatched successfully` };
   } catch (error) {
-    console.error('Error not ', error);
+    console.error("Error unmatching:", error);
   }
 };
