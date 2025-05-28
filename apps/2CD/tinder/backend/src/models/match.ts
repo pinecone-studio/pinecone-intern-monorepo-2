@@ -28,5 +28,6 @@ const matchSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Match = mongoose.model('Match', matchSchema);
+const Match = mongoose.models.Match || mongoose.model('Match', matchSchema);
 export default Match;
+
