@@ -1,15 +1,5 @@
-import { Types, Document } from 'mongoose';
+
 import mongoose from 'mongoose';
-import { UserType } from './user';
-
-export interface MatchType extends Document {
-  users: Types.ObjectId[];
-  createdAt: Date;
-}
-
-export interface MatchPopulatedType extends Omit<MatchType, 'users'> {
-  users: UserType[];
-}
 
 const matchSchema = new mongoose.Schema(
   {

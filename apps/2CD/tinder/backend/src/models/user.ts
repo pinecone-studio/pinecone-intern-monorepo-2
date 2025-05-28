@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Document, Types } from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
@@ -71,31 +70,3 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 export default User;
-
-type UserFields = {
-  name: string;
-  email: string;
-  password: string;
-  images: string[];
-  bio?: string;
-  age: number;
-  gender: 'Male' | 'Female' | 'Other';
-  lookingFor: 'Male' | 'Female' | 'Both';
-  interests: string[];
-  profession?: string;
-  education?: string;
-  isCertified: boolean;
-  likes: Types.ObjectId[];
-  dislikes: Types.ObjectId[];
-  matches: Types.ObjectId[];
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export type UserType = Document & UserFields;
-
-export type UserPopulatedType = Omit<UserType, 'likes' | 'dislikes' | 'matches'> & {
-  likes: UserType[];
-  dislikes: UserType[];
-  matches: UserType[];
-};
