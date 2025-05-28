@@ -10,7 +10,7 @@ export enum BookingStatus {
 
 export interface IBooking extends Document {
   user: mongoose.Types.ObjectId;
-  room: mongoose.Types.ObjectId;
+  room: mongoose.Types.ObjectId; 
   totalPrice: number;
   bookStatus: BookingStatus;
   startDate: Date;
@@ -33,4 +33,4 @@ const BookingSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export const Booking = mongoose.model<IBooking>('Booking', BookingSchema);
+export const Booking = mongoose.models.Booking || mongoose.model<IBooking>('Booking', BookingSchema);
