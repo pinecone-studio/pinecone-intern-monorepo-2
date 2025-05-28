@@ -2,7 +2,7 @@ import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import User from '../../../models/user';
 import { Context } from '../../../types/context';
 
-interface updateUserInput {
+interface UpdateUserInput {
   name?: string;
   bio?: string;
   profession?: string;
@@ -12,18 +12,21 @@ interface updateUserInput {
 
 export const updateUser = async (
   _: unknown,
-  { input }: { input: updateUserInput },
+  { input }: { input: UpdateUserInput },
   { user }: Context
 ) => {
   if (!user) {
     throw new AuthenticationError('Not authenticated');
   }
+
   const currentUser = await User.findById((user as { _id: string })._id);
   if (!currentUser) {
     throw new UserInputError('User not found');
   }
+
   updateFields(currentUser, input);
   await currentUser.save();
+
   return currentUser;
 };
 
@@ -37,7 +40,7 @@ type UserDoc = Document & {
   interests?: string[];
 };
 
-function updateFields(currentUser: UserDoc, input: updateUserInput) {
+function updateFields(currentUser: UserDoc, input: UpdateUserInput) {
   assignIfDefined(currentUser, 'name', input.name);
   assignIfDefined(currentUser, 'bio', input.bio);
   assignIfDefined(currentUser, 'profession', input.profession);

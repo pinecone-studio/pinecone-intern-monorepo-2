@@ -41,7 +41,7 @@ function validateImages(images?: string[]) {
   }
 }
 
-export const createUser = async (
+export const registerUser = async (
   _: { [key: string]: unknown },
   {
     name,

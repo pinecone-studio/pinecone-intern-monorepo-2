@@ -1,4 +1,4 @@
-import { createUser } from '../../../../src/resolvers/mutations/user/create-user';
+import { registerUser } from '../../../../src/resolvers/mutations/user/register-user';
 import User from '../../../../src/models/user';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
@@ -31,7 +31,7 @@ describe('createUser resolver', () => {
       ...savedUser,
     }));
 
-    const result = await createUser({}, baseInput);
+    const result = await registerUser({}, baseInput);
 
     expect(bcrypt.hash).toHaveBeenCalledWith('password123', 10);
     expect(saveMock).toHaveBeenCalled();
@@ -39,29 +39,29 @@ describe('createUser resolver', () => {
   });
 
   it('throws if underage', async () => {
-    await expect(createUser({}, { ...baseInput, age: 17 })).rejects.toThrow('18 хүрсэн байх шаардлагатай');
+    await expect(registerUser({}, { ...baseInput, age: 17 })).rejects.toThrow('18 хүрсэн байх шаардлагатай');
   });
 
   it('throws if gender is invalid', async () => {
-    await expect(createUser({}, { ...baseInput, gender: 'Alien' })).rejects.toThrow('Хүйсээ сонгоно уу');
+    await expect(registerUser({}, { ...baseInput, gender: 'Alien' })).rejects.toThrow('Хүйсээ сонгоно уу');
   });
 
   it('throws if lookingFor is invalid', async () => {
-    await expect(createUser({}, { ...baseInput, lookingFor: 'Nobody' })).rejects.toThrow('Сонихрол сонгоно уу');
+    await expect(registerUser({}, { ...baseInput, lookingFor: 'Nobody' })).rejects.toThrow('Сонихрол сонгоно уу');
   });
 
   it('throws if less than 2 images', async () => {
-    await expect(createUser({}, { ...baseInput, images: ['onlyOne.jpg'] })).rejects.toThrow('Дор хаяж 2 зураг сонгох шаардлагатай');
+    await expect(registerUser({}, { ...baseInput, images: ['onlyOne.jpg'] })).rejects.toThrow('Дор хаяж 2 зураг сонгох шаардлагатай');
   });
 
   it('throws if email already exists', async () => {
     (User.findOne as jest.Mock).mockResolvedValueOnce({ email: 'test@example.com' }); // email check
-    await expect(createUser({}, baseInput)).rejects.toThrow('Хэрэглэгч аль хэдийн байна');
+    await expect(registerUser({}, baseInput)).rejects.toThrow('Хэрэглэгч аль хэдийн байна');
   });
 
   it('throws if name already exists', async () => {
     (User.findOne as jest.Mock).mockResolvedValueOnce(null).mockResolvedValueOnce({ name: 'TestUser' }); // name check
-    await expect(createUser({}, baseInput)).rejects.toThrow('Нэр аль хэдийн бүртгэлтэй байна');
+    await expect(registerUser({}, baseInput)).rejects.toThrow('Нэр аль хэдийн бүртгэлтэй байна');
   });
 
   it('throws mongoose validation error', async () => {
@@ -74,7 +74,7 @@ describe('createUser resolver', () => {
       save: jest.fn().mockRejectedValue(mockErr),
     }));
 
-    await expect(createUser({}, baseInput)).rejects.toThrow('Validation Error');
+    await expect(registerUser({}, baseInput)).rejects.toThrow('Validation Error');
   });
 
   it('throws unknown error', async () => {
@@ -84,6 +84,6 @@ describe('createUser resolver', () => {
       save: jest.fn().mockRejectedValue(new Error('Something exploded')),
     }));
 
-    await expect(createUser({}, baseInput)).rejects.toThrow('Something exploded');
+    await expect(registerUser({}, baseInput)).rejects.toThrow('Something exploded');
   });
 });
