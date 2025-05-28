@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { concertModel } from 'src/models';
 import { Types } from 'mongoose';
 import { GraphQLResolveInfo } from 'graphql';
@@ -86,7 +87,7 @@ describe('getConcert', () => {
       lean: jest.fn().mockResolvedValueOnce([]),
     });
 
-    const result = await getConcert!({}, { input: { title: 'Rock' } }, {}, {} as any);
+    const result = await getConcert!({}, { input: { title: 'Rock' } }, {}, mockInfo);
     expect(result).toEqual([]);
   });
   it('should handle undefined input', async () => {
@@ -95,7 +96,7 @@ describe('getConcert', () => {
       lean: jest.fn().mockResolvedValueOnce([]),
     });
 
-    const result = await getConcert!({}, {}, {}, {} as any);
+    const result = await getConcert!({}, {}, {}, mockInfo);
     expect(result).toEqual([]);
   });
 });

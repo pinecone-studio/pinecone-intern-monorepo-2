@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { buildConcertFilter, buildScheduleMatch, convertId, convertIdFields, handleSpecialField, isObject, isSkippableField } from "src/utils/converiId-fields";
+import { buildConcertFilter, buildScheduleMatch, convertId, convertIdFields, handleSpecialField, isObject, isSkippableField } from "src/utils/converid-fields";
 
 describe('buildScheduleMatch', () => {
   it('should return match object if date is provided', () => {
