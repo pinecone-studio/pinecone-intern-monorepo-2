@@ -1,9 +1,5 @@
 import User from 'src/models/user';
-import { updateProfile } from 'src/resolvers/mutations/update-profile';
-
-jest.mock('src/models/user', () => ({
-  findByIdAndUpdate: jest.fn()
-}));
+import { updateProfile } from 'src/resolvers/mutations/user/update-profile';
 
 describe('updateProfile', () => {
   const mockUser = {
@@ -15,11 +11,10 @@ describe('updateProfile', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.spyOn(User, 'findById').mockResolvedValue(mockUser);
   });
 
   it('should update the user profile', async () => {
-    (User.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUser);
-
     const args = {
       input: {
         name: 'John Doe',
@@ -28,20 +23,13 @@ describe('updateProfile', () => {
     };
 
     const context = {
-      userId: 'user123',
+      user: { _id: 'user123' },
     };
 
     const result = await updateProfile({}, args, context);
 
-    expect(User.findByIdAndUpdate).toHaveBeenCalledWith(
-      'user123',
-      {
-        name: 'John Doe',
-        bio: 'Updated Bio',
-      },
-      { new: true }
-    );
-
+    expect(User.findById).toHaveBeenCalledWith('user123');
+    expect(mockUser.save).toHaveBeenCalled();
     expect(result).toEqual(mockUser);
   });
 
@@ -53,7 +41,14 @@ describe('updateProfile', () => {
     };
 
     await expect(
-      updateProfile({}, args, { userId: null })
-    ).rejects.toThrow('Unauthorized');
+      updateProfile({}, args, { user: undefined })
+    ).rejects.toThrow('Not authenticated');
+  });
+
+  it('should throw if user not found', async () => {
+    jest.spyOn(User, 'findById').mockResolvedValue(null);
+    const args = { input: { name: 'Jane' } };
+    const context = { user: { _id: 'user123' } };
+    await expect(updateProfile({}, args, context)).rejects.toThrow('User not found');
   });
 });
