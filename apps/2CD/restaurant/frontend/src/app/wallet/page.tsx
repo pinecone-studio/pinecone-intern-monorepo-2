@@ -3,17 +3,17 @@
 import React from 'react';
 
 const Wallet = () => {
-  const balance = 18864;
+  const balance = 999999999;
 
   const transactions = [
-    { amount: +324, date: '24.10.19 15:25' },
-    { amount: +219, date: '24.10.19 15:25' },
-    { amount: +219, date: '24.10.19 15:25' },
-    { amount: +276, date: '24.10.19 15:25' },
-    { amount: +186, date: '24.10.19 15:25' },
-    { amount: +324, date: '24.10.19 15:25' },
-    { amount: +276, date: '24.10.19 15:25' },
-    { amount: -18800, date: '24.10.19 15:25' },
+    { amount: +32456789, date: '24.10.19 15:25' },
+    { amount: +21567899, date: '24.10.19 15:25' },
+    { amount: +21456789, date: '24.10.19 15:25' },
+    { amount: +276567898765, date: '24.10.19 15:25' },
+    { amount: +1864567, date: '24.10.19 15:25' },
+    { amount: +3245674, date: '24.10.19 15:25' },
+    { amount: +245676, date: '24.10.19 15:25' },
+    { amount: -188600, date: '24.10.19 15:25' },
   ];
 
   return (
