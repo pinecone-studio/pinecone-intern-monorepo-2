@@ -6,7 +6,7 @@ export const concertDef = gql`
     title: String!
     description: String!
     thumbnailUrl: String!
-    artists: [String!]!
+    artists: [Artist!]!
     featured: Boolean!
     ticket: [Ticket!]!
     createdAt: Date!
@@ -33,6 +33,14 @@ export const concertDef = gql`
     schedule: [ScheduleInput!]
     venueId: ID
     featured: Boolean
+    }
+  input GetConcertFilter {
+    artist: [ID!]
+    title: String
+    date: Date
+    }
+  type Query {
+    getConcert(input: GetConcertFilter): [Concert!]!
   }
   type Mutation {
     createConcert(input: CreateConcertInput!): Response!

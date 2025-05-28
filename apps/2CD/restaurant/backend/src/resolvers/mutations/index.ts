@@ -1,2 +1,2 @@
 export * from './sample-mutation';
-export * from './create-food'
+export * from './foodRelatedMutations/create-food'
