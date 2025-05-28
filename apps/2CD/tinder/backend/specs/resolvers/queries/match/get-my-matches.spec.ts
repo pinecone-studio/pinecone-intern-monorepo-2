@@ -1,5 +1,5 @@
 import Match from 'src/models/match';
-import { getMyMatches } from 'src/resolvers/queries/match';
+import { getMyMatches } from 'src/resolvers/queries/match/get-my-matches';
 
 jest.mock('src/models/match');
 

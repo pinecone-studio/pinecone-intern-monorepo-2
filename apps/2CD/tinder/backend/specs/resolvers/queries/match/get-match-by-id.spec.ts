@@ -1,6 +1,6 @@
 
 import Match from 'src/models/match';
-import { getMatchById } from 'src/resolvers/queries/match';
+import { getMatchById } from 'src/resolvers/queries/match/get-match-by-id';
 
 jest.mock('src/models/match');
 
