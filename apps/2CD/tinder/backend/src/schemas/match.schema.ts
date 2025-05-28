@@ -17,6 +17,7 @@ export const typeDefs = gql`
   }
   extend type Query {
     getMyMatches: [Match!]!
+    getMatchById(id: ID!): Match
   }
 
   extend type Mutation {

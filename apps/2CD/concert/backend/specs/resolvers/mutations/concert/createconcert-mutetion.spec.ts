@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createConcert } from 'src/resolvers/mutations/concert/create-concert.mutation';
-import { concertModel, ticketModel, venueModel } from 'src/models';
+import { ArtistModel, concertModel, ticketModel, venueModel } from 'src/models';
 import { timeScheduleModel } from 'src/models/timeschedule.model';
 import { GraphQLResolveInfo } from 'graphql';
 import { Response, TicketType } from 'src/generated';
 import { concertSchema } from 'src/zodSchemas';
 
 const mockInput = {
-  artists: ['artist'],
+  artists: ['artist1', 'artist2'],
   description: 'test',
   schedule: [
     {
@@ -39,6 +39,9 @@ jest.mock('src/models', () => ({
   },
   timeScheduleModel: {
     insertMany: jest.fn(),
+    find: jest.fn(),
+  },
+  ArtistModel: {
     find: jest.fn(),
   },
 }));
@@ -109,12 +112,23 @@ describe('createConcert', () => {
     (timeScheduleModel.find as jest.Mock).mockResolvedValueOnce([{ _id: 't1' }]);
     await expect(createConcert!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('Schedule already exists');
   });
+  it('should throw error if artist not fount', async () => {
+    (venueModel.findById as jest.Mock).mockResolvedValue({ _id: 'venue123' });
+    (timeScheduleModel.find as jest.Mock).mockResolvedValueOnce([]);
+    (ArtistModel.find as jest.Mock).mockResolvedValueOnce([{ _id: 'artist1', name: 'Artist One' }]);
+
+    await expect(createConcert!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('One or more artists not found');
+  });
   it('should create a concert successfully', async () => {
     (timeScheduleModel.find as jest.Mock).mockResolvedValueOnce([]);
     (concertModel.create as jest.Mock).mockResolvedValueOnce({ _id: 'mockConcertId' });
     (timeScheduleModel.insertMany as jest.Mock).mockResolvedValueOnce([{ id: 'ts1' }]);
     (ticketModel.insertMany as jest.Mock).mockResolvedValueOnce([{ id: 't1' }]);
     (venueModel.findById as jest.Mock).mockResolvedValueOnce({ id: 'vendor123' });
+    (ArtistModel.find as jest.Mock).mockResolvedValueOnce([
+      { _id: 'artist1', name: 'Artist One' },
+      { _id: '2', name: 'artist two' },
+    ]);
 
     const result = await createConcert!({}, { input: mockInput }, {}, mockInfo);
 

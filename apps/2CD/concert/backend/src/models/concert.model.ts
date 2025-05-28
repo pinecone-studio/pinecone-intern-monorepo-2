@@ -7,7 +7,7 @@ const concertSchema = new Schema(
     thumbnailUrl: { type: String, required: true },
     schedule: [{ type: Types.ObjectId, ref: 'Schedule', required: true }],
     venue: { type: Types.ObjectId, ref: 'Venue', required: true },
-    artists: [{ type: String, required: true }],
+    artists: [{ type: Types.ObjectId, ref: 'Artist', required: true }],
     featured: { type: Boolean, required: true, default: false },
     ticket: [{ type: Types.ObjectId, ref: 'Ticket', required: true }],
   },
