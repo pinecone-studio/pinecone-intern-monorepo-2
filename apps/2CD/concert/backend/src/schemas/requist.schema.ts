@@ -1,6 +1,11 @@
 import gql from 'graphql-tag';
 
 export const requestDef = gql`
+  enum requestStatus {
+    PENDING
+    DONE
+  }
+
   type Request {
     id: ID!
     booking: Booking!
@@ -12,8 +17,15 @@ export const requestDef = gql`
     createdAt: Date!
     updatedAt: Date!
   }
-  enum requestStatus {
-    PENDING
-    DONE
+
+  type Query {
+    getPendingRequests: [Request!]!
+    getAllRequists: [Request!]!
+  }
+  input updateReqInput {
+    id: ID!
+  }
+  type Mutation {
+    updateRequest(input: updateReqInput): Request!
   }
 `;

@@ -36,7 +36,6 @@ export const createConcert: MutationResolvers['createConcert'] = async (_, { inp
     venue: venue._id,
     thumbnailUrl,
   });
-
   const schedules = schedule.map((s) => ({
     endDate: s.endDate,
     startDate: s.startDate,
@@ -49,8 +48,11 @@ export const createConcert: MutationResolvers['createConcert'] = async (_, { inp
     type: ti.type,
     quantity: ti.quantity,
   }));
-  await timeScheduleModel.insertMany(schedules);
-  await ticketModel.insertMany(tickets);
-
+  const createdSchedules = await timeScheduleModel.insertMany(schedules);
+  const createdTickets = await ticketModel.insertMany(tickets);
+  await concertModel.findByIdAndUpdate(newConcert._id, {
+    schedule: createdSchedules.map((s) => s._id),
+    ticket: createdTickets.map((t) => t._id),
+  });
   return Response.Success;
 };

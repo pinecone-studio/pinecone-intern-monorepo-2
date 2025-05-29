@@ -83,7 +83,7 @@
 @layer base {
   * {
     @apply border-border;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'GIP', sans-serif;
   }
   body {
     @apply bg-background text-foreground;
