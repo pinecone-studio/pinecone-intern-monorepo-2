@@ -1,43 +1,55 @@
-import { UserInputError } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
 import bcrypt from 'bcryptjs';
 import User from '../../../models/user';
 import mongoose from 'mongoose';
 
 function validateAge(age: number) {
   if (age < 18) {
-    throw new UserInputError('18 хүрсэн байх шаардлагатай', { field: 'age', value: age });
+    throw new GraphQLError('18 хүрсэн байх шаардлагатай', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'age', value: age }
+    });
   }
 }
 
 function validateGender(gender: string) {
   if (!['Male', 'Female', 'Other'].includes(gender)) {
-    throw new UserInputError('Хүйсээ сонгоно уу', { field: 'gender', value: gender });
+    throw new GraphQLError('Хүйсээ сонгоно уу', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'gender', value: gender }
+    });
   }
 }
 
 function validateLookingFor(lookingFor: string) {
   if (!['Male', 'Female', 'Both'].includes(lookingFor)) {
-    throw new UserInputError('Сонихрол сонгоно уу', { field: 'lookingFor', value: lookingFor });
+    throw new GraphQLError('Сонихрол сонгоно уу', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'lookingFor', value: lookingFor }
+    });
   }
 }
 
 async function checkExistingUser(email: string) {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new UserInputError('Хэрэглэгч аль хэдийн байна', { field: 'email', value: email });
+    throw new GraphQLError('Хэрэглэгч аль хэдийн байна', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'email', value: email }
+    });
   }
 }
 
 async function checkExistingName(name: string) {
   const existingName = await User.findOne({ name });
   if (existingName) {
-    throw new UserInputError('Нэр аль хэдийн бүртгэлтэй байна', { field: 'name', value: name });
+    throw new GraphQLError('Нэр аль хэдийн бүртгэлтэй байна', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'name', value: name }
+    });
   }
 }
 
 function validateImages(images?: string[]) {
   if (!images || images.length < 2) {
-    throw new UserInputError('Дор хаяж 2 зураг сонгох шаардлагатай', { field: 'images', value: images });
+    throw new GraphQLError('Дор хаяж 2 зураг сонгох шаардлагатай', {
+      extensions: { code: 'BAD_USER_INPUT', field: 'images', value: images }
+    });
   }
 }
 
@@ -88,7 +100,7 @@ export const registerUser = async (
 
     return user;
   } catch (error: unknown) {
-    if (error instanceof UserInputError) {
+    if (error instanceof GraphQLError) {
       throw error;
     }
     if (error instanceof mongoose.Error.ValidationError) {
@@ -96,7 +108,9 @@ export const registerUser = async (
         field: err.path,
         message: err.message,
       }));
-      throw new UserInputError('Validation Error', { validationErrors });
+      throw new GraphQLError('Validation Error', {
+        extensions: { code: 'BAD_USER_INPUT', validationErrors }
+      });
     }
     throw error;
   }

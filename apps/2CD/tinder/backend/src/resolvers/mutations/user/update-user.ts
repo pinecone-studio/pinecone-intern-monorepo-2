@@ -1,4 +1,4 @@
-import { AuthenticationError, UserInputError } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
 import User from '../../../models/user';
 import { Context } from '../../../types/context';
 
@@ -10,18 +10,18 @@ interface UpdateUserInput {
   interests?: string[];
 }
 
-export const updateUser = async (
-  _: unknown,
-  { input }: { input: UpdateUserInput },
-  { user }: Context
-) => {
+export const updateUser = async (_: unknown, { input }: { input: UpdateUserInput }, { user }: Context) => {
   if (!user) {
-    throw new AuthenticationError('Not authenticated');
+    throw new GraphQLError('Not authenticated', {
+      extensions: { code: 'UNAUTHENTICATED' }
+    });
   }
 
   const currentUser = await User.findById((user as { _id: string })._id);
   if (!currentUser) {
-    throw new UserInputError('User not found');
+    throw new GraphQLError('User not found', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
   }
 
   updateFields(currentUser, input);

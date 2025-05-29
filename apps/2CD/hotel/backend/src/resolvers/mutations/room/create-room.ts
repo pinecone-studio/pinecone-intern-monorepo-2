@@ -1,4 +1,11 @@
 import { Room } from "src/models/room.model";
+interface RoomService{
+   bathroom: string[];
+  accesibility: string[];
+  entertainment: string[];
+  foodAndDrink: string[];
+  bedroom: string[];
+}
 interface RoomInput{
   roomNumber: number
   price: string
@@ -7,6 +14,8 @@ interface RoomInput{
   isAvailable: string
   bedType: string
   numberOfBed: number
+  hotel:string
+  roomService:RoomService
 }
 export const createRoom = async (_parent: unknown, { input }:{input:RoomInput }) => {
   try {
@@ -18,6 +27,8 @@ export const createRoom = async (_parent: unknown, { input }:{input:RoomInput })
       isAvailable: input.isAvailable,
       bedType: input.bedType,
       numberOfBed: input.numberOfBed,
+      hotel:input.hotel,
+      roomService:input.roomService
     });
 
     const savedRoom = await newRoom.save();
@@ -30,7 +41,6 @@ savedRoom
   },
 };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       data: null,
