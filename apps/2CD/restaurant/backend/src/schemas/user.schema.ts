@@ -14,8 +14,14 @@ const UserTypeDef = gql`
     password: String!
   }
 
+  input UpdateWalletInput {
+    _id: ID!
+    price: Int!
+  }
+
   type Mutation {
     createUser(input: CreateUserInput!): User!
+    updateWallet(input: UpdateWalletInput!): User!
   }
 `;
 export default UserTypeDef;
