@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../../../models/user';
@@ -7,11 +7,15 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validateInputs = (email: string, password: string) => {
   if (!email || !password) {
-    throw new UserInputError('Email and password are required');
+    throw new GraphQLError('Email and password are required', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
   }
 
   if (!EMAIL_REGEX.test(email)) {
-    throw new UserInputError('Invalid email format');
+    throw new GraphQLError('Invalid email format', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
   }
 };
 
@@ -33,12 +37,16 @@ export const login = async (_: unknown, { email, password }: { email: string; pa
 
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    throw new UserInputError('Хэрэглэгч олдсонгүй');
+    throw new GraphQLError('Хэрэглэгч олдсонгүй', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
   }
 
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) {
-    throw new UserInputError('Нууц үг буруу байна');
+    throw new GraphQLError('Нууц үг буруу байна', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
   }
 
   return generateToken(user._id);

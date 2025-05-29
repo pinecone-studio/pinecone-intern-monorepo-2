@@ -22,4 +22,10 @@ export const requestDef = gql`
     getPendingRequests: [Request!]!
     getAllRequists: [Request!]!
   }
+  input updateReqInput {
+    id: ID!
+  }
+  type Mutation {
+    updateRequest(input: updateReqInput): Request!
+  }
 `;
