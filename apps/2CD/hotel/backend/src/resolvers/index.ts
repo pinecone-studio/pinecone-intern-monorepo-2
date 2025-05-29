@@ -8,6 +8,7 @@ import {getAllRooms} from './queries/room/get-all-rooms'
 import { getRoomForId } from './queries/room/get-room-for-id';
 import {updateRoom} from './mutations/room/update-room'
 import { deleteRoom } from './mutations/room/delete-room';
+import reviewMutations from './mutations/review-mutations';
 
 export const resolvers = {
   Mutation: {
@@ -16,7 +17,8 @@ export const resolvers = {
     updateBooking,
     createRoom,
     updateRoom,
-    deleteRoom
+    deleteRoom,
+    ...reviewMutations,
   },
   Query: {
     getAllHotels,
