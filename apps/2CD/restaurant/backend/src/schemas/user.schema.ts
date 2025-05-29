@@ -7,7 +7,13 @@ const UserTypeDef = gql`
     wallet: Float!
     password: String!
     email: String!
+    role: String!
   }
+
+  type LoginResponse {
+    token: String!
+  }
+
   input CreateUserInput {
     userName: String!
     email: String!
@@ -19,9 +25,16 @@ const UserTypeDef = gql`
     price: Int!
   }
 
+  input LoginUserInput {
+    email: String!
+    password: String!
+  }
+
   type Mutation {
     createUser(input: CreateUserInput!): User!
     updateWallet(input: UpdateWalletInput!): User!
+    userLogin(input: LoginUserInput!): LoginResponse!
   }
 `;
+
 export default UserTypeDef;

@@ -29,6 +29,6 @@ export const createUser = async (_: unknown, { input }: { input: UserType }) => 
 
     return newUser;
   } catch (err: any) {
-    throw new Error('Error creating food item: ' + err.message);
+    throw new Error(`Error creating user: ${err.message}`);
   }
 };
