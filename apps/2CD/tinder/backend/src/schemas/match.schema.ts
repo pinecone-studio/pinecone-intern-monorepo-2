@@ -11,4 +11,8 @@ export const typeDefs = gql`
     getMyMatches: [Match!]!
     getMatchById(id: ID!): Match
   }
+
+  extend type Mutation {
+    unMatched(_id: ID!): Match!
+  }
 `;
