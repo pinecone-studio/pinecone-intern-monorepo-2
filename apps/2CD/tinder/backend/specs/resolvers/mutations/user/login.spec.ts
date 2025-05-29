@@ -2,7 +2,7 @@ import User from 'src/models/user';
 import { login } from 'src/resolvers/mutations/user/login';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { UserInputError } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
 
 const TEST_JWT_SECRET = 'test-secret';
 
@@ -56,15 +56,15 @@ describe('login', () => {
   });
 
   it('should throw if email is empty', async () => {
-    await expect(login({}, { email: '', password: 'password' })).rejects.toThrow(UserInputError);
+    await expect(login({}, { email: '', password: 'password' })).rejects.toThrow(GraphQLError);
   });
 
   it('should throw if password is empty', async () => {
-    await expect(login({}, { email: 'test@example.com', password: '' })).rejects.toThrow(UserInputError);
+    await expect(login({}, { email: 'test@example.com', password: '' })).rejects.toThrow(GraphQLError);
   });
 
   it('should throw if email format is invalid', async () => {
-    await expect(login({}, { email: 'invalid-email', password: 'password' })).rejects.toThrow(UserInputError);
+    await expect(login({}, { email: 'invalid-email', password: 'password' })).rejects.toThrow(GraphQLError);
   });
 
   it('should properly select password field in query', async () => {
