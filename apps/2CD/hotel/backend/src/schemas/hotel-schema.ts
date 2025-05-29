@@ -38,12 +38,11 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    sampleMutation: String!
     addHotel(input: AddHotelInput!): Hotel!
   }
 
   type Query {
-    sampleQuery: String!
     getAllHotels: [Hotel!]!
+    getHotelById(id: ID!): Hotel!
   }
 `;
