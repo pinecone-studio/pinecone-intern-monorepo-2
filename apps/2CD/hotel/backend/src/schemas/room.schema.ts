@@ -1,6 +1,22 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
+
+type RoomService {
+  bathroom: [String!]!
+  accesibility: [String!]!
+  entertainment: [String!]!
+  foodAndDrink: [String!]!
+  bedroom: [String!]!
+}
+
+input RoomServiceInput {
+  bathroom: [String!]!
+  accesibility: [String!]!
+  entertainment: [String!]!
+  foodAndDrink: [String!]!
+  bedroom: [String!]!
+}
 type Room {
   id:ID!
   roomNumber: Int!
@@ -9,11 +25,12 @@ type Room {
   roomImage: [String!]!
   isAvailable: String!
   bedType: String!
-  # hotel:Hotel!
+  hotel:Hotel!
   numberOfBed: Int
   createdAt: String!
   updatedAt: String!
-  # roomService: RoomService
+  roomService: RoomService
+  !
 }
 type Hotel {
   id: ID!
@@ -29,12 +46,15 @@ input RoomInput{
   isAvailable: String!
   bedType: String!
   numberOfBed: Int!
+  hotel:ID!
+  roomService:RoomServiceInput
 }
 type Mutation{
   createRoom(input:RoomInput!):Room!
 }
-# type Query{
-#   getRoom:Response!
-# }
+ type Query{
+   getAllRooms:[Room!]!
+   getRoomForId(id:ID!):Room!
+ }
 
 `;

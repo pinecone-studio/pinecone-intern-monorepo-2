@@ -21,8 +21,8 @@ export interface IRoom extends Document {
   isAvailable: RoomAvailabilityRole;
   bedType: BedType;
   numberOfBed: number;
-  // hotel?: mongoose.Types.ObjectId;
-  // roomService?: mongoose.Types.ObjectId;
+  hotel?: mongoose.Types.ObjectId;
+  roomService:string[];
 }
 
 const RoomSchema: Schema = new Schema({
@@ -58,14 +58,32 @@ const RoomSchema: Schema = new Schema({
     enum: [1, 2, 3, 4],
     default: 1,
   },
-  // hotel: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Hotel',
-  // },
-  // roomService: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'RoomService',
-  // },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hotel',
+  },
+  roomService: {
+      bathroom: {
+        type: [String],
+        required: true
+    },
+    accesibility: {
+        type: [String],
+        required: true
+    },
+    entertainment: {
+        type: [String],
+        required: true
+    },
+    foodAndDrink: {
+        type: [String],
+        required: true
+    },
+    bedroom: {
+        type: [String],
+        required: true
+    },
+  },
 },
   { timestamps: true });
 

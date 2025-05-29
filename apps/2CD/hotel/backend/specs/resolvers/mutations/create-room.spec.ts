@@ -17,6 +17,14 @@ describe('createRoom mutation', () => {
     isAvailable: 'true',
     bedType: 'Queen',
     numberOfBed: 2,
+    hotel:"1234",
+    roomService:{
+      bathroom: ['Soap'],
+      accesibility: ['Elevator'],
+      entertainment: ['TV'],
+      foodAndDrink: ['Minibar'],
+      bedroom: ['Pillows'],
+    }
   };
 
   beforeEach(() => {
