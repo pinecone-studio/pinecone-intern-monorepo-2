@@ -1,7 +1,7 @@
-import { Hotel } from '../../../src/models/hotel';
-import { getAllHotels } from '../../../src/resolvers/queries/get-all-hotels';
+import { Hotel } from '../../../../src/models/hotel';
+import { getAllHotels } from '../../../../src/resolvers/queries/hotel/get-all-hotels';
 
-jest.mock('../../../src/models/hotel', () => ({
+jest.mock('../../../../src/models/hotel', () => ({
   Hotel: {
     find: jest.fn(),
   },

@@ -29,5 +29,4 @@ const HotelSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-
-export const Hotel =mongoose.models.Hotel || mongoose.model<IHotel>('Hotel', HotelSchema);
+export const Hotel = mongoose.models.Hotel || mongoose.model<IHotel>('Hotel', HotelSchema);
