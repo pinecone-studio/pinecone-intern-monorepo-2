@@ -51,6 +51,8 @@ input RoomInput{
 }
 type Mutation{
   createRoom(input:RoomInput!):Room!
+  updateRoom(id:ID! input:RoomInput!):Room!
+  deleteRoom(id:ID!):Room!
 }
  type Query{
    getAllRooms:[Room!]!
