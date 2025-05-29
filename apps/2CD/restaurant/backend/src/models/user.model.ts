@@ -9,10 +9,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Password: {
+  password: {
     type: String,
+    required: true,
+  },
+  wallet: {
+    type: Number,
     required: true,
   },
 });
 
-export const Food = mongoose.models.User || mongoose.model('User', UserSchema);
+export const User = mongoose.models.User || mongoose.model('User', UserSchema);
