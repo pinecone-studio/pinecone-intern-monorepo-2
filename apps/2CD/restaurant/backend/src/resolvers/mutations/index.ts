@@ -6,3 +6,4 @@ export * from './userRelatedMutations/create-user';
 export * from './userRelatedMutations/update-wallet';
 export * from './userRelatedMutations/user-login';
 export * from './userRelatedMutations/change-password';
+export * from './userRelatedMutations/reset-password';
