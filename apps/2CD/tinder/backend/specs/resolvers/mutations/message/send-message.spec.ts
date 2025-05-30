@@ -20,7 +20,7 @@ describe('sendMessage resolver', () => {
     createdAt: new Date(),
   };
 
-  const context = {}; // If your resolver uses context, mock it here
+
 
   afterEach(() => {
     jest.clearAllMocks();
