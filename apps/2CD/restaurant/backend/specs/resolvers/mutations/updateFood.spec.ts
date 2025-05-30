@@ -1,5 +1,5 @@
 import { Food } from 'src/models/food-model';
-import { updateFood } from 'src/resolvers/mutations';
+import { updateFood } from 'src/resolvers/mutations/foodRelatedMutations/update-food';
 
 jest.mock('src/models/food-model', () => ({
   Food: {

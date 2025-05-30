@@ -5,24 +5,19 @@ const FoodTypeDef = gql`
     _id: ID!
     name: String!
     price: Float!
-    description: String!
-    image: String!
-  }
-  input UpdateFood {
-    _id: ID!
-    name: String
-    price: Float
     description: String
     image: String
+    category: String
   }
 
   type Mutation {
-    createFood(name: String!, price: Float!, description: String!, image: String!): Food!
-    updateFood(input: UpdateFood!): Food!
+    createFood(name: String!, price: Float!, description: String, image: String, category: String): Food!
+    deleteFood(_id: ID!): Food!
   }
 
   type Query {
     getAllFood: [Food!]!
   }
 `;
+
 export default FoodTypeDef;
