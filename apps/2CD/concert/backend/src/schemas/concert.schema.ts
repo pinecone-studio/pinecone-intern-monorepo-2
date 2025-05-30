@@ -13,6 +13,7 @@ export const concertDef = gql`
     updatedAt: Date!
     venue: Venue!
     schedule: [Schedule!]!
+    totalProfit: Int!
   }
   input CreateConcertInput {
     title: String!

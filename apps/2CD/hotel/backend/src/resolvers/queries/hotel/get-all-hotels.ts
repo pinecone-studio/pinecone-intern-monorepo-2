@@ -1,4 +1,4 @@
-import { Hotel } from '../../models/hotel';
+import { Hotel } from '../../../models/hotel';
 import { GraphQLError } from 'graphql';
 
 export const getAllHotels = async () => {

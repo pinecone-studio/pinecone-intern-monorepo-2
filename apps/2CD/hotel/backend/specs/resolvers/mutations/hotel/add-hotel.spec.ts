@@ -1,8 +1,8 @@
-import { Hotel } from '../../../src/models/hotel';
-import { addHotel } from '../../../src/resolvers/mutations/add-hotel';
-import { IHotel } from '../../../src/models/hotel';
+import { Hotel } from '../../../../src/models/hotel';
+import { addHotel } from '../../../../src/resolvers/mutations/hotel/add-hotel';
+import { IHotel } from '../../../../src/models/hotel';
 
-jest.mock('../../../src/models/hotel', () => ({
+jest.mock('../../../../src/models/hotel', () => ({
   Hotel: jest.fn().mockImplementation((data: Partial<IHotel>) => ({
     save: jest.fn().mockResolvedValue(data),
     ...data,

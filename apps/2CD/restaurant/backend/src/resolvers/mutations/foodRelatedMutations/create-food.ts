@@ -1,9 +1,6 @@
-import { Food } from "src/models/food-model";
+import { Food } from 'src/models/food-model';
 
-export const createFood = async (
- _: unknown, 
-  args: { name: string; price: number; description?: string; image?: string }
-) => {
+export const createFood = async (_: unknown, args: { name: string; price: number; description?: string; image?: string }) => {
   const { name, price, description, image } = args;
 
   try {
@@ -16,6 +13,6 @@ export const createFood = async (
     const savedFood = await food.save();
     return savedFood;
   } catch (err: any) {
-    throw new Error("Error creating food item: " + err.message);
+    throw new Error('Error creating food item: ' + err.message);
   }
 };
