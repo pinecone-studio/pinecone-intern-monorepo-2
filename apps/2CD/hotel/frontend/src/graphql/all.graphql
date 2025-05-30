@@ -1,7 +1,31 @@
-query Query {
-  sampleQuery
-}
+# query Query {
+#   getAllHotels{}
+#   getHotelById{}
+#   getAllRooms{}
+#   getRoomForId{}
+# }
 
-mutation Mutation {
-  sampleMutation
+# mutation Mutation {
+#   addHotel{}
+#   CreateBooking{}
+#   updateBooking{}
+#   createRoom{}
+#   updateRoom{}
+#   deleteRoom{}
+#   ...reviewMutations{}
+# }
+mutation AddHotel($input: AddHotelInput!) {
+  addHotel(input: $input) {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+  }
 }
