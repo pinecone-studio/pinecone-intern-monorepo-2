@@ -7,23 +7,46 @@ jest.mock('src/models', () => ({
     find: jest.fn(),
   },
 }));
-const mockdata = [
+
+const mockDataSingle = [
   {
     name: 'name',
     id: '683579fa8697af10c2662b41',
     avatarImage: 'http://sdjnsdvj',
   },
 ];
-const name = 'name';
-describe('getArtist', () => {
-  const mockInfo = {} as GraphQLResolveInfo;
+
+const mockDataAll = [
+  ...mockDataSingle,
+  {
+    name: 'asdsad',
+    id: '683579fa8697af10c2662b41',
+    avatarImage: 'http://sdjnsdvj',
+  },
+];
+
+const mockInfo = {} as GraphQLResolveInfo;
+
+describe('getArtists', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it('should return artists include input name', async () => {
-    (ArtistModel.find as jest.Mock).mockReturnValueOnce(mockdata);
-    const result = await getArtists!({}, { name }, {}, mockInfo);
+
+  it('should return artists matching the input name', async () => {
+    (ArtistModel.find as jest.Mock).mockResolvedValueOnce(mockDataSingle);
+
+    const result = await getArtists!({}, { name: 'name' }, {}, mockInfo);
+
     expect(ArtistModel.find).toHaveBeenCalledWith({ name: { $regex: 'name', $options: 'i' } });
-    expect(result).toEqual(mockdata);
+    expect(result).toEqual(mockDataSingle);
+  });
+
+  it('should return all artists if name is empty', async () => {
+    (ArtistModel.find as jest.Mock).mockResolvedValueOnce(mockDataAll);
+
+    const result = await getArtists!({}, { name: '' }, {}, mockInfo);
+
+    expect(ArtistModel.find).toHaveBeenCalledWith({});
+    expect(result).toEqual(mockDataAll);
   });
 });
