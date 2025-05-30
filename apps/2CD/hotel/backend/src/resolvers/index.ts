@@ -17,6 +17,7 @@ export const resolvers = {
     createRoom,
     createUser,
     updateUserRoleToAdmin
+    
   },
   Query: {
     getAllHotels,
