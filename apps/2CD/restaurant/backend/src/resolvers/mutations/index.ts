@@ -7,3 +7,4 @@ export * from './userRelatedMutations/update-wallet';
 export * from './userRelatedMutations/user-login';
 export * from './userRelatedMutations/change-password';
 export * from './userRelatedMutations/reset-password';
+export * from './orderMutations/create-order';
