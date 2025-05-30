@@ -29,11 +29,22 @@ const UserTypeDef = gql`
     email: String!
     password: String!
   }
+  type ChangePasswordResponse {
+    success: Boolean!
+    message: String!
+  }
+
+  input ChangePasswordInput {
+    currentPassword: String!
+    newPassword: String!
+    userID: String!
+  }
 
   type Mutation {
     createUser(input: CreateUserInput!): User!
     updateWallet(input: UpdateWalletInput!): User!
     userLogin(input: LoginUserInput!): LoginResponse!
+    changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
   }
 `;
 

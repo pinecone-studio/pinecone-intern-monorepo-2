@@ -10,7 +10,6 @@ export const userLogin = async (_: unknown, { input }: { input: LoginType }) => 
     const user = await findUserByEmail(input.email);
     await verifyPassword(input.password, user.password);
     const token = generateToken(user);
-
     return {
       token,
     };
