@@ -1,157 +1,86 @@
-import mongoose from 'mongoose';
-import { ApolloServer, BaseContext } from '@apollo/server';
-import { typeDefs } from 'src/schemas';
-import { resolvers } from 'src/resolvers';
-import { User } from 'src/models/user';
-import dotenv from 'dotenv';
+import { createUser } from 'src/resolvers/mutations/create-user';
+import { User, UserRole } from 'src/models/user';
 import jwt from 'jsonwebtoken';
-import { UserRole } from 'src/models/user';
 
-dotenv.config({ path: '.env.test' });
+jest.mock('src/models/user');
 
-let server: ApolloServer;
+describe('createUser resolver', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Clear env variable before each test for consistent results
+    delete process.env.JWT_SECRET;
+  });
 
-beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI as string);
-  server = new ApolloServer({ typeDefs, resolvers });
-  await server.start();
-});
+  it('throws error if email already exists', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue({ _id: 'existing-id' });
 
-afterAll(async () => {
-  await mongoose.disconnect();
-  await server.stop();
-});
+    await expect(
+      createUser(null, {
+        input: { email: 'dup@example.com', password: 'pass', phoneNumber: '123' },
+      })
+    ).rejects.toThrow('User already exist');
 
-beforeEach(async () => {
-  await User.deleteMany({});
-});
+    expect(User.findOne).toHaveBeenCalledWith({ email: 'dup@example.com' });
+  });
 
-const CREATE_USER_MUTATION = `
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      user {
-        _id
-        email
-        phoneNumber
-        role
-      }
-      token
-    }
-  }
-`;
+  it('creates new user with default USER role and uses fallback JWT secret', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(null);
 
-type ExecuteOperation = (_options: {
-  query: string;
-  variables?: Record<string, unknown>;
-}) => Promise<{
-  data?: Record<string, unknown>;
-  errors?: Error[] | undefined;
-}>;
-
-function createTestClient(server: ApolloServer<BaseContext>): { executeOperation: ExecuteOperation } {
-  return {
-    executeOperation: async ({ query, variables }) => {
-      const result = await server.executeOperation({ query, variables });
-      let data: Record<string, unknown> | undefined = undefined;
-      let errors: Error[] | undefined = undefined;
-
-      if (result.body?.kind === 'single') {
-        data = result.body.singleResult.data as Record<string, unknown> | undefined;
-        errors = result.body.singleResult.errors as Error[] | undefined;
-      } else if (result.body?.kind === 'incremental') {
-        data = result.body.initialResult.data as Record<string, unknown> | undefined;
-        errors = result.body.initialResult.errors as Error[] | undefined;
-      }
-
-      return { data, errors };
-    },
-  };
-}
-
-describe('createUser mutation (real MongoDB)', () => {
-  it('should create a new user and return a valid token', async () => {
-    const { executeOperation } = createTestClient(server);
-
-    const result = await executeOperation({
-      query: CREATE_USER_MUTATION,
-      variables: {
-        input: {
-          email: 'test1-create@example.com',
-          password: 'test123',
-          phoneNumber: '1234567890',
-          role: UserRole.ADMIN,
-        },
-      },
+    (User.prototype.save as jest.Mock).mockResolvedValue({
+      _id: 'new-id',
+      email: 'new@example.com',
+      phoneNumber: '123',
+      role: UserRole.USER,
     });
 
-    const data = result.data as {
-      createUser?: { user?: { email?: string; role?: string }; token?: string };
-    };
+    // Clear JWT_SECRET to test fallback
+    delete process.env.JWT_SECRET;
 
-    expect(data?.createUser?.user?.email).toBe('test1-create@example.com');
-    expect(data?.createUser?.user?.role).toBe('ADMIN');
-    expect(data?.createUser?.token).toBeDefined();
-    expect(typeof data?.createUser?.token).toBe('string');
+    const signSpy = jest.spyOn(jwt, 'sign').mockImplementation(() => 'dummy-token');
 
-    const token = data?.createUser?.token;
-    expect(token).toBeDefined();
-    const decoded = jwt.verify(token as string, process.env.JWT_SECRET || 'test-secret') as { userId: string };
-    expect(decoded).toHaveProperty('userId');
+    const result = await createUser(null, {
+      input: { email: 'new@example.com', password: 'pass', phoneNumber: '123' },
+    });
+
+    expect(result.user.email).toBe('new@example.com');
+    expect(result.user.role).toBe(UserRole.USER); // default role
+    expect(result.token).toBe('dummy-token');
+    expect(signSpy).toHaveBeenCalledWith(
+      { userId: 'new-id' },
+      'test-secret',  // fallback secret used
+      { expiresIn: '1d' }
+    );
+    expect(User.findOne).toHaveBeenCalledWith({ email: 'new@example.com' });
+    expect(User.prototype.save).toHaveBeenCalled();
   });
 
-it('throws error if user with email already exists', async () => {
-  await server.executeOperation({
-    query: CREATE_USER_MUTATION,
-    variables: {
-      input: {
-        email: 'duplicate@example.com',
-        password: 'password123',
-        phoneNumber: '99119911',
-      },
-    },
+  it('creates new user with explicit role and environment JWT secret', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(null);
+
+    (User.prototype.save as jest.Mock).mockResolvedValue({
+      _id: 'new-id-2',
+      email: 'admin@example.com',
+      phoneNumber: '456',
+      role: UserRole.ADMIN,
+    });
+
+    process.env.JWT_SECRET = 'real-secret';
+
+    const signSpy = jest.spyOn(jwt, 'sign').mockImplementation(() => 'real-token');
+
+    const result = await createUser(null, {
+      input: { email: 'admin@example.com', password: 'pass', phoneNumber: '456', role: UserRole.ADMIN },
+    });
+
+    expect(result.user.email).toBe('admin@example.com');
+    expect(result.user.role).toBe(UserRole.ADMIN);
+    expect(result.token).toBe('real-token');
+    expect(signSpy).toHaveBeenCalledWith(
+      { userId: 'new-id-2' },
+      'real-secret',
+      { expiresIn: '1d' }
+    );
+    expect(User.findOne).toHaveBeenCalledWith({ email: 'admin@example.com' });
+    expect(User.prototype.save).toHaveBeenCalled();
   });
-
-  const { executeOperation } = createTestClient(server);
-  const response = await executeOperation({
-    query: CREATE_USER_MUTATION,
-    variables: {
-      input: {
-        email: 'duplicate@example.com',
-        password: 'password123',
-        phoneNumber: '99119911',
-      },
-    },
-  });
-
-  expect(response.errors?.[0].message).toBe('User already exist');
-});
-
-
-it('should create token using fallback secret if JWT_SECRET is undefined', async () => {
-  const originalSecret = process.env.JWT_SECRET;
-  delete process.env.JWT_SECRET;
-
-  const { executeOperation } = createTestClient(server);
-
-  const result = await executeOperation({
-    query: CREATE_USER_MUTATION,
-    variables: {
-      input: {
-        email: 'fallback-secret@example.com',
-        password: 'password',
-        phoneNumber: '2222222222',
-      },
-    },
-  });
-
-  const data = result.data as { createUser?: { token?: string } };
-  const token = data?.createUser?.token;
-  expect(token).toBeDefined();
-
-  expect(typeof token).toBe('string');
-  const decoded = jwt.verify(token as string, 'test-secret') as unknown as { userId: string };
-  expect(decoded).toHaveProperty('userId');
-
-  process.env.JWT_SECRET = originalSecret; 
-});
 });
