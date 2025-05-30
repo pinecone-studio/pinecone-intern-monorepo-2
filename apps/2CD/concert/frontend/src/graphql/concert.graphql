@@ -1,0 +1,29 @@
+query GetConcert {
+  getConcert {
+    artists {
+      name
+    }
+    featured
+    id
+    schedule {
+      startDate
+    }
+    ticket {
+      id
+      price
+      quantity
+      type
+    }
+    totalProfit
+    title
+    venue {
+      address
+      name
+      capacity
+    }
+  }
+}
+
+mutation CreateConcert($input: CreateConcertInput!) {
+  createConcert(input: $input)
+}
