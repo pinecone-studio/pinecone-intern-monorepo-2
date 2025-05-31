@@ -9,10 +9,12 @@ import { getRoomForId } from './queries/room/get-room-for-id';
 import {updateRoom} from './mutations/room/update-room'
 import { deleteRoom } from './mutations/room/delete-room';
 import reviewMutations from './mutations/review-mutations';
+import { updateHotel } from './mutations/hotel/update-hotel';
 
 export const resolvers = {
   Mutation: {
     addHotel,
+    updateHotel,
     CreateBooking,
     updateBooking,
     createRoom,
