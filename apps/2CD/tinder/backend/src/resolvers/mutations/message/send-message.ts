@@ -2,13 +2,6 @@ import Match from 'src/models/match';
 import Message from 'src/models/message';
 import { SendMessageArgs } from 'src/types/graphql';
 
-function validateUser(context: any) {
-  if (!context.user || !context.user._id) {
-    throw new Error('Unauthorized');
-  }
-  return context.user._id.toString();
-}
-
 function validateContent(content: string) {
   if (!content || !content.trim()) {
     throw new Error('Message content cannot be empty');
@@ -29,16 +22,15 @@ function validateUserInMatch(match: any, senderId: string) {
   }
 }
 
-const sendMessage = async (_: any, { matchId, content }: SendMessageArgs, context: any) => {
+const sendMessage = async (_: any, { matchId, senderId, content }: SendMessageArgs) => {
   try {
     validateContent(content);
-    const senderId = validateUser(context);
     const match = await getMatch(matchId);
     validateUserInMatch(match, senderId);
 
     const newMessage = await Message.create({
-      matchId,
-      senderId,
+      match: matchId,
+      sender: senderId,
       content,
       createdAt: new Date(),
     });
@@ -48,5 +40,6 @@ const sendMessage = async (_: any, { matchId, content }: SendMessageArgs, contex
     throw new Error(error instanceof Error ? error.message : 'Failed to send message');
   }
 };
+
 
 export default sendMessage;
