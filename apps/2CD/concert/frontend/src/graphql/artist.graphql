@@ -1,0 +1,11 @@
+query GetArtists {
+  getArtists {
+    id
+    name
+    avatarImage
+  }
+}
+
+mutation CreateArtist($input: CreateArtistInput!) {
+  createArtist(input: $input)
+}
