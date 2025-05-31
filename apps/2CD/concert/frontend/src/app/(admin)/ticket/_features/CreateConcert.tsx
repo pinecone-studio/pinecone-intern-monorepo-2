@@ -9,12 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { ConcertInput, concertSchema } from '@/zod-schemas/concert-zod';
-import { DatePicker } from '../_components/DatePicker';
 import { TicketType, useCreateConcertMutation } from '@/generated';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { SelcetArtist } from '../_components/SelectArtist';
-import { FormItemComp } from '../_components/FormItemComp';
+import { DatePicker, FormItemComp, SelectArtist } from '../_components';
 const CreateConcert = () => {
   const [open, setOpen] = useState(false);
   const form = useForm<ConcertInput>({
@@ -22,7 +20,7 @@ const CreateConcert = () => {
     values: {
       title: '',
       description: '',
-      artists: ['683579fa8697af10c2662b41'],
+      artists: [],
       schedule: [],
       venueId: '683421865ac6aef99c922dfa',
       thumbnailUrl: '',
@@ -47,6 +45,7 @@ const CreateConcert = () => {
     if (!error) {
       toast('Тасалбар амжилттай үүслээ');
       setOpen(false);
+      form.reset();
     } else if (error) {
       toast(error?.message);
       throw new Error(error.message);
@@ -56,14 +55,14 @@ const CreateConcert = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <p>Тасалбар Нэмэх</p>
+        <Button data-testid="create-concert-modal-btn" variant="outline">
+          Тасалбар Нэмэх
           <CirclePlus />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[655px]">
         <DialogHeader>
-          <DialogTitle>Тасалбар Нэмэх</DialogTitle>
+          <DialogTitle>Тасалбар нэмэх</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(handleCreateConcert)}>
@@ -82,7 +81,7 @@ const CreateConcert = () => {
                 </FormItem>
               )}
             />
-            <FormField control={form.control} name="artists" render={({ field }) => <SelcetArtist defaultValue={field.value} setValue={field.onChange} />} />
+            <FormField control={form.control} name="artists" render={({ field }) => <SelectArtist defaultValue={field.value} setValue={field.onChange} />} />
             <FormField control={form.control} name="schedule" render={({ field }) => <DatePicker setSchedule={field.onChange} schedule={field.value} />} />
             {form.getValues('ticket').map((ticket, i) => (
               <div key={i} className="grid grid-cols-2 gap-4">
