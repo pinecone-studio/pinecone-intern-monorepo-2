@@ -3,6 +3,7 @@ import Caro from './components/Caro';
 import HomeContainer from './components/HomeContainer';
 
 const Page = () => {
+
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-[#FFFFFF]">
       <div className="w-full max-w-[430px] min-h-screen mx-auto flex flex-col gap-6 relative px-4">
