@@ -15,7 +15,6 @@ export const typeDefs = gql`
     description: String!
     phoneNumber: String!
     amenities: [String!]
-    rooms: [ID!]
     hotelStar: Int
     guestReviews: [ID!]
     bookings: [ID!]
@@ -29,7 +28,6 @@ export const typeDefs = gql`
     description: String
     phoneNumber: String
     amenities: [String!]
-    rooms: [ID!]
     hotelStar: Int
     guestReviews: [ID!]
     bookings: [ID!]
@@ -44,7 +42,6 @@ export const typeDefs = gql`
     description: String!
     phoneNumber: String!
     amenities: [String!]
-    rooms: [ID!]
     hotelStar: Int
     guestReviews: [ID!]
     bookings: [ID!]
