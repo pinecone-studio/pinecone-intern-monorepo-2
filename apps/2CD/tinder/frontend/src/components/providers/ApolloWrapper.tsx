@@ -4,6 +4,7 @@ import { HttpLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
 import { PropsWithChildren } from 'react';
 import { setContext } from '@apollo/client/link/context';
+import { useAuth } from "@clerk/nextjs";
 
 const uri = process.env.BACKEND_URI ?? 'http://localhost:4200/api/graphql';
 
@@ -13,15 +14,21 @@ const makeClient = () => {
     fetchOptions: { cache: 'no-store' },
   });
 
+
+
+
+
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
-    return {
+    const { getToken } = useAuth();
+    return getToken().then(token => ({
       headers: {
         ...headers,
-        authorization: token ?? '',
+        Authorization: token ? `Bearer ${token}` : '',
       },
-    };
+    }));
   });
+
+
 
   return new ApolloClient({
     cache: new InMemoryCache(),

@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, // excludes password from queries by default
+      select: false,
     },
     email: {
       type: String,
@@ -20,50 +20,6 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    images: {
-      type: [String],
-      default: [],
-      validate: [(val: string[]) => val.length > 1, 'At least two images are required'],
-    },
-    bio: {
-      type: String,
-      default: '',
-      maxlength: 500,
-    },
-    age: {
-      type: Number,
-      required: true,
-      min: 18,
-    },
-    gender: {
-      type: String,
-      enum: ['Male', 'Female', 'Other'],
-      required: true,
-    },
-    lookingFor: {
-      type: String,
-      enum: ['Male', 'Female', 'Both'],
-      required: true,
-    },
-    interests: {
-      type: [String],
-      default: [],
-    },
-    profession: {
-      type: String,
-      default: '',
-    },
-    education: {
-      type: String,
-      default: '',
-    },
-    isCertified: {
-      type: Boolean,
-      default: false,
-    },
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 );

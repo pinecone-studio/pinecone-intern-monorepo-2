@@ -7,13 +7,13 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validateInputs = (email: string, password: string) => {
   if (!email || !password) {
-    throw new GraphQLError('Email and password are required', {
+    throw new GraphQLError('Емэйл & нууц үг шаардлагатай', {
       extensions: { code: 'BAD_USER_INPUT' }
     });
   }
 
   if (!EMAIL_REGEX.test(email)) {
-    throw new GraphQLError('Invalid email format', {
+    throw new GraphQLError('Буруу емэйл хаяг', {
       extensions: { code: 'BAD_USER_INPUT' }
     });
   }
@@ -37,7 +37,7 @@ export const login = async (_: unknown, { email, password }: { email: string; pa
 
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    throw new GraphQLError('Хэрэглэгч олдсонгүй', {
+    throw new GraphQLError('Хэрэглэгч одсонгүй', {
       extensions: { code: 'BAD_USER_INPUT' }
     });
   }

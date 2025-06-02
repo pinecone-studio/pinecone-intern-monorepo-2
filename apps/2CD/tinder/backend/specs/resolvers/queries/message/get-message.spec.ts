@@ -3,63 +3,42 @@ import Message from 'src/models/message';
 
 jest.mock('src/models/message');
 
-const mockContext = {
-  user: { _id: 'user123' },
-};
-
-describe('getMessage', () => {
-  const mockMessageId = 'msg123';
-  const mockMessage = {
-    _id: mockMessageId,
-    content: 'Hello',
-    sender: 'user123',
-  };
+describe('getMessage (by matchId)', () => {
+  const mockMatchId = 'match123';
+  const mockMessages = [
+    { _id: 'msg1', content: 'Hi', sender: 'user1', match: mockMatchId },
+    { _id: 'msg2', content: 'Hello', sender: 'user2', match: mockMatchId },
+  ];
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should throw if user is not authenticated', async () => {
-    await expect(getMessage(null, { messageId: mockMessageId }, {}))
-      .rejects
-      .toThrow('Unauthorized');
+  it('should return all messages for a given matchId', async () => {
+    (Message.find as jest.Mock).mockReturnValue({
+      sort: jest.fn().mockResolvedValue(mockMessages),
+    });
+
+    const result = await getMessage(null, { matchId: mockMatchId });
+
+    expect(result).toEqual(mockMessages);
+    expect(Message.find).toHaveBeenCalledWith({ match: mockMatchId });
   });
 
-  it('should throw if message is not found', async () => {
-    (Message.findById as jest.Mock).mockResolvedValue(null);
-
-    await expect(getMessage(null, { messageId: 'non-existent' }, mockContext))
-      .rejects
-      .toThrow('Message not found');
-  });
-
-  it('should return the message if found and authorized', async () => {
-    (Message.findById as jest.Mock).mockResolvedValue(mockMessage);
-
-    const result = await getMessage(null, { messageId: mockMessageId }, mockContext);
-    expect(result).toEqual(mockMessage);
-    expect(Message.findById).toHaveBeenCalledWith(mockMessageId);
-  });
-
-  it('should handle unexpected errors and throw the original message', async () => {
-    const customError = new Error('Database error');
-    (Message.findById as jest.Mock).mockImplementation(() => {
+  it('should handle errors and throw original error message if available', async () => {
+    const customError = new Error('DB failure');
+    (Message.find as jest.Mock).mockImplementation(() => {
       throw customError;
     });
 
-    await expect(getMessage(null, { messageId: mockMessageId }, mockContext))
-      .rejects
-      .toThrow('Database error');
+    await expect(getMessage(null, { matchId: mockMatchId })).rejects.toThrow('DB failure');
   });
 
   it('should throw "Unknown error" when error.message is undefined', async () => {
-    // Mock Message.findById to throw an error without a message
-    (Message.findById as jest.Mock).mockImplementation(() => {
+    (Message.find as jest.Mock).mockImplementation(() => {
       throw {};
     });
 
-    await expect(getMessage(null, { messageId: 'msg123' }, mockContext))
-      .rejects
-      .toThrow('Unknown error');
+    await expect(getMessage(null, { matchId: mockMatchId })).rejects.toThrow('Unknown error');
   });
 });

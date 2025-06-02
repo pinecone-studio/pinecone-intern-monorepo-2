@@ -1,108 +1,112 @@
 import sendMessage from 'src/resolvers/mutations/message/send-message';
 import Match from 'src/models/match';
 import Message from 'src/models/message';
+import { SendMessageArgs } from 'src/types/graphql';
 
 jest.mock('src/models/match');
 jest.mock('src/models/message');
 
-describe('sendMessage', () => {
-  const mockUserId = 'user123';
-  const mockContext = { user: { _id: mockUserId } };
+describe('sendMessage resolver', () => {
+  const mockMatch = {
+    _id: 'match123',
+    users: ['user1', 'user2'],
+  };
 
-  beforeEach(() => {
+  const mockMessage = {
+    _id: 'message123',
+    match: 'match123',
+    sender: 'user1',
+    content: 'Hello!',
+    createdAt: new Date(),
+  };
+
+
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should send a message successfully', async () => {
-    const matchId = 'match456';
-    const content = 'Hello there!';
-
-    const mockMatch = {
-      _id: matchId,
-      users: [mockUserId, 'userB'],
-    };
-
-    const mockMessage = {
-      _id: 'msg789',
-      matchId,
-      senderId: mockUserId,
-      content,
-      createdAt: new Date(),
-    };
-
-    // Mock implementations
     (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
     (Message.create as jest.Mock).mockResolvedValue(mockMessage);
 
-    const result = await sendMessage(null, { matchId, content }, mockContext);
+    const args: SendMessageArgs = {
+      matchId: 'match123',
+      senderId: 'user1',
+      content: 'Hello!',
+    };
 
-    expect(Match.findById).toHaveBeenCalledWith(matchId);
-    expect(Message.create).toHaveBeenCalledWith({
-      matchId,
-      senderId: mockUserId,
-      content,
-      createdAt: expect.any(Date),
-    });
+    const result = await sendMessage({}, args);
+
+    expect(Match.findById).toHaveBeenCalledWith('match123');
+    expect(Message.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        match: 'match123',
+        sender: 'user1',
+        content: 'Hello!',
+      })
+    );
     expect(result).toEqual(mockMessage);
   });
 
-  it('should throw if user is not authenticated', async () => {
-    await expect(
-      sendMessage(null, { matchId: 'match123', content: 'Hi' }, {})
-    ).rejects.toThrow('Unauthorized');
+  it('should throw error if message content is empty', async () => {
+    const args: SendMessageArgs = {
+      matchId: 'match123',
+      senderId: 'user1',
+      content: '   ',
+    };
+
+    await expect(sendMessage({}, args)).rejects.toThrow('Message content cannot be empty');
   });
 
-  it('should throw if match not found', async () => {
+  it('should throw error if match is not found', async () => {
     (Match.findById as jest.Mock).mockResolvedValue(null);
 
-    await expect(
-      sendMessage(null, { matchId: 'not-found', content: 'Hi' }, mockContext)
-    ).rejects.toThrow('Match not found');
-  });
-
-  it('should throw if user is not part of the match', async () => {
-    const matchId = 'match999';
-    const mockMatch = {
-      _id: matchId,
-      users: ['anotherUser'], // does not include mockUserId
+    const args: SendMessageArgs = {
+      matchId: 'invalidId',
+      senderId: 'user1',
+      content: 'Hi there!',
     };
-    (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
 
-    await expect(
-      sendMessage(null, { matchId, content: 'Hey' }, mockContext)
-    ).rejects.toThrow('You are not part of this match');
+    await expect(sendMessage({}, args)).rejects.toThrow('Match not found');
   });
 
-  it('should throw if message content is empty', async () => {
-    const mockMatch = {
-      _id: 'match123',
-      users: [mockUserId],
+  it('should throw error if sender is not in match', async () => {
+    const badMatch = { ...mockMatch, users: ['user2', 'user3'] };
+    (Match.findById as jest.Mock).mockResolvedValue(badMatch);
+
+    const args: SendMessageArgs = {
+      matchId: 'match123',
+      senderId: 'user1',
+      content: 'Hi there!',
     };
+
+    await expect(sendMessage({}, args)).rejects.toThrow('You are not part of this match');
+  });
+
+  it('should throw a generic error if Message.create fails', async () => {
     (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
+    (Message.create as jest.Mock).mockRejectedValue(new Error('DB write error'));
 
-    await expect(
-      sendMessage(null, { matchId: 'match123', content: '' }, mockContext)
-    ).rejects.toThrow('Message content cannot be empty');
+    const args: SendMessageArgs = {
+      matchId: 'match123',
+      senderId: 'user1',
+      content: 'Hello!',
+    };
 
-    await expect(
-      sendMessage(null, { matchId: 'match123', content: '   ' }, mockContext)
-    ).rejects.toThrow('Message content cannot be empty');
+    await expect(sendMessage({}, args)).rejects.toThrow('DB write error');
   });
+  it('should throw a generic error if unknown error is thrown', async () => {
+  (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
+  (Message.create as jest.Mock).mockRejectedValue('something weird happened'); // Not an Error instance
 
-  it('should rethrow the actual error message when error is instance of Error', async () => {
-    const mockError = new Error('Some known error');
-    (Match.findById as jest.Mock).mockRejectedValue(mockError);
+  const args = {
+    matchId: 'match123',
+    senderId: 'user1',
+    content: 'Hi there!',
+  };
 
-    await expect(
-      sendMessage(null, { matchId: 'match123', content: 'Hi' }, mockContext)
-    ).rejects.toThrow('Some known error');
-  });
+  await expect(sendMessage({}, args,)).rejects.toThrow('Failed to send message');
+});
 
-  it('should throw a generic error when error is not an Error instance', async () => {
-    (Match.findById as jest.Mock).mockRejectedValue('Some error string');
-
-    await expect(
-      sendMessage(null, { matchId: 'match123', content: 'Hi' }, mockContext)
-    ).rejects.toThrow('Failed to send message');
-  });
 });

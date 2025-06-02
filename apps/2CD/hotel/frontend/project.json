@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["hotel-frontend"],
+          "groups": ["Hotel-frontend-2025-2CD"],
           "env": "prod"
         }
       }
