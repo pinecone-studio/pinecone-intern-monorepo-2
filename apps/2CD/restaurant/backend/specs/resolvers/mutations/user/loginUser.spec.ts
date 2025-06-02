@@ -1,5 +1,5 @@
 import { User } from 'src/models/user.model';
-import { userLogin } from 'src/resolvers/mutations/userRelatedMutations/user-login';
+import { userLogin } from 'src/resolvers/mutations/user/user-login';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 jest.mock('src/models/user.model', () => ({

@@ -1,4 +1,4 @@
-import { findUserByEmail, verifyPassword, generateToken } from 'src/resolvers/mutations/userRelatedMutations/user-helpers';
+import { findUserByEmail, verifyPassword, generateToken } from 'src/resolvers/mutations/user/user-helpers';
 import { User } from 'src/models/user.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';

@@ -1,16 +1,18 @@
 import { resetPassword } from 'src/resolvers/mutations';
-import { findUserByEmail } from 'src/resolvers/mutations/userRelatedMutations/user-helpers';
+import { findUserByEmail } from 'src/resolvers/mutations/user/user-helpers';
 import { User } from 'src/models/user.model';
 import bcrypt from 'bcryptjs';
 
-jest.mock('src/resolvers/mutations/userRelatedMutations/user-helpers', () => ({
+jest.mock('src/resolvers/mutations/user/user-helpers', () => ({
   findUserByEmail: jest.fn(),
 }));
+
 jest.mock('src/models/user.model', () => ({
   User: {
     findByIdAndUpdate: jest.fn(),
   },
 }));
+
 jest.mock('bcryptjs', () => ({
   hash: jest.fn(),
 }));

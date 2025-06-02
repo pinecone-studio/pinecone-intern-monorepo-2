@@ -1,5 +1,4 @@
-import { Food } from 'src/models/food-model';
-
+import { Food } from "src/models/food-model";
 export const deleteFood = async (_: unknown, args: { id: string }) => {
   const { id } = args;
   try {
@@ -11,4 +10,4 @@ export const deleteFood = async (_: unknown, args: { id: string }) => {
   } catch (err: any) {
     throw new Error('Error deleting food item: ' + err.message);
   }
-};
+}

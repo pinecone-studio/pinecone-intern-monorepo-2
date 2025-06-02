@@ -18,6 +18,7 @@ describe('createUser', () => {
     userName: 'testuser',
     email: 'existing@example.com',
     password: 'password123',
+    phoneNumber: '99999999', // ← added
   };
 
   it('should throw error if user with the same email already exists', async () => {
@@ -30,7 +31,6 @@ describe('createUser', () => {
 
     expect(User.findOne).toHaveBeenCalledWith({ email: 'existing@example.com' });
   });
-  jest.mock('bcryptjs');
 
   it('it should hash the password and salt round 10', async () => {
     const password = 'test123';
@@ -51,6 +51,7 @@ describe('createUser', () => {
       userName: 'testuser',
       email: 'test@example.com',
       password: 'password123',
+      phoneNumber: '88888888', // ← added
     };
 
     await createUser(null, { input });
@@ -60,6 +61,7 @@ describe('createUser', () => {
       email: input.email,
       password: 'hashedPassword123',
       wallet: 0,
+      phoneNumber: input.phoneNumber, // ← added
     });
   });
 });

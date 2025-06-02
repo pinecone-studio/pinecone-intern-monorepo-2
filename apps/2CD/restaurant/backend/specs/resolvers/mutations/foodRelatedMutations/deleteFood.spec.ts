@@ -1,4 +1,4 @@
-import { deleteFood } from 'src/resolvers/mutations/foodRelatedMutations/delete-food';
+import { deleteFood } from 'src/resolvers/mutations/food/delete-food';
 import { Food } from 'src/models/food-model';
 describe('delete food mutation unit tests', () => {
   it('should be defined', () => {
