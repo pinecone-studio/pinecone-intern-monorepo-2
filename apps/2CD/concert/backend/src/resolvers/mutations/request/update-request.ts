@@ -1,4 +1,4 @@
-import { MutationResolvers, RequestStatus } from 'src/generated';
+import { MutationResolvers, RequestStatus, Response } from 'src/generated';
 import { RequestModel } from 'src/models';
 import { updateReqZod } from 'src/zodSchemas';
 
@@ -8,7 +8,7 @@ export const updateRequest: MutationResolvers['updateRequest'] = async (_, { inp
   if (!updateReq) {
     throw new Error('Request not found');
   }
-  const res = await RequestModel.findByIdAndUpdate(values.id, { status: RequestStatus.Done }, { new: true });
+  await RequestModel.findByIdAndUpdate(values.id, { status: RequestStatus.Done }, { new: true });
 
-  return res;
+  return Response.Success;
 };
