@@ -4,6 +4,5 @@ import FoodTypeDef from './food.schema';
 import CategoryTypeDef from './category.schema';
 import UserTypeDef from './user.schema';
 import OrderTypeDef from './order.schema';
-
-export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef, OrderTypeDef ]);
-
+import walletHistoryTypeDef from './wallet-notification.schema';
+export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef, OrderTypeDef, walletHistoryTypeDef]);

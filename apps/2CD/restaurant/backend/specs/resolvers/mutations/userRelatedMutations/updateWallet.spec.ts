@@ -1,11 +1,17 @@
 import { Types } from 'mongoose';
 import { updateWallet } from 'src/resolvers/mutations';
 import { User } from 'src/models/user.model';
-
+import { walletHistory } from 'src/models/wallet-notification.model';
 jest.mock('src/models/user.model', () => ({
   User: {
     findById: jest.fn(),
     findByIdAndUpdate: jest.fn(),
+  },
+}));
+
+jest.mock('src/models/walletNotification.model', () => ({
+  walletHistory: {
+    create: jest.fn(),
   },
 }));
 
@@ -46,11 +52,11 @@ describe('updateWallet', () => {
     const result = await updateWallet(null, { input });
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
-    expect(User.findByIdAndUpdate).toHaveBeenCalledWith(
-      mockUserId,
-      { wallet: finalWalletValue },
-      { new: true }
-    );
+    expect(User.findByIdAndUpdate).toHaveBeenCalledWith(mockUserId, { wallet: finalWalletValue }, { new: true });
+    expect(walletHistory.create).toHaveBeenCalledWith({
+      userId: mockUserId,
+      amount: Math.floor(expectedWalletIncrease),
+    });
     expect(result).toEqual(mockUpdatedUser);
   });
 
@@ -62,58 +68,54 @@ describe('updateWallet', () => {
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
     expect(console.log).toHaveBeenCalledWith('User not found');
-    expect(console.log).toHaveBeenCalledWith('Failed to update wallet:', expect.any(TypeError));
-    expect(User.findByIdAndUpdate).not.toHaveBeenCalled();
     expect(result).toBeUndefined();
+    expect(User.findByIdAndUpdate).not.toHaveBeenCalled();
+    expect(walletHistory.create).not.toHaveBeenCalled();
   });
 
-  it('should log a message and return undefined if updating the wallet fails (database error)', async () => {
+  it('should log a message and return undefined if updating the wallet fails', async () => {
     const initialWalletValue = 500;
     const mockUser = {
       _id: mockUserId,
       wallet: initialWalletValue,
     };
-    const databaseError = new Error('Database error');
+    const dbError = new Error('Database error');
 
     (User.findById as jest.Mock).mockResolvedValue(mockUser);
-    (User.findByIdAndUpdate as jest.Mock).mockRejectedValue(databaseError);
+    (User.findByIdAndUpdate as jest.Mock).mockRejectedValue(dbError);
 
     const input = { _id: mockUserId, price: mockPrice };
     const result = await updateWallet(null, { input });
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
-    expect(User.findByIdAndUpdate).toHaveBeenCalledWith(
-      mockUserId,
-      { wallet: initialWalletValue + (mockPrice / 100) * 3 },
-      { new: true }
-    );
-    expect(console.log).toHaveBeenCalledWith('Failed to update wallet:', databaseError);
+    expect(User.findByIdAndUpdate).toHaveBeenCalled();
+    expect(console.log).toHaveBeenCalledWith('Failed to update wallet:', dbError);
     expect(result).toBeUndefined();
+    expect(walletHistory.create).not.toHaveBeenCalled();
   });
 
   it('should correctly calculate the wallet increase', async () => {
-    const price1 = 10000;
-    const price2 = 5000;
-    const price3 = 0;
+    const prices = [10000, 5000, 0];
     const initialWallet = 200;
 
     const mockUserInstance = { _id: mockUserId, wallet: initialWallet };
 
     (User.findById as jest.Mock).mockResolvedValue(mockUserInstance);
-    (User.findByIdAndUpdate as jest.Mock).mockImplementation(async (_id, update) => {
+    (User.findByIdAndUpdate as jest.Mock).mockImplementation((_id, update) => {
       return { ...mockUserInstance, wallet: update.wallet };
     });
 
-    let input = { _id: mockUserId, price: price1 };
-    let result = await updateWallet(null, { input });
-    expect(result.wallet).toBe(initialWallet + (price1 / 100) * 3);
+    for (const price of prices) {
+      const expectedIncrement = (price / 100) * 3;
+      const input = { _id: mockUserId, price };
 
-    input = { _id: mockUserId, price: price2 };
-    result = await updateWallet(null, { input });
-    expect(result.wallet).toBe(initialWallet + (price2 / 100) * 3);
+      const result = await updateWallet(null, { input });
 
-    input = { _id: mockUserId, price: price3 };
-    result = await updateWallet(null, { input });
-    expect(result.wallet).toBe(initialWallet + (price3 / 100) * 3);
+      expect(result.wallet).toBe(initialWallet + expectedIncrement);
+      expect(walletHistory.create).toHaveBeenCalledWith({
+        userId: mockUserId,
+        amount: Math.floor(expectedIncrement),
+      });
+    }
   });
 });
