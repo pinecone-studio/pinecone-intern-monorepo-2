@@ -43,6 +43,7 @@ export const typeDefs = gql`
     phoneNumber: String!
     amenities: [String!]
     rooms: [ID!]
+    images: [String!]
     hotelStar: Int
     guestReviews: [ID!]
     bookings: [ID!]

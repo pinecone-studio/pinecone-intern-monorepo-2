@@ -11,6 +11,7 @@ export interface IHotel extends Document {
   guestReviews: mongoose.Types.ObjectId[];
   bookings: mongoose.Types.ObjectId[];
   roomServices: mongoose.Types.ObjectId[];
+  images: string[];
 }
 
 const HotelSchema: Schema = new Schema(
@@ -25,6 +26,7 @@ const HotelSchema: Schema = new Schema(
     guestReviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }],
     roomServices: [{ type: Schema.Types.ObjectId, ref: 'RoomService' }],
+    images: [{ type: String }],
   },
   { timestamps: true }
 );

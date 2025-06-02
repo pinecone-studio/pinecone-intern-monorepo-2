@@ -11,6 +11,7 @@ interface UpdateHotelInput {
   hotelStar?: number;
   guestReviews?: string[];
   bookings?: string[];
+  images?: string[];
   roomServices?: string[];
 }
 
