@@ -11,12 +11,16 @@ const foodSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: false,
+    required: true,
   },
   image: {
     type: String,
-    required: false,
+    required: true,
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  }
 });
 
 export const Food = mongoose.models.Food || mongoose.model('Food', foodSchema);

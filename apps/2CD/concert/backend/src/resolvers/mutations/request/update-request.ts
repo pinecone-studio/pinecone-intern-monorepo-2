@@ -8,7 +8,8 @@ export const updateRequest: MutationResolvers['updateRequest'] = async (_, { inp
   if (!updateReq) {
     throw new Error('Request not found');
   }
-  RequestModel.findByIdAndUpdate(values.id, { status: RequestStatus.Done }, { new: true });
+
+  await RequestModel.findByIdAndUpdate(values.id, { status: RequestStatus.Done }, { new: true });
 
   return Response.Success;
 };

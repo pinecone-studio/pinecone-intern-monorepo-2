@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
+import { RequestStatus } from 'src/generated';
 import { RequestModel } from 'src/models';
 import { getPendingRequests } from 'src/resolvers/queries/index';
 
@@ -11,23 +12,62 @@ jest.mock('src/models', () => ({
 
 describe('getPendingRequests', () => {
   const allRequests = [
-    { status: 'PENDING', name: 'test' },
-    { status: 'PENDING', name: 'test1' },
-    { status: 'DONE', name: 'test2' },
+    {
+      id: '1',
+      booking: { id: 'b1', time: '2025-05-27' },
+      user: { id: 'u1', name: 'Alice' },
+      status: RequestStatus.Done,
+      bank: 'MockBank',
+      bankAccount: '12345678',
+      name: 'Alice Kim',
+      createdAt: new Date('2025-05-26T00:00:00Z'),
+      updatedAt: new Date('2025-05-26T00:00:00Z'),
+    },
+    {
+      id: '2',
+      booking: { id: 'b2', time: '2025-05-27' },
+      user: { id: 'u2', name: 'Bob' },
+      status: RequestStatus.Pending,
+      bank: 'AnotherBank',
+      bankAccount: '87654321',
+      name: 'Bob Choi',
+      createdAt: new Date('2025-05-26T00:00:00Z'),
+      updatedAt: new Date('2025-05-26T00:00:00Z'),
+    },
   ];
-
-  const pendingOnly = allRequests.filter((r) => r.status === 'PENDING');
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should return only pending requests', async () => {
-    (RequestModel.find as jest.Mock).mockResolvedValue(pendingOnly);
-    const result = await getPendingRequests!({}, {}, {}, {} as GraphQLResolveInfo);
-    expect(result).toEqual([
-      { status: 'PENDING', name: 'test' },
-      { status: 'PENDING', name: 'test1' },
+    const populateMock = jest.fn().mockReturnThis();
+    const populateMock2 = jest.fn().mockResolvedValueOnce([
+      {
+        id: '2',
+        booking: { id: 'b2', time: '2025-05-27' },
+        user: { id: 'u2', name: 'Bob' },
+        status: RequestStatus.Pending,
+        bank: 'AnotherBank',
+        bankAccount: '87654321',
+        name: 'Bob Choi',
+        createdAt: new Date('2025-05-26T00:00:00Z'),
+        updatedAt: new Date('2025-05-26T00:00:00Z'),
+      },
     ]);
+
+    (RequestModel.find as jest.Mock).mockReturnValue({
+      populate: populateMock.mockReturnValue({
+        populate: populateMock2,
+      }),
+    });
+
+    const result = await getPendingRequests!({}, {}, {}, {} as GraphQLResolveInfo);
+
+    expect(RequestModel.find).toHaveBeenCalled();
+    expect(populateMock).toHaveBeenCalledWith('booking');
+    expect(populateMock2).toHaveBeenCalledWith('user');
+
+    expect(result).toEqual([allRequests[1]]);
   });
 });

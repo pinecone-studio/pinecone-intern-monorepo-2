@@ -1,9 +1,8 @@
-import { PropsWithChildren } from 'react';
-
 import { ApolloWrapper } from '@/components/providers';
+import { ReactNode } from 'react';
 import { Header } from './_components/Header';
 
-const RootLayout = ({ children }: PropsWithChildren) => {
+const AdminLayout = ({ children }: ReactNode) => {
   return (
     <ApolloWrapper>
       <div className="bg-[#F4F4F5] h-100vh">
@@ -14,4 +13,4 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default RootLayout;
+export default AdminLayout;

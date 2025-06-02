@@ -15,6 +15,7 @@ export interface IUser extends Document {
   reviews: mongoose.Types.ObjectId[];
 }
 
+
 const UserSchema: Schema = new Schema(
   {
     email: { type: String, required: true, unique: true },
@@ -27,4 +28,4 @@ const UserSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export const User = mongoose.model<IUser>('User', UserSchema);
+export const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

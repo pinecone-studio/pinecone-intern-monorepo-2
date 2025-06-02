@@ -25,7 +25,16 @@ export const requestDef = gql`
   input updateReqInput {
     id: ID!
   }
+  input createRequestInput {
+    Booking: ID!
+    user: ID!
+    bank: String!
+    bankAccount: String!
+    name: String!
+  }
   type Mutation {
-    updateRequest(input: updateReqInput!): Response!
+
+    updateRequest(input: updateReqInput): Response!
+    createRequest(input: createRequestInput!): Response!
   }
 `;

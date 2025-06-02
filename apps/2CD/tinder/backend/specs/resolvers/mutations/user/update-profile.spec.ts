@@ -49,6 +49,6 @@ describe('updateUser', () => {
     jest.spyOn(User, 'findById').mockResolvedValue(null);
     const args = { input: { name: 'Jane' } };
     const context = { user: { _id: 'user123' } };
-    await expect(updateUser({}, args, context)).rejects.toThrow('User not found');
+    await expect(updateUser({}, args, context)).rejects.toThrow('Хэрэглэгч олдсонгүй');
   });
 });
