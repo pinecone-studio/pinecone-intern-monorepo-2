@@ -1,6 +1,6 @@
 import { walletHistory } from 'src/models/wallet-notification.model';
 import { walletHistoryQuery } from 'src/resolvers/queries';
-jest.mock('src/models/walletNotification.model');
+jest.mock('src/models/wallet-notification.model');
 
 describe('walletHistoryQuery', () => {
   const mockUserId = '507f1f77bcf86cd799439011';

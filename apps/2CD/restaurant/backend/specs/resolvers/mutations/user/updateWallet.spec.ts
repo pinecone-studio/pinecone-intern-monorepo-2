@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-import { updateWallet } from 'src/resolvers/mutations';
 import { User } from 'src/models/user.model';
 import { walletHistory } from 'src/models/wallet-notification.model';
+import { updateWallet } from 'src/resolvers/mutations';
 jest.mock('src/models/user.model', () => ({
   User: {
     findById: jest.fn(),
@@ -9,7 +9,7 @@ jest.mock('src/models/user.model', () => ({
   },
 }));
 
-jest.mock('src/models/walletNotification.model', () => ({
+jest.mock('src/models/wallet-notification.model', () => ({
   walletHistory: {
     create: jest.fn(),
   },
