@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { ConcertInput, concertSchema } from '@/zod-schemas/concert-zod';
-import { TicketType, useCreateConcertMutation } from '@/generated';
+import { TicketType, useCreateConcertMutation, useGetArtistsQuery } from '@/generated';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { DatePicker, FormItemComp, SelectArtist } from '../_components';
@@ -35,6 +35,7 @@ const CreateConcert = () => {
       ],
     },
   });
+  const { data } = useGetArtistsQuery();
   const [createConcert, { loading, error }] = useCreateConcertMutation();
   const handleCreateConcert = async (value: ConcertInput) => {
     await createConcert({
@@ -81,7 +82,7 @@ const CreateConcert = () => {
                 </FormItem>
               )}
             />
-            <FormField control={form.control} name="artists" render={({ field }) => <SelectArtist defaultValue={field.value} setValue={field.onChange} />} />
+            <FormField control={form.control} name="artists" render={({ field }) => <SelectArtist defaultValue={field.value} setValue={field.onChange} artists={data?.getArtists} />} />
             <FormField control={form.control} name="schedule" render={({ field }) => <DatePicker setSchedule={field.onChange} schedule={field.value} />} />
             {form.getValues('ticket').map((ticket, i) => (
               <div key={i} className="grid grid-cols-2 gap-4">

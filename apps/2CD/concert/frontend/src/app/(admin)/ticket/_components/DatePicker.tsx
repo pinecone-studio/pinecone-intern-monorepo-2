@@ -3,15 +3,12 @@
 'use client';
 
 import * as React from 'react';
-
-import { Calendar } from '@/components/ui/calendar';
 import { Stack } from '@mui/material';
-import { FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { format } from 'date-fns';
-import { CalendarIcon, DeleteIcon } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DeleteIcon } from 'lucide-react';
+import { SelectDay } from './SelectDay';
+import { SelectStartTime } from './SelectStartTime';
+import { SelectEndHour } from './SelectEndHour';
 
 type DatePickerProps = {
   setSchedule: (schedule: { startDate: Date; endDate: Date }[]) => void;
@@ -62,65 +59,10 @@ export const DatePicker = ({ setSchedule, schedule }: DatePickerProps) => {
   return (
     <Stack>
       <Stack direction="row" spacing={2}>
-        <FormItem className="flex flex-col">
-          <FormLabel>Date of birth</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button variant={'outline'} className="w-[200px] pl-3 text-left font-normal">
-                  {day ? format(day, 'PPP') : <span>Pick a date</span>}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={day} onSelect={setDay} disabled={(date) => date < new Date()} initialFocus />
-            </PopoverContent>
-          </Popover>
-          <FormMessage />
-        </FormItem>
-
+        <SelectDay day={day} setDay={setDay} />
         <Stack direction="row" spacing={2}>
-          <FormItem className="flex flex-col">
-            <FormLabel>эхлэх цаг*</FormLabel>
-            <Select
-              value={startHour}
-              onValueChange={(value) => {
-                setStartHour(value);
-                // Reset end hour if it becomes invalid
-                if (endHour && getHourNumber(endHour) <= getHourNumber(value)) {
-                  setEndHour('');
-                }
-              }}
-            >
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Эхлэх цаг" />
-              </SelectTrigger>
-              <SelectContent>
-                {hourOptions.map((hour) => (
-                  <SelectItem key={hour} value={hour} disabled={isEndTimeDisabled(hour)}>
-                    {hour}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormItem>
-
-          <FormItem className="flex flex-col">
-            <FormLabel>дуусах цаг*</FormLabel>
-            <Select value={endHour} onValueChange={setEndHour}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Дуусах цаг" />
-              </SelectTrigger>
-              <SelectContent>
-                {hourOptions.map((hour) => (
-                  <SelectItem key={hour} value={hour} disabled={isEndTimeDisabled(hour)}>
-                    {hour}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormItem>
+          <SelectStartTime startHour={startHour} getHourNumber={getHourNumber} setEndHour={setEndHour} setStartHour={setStartHour} hourOptions={hourOptions} endHour={endHour} />
+          <SelectEndHour endHour={endHour} hourOptions={hourOptions} setEndHour={setEndHour} isEndTimeDisabled={isEndTimeDisabled} />
           <Button type="button" onClick={handelAddSchedule}>
             Нэмэх
           </Button>
