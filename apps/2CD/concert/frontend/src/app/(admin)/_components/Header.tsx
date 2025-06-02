@@ -1,8 +1,10 @@
 'use client';
 import { Ticket } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ChangePage } from './ChangePage';
+import { usePathname, useRouter } from 'next/navigation';
 export const Header = () => {
+  const pathName = usePathname();
+  const router = useRouter();
   return (
     <div className="pt-5 px-10 bg-white">
       <div className="flex justify-between">
@@ -16,8 +18,12 @@ export const Header = () => {
         </Avatar>
       </div>
       <div className="flex gap-2">
-        <ChangePage pageName="ticket" />
-        <ChangePage pageName="request" />
+        <p onClick={() => router.push(`/ticket`)} data-testid="adminPageName" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('ticket') ? 'border-black ' : 'border-transparent '}`}>
+          Тасалбар
+        </p>
+        <p onClick={() => router.push(`/request`)} data-testid="adminPageName" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('request') ? 'border-black ' : 'border-transparent '}`}>
+          Цуцлах хүсэлт
+        </p>
       </div>
     </div>
   );

@@ -26,6 +26,6 @@ export const requestDef = gql`
     id: ID!
   }
   type Mutation {
-    updateRequest(input: updateReqInput): Request!
+    updateRequest(input: updateReqInput!): Response!
   }
 `;
