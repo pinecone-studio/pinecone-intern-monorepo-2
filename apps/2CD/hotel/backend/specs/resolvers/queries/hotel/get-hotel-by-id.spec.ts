@@ -17,6 +17,7 @@ describe('getHotelById query', () => {
       _id: 'id-1',
       hotelName: 'Test Hotel',
       price: 100,
+      images: ['image1', 'image2'],
       description: 'description1',
       phoneNumber: '12345678',
       amenities: ['wifi'],

@@ -17,6 +17,7 @@ describe('addHotel mutation', () => {
     phoneNumber: '123-456-7890',
     amenities: ['WiFi', 'Pool'],
     hotelStar: 4,
+    images: ['image1', 'image2'],
     rooms: [],
     guestReviews: [],
     bookings: [],
