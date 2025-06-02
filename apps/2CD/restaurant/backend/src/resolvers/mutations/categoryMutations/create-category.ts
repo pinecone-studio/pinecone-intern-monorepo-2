@@ -1,6 +1,5 @@
 import { Category } from 'src/models/category-model';
 
-
 export const createCategory = async (
   _: unknown,
   args: { name: string }
