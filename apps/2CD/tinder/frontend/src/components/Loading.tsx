@@ -9,7 +9,7 @@ export const Loading = () => {
         <div className="absolute inset-2 rounded-full bg-white"></div>
       </div>
       <p className="text-black text-sm font-semibold text-center text-gray-500">Please Wait...</p>  
-      <div className="bottom-4 text-xs text-gray-500">©2024 Tinder</div>
+      <div className="bottom-4 text-xs text-gray-500">©2025 Tinder</div>
     </div>
   );
 };
