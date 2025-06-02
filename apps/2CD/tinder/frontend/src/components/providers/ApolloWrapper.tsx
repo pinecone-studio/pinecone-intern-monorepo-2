@@ -1,41 +1,38 @@
 'use client';
 
-import { HttpLink } from '@apollo/client';
-import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
-import { PropsWithChildren } from 'react';
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  ApolloProvider,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { useAuth } from "@clerk/nextjs";
+import { useMemo } from 'react';
+import { useAuth } from '@clerk/nextjs';
 
 const uri = process.env.BACKEND_URI ?? 'http://localhost:4200/api/graphql';
 
-const makeClient = () => {
-  const httpLink = new HttpLink({
-    uri,
-    fetchOptions: { cache: 'no-store' },
-  });
+export const ApolloWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { getToken } = useAuth();
 
+  const client = useMemo(() => {
+    const httpLink = new HttpLink({ uri });
 
+    const authLink = setContext(async (_, { headers }) => {
+      const token = await getToken();
+      return {
+        headers: {
+          ...headers,
+          Authorization: token ? `Bearer ${token}` : '',
+        },
+      };
+    });
 
+    return new ApolloClient({
+      link: authLink.concat(httpLink),
+      cache: new InMemoryCache(),
+    });
+  }, [getToken]);
 
-
-  const authLink = setContext((_, { headers }) => {
-    const { getToken } = useAuth();
-    return getToken().then(token => ({
-      headers: {
-        ...headers,
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    }));
-  });
-
-
-
-  return new ApolloClient({
-    cache: new InMemoryCache(),
-    link: authLink.concat(httpLink),
-  });
-};
-
-export const ApolloWrapper = ({ children }: PropsWithChildren) => {
-  return <ApolloNextAppProvider makeClient={makeClient}>{children}</ApolloNextAppProvider>;
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

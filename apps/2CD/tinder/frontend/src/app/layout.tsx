@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper } from '@/components/providers';
 import { ClerkProvider } from '@clerk/nextjs';
+import ApolloProviderClient from '@/components/providers/ApolloClient';
 
 export const metadata = {
   title: 'Tinder | 2CD',
@@ -13,7 +13,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <ClerkProvider>
       <html lang="en">
         <body className="font-sans antialiased">
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ApolloProviderClient>{children}</ApolloProviderClient>
         </body>
       </html>
     </ClerkProvider>
