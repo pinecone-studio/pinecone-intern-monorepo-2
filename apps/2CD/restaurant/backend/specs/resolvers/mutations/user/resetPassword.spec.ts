@@ -3,14 +3,16 @@ import { findUserByEmail } from 'src/resolvers/mutations/user/user-helpers';
 import { User } from 'src/models/user.model';
 import bcrypt from 'bcryptjs';
 
-jest.mock('src/resolvers/mutations/userRelatedMutations/user-helpers', () => ({
+jest.mock('src/resolvers/mutations/user/user-helpers', () => ({
   findUserByEmail: jest.fn(),
 }));
+
 jest.mock('src/models/user.model', () => ({
   User: {
     findByIdAndUpdate: jest.fn(),
   },
 }));
+
 jest.mock('bcryptjs', () => ({
   hash: jest.fn(),
 }));
@@ -38,13 +40,13 @@ describe('resetPassword', () => {
 
     const result = await resetPassword(undefined, { input });
 
-    expect(findUserByEmail).toHaveBeenCalledWith('test@gmail.com');
-    expect(bcrypt.hash).toHaveBeenCalledWith('newPass', 10);
+    expect(findUserByEmail).toHaveBeenCalledWith('test@gmail.com'); 
+    expect(bcrypt.hash).toHaveBeenCalledWith('newPass', 10);        
     expect(User.findByIdAndUpdate).toHaveBeenCalledWith('user123', {
-      password: fakeHashedPassword,
+      password: fakeHashedPassword,                                 
     });
     expect(result).toEqual({
-      success: true,
+      success: true,                                                
       message: 'Password reseted successfuly',
     });
   });
