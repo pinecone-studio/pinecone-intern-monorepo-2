@@ -1,8 +1,8 @@
 'use client';
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
-import FooterCheckIn from "@/components/footer/FooterCheckIn";
 import FooterReserve from "@/components/footer/FooterReserve";
+import FooterCheckIn from "@/components/footer/FooterCheckIn";
 
 const Page = () => {
 
