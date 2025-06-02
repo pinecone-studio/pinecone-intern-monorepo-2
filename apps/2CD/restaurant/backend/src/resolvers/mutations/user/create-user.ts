@@ -5,10 +5,11 @@ type UserType = {
   userName: string;
   email: string;
   password: string;
+  phoneNumber: string;
 };
 
 export const createUser = async (_: unknown, { input }: { input: UserType }) => {
-  const { userName, email, password } = input;
+  const { userName, email, password, phoneNumber } = input;
 
   try {
     const existingUser = await User.findOne({
@@ -25,6 +26,7 @@ export const createUser = async (_: unknown, { input }: { input: UserType }) => 
       email,
       password: hashedPassword,
       wallet: 0,
+      phoneNumber,
     });
 
     return newUser;

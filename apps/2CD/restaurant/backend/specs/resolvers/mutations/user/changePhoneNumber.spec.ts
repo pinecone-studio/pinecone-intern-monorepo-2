@@ -1,53 +1,48 @@
-import { resetPassword } from 'src/resolvers/mutations';
-import { findUserByEmail } from 'src/resolvers/mutations/user/user-helpers';
 import { User } from 'src/models/user.model';
-import bcrypt from 'bcryptjs';
+import { changePhoneNumber } from 'src/resolvers/mutations';
+import { findUserByEmail } from 'src/resolvers/mutations/user/user-helpers';
 
 jest.mock('src/resolvers/mutations/user/user-helpers', () => ({
   findUserByEmail: jest.fn(),
 }));
-
 jest.mock('src/models/user.model', () => ({
   User: {
     findByIdAndUpdate: jest.fn(),
   },
 }));
 
-jest.mock('bcryptjs', () => ({
-  hash: jest.fn(),
-}));
-
-describe('resetPassword', () => {
-  const input = {
-    email: 'test@gmail.com',
-    newPassword: 'newPass',
-  };
-
+describe('change phone number', () => {
   it('should throw if user is not found', async () => {
+    const input = {
+      email: 'test@gmail.com',
+      newPhoneNumber: 'newPass',
+    };
+
     (findUserByEmail as jest.Mock).mockResolvedValue(null);
 
-    await expect(resetPassword(undefined, { input })).rejects.toThrow('User not found');
+    await expect(changePhoneNumber(undefined, { input })).rejects.toThrow('User not found');
     expect(findUserByEmail).toHaveBeenCalledWith('test@gmail.com');
   });
 
-  it('should hash the new password and update it in DB', async () => {
+  it('should update new phone number to db', async () => {
+    const input = {
+      email: 'test@gmail.com',
+      newPhoneNumber: '99989898',
+    };
     const mockUser = { _id: 'user123', email: 'test@gmail.com' };
-    const fakeHashedPassword = 'hashed123';
 
     (findUserByEmail as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.hash as jest.Mock).mockResolvedValue(fakeHashedPassword);
     (User.findByIdAndUpdate as jest.Mock).mockResolvedValue({});
 
-    const result = await resetPassword(undefined, { input });
+    const result = await changePhoneNumber(undefined, { input });
 
     expect(findUserByEmail).toHaveBeenCalledWith('test@gmail.com');
-    expect(bcrypt.hash).toHaveBeenCalledWith('newPass', 10);
     expect(User.findByIdAndUpdate).toHaveBeenCalledWith('user123', {
-      password: fakeHashedPassword,
+      phoneNumber: input.newPhoneNumber,
     });
     expect(result).toEqual({
       success: true,
-      message: 'Password reseted successfuly',
+      message: 'Phone number changed successfuly',
     });
   });
 });

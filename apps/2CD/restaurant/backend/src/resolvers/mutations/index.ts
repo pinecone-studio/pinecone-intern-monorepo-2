@@ -8,3 +8,6 @@ export * from './user/user-login';
 export * from './user/change-password';
 export * from './user/reset-password';
 export * from './orderMutations/create-order';
+export * from './user/change-phone-number';
+export * from './food/delete-food';
+export * from './user/change-email';
