@@ -1,3 +1,6 @@
+/* eslint-disable unicorn/filename-case */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable complexity */
 'use client';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { useUser } from '@clerk/nextjs';

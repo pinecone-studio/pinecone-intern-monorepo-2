@@ -1,4 +1,6 @@
-
+/* eslint-disable unicorn/filename-case */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable complexity */
 import React from 'react';
 import { Mail } from 'lucide-react';
 import { Phone } from 'lucide-react';

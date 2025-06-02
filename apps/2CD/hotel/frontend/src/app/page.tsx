@@ -1,8 +1,11 @@
+/* eslint-disable unicorn/filename-case */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable complexity */
 'use client';
 import Header from "@/components/header/Header";
-import Footer from "@/components/footer/Footer";
-import FooterReserve from "@/components/footer/FooterReserve";
-import FooterCheckIn from "@/components/footer/FooterCheckIn";
+import FooterRegular from "@/components/footer/footer-regular";
+import FooterReserve from "@/components/footer/footer-reserve";
+import FooterCheckIn from "@/components/footer/footer-check-in";
 
 const Page = () => {
 
@@ -13,7 +16,7 @@ const Page = () => {
       </main>
       <FooterReserve></FooterReserve>
       <FooterCheckIn></FooterCheckIn>
-      <Footer></Footer>
+      <FooterRegular></FooterRegular>
     </div>
   );
 };

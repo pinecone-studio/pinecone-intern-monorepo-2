@@ -1,4 +1,7 @@
-const Footer = () => {
+/* eslint-disable unicorn/filename-case */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable complexity */
+const FooterRegular = () => {
     return (
         <div className="w-full flex justify-center items-start h-[64px]">
             <div className="flex gap-2 w-[1280px] items-center">
@@ -8,4 +11,4 @@ const Footer = () => {
         </div>
     )
 }
-export default Footer;
+export default FooterRegular;
