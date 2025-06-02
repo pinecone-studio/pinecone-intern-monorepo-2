@@ -4,7 +4,7 @@ export const bookingDef = gql`
   scalar Date
 
   type BookedTicket {
-    ticket: Ticket!
+    ticketId: ID!
     quantity: Int!
   }
 
@@ -21,5 +21,20 @@ export const bookingDef = gql`
     status: bookingStatus!
     createdAt: Date!
     updatedAt: Date!
+  }
+
+  
+  input CreateBookingInput {
+    userId: ID!
+    concertId: ID!,
+    tickets : [CreateTicketInput!]!
+  } 
+
+  input CreateTicketInput {
+    ticketId : ID!
+    quantity : Int!
+  }
+    type Mutation {
+    createBooking(input: CreateBookingInput!): Booking!
   }
 `;
