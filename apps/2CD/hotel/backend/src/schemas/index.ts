@@ -4,11 +4,13 @@ import { typeDefs as RoomTypeDefs } from './room.schema';
 import { typeDefs as BookingTypeDefs } from './booking.schema';
 import { typeDefs as ReviewTypeDefs } from './review-schema';
 import { userTypeDefs } from './user-schema';
+import { adminTypeDefs } from './update-user-role.'
 
 export const typeDefs = mergeTypeDefs([
   HotelTypeDefs,
   RoomTypeDefs,
   BookingTypeDefs,
   ReviewTypeDefs,
-  userTypeDefs
+  userTypeDefs,
+  adminTypeDefs
 ]);

@@ -7,20 +7,7 @@ export const typeDefs = gql`
     _id: ID!
     name: String!
     email: String!
-    images: [String!]!
-    bio: String
-    age: Int!
-    gender: String!
-    lookingFor: String!
-    interests: [String!]!
-    profession: String
-    education: String
-    isCertified: Boolean!
-    likes: [User!]!
-    dislikes: [User!]!
-    matches: [User!]!
-    createdAt: Date
-    updatedAt: Date
+    password: String!
   }
 
   type Query {
@@ -30,19 +17,24 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    registerUser(name: String!, email: String!, password: String!, age: Int!, gender: String!, lookingFor: String!, images: [String!]): User
+    registerUser(input: RegisterUserInput!): User
     login(email: String!, password: String!): String
-    likeUser(targetUserId: ID!): User
-    dislikeUser(targetUserId: ID!): User
-    updateUser(input: UpdateProfileInput!): User
+    updateUser(input: UpdateUserInput!): User
   }
 
-  input UpdateProfileInput {
+  input RegisterUserInput {
+    name: String!
+    email: String!
+    password: String!
+    age: Int
+    gender: String
+    lookingFor: String
+    images: [String]
+  }
+
+  input UpdateUserInput {
     name: String
-    bio: String
-    profession: String
-    education: String
-    interests: [String!]
-    images: [String!]
+    email: String
+    password: String
   }
 `;

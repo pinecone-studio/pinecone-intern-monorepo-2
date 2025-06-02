@@ -21,6 +21,20 @@ export const typeDefs = gql`
     bookings: [ID!]
     roomServices: [ID!]
   }
+
+  input UpdateHotelInput {
+    hotelName: String
+    price: Float
+    description: String
+    phoneNumber: String
+    amenities: [String!]
+    rooms: [ID!]
+    hotelStar: Int
+    guestReviews: [ID!]
+    bookings: [ID!]
+    roomServices: [ID!]
+  }
+
   type Hotel {
     id: ID!
     hotelName: String!
@@ -39,6 +53,7 @@ export const typeDefs = gql`
 
   type Mutation {
     addHotel(input: AddHotelInput!): Hotel!
+    updateHotel(id: ID!, input: UpdateHotelInput!): Hotel!
   }
 
   type Query {

@@ -9,18 +9,28 @@ import { getRoomForId } from './queries/room/get-room-for-id';
 import {updateRoom} from './mutations/room/update-room'
 import { deleteRoom } from './mutations/room/delete-room';
 import reviewMutations from './mutations/review-mutations';
+import { updateHotel } from './mutations/hotel/update-hotel';
 import { getAllBookings } from './queries/booking/get-all-booking';
 import { getBookingById } from './queries/booking/get-booking-by-id';
+import { createUser } from './mutations/create-user';
+import { updateUserRoleToAdmin } from './mutations/update-user-role-to-admin';
+import { getAllUsers } from './queries/user/get-all-user';
+import { getUserById } from './queries/user/get-user-by-id';
+import { reviewQueries } from './queries/review-query';
+
 
 export const resolvers = {
   Mutation: {
     addHotel,
+    updateHotel,
     CreateBooking,
     updateBooking,
     createRoom,
     updateRoom,
     deleteRoom,
     ...reviewMutations,
+    createUser,
+    updateUserRoleToAdmin
   },
   Query: {
     getAllHotels,
@@ -29,5 +39,8 @@ export const resolvers = {
     getRoomForId,
     getAllBookings,
     getBookingById,
+    getAllUsers,
+    getUserById,
+    ...reviewQueries,
   },
 };
