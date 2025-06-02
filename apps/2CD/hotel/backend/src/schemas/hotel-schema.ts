@@ -20,6 +20,7 @@ export const typeDefs = gql`
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
+    images: [String!]
   }
 
   input UpdateHotelInput {
@@ -33,6 +34,7 @@ export const typeDefs = gql`
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
+    images: [String!]
   }
 
   type Hotel {
@@ -47,6 +49,7 @@ export const typeDefs = gql`
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
+    images: [String!]
     createdAt: String!
     updatedAt: String!
   }

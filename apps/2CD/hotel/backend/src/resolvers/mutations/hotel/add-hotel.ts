@@ -12,6 +12,7 @@ interface AddHotelInput {
   guestReviews?: string[];
   bookings?: string[];
   roomServices?: string[];
+  images?: string[];
 }
 
 const defaultValues = {
@@ -20,6 +21,7 @@ const defaultValues = {
   guestReviews: [],
   bookings: [],
   roomServices: [],
+  images: [],
 };
 
 const createHotelData = (input: AddHotelInput) => ({
