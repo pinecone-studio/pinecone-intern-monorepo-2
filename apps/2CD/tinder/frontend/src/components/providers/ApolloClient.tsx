@@ -3,6 +3,9 @@
 import { PropsWithChildren } from 'react';
 import { ApolloWrapper } from './ApolloWrapper';
 
-export default function ApolloProviderClient({ children }: PropsWithChildren) {
+
+const  ApolloProviderClient = ({ children }: PropsWithChildren) => {
   return <ApolloWrapper>{children}</ApolloWrapper>;
 }
+
+export default ApolloProviderClient;
