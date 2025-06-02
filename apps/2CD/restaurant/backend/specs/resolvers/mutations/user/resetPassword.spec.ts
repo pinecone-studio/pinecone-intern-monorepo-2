@@ -1,5 +1,5 @@
 import { resetPassword } from 'src/resolvers/mutations';
-import { findUserByEmail } from 'src/resolvers/mutations/userRelatedMutations/user-helpers';
+import { findUserByEmail } from 'src/resolvers/mutations/user/user-helpers';
 import { User } from 'src/models/user.model';
 import bcrypt from 'bcryptjs';
 

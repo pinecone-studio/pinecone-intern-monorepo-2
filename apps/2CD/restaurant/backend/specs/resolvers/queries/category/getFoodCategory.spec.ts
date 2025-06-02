@@ -1,4 +1,4 @@
-import { getFoodCategory } from 'src/resolvers/queries/categoryRelatedQueries/get-food-category';
+import { getFoodCategory } from 'src/resolvers/queries/category/get-food-category';
 import { Food } from 'src/models/food-model';
 
 jest.mock('src/models/food-model', () => ({

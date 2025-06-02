@@ -1,4 +1,4 @@
-import { createCategory } from 'src/resolvers/mutations/categoryMutations/create-category';
+import { createCategory } from 'src/resolvers/mutations/category/create-category';
 import { Category } from 'src/models/category-model';
 
 describe('createCategory Mutation', () => {

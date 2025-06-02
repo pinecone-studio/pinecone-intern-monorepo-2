@@ -1,4 +1,4 @@
-import { getAllCategory } from 'src/resolvers/queries/categoryRelatedQueries/get-all-category';
+import { getAllCategory } from 'src/resolvers/queries/category/get-all-category';
 import { Category } from 'src/models/category-model';
 
 jest.mock('src/models/category-model', () => ({
