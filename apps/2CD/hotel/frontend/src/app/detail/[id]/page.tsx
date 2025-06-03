@@ -30,7 +30,7 @@ const Page = () => {
             <h3 className="text-xl font-semibold">Economy Double Room, City View</h3>
             <div className="flex gap-10">
               <div>
-                <h4 className="font-medium text-gray-700">Accessibility</h4>
+                <h4 className="font-medium text-gray-300">Accessibility</h4>
               </div>
               <div>
                 <h4 className="font-medium text-gray-700">Bathroom</h4>
