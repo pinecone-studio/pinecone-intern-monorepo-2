@@ -22,6 +22,7 @@ const defaultValues = {
   bookings: [],
   roomServices: [],
   images: [],
+  location: '',
 };
 
 const createHotelData = (input: AddHotelInput) => ({

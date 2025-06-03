@@ -27,6 +27,7 @@ const HotelSchema: Schema = new Schema(
     bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }],
     roomServices: [{ type: Schema.Types.ObjectId, ref: 'RoomService' }],
     images: [{ type: String }],
+    location: { type: String},
   },
   { timestamps: true }
 );
