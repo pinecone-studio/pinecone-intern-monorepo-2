@@ -1,13 +1,7 @@
 import { QueryResolvers } from 'src/generated';
 import { RequestModel } from 'src/models';
-
-export const getPendingRequests: QueryResolvers['getPendingRequests'] = async () => {
+export const getAllRequests: QueryResolvers['getAllRequests'] = async () => {
   const result = await RequestModel.aggregate([
-    {
-      $match: {
-        status: 'PENDING', // PENDING статустай хүсэлтүүд
-      },
-    },
     {
       $lookup: {
         from: 'bookings',
