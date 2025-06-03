@@ -10,7 +10,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { ConcertInput, concertSchema } from 'src/zodSchemas/create-concert';
 import { TicketType, useCreateConcertMutation, useGetArtistsQuery } from '@/generated';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { PickDate, FormItemComp, SelectArtist } from '../_components';
 const CreateConcert = () => {
@@ -36,7 +36,7 @@ const CreateConcert = () => {
     },
   });
   const { data } = useGetArtistsQuery();
-  const [createConcert, { loading, error }] = useCreateConcertMutation({
+  const [createConcert, { loading }] = useCreateConcertMutation({
     onCompleted: () => {
       toast('Тасалбар амжилттай үүслээ');
       form.reset()
