@@ -11,7 +11,9 @@ interface UpdateHotelInput {
   hotelStar?: number;
   guestReviews?: string[];
   bookings?: string[];
+  images?: string[];
   roomServices?: string[];
+  location?: string;
 }
 
 export const updateHotel = async (_parent: unknown, { input, id }: { input: UpdateHotelInput; id: string }) => {

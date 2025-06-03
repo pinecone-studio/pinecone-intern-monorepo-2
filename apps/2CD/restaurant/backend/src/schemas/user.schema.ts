@@ -8,6 +8,7 @@ const UserTypeDef = gql`
     password: String!
     email: String!
     role: String!
+    phoneNumber: String!
   }
 
   type LoginResponse {
@@ -18,6 +19,7 @@ const UserTypeDef = gql`
     userName: String!
     email: String!
     password: String!
+    phoneNumber: String!
   }
 
   input UpdateWalletInput {
@@ -29,7 +31,7 @@ const UserTypeDef = gql`
     email: String!
     password: String!
   }
-  type ChangePasswordResponse {
+  type ChangeResponse {
     success: Boolean!
     message: String!
   }
@@ -45,12 +47,27 @@ const UserTypeDef = gql`
     newPassword: String!
   }
 
+  input changePhoneNumberInput {
+    email: String!
+    newPhoneNumber: String!
+  }
+
+  input changeEmailInput {
+    _id: String!
+    newEmail: String!
+  }
+
   type Mutation {
     createUser(input: CreateUserInput!): User!
     updateWallet(input: UpdateWalletInput!): User!
     userLogin(input: LoginUserInput!): LoginResponse!
-    changePassword(input: ChangePasswordInput!): ChangePasswordResponse!
-    resetPassword(input: ResetPasswordinput): ChangePasswordResponse
+    changePassword(input: ChangePasswordInput!): ChangeResponse!
+    resetPassword(input: ResetPasswordinput): ChangeResponse
+    changePhoneNumber(input: changePhoneNumberInput): ChangeResponse
+    changeEmail(input: changeEmailInput): ChangeResponse
+  }
+  type Query {
+    getAllUser: [User!]!
   }
 `;
 

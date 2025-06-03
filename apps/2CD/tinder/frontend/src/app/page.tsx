@@ -15,6 +15,7 @@ const LandingPage = () => {
           <button onClick={() => router.push('/profile')}>
             Go to Profile
           </button>
+                      <button className="bg-red" onClick={() => router.push(`/message`)}>Chat</button>
         </div>
       ) : (
         <div>
@@ -22,6 +23,7 @@ const LandingPage = () => {
           <button onClick={() => router.push(`/login`)}>Sign In</button>
           <button onClick={() => router.push(`/sign-up`)}>Sign Up</button>
         </div>
+       
       )}
     </div>
   );

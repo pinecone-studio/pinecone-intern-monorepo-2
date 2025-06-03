@@ -1,6 +1,0 @@
-{
-  "eslint.validate": [
-    "json"
-  ],
-  "liveServer.settings.port": 5501
-}

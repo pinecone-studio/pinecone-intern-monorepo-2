@@ -16,6 +16,8 @@ import { createUser } from './mutations/create-user';
 import { updateUserRoleToAdmin } from './mutations/update-user-role-to-admin';
 import { getAllUsers } from './queries/user/get-all-user';
 import { getUserById } from './queries/user/get-user-by-id';
+import { reviewQueries } from './queries/review-query';
+
 
 export const resolvers = {
   Mutation: {
@@ -38,6 +40,7 @@ export const resolvers = {
     getAllBookings,
     getBookingById,
     getAllUsers,
-    getUserById
+    getUserById,
+    ...reviewQueries,
   },
 };
