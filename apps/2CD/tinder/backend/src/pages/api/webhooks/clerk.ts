@@ -68,8 +68,7 @@ async function handleUserDelete(data: ClerkUserData, res: NextApiResponse) {
     console.warn('Id олдсонгүй');
     return res.status(400).json({ message: 'Id олдсонгүй' });
   }
-  
-export default async function handler(req: Request) {
+
   try {
     await User.findOneAndDelete({ clerkId: id });
     return res.status(200).json({ message: 'Хэрэглэгч амжилттай устгагдлаа' });
