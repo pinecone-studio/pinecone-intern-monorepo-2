@@ -62,9 +62,9 @@ const UserTypeDef = gql`
     updateWallet(input: UpdateWalletInput!): User!
     userLogin(input: LoginUserInput!): LoginResponse!
     changePassword(input: ChangePasswordInput!): ChangeResponse!
-    resetPassword(input: ResetPasswordinput): ChangeResponse
-    changePhoneNumber(input: changePhoneNumberInput): ChangeResponse
-    changeEmail(input: changeEmailInput): ChangeResponse
+    resetPassword(input: ResetPasswordinput): ChangeResponse!
+    changePhoneNumber(input: changePhoneNumberInput): ChangeResponse!
+    changeEmail(input: changeEmailInput): ChangeResponse!
   }
   type Query {
     getAllUser: [User!]!
