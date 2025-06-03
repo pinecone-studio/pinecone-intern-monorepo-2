@@ -217,7 +217,17 @@
         }
       ]
     },
-
+    "codegen:dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["graphql-codegen --config ./apps/2CD/concert/frontend/codegen.ts"]
+      },
+      "dependsOn": [
+        {
+          "target": "get-secrets:dev"
+        }
+      ]
+    },
     "codegen:testing": {
       "executor": "nx:run-commands",
       "options": {
