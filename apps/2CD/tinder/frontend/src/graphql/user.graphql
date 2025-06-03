@@ -1,4 +1,3 @@
-# Queries
 
 query Me {
   me {
@@ -26,8 +25,6 @@ query GetAllUsers {
     password
   }
 }
-
-# Mutations
 
 mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {

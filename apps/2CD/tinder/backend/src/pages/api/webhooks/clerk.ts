@@ -66,7 +66,7 @@ const handleWebhook = async (evt: WebhookEvent) => {
   return NextResponse.json({ message: 'webhook' });
 };
 
-export async function POST(req: Request) {
+export default async function POST(req: Request) {
   try {
     const payload = await req.json();
     const evt = payload as WebhookEvent;

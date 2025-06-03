@@ -1,0 +1,24 @@
+query GetProfile($getProfileId: ID!) {
+  getProfile(id: $getProfileId) {
+ bio
+    age
+    createdAt
+    dislikes {
+      name
+    }
+    education
+    gender
+    images
+    interests
+    isCertified
+    likes {
+      name
+    }
+    lookingFor
+    matches {
+      name
+    }
+    updatedAt
+    profession
+  }
+}
