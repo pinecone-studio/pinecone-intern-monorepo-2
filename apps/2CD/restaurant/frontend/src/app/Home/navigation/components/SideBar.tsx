@@ -25,11 +25,11 @@ const Sidebar = ({ onClose }: SidebarProps) => {
           </button>
         </div>
         <nav className="divide-y">
-          <SidebarItem icon={<Home size={20} />} text="Нүүр хуудас" onClick={() => handleNavigation('/')} />
-          <SidebarItem icon={<Wallet size={20} />} text="Хэтэвч" onClick={() => handleNavigation('/wallet')} />
-          <SidebarItem icon={<User size={20} />} text="Хэрэглэгч" onClick={() => handleNavigation('/profile')} />
-          <SidebarItem icon={<List size={20} />} text="Захиалгын түүх" onClick={() => handleNavigation('/orders')} />
-          <SidebarItem icon={<Info size={20} />} text="Бидний тухай" onClick={() => handleNavigation('/about')} />
+          <SidebarItem icon={<Home size={20} />} text="Нүүр хуудас" onClick={() => handleNavigation('/')} testId="nav-home" />
+          <SidebarItem icon={<Wallet size={20} />} text="Хэтэвч" onClick={() => handleNavigation('/wallet')} testId="nav-wallet" />
+          <SidebarItem icon={<User size={20} />} text="Хэрэглэгч" onClick={() => handleNavigation('/profile')} testId="nav-profile" />
+          <SidebarItem icon={<List size={20} />} text="Захиалгын түүх" onClick={() => handleNavigation('/orders')} testId="nav-orders" />
+          <SidebarItem icon={<Info size={20} />} text="Бидний тухай" onClick={() => handleNavigation('/about')} testId="nav-about" />
         </nav>
       </div>
       <div className="p-4">
@@ -39,8 +39,8 @@ const Sidebar = ({ onClose }: SidebarProps) => {
   );
 };
 
-const SidebarItem = ({ icon, text, onClick }: { icon: React.ReactNode; text: string; onClick?: () => void }) => (
-  <button onClick={onClick} className="flex items-center gap-3 p-4 hover:bg-gray-100 w-full text-left">
+const SidebarItem = ({ icon, text, onClick, testId }: { icon: React.ReactNode; text: string; onClick?: () => void; testId?: string }) => (
+  <button onClick={onClick} data-testid={testId} className="flex items-center gap-3 p-4 hover:bg-gray-100 w-full text-left">
     {icon}
     <span>{text}</span>
   </button>
