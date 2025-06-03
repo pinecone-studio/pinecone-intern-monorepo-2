@@ -20,7 +20,7 @@ export const requestDef = gql`
 
   type Query {
     getPendingRequests: [Request!]!
-    getAllRequists: [Request!]!
+    getAllRequests: [Request!]!
   }
   input updateReqInput {
     id: ID!
@@ -33,7 +33,6 @@ export const requestDef = gql`
     name: String!
   }
   type Mutation {
-
     updateRequest(input: updateReqInput): Response!
     createRequest(input: createRequestInput!): Response!
   }

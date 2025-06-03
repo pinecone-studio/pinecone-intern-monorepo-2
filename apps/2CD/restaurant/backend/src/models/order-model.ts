@@ -1,47 +1,46 @@
 import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
-    buyerId: {
+  buyerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  orderNumber: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  orderPrice: {
+    type: Number,
+    required: true,
+  },
+  tableNumber: {
+    type: Number,
+    required: true,
+  },
+  foodItems: [
+    {
+      foodId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Food',
         required: true,
-    },
-    orderNumber: {
+      },
+      quantity: {
         type: Number,
         required: true,
-        unique: true,
+      },
     },
-    orderPrice: {
-        type: Number,
-        required: true,
-    },
-    tableNumber: {
-        type: Number,
-        required: true,
-    },
-    foodItems: [
-        {
-            foodId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Food',
-                required: true,
-            },
-            quantity: {
-                type: Number,
-                required: true,
-            },
-        },
-    ],
-    orderStatus: {
-        type: String,
-        enum: ['PENDING', 'READY', 'COMPLETED', 'IN_PROGRESS'],
-        default: 'PENDING',
-    },
-    orderDate: {
-        type: Date,
-        default: Date.now,
-    },
-}
-);
+  ],
+  orderStatus: {
+    type: String,
+    enum: ['Хүлээгдэж буй', 'Бэлэн', 'Амжилттай', 'Бэлтгэгдэж буй'],
+    default: 'Хүлээгдэж буй',
+  },
+  orderDate: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 export const Order = mongoose.models.Order || mongoose.model('Order', OrderSchema);

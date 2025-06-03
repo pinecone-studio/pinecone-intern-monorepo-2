@@ -85,8 +85,7 @@ export const reviewQueries = {
         .filter(isValidReview)
         .map(transformReview);
     } catch (error) {
-      console.error('Error fetching reviews by user:', error);
-      throw new Error('Failed to fetch reviews by user');
+      throw new Error('Failed to fetch reviews by user', { cause: error });
     }
   },
 
@@ -100,8 +99,7 @@ export const reviewQueries = {
         .filter(isValidReview)
         .map(transformReview);
     } catch (error) {
-      console.error('Error fetching reviews by hotel:', error);
-      throw new Error('Failed to fetch reviews by hotel');
+      throw new Error('Failed to fetch reviews by hotel', { cause: error });
     }
   },
 };
