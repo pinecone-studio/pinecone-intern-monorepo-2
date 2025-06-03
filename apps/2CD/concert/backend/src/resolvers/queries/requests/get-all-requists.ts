@@ -1,7 +1,21 @@
 import { QueryResolvers } from 'src/generated';
 import { RequestModel } from 'src/models';
 export const getAllRequists: QueryResolvers['getAllRequists'] = async () => {
-  const docs = await RequestModel.find().populate('booking').populate('user');
+  const docs = await RequestModel.find()
+    .populate('booking')
+    .populate('user')
+    .populate({
+      path: 'booking',
+      populate: {
+        path: 'tickets.ticket',
+        model: 'Ticket',
+      },
+    })
+    .populate({
+      path: 'booking',
+      populate: { path: 'concert', model: 'Concert' },
+    });
+
   return docs.map((doc) => ({
     id: doc.id,
     booking: doc.booking,

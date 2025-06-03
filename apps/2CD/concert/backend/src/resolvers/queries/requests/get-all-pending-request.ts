@@ -6,7 +6,14 @@ export const getPendingRequests: QueryResolvers['getPendingRequests'] = async ()
     status: 'PENDING',
   })
     .populate('booking')
-    .populate('user');
+    .populate('user')
+    .populate({
+      path: 'booking',
+      populate: {
+        path: 'tickets.ticket',
+        model: 'Ticket',
+      },
+    });
   return pendingRequests.map((doc) => ({
     id: doc.id,
     booking: doc.booking,
