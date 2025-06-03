@@ -4,3 +4,6 @@ export * from './food/get-all-food';
 export * from './category/get-all-category';
 export * from './category/get-food-category';
 export * from './user/get-all-user';
+export * from './order/get-all-order';
+export * from './order/get-order';
+export * from './user/get-user-order';

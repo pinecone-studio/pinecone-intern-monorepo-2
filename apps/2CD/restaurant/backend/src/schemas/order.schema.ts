@@ -8,8 +8,14 @@ const OrderTypeDef = gql`
     orderPrice: Int!
     orderStatus: String!
     orderDate: String!
-    tableNumber: Int!
+    tableNumber: String!
     foodItems: [FoodItem!]!
+  }
+  type Food {
+    _id: ID!
+    name: String!
+    price: Float!
+    image: String
   }
   type FoodItem {
     foodId: ID!
@@ -28,6 +34,11 @@ const OrderTypeDef = gql`
   }
   type Mutation {
     createOrder(input: CreateOrderInput!): Order!
+  }
+  type Query {
+    getOrder(orderId: ID!): Order!
+    getAllOrder: [Order!]!
+    getUserOrder(userId: ID!): [Order!]!
   }
 `;
 export default OrderTypeDef;
