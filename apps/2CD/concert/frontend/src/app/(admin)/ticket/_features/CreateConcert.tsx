@@ -36,22 +36,23 @@ const CreateConcert = () => {
     },
   });
   const { data } = useGetArtistsQuery();
-  const [createConcert, { loading, error }] = useCreateConcertMutation();
+  const [createConcert, { loading, error }] = useCreateConcertMutation({
+    onCompleted: () => {
+      toast('Тасалбар амжилттай үүслээ');
+      form.reset()
+      setOpen(false)
+    },
+    onError: (error) => {
+      toast(error.message);
+    },
+  });
   const handleCreateConcert = async (value: ConcertInput) => {
     await createConcert({
       variables: {
         input: value,
       },
     });
-    if (!error) {
-      toast('Тасалбар амжилттай үүслээ');
-      form.reset();
-      setOpen(false);
-    }
   };
-  useEffect(() => {
-    toast(error?.toString().split(':')[1]);
-  }, [error]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
