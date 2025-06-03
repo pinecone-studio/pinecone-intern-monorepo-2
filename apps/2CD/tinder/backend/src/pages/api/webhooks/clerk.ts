@@ -13,7 +13,7 @@ type ClerkUserData = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'GET is not allowed' });
+    return res.status(405).json({ message: 'Зөвхөн POST хүсэлтийг хүлээн авна' });
   }
 
   try {
@@ -37,7 +37,7 @@ async function processWebhookEvent(evt: WebhookEvent, res: NextApiResponse) {
       return await handleUserDelete(data, res);
     default:
       console.warn('event:', evt.type);
-      return res.status(200).json({ message: 'event' });
+      return res.status(200).json({ message: 'Танигдаагүй event төрөл' });
   }
 }
 

@@ -8,8 +8,16 @@ jest.mock('../../src/models/user', () => ({
 }));
 
 describe('Clerk Webhook Handler', () => {
+  const originalWarn = console.warn;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    console.warn = jest.fn();
+  });
+
+  afterAll(() => {
+    jest.resetAllMocks();
+    console.warn = originalWarn;
   });
 
   const createMockRequest = (body: unknown): Partial<NextApiRequest> => ({
@@ -42,7 +50,11 @@ describe('Clerk Webhook Handler', () => {
 
     await handler(req as NextApiRequest, res as NextApiResponse);
 
-    expect(User.findOneAndUpdate).toHaveBeenCalledWith({ clerkId: 'user_123' }, { clerkId: 'user_123', email: 'test@example.com', name: 'testuser' }, { upsert: true, new: true });
+    expect(User.findOneAndUpdate).toHaveBeenCalledWith(
+      { clerkId: 'user_123' },
+      { clerkId: 'user_123', email: 'test@example.com', name: 'testuser' },
+      { upsert: true, new: true }
+    );
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: 'Хэрэглэгч амжилттай бүртгэгдлээ' }));
@@ -65,7 +77,11 @@ describe('Clerk Webhook Handler', () => {
 
     await handler(req as NextApiRequest, res as NextApiResponse);
 
-    expect(User.findOneAndUpdate).toHaveBeenCalledWith({ clerkId: 'user_456' }, { clerkId: 'user_456', email: 'update@example.com', name: 'Update User' }, { upsert: true, new: true });
+    expect(User.findOneAndUpdate).toHaveBeenCalledWith(
+      { clerkId: 'user_456' },
+      { clerkId: 'user_456', email: 'update@example.com', name: 'Update User' },
+      { upsert: true, new: true }
+    );
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ message: 'Хэрэглэгч амжилттай бүртгэгдлээ' }));
