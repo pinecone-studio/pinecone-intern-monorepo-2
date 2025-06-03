@@ -13,6 +13,13 @@ export const getPendingRequests: QueryResolvers['getPendingRequests'] = async ()
         path: 'tickets.ticket',
         model: 'Ticket',
       },
+    })
+    .populate({
+      path: 'booking',
+      populate: {
+        path: 'concert',
+        model: 'Concert',
+      },
     });
   return pendingRequests.map((doc) => ({
     id: doc.id,

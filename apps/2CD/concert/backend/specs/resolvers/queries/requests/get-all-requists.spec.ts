@@ -30,20 +30,26 @@ describe('getAllRequests resolver', () => {
       },
     ];
 
-    const populateMock = jest.fn().mockReturnThis();
-    const populateMock2 = jest.fn().mockResolvedValueOnce(mockData);
+    const populate3 = jest.fn().mockResolvedValue(mockData);
+    const populate2b = jest.fn().mockReturnValue({ populate: populate3 });
+    const populate2a = jest.fn().mockReturnValue({ populate: populate2b });
+    const populate1 = jest.fn().mockReturnValue({ populate: populate2a });
 
-    (RequestModel.find as jest.Mock).mockReturnValue({
-      populate: populateMock.mockReturnValue({
-        populate: populateMock2,
-      }),
-    });
+    (RequestModel.find as jest.Mock).mockReturnValue({ populate: populate1 });
 
     const result = await getAllRequists!({}, {}, {}, {} as GraphQLResolveInfo);
 
     expect(RequestModel.find).toHaveBeenCalled();
-    expect(populateMock).toHaveBeenCalledWith('booking');
-    expect(populateMock2).toHaveBeenCalledWith('user');
+    expect(populate1).toHaveBeenCalledWith('booking');
+    expect(populate2a).toHaveBeenCalledWith('user');
+    expect(populate2b).toHaveBeenCalledWith({
+      path: 'booking',
+      populate: {
+        path: 'tickets.ticket',
+        model: 'Ticket',
+      },
+    });
+    expect(populate3).toHaveBeenCalled(); // triggers final populate
     expect(result).toEqual(mockData);
   });
 });
