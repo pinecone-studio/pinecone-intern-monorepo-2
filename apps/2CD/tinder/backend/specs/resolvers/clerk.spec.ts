@@ -1,5 +1,5 @@
 import { WebhookEvent } from '@clerk/nextjs/server';
-import { POST } from '../../src/pages/api/webhooks/clerk';
+import POST from '../../src/pages/api/webhooks/clerk';
 import User from '../../src/models/user';
 
 // Webhook test

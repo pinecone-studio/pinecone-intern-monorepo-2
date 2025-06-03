@@ -19,11 +19,8 @@ const isValidEmailAddresses = (data: unknown): boolean => {
 const isUserData = (data: unknown): data is UserData => {
   if (typeof data !== 'object' || data === null) return false;
   const userData = data as Record<string, unknown>;
-  
-  return (
-    typeof userData.id === 'string' &&
-    isValidEmailAddresses(userData.emailAddresses)
-  );
+
+  return typeof userData.id === 'string' && isValidEmailAddresses(userData.emailAddresses);
 };
 
 const handleUserEvent = async (evt: WebhookEvent) => {
@@ -32,7 +29,7 @@ const handleUserEvent = async (evt: WebhookEvent) => {
   }
 
   const { id, emailAddresses, username, firstName, lastName } = evt.data;
-  
+
   const user = await User.findOneAndUpdate(
     { clerkId: id },
     {
@@ -54,7 +51,7 @@ const handleUserDelete = async (evt: WebhookEvent) => {
 
 const handleWebhook = async (evt: WebhookEvent) => {
   const eventType = evt.type;
-  
+
   if (eventType === 'user.created' || eventType === 'user.updated') {
     return handleUserEvent(evt);
   }
@@ -66,7 +63,7 @@ const handleWebhook = async (evt: WebhookEvent) => {
   return NextResponse.json({ message: 'webhook' });
 };
 
-export async function POST(req: Request) {
+export default async function handler(req: Request) {
   try {
     const payload = await req.json();
     const evt = payload as WebhookEvent;
@@ -75,4 +72,4 @@ export async function POST(req: Request) {
     console.error('Алдаа гарлаа:', error);
     return new NextResponse('Алдаа гарлаа', { status: 500 });
   }
-} 
+}
