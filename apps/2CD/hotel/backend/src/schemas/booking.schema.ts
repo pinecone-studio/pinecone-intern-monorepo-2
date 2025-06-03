@@ -32,7 +32,7 @@ export const typeDefs = gql`
     startDate: Date!
     endDate: Date!
     user: String!
-    room: String!
+    room: Room!
   }
 
   extend type Mutation {
@@ -42,6 +42,6 @@ export const typeDefs = gql`
 
   type Query {
     getBookingById(id: ID!): Booking
-    getAllBookings: [Booking!]! 
+    getAllBookings: [Booking!]!
   }
 `;
