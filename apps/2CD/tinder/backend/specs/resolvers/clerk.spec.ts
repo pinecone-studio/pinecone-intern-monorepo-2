@@ -2,6 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import handler from '../../src/pages/api/webhooks/clerk';
 import User from '../../src/models/user';
 
+// Mock the database connection
+jest.mock('../../src/utils/connect-to-db', () => ({
+  connectToDb: jest.fn().mockResolvedValue(undefined),
+}));
+
 jest.mock('../../src/models/user', () => ({
   findOneAndUpdate: jest.fn(),
   findOneAndDelete: jest.fn(),
@@ -9,15 +14,18 @@ jest.mock('../../src/models/user', () => ({
 
 describe('Clerk Webhook Handler', () => {
   const originalWarn = console.warn;
+  const originalError = console.error;
 
   beforeEach(() => {
     jest.clearAllMocks();
     console.warn = jest.fn();
+    console.error = jest.fn();
   });
 
   afterAll(() => {
     jest.resetAllMocks();
     console.warn = originalWarn;
+    console.error = originalError;
   });
 
   const createMockRequest = (body: unknown): Partial<NextApiRequest> => ({
