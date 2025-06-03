@@ -12,7 +12,7 @@ const allNotificationSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Хүлээгдэж буй', 'Бэлтгэгдэж буй', 'Амжилттай'],
+    enum: ['Хүлээгдэж буй', 'Бэлтгэгдэж буй', 'Амжилтай'],
   },
   createdAt: { type: Date, default: Date.now },
 });
