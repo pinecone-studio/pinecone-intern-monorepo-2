@@ -1,5 +1,6 @@
 'use client';
 
+import { Loading } from "@/components";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +26,7 @@ const LandingPage = () => {
         </div>
        
       )}
+      <Loading/>
     </div>
   );
 }
