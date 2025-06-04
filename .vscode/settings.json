@@ -1,6 +1,5 @@
 {
-  "eslint.validate": [
-    "json"
-  ],
-  "liveServer.settings.port": 5501
+  "eslint.validate": ["json"],
+  "liveServer.settings.port": 5501,
+  "nxConsole.generateAiAgentRules": true
 }

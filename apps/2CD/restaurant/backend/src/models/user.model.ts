@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     default: 'USER',
     required: true,
   },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
 });
 
 export const User = mongoose.models.User || mongoose.model('User', UserSchema);

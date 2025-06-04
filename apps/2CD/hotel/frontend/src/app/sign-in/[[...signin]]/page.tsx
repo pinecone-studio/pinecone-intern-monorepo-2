@@ -1,3 +1,4 @@
+// eslint-disable-next-line unicorn/filename-case
 import { SignIn } from '@clerk/nextjs';
 
 const signin = () => {
