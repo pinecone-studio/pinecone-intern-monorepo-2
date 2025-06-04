@@ -12,7 +12,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="font-sans antialiased">
+        <body className="font-sans antialiased bg-[#121212]">
           <ApolloWrapper>{children}</ApolloWrapper>
         </body>
       </html>
