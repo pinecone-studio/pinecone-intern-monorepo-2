@@ -1,10 +1,10 @@
-import HotelCard from "./_components/hotel-card"
+import HotelCard from './_features/hotel-card';
 
-const HomePageTest=()=>{
-return(
+const HomePageTest = () => {
+  return (
     <>
-    <HotelCard/>
+      <HotelCard />
     </>
-)
-}
+  );
+};
 export default HomePageTest;

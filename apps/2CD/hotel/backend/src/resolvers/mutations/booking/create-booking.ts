@@ -8,6 +8,7 @@ interface BookingInput {
   endDate: string;
   user: string;
   room: string;
+  hotel: string;
 }
 
 const defaultValues = {
