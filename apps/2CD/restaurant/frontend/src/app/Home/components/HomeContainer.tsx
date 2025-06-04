@@ -35,9 +35,9 @@ const HomeContainer = () => {
 
           <p className="text-gray-800 text-lg mt-2">{item.name}</p>
           <p className="font-bold text-xl">{item.price}</p>
-          {/* <button onClick={() => handleReducePrice(item.id)} className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+          <button onClick={() => handleReducePrice(item.id)} className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
             20% Sale
-          </button> */}
+          </button>
         </div>
       ))}
     </div>
