@@ -1,0 +1,7 @@
+query GetArtists {
+  getArtists {
+    avatarImage
+    name
+    id
+  }
+}

@@ -1,0 +1,23 @@
+
+query GetMyMatches {
+  getMyMatches {
+    _id
+    users {
+      _id
+      name
+      email
+    }
+    createdAt
+  }
+}
+query GetMatchById($id: ID!) {
+  getMatchById(id: $id) {
+    _id
+    users {
+      _id
+      name
+      email
+    }
+    createdAt
+  }
+}

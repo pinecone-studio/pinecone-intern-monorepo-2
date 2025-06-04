@@ -133,7 +133,7 @@
           "target": "clean"
         },
         {
-          "target": "get-secrets:testing"
+          "target": "get-secrets:dev"
         },
         {
           "target": "export-env"

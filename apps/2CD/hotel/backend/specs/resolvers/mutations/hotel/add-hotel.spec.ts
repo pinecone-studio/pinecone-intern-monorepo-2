@@ -21,6 +21,7 @@ describe('addHotel mutation', () => {
     guestReviews: [],
     bookings: [],
     roomServices: [],
+    images: [],
   };
 
   beforeEach(() => {

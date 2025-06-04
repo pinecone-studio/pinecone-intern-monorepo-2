@@ -29,3 +29,21 @@ mutation AddHotel($input: AddHotelInput!) {
     roomServices
   }
 }
+query GetAllHotels {
+  getAllHotels {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+    createdAt
+    updatedAt
+    rating
+  }
+}

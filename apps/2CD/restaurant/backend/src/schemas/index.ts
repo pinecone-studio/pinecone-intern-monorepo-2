@@ -1,11 +1,10 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import { typeDefs as CommonTypeDefs } from './common.schema';
 import FoodTypeDef from './food.schema';
-
 import CategoryTypeDef from './category.schema';
-
-
 import UserTypeDef from './user.schema';
-
-export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef ]);
-
+import OrderTypeDef from './order.schema';
+import walletHistoryTypeDef from './wallet-notification.schema';
+import allNotificationTypeDef from './all-notification.schema';
+import OtpTypeDef from './otp-schema';
+export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef, OrderTypeDef, walletHistoryTypeDef, OtpTypeDef,allNotificationTypeDef]);

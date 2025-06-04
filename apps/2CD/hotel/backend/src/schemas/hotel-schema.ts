@@ -20,6 +20,7 @@ export const typeDefs = gql`
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
+    location: String
   }
 
   input UpdateHotelInput {
@@ -33,6 +34,7 @@ export const typeDefs = gql`
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
+    location: String
   }
 
   type Hotel {
@@ -43,12 +45,14 @@ export const typeDefs = gql`
     phoneNumber: String!
     amenities: [String!]
     rooms: [ID!]
+    images: [String!]
     hotelStar: Int
     guestReviews: [ID!]
     bookings: [ID!]
     roomServices: [ID!]
     createdAt: String!
     updatedAt: String!
+    location: String!
   }
 
   type Mutation {
