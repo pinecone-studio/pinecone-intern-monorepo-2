@@ -10,6 +10,7 @@ export const SelectArtist = ({
   defaultValue,
   setValue,
   artists,
+  hideLabel,
 }: {
   artists:
     | {
@@ -21,6 +22,7 @@ export const SelectArtist = ({
     | undefined;
   defaultValue: string[];
   setValue: (val: string[]) => void;
+  hideLabel?: boolean;
 }) => {
   const handleAddArtistId = (artistId: string) => {
     if (!defaultValue.includes(artistId)) {
@@ -35,18 +37,18 @@ export const SelectArtist = ({
   };
   return (
     <FormItem data-testid="form-item">
-      <FormLabel data-testid="form-label">артистын нэр*</FormLabel>
+      {!hideLabel && <FormLabel data-testid="form-label">артистын нэр*</FormLabel>}
       <Stack direction="row" gap={2}>
         <FormControl data-testid="form-control">
           <Select data-testid="select" onValueChange={(value) => handleAddArtistId(value)}>
-            <SelectTrigger data-testid="select-trigger" data-cy="select-trigger-artist" className="w-[180px]">
-              <SelectValue data-testid="select-value" placeholder="артист нэмэх" />
+            <SelectTrigger data-testid="select-trigger" data-cy={hideLabel ? 'query-select-trigger' : 'select-trigger-artist'} className="w-[180px]">
+              <SelectValue data-testid='select-value-artist' placeholder="артист нэмэх" />
             </SelectTrigger>
             <SelectContent>
               {artists
                 ?.filter((artist) => !defaultValue.some((a) => a === artist.id))
                 .map((artist) => (
-                  <SelectItem data-testid={`select-artist-${artist.id}`} key={artist.id} value={artist.id}>
+                  <SelectItem data-testid={hideLabel ? 'select-artist-query' : `select-artist-${artist.id}`} key={artist.id} value={artist.id}>
                     {artist.name}
                   </SelectItem>
                 ))}

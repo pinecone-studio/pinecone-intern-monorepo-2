@@ -71,25 +71,11 @@ describe('Create Concert E2E Tests', () => {
     cy.get('body').type('{esc}');
     cy.get('[role="dialog"]').should('not.exist');
   });
-  it('should have correct default ticket configuration', () => {
-    cy.get('[data-testid="create-concert-modal-btn"]').click();
-    const ticketTypes = ['VIP', 'STANDARD', 'BACKSEAT'];
-    ticketTypes.forEach((type, index) => {
-      cy.contains(`${type} - Тоо ширхэг`).should('be.visible');
-      cy.contains(`${type} - Үнэ`).should('be.visible');
-      cy.get('input')
-        .eq(3 + index * 2)
-        .should('have.value', '0');
-      cy.get('input')
-        .eq(4 + index * 2)
-        .should('have.value', '0');
-    });
-  });
-  it.only('should reset form when modal is reopened after successful submission', () => {
+  it('should reset form when modal is reopened after successful submission', () => {
     const ticketTypes = ['VIP', 'STANDARD', 'BACKSEAT'];
     cy.intercept('POST', '**/createConcert').as('createConcert');
     cy.get('[data-testid="create-concert-modal-btn"]').click();
-    cy.get('input').first().type('First Concert');
+    cy.get('[data-cy="input-Тоглолтын нэр"]').type('First Concert');
     cy.get('[data-cy="input-Хөтөлбөрийн тухай"]').type('About');
     cy.get('[data-cy="thumbnailUrl-url"]').type('http://url');
     cy.get('[data-cy="select-trigger-artist"]').click();

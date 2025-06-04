@@ -2,6 +2,7 @@
 
 import { Container, Stack, Typography } from '@mui/material';
 import CreateConcert from './_features/CreateConcert';
+import ConcertsTable from './_features/ConcertsTable';
 
 const Page = () => {
   return (
@@ -13,6 +14,7 @@ const Page = () => {
         </Stack>
         <CreateConcert />
       </Stack>
+      <ConcertsTable/>
     </Container>
   );
 };

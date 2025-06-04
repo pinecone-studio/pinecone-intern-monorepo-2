@@ -6,10 +6,10 @@ import { FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
-export const SelectDay = ({ day, setDay }: { day: Date | undefined; setDay: React.Dispatch<React.SetStateAction<Date | undefined>> }) => {
+export const SelectDay = ({ day, setDay, hideLabel }: {hideLabel?:boolean,  day: Date | undefined; setDay: React.Dispatch<React.SetStateAction<Date | undefined>> }) => {
   return (
     <FormItem data-testid="form-item" className="flex flex-col">
-      <FormLabel data-testid="form-label">Тоглолтын өдөр сонгох</FormLabel>
+     {!hideLabel && <FormLabel data-testid="form-label">Тоглолтын өдөр сонгох</FormLabel>}
       <Popover data-testid="popover">
         <PopoverTrigger data-testid="popover-trigger" asChild>
           <FormControl data-testid="form-control">
