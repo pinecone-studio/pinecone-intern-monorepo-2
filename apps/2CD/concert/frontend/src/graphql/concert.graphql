@@ -1,0 +1,3 @@
+mutation CreateConcert($input: CreateConcertInput!) {
+  createConcert(input: $input)
+}

@@ -20,6 +20,7 @@ describe('updateHotel mutation', () => {
     guestReviews: ['683542c288acac72d9b902c2'],
     bookings: ['683542c288acac72d9b902c3'],
     roomServices: ['683542c288acac72d9b902c4'],
+    images: [],
   };
 
   const mockHotel = {

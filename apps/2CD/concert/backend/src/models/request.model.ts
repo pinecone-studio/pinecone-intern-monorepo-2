@@ -6,8 +6,9 @@ const RequestSchema = new Schema(
     user: { type: Types.ObjectId, ref: 'User', required: true },
     status: {
       type: String,
-      required: true,
       enum: ['PENDING', 'DONE'],
+      default: 'PENDING',
+      required: true,
     },
     bank: { type: String, required: true },
     bankAccount: { type: String, required: true },

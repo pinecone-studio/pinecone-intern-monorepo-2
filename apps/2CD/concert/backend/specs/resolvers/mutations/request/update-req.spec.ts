@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
 import { updateRequest } from 'src/resolvers/mutations';
-import { RequestStatus } from 'src/generated';
+import { RequestStatus, Response } from 'src/generated';
 import { RequestModel } from 'src/models';
 
 jest.mock('src/models', () => ({
@@ -52,6 +52,6 @@ describe('updateRequest mutation', () => {
     expect(RequestModel.findById).toHaveBeenCalled();
 
     expect(RequestModel.findByIdAndUpdate).toHaveBeenCalled();
-    expect(result.status).toBe(RequestStatus.Done);
+    expect(result).toBe(Response.Success);
   });
 });

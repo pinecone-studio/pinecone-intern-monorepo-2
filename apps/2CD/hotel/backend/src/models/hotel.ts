@@ -10,7 +10,8 @@ export interface IHotel extends Document {
   hotelStar: number;
   guestReviews: mongoose.Types.ObjectId[];
   bookings: mongoose.Types.ObjectId[];
-  roomServices: mongoose.Types.ObjectId[];
+  roomServices: string[];
+  images: string[];
 }
 
 const HotelSchema: Schema = new Schema(
@@ -24,7 +25,9 @@ const HotelSchema: Schema = new Schema(
     hotelStar: { type: Number, min: 1, max: 5 },
     guestReviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     bookings: [{ type: Schema.Types.ObjectId, ref: 'Booking' }],
-    roomServices: [{ type: Schema.Types.ObjectId, ref: 'RoomService' }],
+    roomServices: [{ type: String }],
+    images: [{ type: String }],
+    location: { type: String},
   },
   { timestamps: true }
 );

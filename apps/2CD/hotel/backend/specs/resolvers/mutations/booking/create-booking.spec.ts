@@ -12,6 +12,7 @@ describe('CreateBooking Mutation', () => {
     endDate: '2025-06-10T00:00:00.000+00:00',
     user: '683542c288acac72d9b902ce',
     room: '68369eaa0182030f83ae1f96',
+    hotel: 'asdf',
   };
 
   const mockSavedBooking = {

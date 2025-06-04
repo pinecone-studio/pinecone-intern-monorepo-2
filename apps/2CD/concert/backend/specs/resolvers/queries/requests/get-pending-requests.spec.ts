@@ -1,33 +1,38 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
+import { RequestStatus } from 'src/generated';
 import { RequestModel } from 'src/models';
 import { getPendingRequests } from 'src/resolvers/queries/index';
 
 jest.mock('src/models', () => ({
   RequestModel: {
-    find: jest.fn(),
+    aggregate: jest.fn(),
   },
 }));
 
 describe('getPendingRequests', () => {
-  const allRequests = [
-    { status: 'PENDING', name: 'test' },
-    { status: 'PENDING', name: 'test1' },
-    { status: 'DONE', name: 'test2' },
+  const mockData = [
+    {
+      id: '2',
+      booking: { id: 'b2', time: '2025-05-27' },
+      user: { id: 'u2', name: 'Bob' },
+      status: RequestStatus.Pending,
+      bank: 'AnotherBank',
+      bankAccount: '87654321',
+      name: 'Bob Choi',
+      createdAt: new Date('2025-05-26T00:00:00Z'),
+      updatedAt: new Date('2025-05-26T00:00:00Z'),
+    },
   ];
-
-  const pendingOnly = allRequests.filter((r) => r.status === 'PENDING');
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should return only pending requests', async () => {
-    (RequestModel.find as jest.Mock).mockResolvedValue(pendingOnly);
+    (RequestModel.aggregate as jest.Mock).mockResolvedValueOnce(mockData);
     const result = await getPendingRequests!({}, {}, {}, {} as GraphQLResolveInfo);
-    expect(result).toEqual([
-      { status: 'PENDING', name: 'test' },
-      { status: 'PENDING', name: 'test1' },
-    ]);
+
+    expect(result).toEqual(mockData);
   });
 });

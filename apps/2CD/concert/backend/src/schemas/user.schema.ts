@@ -10,4 +10,17 @@ export const userDefs = gql`
     createdAt: Date!
     updatedAt: Date!
   }
+  input UpdateUserInput {
+    id: ID!
+    email: String
+    phone: String
+  }
+  input UpdatePassInput {
+    id: ID!
+    password: String!
+  }
+  type Mutation {
+    updateUser(input: UpdateUserInput!): Response!
+    updatePass(input: UpdatePassInput!): Response!
+  }
 `;

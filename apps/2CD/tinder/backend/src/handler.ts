@@ -5,9 +5,6 @@ import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 connectToDb();
 
@@ -19,18 +16,11 @@ const server = new ApolloServer<Context>({
 
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
-    const authHeader = req.headers.get('authorization') || '';
-    let user = null;
+    const userId = req.headers.get('userid') ?? null;
 
-    if (authHeader.startsWith('Bearer ')) {
-      const token = authHeader.slice(7);
-      try {
-        user = jwt.verify(token, JWT_SECRET);
-      } catch (e) {
-        // invalid token, user stays null
-      }
-    }
-
-    return { req, user };
+    return {
+      req,
+      userId,
+    };
   },
 });

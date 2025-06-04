@@ -10,7 +10,8 @@ type Mutation {
   createCategory(name: String!): Category!
 }
 type Query {
-  getAllCategories: [Category!]!
+  getAllCategory: [Category!]!
+  getFoodCategory(_id: ID!): [Food!]!
 }
 
 `;
