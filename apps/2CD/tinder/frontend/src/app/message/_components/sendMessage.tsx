@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useSendMessageMutation } from '@/generated';
 
-const SendMessage = ({ matchId }: { matchId: string }) => {
+
+
+const SendMessage = ({ matchId }: { matchId: string}) => {
   const [content, setContent] = useState('');
   const [sendMessage] = useSendMessageMutation();
 
