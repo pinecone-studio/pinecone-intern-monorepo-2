@@ -3,17 +3,18 @@ import gql from 'graphql-tag';
 export const typeDefs = gql`
   scalar Date
 
- type User {
-  _id: ID!
-  name: String    
-  email: String
-  password: String!
-}
+  type User {
+    _id: ID!
+    clerkId: String
+    name: String
+    email: String
+    password: String!
+  }
 
   type Query {
-    me: User
+    me(clerkId: String!): User
     getUserById(id: ID!): User
-    getAllUsers: [User!]!
+    getAllUsers: [User]
   }
 
   type Mutation {

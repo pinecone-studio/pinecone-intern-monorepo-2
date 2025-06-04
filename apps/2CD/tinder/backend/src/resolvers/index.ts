@@ -11,6 +11,8 @@ import { getMyMatches } from './queries/match/get-my-matches';
 import { createProfile } from './mutations/profile/create-profile';
 import { updateProfile } from './mutations/profile/update-profile';
 import { getProfile } from './queries/profile/get-profile';
+import { getAllUsers } from './queries/user/get-all-users';
+import { me } from './queries/user/me';
 
 export const resolvers = {
   Mutation: {
@@ -29,5 +31,7 @@ export const resolvers = {
     getMyMatches,
     getMatchById,
     getProfile,
+    getAllUsers,
+    me,
   },
 };
