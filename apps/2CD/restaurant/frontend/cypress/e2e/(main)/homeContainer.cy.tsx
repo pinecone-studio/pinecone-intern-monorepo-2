@@ -7,6 +7,10 @@ describe('HomeContainer component', () => {
     mount(<HomeContainer />);
     cy.contains('Taco').should('have.length', 4);
   });
+   it('renders all tacos', () => {
+    mount(<HomeContainer />);
+    cy.contains('Taco').should('have.length', 4);
+  });
 
   it('applies 20% discount on click', () => {
     mount(<HomeContainer />);
