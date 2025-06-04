@@ -1,6 +1,6 @@
 'use client';
 
-import { HotelImage } from '@/components/HotelImage';
+import { HotelImage } from '@/components/details/HotelImage';
 import { SignedIn } from '@clerk/nextjs';
 import { Heart, Share, Star } from 'lucide-react';
 
