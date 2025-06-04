@@ -46,7 +46,6 @@ jest.mock('src/models', () => ({
 describe('createBooking Mutation', () => {
   const mockInfo = {} as GraphQLResolveInfo;
 
-  const invalidUserId = '0000000000000';
   beforeEach(() => {
     jest.clearAllMocks();
   });
