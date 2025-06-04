@@ -1,4 +1,4 @@
-import Header from '../../components/header/Header';
+import Header from '../../components/home-header/Header';
 const CheckOut = () => {
   return (
     <>

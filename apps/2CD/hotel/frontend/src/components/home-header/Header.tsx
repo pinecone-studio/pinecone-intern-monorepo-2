@@ -4,12 +4,13 @@
 'use client';
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import { useUser } from '@clerk/nextjs';
-const Header = () => {
+import UserSearchPage from '../userSearch/Page';
+const HomeHeader = () => {
   const { user } = useUser();
   const userName = user?.username || 'guest'
   return (
     <>
-      <div className='w-full h-[200px]'>
+      <div className='w-full h-[200px] relative'>
           <SignedOut >
             <div className='w-full bg-[#013B94] flex p-4 justify-center'>
               <div className='flex w-[1280px] justify-between'>
@@ -21,7 +22,7 @@ const Header = () => {
                   <div>
                     <SignUpButton />
                   </div>
-                  <div>
+                  <div>1
                     <SignInButton />
                   </div>
                 </div>
@@ -45,11 +46,14 @@ const Header = () => {
               </div>
             </div>
           </SignedIn> 
+        <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[1160px] h-[94px]'>
+          <UserSearchPage />
+      </div>
       </div>
     </>
   );
 };
 
-export default Header;
+export default HomeHeader;
 
 
