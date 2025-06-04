@@ -6,7 +6,6 @@ import Header from "@/components/header/Header";
 import FooterRegular from "@/components/footer/footer-regular";
 import FooterReserve from "@/components/footer/footer-reserve";
 import FooterCheckIn from "@/components/footer/footer-check-in";
-
 const Page = () => {
 
   return (

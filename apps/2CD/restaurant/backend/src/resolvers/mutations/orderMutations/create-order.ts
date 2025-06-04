@@ -21,7 +21,7 @@ export const createOrder = async (_: any, { input }: { input: OrderType }) => {
             orderPrice,
             tableNumber,
             foodItems,
-            orderStatus: 'PENDING',
+            orderStatus: 'Хүлээгдэж буй',
         });
         return newOrder;
     } catch (error) {

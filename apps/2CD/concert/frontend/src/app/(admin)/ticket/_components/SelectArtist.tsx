@@ -39,7 +39,7 @@ export const SelectArtist = ({
       <Stack direction="row" gap={2}>
         <FormControl data-testid="form-control">
           <Select data-testid="select" onValueChange={(value) => handleAddArtistId(value)}>
-            <SelectTrigger data-testid="select-trigger" className="w-[180px]">
+            <SelectTrigger data-testid="select-trigger" data-cy="select-trigger-artist" className="w-[180px]">
               <SelectValue data-testid="select-value" placeholder="артист нэмэх" />
             </SelectTrigger>
             <SelectContent>

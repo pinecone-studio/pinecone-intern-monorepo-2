@@ -42,7 +42,7 @@ describe('createOrder', () => {
                 { foodId: 'food1', quantity: 2 },
                 { foodId: 'food2', quantity: 1 },
             ],
-            orderStatus: 'PENDING',
+            orderStatus: 'Хүлээгдэж буй',
         };
 
         mockOrder.countDocuments.mockResolvedValue(mockCount);
@@ -57,7 +57,7 @@ describe('createOrder', () => {
             orderPrice: validInput.orderPrice,
             tableNumber: validInput.tableNumber,
             foodItems: validInput.foodItems,
-            orderStatus: 'PENDING',
+            orderStatus: 'Хүлээгдэж буй',
         });
         expect(result).toEqual(mockCreatedOrder);
     });

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen} from '@testing-library/react';
 import { SelectEndHour } from '@/app/(admin)/ticket/_components';
 import '@testing-library/jest-dom';
 import { ReactNode } from 'react';

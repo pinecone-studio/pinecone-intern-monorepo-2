@@ -9,6 +9,7 @@ export const changeEmail = async (_: unknown, { input }: { input: ChangeEmailTyp
   await User.findByIdAndUpdate(input._id, {
     email: input.newEmail,
   });
+
   return {
     success: true,
     message: 'Email changed successfuly',

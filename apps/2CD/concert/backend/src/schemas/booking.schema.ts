@@ -17,8 +17,10 @@ export const bookingDef = gql`
   type Booking {
     id: ID!
     user: User!
+    concert: Concert!
     tickets: [BookedTicket!]!
     status: bookingStatus!
+    totalAmount: Int!
     createdAt: Date!
     updatedAt: Date!
   }

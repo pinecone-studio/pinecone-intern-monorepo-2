@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { getAllRequists } from 'src/resolvers/queries/requests/get-all-requists';
+import { getAllRequests } from 'src/resolvers/queries/requests/get-all-requests';
 import { RequestModel } from 'src/models';
 import { RequestStatus } from 'src/generated';
 import { GraphQLResolveInfo } from 'graphql';
 
 jest.mock('src/models', () => ({
   RequestModel: {
-    find: jest.fn(),
+    aggregate: jest.fn(),
   },
 }));
 
@@ -30,20 +30,11 @@ describe('getAllRequests resolver', () => {
       },
     ];
 
-    const populateMock = jest.fn().mockReturnThis();
-    const populateMock2 = jest.fn().mockResolvedValueOnce(mockData);
+    (RequestModel.aggregate as jest.Mock).mockReturnValue(mockData);
 
-    (RequestModel.find as jest.Mock).mockReturnValue({
-      populate: populateMock.mockReturnValue({
-        populate: populateMock2,
-      }),
-    });
+    const result = await getAllRequests!({}, {}, {}, {} as GraphQLResolveInfo);
 
-    const result = await getAllRequists!({}, {}, {}, {} as GraphQLResolveInfo);
-
-    expect(RequestModel.find).toHaveBeenCalled();
-    expect(populateMock).toHaveBeenCalledWith('booking');
-    expect(populateMock2).toHaveBeenCalledWith('user');
+    expect(RequestModel.aggregate).toHaveBeenCalled();
     expect(result).toEqual(mockData);
   });
 });
