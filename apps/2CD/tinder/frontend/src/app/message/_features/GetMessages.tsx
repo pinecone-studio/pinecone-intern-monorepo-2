@@ -2,6 +2,46 @@
 
 import { useGetMyMatchesQuery, useGetMessageQuery } from '@/generated';
 import { useState } from 'react';
+import SendMessage from '../_components/SendMessage';
+
+const MatchList = ({ matches, selectedMatchId, onSelect }: any) => (
+  <div className="w-1/3 border-r p-4 overflow-y-auto bg-white">
+    <h2 className="text-xl font-bold mb-4">Matches</h2>
+    <ul className="space-y-2">
+      {matches?.map((match: any) => (
+        <li
+          key={match._id}
+          onClick={() => onSelect(match._id)}
+          className={`cursor-pointer p-3 rounded-lg border ${
+            selectedMatchId === match._id ? 'bg-blue-100 border-blue-400' : 'hover:bg-gray-100'
+          }`}
+        >
+          {match.users.map((user: any) => (
+            <div key={user._id} className="text-sm font-medium">
+              {user.name}
+            </div>
+          ))}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const MessageView = ({ messages, loading }: any) => {
+  if (loading) return <p>Loading messages...</p>;
+  if (!messages?.length) return <p className="text-gray-500">No messages yet.</p>;
+
+  return (
+    <ul className="space-y-2">
+      {messages.map((msg: any) => (
+        <li key={msg._id} className="p-3 bg-white rounded shadow-sm">
+          <div className="text-sm text-gray-600 mb-1">{msg.sender.name}</div>
+          <div>{msg.content}</div>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
 export const Messages = () => {
   const { data: matchData, loading: loadingMatches, error: matchError } = useGetMyMatchesQuery();
@@ -11,50 +51,22 @@ export const Messages = () => {
     skip: !selectedMatchId,
     variables: { matchId: selectedMatchId || '' },
   });
-  console.log(selectedMatchId);
-  
 
   if (loadingMatches) return <p>Loading matches...</p>;
   if (matchError) return <p>Error: {matchError.message}</p>;
 
   return (
     <div className="flex h-screen">
-      {/* Left: Match list */}
-      <div className="w-1/3 border-r p-4 overflow-y-auto">
-        <h2 className="text-lg font-semibold mb-2">Your Matches</h2>
-        <ul className="space-y-2">
-          {matchData?.getMyMatches.map((match) => (
-            <li
-              key={match._id}
-              onClick={() => setSelectedMatchId(match._id)}
-              className={`cursor-pointer p-2 rounded-md ${
-                selectedMatchId === match._id ? 'bg-blue-100' : 'hover:bg-gray-100'
-              }`}
-            >
-              {match.users.map((user) => (
-                <div key={user._id}>{user.name}</div>
-              ))}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <MatchList
+        matches={matchData?.getMyMatches}
+        selectedMatchId={selectedMatchId}
+        onSelect={setSelectedMatchId}
+      />
+      <div className="w-2/3 p-4 overflow-y-auto flex flex-col bg-gray-50">
+        <h2 className="text-xl font-bold mb-4">Chat</h2>
+        <MessageView messages={messageData?.getMessage} loading={loadingMessages} />
+        {selectedMatchId && <SendMessage matchId={selectedMatchId} />}
 
-      {/* Right: Messages */}
-      <div className="w-2/3 p-4 overflow-y-auto">
-        <h2 className="text-lg font-semibold mb-2">Chat</h2>
-
-        {loadingMessages ? (
-          <p>Loading messages...</p>
-        ) : (
-          <ul className="space-y-2">
-            {messageData?.getMessage.map((msg) => (
-              <li key={msg._id} className="border p-2 rounded">
-                <span className="text-sm text-gray-600">{msg.sender.name}</span>
-                <p>{msg.content}</p>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </div>
   );
