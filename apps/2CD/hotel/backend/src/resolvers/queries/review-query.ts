@@ -2,7 +2,14 @@ import { Review } from 'src/models/review';
 import { ReviewDocument, TransformedReview } from 'src/types/review';
 
 const isValidDate = (date: unknown): boolean => {
-  return date instanceof Date && !isNaN(date.getTime());
+  if (date instanceof Date) {
+    return !isNaN(date.getTime());
+  }
+  if (typeof date === 'string') {
+    const parsedDate = new Date(date);
+    return !isNaN(parsedDate.getTime());
+  }
+  return false;
 };
 
 const isValidString = (value: unknown): boolean => {
@@ -18,11 +25,11 @@ const isValidObject = (value: unknown): boolean => {
 };
 
 const validateUserFields = (user: { _id?: unknown; email?: unknown }): boolean => {
-  return isValidString(user._id) && isValidString(user.email);
+  return (user._id !== null && user._id !== undefined) && isValidString(user.email);
 };
 
 const validateHotelFields = (hotel: { _id?: unknown; hotelName?: unknown }): boolean => {
-  return isValidString(hotel._id) && isValidString(hotel.hotelName);
+  return (hotel._id !== null && hotel._id !== undefined) && isValidString(hotel.hotelName);
 };
 
 const isValidUser = (user: unknown): boolean => {
@@ -37,30 +44,50 @@ const isValidHotel = (hotel: unknown): boolean => {
   return validateHotelFields(hotel as { _id?: unknown; hotelName?: unknown });
 };
 
-const validateReviewBasicFields = (review: ReviewDocument): boolean => {
-  return isValidString(review._id) && 
-         isValidString(review.comment) && 
-         isValidNumber(review.star);
-};
+class ReviewValidator {
+  private static validateId(id: unknown): boolean {
+    return id !== null && id !== undefined && id !== '';
+  }
 
-const validateReviewDates = (review: ReviewDocument): boolean => {
-  return isValidDate(review.createdAt) && isValidDate(review.updatedAt);
-};
+  private static validateComment(comment: unknown): boolean {
+    return isValidString(comment);
+  }
 
-const validateReviewFields = (review: unknown): boolean => {
-  if (!isValidObject(review)) return false;
-  const reviewObj = review as ReviewDocument;
-  return validateReviewBasicFields(reviewObj) && validateReviewDates(reviewObj);
-};
+  private static validateStar(star: unknown): boolean {
+    return isValidNumber(star);
+  }
 
-const validateReviewRelations = (review: ReviewDocument): boolean => {
-  return isValidUser(review.user) && isValidHotel(review.hotel);
-};
+  static validateBasicFields(review: ReviewDocument): boolean {
+    const hasValidId = this.validateId(review._id);
+    const hasValidComment = this.validateComment(review.comment);
+    const hasValidStar = this.validateStar(review.star);
+    return hasValidId && hasValidComment && hasValidStar;
+  }
 
-const isValidReview = (review: unknown): boolean => {
-  if (!validateReviewFields(review)) return false;
-  return validateReviewRelations(review as ReviewDocument);
-};
+  static validateDates(review: ReviewDocument): boolean {
+    const hasValidCreatedAt = isValidDate(review.createdAt);
+    const hasValidUpdatedAt = isValidDate(review.updatedAt);
+    return hasValidCreatedAt && hasValidUpdatedAt;
+  }
+
+  static validateRelations(review: ReviewDocument): boolean {
+    const hasValidUser = isValidUser(review.user);
+    const hasValidHotel = isValidHotel(review.hotel);
+    return hasValidUser && hasValidHotel;
+  }
+
+  static validateObject(review: unknown): review is ReviewDocument {
+    return isValidObject(review);
+  }
+
+  static isValid(review: unknown): boolean {
+    if (!this.validateObject(review)) return false;
+    const hasValidBasicFields = this.validateBasicFields(review);
+    const hasValidDates = this.validateDates(review);
+    const hasValidRelations = this.validateRelations(review);
+    return hasValidBasicFields && hasValidDates && hasValidRelations;
+  }
+}
 
 const transformReview = (review: ReviewDocument): TransformedReview => ({
   id: review._id,
@@ -77,13 +104,21 @@ const transformReview = (review: ReviewDocument): TransformedReview => ({
 export const reviewQueries = {
   reviewsByUser: async (_: unknown, { userId }: { userId: string }): Promise<TransformedReview[]> => {
     try {
+      console.log('Fetching reviews for user:', userId);
       const reviews = await Review.find({ user: userId })
         .populate('user', '_id email')
         .populate('hotel', '_id hotelName')
         .lean();
-      return (reviews as unknown as ReviewDocument[])
-        .filter(isValidReview)
+      
+      console.log('Found reviews:', reviews);
+      
+      const validReviews = (reviews as unknown as ReviewDocument[])
+        .filter((review) => ReviewValidator.isValid(review))
         .map(transformReview);
+      
+      console.log('Valid reviews after transformation:', validReviews);
+      
+      return validReviews;
     } catch (error) {
       console.error('Error fetching reviews by user:', error);
       throw new Error('Failed to fetch reviews by user');
@@ -97,7 +132,7 @@ export const reviewQueries = {
         .populate('hotel', '_id hotelName')
         .lean();
       return (reviews as unknown as ReviewDocument[])
-        .filter(isValidReview)
+        .filter((review) => ReviewValidator.isValid(review))
         .map(transformReview);
     } catch (error) {
       console.error('Error fetching reviews by hotel:', error);
@@ -106,4 +141,4 @@ export const reviewQueries = {
   },
 };
 
-export { isValidDate, isValidUser, isValidHotel, isValidReview };
+export { isValidDate, isValidUser, isValidHotel, ReviewValidator };

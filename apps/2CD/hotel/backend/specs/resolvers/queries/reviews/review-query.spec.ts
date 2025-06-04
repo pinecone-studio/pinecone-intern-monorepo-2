@@ -1,5 +1,5 @@
 import { Review } from 'src/models/review';
-import { reviewQueries, isValidDate, isValidUser, isValidHotel, isValidReview } from 'src/resolvers/queries/review-query';
+import { reviewQueries, isValidDate, isValidUser, isValidHotel, ReviewValidator } from 'src/resolvers/queries/review-query';
 import { ReviewDocument } from 'src/types/review';
 
 jest.mock('src/models/review');
@@ -133,8 +133,8 @@ describe('review-query helpers', () => {
       { user: { _id: '' }, hotel: { hotelName: '' } }
     ];
 
-    expect(isValidReview(validReview)).toBe(true);
-    invalidReviews.forEach(review => expect(isValidReview(review)).toBe(false));
+    expect(ReviewValidator.isValid(validReview)).toBe(true);
+    invalidReviews.forEach(review => expect(ReviewValidator.isValid(review)).toBe(false));
   });
 
   it('transforms reviews with null user and hotel', async () => {
