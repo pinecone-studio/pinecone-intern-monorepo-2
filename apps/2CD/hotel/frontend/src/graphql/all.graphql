@@ -47,3 +47,21 @@ query GetAllHotels {
     rating
   }
 }
+query GetHotelById($getHotelByIdId: ID!) {
+  getHotelById(id: $getHotelByIdId) {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+    createdAt
+    updatedAt
+    rating
+  }
+}
