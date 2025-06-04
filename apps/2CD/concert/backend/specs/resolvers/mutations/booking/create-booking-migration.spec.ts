@@ -1,146 +1,121 @@
-// import { GraphQLResolveInfo } from 'graphql';
-// import { createBooking } from 'src/resolvers/mutations/booking';
-// import { catchError } from 'src/utils/catch-error';
-// import { bookingsModel } from 'src/models';
-// import { validateConcert } from 'src/utils/create-booking-validation.ts/validate-concert';
-// import { validateTickets } from 'src/utils/create-booking-validation.ts/validate-tickets';
-// import { validateUser } from 'src/utils/create-booking-validation.ts/validate-user';
+import { GraphQLResolveInfo } from 'graphql';
+import { Response } from 'src/generated';
+import { bookingsModel, concertModel, ticketModel, userModel } from 'src/models';
+import { createBooking } from 'src/resolvers/mutations';
+import { validateConcert } from 'src/utils/create-booking.ts/validate-concert';
+import { validateTickets } from 'src/utils/create-booking.ts/validate-tickets';
+import { validateUser } from 'src/utils/create-booking.ts/validate-user';
+import { bookingSchema } from 'src/zodSchemas/booking.zod';
 
-// jest.mock('../../../src/utils/create-booking/validate-user', () => ({
-//   validateUser: jest.fn().mockResolvedValue(true),
-// }));
+const mockInput = {
+  userId: '507f191e810c19729de860ea',
+  concertId: '507f191e810c19729de860eb',
+  tickets: [
+    { ticketId: '507f191e810c19729de860ec', quantity: 2, price: 1000 },
+    { ticketId: '507f191e810c19729de860ed', quantity: 1, price: 1000 },
+  ],
+};
 
-// jest.mock('../../../src/utils/create-booking/validate-concert', () => ({
-//   validateConcert: jest.fn().mockResolvedValue(true),
-// }));
+jest.mock('src/utils/create-booking.ts/validate-user', () => ({
+  validateUser: jest.fn().mockResolvedValue(undefined),
+}));
 
-// jest.mock('../../../src/utils/create-booking/validate-tickets', () => ({
-//   validateTickets: jest.fn().mockResolvedValue(true),
-// }));
+jest.mock('src/utils/create-booking.ts/validate-concert', () => ({
+  validateConcert: jest.fn().mockResolvedValue(undefined),
+}));
 
-// jest.mock('../../../src/models/booking.model', () => ({
-//   bookingsModel: {
-//     create: jest.fn().mockResolvedValue({
-//       id: 'booking_test_id',
-//       user: 'testing_user',
-//       concert: 'concert_test',
-//       tickets: ['ticket_test'],
-//       totalAmount: 169,
-//       status: 'PENDING',
-//     }),
-//     findById: jest.fn().mockReturnValue({
-//       populate: jest.fn().mockReturnThis(),
-//       exec: jest.fn().mockResolvedValue({
-//         id: 'booking_test_id',
-//         user: { id: 'testing_user' },
-//         concert: { id: 'concert_test' },
-//         tickets: [{ id: 'ticket_test' }],
-//         totalAmount: 169,
-//         status: 'PENDING',
-//       }),
-//     }),
-//   },
-// }));
+jest.mock('src/utils/create-booking.ts/validate-tickets', () => ({
+  validateTickets: jest.fn().mockResolvedValue(undefined),
+}));
 
-// jest.mock('../../../src/utils/catch-error', () => ({
-//   catchError: jest.fn((error) => {
-//     if (error instanceof Error) {
-//       throw new Error(error.message);
-//     }
-//     throw new Error('Серверийн алдаа');
-//   }),
-// }));
-// const info = {} as GraphQLResolveInfo;
+jest.mock('src/models', () => ({
+  bookingsModel: {
+    create: jest.fn(),
+  },
+  userModel: {
+    findById: jest.fn(),
+  },
+  concertModel: {
+    findById: jest.fn(),
+  },
+  ticketModel: {
+    find: jest.fn(),
+  },
+}));
 
-// const args = {
-//   input: {
-//     userId: 'userId_test',
-//     concertId: 'concert_test',
-//   },
-//   ticketIds: ['ticket_test'],
-// };
+describe('createBooking Mutation', () => {
+  const mockInfo = {} as GraphQLResolveInfo;
 
-// describe('createBooking Mutation', () => {
-//   beforeEach(() => {
-//     jest.clearAllMocks();
-//   });
+  const invalidUserId = '0000000000000';
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-//   it('should create a booking successfully', async () => {
-//     const response = await createBooking({}, args, {}, info);
-//     expect(response?.concert.id).toBe(args.input.concertId);
-//     expect(response?.id).toBe('booking_test_id');
-//     expect(response?.status).toBe('PENDING');
-//     expect(catchError).not.toHaveBeenCalled();
-//   });
+  it('should pass validation for valid input', () => {
+    expect(() => bookingSchema.parse(mockInput)).not.toThrow();
+  });
 
-//   it('should throw "Серверийн алдаа" when non-Error is encountered', async () => {
-//     const nonError = 'Unexpected error';
-//     jest.spyOn(validateUser, 'validateUser').mockRejectedValueOnce(nonError);
+  it('should throw error if userId is empty', () => {
+    const input = { ...mockInput, userId: '' };
+    expect(() => bookingSchema.parse(input)).toThrow('User ID can not be empty');
+  });
+  it('should throw error if concertId is empty', () => {
+    const input = { ...mockInput, concertId: '' };
+    expect(() => bookingSchema.parse(input)).toThrow('Concert ID can not be empty');
+  });
+  it('should fail when a ticketId is empty', () => {
+    const mock = {
+      ...mockInput,
+      tickets: [{ ...mockInput.tickets[0], ticketId: '' }, mockInput.tickets[1]],
+    };
+    expect(() => bookingSchema.parse(mock)).toThrow('Ticket ID can not be empty');
+  });
 
-//     await expect(createBooking({}, args, context, info)).rejects.toThrow('Серверийн алдаа');
-//     expect(catchError).toHaveBeenCalledWith(nonError);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
+  it('should fail when price is zero', () => {
+    const mock = {
+      ...mockInput,
+      tickets: [{ ...mockInput.tickets[0], price: 0 }, mockInput.tickets[1]],
+    };
+    expect(() => bookingSchema.parse(mock)).toThrow('Price must be a positive number');
+  });
 
-//   it('should handle Error when booking creation fails', async () => {
-//     const error = new Error('Booking creation failed');
-//     jest.spyOn(bookingsModel.bookingsModel, 'create').mockRejectedValueOnce(error);
+  it('should fail when price is negative', () => {
+    const mock = {
+      ...mockInput,
+      tickets: [{ ...mockInput.tickets[0], price: -100 }, mockInput.tickets[1]],
+    };
+    expect(() => bookingSchema.parse(mock)).toThrow('Price must be a positive number');
+  });
 
-//     await expect(createBooking({}, args, context, info)).rejects.toThrow('Booking creation failed');
-//     expect(catchError).toHaveBeenCalledWith(error);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
+  it('should fail when quantity is zero', () => {
+    const mock = {
+      ...mockInput,
+      tickets: [{ ...mockInput.tickets[0], quantity: 0 }, mockInput.tickets[1]],
+    };
+    expect(() => bookingSchema.parse(mock)).toThrow('Quantity must be a positive number');
+  });
 
-//   it('should throw "Серверийн алдаа" when non-Error is encountered in booking creation', async () => {
-//     const nonError = { message: 'Unexpected error object' };
-//     jest.spyOn(bookingsModel.bookingsModel, 'create').mockRejectedValueOnce(nonError);
+  it('should fail when quantity is negative', () => {
+    const mock = {
+      ...mockInput,
+      tickets: [{ ...mockInput.tickets[0], quantity: -1 }, mockInput.tickets[1]],
+    };
+    expect(() => bookingSchema.parse(mock)).toThrow('Quantity must be a positive number');
+  });
 
-//     await expect(createBooking({}, args, context, info)).rejects.toThrow('Серверийн алдаа');
-//     expect(catchError).toHaveBeenCalledWith(nonError);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
-
-//   // Edge case testing: Handle invalid user ID
-//   it('should handle invalid user ID', async () => {
-//     const error = new Error('User validation failed');
-//     jest.spyOn(validateUser, 'validateUser').mockRejectedValueOnce(error);
-
-//     await expect(createBooking({}, { input: { userId: 'invalid_user', concertId: 'concert_test' }, ticketIds: [] }, context, info))
-//       .rejects.toThrow('User validation failed');
-//     expect(catchError).toHaveBeenCalledWith(error);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
-
-//   // Edge case testing: Handle invalid concert ID
-//   it('should handle invalid concert ID', async () => {
-//     const error = new Error('Concert validation failed');
-//     jest.spyOn(validateConcert, 'validateConcert').mockRejectedValueOnce(error);
-
-//     await expect(createBooking({}, { input: { userId: 'valid_user', concertId: 'invalid_concert' }, ticketIds: [] }, context, info))
-//       .rejects.toThrow('Concert validation failed');
-//     expect(catchError).toHaveBeenCalledWith(error);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
-
-//   // Edge case testing: Handle invalid ticket IDs
-//   it('should handle invalid ticket IDs', async () => {
-//     const error = new Error('Tickets validation failed');
-//     jest.spyOn(validateTickets, 'validateTickets').mockRejectedValueOnce(error);
-
-//     await expect(createBooking({}, { input: { userId: 'valid_user', concertId: 'concert_test' }, ticketIds: ['invalid_ticket'] }, context, info))
-//       .rejects.toThrow('Tickets validation failed');
-//     expect(catchError).toHaveBeenCalledWith(error);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
-
-//   // Edge case testing: Empty ticket IDs
-//   it('should handle empty ticket IDs', async () => {
-//     const error = new Error('Tickets validation failed');
-//     jest.spyOn(validateTickets, 'validateTickets').mockRejectedValueOnce(error);
-
-//     await expect(createBooking({}, { input: { userId: 'valid_user', concertId: 'concert_test' }, ticketIds: [] }, context, info))
-//       .rejects.toThrow('Tickets validation failed');
-//     expect(catchError).toHaveBeenCalledWith(error);
-//     expect(catchError).toHaveBeenCalledTimes(1);
-//   });
-// });
+  it('should create a concert successfully', async () => {
+    (bookingsModel.create as jest.Mock).mockResolvedValueOnce({ _id: 'mockBooking_id' });
+    (userModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860ea' });
+    (concertModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860eb' });
+    (ticketModel.find as jest.Mock).mockResolvedValueOnce([
+      { _id: '507f191e810c19729de860ec', quantity: 2, price: 1000 },
+      { _id: '507f191e810c19729de860ed', quantity: 1, price: 1000 },
+    ]);
+    const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
+    expect(validateUser).toHaveBeenCalledWith(mockInput.userId);
+    expect(validateConcert).toHaveBeenCalledWith(mockInput.concertId);
+    expect(validateTickets).toHaveBeenCalledWith(mockInput.tickets.map((t) => t.ticketId));
+    expect(bookingsModel.create).toHaveBeenCalled();
+    expect(result).toBe(Response.Success);
+  });
+});
