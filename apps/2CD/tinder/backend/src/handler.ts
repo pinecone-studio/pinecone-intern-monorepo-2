@@ -18,10 +18,6 @@ export const handler = startServerAndCreateNextHandler<NextRequest, Context>(ser
   context: async (req) => {
     const clerkId = req.headers.get('clerkid');
 
-    console.log('[DEBUG] Headers:', Object.fromEntries(req.headers.entries()));
-    console.log('[DEBUG] clerkId from header:', req.headers.get('clerkid'));
-
-
     return {
       req,
       clerkId,

@@ -20,8 +20,8 @@ const LandingPage = () => {
       ) : (
         <div>
           <div className="mb-4">Landing page.</div>
-          <button onClick={() => router.push(`/login`)}>Sign In</button>
-          <button onClick={() => router.push(`/sign-up`)}>Sign Up</button>
+          <button onClick={() => router.push(`/auth/sign-in`)}>Sign In</button>
+          <button onClick={() => router.push(`/auth/sign-up`)}>Sign Up</button>
         </div>
 
       )}

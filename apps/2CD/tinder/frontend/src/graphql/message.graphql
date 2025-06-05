@@ -18,8 +18,8 @@ query GetMessage($matchId: ID!) {
 }
 
 # Mutation to send a message
-mutation SendMessage($matchId: ID!, $senderId: ID!, $content: String!) {
-  sendMessage(matchId: $matchId, senderId: $senderId, content: $content) {
+mutation SendMessage($matchId: ID!, $content: String!) {
+  sendMessage(matchId: $matchId, content: $content) {
     _id
     content
     read

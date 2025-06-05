@@ -17,7 +17,6 @@ const SendMessage = ({ matchId }: { matchId: string}) => {
         variables: {
           matchId,
           content,
-          senderId: ''
         },
       });
       setContent('');
