@@ -38,8 +38,6 @@ export const updateProfile = async (_: unknown, { id, input }: UpdateProfileArgs
       throw error;
     }
 
-    console.error('Update Profile Error:', error);
-
     throw new GraphQLError('Failed to update profile', {
       extensions: { code: 'INTERNAL_SERVER_ERROR' },
     });
