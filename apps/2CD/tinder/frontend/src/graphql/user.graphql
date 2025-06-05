@@ -1,6 +1,5 @@
-
-query Me {
-  me {
+query Me($clerkId: String!) {
+  me(clerkId: $clerkId) {
     _id
     name
     email

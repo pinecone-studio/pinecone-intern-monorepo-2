@@ -6,29 +6,34 @@ jest.mock('src/models/message');
 describe('getMessage (by matchId)', () => {
   const mockMatchId = 'match123';
   const mockMessages = [
-    { _id: 'msg1', content: 'Hi', sender: 'user1', match: mockMatchId },
-    { _id: 'msg2', content: 'Hello', sender: 'user2', match: mockMatchId },
+    { _id: 'msg1', content: 'Hi', sender: { name: 'User1' }, match: mockMatchId },
+    { _id: 'msg2', content: 'Hello', sender: { name: 'User2' }, match: mockMatchId },
   ];
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return all messages for a given matchId', async () => {
+  it('should return all messages for a given matchId and populate sender', async () => {
+    const sortMock = jest.fn().mockReturnThis();
+    const populateMock = jest.fn().mockResolvedValue(mockMessages);
+
     (Message.find as jest.Mock).mockReturnValue({
-      sort: jest.fn().mockResolvedValue(mockMessages),
+      sort: sortMock,
+      populate: populateMock,
     });
 
     const result = await getMessage(null, { matchId: mockMatchId });
 
     expect(result).toEqual(mockMessages);
     expect(Message.find).toHaveBeenCalledWith({ match: mockMatchId });
+    expect(sortMock).toHaveBeenCalledWith({ createdAt: 1 });
+    expect(populateMock).toHaveBeenCalledWith('sender');
   });
 
   it('should handle errors and throw original error message if available', async () => {
-    const customError = new Error('DB failure');
     (Message.find as jest.Mock).mockImplementation(() => {
-      throw customError;
+      throw new Error('DB failure');
     });
 
     await expect(getMessage(null, { matchId: mockMatchId })).rejects.toThrow('DB failure');

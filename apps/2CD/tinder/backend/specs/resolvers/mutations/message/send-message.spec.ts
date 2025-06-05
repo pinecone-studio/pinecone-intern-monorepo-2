@@ -1,12 +1,18 @@
 import sendMessage from 'src/resolvers/mutations/message/send-message';
 import Match from 'src/models/match';
 import Message from 'src/models/message';
-import { SendMessageArgs } from 'src/types/graphql';
+import User from 'src/models/user';
 
 jest.mock('src/models/match');
 jest.mock('src/models/message');
+jest.mock('src/models/user');
 
 describe('sendMessage resolver', () => {
+  const mockUser = {
+    _id: 'user1',
+    clerkId: 'clerk_123',
+  };
+
   const mockMatch = {
     _id: 'match123',
     users: ['user1', 'user2'],
@@ -20,24 +26,22 @@ describe('sendMessage resolver', () => {
     createdAt: new Date(),
   };
 
-
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('should send a message successfully', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
     (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
     (Message.create as jest.Mock).mockResolvedValue(mockMessage);
 
-    const args: SendMessageArgs = {
-      matchId: 'match123',
-      senderId: 'user1',
-      content: 'Hello!',
-    };
+    const result = await sendMessage(
+      {},
+      { matchId: 'match123', content: 'Hello!' },
+      { clerkId: 'clerk_123' }
+    );
 
-    const result = await sendMessage({}, args);
-
+    expect(User.findOne).toHaveBeenCalledWith({ clerkId: 'clerk_123' });
     expect(Match.findById).toHaveBeenCalledWith('match123');
     expect(Message.create).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -49,64 +53,72 @@ describe('sendMessage resolver', () => {
     expect(result).toEqual(mockMessage);
   });
 
-  it('should throw error if message content is empty', async () => {
-    const args: SendMessageArgs = {
-      matchId: 'match123',
-      senderId: 'user1',
-      content: '   ',
-    };
+  it('should throw error if clerkId is missing', async () => {
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: 'Hello!' }, {})
+    ).rejects.toThrow('Unauthorized');
+  });
 
-    await expect(sendMessage({}, args)).rejects.toThrow('Message content cannot be empty');
+  it('should throw error if user is not found', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(null);
+
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: 'Hello!' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('User not found');
+  });
+
+  it('should throw error if message content is empty', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: '   ' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('Message content cannot be empty');
   });
 
   it('should throw error if match is not found', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
     (Match.findById as jest.Mock).mockResolvedValue(null);
 
-    const args: SendMessageArgs = {
-      matchId: 'invalidId',
-      senderId: 'user1',
-      content: 'Hi there!',
-    };
-
-    await expect(sendMessage({}, args)).rejects.toThrow('Match not found');
+    await expect(
+      sendMessage({}, { matchId: 'invalidId', content: 'Hi there!' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('Match not found');
   });
 
-  it('should throw error if sender is not in match', async () => {
+  it('should throw error if user is not in match', async () => {
     const badMatch = { ...mockMatch, users: ['user2', 'user3'] };
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
     (Match.findById as jest.Mock).mockResolvedValue(badMatch);
 
-    const args: SendMessageArgs = {
-      matchId: 'match123',
-      senderId: 'user1',
-      content: 'Hi there!',
-    };
-
-    await expect(sendMessage({}, args)).rejects.toThrow('You are not part of this match');
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: 'Hi there!' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('You are not part of this match');
   });
 
-  it('should throw a generic error if Message.create fails', async () => {
+  it('should handle database errors gracefully', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
     (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
     (Message.create as jest.Mock).mockRejectedValue(new Error('DB write error'));
 
-    const args: SendMessageArgs = {
-      matchId: 'match123',
-      senderId: 'user1',
-      content: 'Hello!',
-    };
-
-    await expect(sendMessage({}, args)).rejects.toThrow('DB write error');
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: 'Hello!' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('DB write error');
   });
-  it('should throw a generic error if unknown error is thrown', async () => {
-  (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
-  (Message.create as jest.Mock).mockRejectedValue('something weird happened'); 
 
-  const args = {
-    matchId: 'match123',
-    senderId: 'user1',
-    content: 'Hi there!',
-  };
+  it('should handle unknown errors gracefully', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
+    (Message.create as jest.Mock).mockRejectedValue('something weird happened');
 
-  await expect(sendMessage({}, args,)).rejects.toThrow('Failed to send message');
+    await expect(
+      sendMessage({}, { matchId: 'match123', content: 'Hi there!' }, { clerkId: 'clerk_123' })
+    ).rejects.toThrow('Failed to send message');
+  });
+  it('should throw error if message content is undefined', async () => {
+  (User.findOne as jest.Mock).mockResolvedValue(mockUser);
+
+  await expect(
+    sendMessage({}, { matchId: 'match123', content: undefined as any }, { clerkId: 'clerk_123' })
+  ).rejects.toThrow('Message content cannot be empty');
 });
 
 });
