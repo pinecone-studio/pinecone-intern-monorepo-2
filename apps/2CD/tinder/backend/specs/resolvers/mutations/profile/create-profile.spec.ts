@@ -1,6 +1,6 @@
 import { createProfile } from '../../../../src/resolvers/mutations/profile/create-profile';
 import { Profile } from '../../../../src/models/profile';
-import type { CreateProfileInput } from '../../../../src/resolvers/mutations/profile/create-profile';
+import { CreateProfileInput } from 'src/types/profile';
 
 jest.mock('../../../../src/models/profile');
 

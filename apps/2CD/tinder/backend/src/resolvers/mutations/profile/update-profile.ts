@@ -1,22 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { Profile } from '../../../models/profile';
-
-interface UpdateProfileInput {
-  bio?: string;
-  age?: number;
-  gender?: 'Male' | 'Female' | 'Other';
-  lookingFor?: 'Male' | 'Female' | 'Both';
-  interests?: string[];
-  profession?: string;
-  education?: string;
-  isCertified?: boolean;
-  images?: string[];
-}
-
-interface UpdateProfileArgs {
-  id: string;
-  input: UpdateProfileInput;
-}
+import { UpdateProfileArgs } from 'src/types/profile';
 
 export const updateProfile = async (_: unknown, { id, input }: UpdateProfileArgs) => {
   try {
