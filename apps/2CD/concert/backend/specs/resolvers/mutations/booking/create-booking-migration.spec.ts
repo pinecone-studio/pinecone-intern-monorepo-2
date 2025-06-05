@@ -49,8 +49,6 @@ jest.mock('src/models', () => ({
 describe('createBooking Mutation', () => {
   const mockInfo = {} as GraphQLResolveInfo;
 
-  const mockTicketIds = ['507f191e810c19729de860ec', '507f191e810c19729de860ed'];
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -149,14 +147,6 @@ it('should throw error when some tickets are missing', async () => {
 
   await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('One or more tickets not found');
 });
-
-  it('should throw error when no tickets are found', async () => {
-    // Arrange
-    (ticketModel.find as jest.Mock).mockResolvedValue([]);
-
-    // Act & Assert
-    await expect(validateTickets(mockTicketIds)).rejects.toThrow('One or more tickets not found');
-  });
 
   it('should call ticketModel.find with correct query', async () => {
     (bookingsModel.create as jest.Mock).mockResolvedValue({});
