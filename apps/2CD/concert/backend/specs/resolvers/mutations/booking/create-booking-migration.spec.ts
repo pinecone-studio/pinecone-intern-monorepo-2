@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GraphQLResolveInfo } from 'graphql';
 import { Response } from 'src/generated';
 import { bookingsModel, concertModel, ticketModel, userModel } from 'src/models';
@@ -15,6 +17,7 @@ const mockInput = {
     { ticketId: '507f191e810c19729de860ed', quantity: 1, price: 1000 },
   ],
 };
+const ticketIds = mockInput.tickets.map((t) => t.ticketId);
 
 jest.mock('src/utils/create-booking.ts/validate-user', () => ({
   validateUser: jest.fn().mockResolvedValue(undefined),
@@ -45,6 +48,8 @@ jest.mock('src/models', () => ({
 
 describe('createBooking Mutation', () => {
   const mockInfo = {} as GraphQLResolveInfo;
+
+  const mockTicketIds = ['507f191e810c19729de860ec', '507f191e810c19729de860ed'];
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -100,6 +105,67 @@ describe('createBooking Mutation', () => {
       tickets: [{ ...mockInput.tickets[0], quantity: -1 }, mockInput.tickets[1]],
     };
     expect(() => bookingSchema.parse(mock)).toThrow('Quantity must be a positive number');
+  });
+
+  it('should call validateUser with correct userId', async () => {
+    (bookingsModel.create as jest.Mock).mockResolvedValue({});
+
+    const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
+
+    expect(validateUser).toHaveBeenCalledWith('507f191e810c19729de860ea');
+    expect(result).toBe(Response.Success);
+  });
+
+  it('should throw error if user is not found', async () => {
+    (validateUser as jest.Mock).mockImplementation(() => {
+      throw new Error('User not found');
+    });
+
+    await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('User not found');
+  });
+
+  it('should call validateConcert with correct concertId', async () => {
+    (bookingsModel.create as jest.Mock).mockResolvedValue({});
+
+    const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
+
+    expect(validateConcert).toHaveBeenCalledWith('507f191e810c19729de860eb');
+    expect(result).toBe(Response.Success);
+  });
+
+  it('should throw error if concert is not found', async () => {
+    (validateConcert as jest.Mock).mockImplementation(() => {
+      throw new Error('Concert not found');
+    });
+
+    await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('Concert not found');
+  });
+  
+it('should throw error when some tickets are missing', async () => {
+  (ticketModel.find as jest.Mock).mockResolvedValue([{ _id: '507f191e810c19729de860ec' }]);
+  (validateTickets as jest.Mock).mockImplementation(() => {
+    throw new Error('One or more tickets not found');
+  });
+
+  await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('One or more tickets not found');
+});
+
+  it('should throw error when no tickets are found', async () => {
+    // Arrange
+    (ticketModel.find as jest.Mock).mockResolvedValue([]);
+
+    // Act & Assert
+    await expect(validateTickets(mockTicketIds)).rejects.toThrow('One or more tickets not found');
+  });
+
+  it('should call ticketModel.find with correct query', async () => {
+    (bookingsModel.create as jest.Mock).mockResolvedValue({});
+
+    const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
+    await validateTickets(ticketIds);
+
+    expect(validateTickets).toHaveBeenCalledWith(['507f191e810c19729de860ec', '507f191e810c19729de860ed' ]);
+    expect(result).toBe(Response.Success);
   });
 
   it('should create a concert successfully', async () => {
