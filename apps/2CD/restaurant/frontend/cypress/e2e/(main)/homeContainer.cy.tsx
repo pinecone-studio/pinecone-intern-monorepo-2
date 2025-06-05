@@ -1,7 +1,6 @@
 
 describe('HomeContainer', () => {
   beforeEach(() => {
-    
     cy.visit('/');
   });
 
