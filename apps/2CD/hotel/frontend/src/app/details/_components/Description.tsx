@@ -1,5 +1,4 @@
-
-
+import Amenities from '@/app/homeTest/_components/amenities-section';
 import type { GetHotelByIdQuery } from '@/generated';
 
 type DescriptionProps = {
@@ -11,7 +10,7 @@ export const Description = ({ data }: DescriptionProps) => {
     <div className="space-y-4 ">
       <h3 className="text-xl font-semibold">{data?.description}</h3>
       <div className="flex gap-10">
-     
+        <Amenities amenities={data?.amenities as string[]} />
         <div>
           <h4 className="font-medium text-gray-700">Bathroom</h4>
         </div>

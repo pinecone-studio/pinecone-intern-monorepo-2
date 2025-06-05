@@ -29,8 +29,7 @@ type Room {
   numberOfBed: Int
   createdAt: String!
   updatedAt: String!
-  roomService: RoomService
-  !
+  roomService: RoomService!
 }
 type Hotel {
   id: ID!
