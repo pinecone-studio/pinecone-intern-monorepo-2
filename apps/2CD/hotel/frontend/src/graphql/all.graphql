@@ -64,7 +64,7 @@ query GetHotelById($getHotelByIdId: ID!) {
     updatedAt
     rating
   }
-
+}
 
 query ReviewsByHotel($hotelId: ID!) {
   reviewsByHotel(hotelId: $hotelId) {
