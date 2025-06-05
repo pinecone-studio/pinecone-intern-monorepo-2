@@ -14,11 +14,13 @@ const makeClient = () => {
   });
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token');
+
+    const clerkid = localStorage.getItem("clerkID")
+
     return {
       headers: {
         ...headers,
-        authorization: token ?? '',
+        clerkid,
       },
     };
   });

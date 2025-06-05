@@ -1,7 +1,83 @@
-query Query {
-  sampleQuery
+# query Query {
+#   getAllHotels{}
+#   getHotelById{}
+#   getAllRooms{}
+#   getRoomForId{}
+# }
+
+# mutation Mutation {
+#   addHotel{}
+#   CreateBooking{}
+#   updateBooking{}
+#   createRoom{}
+#   updateRoom{}
+#   deleteRoom{}
+#   ...reviewMutations{}
+# }
+mutation AddHotel($input: AddHotelInput!) {
+  addHotel(input: $input) {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+  }
+}
+query GetAllHotels {
+  getAllHotels {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+    createdAt
+    updatedAt
+    rating
+  }
+}
+query GetHotelById($getHotelByIdId: ID!) {
+  getHotelById(id: $getHotelByIdId) {
+    id
+    hotelName
+    price
+    description
+    phoneNumber
+    amenities
+    rooms
+    hotelStar
+    guestReviews
+    bookings
+    roomServices
+    createdAt
+    updatedAt
+    rating
+  }
 }
 
-mutation Mutation {
-  sampleMutation
+query ReviewsByHotel($hotelId: ID!) {
+  reviewsByHotel(hotelId: $hotelId) {
+    id
+    user {
+      email
+    }
+    hotel {
+      id
+    }
+    comment
+    star
+    createdAt
+    updatedAt
+  }
 }

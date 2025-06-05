@@ -16,6 +16,11 @@ const server = new ApolloServer<Context>({
 
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
-    return { req };
+    const clerkId = req.headers.get('clerkid');
+
+    return {
+      req,
+      clerkId,
+    };
   },
 });

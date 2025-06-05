@@ -6,7 +6,7 @@ export const scheduleDef = gql`
     endDate: Date!
     startDate: Date!
     concert: Concert!
-    venue: Venue!
+    venue: String!
     createdAt: Date!
     updatedAt: Date!
   }

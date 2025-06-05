@@ -5,43 +5,37 @@ export const typeDefs = gql`
 
   type User {
     _id: ID!
-    name: String!
-    email: String!
-    images: [String!]!
-    bio: String
-    age: Int!
-    gender: String!
-    lookingFor: String!
-    interests: [String!]!
-    profession: String
-    education: String
-    isCertified: Boolean!
-    likes: [User!]!
-    dislikes: [User!]!
-    matches: [User!]!
-    createdAt: Date
-    updatedAt: Date
+    clerkId: String
+    name: String
+    email: String
+    password: String!
   }
 
   type Query {
-    me: User
+    me(clerkId: String!): User
     getUserById(id: ID!): User
-    getAllUsers: [User!]!
+    getAllUsers: [User]
   }
 
   type Mutation {
-    registerUser(name: String!, email: String!, password: String!, age: Int!, gender: String!, lookingFor: String!): User
+    registerUser(input: RegisterUserInput!): User
     login(email: String!, password: String!): String
-    likeUser(targetUserId: ID!): User
-    dislikeUser(targetUserId: ID!): User
-    updateProfile(input: UpdateProfileInput!): User
+    updateUser(input: UpdateUserInput!): User
   }
 
-  input UpdateProfileInput {
+  input RegisterUserInput {
+    name: String!
+    email: String!
+    password: String!
+    age: Int
+    gender: String
+    lookingFor: String
+    images: [String]
+  }
+
+  input UpdateUserInput {
     name: String
-    bio: String
-    profession: String
-    education: String
-    interests: [String!]
+    email: String
+    password: String
   }
 `;
