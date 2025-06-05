@@ -4,6 +4,7 @@ export const typeDefs = gql`
   type Profile {
     _id: ID!
     userId: ID!
+    firstName: String!
     bio: String
     age: Int!
     gender: String!
