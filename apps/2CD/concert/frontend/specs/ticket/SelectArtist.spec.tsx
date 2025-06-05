@@ -107,14 +107,6 @@ describe('SelectArtist', () => {
     fireEvent.click(screen.getByTestId('remove-artist-artist-2'));
     expect(mockSetValue).toHaveBeenCalledWith(['artist-1', 'artist-3']);
   });
-  it('does not call setValue when adding duplicate artist', () => {
-    const mockSetValue = jest.fn();
-    render(<SelectArtist {...defaultProps} defaultValue={['artist-1']} setValue={mockSetValue} />);
-    const select = screen.getByTestId('select');
-    fireEvent.click(select);
-
-    expect(mockSetValue).not.toHaveBeenCalled();
-  });
   it('handles removing last selected artist', () => {
     const mockSetValue = jest.fn();
     render(<SelectArtist {...defaultProps} defaultValue={['artist-1']} setValue={mockSetValue} />);

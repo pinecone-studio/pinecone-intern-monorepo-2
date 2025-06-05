@@ -2,35 +2,17 @@
 
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { TicketType, useGetArtistsQuery, useGetConcertQuery } from '@/generated';
+import { TicketType, useGetArtistsQuery } from '@/generated';
 import { Stack } from '@mui/material';
 import { Star, X } from 'lucide-react';
 import { SelectArtist, SelectDay } from '../_components';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { filterConcertInput, filterConcertSchema } from '@/zodSchemas/filter-concert';
+import { FormProvider } from 'react-hook-form';
 import { FormControl, FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { ConcertSearch, getConcerts } from '@/zodSchemas/filter-concert';
 
-const ConcertsTable = () => {
+const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; concerts: getConcerts }) => {
   const { data: artist } = useGetArtistsQuery();
-  const searchForm = useForm<filterConcertInput>({
-    resolver: zodResolver(filterConcertSchema),
-    values: {
-      title: '',
-      artists: [],
-      day: undefined,
-    },
-  });
-  const { data } = useGetConcertQuery({
-    variables: {
-      input: {
-        title: searchForm.getValues('title'),
-        date: searchForm.getValues('day') as Date,
-        artist: searchForm.getValues('artists'),
-      },
-    },
-  });
   const totalTicket = (
     ticket: {
       __typename?: 'Ticket';
@@ -48,19 +30,18 @@ const ConcertsTable = () => {
     return total;
   };
 
-
   return (
-    <Stack>
-      <Stack direction={'row'}>
+    <Stack gap={3}>
+      <Stack direction={'row'} gap={1}>
         <FormProvider {...searchForm}>
           <form className="w-full flex justify-between">
-            <Stack direction={'row'}>
+            <Stack direction={'row'} gap={1}>
               <FormField
                 control={searchForm.control}
                 name="title"
                 render={({ field }) => (
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Тасалбар хайх" {...field} />
                   </FormControl>
                 )}
               />
@@ -93,7 +74,7 @@ const ConcertsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.getConcert.map((concert, index) => (
+          {concerts?.map((concert, index) => (
             <TableRow key={concert.id} data-cy={`Concert-Row-${index}`}>
               <TableCell data-cy="is-featured">{concert.featured && <Star />}</TableCell>
               <TableCell data-cy="concert-title">{concert.title}</TableCell>
@@ -111,7 +92,7 @@ const ConcertsTable = () => {
               <TableCell data-cy="concert-schedule">
                 {concert.schedule.map((date, i) => {
                   const d = new Date(date.startDate);
-                  const formatted = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+                  const formatted = `${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`;
                   return <div key={i}>{formatted}</div>;
                 })}
               </TableCell>

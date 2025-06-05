@@ -1,5 +1,5 @@
 import { MutationResolvers, Response } from 'src/generated';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { updatePassZod } from 'src/zodSchemas/user.zod';
 import { userModel } from 'src/models';
 

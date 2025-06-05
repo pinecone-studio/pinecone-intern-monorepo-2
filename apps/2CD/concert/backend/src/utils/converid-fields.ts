@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export function isObject(value: any): value is Record<string, any> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -46,7 +46,7 @@ export function buildConcertFilter(input: any): Record<string, any> {
   }
   if (input?.artist?.length) {
     filter.artists = {
-      $in: input.artist.map((id: string) => new Types.ObjectId(id)),
+      $all: input.artist.map((id: string) => new Types.ObjectId(id)),
     };
   }
   return filter;

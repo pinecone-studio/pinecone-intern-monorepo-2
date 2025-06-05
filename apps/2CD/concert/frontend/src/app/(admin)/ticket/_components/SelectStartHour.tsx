@@ -31,7 +31,7 @@ export const SelectStartTime = ({
         }}
       >
         <SelectTrigger data-testid="select-trigger" data-cy="select-trigger-start" className="w-[140px]">
-          <SelectValue data-testid="select-value" placeholder="Эхлэх цаг" />
+          <SelectValue data-testid="select-value" data-cy="select-value-starttime" placeholder="Эхлэх цаг" />
         </SelectTrigger>
         <SelectContent>
           {hourOptions.map((hour) => (

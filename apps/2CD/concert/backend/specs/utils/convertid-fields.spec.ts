@@ -18,7 +18,7 @@ describe('buildConcertFilter', () => {
     const artistId = new Types.ObjectId().toString();
     const filter = buildConcertFilter({ title: 'Pop', artist: [artistId] });
     expect(filter.title).toEqual({ $regex: 'Pop', $options: 'i' });
-    expect(filter.artists).toEqual({ $in: [new Types.ObjectId(artistId)] });
+    expect(filter.artists).toEqual({ $all: [new Types.ObjectId(artistId)] });
   });
 
   it('should return empty filter if no input', () => {

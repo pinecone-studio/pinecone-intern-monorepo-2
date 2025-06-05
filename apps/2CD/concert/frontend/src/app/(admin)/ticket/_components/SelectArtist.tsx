@@ -25,9 +25,7 @@ export const SelectArtist = ({
   hideLabel?: boolean;
 }) => {
   const handleAddArtistId = (artistId: string) => {
-    if (!defaultValue.includes(artistId)) {
       setValue([...defaultValue, artistId]);
-    }
   };
   const handleRemoveArtist = (id: string) => {
     const newValue = defaultValue.filter((s) => {
@@ -59,7 +57,7 @@ export const SelectArtist = ({
           ?.filter((art) => defaultValue.find((a) => a === art.id))
           .map((art) => (
             <Stack direction="row" key={art.id} gap={0.65}>
-              <Button data-testid={`remove-artist-${art.id}`} className="rounded-full p-2 py-1 text-sm" variant="secondary" onClick={() => handleRemoveArtist(art.id)} type="button">
+              <Button data-testid={`remove-artist-${art.id}`} data-cy={`selected-artist-${art.id}`} className="rounded-full p-2 py-1 text-sm" variant="secondary" onClick={() => handleRemoveArtist(art.id)} type="button">
                 {art.name} <X size={16} />
               </Button>
             </Stack>
