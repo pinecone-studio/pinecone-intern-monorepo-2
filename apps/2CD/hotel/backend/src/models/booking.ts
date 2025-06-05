@@ -22,7 +22,7 @@ const BookingSchema: Schema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     room: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
-    hotel: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
+    hotel: { type: Schema.Types.ObjectId, ref: 'Hotel', required: true },
     totalPrice: { type: Number, required: true },
     bookStatus: {
       type: String,
