@@ -57,7 +57,7 @@ const Page = () => {
         </Stack>
         <CreateConcert refetchConcert={refetch} />
       </Stack>
-      <ConcertsTable concerts={data?.getConcert} searchForm={searchForm} />
+      <ConcertsTable refetchConcert={refetch} concerts={data?.getConcert} searchForm={searchForm} />
     </Container>
   );
 };

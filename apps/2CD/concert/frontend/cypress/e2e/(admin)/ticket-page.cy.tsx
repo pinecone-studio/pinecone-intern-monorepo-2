@@ -173,4 +173,17 @@ describe('Create Concert E2E Tests', () => {
     cy.wait('@createConcertError');
     cy.contains('Schedule already exists');
   });
+  it('should clear filter', () => {
+    cy.get('[data-cy="search-concert-title"]').should('be.visible');
+    cy.get('[data-cy="query-select-trigger"]').should('be.visible');
+    cy.get('[data-cy="clear-filter"]').should('be.visible');
+    cy.get('[data-cy="search-concert-title"]').type('title');
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-1"]').should('be.visible');
+    cy.get('[data-testid="select-artist-query-1"]').click();
+    cy.get('[data-cy="selected-artist-1"]').should('be.visible');
+    cy.get('[data-cy="clear-filter"]').click();
+    cy.get('[data-cy="search-concert-title" ]').should('have.text', '');
+    cy.get('[data-testid="select-artist-query-1" ]').should('not.exist');
+  });
 });

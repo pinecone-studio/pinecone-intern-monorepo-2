@@ -46,7 +46,7 @@ export const SelectArtist = ({
               {artists
                 ?.filter((artist) => !defaultValue.some((a) => a === artist.id))
                 .map((artist) => (
-                  <SelectItem data-testid={hideLabel ? 'select-artist-query' : `select-artist-${artist.id}`} key={artist.id} value={artist.id}>
+                  <SelectItem data-testid={hideLabel ? `select-artist-query-${artist.id}` : `select-artist-${artist.id}`} key={artist.id} value={artist.id}>
                     {artist.name}
                   </SelectItem>
                 ))}

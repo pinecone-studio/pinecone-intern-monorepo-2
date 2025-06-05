@@ -15,9 +15,10 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { PickDate, FormItemComp, SelectArtist } from '../_components';
 import { ApolloQueryResult } from '@apollo/client';
-const CreateConcert = ({refetchConcert}:{refetchConcert:(variables?: Partial<Exact<{
+export type RefetchConcert = (variables?: Partial<Exact<{
     input?: InputMaybe<GetConcertFilter>;
-}>> | undefined) => Promise<ApolloQueryResult<GetConcertQuery>>}) => {
+}>> | undefined) => Promise<ApolloQueryResult<GetConcertQuery>>
+const CreateConcert = ({refetchConcert}:{refetchConcert:RefetchConcert}) => {
   const [open, setOpen] = useState(false);
   const form = useForm<ConcertInput>({
     resolver: zodResolver(concertSchema),

@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { TicketType, useGetArtistsQuery } from '@/generated';
+import { Exact, GetConcertFilter, GetConcertQuery, InputMaybe, TicketType, useGetArtistsQuery, useUpdateConcertMutation } from '@/generated';
 import { Stack } from '@mui/material';
 import { Star, X } from 'lucide-react';
 import { SelectArtist, SelectDay } from '../_components';
@@ -10,9 +11,20 @@ import { FormProvider } from 'react-hook-form';
 import { FormControl, FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { ConcertSearch, getConcerts } from '@/zodSchemas/filter-concert';
+import { FeatureConcert } from '../_components/FeatureConcert';
+import { toast } from 'sonner';
+import { RefetchConcert } from './CreateConcert';
 
-const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; concerts: getConcerts }) => {
+const ConcertsTable = ({ concerts, searchForm, refetchConcert }: { refetchConcert: RefetchConcert; searchForm: ConcertSearch; concerts: getConcerts }) => {
   const { data: artist } = useGetArtistsQuery();
+  const [updateConcert, { loading }] = useUpdateConcertMutation({
+    onCompleted: () => {
+      toast('Амжилттай шинчлэгдлээ');
+    },
+    onError: () => {
+      toast('Алдаа гарлаа');
+    },
+  });
   const totalTicket = (
     ticket: {
       __typename?: 'Ticket';
@@ -29,7 +41,17 @@ const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; co
     const total = tickets.vip + tickets.regular + tickets.general;
     return total;
   };
-
+  const featureConcert = async (id: string) => {
+    await updateConcert({
+      variables: {
+        input: {
+          id,
+          featured: true,
+        },
+      },
+    });
+    await refetchConcert();
+  };
   return (
     <Stack gap={3}>
       <Stack direction={'row'} gap={1}>
@@ -41,7 +63,7 @@ const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; co
                 name="title"
                 render={({ field }) => (
                   <FormControl>
-                    <Input placeholder="Тасалбар хайх" {...field} />
+                    <Input placeholder="Тасалбар хайх" data-cy="search-concert-title" {...field} />
                   </FormControl>
                 )}
               />
@@ -50,7 +72,7 @@ const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; co
                 name="artists"
                 render={({ field }) => <SelectArtist hideLabel={true} defaultValue={field.value as string[]} setValue={field.onChange} artists={artist?.getArtists} />}
               />
-              <Button type="button" onClick={() => searchForm.reset()} className="bg-white text-black border flex gap-2">
+              <Button type="button" data-cy="clear-filter" onClick={() => searchForm.reset()} className="bg-white text-black border flex gap-2">
                 Цэвэрлэх <X size={16} />
               </Button>
             </Stack>
@@ -97,6 +119,9 @@ const ConcertsTable = ({ concerts, searchForm }: { searchForm: ConcertSearch; co
                 })}
               </TableCell>
               <TableCell data-cy="concert-profit">{concert.totalProfit}</TableCell>
+              <TableCell>
+                <FeatureConcert loading={loading} onClick={() => featureConcert(concert.id)} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

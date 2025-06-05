@@ -26,6 +26,10 @@ query GetConcert($input: GetConcertFilter) {
   }
 }
 
+mutation UpdateConcert($input: UpdateConcert!) {
+  updateConcert(input: $input)
+}
+
 mutation CreateConcert($input: CreateConcertInput!) {
   createConcert(input: $input)
 }
