@@ -65,22 +65,3 @@ query GetHotelById($getHotelByIdId: ID!) {
     rating
   }
 }
-query GetRoomForId($getRoomForIdId: ID!) {
-  getRoomForId(id: $getRoomForIdId) {
-    id
-    roomNumber
-    price
-    description
-    roomImage
-    isAvailable
-    bedType
-    numberOfBed
-    roomService {
-      foodAndDrink
-      entertainment
-      bedroom
-      bathroom
-      accesibility
-    }
-  }
-}
