@@ -31,6 +31,7 @@ export const typeDefs = gql`
 
   input CreateProfileInput {
     userId: ID!
+    firstName: String!
     bio: String
     age: Int!
     gender: String!

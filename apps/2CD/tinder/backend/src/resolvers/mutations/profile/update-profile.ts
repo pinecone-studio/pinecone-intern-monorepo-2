@@ -20,25 +20,28 @@ interface UpdateProfileArgs {
 
 export const updateProfile = async (_: unknown, { id, input }: UpdateProfileArgs) => {
   try {
-    const profile = await Profile.findByIdAndUpdate(
+    const updatedProfile = await Profile.findByIdAndUpdate(
       id,
       { $set: input },
       { new: true, runValidators: true }
     );
 
-    if (!profile) {
+    if (!updatedProfile) {
       throw new GraphQLError('Profile not found', {
-        extensions: { code: 'NOT_FOUND' }
+        extensions: { code: 'NOT_FOUND' },
       });
     }
 
-    return profile;
+    return updatedProfile;
   } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
     }
+
+    console.error('Update Profile Error:', error);
+
     throw new GraphQLError('Failed to update profile', {
-      extensions: { code: 'INTERNAL_SERVER_ERROR' }
+      extensions: { code: 'INTERNAL_SERVER_ERROR' },
     });
   }
-}; 
+};
