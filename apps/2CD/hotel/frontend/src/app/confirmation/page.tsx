@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../components/header/Header';
 import FooterCheckIn from '../../components/footer/footer-check-in';
-
+import SvgIcon from '../../components/checkout/Illustration';
 const ConfirmationPage = () => {
   return (
     <>
@@ -9,6 +9,7 @@ const ConfirmationPage = () => {
       <div className="w-full flex justify-center">
         <div className="w-[1280px] flex flex-col items-center py-12 gap-8">
           <div className="flex flex-col items-center gap-4 text-center">
+            <SvgIcon />
             <h1 className="text-3xl font-bold text-green-600">You&apos;re confirmed!</h1>
             <div className="flex flex-col items-center gap-2">
               <p className="text-gray-600">Contact email</p>
@@ -57,4 +58,4 @@ const ConfirmationPage = () => {
   );
 };
 
-export default ConfirmationPage; 
+export default ConfirmationPage;

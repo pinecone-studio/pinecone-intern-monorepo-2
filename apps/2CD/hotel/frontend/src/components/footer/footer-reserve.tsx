@@ -7,7 +7,7 @@ import { Phone } from 'lucide-react';
 import { Headphones } from 'lucide-react';
 const FooterReserve = () => {
     return (
-        <div className="w-full flex justify-center items-start bg-white-500">
+        <div className="w-full flex justify-center items-start bg-white-500 py-10">
             <div className="w-[1280px] bg-black-500 h-[200px] flex justify-between">
                 <div className="flex flex-col justify-between items-start ">
                     <div className="flex flex-col gap-[12px]">
