@@ -18,6 +18,7 @@ export const typeDefs = gql`
     endDate: Date!
     user: String!
     room: String!
+    hotel: String!
   }
 
   input UpdateBookingInput {
@@ -31,8 +32,9 @@ export const typeDefs = gql`
     bookStatus: BookingStatus!
     startDate: Date!
     endDate: Date!
-    user: String!
+    user: User!
     room: Room!
+    hotel: Hotel!
   }
 
   extend type Mutation {

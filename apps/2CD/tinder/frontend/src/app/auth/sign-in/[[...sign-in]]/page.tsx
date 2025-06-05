@@ -8,8 +8,8 @@ const SignInPage = () => {
             <SignIn
                 routing="hash"
                 signUpUrl="/auth/sign-up"
-                afterSignUpUrl={"/swipe"}
-                forceRedirectUrl={"/swipe"}
+                afterSignUpUrl={"/"}
+                forceRedirectUrl={"/"}
             />
         </div>
     );

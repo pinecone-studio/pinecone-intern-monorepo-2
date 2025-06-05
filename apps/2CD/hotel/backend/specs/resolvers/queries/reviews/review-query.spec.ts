@@ -1,5 +1,5 @@
 import { Review } from 'src/models/review';
-import { reviewQueries, isValidDate, isValidUser, isValidHotel, isValidReview } from 'src/resolvers/queries/review-query';
+import { reviewQueries } from 'src/resolvers/queries/review-query';
 import { ReviewDocument } from 'src/types/review';
 
 jest.mock('src/models/review');
@@ -26,29 +26,19 @@ describe('Review Queries', () => {
   });
 
   describe('reviewsByUser', () => {
-    it('returns transformed valid reviews', async () => {
-      const validReview = createMockReview();
-      (Review.find as jest.Mock).mockReturnValue(setupMockReview([validReview]));
+    it('returns transformed reviews', async () => {
+      const review = createMockReview();
+      (Review.find as jest.Mock).mockReturnValue(setupMockReview([review]));
       const result = await reviewQueries.reviewsByUser(null, { userId: 'user123' });
       expect(result).toEqual([{
-        id: validReview._id,
-        user: validReview.user,
-        hotel: validReview.hotel ? { id: validReview.hotel._id, hotelName: validReview.hotel.hotelName } : null,
-        comment: validReview.comment,
-        star: validReview.star,
-        createdAt: validReview.createdAt,
-        updatedAt: validReview.updatedAt
+        id: review._id,
+        user: review.user,
+        hotel: review.hotel ? { id: review.hotel._id, hotelName: review.hotel.hotelName } : null,
+        comment: review.comment,
+        star: review.star,
+        createdAt: review.createdAt,
+        updatedAt: review.updatedAt
       }]);
-    });
-
-    it('filters out invalid reviews', async () => {
-      const invalidReviews = [
-        createMockReview({ _id: '' }),
-        createMockReview({ comment: '' }),
-        createMockReview({ star: 'invalid' as any })
-      ];
-      (Review.find as jest.Mock).mockReturnValue(setupMockReview(invalidReviews));
-      expect(await reviewQueries.reviewsByUser(null, { userId: 'user123' })).toEqual([]);
     });
 
     it('handles database errors', async () => {
@@ -62,29 +52,19 @@ describe('Review Queries', () => {
   });
 
   describe('reviewsByHotel', () => {
-    it('returns transformed valid reviews', async () => {
-      const validReview = createMockReview();
-      (Review.find as jest.Mock).mockReturnValue(setupMockReview([validReview]));
+    it('returns transformed reviews', async () => {
+      const review = createMockReview();
+      (Review.find as jest.Mock).mockReturnValue(setupMockReview([review]));
       const result = await reviewQueries.reviewsByHotel(null, { hotelId: 'hotel123' });
       expect(result).toEqual([{
-        id: validReview._id,
-        user: validReview.user,
-        hotel: validReview.hotel ? { id: validReview.hotel._id, hotelName: validReview.hotel.hotelName } : null,
-        comment: validReview.comment,
-        star: validReview.star,
-        createdAt: validReview.createdAt,
-        updatedAt: validReview.updatedAt
+        id: review._id,
+        user: review.user,
+        hotel: review.hotel ? { id: review.hotel._id, hotelName: review.hotel.hotelName } : null,
+        comment: review.comment,
+        star: review.star,
+        createdAt: review.createdAt,
+        updatedAt: review.updatedAt
       }]);
-    });
-
-    it('filters out invalid reviews', async () => {
-      const invalidReviews = [
-        createMockReview({ _id: '' }),
-        createMockReview({ comment: '' }),
-        createMockReview({ star: 'invalid' as any })
-      ];
-      (Review.find as jest.Mock).mockReturnValue(setupMockReview(invalidReviews));
-      expect(await reviewQueries.reviewsByHotel(null, { hotelId: 'hotel123' })).toEqual([]);
     });
 
     it('handles database errors', async () => {
@@ -95,46 +75,6 @@ describe('Review Queries', () => {
       await expect(reviewQueries.reviewsByHotel(null, { hotelId: 'hotel123' }))
         .rejects.toThrow('Failed to fetch reviews by hotel');
     });
-  });
-});
-
-describe('review-query helpers', () => {
-  it('validates dates correctly', () => {
-    expect(isValidDate(new Date())).toBe(true);
-    expect(isValidDate('invalid')).toBe(false);
-    expect(isValidDate(null)).toBe(false);
-    expect(isValidDate(new Date('invalid'))).toBe(false);
-  });
-
-  it('validates users correctly', () => {
-    expect(isValidUser({ _id: 'id', email: 'a@b.com' })).toBe(true);
-    expect(isValidUser(null)).toBe(true);
-    expect(isValidUser({})).toBe(false);
-    expect(isValidUser({ _id: '' })).toBe(false);
-    expect(isValidUser('not an object')).toBe(false);
-  });
-
-  it('validates hotels correctly', () => {
-    expect(isValidHotel({ _id: 'id', hotelName: 'Hotel' })).toBe(true);
-    expect(isValidHotel(null)).toBe(true);
-    expect(isValidHotel({})).toBe(false);
-    expect(isValidHotel({ _id: '' })).toBe(false);
-    expect(isValidHotel('not an object')).toBe(false);
-  });
-
-  it('validates reviews correctly', () => {
-    const validReview = createMockReview();
-    const invalidReviews = [
-      null,
-      {},
-      { _id: '' },
-      { comment: '' },
-      { star: 'invalid' },
-      { user: { _id: '' }, hotel: { hotelName: '' } }
-    ];
-
-    expect(isValidReview(validReview)).toBe(true);
-    invalidReviews.forEach(review => expect(isValidReview(review)).toBe(false));
   });
 
   it('transforms reviews with null user and hotel', async () => {

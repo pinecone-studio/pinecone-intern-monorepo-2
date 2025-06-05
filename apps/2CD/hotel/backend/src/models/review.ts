@@ -12,7 +12,7 @@ const ReviewSchema: Schema = new Schema(
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     hotel: { type: Schema.Types.ObjectId, ref: 'Hotel', required: true },
     comment: { type: String, required: true },
-    star: { type: Number, min: 1, max: 5, required: true },
+    star: { type: Number, min: 1, max: 10, required: true },
   },
   { timestamps: true }
 );

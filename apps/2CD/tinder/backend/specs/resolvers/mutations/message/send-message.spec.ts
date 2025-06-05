@@ -98,7 +98,7 @@ describe('sendMessage resolver', () => {
   });
   it('should throw a generic error if unknown error is thrown', async () => {
   (Match.findById as jest.Mock).mockResolvedValue(mockMatch);
-  (Message.create as jest.Mock).mockRejectedValue('something weird happened'); // Not an Error instance
+  (Message.create as jest.Mock).mockRejectedValue('something weird happened'); 
 
   const args = {
     matchId: 'match123',

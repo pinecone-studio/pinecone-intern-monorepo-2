@@ -1,25 +1,40 @@
 import Match from 'src/models/match';
+import User from 'src/models/user';
 import { getMyMatches } from 'src/resolvers/queries/match/get-my-matches';
 
 jest.mock('src/models/match');
+jest.mock('src/models/user');
 
 describe('getMyMatches', () => {
-  const mockUserId = 'user123';
+  const mockClerkId = 'clerk_abc123';
+  const mockUser = { _id: 'mongo_user_id', clerkId: mockClerkId };
 
-  it('should throw an error if userId is not in context', async () => {
+  const mockMatches = [
+    {
+      _id: 'match1',
+      users: [
+        { _id: 'mongo_user_id', name: 'Alice' },
+        { _id: 'user456', name: 'Bob' },
+      ],
+    },
+  ];
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should throw an error if clerkId is not in context', async () => {
     await expect(getMyMatches({}, {}, {})).rejects.toThrow('Unauthorized');
   });
 
+  it('should throw an error if user is not found', async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(null);
+    const context = { clerkId: mockClerkId };
+    await expect(getMyMatches({}, {}, context)).rejects.toThrow('User not found');
+  });
+
   it('should return matches for the authenticated user', async () => {
-    const mockMatches = [
-      {
-        _id: 'match1',
-        users: [
-          { _id: 'user123', name: 'Alice' },
-          { _id: 'user456', name: 'Bob' },
-        ],
-      },
-    ];
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
 
     const populateMock = jest.fn().mockReturnThis();
     const execMock = jest.fn().mockResolvedValue(mockMatches);
@@ -29,10 +44,11 @@ describe('getMyMatches', () => {
       exec: execMock,
     });
 
-    const context = { userId: mockUserId };
+    const context = { clerkId: mockClerkId };
     const result = await getMyMatches({}, {}, context);
 
-    expect(Match.find).toHaveBeenCalledWith({ users: mockUserId });
+    expect(User.findOne).toHaveBeenCalledWith({ clerkId: mockClerkId });
+    expect(Match.find).toHaveBeenCalledWith({ users: mockUser._id });
     expect(populateMock).toHaveBeenCalledWith('users');
     expect(execMock).toHaveBeenCalled();
     expect(result).toEqual(mockMatches);
