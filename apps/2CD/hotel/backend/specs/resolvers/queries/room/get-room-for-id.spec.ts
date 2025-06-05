@@ -1,6 +1,5 @@
 import { getRoomForId } from 'src/resolvers/queries/room/get-room-for-id';
 import { Room } from 'src/models/room.model';
-import { GraphQLError } from 'graphql';
 
 jest.mock('src/models/room.model');
 
@@ -9,7 +8,7 @@ describe('getRoomForId', () => {
     jest.clearAllMocks();
   });
 
-  it('should return a room by id', async () => {
+  it('should return a room object when found', async () => {
     const mockRoom = { id: 'abc123', name: 'Deluxe Suite' };
     (Room.findById as jest.Mock).mockReturnValue({
       exec: jest.fn().mockResolvedValue(mockRoom),
@@ -21,29 +20,31 @@ describe('getRoomForId', () => {
     expect(result).toEqual(mockRoom);
   });
 
-  it('should throw a GraphQLError if room is not found', async () => {
+  it('should return success: false and data: null when room not found', async () => {
     (Room.findById as jest.Mock).mockReturnValue({
       exec: jest.fn().mockResolvedValue(null),
     });
 
-    await expect(getRoomForId(null, { id: 'not-found-id' })).rejects.toThrow(
-      new GraphQLError('Room with id not-found-id not found', {
-        extensions: { code: 'NOT_FOUND' },
-      })
-    );
+    const result = await getRoomForId(null, { id: 'not-found-id' });
+
+    expect(Room.findById).toHaveBeenCalledWith('not-found-id');
+    expect(result).toEqual({
+      success: false,
+      data: null,
+    });
   });
 
-  it('should throw a GraphQLError on internal error', async () => {
-    (Room.findById as jest.Mock).mockImplementation(() => {
-      throw new Error('DB error');
+  it('should return success: false and data: null on error', async () => {
+    (Room.findById as jest.Mock).mockReturnValue({
+      exec: jest.fn().mockRejectedValue(new Error('DB error')),
     });
 
-    await expect(getRoomForId(null, { id: 'bad-id' })).rejects.toThrow(
-      GraphQLError
-    );
+    const result = await getRoomForId(null, { id: 'error-id' });
 
-    await expect(getRoomForId(null, { id: 'bad-id' })).rejects.toThrow(
-      'Failed to fetch room'
-    );
+    expect(Room.findById).toHaveBeenCalledWith('error-id');
+    expect(result).toEqual({
+      success: false,
+      data: null,
+    });
   });
 });
