@@ -16,7 +16,7 @@ const Page = () => {
   const { data, loading, error } = useGetHotelByIdQuery({
     variables: { getHotelByIdId: id },
   });
-  if (loading ) return <HotelDetailsSkeleton />;
+  if (loading) return <HotelDetailsSkeleton />;
   if (error) return <p>Error loading: {error.message}</p>;
   return (
     <>

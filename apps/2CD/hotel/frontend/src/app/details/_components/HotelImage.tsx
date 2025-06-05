@@ -30,7 +30,7 @@ export const HotelImage = () => {
 
         {/* 5 bottom images */}
         <div className="col-span-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {['img1', 'img2', 'img3' , 'img4'].map((img, idx) => (
+          {['img1', 'img2', 'img3', 'img4'].map((img, idx) => (
             <Card key={idx} className="overflow-hidden rounded-2xl shadow-md h-[127px]">
               <CardContent className="p-0 h-full">
                 <img src={`/images/${img}.jpg`} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />

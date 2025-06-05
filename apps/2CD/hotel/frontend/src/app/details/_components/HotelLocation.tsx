@@ -6,8 +6,8 @@ export const Location = () => {
   const [coords, setCoords] = useState({ lat: 0, lng: 0 });
 
   useEffect(() => {
-    const randomLat = "37.774929"
-    const randomLng = "-122.419418"
+    const randomLat = '37.774929';
+    const randomLng = '-122.419418';
     setCoords({ lat: parseFloat(randomLat), lng: parseFloat(randomLng) });
   }, []);
 
@@ -15,15 +15,7 @@ export const Location = () => {
 
   return (
     <div className="w-[400px] h-[300px] border rounded-lg overflow-hidden shadow-md">
-      <iframe
-        title="Random Location"
-        width="100%"
-        height="100%"
-        src={googleMapsUrl}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <iframe title="Random Location" width="100%" height="100%" src={googleMapsUrl} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
     </div>
   );
 };

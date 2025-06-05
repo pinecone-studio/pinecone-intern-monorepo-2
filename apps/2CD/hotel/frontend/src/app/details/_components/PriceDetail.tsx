@@ -7,7 +7,7 @@ export const PriceDetail = ({ data }: DescriptionProps) => {
   return (
     <div className="w-[400px] h-fit rounded-2xl border-gray-200 border p-5 inline-flex flex-col gap-3 shadow-md">
       <h1 className="text-xl">Price Detail</h1>
-      <div className='inline-flex flex-col gap-4'>
+      <div className="inline-flex flex-col gap-4">
         <div className="flex justify-between  pb-4 border-b border-b-gray-200">
           <div className="font-thin">
             <p>1 night</p>

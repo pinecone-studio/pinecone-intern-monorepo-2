@@ -8,7 +8,6 @@ interface HotelHeaderProps {
 }
 
 export const HotelHeader = ({ hotelName, hotelStar = 3 }: HotelHeaderProps) => {
-
   return (
     <div className="flex justify-between items-center">
       <div className="items-center gap-2">

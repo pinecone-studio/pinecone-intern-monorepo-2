@@ -1,10 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { Room } from 'src/models/room.model';
 
-export const getRoomForId = async (
-  _parent: unknown,
-  { id }: { id: string }
-) => {
+export const getRoomForId = async (_parent: unknown, { id }: { id: string }) => {
   try {
     const room = await Room.findById(id).exec();
 

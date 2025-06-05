@@ -39,9 +39,7 @@ describe('getBookingById query', () => {
     const execMock = jest.fn().mockResolvedValue(null);
     (Booking.findById as jest.Mock).mockReturnValue({ exec: execMock });
 
-    await expect(getBookingById(null, { id: 'non-existent-id' }))
-      .rejects
-      .toThrow('Failed to fetch booking: Booking with id non-existent-id not found');
+    await expect(getBookingById(null, { id: 'non-existent-id' })).rejects.toThrow('Failed to fetch booking: Booking with id non-existent-id not found');
   });
 
   it('should throw an error if fetching booking fails with Error instance', async () => {
@@ -49,17 +47,13 @@ describe('getBookingById query', () => {
     const execMock = jest.fn().mockRejectedValue(new Error(errorMessage));
     (Booking.findById as jest.Mock).mockReturnValue({ exec: execMock });
 
-    await expect(getBookingById(null, { id: 'booking-1' }))
-      .rejects
-      .toThrow(`Failed to fetch booking: ${errorMessage}`);
+    await expect(getBookingById(null, { id: 'booking-1' })).rejects.toThrow(`Failed to fetch booking: ${errorMessage}`);
   });
 
   it('should throw an error if fetching booking fails with non-Error', async () => {
     const execMock = jest.fn().mockRejectedValue('Something bad happened');
     (Booking.findById as jest.Mock).mockReturnValue({ exec: execMock });
 
-    await expect(getBookingById(null, { id: 'booking-1' }))
-      .rejects
-      .toThrow('Failed to fetch booking: Unknown error');
+    await expect(getBookingById(null, { id: 'booking-1' })).rejects.toThrow('Failed to fetch booking: Unknown error');
   });
 });
