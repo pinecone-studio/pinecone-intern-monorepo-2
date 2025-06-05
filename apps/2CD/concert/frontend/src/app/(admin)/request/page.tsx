@@ -1,59 +1,40 @@
 'use client';
 import { Container } from '@mui/material';
+import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
+import { format } from 'date-fns';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-];
+import { RequestStatus, useGetAllRequestQuery, useUpdateRequestMutation } from '@/generated';
+import { UpdateCancelReqModal } from './_components/UpdateCancelReqModal';
 
 const Page = () => {
+  const { data, refetch } = useGetAllRequestQuery();
+  const [updateReq] = useUpdateRequestMutation({
+    onCompleted: () => {
+      toast('Амжилттай шинэчлэгдлээ');
+    },
+    onError: () => {
+      toast('Алдаа гарлаа');
+    },
+  });
+
+  const handleUpdateReq = async (id: string) => {
+    await updateReq({
+      variables: {
+        input: {
+          id,
+        },
+      },
+    });
+    await refetch();
+  };
+
   return (
-    <Container className="py-10 " maxWidth="lg">
+    <Container className="py-10" maxWidth="lg">
       <p className="text-lg">Хүсэлтүүд</p>
       <p className="opacity-50 text-sm">Ирсэн цуцлах хүсэлтүүд</p>
 
-      <Table className="bg-white border rounded-md">
+      <Table className="bg-white border rounded-md mt-5">
         <TableHeader>
           <TableRow>
             <TableHead>Тоглолтын нэр</TableHead>
@@ -61,24 +42,36 @@ const Page = () => {
             <TableHead>Эзэмшигчийн нэр</TableHead>
             <TableHead className="text-right">Шилжүүлэх дүн</TableHead>
             <TableHead className="text-right">Хүсэлт ирсэн огноо</TableHead>
-            <TableHead className="text-right">Төлөвос</TableHead>
+            <TableHead className="text-right">Төлөв</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-            </TableRow>
-          ))}
+          {data?.getAllRequests?.map((request) => {
+            const date = format(new Date(request.createdAt), 'MM/dd');
+            return (
+              <TableRow key={request.id}>
+                <TableCell className="font-bold">{request.booking?.concert?.title}</TableCell>
+                <TableCell>
+                  {request.bank}:{request.bankAccount}
+                </TableCell>
+                <TableCell>{request.name}</TableCell>
+                <TableCell className="text-right">{request.id.toLocaleString()}</TableCell>
+                <TableCell className="text-right">{date}</TableCell>
+                <TableCell className="text-right" data-testid="reqStatus">
+                  {request.status === RequestStatus.Pending ? <UpdateCancelReqModal name={request.name} onclick={() => handleUpdateReq(request.id)} /> : <Badge variant="secondary">шилжүүлсэн</Badge>}
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
         <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
+          {data?.getAllRequests?.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-8 text-gray-500">
+                Хүсэлт байхгүй байна
+              </TableCell>
+            </TableRow>
+          )}
         </TableFooter>
       </Table>
     </Container>

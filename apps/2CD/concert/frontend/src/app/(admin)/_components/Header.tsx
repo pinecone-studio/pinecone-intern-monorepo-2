@@ -18,10 +18,10 @@ export const Header = () => {
         </Avatar>
       </div>
       <div className="flex gap-2">
-        <p onClick={() => router.push(`/ticket`)} data-testid="adminPageName" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('ticket') ? 'border-black ' : 'border-transparent '}`}>
+        <p onClick={() => router.push(`/ticket`)} data-testid="ticketPageBtn" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('ticket') ? 'border-black ' : 'border-transparent '}`}>
           Тасалбар
         </p>
-        <p onClick={() => router.push(`/request`)} data-testid="adminPageName" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('request') ? 'border-black ' : 'border-transparent '}`}>
+        <p onClick={() => router.push(`/request`)} data-testid="reqPageBtn" className={`cursor-pointer p-3 border-b-2 ${pathName.includes('request') ? 'border-black ' : 'border-transparent '}`}>
           Цуцлах хүсэлт
         </p>
       </div>
