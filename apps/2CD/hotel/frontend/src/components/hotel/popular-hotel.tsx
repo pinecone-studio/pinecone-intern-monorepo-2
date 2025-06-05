@@ -3,7 +3,7 @@
 
 'use client';
 import { Star } from 'lucide-react';
-import Amenities from '../_components/amenities-section';
+import Amenities from './amenities-section';
 import { useGetAllHotelsQuery } from '@/generated';
 import { Skeleton } from '@/components/ui/skeleton';
 

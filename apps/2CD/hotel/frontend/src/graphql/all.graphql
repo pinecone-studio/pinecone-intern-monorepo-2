@@ -65,3 +65,19 @@ query GetHotelById($getHotelByIdId: ID!) {
     rating
   }
 }
+
+query ReviewsByHotel($hotelId: ID!) {
+  reviewsByHotel(hotelId: $hotelId) {
+    id
+    user {
+      email
+    }
+    hotel {
+      id
+    }
+    comment
+    star
+    createdAt
+    updatedAt
+  }
+}
