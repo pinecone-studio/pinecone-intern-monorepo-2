@@ -1,7 +1,7 @@
 
 describe('HomeContainer', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/Home');
   });
 
   const getPrice = (id: number) => cy.get(`[data-testid="price-${id}"]`);
