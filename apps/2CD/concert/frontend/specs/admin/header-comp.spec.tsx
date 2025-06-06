@@ -23,8 +23,8 @@ describe('Header Component', () => {
 
     render(<Header />);
 
-    const ticketTab = screen.getAllByTestId('adminPageName')[0];
-    const requestTab = screen.getAllByTestId('adminPageName')[1];
+    const ticketTab = screen.getByTestId('ticketPageBtn');
+    const requestTab = screen.getByTestId('reqPageBtn');
 
     expect(ticketTab).toHaveTextContent('Тасалбар');
     expect(ticketTab).toHaveClass('border-black');
@@ -36,8 +36,8 @@ describe('Header Component', () => {
 
     render(<Header />);
 
-    const ticketTab = screen.getAllByTestId('adminPageName')[0];
-    const requestTab = screen.getAllByTestId('adminPageName')[1];
+    const ticketTab = screen.getByTestId('ticketPageBtn');
+    const requestTab = screen.getByTestId('reqPageBtn');
 
     expect(requestTab).toHaveTextContent('Цуцлах хүсэлт');
     expect(requestTab).toHaveClass('border-black');
@@ -49,7 +49,7 @@ describe('Header Component', () => {
 
     render(<Header />);
 
-    const ticketTab = screen.getAllByTestId('adminPageName')[0];
+    const ticketTab = screen.getByTestId('ticketPageBtn');
     fireEvent.click(ticketTab);
 
     expect(mockPush).toHaveBeenCalledWith('/ticket');
@@ -60,7 +60,7 @@ describe('Header Component', () => {
 
     render(<Header />);
 
-    const requestTab = screen.getAllByTestId('adminPageName')[1];
+    const requestTab = screen.getByTestId('reqPageBtn');
     fireEvent.click(requestTab);
 
     expect(mockPush).toHaveBeenCalledWith('/request');

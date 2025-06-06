@@ -21,6 +21,6 @@ query GetAllRequest {
 mutation Mutation {
   sampleMutation
 }
-mutation UpdateRequest($input: updateReqInput) {
+mutation UpdateRequest($input: updateReqInput!) {
   updateRequest(input: $input)
 }

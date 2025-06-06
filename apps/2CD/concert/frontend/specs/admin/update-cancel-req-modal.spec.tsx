@@ -5,6 +5,6 @@ import '@testing-library/jest-dom';
 describe('update cancel request modal', () => {
   it('should render update-req-modal', () => {
     render(<UpdateCancelReqModal name="Tim" onclick={() => jest.fn()} />);
-    expect(screen.getByTestId('update-req-modal')).toHaveTextContent('Цуцлах');
+    expect(screen.getByTestId('update-req-modal')).toHaveTextContent('дуусгах');
   });
 });
