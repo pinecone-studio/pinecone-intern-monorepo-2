@@ -1,6 +1,6 @@
-import { DatePickerDemo } from './Date';
 import { Status } from './Status';
 import { OrderInfo } from './OrderInfo';
+import { DatePickerDemo } from './DatePicker';
 
 export const Order = () => {
   return (

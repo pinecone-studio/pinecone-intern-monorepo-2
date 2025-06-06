@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-export function Status() {
+export const Status = () => {
   return (
     <Select>
       <SelectTrigger className="w-28 h-8">

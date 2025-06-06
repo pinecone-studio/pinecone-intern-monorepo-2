@@ -1,16 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useQuery } from '@apollo/client';
-import axios from 'axios';
-import { useGetAllOrderQuery} from '@/generated';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// import { useGetAllOrderQuery} from '@/generated';
 
 export const OrderInfo = () => {
 
 
-  const { data, loading, error } = useGetAllOrderQuery();
+  // const { data, loading, error } = useGetAllOrderQuery();
 
 
   return (
