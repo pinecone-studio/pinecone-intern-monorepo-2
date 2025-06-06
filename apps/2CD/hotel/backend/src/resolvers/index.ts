@@ -18,6 +18,7 @@ import { getAllUsers } from './queries/user/get-all-user';
 import { getUserById } from './queries/user/get-user-by-id';
 import { reviewQueries } from './queries/review-query';
 import { mostReviewedHotels } from './queries/most-reviewed-hotel';
+import { mostBookedHotel } from './queries/booking/most-booked-hotel';
 
 export const resolvers = {
   Mutation: {
@@ -43,5 +44,6 @@ export const resolvers = {
     getUserById,
     ...reviewQueries,
     mostReviewedHotels,
+    mostBookedHotel,
   },
 };
