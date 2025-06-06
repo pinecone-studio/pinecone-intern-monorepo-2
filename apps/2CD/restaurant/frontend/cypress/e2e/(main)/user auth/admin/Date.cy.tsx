@@ -1,6 +1,6 @@
 describe('DatePage', () => {
     beforeEach(() => {
-        cy.visit('/date');
+        cy.visit('/DatePicker');
     });
     it('should display the date picker', () => {
         cy.get('button').contains('Өнөөдөр').should('exist');
