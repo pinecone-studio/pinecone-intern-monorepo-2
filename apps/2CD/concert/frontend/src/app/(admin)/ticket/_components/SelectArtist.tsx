@@ -10,6 +10,7 @@ export const SelectArtist = ({
   defaultValue,
   setValue,
   artists,
+  hideLabel,
 }: {
   artists:
     | {
@@ -21,11 +22,10 @@ export const SelectArtist = ({
     | undefined;
   defaultValue: string[];
   setValue: (val: string[]) => void;
+  hideLabel?: boolean;
 }) => {
   const handleAddArtistId = (artistId: string) => {
-    if (!defaultValue.includes(artistId)) {
       setValue([...defaultValue, artistId]);
-    }
   };
   const handleRemoveArtist = (id: string) => {
     const newValue = defaultValue.filter((s) => {
@@ -35,18 +35,18 @@ export const SelectArtist = ({
   };
   return (
     <FormItem data-testid="form-item">
-      <FormLabel data-testid="form-label">артистын нэр*</FormLabel>
+      {!hideLabel && <FormLabel data-testid="form-label">артистын нэр*</FormLabel>}
       <Stack direction="row" gap={2}>
         <FormControl data-testid="form-control">
           <Select data-testid="select" onValueChange={(value) => handleAddArtistId(value)}>
-            <SelectTrigger data-testid="select-trigger" data-cy="select-trigger-artist" className="w-[180px]">
-              <SelectValue data-testid="select-value" placeholder="артист нэмэх" />
+            <SelectTrigger data-testid="select-trigger" data-cy={hideLabel ? 'query-select-trigger' : 'select-trigger-artist'} className="w-[180px]">
+              <SelectValue data-testid='select-value-artist' placeholder="артист нэмэх" />
             </SelectTrigger>
             <SelectContent>
               {artists
                 ?.filter((artist) => !defaultValue.some((a) => a === artist.id))
                 .map((artist) => (
-                  <SelectItem data-testid={`select-artist-${artist.id}`} key={artist.id} value={artist.id}>
+                  <SelectItem data-testid={hideLabel ? 'select-artist-query' : `select-artist-${artist.id}`} key={artist.id} value={artist.id}>
                     {artist.name}
                   </SelectItem>
                 ))}
@@ -57,7 +57,7 @@ export const SelectArtist = ({
           ?.filter((art) => defaultValue.find((a) => a === art.id))
           .map((art) => (
             <Stack direction="row" key={art.id} gap={0.65}>
-              <Button data-testid={`remove-artist-${art.id}`} className="rounded-full p-2 py-1 text-sm" variant="secondary" onClick={() => handleRemoveArtist(art.id)} type="button">
+              <Button data-testid={`remove-artist-${art.id}`} data-cy={`selected-artist-${art.id}`} className="rounded-full p-2 py-1 text-sm" variant="secondary" onClick={() => handleRemoveArtist(art.id)} type="button">
                 {art.name} <X size={16} />
               </Button>
             </Stack>

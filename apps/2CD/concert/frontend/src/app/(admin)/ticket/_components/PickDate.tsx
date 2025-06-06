@@ -69,7 +69,7 @@ export const PickDate = ({ setSchedule, schedule }: PickDateProps) => {
       </Stack>
       <div data-testid='schedules' className="flex flex-col">
         {schedule.map((schedule, i) => (
-          <div data-testid={`schedule-${schedule.startDate.toString()}`} key={i}>
+          <div data-testid={`schedule-${i}`} key={i}>
             <p>
               start : {schedule.startDate.toISOString()} | end:{schedule.endDate.toISOString()}
             </p>

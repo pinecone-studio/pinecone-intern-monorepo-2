@@ -25,6 +25,10 @@ export const typeDefs = gql`
     totalPrice: Float!
     bookStatus: BookingStatus!
   }
+  type mostBookedHotel {
+    hotel: Hotel!
+    bookingCount: Int!
+  }
 
   type Booking {
     id: ID!
@@ -45,5 +49,6 @@ export const typeDefs = gql`
   type Query {
     getBookingById(id: ID!): Booking
     getAllBookings: [Booking!]!
+    mostBookedHotel: [mostBookedHotel!]!
   }
 `;

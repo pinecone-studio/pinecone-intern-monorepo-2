@@ -3,7 +3,7 @@ query GetMyMatches {
   getMyMatches {
     _id
     users {
-      _id
+      clerkId
       name
       email
     }

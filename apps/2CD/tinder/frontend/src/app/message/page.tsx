@@ -1,6 +1,6 @@
 "use client"
 
-import { Messages } from "./_features/GetMessages"
+import { Messages } from "./_features/Messages"
 
 const MyMatches = () => {
   return ( <div><Messages/></div>)

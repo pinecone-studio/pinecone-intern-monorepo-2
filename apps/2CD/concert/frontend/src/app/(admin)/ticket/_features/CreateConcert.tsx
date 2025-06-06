@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -9,11 +10,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { ConcertInput, concertSchema } from 'src/zodSchemas/create-concert';
-import { TicketType, useCreateConcertMutation, useGetArtistsQuery } from '@/generated';
+import { Exact, GetConcertFilter, GetConcertQuery, InputMaybe, TicketType, useCreateConcertMutation, useGetArtistsQuery} from '@/generated';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { PickDate, FormItemComp, SelectArtist } from '../_components';
-const CreateConcert = () => {
+import { ApolloQueryResult } from '@apollo/client';
+const CreateConcert = ({refetchConcert}:{refetchConcert:(variables?: Partial<Exact<{
+    input?: InputMaybe<GetConcertFilter>;
+}>> | undefined) => Promise<ApolloQueryResult<GetConcertQuery>>}) => {
   const [open, setOpen] = useState(false);
   const form = useForm<ConcertInput>({
     resolver: zodResolver(concertSchema),
@@ -52,6 +56,7 @@ const CreateConcert = () => {
         input: value,
       },
     });
+    await refetchConcert()
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>

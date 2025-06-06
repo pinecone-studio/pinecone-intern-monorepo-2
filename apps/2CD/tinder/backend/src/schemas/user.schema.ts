@@ -9,6 +9,11 @@ export const typeDefs = gql`
     name: String
     email: String
     password: String!
+    profile: Profile
+    matches: [Match!]!
+    likesFrom: [Like!]!
+    likesTo: [Like!]!
+    messages: [Message!]!
   }
 
   type Query {

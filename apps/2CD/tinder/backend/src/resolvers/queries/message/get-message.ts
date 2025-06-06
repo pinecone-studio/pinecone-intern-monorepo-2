@@ -9,7 +9,7 @@ function handleError(error: any): never {
 
 const getMessage = async (_: any, { matchId }: { matchId: string }) => {
   try {
-    const messages = await Message.find({ match: matchId }).sort({ createdAt: 1 }); // oldest first
+    const messages = await Message.find({ match: matchId }).sort({ createdAt: 1 }).populate('sender'); // oldest first
     return messages;
   } catch (error: any) {
     handleError(error);

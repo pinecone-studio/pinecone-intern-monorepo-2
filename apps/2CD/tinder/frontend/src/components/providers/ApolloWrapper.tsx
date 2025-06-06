@@ -1,36 +1,43 @@
 'use client';
 
-import { HttpLink } from '@apollo/client';
-import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/experimental-nextjs-app-support';
 import { PropsWithChildren } from 'react';
+import { ApolloNextAppProvider, NextSSRApolloClient, NextSSRInMemoryCache } from '@apollo/experimental-nextjs-app-support/ssr';
+import { useClerkId } from '../syncclerkid';
+import { HttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const uri = process.env.BACKEND_URI ?? 'http://localhost:4200/api/graphql';
 
-const makeClient = () => {
+const makeClient = (clerkId: string | null) => {
   const httpLink = new HttpLink({
     uri,
     fetchOptions: { cache: 'no-store' },
   });
 
   const authLink = setContext((_, { headers }) => {
-
-    const clerkid = localStorage.getItem("clerkID")
-
-    return {
-      headers: {
-        ...headers,
-        clerkid,
-      },
+    const updatedHeaders = {
+      ...headers,
+      clerkid: clerkId,
     };
+    return { headers: updatedHeaders };
   });
 
-  return new ApolloClient({
-    cache: new InMemoryCache(),
+  return new NextSSRApolloClient({
+    cache: new NextSSRInMemoryCache(),
     link: authLink.concat(httpLink),
   });
 };
 
 export const ApolloWrapper = ({ children }: PropsWithChildren) => {
-  return <ApolloNextAppProvider makeClient={makeClient}>{children}</ApolloNextAppProvider>;
+  const { clerkId } = useClerkId();
+
+  if (!clerkId) {
+    return null;
+  }
+
+  return (
+    <ApolloNextAppProvider makeClient={() => makeClient(clerkId)}>
+      {children}
+    </ApolloNextAppProvider>
+  );
 };

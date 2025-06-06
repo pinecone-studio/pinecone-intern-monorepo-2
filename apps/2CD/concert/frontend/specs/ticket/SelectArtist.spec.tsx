@@ -23,12 +23,8 @@ jest.mock('@/components/ui/select', () => ({
     </div>
   ),
   SelectContent: ({ children }: any) => <div>{children}</div>,
-  SelectItem: ({ children, value, 'data-testid': testId }: any) => (
-    <div data-testid={testId}>{children}</div>
-  ),
-  SelectTrigger: ({ children, 'data-testid': testId }: any) => (
-    <div data-testid={testId}>{children}</div>
-  ),
+  SelectItem: ({ children, value, 'data-testid': testId }: any) => <div data-testid={testId}>{children}</div>,
+  SelectTrigger: ({ children, 'data-testid': testId }: any) => <div data-testid={testId}>{children}</div>,
   SelectValue: ({ placeholder }: any) => <span>{placeholder}</span>,
 }));
 jest.mock('@mui/material', () => ({
@@ -48,12 +44,23 @@ describe('SelectArtist', () => {
     defaultValue: [],
     setValue: jest.fn(),
   };
+  const props = {
+    artists: mockArtists,
+    defaultValue: [],
+    setValue: jest.fn(),
+    hideLabel: true,
+  };
   beforeEach(() => {
     jest.clearAllMocks();
   });
   it('renders label and select trigger', () => {
     render(<SelectArtist {...defaultProps} />);
     expect(screen.getByText('артистын нэр*')).toBeInTheDocument();
+    expect(screen.getByTestId('select-trigger')).toBeInTheDocument();
+    expect(screen.getByText('артист нэмэх')).toBeInTheDocument();
+  });
+    it('renders label and select trigger in query', () => {
+    render(<SelectArtist {...props} />);
     expect(screen.getByTestId('select-trigger')).toBeInTheDocument();
     expect(screen.getByText('артист нэмэх')).toBeInTheDocument();
   });
@@ -80,14 +87,8 @@ describe('SelectArtist', () => {
   });
   it('calls setValue when removing artist', () => {
     const mockSetValue = jest.fn();
-    render(
-      <SelectArtist 
-        {...defaultProps} 
-        defaultValue={['artist-1', 'artist-2']} 
-        setValue={mockSetValue} 
-      />
-    );
-    fireEvent.click(screen.getByTestId('remove-artist-artist-1'));   
+    render(<SelectArtist {...defaultProps} defaultValue={['artist-1', 'artist-2']} setValue={mockSetValue} />);
+    fireEvent.click(screen.getByTestId('remove-artist-artist-1'));
     expect(mockSetValue).toHaveBeenCalledWith(['artist-2']);
   });
   it('handles undefined artists prop', () => {
@@ -102,33 +103,13 @@ describe('SelectArtist', () => {
   });
   it('removes correct artist from multiple selections', () => {
     const mockSetValue = jest.fn();
-    render(
-      <SelectArtist 
-        {...defaultProps} 
-        defaultValue={['artist-1', 'artist-2', 'artist-3']} 
-        setValue={mockSetValue} 
-      />
-    );
+    render(<SelectArtist {...defaultProps} defaultValue={['artist-1', 'artist-2', 'artist-3']} setValue={mockSetValue} />);
     fireEvent.click(screen.getByTestId('remove-artist-artist-2'));
     expect(mockSetValue).toHaveBeenCalledWith(['artist-1', 'artist-3']);
   });
-   it('does not call setValue when adding duplicate artist', () => {
-    const mockSetValue = jest.fn();
-    render(<SelectArtist {...defaultProps} defaultValue={['artist-1']} setValue={mockSetValue} />);
-    const select = screen.getByTestId('select');
-    fireEvent.click(select);
-
-    expect(mockSetValue).not.toHaveBeenCalled();
-  });
   it('handles removing last selected artist', () => {
     const mockSetValue = jest.fn();
-    render(
-      <SelectArtist 
-        {...defaultProps} 
-        defaultValue={['artist-1']} 
-        setValue={mockSetValue} 
-      />
-    );
+    render(<SelectArtist {...defaultProps} defaultValue={['artist-1']} setValue={mockSetValue} />);
     fireEvent.click(screen.getByTestId('remove-artist-artist-1'));
     expect(mockSetValue).toHaveBeenCalledWith([]);
   });
