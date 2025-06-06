@@ -32,6 +32,80 @@ describe('Create Concert E2E Tests', () => {
     cy.visit(PAGE_URL);
     cy.get('[data-cy="Concert-Page"]', { timeout: 10000 }).should('be.visible');
   });
+  it('should display concert table with correct values', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetConcert') {
+        req.reply({
+          body: {
+            statusCode: 200,
+            data: {
+              getConcert: [
+                {
+                  id: '1',
+                  title: 'Rock Fest',
+                  description: 'Annual rock concert',
+                  featured: false,
+                  artists: [{ name: 'Artist A' }, { name: 'Artist B' }],
+                  schedule: [{ startDate: '2025-07-15T00:00:00Z' }],
+                  ticket: [
+                    { id: 't1', type: 'VIP', quantity: 50, price: 200 },
+                    { id: 't2', type: 'STANDARD', quantity: 150, price: 100 },
+                    { id: 't3', type: 'BACKSEAT', quantity: 300, price: 50 },
+                  ],
+                  totalProfit: 100000,
+                  thumbnailUrl: '',
+                  venue: {
+                    address: 'Some Street',
+                    city: 'Ulaanbaatar',
+                    name: 'Grand Hall',
+                  },
+                },
+                {
+                  id: '2',
+                  title: 'Roc',
+                  description: 'concert',
+                  featured: false,
+                  artists: [{ name: 'Artist A' }, { name: 'Artist B' }],
+                  schedule: [{ startDate: '2025-07-11T00:00:00Z' }],
+                  ticket: [
+                    { id: 't1', type: 'VIP', quantity: 50, price: 200 },
+                    { id: 't3', type: 'BACKSEAT', quantity: 10, price: 10 },
+                  ],
+                  totalProfit: 1000,
+                  thumbnailUrl: '',
+                  venue: {
+                    address: 'Some Street',
+                    city: 'Ulaanbaatar',
+                    name: 'Grand Hall',
+                  },
+                },
+              ],
+            },
+          },
+        });
+      }
+    }).as('getConcert');
+    cy.wait('@getConcert');
+    cy.get('[data-cy="Concert-Table"]').should('exist');
+    cy.get('[data-cy="Concert-Row-0"]').within(() => {
+      cy.get('[data-cy="concert-title"]').should('contain.text', 'Rock Fest');
+      cy.get('[data-cy="concert-artists"]').should('contain.text', 'Artist A');
+      cy.get('[data-cy="concert-vip"]').should('have.text', '50');
+      cy.get('[data-cy="concert-standard"]').should('have.text', '150');
+      cy.get('[data-cy="concert-backseat"]').should('have.text', '300');
+      cy.get('[data-cy="concert-total-tickets"]').should('have.text', '500');
+      cy.get('[data-cy="concert-profit"]').should('have.text', '100000');
+    });
+    cy.get('[data-cy="Concert-Row-1"]').within(() => {
+      cy.get('[data-cy="concert-title"]').should('contain.text', 'Roc');
+      cy.get('[data-cy="concert-artists"]').should('contain.text', 'Artist A');
+      cy.get('[data-cy="concert-vip"]').should('have.text', '50');
+      cy.get('[data-cy="concert-standard"]').should('contain', '0');
+      cy.get('[data-cy="concert-backseat"]').should('have.text', '10');
+      cy.get('[data-cy="concert-total-tickets"]').should('have.text', '60');
+      cy.get('[data-cy="concert-profit"]').should('have.text', '1000');
+    });
+  });
   it('should display the page correctly and show create concert button', () => {
     cy.get('[data-cy="Concert-Page"]').should('be.visible');
     cy.get('[data-cy="Concert-Title"]').should('contain.text', 'Тасалбар');
@@ -185,5 +259,55 @@ describe('Create Concert E2E Tests', () => {
     cy.get('[data-cy="clear-filter"]').click();
     cy.get('[data-cy="search-concert-title" ]').should('have.text', '');
     cy.get('[data-testid="select-artist-query-1" ]').should('not.exist');
+  });
+  it('should cancel feature concert concert', () => {
+    cy.get('[data-testid="feature-open-concert-dialog"]').eq(1).click();
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('be.visible');
+    cy.get('[data-testid="feature-concert-cancel"]').click();
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('not.exist');
+  });
+  it('should cancel feature concert concert', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'updateConcert') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: { updateConcert: 'Success' },
+          },
+        });
+      }
+    }).as('updateConcert');
+    cy.get('[data-testid="feature-open-concert-dialog"]').eq(1).click();
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('be.visible');
+    cy.get('[data-testid="feature-concert-submit"]').click();
+    cy.wait('@updateConcert');
+    cy.contains('Амжилттай шинчлэгдлээ');
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('not.exist');
+  });
+  it('should cancel feature concert concert', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'UpdateConcert') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            errors: [
+              {
+                message: 'Concert not found',
+                locations: [{ line: 2, column: 3 }],
+                path: ['updateConcert'],
+                extensions: { code: 'INTERNAL_SERVER_ERROR' },
+              },
+            ],
+            data: null,
+          },
+        });
+      }
+    }).as('updateConcertError');
+    cy.get('[data-testid="feature-open-concert-dialog"]').eq(1).click();
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('be.visible');
+    cy.get('[data-testid="feature-concert-submit"]').click();
+    cy.wait('@updateConcertError');
+    cy.contains('Алдаа гарлаа');
+    cy.get('[data-testid="feature-concert-dialog-content"]').should('not.exist');
   });
 });

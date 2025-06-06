@@ -3,7 +3,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Exact, GetConcertFilter, GetConcertQuery, InputMaybe, TicketType, useGetArtistsQuery, useUpdateConcertMutation } from '@/generated';
+import { TicketType, useGetArtistsQuery, useUpdateConcertMutation } from '@/generated';
 import { Stack } from '@mui/material';
 import { Star, X } from 'lucide-react';
 import { SelectArtist, SelectDay } from '../_components';
