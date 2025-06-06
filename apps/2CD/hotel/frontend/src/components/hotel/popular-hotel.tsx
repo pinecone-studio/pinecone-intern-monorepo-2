@@ -7,6 +7,7 @@ import { Star } from 'lucide-react';
 import Amenities from './amenities-section';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMostReviewedHotelsQuery } from '@/generated';
+import { Button } from '@/components/ui/button';
 
 export const PopularHotel = () => {
   const { data, loading, error } = useMostReviewedHotelsQuery();
@@ -29,8 +30,9 @@ export const PopularHotel = () => {
   if (error) return <p>Error loading: {error.message}</p>;
   return (
     <>
-      <div className="w-[1280px]">
+      <div className="w-[1280px] flex justify-between">
         <p className="font-bold text-2xl">Popular Hotel</p>
+        <Button variant="outline">View all</Button>
       </div>
       <div className="w-[1280px] grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data?.mostReviewedHotels?.map((hotel) => (

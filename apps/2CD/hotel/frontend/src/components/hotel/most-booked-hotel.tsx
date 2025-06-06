@@ -6,6 +6,7 @@ import { useMostBookedHotelQuery } from '@/generated';
 import { Star } from 'lucide-react';
 import Amenities from './amenities-section';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 export const MostBookedHotel = () => {
   const { data, loading, error } = useMostBookedHotelQuery();
@@ -29,8 +30,9 @@ export const MostBookedHotel = () => {
 
   return (
     <>
-      <div className="w-[1280px]">
+      <div className="w-[1280px] flex justify-between">
         <p className="font-bold text-2xl">Most Booked Hotel</p>
+        <Button variant="outline">View all</Button>
       </div>
       <div className="w-[1280px] grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data?.mostBookedHotel?.map((hotel) => (
