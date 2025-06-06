@@ -1,19 +1,3 @@
-# query Query {
-#   getAllHotels{}
-#   getHotelById{}
-#   getAllRooms{}
-#   getRoomForId{}
-# }
-
-# mutation Mutation {
-#   addHotel{}
-#   CreateBooking{}
-#   updateBooking{}
-#   createRoom{}
-#   updateRoom{}
-#   deleteRoom{}
-#   ...reviewMutations{}
-# }
 mutation AddHotel($input: AddHotelInput!) {
   addHotel(input: $input) {
     id
@@ -79,5 +63,45 @@ query ReviewsByHotel($hotelId: ID!) {
     star
     createdAt
     updatedAt
+  }
+}
+query MostBookedHotel {
+  mostBookedHotel {
+    hotel {
+      hotelName
+      price
+      description
+      phoneNumber
+      amenities
+      rooms
+      hotelStar
+      guestReviews
+      bookings
+      roomServices
+      createdAt
+      updatedAt
+    }
+    bookingCount
+  }
+}
+query MostReviewedHotels($limit: Int) {
+  mostReviewedHotels(limit: $limit) {
+    hotel {
+      hotelName
+      price
+      description
+      phoneNumber
+      amenities
+      hotelStar
+      createdAt
+      updatedAt
+      rooms
+      images
+      guestReviews
+      bookings
+      roomServices
+    }
+    reviewCount
+    averageRating
   }
 }
