@@ -77,6 +77,18 @@
         "command": "ts-node libs/scripts/src/actions/deployment/deploy-prod-action.ts"
       },
       "dependsOn": [{ "target": "export-env" }]
+    },
+    "execute-cypress": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ts-node libs/scripts/src/commands/execute-cypress.ts"
+      }
+    },
+    "check-cypress-code-coverage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ts-node libs/scripts/src/actions/e2e/check-cypress-code-coverage.ts"
+      }
     }
   },
   "tags": []

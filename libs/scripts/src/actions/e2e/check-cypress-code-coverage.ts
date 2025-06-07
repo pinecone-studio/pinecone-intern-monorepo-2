@@ -2,9 +2,7 @@ import { blue, green, red, yellow } from 'chalk';
 import path from 'path';
 import { calculateTotalCoverage, displayCoverageRow, isCoverageAboveThreshold, parseCoverageReport, validateCoveragePath } from '../../utils/actions/check-cypress-code-coverage-utils';
 
-export const checkCypressCodeCoverage = () => {
-  console.log(process.argv);
-  const projectPath = process.argv.slice(2)[0];
+export const checkCypressCodeCoverage = (projectPath: string) => {
   validateCoveragePath(projectPath);
 
   const coverageFilePath = path.join(projectPath, 'coverage', 'lcov-report', 'index.html');
@@ -25,5 +23,3 @@ export const checkCypressCodeCoverage = () => {
 
   console.log(pullRequestComment);
 };
-
-checkCypressCodeCoverage();
