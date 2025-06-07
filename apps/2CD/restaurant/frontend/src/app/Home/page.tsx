@@ -5,11 +5,11 @@ import HomeContainer from './components/HomeContainer';
 const Page = () => {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-[#FFFFFF]">
-      <div className="w-full max-w-[430px] min-h-screen mx-auto flex flex-col gap-6 relative px-4">
+      <div className="w-full min-h-screen mx-auto flex flex-col gap-6 relative px-4">
         <div className="h-[56px] flex items-center justify-center">Header here</div>
         <div className="flex flex-col justify-center items-center gap-8">
           <h1 className="text-[20px] text-[#441500] font-semibold leading-8">Хоолны цэс</h1>
-          <div className="w-full gap-1 flex items-center">
+          <div className="w-full gap-1 flex">
             <Caro />
           </div>
           <div>

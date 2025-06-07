@@ -1,11 +1,23 @@
 'use client';
-// import Login from '../app/login/page';
-import Home from './Home/page';
+import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
 
 const Page = () => {
+
+  const router = useRouter();
+
+  // useEffect(()=>{
+  //   if(typeof window !== 'undefined') {
+  //     const qrtoken = localStorage.getItem('qrtoken');
+      // if(qrtoken) {
+        router.push('/Home');
+  //     }
+  //   }
+  // },[router])
+
   return (
     <div>
-      <Home />
+      Loading...
     </div>
   );
 };

@@ -15,10 +15,10 @@ const Caro = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading categories: {error.message}</div>;
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="flex flex-nowrap gap-4 px-2 py-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+    <div className="w-full overflow-x-scroll">
+      <div className="flex flex-start gap-4 px-2 py-4 justify-cente" style={{ WebkitOverflowScrolling: 'touch' }}>
         {data.getAllCategory.map((item: { _id: string; name: string }) => (
-          <div key={item._id} className="flex-shrink-0 w-40 sm:w-48">
+          <div key={item._id} className="w-40 sm:w-48">
             <button type="button" onClick={() => alert(`Clicked on ${item.name}`)} className="w-full focus:outline-none">
               <Card>
                 <CardContent className="flex flex-col items-center justify-center px-4 py-2">
