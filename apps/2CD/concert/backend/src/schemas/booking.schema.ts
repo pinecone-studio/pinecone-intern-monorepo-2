@@ -4,11 +4,11 @@ export const bookingDef = gql`
   scalar Date
 
   type BookedTicket {
-    ticket: Ticket!
+    ticketId: ID!
     quantity: Int!
   }
 
-  enum bookingStatus {
+  enum BookingStatus {
     PENDING
     REJECTED
     COMPLETED
@@ -19,9 +19,23 @@ export const bookingDef = gql`
     user: User!
     concert: Concert!
     tickets: [BookedTicket!]!
-    status: bookingStatus!
+    status: BookingStatus!
     totalAmount: Int!
     createdAt: Date!
     updatedAt: Date!
+  }
+
+  input CreateBookingInput {
+    userId: ID!
+    concertId: ID!
+    tickets: [CreateBookedTicketInput!]!
+  }
+
+  input CreateBookedTicketInput {
+    ticketId: ID!
+    quantity: Int!
+  }
+  type Mutation {
+    createBooking(input: CreateBookingInput!): Response!
   }
 `;
