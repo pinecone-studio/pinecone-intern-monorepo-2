@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress restaurant-frontend"],
+        "commands": ["npx nx execute-cypress scripts restaurant-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]

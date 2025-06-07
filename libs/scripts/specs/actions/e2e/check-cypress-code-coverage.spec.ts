@@ -35,7 +35,7 @@ describe('addCoverageToPullRequest', () => {
     const mockIsCoverageAboveThreshold = jest.spyOn(cypressCodeCoverageUtils, 'isCoverageAboveThreshold');
     mockIsCoverageAboveThreshold.mockImplementation();
 
-    cypressCodeCoverage.checkCypressCodeCoverage();
+    cypressCodeCoverage.checkCypressCodeCoverage('');
 
     expect(mockValidateCoveragePath).toHaveBeenCalled();
   });

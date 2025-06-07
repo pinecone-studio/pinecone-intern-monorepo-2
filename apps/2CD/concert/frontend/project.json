@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress concert-client-2025-2cd"],
+        "commands": ["npx nx execute-cypress scripts concert-client-2025-2cd"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
