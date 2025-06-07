@@ -31,11 +31,10 @@ const Page = () => {
   const debouncedRefetch = useMemo(
     () =>
       debounce((values: { title?: string | undefined; artists?: (string | undefined)[] | undefined; day?: Date | undefined }) => {
-        const cleanArtists = (values.artists ?? []).filter((a): a is string => typeof a === 'string');
         refetch({
           input: {
             title: values.title,
-            artist: cleanArtists,
+            artist: values.artists as string[],
             date: values.day ? formatISO(values.day, { representation: 'date' }) : null,
           },
         });

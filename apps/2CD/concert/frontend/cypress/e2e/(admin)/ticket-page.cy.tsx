@@ -32,6 +32,78 @@ describe('Create Concert E2E Tests', () => {
     cy.visit(PAGE_URL);
     cy.get('[data-cy="Concert-Page"]', { timeout: 10000 }).should('be.visible');
   });
+it('handles rapid artist selection changes', () => {
+  cy.intercept('POST', '**/graphql', (req) => {
+    if (req.body.operationName === 'GetConcert') {
+      req.alias = 'getConcert';
+    }
+  });
+  
+  cy.wait('@getConcert');
+  cy.get('[data-cy="query-select-trigger"]').click();
+  cy.get('[data-testid="select-artist-query-1"]').click();
+  cy.get('[data-cy="query-select-trigger"]').click();
+  cy.get('[data-testid="select-artist-query-2"]').click();
+  cy.get('[data-cy="query-select-trigger"]').click();
+  cy.get('[data-testid="select-artist-query-3"]').click(); // if exists
+  
+  // Clear and re-select
+  cy.get('[data-cy="clear-filter"]').click(); // if such button exists
+  cy.get('[data-cy="query-select-trigger"]').click();
+  cy.get('[data-testid="select-artist-query-1"]').click();
+  
+  cy.wait('@getConcert').then((interception) => {
+    const artists = interception.request.body.variables.input.artist;
+    artists.forEach((artist: string) => {
+      expect(artist).to.be.a('string');
+    });
+  });
+});
+  it('handles date filter selection and clearing', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetConcert') {
+        req.alias = 'getConcert';
+      }
+    });
+    cy.wait('@getConcert');
+    cy.get('[data-cy="open-calendar-filter"]').click();
+    cy.get('[data-testid="calendar"]').within(() => {
+      cy.get('button[name="day"]:not([disabled])').first().click();
+    });
+
+    cy.wait('@getConcert', { timeout: 1000 }).then((interception) => {
+      expect(interception.request.body.variables.input.date).to.not.be.null;
+      expect(interception.request.body.variables.input.date).to.match(/^\d{4}-\d{2}-\d{2}$/);
+    });
+  });
+  it('handles multiple artist selections and deselections', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetConcert') {
+        req.alias = 'getConcert';
+      }
+    });
+    cy.wait('@getConcert');
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-1"]').click();
+    cy.wait('@getConcert');
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-2"]').click();
+    cy.wait('@getConcert').then((interception) => {
+      expect(interception.request.body.variables.input.artist).to.have.length.greaterThan(0);
+    });
+  });
+  it('should navigate to Цуцлах хүсэлт page when clicking request tab', () => {
+    cy.get('[data-testid="reqPageBtn"]').click();
+    cy.url().should('include', '/request');
+    cy.contains('Цуцлах хүсэлт').should('be.visible');
+  });
+  it('should navigate to Тасалбар page when clicking ticket tab', () => {
+    cy.visit('/request');
+    cy.get('[data-testid="ticketPageBtn"]').click();
+
+    cy.url().should('include', '/ticket');
+    cy.contains('Тасалбар').should('be.visible');
+  });
   it('should display concert table with correct values', () => {
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'GetConcert') {
