@@ -8,7 +8,6 @@ const bookingSchema = new Schema(
       {
         ticket: { type: Schema.Types.ObjectId, ref: 'Ticket', required: true },
         quantity: { type: Number, required: true },
-        price: { type: Number, required: true },
       },
     ],
     status: {

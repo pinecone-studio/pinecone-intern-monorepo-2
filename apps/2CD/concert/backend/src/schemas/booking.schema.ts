@@ -6,13 +6,6 @@ export const bookingDef = gql`
   type BookedTicket {
     ticketId: ID!
     quantity: Int!
-    price:Int!
-  }
-
-  type GetBookedTicketDetail {
-    ticketId: ID!
-    quantity: Int!
-    ticketDetails: Ticket!
   }
 
   enum BookingStatus {
@@ -41,7 +34,6 @@ export const bookingDef = gql`
   input CreateBookedTicketInput {
     ticketId: ID!
     quantity: Int!
-    price: Int!
   }
   type Mutation {
     createBooking(input: CreateBookingInput!): Response!

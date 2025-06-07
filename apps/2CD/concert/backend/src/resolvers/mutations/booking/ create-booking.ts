@@ -4,30 +4,34 @@ import { validateConcert } from 'src/utils/create-booking.ts/validate-concert';
 import { bookingsModel } from 'src/models';
 import { calculateTotalAmount } from 'src/utils/create-booking.ts/calculate-total-amount';
 import { bookingSchema } from 'src/zodSchemas/booking.zod';
-import { validateTickets } from 'src/utils/create-booking.ts/validate-tickets';
+import { decrementTicketStock } from 'src/utils/create-booking.ts/decrease-ticket-quantity';
 
 export const createBooking: MutationResolvers['createBooking'] = async (_, { input }) => {
   const data = bookingSchema.parse(input);
   const { userId, concertId, tickets } = data;
 
-    await validateUser(userId);
-    await validateConcert(concertId);
-    await validateTickets(tickets.map(t=>t.ticketId))
+  await validateUser(userId);
+  await validateConcert(concertId);
 
-    const totalAmount = calculateTotalAmount(tickets);
+  for (const ticket of tickets) {
+    try {
+      await decrementTicketStock(ticket.ticketId, ticket.quantity);
+    } catch (err) {
+      console.error('Ticket stock update failed:', err);
+      throw err;
+    }
+  }
+  const transformedTickets = tickets.map((ticket) => ({
+    ticket: ticket.ticketId,
+    quantity: ticket.quantity,
+  }));
 
-    const transformedTickets = tickets.map((ticket) => ({
-      ticket: ticket.ticketId,
-      quantity: ticket.quantity,
-      price: ticket.price,
-    }));
-
-    await bookingsModel.create({
-      user: userId,
-      concert: concertId,
-      tickets: transformedTickets,
-      totalAmount: totalAmount,
-      status: 'PENDING',
-    });
-    return Response.Success
+  await bookingsModel.create({
+    user: userId,
+    concert: concertId,
+    tickets: transformedTickets,
+    totalAmount: await calculateTotalAmount(tickets),
+    status: 'PENDING',
+  });
+  return Response.Success;
 };

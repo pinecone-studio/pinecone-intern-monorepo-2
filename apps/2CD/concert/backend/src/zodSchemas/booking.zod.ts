@@ -2,7 +2,6 @@ import z from 'zod';
 
 export const bookedTicketSchema = z.object({
   ticketId: z.string().min(1, 'Ticket ID can not be empty'),
-  price: z.number().positive('Price must be a positive number'),
   quantity: z.number().positive('Quantity must be a positive number'),
 });
 
