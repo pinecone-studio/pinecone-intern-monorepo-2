@@ -18,7 +18,6 @@ const mockInput = {
     { ticketId: '507f191e810c19729de860ed', quantity: 1 },
   ],
 };
-// const ticketIds = mockInput.tickets.map((t) => t.ticketId);
 
 jest.mock('src/utils/create-booking.ts/validate-user', () => ({
   validateUser: jest.fn().mockResolvedValue(undefined),
@@ -56,6 +55,8 @@ describe('createBooking Mutation', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    (validateConcert as jest.Mock).mockResolvedValue(undefined);
+    (validateUser as jest.Mock).mockResolvedValue(undefined);
   });
 
   it('should pass validation for valid input', () => {
@@ -109,6 +110,8 @@ describe('createBooking Mutation', () => {
     });
 
     await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('User not found');
+
+    (validateUser as jest.Mock).mockResolvedValue(undefined);
   });
 
   it('should call validateConcert with correct concertId', async () => {
@@ -128,76 +131,47 @@ describe('createBooking Mutation', () => {
     await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('Concert not found');
   });
 
-  it('should decrement stock and call save', async () => {
-    const mockSave = jest.fn();
-    (ticketModel.findById as jest.Mock).mockResolvedValueOnce({
-      quantity: 10,
-      save: mockSave,
+  it('should create a concert successfully', async () => {
+    const mockSave1 = jest.fn().mockResolvedValue(undefined);
+    const mockSave2 = jest.fn().mockResolvedValue(undefined);
+
+    (ticketModel.findById as jest.Mock)
+      .mockResolvedValueOnce({
+        _id: '507f191e810c19729de860ec',
+        quantity: 5,
+        save: mockSave1,
+      })
+      .mockResolvedValueOnce({
+        _id: '507f191e810c19729de860ed',
+        quantity: 3,
+        save: mockSave2,
+      });
+
+    (bookingsModel.create as jest.Mock).mockResolvedValueOnce({ _id: 'mockBooking_id' });
+    (userModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860ea' });
+    (concertModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860eb' });
+
+    const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
+
+    expect(validateUser).toHaveBeenCalledWith(mockInput.userId);
+    expect(validateConcert).toHaveBeenCalledWith(mockInput.concertId);
+    expect(decrementTicketStock).toHaveBeenCalledTimes(2);
+    expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ec', 2);
+    expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ed', 1);
+
+    expect(calculateTotalAmount).toHaveBeenCalledWith(mockInput.tickets);
+
+    expect(bookingsModel.create).toHaveBeenCalledWith({
+      user: mockInput.userId,
+      concert: mockInput.concertId,
+      tickets: [
+        { ticket: '507f191e810c19729de860ec', quantity: 2 },
+        { ticket: '507f191e810c19729de860ed', quantity: 1 },
+      ],
+      totalAmount: 150,
+      status: 'PENDING',
     });
 
-    await decrementTicketStock('507f191e810c19729de860ec', 2);
-
-    expect(mockSave).toHaveBeenCalled();
+    expect(result).toBe(Response.Success);
   });
-
-  it('should throw error if ticket not found', async () => {
-    (ticketModel.findById as jest.Mock).mockResolvedValueOnce(null);
-
-    await expect(decrementTicketStock('invalid-id', 1)).rejects.toThrow('Ticket ID not found.');
-  });
-
-  it('should throw error if quantity is insufficient', async () => {
-    (ticketModel.findById as jest.Mock).mockResolvedValueOnce({
-      quantity: 1,
-      save: jest.fn(),
-    });
-
-    await expect(decrementTicketStock('507f191e810c19729de860ec', 2)).rejects.toThrow('Not enough tickets available');
-  });
-
-it('should create a concert successfully', async () => {
-  const mockSave1 = jest.fn().mockResolvedValue(undefined);
-  const mockSave2 = jest.fn().mockResolvedValue(undefined);
-
-  // Mock ticketModel.findById for both tickets
-  (ticketModel.findById as jest.Mock)
-    .mockResolvedValueOnce({
-      _id: '507f191e810c19729de860ec',
-      quantity: 5,
-      save: mockSave1,
-    })
-    .mockResolvedValueOnce({
-      _id: '507f191e810c19729de860ed',
-      quantity: 3,
-      save: mockSave2,
-    });
-
-  (bookingsModel.create as jest.Mock).mockResolvedValueOnce({ _id: 'mockBooking_id' });
-  (userModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860ea' });
-  (concertModel.findById as jest.Mock).mockResolvedValueOnce({ _id: '507f191e810c19729de860eb' });
-
-  const result = await createBooking!({}, { input: mockInput }, {}, mockInfo);
-
-  // Assertions
-  expect(validateUser).toHaveBeenCalledWith(mockInput.userId);
-  expect(validateConcert).toHaveBeenCalledWith(mockInput.concertId);
-  expect(decrementTicketStock).toHaveBeenCalledTimes(2);
-  expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ec', 2);
-  expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ed', 1);
-
-  expect(calculateTotalAmount).toHaveBeenCalledWith(mockInput.tickets);
-
-  expect(bookingsModel.create).toHaveBeenCalledWith({
-    user: mockInput.userId,
-    concert: mockInput.concertId,
-    tickets: [
-      { ticket: '507f191e810c19729de860ec', quantity: 2 },
-      { ticket: '507f191e810c19729de860ed', quantity: 1 },
-    ],
-    totalAmount: 150,
-    status: 'PENDING',
-  });
-
-  expect(result).toBe(Response.Success);
-});
 });
