@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { useGetAllOrderQuery } from '@/generated';
+import { Button } from '@/components/ui/button';
 
 export const OrderInfo = () => {
   const { data, loading, error } = useGetAllOrderQuery();
@@ -24,7 +24,10 @@ export const OrderInfo = () => {
         const formattedTime = orderDate ? new Date(orderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '00:00';
 
         return (
-          <div key={index} className="self-stretch w-full mt-4 h-56 p-8 bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-200 inline-flex flex-col justify-start items-end gap-4">
+          <div
+            key={index}
+            className="self-stretch w-full mt-4 h-56 p-8 bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-zinc-200 inline-flex flex-col justify-start items-end gap-4"
+          >
             <div className="self-stretch flex flex-col justify-center items-end gap-6">
               <div className="self-stretch flex flex-col justify-start items-start gap-6">
                 <div className="self-stretch inline-flex justify-between items-center">
