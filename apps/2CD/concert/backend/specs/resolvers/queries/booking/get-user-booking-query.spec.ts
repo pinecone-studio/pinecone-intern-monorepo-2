@@ -53,7 +53,7 @@ describe('getUserBooking', () => {
     expect(result).toEqual(mockBookings);
   });
 
-  it('should throw a fetch error if DB fails', async () => {
+  it('should throw an error if bookingsModel.find throws', async () => {
     (bookingsModel.find as jest.Mock).mockImplementationOnce(() => {
       throw new Error('DB error');
     });
@@ -61,5 +61,29 @@ describe('getUserBooking', () => {
     await expect(
       getUserBooking!({}, { input: { userId: 'user1', page: 0 } }, {}, mockInfo)
     ).rejects.toThrow('Failed to get booking: DB error');
+  });
+
+  it('should throw an error if populate fails', async () => {
+    (bookingsModel.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnValue({
+        populate: jest.fn().mockRejectedValue(new Error('Populate failed')),
+      }),
+    });
+
+    await expect(
+      getUserBooking!({}, { input: { userId: 'user1', page: 0 } }, {}, mockInfo)
+    ).rejects.toThrow('Failed to get booking: Populate failed');
+  });
+
+  it('should throw "Unknown error" if non-Error is thrown in populate chain', async () => {
+    (bookingsModel.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnValue({
+        populate: jest.fn().mockRejectedValue('some random error string'),
+      }),
+    });
+
+    await expect(
+      getUserBooking!({}, { input: { userId: 'user1', page: 0 } }, {}, mockInfo)
+    ).rejects.toThrow('Failed to get booking: Unknown error');
   });
 });
