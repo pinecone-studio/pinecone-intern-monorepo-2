@@ -7,4 +7,5 @@ import OrderTypeDef from './order.schema';
 import walletHistoryTypeDef from './wallet-notification.schema';
 import allNotificationTypeDef from './all-notification.schema';
 import OtpTypeDef from './otp-schema';
-export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef, OrderTypeDef, walletHistoryTypeDef, OtpTypeDef,allNotificationTypeDef]);
+import tableTypeDef from './table.schema';
+export const typeDefs = mergeTypeDefs([FoodTypeDef, CommonTypeDefs, UserTypeDef, CategoryTypeDef, OrderTypeDef, walletHistoryTypeDef, OtpTypeDef, allNotificationTypeDef, tableTypeDef]);
