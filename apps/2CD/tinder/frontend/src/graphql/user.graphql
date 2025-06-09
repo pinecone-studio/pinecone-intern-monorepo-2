@@ -1,7 +1,5 @@
-# Queries
-
-query Me {
-  me {
+query Me($clerkId: String!) {
+  me(clerkId: $clerkId) {
     _id
     name
     email
@@ -26,8 +24,6 @@ query GetAllUsers {
     password
   }
 }
-
-# Mutations
 
 mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {

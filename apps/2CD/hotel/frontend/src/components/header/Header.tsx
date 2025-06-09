@@ -9,6 +9,7 @@ const Header = () => {
   const userName = user?.username || 'guest'
   return (
     <>
+      <div className='w-full h-[200px]'>
           <SignedOut >
             <div className='w-full bg-[#013B94] flex p-4 justify-center'>
               <div className='flex w-[1280px] justify-between'>
@@ -26,8 +27,8 @@ const Header = () => {
                 </div>
               </div>
             </div>
-              <div className='bg-[#013B94] w-full h-[100px]'>
-              </div>
+            <div className='bg-[#013B94] w-full h-[100px]'>
+            </div>
           </SignedOut>
           <SignedIn>
             <div className='flex w-full p-4 justify-center'>
@@ -44,6 +45,7 @@ const Header = () => {
               </div>
             </div>
           </SignedIn> 
+      </div>
     </>
   );
 };

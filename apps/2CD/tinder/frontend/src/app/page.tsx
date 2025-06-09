@@ -15,15 +15,15 @@ const LandingPage = () => {
           <button onClick={() => router.push('/profile')}>
             Go to Profile
           </button>
-                      <button className="bg-red" onClick={() => router.push(`/message`)}>Chat</button>
+          <button className="bg-[var(--background)]" onClick={() => router.push(`/message`)}>Chat</button>
         </div>
       ) : (
         <div>
           <div className="mb-4">Landing page.</div>
-          <button onClick={() => router.push(`/login`)}>Sign In</button>
-          <button onClick={() => router.push(`/sign-up`)}>Sign Up</button>
+          <button onClick={() => router.push(`/auth/sign-in`)}>Sign In</button>
+          <button onClick={() => router.push(`/auth/sign-up`)}>Sign Up</button>
         </div>
-       
+
       )}
     </div>
   );

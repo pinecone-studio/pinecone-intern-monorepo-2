@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { render, screen } from '@testing-library/react';
 import { SelectDay } from '@/app/(admin)/ticket/_components';
 import '@testing-library/jest-dom';
@@ -94,12 +95,32 @@ describe('SelectDay', () => {
     render(<SelectDay {...defaultProps} />);
     expect(screen.getByTestId('pick-date')).toBeInTheDocument();
   });
+
   it('displays formatted date when day is selected', () => {
     const selectedDate = new Date('2024-12-25');
     const props = { ...defaultProps, day: selectedDate };
     render(<SelectDay {...props} />);
     expect(screen.queryByText('Pick a date')).not.toBeInTheDocument();
     expect(screen.getByText('Wednesday, December 25, 2024')).toBeInTheDocument();
+  });
+   it('should use data-cy="open-calendar-filter" when hideLabel is true', () => {
+    const props = {
+      ...defaultProps,
+      hideLabel: true,
+    };
+    render(<SelectDay {...props} />);
+    const button = screen.getByTestId('open-calendar-btn');
+    expect(button).toHaveAttribute('data-cy', 'open-calendar-filter');
+  });
+
+  it('should use data-cy="open-calendar-form" when hideLabel is false', () => {
+    const props = {
+      ...defaultProps,
+      hideLabel: false,
+    }
+    render(<SelectDay {...props} />);
+    const button = screen.getByTestId('open-calendar-btn');
+    expect(button).toHaveAttribute('data-cy', 'open-calendar-form');
   });
   it('renders calendar icon with correct styling', () => {
     render(<SelectDay {...defaultProps} />);

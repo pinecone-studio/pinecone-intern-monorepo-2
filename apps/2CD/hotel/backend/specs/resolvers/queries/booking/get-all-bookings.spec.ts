@@ -1,85 +1,42 @@
-import { Booking } from '../../../../src/models/booking';
 import { getAllBookings } from 'src/resolvers/queries/booking/get-all-booking';
+import { Booking } from 'src/models/booking';
+import { GraphQLError } from 'graphql';
 
-jest.mock('../../../../src/models/booking', () => ({
+jest.mock('src/models/booking', () => ({
   Booking: {
-    find: jest.fn(),
+    find: jest.fn().mockReturnThis(),
+    populate: jest.fn(),
   },
 }));
 
-describe('getAllBookings query', () => {
-  beforeEach(() => {
+describe('getAllBookings', () => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return all bookings successfully', async () => {
+  it('should return all bookings with populated room', async () => {
     const mockBookings = [
-      {
-        _id: 'booking-1',
-        user: 'user1',
-        room: 'room1',
-        startDate: '2025-06-10T14:00:00Z',
-        endDate: '2025-06-15T11:00:00Z',
-        totalPrice: 500,
-        bookStatus: 'CONFIRMED',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        _id: 'booking-2',
-        user: 'user2',
-        room: 'room2',
-        startDate: '2025-07-01T14:00:00Z',
-        endDate: '2025-07-05T11:00:00Z',
-        totalPrice: 800,
-        bookStatus: 'PENDING',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+      { _id: '1', user: 'User A', room: { name: 'Room A' } },
+      { _id: '2', user: 'User B', room: { name: 'Room B' } },
     ];
 
-    const execMock = jest.fn().mockResolvedValue(mockBookings);
-    const findMock = jest.fn().mockReturnValue({ exec: execMock });
-    (Booking.find as jest.Mock).mockImplementation(findMock);
+    (Booking.find as jest.Mock).mockReturnThis();
+    (Booking.populate as jest.Mock).mockResolvedValue(mockBookings);
 
     const result = await getAllBookings();
 
     expect(Booking.find).toHaveBeenCalled();
-    expect(execMock).toHaveBeenCalled();
+    expect(Booking.populate).toHaveBeenCalledWith('room');
     expect(result).toEqual(mockBookings);
   });
 
-  it('should throw an error if fetching bookings fails with Error instance', async () => {
-    const errorMessage = 'Database error';
+  it('should throw GraphQLError when Booking.find fails', async () => {
+    const errorMessage = 'Simulated DB error';
+    (Booking.find as jest.Mock).mockImplementation(() => {
+      throw new Error(errorMessage);
+    });
 
-    const execMock = jest.fn().mockRejectedValue(new Error(errorMessage));
-    const findMock = jest.fn().mockReturnValue({ exec: execMock });
-    (Booking.find as jest.Mock).mockImplementation(findMock);
-
-    await expect(getAllBookings())
-      .rejects
-      .toThrow(`Failed to fetch bookings: ${errorMessage}`);
-  });
-
-  it('should throw an error if fetching bookings fails with non-Error', async () => {
-    const execMock = jest.fn().mockRejectedValue('Some string error');
-    const findMock = jest.fn().mockReturnValue({ exec: execMock });
-    (Booking.find as jest.Mock).mockImplementation(findMock);
-
-    await expect(getAllBookings())
-      .rejects
-      .toThrow('Failed to fetch bookings: Unknown error');
-  });
-
-  it('should return empty array when no bookings exist', async () => {
-    const execMock = jest.fn().mockResolvedValue([]);
-    const findMock = jest.fn().mockReturnValue({ exec: execMock });
-    (Booking.find as jest.Mock).mockImplementation(findMock);
-
-    const result = await getAllBookings();
-
-    expect(Booking.find).toHaveBeenCalled();
-    expect(execMock).toHaveBeenCalled();
-    expect(result).toEqual([]);
+    await expect(getAllBookings()).rejects.toThrow(GraphQLError);
+    await expect(getAllBookings()).rejects.toThrow(`Failed to fetch bookings: ${errorMessage}`);
   });
 });

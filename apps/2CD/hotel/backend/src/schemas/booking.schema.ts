@@ -18,11 +18,16 @@ export const typeDefs = gql`
     endDate: Date!
     user: String!
     room: String!
+    hotel: String!
   }
 
   input UpdateBookingInput {
     totalPrice: Float!
     bookStatus: BookingStatus!
+  }
+  type mostBookedHotel {
+    hotel: Hotel!
+    bookingCount: Int!
   }
 
   type Booking {
@@ -31,8 +36,9 @@ export const typeDefs = gql`
     bookStatus: BookingStatus!
     startDate: Date!
     endDate: Date!
-    user: String!
-    room: String!
+    user: User!
+    room: Room!
+    hotel: Hotel!
   }
 
   extend type Mutation {
@@ -42,6 +48,7 @@ export const typeDefs = gql`
 
   type Query {
     getBookingById(id: ID!): Booking
-    getAllBookings: [Booking!]! 
+    getAllBookings: [Booking!]!
+    mostBookedHotel: [mostBookedHotel!]!
   }
 `;

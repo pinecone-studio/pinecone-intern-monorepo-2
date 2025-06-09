@@ -46,7 +46,7 @@ describe('getConcert', () => {
 
     expect(concertModel.find).toHaveBeenCalledWith({
       title: { $regex: 'Rock', $options: 'i' },
-      artists: { $in: [mockConcert.artists[0]._id] },
+      artists: { $all: [mockConcert.artists[0]._id] },
     });
 
     expect(result).toEqual([

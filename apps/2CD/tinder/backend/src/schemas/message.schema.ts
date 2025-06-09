@@ -11,13 +11,13 @@ type Message {
   updatedAt: Date
 }
 
+extend type Mutation {
+  sendMessage(matchId: ID!, content: String!): Message
+  markAsRead(messageId: ID!): Boolean
+}
 
-  extend type Query {
-    getMessage(matchId: ID!): [Message!]!
-  }
+extend type Query {
+  getMessage(matchId: ID!): [Message!]!
+}
 
-  extend type Mutation {
-    sendMessage(matchId: ID!, senderId: ID!, content: String!): Message!
-    markAsRead(messageId: ID!): Boolean
-  }
 `;

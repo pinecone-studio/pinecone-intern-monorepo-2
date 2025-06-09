@@ -19,7 +19,7 @@ export const SelectEndHour = ({
       <FormLabel data-testid="form-label">дуусах цаг*</FormLabel>
       <Select data-testid="select" value={endHour} onValueChange={setEndHour}>
         <SelectTrigger data-testid="select-trigger" data-cy="select-trigger-end" className="w-[140px]">
-          <SelectValue data-testid="select-value" placeholder="Дуусах цаг" />
+          <SelectValue data-testid="select-value" data-cy='select-value-endtime' placeholder="Дуусах цаг" />
         </SelectTrigger>
         <SelectContent>
           {hourOptions.map((hour) => (

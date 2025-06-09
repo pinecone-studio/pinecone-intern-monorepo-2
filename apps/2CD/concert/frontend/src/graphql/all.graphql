@@ -1,7 +1,26 @@
 query Query {
   sampleQuery
 }
+query GetAllRequest {
+  getAllRequests {
+    bank
+    id
+    bankAccount
+    name
+    createdAt
+    status
+    booking {
+      concert {
+        title
+      }
+      # totalAmount
+    }
+  }
+}
 
 mutation Mutation {
   sampleMutation
+}
+mutation UpdateRequest($input: updateReqInput!) {
+  updateRequest(input: $input)
 }

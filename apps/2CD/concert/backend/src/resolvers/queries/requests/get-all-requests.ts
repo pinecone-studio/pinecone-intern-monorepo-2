@@ -25,14 +25,6 @@ export const getAllRequests: QueryResolvers['getAllRequests'] = async () => {
       $unwind: '$concert',
     },
     {
-      $lookup: {
-        from: 'tickets',
-        localField: 'booking.tickets.ticket',
-        foreignField: '_id',
-        as: 'ticketDetails',
-      },
-    },
-    {
       $project: {
         id: '$_id',
         name: 1,
@@ -44,6 +36,7 @@ export const getAllRequests: QueryResolvers['getAllRequests'] = async () => {
           id: '$booking._id',
           status: '$booking.status',
           concert: '$concert',
+          totalAmount: 1,
         },
         ticketDetails: 1,
       },

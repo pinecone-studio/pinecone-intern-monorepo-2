@@ -1,14 +1,24 @@
 import Match from 'src/models/match';
 import Message from 'src/models/message';
-import { SendMessageArgs } from 'src/types/graphql';
+import User from 'src/models/user';
+import { Types } from 'mongoose';
 
-function validateContent(content: string) {
-  if (!content || !content.trim()) {
+interface MessageInput {
+  matchId: string;
+  content: string;
+}
+
+interface Context {
+  clerkId?: string;
+}
+
+function validateContent(content: string | undefined): void {
+  if (!content?.trim()) {
     throw new Error('Message content cannot be empty');
   }
 }
 
-async function getMatch(matchId: string) {
+async function getMatchById(matchId: string): Promise<any> {
   const match = await Match.findById(matchId);
   if (!match) {
     throw new Error('Match not found');
@@ -16,30 +26,41 @@ async function getMatch(matchId: string) {
   return match;
 }
 
-function validateUserInMatch(match: any, senderId: string) {
-  if (!Array.isArray(match.users) || !match.users.some((user: any) => user.toString() === senderId)) {
+function validateUserInMatch(match: { users: Types.ObjectId[] }, userId: string): void {
+  const isUserInMatch = match.users.some(
+    (user) => user.toString() === userId
+  );
+  
+  if (!isUserInMatch) {
     throw new Error('You are not part of this match');
   }
 }
 
-const sendMessage = async (_: any, { matchId, senderId, content }: SendMessageArgs) => {
+async function getUserFromClerkId(clerkId: string | undefined) {
+  if (!clerkId) throw new Error('Unauthorized');
+
+  const user = await User.findOne({ clerkId });
+  if (!user) throw new Error('User not found');
+
+  return user;
+}
+
+const sendMessage = async (_: unknown, { matchId, content }: MessageInput, context: Context) => {
   try {
     validateContent(content);
-    const match = await getMatch(matchId);
-    validateUserInMatch(match, senderId);
+    const user = await getUserFromClerkId(context.clerkId);
+    const match = await getMatchById(matchId);
+    validateUserInMatch(match, user._id.toString());
 
-    const newMessage = await Message.create({
+    return await Message.create({
       match: matchId,
-      sender: senderId,
+      sender: user._id,
       content,
       createdAt: new Date(),
     });
-
-    return newMessage;
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : 'Failed to send message');
   }
 };
-
 
 export default sendMessage;

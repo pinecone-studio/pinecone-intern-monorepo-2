@@ -5,15 +5,21 @@ export const typeDefs = gql`
 
   type User {
     _id: ID!
-    name: String!
-    email: String!
+    clerkId: String
+    name: String
+    email: String
     password: String!
+    profile: Profile
+    matches: [Match!]!
+    likesFrom: [Like!]!
+    likesTo: [Like!]!
+    messages: [Message!]!
   }
 
   type Query {
-    me: User
+    me(clerkId: String!): User
     getUserById(id: ID!): User
-    getAllUsers: [User!]!
+    getAllUsers: [User]
   }
 
   type Mutation {
