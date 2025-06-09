@@ -14,19 +14,11 @@ const transformReview = (review: ReviewDocument): TransformedReview => ({
 export const reviewQueries = {
   reviewsByUser: async (_: unknown, { userId }: { userId: string }): Promise<TransformedReview[]> => {
     try {
-      console.log('Fetching reviews for user:', userId);
       const query = { user: userId };
-      console.log('MongoDB query:', JSON.stringify(query));
-      
-      const reviews = await Review.find(query)
-        .populate('user', '_id email')
-        .populate('hotel', '_id hotelName')
-        .lean();
-      
-      console.log('Found reviews:', JSON.stringify(reviews, null, 2));
+
+      const reviews = await Review.find(query).populate('user', '_id email').populate('hotel', '_id hotelName').lean();
       const transformedReviews = (reviews as unknown as ReviewDocument[]).map(transformReview);
-      console.log('Transformed reviews:', JSON.stringify(transformedReviews, null, 2));
-      
+
       return transformedReviews;
     } catch (error) {
       throw new Error('Failed to fetch reviews by user', { cause: error });
@@ -35,19 +27,12 @@ export const reviewQueries = {
 
   reviewsByHotel: async (_: unknown, { hotelId }: { hotelId: string }): Promise<TransformedReview[]> => {
     try {
-      console.log('Fetching reviews for hotel:', hotelId);
       const query = { hotel: hotelId };
-      console.log('MongoDB query:', JSON.stringify(query));
-      
-      const reviews = await Review.find(query)
-        .populate('user', '_id email')
-        .populate('hotel', '_id hotelName')
-        .lean();
-      
-      console.log('Found reviews:', JSON.stringify(reviews, null, 2));
+
+      const reviews = await Review.find(query).populate('user', '_id email').populate('hotel', '_id hotelName').lean();
+
       const transformedReviews = (reviews as unknown as ReviewDocument[]).map(transformReview);
-      console.log('Transformed reviews:', JSON.stringify(transformedReviews, null, 2));
-      
+
       return transformedReviews;
     } catch (error) {
       throw new Error('Failed to fetch reviews by hotel', { cause: error });

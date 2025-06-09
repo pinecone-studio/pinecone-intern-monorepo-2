@@ -1,7 +1,7 @@
 import { Review } from '../../../src/models/review';
 import { User } from '../../../src/models/user';
 import { Hotel } from '../../../src/models/hotel';
-import reviewMutations from '../../../src/resolvers/mutations/review-mutations';
+import reviewMutations from '../../../src/resolvers/mutations/review/review-mutations';
 
 jest.mock('../../../src/models/review');
 jest.mock('../../../src/models/user');
