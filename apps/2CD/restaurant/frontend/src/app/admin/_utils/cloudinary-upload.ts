@@ -12,6 +12,7 @@ export async function uploadImageToCloudinary(file: File): Promise<string | unde
     body: formData,
   });
 
-  const { secure_url: secureUrl } = await response.json();
+  const json = await response.json();
+  const secureUrl = json['secure_url'];
   return secureUrl;
 }
