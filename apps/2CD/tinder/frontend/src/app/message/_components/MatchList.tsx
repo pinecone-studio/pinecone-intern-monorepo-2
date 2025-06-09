@@ -17,18 +17,19 @@ interface MatchListProps {
 }
 
 export const MatchList = ({ matches, selectedMatchId, onSelect }: MatchListProps) => (
-    <div className="w-1/3 border-r p-4 overflow-y-auto bg-white">
+    <div className="w-1/3 border-r p-4 overflow-y-auto bg-white" data-testid="match-list">
         <h2 className="text-xl font-bold mb-4">Matches</h2>
         <ul className="space-y-2">
             {matches.map((match) => (
                 <li
                     key={match._id}
+                    data-testid="match-item"
                     onClick={() => onSelect(match._id)}
                     className={`cursor-pointer p-3 rounded-lg border ${selectedMatchId === match._id ? 'bg-blue-100 border-blue-400' : 'hover:bg-gray-100'
                         }`}
                 >
                     {match.users.map((user) => (
-                        <div key={user._id}>{user.name}</div>
+                        <div key={user._id} data-testid="match-user-name">{user.name}</div>
                     ))
                     }
                 </li>
