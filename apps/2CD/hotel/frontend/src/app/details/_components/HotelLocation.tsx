@@ -14,8 +14,11 @@ export const Location = () => {
   const googleMapsUrl = `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=10&output=embed`;
 
   return (
-    <div className="w-[400px] h-[300px] border rounded-lg overflow-hidden shadow-md">
-      <iframe title="Random Location" width="100%" height="100%" src={googleMapsUrl} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+    <div className="p-4 w-[400px] h-fit border rounded-lg overflow-hidden ">
+      <p className="text-[12px]">Damdinbazar street-52, Bayangol district, Bayangol, 212513 Ulaanbaatar, Mongolia</p>
+      <a href={googleMapsUrl} className="text-blue-600">
+        View in Google Maps
+      </a>
     </div>
   );
 };
