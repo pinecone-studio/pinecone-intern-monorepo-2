@@ -46,6 +46,7 @@ export const concertDef = gql`
     artists: [Artist!]!
     featured: Boolean!
     schedule: [Schedule!]!
+    thumbnailUrl: String!
   }
 
   type Query {

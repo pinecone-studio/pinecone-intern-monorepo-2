@@ -10,6 +10,10 @@ jest.mock('src/models', () => ({
   },
 }));
 
+jest.mock('src/utils/create-booking.ts/validate-user', () => ({
+  validateUser: jest.fn(),
+}));
+
 const mockInfo = {} as GraphQLResolveInfo;
 
 const mockBookings = [
@@ -31,13 +35,15 @@ describe('getUserBooking', () => {
   });
 
   it('should throw an error if userId is missing', async () => {
-    await expect(getUserBooking!({}, { input: { userId: '', page: 0 } }, {}, mockInfo)).rejects.toThrow('User ID is required');
+    await expect(
+      getUserBooking!({}, { input: { userId: '', page: 0 } }, {}, mockInfo)
+    ).rejects.toThrow('User ID is required');
   });
 
   it('should return bookings for a valid userId', async () => {
     (bookingsModel.find as jest.Mock).mockReturnValue({
-      populate: () => ({
-        populate: () => mockBookings,
+      populate: jest.fn().mockReturnValue({
+        populate: jest.fn().mockResolvedValue(mockBookings),
       }),
     });
 
@@ -52,6 +58,8 @@ describe('getUserBooking', () => {
       throw new Error('DB error');
     });
 
-    await expect(getUserBooking!({}, { input: { userId: 'user1', page: 0 } }, {}, mockInfo)).rejects.toThrow('Failed to fetch user bookings');
+    await expect(
+      getUserBooking!({}, { input: { userId: 'user1', page: 0 } }, {}, mockInfo)
+    ).rejects.toThrow('Failed to get booking: DB error');
   });
 });
