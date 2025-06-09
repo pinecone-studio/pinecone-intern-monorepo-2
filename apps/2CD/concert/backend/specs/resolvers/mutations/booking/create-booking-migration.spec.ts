@@ -168,7 +168,6 @@ describe('createBooking Mutation', () => {
         { ticket: '507f191e810c19729de860ed', quantity: 1 },
       ],
       totalAmount: 150,
-      status: 'PENDING',
     });
 
     expect(result).toBe(Response.Success);
