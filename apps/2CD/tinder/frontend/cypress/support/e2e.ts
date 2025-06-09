@@ -17,3 +17,6 @@
 import '@cypress/code-coverage/support';
 import 'cypress-wait-until';
 import './commands';
+
+// Alternatively you can use CommonJS syntax:
+// require('./commands')
