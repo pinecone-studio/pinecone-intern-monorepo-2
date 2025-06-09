@@ -13,6 +13,7 @@ const ticketSchema = new Schema(
       type: Number,
       required: true,
     },
+    schedule : {type : Types.ObjectId, ref: "Schedule", required: true}
   },
   { timestamps: true }
 );
