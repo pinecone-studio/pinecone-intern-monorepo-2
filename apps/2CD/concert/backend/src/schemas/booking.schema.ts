@@ -15,7 +15,7 @@ export const bookingDef = gql`
   }
 
   type Booking {
-    id: ID!
+    _id: ID!
     user: User!
     concert: Concert!
     tickets: [BookedTicket!]!
@@ -23,5 +23,13 @@ export const bookingDef = gql`
     totalAmount: Int!
     createdAt: Date!
     updatedAt: Date!
+  }
+  input UserBookingsInput {
+    userId: ID!
+    page: Int!
+  }
+
+  type Query {
+    getUserBooking(input: UserBookingsInput!): [Booking!]!
   }
 `;
