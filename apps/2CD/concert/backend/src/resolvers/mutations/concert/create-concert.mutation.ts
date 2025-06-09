@@ -1,6 +1,7 @@
 import { MutationResolvers, Response } from 'src/generated';
 import { ArtistModel, concertModel, ticketModel, venueModel } from 'src/models';
 import { timeScheduleModel } from 'src/models/timeschedule.model';
+import { ticketDocs } from 'src/utils/create-concert.ts/ticket-docs';
 import { concertSchema } from 'src/zodSchemas';
 
 export const createConcert: MutationResolvers['createConcert'] = async (_, { input }) => {
@@ -42,17 +43,12 @@ export const createConcert: MutationResolvers['createConcert'] = async (_, { inp
     concert: newConcert._id,
     venue: venueId,
   }));
-  const tickets = ticket.map((ti) => ({
-    concert: newConcert._id,
-    price: ti.price,
-    type: ti.type,
-    quantity: ti.quantity,
-  }));
   const createdSchedules = await timeScheduleModel.insertMany(schedules);
+  const tickets = ticketDocs(newConcert.id, createdSchedules, ticket);    
   const createdTickets = await ticketModel.insertMany(tickets);
   await concertModel.findByIdAndUpdate(newConcert._id, {
     schedule: createdSchedules.map((s) => s._id),
     ticket: createdTickets.map((t) => t._id),
-  });
+  }); 
   return Response.Success;
 };
