@@ -48,10 +48,14 @@ export const concertDef = gql`
     schedule: [Schedule!]!
     thumbnailUrl: String!
   }
+  input IgetConcertById {
+    concertId: ID!
+  }
 
   type Query {
     getConcert(input: GetConcertFilter): [Concert!]!
     getFeaturedConcerts: [FeaturedConcert!]!
+    getConcertById(input: IgetConcertById!): Concert!
   }
   type Mutation {
     createConcert(input: CreateConcertInput!): Response!

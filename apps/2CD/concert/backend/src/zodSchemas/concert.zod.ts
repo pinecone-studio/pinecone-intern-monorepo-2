@@ -35,3 +35,6 @@ export const updateConcertSchema = z.object({
   schedule: z.array(schedule).optional(),
   featured: z.boolean().optional(),
 });
+export const getConcertByIdSchema = z.object({
+  concertId: z.string().min(1, 'Id is required'),
+});
