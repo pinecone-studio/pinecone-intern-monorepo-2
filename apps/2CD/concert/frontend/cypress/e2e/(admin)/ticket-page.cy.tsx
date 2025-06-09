@@ -32,33 +32,31 @@ describe('Create Concert E2E Tests', () => {
     cy.visit(PAGE_URL);
     cy.get('[data-cy="Concert-Page"]', { timeout: 10000 }).should('be.visible');
   });
-it('handles rapid artist selection changes', () => {
-  cy.intercept('POST', '**/graphql', (req) => {
-    if (req.body.operationName === 'GetConcert') {
-      req.alias = 'getConcert';
-    }
-  });
-  
-  cy.wait('@getConcert');
-  cy.get('[data-cy="query-select-trigger"]').click();
-  cy.get('[data-testid="select-artist-query-1"]').click();
-  cy.get('[data-cy="query-select-trigger"]').click();
-  cy.get('[data-testid="select-artist-query-2"]').click();
-  cy.get('[data-cy="query-select-trigger"]').click();
-  cy.get('[data-testid="select-artist-query-3"]').click(); // if exists
-  
-  // Clear and re-select
-  cy.get('[data-cy="clear-filter"]').click(); // if such button exists
-  cy.get('[data-cy="query-select-trigger"]').click();
-  cy.get('[data-testid="select-artist-query-1"]').click();
-  
-  cy.wait('@getConcert').then((interception) => {
-    const artists = interception.request.body.variables.input.artist;
-    artists.forEach((artist: string) => {
-      expect(artist).to.be.a('string');
+  it('handles rapid artist selection changes', () => {
+    cy.intercept('POST', '**/graphql', (req) => {
+      if (req.body.operationName === 'GetConcert') {
+        req.alias = 'getConcert';
+      }
+    });
+
+    cy.wait('@getConcert');
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-1"]').click();
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-2"]').click();
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-3"]').click();
+    cy.get('[data-cy="clear-filter"]').click();
+    cy.get('[data-cy="query-select-trigger"]').click();
+    cy.get('[data-testid="select-artist-query-1"]').click();
+
+    cy.wait('@getConcert').then((interception) => {
+      const artists = interception.request.body.variables.input.artist;
+      artists.forEach((artist: string) => {
+        expect(artist).to.be.a('string');
+      });
     });
   });
-});
   it('handles date filter selection and clearing', () => {
     cy.intercept('POST', '**/graphql', (req) => {
       if (req.body.operationName === 'GetConcert') {
@@ -142,6 +140,25 @@ it('handles rapid artist selection changes', () => {
                   ticket: [
                     { id: 't1', type: 'VIP', quantity: 50, price: 200 },
                     { id: 't3', type: 'BACKSEAT', quantity: 10, price: 10 },
+                  ],
+                  totalProfit: 1000,
+                  thumbnailUrl: '',
+                  venue: {
+                    address: 'Some Street',
+                    city: 'Ulaanbaatar',
+                    name: 'Grand Hall',
+                  },
+                },
+                {
+                  id: '2',
+                  title: 'Roc',
+                  description: 'concert',
+                  featured: false,
+                  artists: [{ name: 'Artist A' }, { name: 'Artist B' }],
+                  schedule: [{ startDate: '2025-07-11T00:00:00Z' }],
+                  ticket: [
+                    { id: 't3', type: 'BACKSEAT', quantity: 10, price: 10 },
+                    { id: 't2', type: 'STANDARD', quantity: 150, price: 100 },
                   ],
                   totalProfit: 1000,
                   thumbnailUrl: '',
