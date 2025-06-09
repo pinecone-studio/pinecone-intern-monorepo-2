@@ -23,7 +23,6 @@ describe('decrementTicketStock', () => {
   it('should throw an error if not enough tickets are available', async () => {
     const mockTicket = {
       quantity: 2,
-      save: jest.fn(),
     };
 
     (ticketModel.findById as jest.Mock).mockResolvedValue(mockTicket);

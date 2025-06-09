@@ -9,6 +9,8 @@ import * as DecreaseUtils from 'src/utils/create-booking.ts/decrease-ticket-quan
 import { validateConcert } from 'src/utils/create-booking.ts/validate-concert';
 import { validateUser } from 'src/utils/create-booking.ts/validate-user';
 import { bookingSchema } from 'src/zodSchemas/booking.zod';
+import * as validateUserModule from 'src/utils/create-booking.ts/validate-user';
+import * as validateConcertModule from 'src/utils/create-booking.ts/validate-concert';
 
 jest.mock('src/utils/create-booking.ts/validate-user', () => ({
   validateUser: jest.fn().mockResolvedValue(undefined),
@@ -171,5 +173,23 @@ describe('createBooking Mutation', () => {
 
     expect(result).toBe(Response.Success);
   });
-});
+  it('throws error with custom message when validateUser throws', async () => {
+    jest.spyOn(validateUserModule, 'validateUser').mockRejectedValue(new Error('User not found'));
 
+    await expect(createBooking!({}, {input:mockInput}, {}, mockInfo)).rejects.toThrow('Failed to create booking: User not found');
+  });
+
+  it('throws error with custom message when validateConcert throws', async () => {
+    jest.spyOn(validateConcertModule, 'validateConcert').mockRejectedValue(new Error('Concert not found'));
+
+    await expect(createBooking!({}, {input:mockInput}, {}, mockInfo)).rejects.toThrow('Failed to create booking: Concert not found');
+  });
+
+  it('throws error with "Unknown error" message when a non-Error is thrown', async () => {
+    jest.spyOn(validateUserModule, 'validateUser').mockImplementation(() => {
+      throw 'User not found';
+    });
+
+    await expect(createBooking!({}, {input:mockInput}, {}, mockInfo)).rejects.toThrow('Failed to create booking: Unknown error');
+  });
+});
