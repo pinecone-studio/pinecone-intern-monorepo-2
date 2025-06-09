@@ -1,5 +1,5 @@
 // import { updateUserRoleToAdmin } from '../../mutations/update-user-role-to-admin';
-import { updateUserRoleToAdmin } from 'src/resolvers/mutations/update-user-role-to-admin';
+import { updateUserRoleToAdmin } from 'src/resolvers/mutations/user/update-user-role-to-admin';
 import { User, UserRole } from 'src/models/user';
 import { GraphQLError } from 'graphql';
 
@@ -37,10 +37,10 @@ describe('updateUserRoleToAdmin', () => {
   it('should throw a GraphQLError if user not found', async () => {
     (User.findById as jest.Mock).mockResolvedValue(null);
 
-    await expect(updateUserRoleToAdmin({}, { userId: 'missingUser' }))
-      .rejects
-      .toThrow(new GraphQLError('User not found', {
-        extensions: { code: 'NOT_FOUND' }
-      }));
+    await expect(updateUserRoleToAdmin({}, { userId: 'missingUser' })).rejects.toThrow(
+      new GraphQLError('User not found', {
+        extensions: { code: 'NOT_FOUND' },
+      })
+    );
   });
 });

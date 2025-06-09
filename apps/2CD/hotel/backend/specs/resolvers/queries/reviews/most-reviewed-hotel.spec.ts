@@ -1,4 +1,4 @@
-import { mostReviewedHotels } from 'src/resolvers/queries/most-reviewed-hotel';
+import { mostReviewedHotels } from 'src/resolvers/queries/review/most-reviewed-hotel';
 import { Review } from 'src/models/review';
 
 jest.mock('src/models/review', () => ({

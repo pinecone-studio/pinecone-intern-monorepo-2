@@ -1,6 +1,6 @@
-import { Review } from '../../models/review';
-import { User } from '../../models/user';
-import { Hotel } from '../../models/hotel';
+import { Review } from 'src/models/review';
+import { User } from 'src/models/user';
+import { Hotel } from 'src/models/hotel';
 
 type ReviewInput = {
   user: string;
@@ -34,7 +34,6 @@ const reviewMutations = {
       if (!review) throw new Error('Failed to create or populate review');
       return review;
     } catch (error: unknown) {
-      console.error('Error creating review:', error);
       throw error instanceof Error ? new Error(`Failed to create review: ${error.message}`) : new Error('Failed to create review: Unknown error');
     }
   },

@@ -1,4 +1,4 @@
-import { createUser } from 'src/resolvers/mutations/create-user';
+import { createUser } from 'src/resolvers/mutations/user/create-user';
 import { User, UserRole } from 'src/models/user';
 import jwt from 'jsonwebtoken';
 
@@ -47,7 +47,7 @@ describe('createUser resolver', () => {
     expect(result.token).toBe('dummy-token');
     expect(signSpy).toHaveBeenCalledWith(
       { userId: 'new-id' },
-      'test-secret',  // fallback secret used
+      'test-secret', // fallback secret used
       { expiresIn: '1d' }
     );
     expect(User.findOne).toHaveBeenCalledWith({ email: 'new@example.com' });
@@ -75,11 +75,7 @@ describe('createUser resolver', () => {
     expect(result.user.email).toBe('admin@example.com');
     expect(result.user.role).toBe(UserRole.ADMIN);
     expect(result.token).toBe('real-token');
-    expect(signSpy).toHaveBeenCalledWith(
-      { userId: 'new-id-2' },
-      'real-secret',
-      { expiresIn: '1d' }
-    );
+    expect(signSpy).toHaveBeenCalledWith({ userId: 'new-id-2' }, 'real-secret', { expiresIn: '1d' });
     expect(User.findOne).toHaveBeenCalledWith({ email: 'admin@example.com' });
     expect(User.prototype.save).toHaveBeenCalled();
   });
