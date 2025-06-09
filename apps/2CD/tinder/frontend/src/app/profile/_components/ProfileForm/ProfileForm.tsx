@@ -5,9 +5,9 @@ import { MenuItem } from "@mui/material";
 
 import SubmitButton from './SubmitButton';
 import FormTextField from "./FormTextField";
-// import FormDatePicker from './FormDatePicker';
 import InterestSection from './InterestSection';
-import validationSchema from './validation-schema';
+// import FormDatePicker from './FormDatePicker';
+// import validationSchema from './validation-schema';
 
 // mock data for options
 const genderOptions = ['Male', 'Female', 'Other'];
@@ -35,7 +35,7 @@ const ProfileForm = () => {
       school: '',
       selectedInterests: [],
     },
-    validationSchema,
+    // validationSchema,
     onSubmit: (values) => {
       console.log("Submitted:", values);
     },
