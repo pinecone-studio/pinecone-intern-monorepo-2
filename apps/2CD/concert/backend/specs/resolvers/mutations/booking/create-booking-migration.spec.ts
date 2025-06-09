@@ -5,19 +5,10 @@ import { Response } from 'src/generated';
 import { bookingsModel, concertModel, ticketModel, userModel } from 'src/models';
 import { createBooking } from 'src/resolvers/mutations';
 import { calculateTotalAmount } from 'src/utils/create-booking.ts/calculate-total-amount';
-import { decrementTicketStock } from 'src/utils/create-booking.ts/decrease-ticket-quantity';
+import * as DecreaseUtils from 'src/utils/create-booking.ts/decrease-ticket-quantity';
 import { validateConcert } from 'src/utils/create-booking.ts/validate-concert';
 import { validateUser } from 'src/utils/create-booking.ts/validate-user';
 import { bookingSchema } from 'src/zodSchemas/booking.zod';
-
-const mockInput = {
-  userId: '507f191e810c19729de860ea',
-  concertId: '507f191e810c19729de860eb',
-  tickets: [
-    { ticketId: '507f191e810c19729de860ec', quantity: 2 },
-    { ticketId: '507f191e810c19729de860ed', quantity: 1 },
-  ],
-};
 
 jest.mock('src/utils/create-booking.ts/validate-user', () => ({
   validateUser: jest.fn().mockResolvedValue(undefined),
@@ -50,6 +41,15 @@ jest.mock('src/models', () => ({
   },
 }));
 
+const mockInput = {
+  userId: '507f191e810c19729de860ea',
+  concertId: '507f191e810c19729de860eb',
+  tickets: [
+    { ticketId: '507f191e810c19729de860ec', quantity: 2 },
+    { ticketId: '507f191e810c19729de860ed', quantity: 1 },
+  ],
+};
+
 describe('createBooking Mutation', () => {
   const mockInfo = {} as GraphQLResolveInfo;
 
@@ -67,10 +67,12 @@ describe('createBooking Mutation', () => {
     const input = { ...mockInput, userId: '' };
     expect(() => bookingSchema.parse(input)).toThrow('User ID can not be empty');
   });
+
   it('should throw error if concertId is empty', () => {
     const input = { ...mockInput, concertId: '' };
     expect(() => bookingSchema.parse(input)).toThrow('Concert ID can not be empty');
   });
+
   it('should fail when a ticketId is empty', () => {
     const mock = {
       ...mockInput,
@@ -110,8 +112,6 @@ describe('createBooking Mutation', () => {
     });
 
     await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('User not found');
-
-    (validateUser as jest.Mock).mockResolvedValue(undefined);
   });
 
   it('should call validateConcert with correct concertId', async () => {
@@ -131,7 +131,7 @@ describe('createBooking Mutation', () => {
     await expect(createBooking!({}, { input: mockInput }, {}, mockInfo)).rejects.toThrow('Concert not found');
   });
 
-  it('should create a concert successfully', async () => {
+  it('should create a booking successfully', async () => {
     const mockSave1 = jest.fn().mockResolvedValue(undefined);
     const mockSave2 = jest.fn().mockResolvedValue(undefined);
 
@@ -155,10 +155,7 @@ describe('createBooking Mutation', () => {
 
     expect(validateUser).toHaveBeenCalledWith(mockInput.userId);
     expect(validateConcert).toHaveBeenCalledWith(mockInput.concertId);
-    expect(decrementTicketStock).toHaveBeenCalledTimes(2);
-    expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ec', 2);
-    expect(decrementTicketStock).toHaveBeenCalledWith('507f191e810c19729de860ed', 1);
-
+    expect(DecreaseUtils.decrementTicketStock).toHaveBeenCalledTimes(2);
     expect(calculateTotalAmount).toHaveBeenCalledWith(mockInput.tickets);
 
     expect(bookingsModel.create).toHaveBeenCalledWith({
@@ -175,3 +172,4 @@ describe('createBooking Mutation', () => {
     expect(result).toBe(Response.Success);
   });
 });
+

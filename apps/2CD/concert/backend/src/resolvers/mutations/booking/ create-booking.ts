@@ -14,12 +14,7 @@ export const createBooking: MutationResolvers['createBooking'] = async (_, { inp
   await validateConcert(concertId);
 
   for (const ticket of tickets) {
-    try {
-      await decrementTicketStock(ticket.ticketId, ticket.quantity);
-    } catch (err) {
-      console.error('Ticket stock update failed:', err);
-      throw err;
-    }
+    await decrementTicketStock(ticket.ticketId, ticket.quantity);
   }
   const transformedTickets = tickets.map((ticket) => ({
     ticket: ticket.ticketId,
