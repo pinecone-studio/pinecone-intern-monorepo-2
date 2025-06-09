@@ -25,6 +25,19 @@ query GetConcert($input: GetConcertFilter) {
     }
   }
 }
+query GetFeaturedConcert {
+  getFeaturedConcerts {
+    # id
+    title
+    # thumbnailUrl
+    artists {
+      name
+    }
+    schedule {
+      startDate
+    }
+  }
+}
 
 mutation UpdateConcert($input: UpdateConcert!) {
   updateConcert(input: $input)
