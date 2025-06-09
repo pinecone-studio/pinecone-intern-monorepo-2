@@ -8,7 +8,7 @@ import { setContext } from '@apollo/client/link/context';
 import { Loading } from '../Loading';
 import { useUser } from '@clerk/nextjs';
 
-const uri = process.env.NEXT_PUBLIC_BACKEND_URI ?? 'http://localhost:4200/api/graphql';
+const uri = process.env.NEXT_PUBLIC_LOCAL_BACKEND_URI ?? 'http://localhost:4200/api/graphql';
 
 const makeClient = (clerkId: string | null) => {
   const httpLink = new HttpLink({
