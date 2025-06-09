@@ -15,7 +15,7 @@ export const bookingDef = gql`
   }
 
   type Booking {
-    _id: ID!
+    id: ID!
     user: User!
     concert: Concert!
     tickets: [BookedTicket!]!
