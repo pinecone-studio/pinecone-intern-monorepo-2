@@ -5,7 +5,7 @@ import { DateRange, RangeKeyDict } from 'react-date-range';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-export function DateRangeSelector() {
+export const DateRangeSelector =()=> {
   const [range, setRange] = useState({
     startDate: new Date(),
     endDate: new Date(),
