@@ -29,7 +29,7 @@ query GetFeaturedConcert {
   getFeaturedConcerts {
     # id
     title
-    # thumbnailUrl
+    thumbnailUrl
     artists {
       name
     }
