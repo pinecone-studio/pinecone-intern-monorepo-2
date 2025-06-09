@@ -6,7 +6,7 @@ export const userDefs = gql`
     email: String!
     password: String!
     phone: String
-    bookings: [Booking]
+    bookings: [Booking!]!
     createdAt: Date!
     updatedAt: Date!
   }
