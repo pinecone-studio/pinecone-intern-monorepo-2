@@ -28,7 +28,6 @@ export const createBooking: MutationResolvers['createBooking'] = async (_, { inp
       concert: concertId,
       tickets: transformedTickets,
       totalAmount: await calculateTotalAmount(tickets),
-      status: 'PENDING',
     });
 
     return Response.Success;
