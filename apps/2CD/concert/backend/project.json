@@ -21,7 +21,7 @@
           "target": "codegen",
           "params": "forward"
         }
-      ]    
+      ]
     },
     "serve": {
       "executor": "@nx/next:server",
