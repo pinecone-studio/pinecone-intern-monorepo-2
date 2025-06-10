@@ -8,6 +8,7 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogClose,
+    DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ProfileFormValues } from "@/type/profile-form";
@@ -66,9 +67,9 @@ export const DialogInputs = ({ formik }: DialogInputsProps) => {
                 <DialogContent className="bg-zinc-900 text-white max-w-lg rounded-xl">
                     <DialogHeader>
                         <DialogTitle className="text-xl">What are you into?</DialogTitle>
-                        <p className="text-sm text-zinc-400">
+                        <DialogDescription>
                             You like what you like. Now, let everyone know.
-                        </p>
+                        </DialogDescription>
                     </DialogHeader>
 
                     <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto py-4">

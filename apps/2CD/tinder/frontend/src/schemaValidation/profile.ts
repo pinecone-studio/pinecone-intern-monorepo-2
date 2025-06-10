@@ -13,5 +13,6 @@ export const profileValidationSchema = Yup.object({
   lookingFor: Yup.string().oneOf(['Male', 'Female', 'Both']).required('Looking For is required'),
   interests: Yup.array().of(Yup.string()).min(1, 'Select at least one interest'),
   isCertified: Yup.boolean().default(false),
-  images: Yup.array().of(Yup.string()).min(1, 'At least one image is required'),
+  images: Yup.array().of(Yup.string().url("Each image must be a valid URL")).min(1, "At least one image is required"),
+
 });
