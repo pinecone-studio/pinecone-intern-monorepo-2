@@ -22,3 +22,21 @@ query GetProfile($getProfileId: ID!) {
     profession
   }
 }
+
+mutation CreateProfile($input: CreateProfileInput!) {
+  createProfile(input: $input) {
+    userId
+    bio
+    age
+    gender
+    lookingFor
+    interests
+    profession
+    education
+    isCertified
+    images
+    createdAt
+    updatedAt
+    firstName
+  }
+}

@@ -2,7 +2,6 @@ import gql from 'graphql-tag';
 
 export const typeDefs = gql`
   type Profile {
-    _id: ID!
     userId: ID!
     bio: String
     age: Int!

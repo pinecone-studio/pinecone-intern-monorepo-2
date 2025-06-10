@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
 
 const profileSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: String, unique: true, required: true },
+  firstName: {type: String, required: true},
   bio: { type: String, default: '', maxlength: 500 },
   age: { type: Number, required: true, min: 18 },
   gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
   lookingFor: { type: String, enum: ['Male', 'Female', 'Both'], required: true },
-  interests: { type: [String], default: [] },
+  interests: { type: [String], default: [], required: true },
   profession: { type: String, default: '' },
   education: { type: String, default: '' },
   isCertified: { type: Boolean, default: false },
