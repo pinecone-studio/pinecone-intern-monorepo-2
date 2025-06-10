@@ -12,4 +12,4 @@ export * from './food/delete-food';
 export * from './user/change-email';
 export * from './user/update-wallet';
 export * from './otp/send-otp';
-export * from './table/create-table';
+export * from './orderMutations/create-order-notification';

@@ -1,6 +1,6 @@
 // __tests__/table.query.test.ts
 import { Table } from 'src/models/table-model';
-import { allTableQuery } from 'src/resolvers/queries';
+import { allTableQuery } from 'src/resolvers/queries/table/get-all-tables';
 
 jest.mock('src/models/table-model', () => ({
   Table: {

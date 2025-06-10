@@ -8,4 +8,4 @@ export * from './get-all-notification';
 export * from './order/get-all-order';
 export * from './order/get-order';
 export * from './user/get-user-order';
-export * from './table/get-all-tables';
+export * from './order/get-order-notifications';

@@ -1,5 +1,5 @@
 import { Table } from 'src/models/table-model';
-import { createTable } from 'src/resolvers/mutations';
+import { createTable } from 'src/resolvers/mutations/table/create-table';
 
 jest.mock('src/models/table-model', () => ({
   Table: jest.fn(),
