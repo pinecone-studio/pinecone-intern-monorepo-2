@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import FormSectionWrapper from './FormSectionWrapper';
 
