@@ -105,3 +105,25 @@ query MostReviewedHotels($limit: Int) {
     averageRating
   }
 }
+
+query GetRoomForId {
+  getAllRooms {
+    id
+    roomNumber
+    price
+    description
+    roomImage
+    isAvailable
+    bedType
+    numberOfBed
+    createdAt
+    updatedAt
+    roomService {
+      bathroom
+      accesibility
+      entertainment
+      foodAndDrink
+      bedroom
+    }
+  }
+}
