@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Amenities from '@/components/hotel/amenities-section';
 import { GetRoomForIdQuery } from '@/generated';
 import { IconRight } from 'react-day-picker';

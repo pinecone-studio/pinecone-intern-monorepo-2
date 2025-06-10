@@ -1,6 +1,5 @@
 import { useGetRoomForIdQuery } from '@/generated';
 import { RoomCard } from './RoomCards';
-import { DateRangeSelector } from './RangeCalendar';
 
 export const ChooseRoom = () => {
   const { data, loading, error } = useGetRoomForIdQuery();
@@ -13,7 +12,7 @@ export const ChooseRoom = () => {
       <div className="flex w-full gap-4 mb-10">
         <div className="w-full">
           <p>dates</p>
-          <DateRangeSelector />
+     
         </div>
         <div className="w-full">
           {' '}
