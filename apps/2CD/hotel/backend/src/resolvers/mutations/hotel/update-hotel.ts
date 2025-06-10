@@ -28,10 +28,10 @@ export const updateHotel = async (_parent: unknown, { input, id }: { input: Upda
     }
 
     return updatedHotel;
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
     }
-    throw new GraphQLError(`Failed to update hotel: ${error.message}`);
+    throw new GraphQLError(`Failed to update hotel: ${error}`);
   }
 };

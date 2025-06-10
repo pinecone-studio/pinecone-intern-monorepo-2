@@ -26,13 +26,13 @@ export const updateBooking = async (
     }
 
     return updatedBooking;
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof GraphQLError) {
       // Re-throw GraphQLError as is (like 'Booking not found')
       throw error;
     }
     // Wrap other unexpected errors
-    throw new GraphQLError(`Failed to update booking: ${error.message}`, {
+    throw new GraphQLError(`Failed to update booking: ${error}`, {
       extensions: {
         code: 'INTERNAL_SERVER_ERROR',
         inputData: input,
