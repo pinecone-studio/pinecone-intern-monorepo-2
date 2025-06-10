@@ -9,7 +9,7 @@ const UploadImage = () => {
         <p className="text-xl font-semibold">Your Images</p>
         <p className="text-sm text-gray-400 mt-2">Please choose an image that represents you.</p>
       </div>
-      <div className="grid grid-cols-3 gap-[22px] mt-4 border-t-[1px] border-gray-800 pt-6">
+      <div className="grid grid-cols-3 gap-[22px] mt-4 border-t-[1px] border-[#444] pt-6">
         <div className="bg-red-300 w-[190px] h-[280px]"></div>
         <div className="bg-red-300 w-[190px] h-[280px]"></div>
         <div className="bg-red-300 w-[190px] h-[280px]"></div>

@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import Header from "./_components/Header";
-import ProfileForm from "./_components/ProfileForm/ProfileForm";
-import UploadImage from "./_components/UploadImage/UploadImage";
+import ProfileForm from "./_components/form/ProfileForm";
+import UploadImage from "./_components/upload-image/UploadImage";
 
-const UpdateProfile = () => {
+const Profile = () => {
   const [activeTab, setActiveTab] = useState<'profile' | 'images'>('profile');
 
   return (
-    <div className="text-white min-h-screen">
+    <div className="text-white min-h-screen bg-[#111]">
       <Header />
 
       <div className="mx-[20%] mt-10">
@@ -21,16 +21,16 @@ const UpdateProfile = () => {
 
       <div className="flex mx-[20%] mt-6">
         {/* Sidebar */}
-        <div className="w-40 mr-8 flex flex-col">
+        <div className="w-40 mr-8 flex flex-col ">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`px-4 py-2 rounded text-left ${activeTab === 'profile' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            className={`px-4 py-2 rounded text-left ${activeTab === 'profile' ? 'bg-zinc-800' : 'hover:bg-zinc-800'}`}
           >
             Profile
           </button>
           <button
             onClick={() => setActiveTab('images')}
-            className={`px-4 py-2 rounded text-left ${activeTab === 'images' ? 'bg-gray-800' : 'hover:bg-gray-800'}`}
+            className={`px-4 py-2 rounded text-left ${activeTab === 'images' ? 'bg-zinc-800' : 'hover:bg-zinc-800'}`}
           >
             Images
           </button>
@@ -51,4 +51,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default Profile;
