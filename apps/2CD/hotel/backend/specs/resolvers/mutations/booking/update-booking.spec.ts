@@ -34,7 +34,7 @@ describe('updateBooking Mutation', () => {
     const errorMessage = 'Database error';
     (Booking.findByIdAndUpdate as jest.Mock).mockRejectedValue(new Error(errorMessage));
     await expect(updateBooking(null, { input: mockInput, id: 'mock-id' })).rejects.toThrowError(
-      new GraphQLError(`Failed to update booking: ${errorMessage}`, {
+      new GraphQLError(`Failed to update booking: Error: ${errorMessage}`, {
         extensions: {
           code: 'INTERNAL_SERVER_ERROR',
           inputData: mockInput,

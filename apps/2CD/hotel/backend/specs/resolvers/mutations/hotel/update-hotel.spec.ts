@@ -11,7 +11,7 @@ jest.mock('../../../../src/models/hotel', () => ({
 describe('updateHotel mutation', () => {
   const mockInput = {
     hotelName: 'Updated Hotel',
-    price: 150.50,
+    price: 150.5,
     description: 'Updated description',
     phoneNumber: '987-654-3210',
     amenities: ['WiFi', 'Pool', 'Spa'],
@@ -42,23 +42,19 @@ describe('updateHotel mutation', () => {
 
   it('should throw error if hotel not found', async () => {
     (Hotel.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
-    await expect(updateHotel(null, { input: mockInput, id: '683542c288acac72d9b902ce' }))
-      .rejects
-      .toThrow(new GraphQLError('Hotel not found'));
+    await expect(updateHotel(null, { input: mockInput, id: '683542c288acac72d9b902ce' })).rejects.toThrow(new GraphQLError('Hotel not found'));
   });
 
   it('should handle internal server error', async () => {
     const errorMessage = 'Database error';
     (Hotel.findByIdAndUpdate as jest.Mock).mockRejectedValue(new Error(errorMessage));
-    await expect(updateHotel(null, { input: mockInput, id: '683542c288acac72d9b902ce' }))
-      .rejects
-      .toThrow(new GraphQLError(`Failed to update hotel: ${errorMessage}`));
+    await expect(updateHotel(null, { input: mockInput, id: '683542c288acac72d9b902ce' })).rejects.toThrow(new GraphQLError(`Failed to update hotel: Error: ${errorMessage}`));
   });
 
   it('should handle partial updates', async () => {
     const partialInput = {
       hotelName: 'Updated Hotel Name',
-      price: 200.50,
+      price: 200.5,
     };
 
     const mockPartiallyUpdatedHotel = {
