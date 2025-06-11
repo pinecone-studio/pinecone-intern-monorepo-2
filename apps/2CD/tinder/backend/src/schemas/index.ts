@@ -1,16 +1,16 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
-import { typeDefs as CommonTypeDefs } from './common.schema';
-import { typeDefs as UserTypeDefs } from './user.schema';
-import { typeDefs as MatchTypeDefs } from './match.schema';
-import { typeDefs as MessageTypeDefs } from './message.schema';
-import { typeDefs as LikeTypeDefs } from './like.schema';
-import { typeDefs as ProfileTypeDefs } from './profile.schema';
+import { typeDefs as commonTypeDefs } from './common.schema';
+import { typeDefs as userTypeDefs } from './user.schema';
+import { typeDefs as likeTypeDefs } from './like.schema';
+import { typeDefs as dislikeTypeDefs } from './dislike.schema';
+import { typeDefs as matchTypeDefs } from './match.schema';
+import { typeDefs as messageTypeDefs } from './message.schema';
 
 export const typeDefs = mergeTypeDefs([
-  CommonTypeDefs,
-  UserTypeDefs,
-  MatchTypeDefs,
-  MessageTypeDefs,
-  LikeTypeDefs,
-  ProfileTypeDefs
+  commonTypeDefs,
+  userTypeDefs,
+  likeTypeDefs,
+  dislikeTypeDefs,
+  matchTypeDefs,
+  messageTypeDefs,
 ]);

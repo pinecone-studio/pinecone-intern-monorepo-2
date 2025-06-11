@@ -3,8 +3,8 @@ import gql from "graphql-tag";
 export const typeDefs = gql`
   type Like {
     _id: ID!
-    from: User!
-    to: User!
+    sender: User!
+    receiver: User!
     createdAt: Date
     updatedAt: Date
  }
@@ -14,6 +14,6 @@ export const typeDefs = gql`
     getLikesToUser(userId: ID!): [Like!]!
  }
  type Mutation {
-    createLike(from: ID!, to: ID!): Like!
+    createLike(sender: ID!, receiver: ID!): Like!
  }
 `;

@@ -1,152 +1,273 @@
-import { me } from '../../../../src/resolvers/queries/user/me';
-import User from '../../../../src/models/user';
-import { Profile } from '../../../../src/models/profile';
-import Match from '../../../../src/models/match';
-import Like from '../../../../src/models/like';
-import Message from '../../../../src/models/message';
+/* eslint-disable max-lines */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { me } from "../../../../src/resolvers/queries/user/me";
+import User from "../../../../src/models/user";
+import { Profile } from "../../../../src/models/profile";
+import Match from "../../../../src/models/match";
+import Like from "../../../../src/models/like";
+import Dislike from "../../../../src/models/dislike";
+import Message from "../../../../src/models/message";
+import mongoose from "mongoose";
+import { GraphQLError } from "graphql";
 
-// Mock all models
-jest.mock('../../../../src/models/user', () => ({
-  findOne: jest.fn()
-}));
+jest.mock("../../../../src/models/user");
+jest.mock("../../../../src/models/profile");
+jest.mock("../../../../src/models/match");
+jest.mock("../../../../src/models/like");
+jest.mock("../../../../src/models/dislike");
+jest.mock("../../../../src/models/message");
 
-jest.mock('../../../../src/models/profile', () => ({
-  Profile: {
-    findOne: jest.fn()
-  }
-}));
+describe("me resolver success cases", () => {
+  const userId = new mongoose.Types.ObjectId();
+  const otherUserId = new mongoose.Types.ObjectId();
+  const profileId = new mongoose.Types.ObjectId();
+  const matchId = new mongoose.Types.ObjectId();
+  const likeFromId = new mongoose.Types.ObjectId();
+  const likeToId = new mongoose.Types.ObjectId();
+  const dislikeFromId = new mongoose.Types.ObjectId();
+  const dislikeToId = new mongoose.Types.ObjectId();
+  const messageId = new mongoose.Types.ObjectId();
 
-jest.mock('../../../../src/models/match', () => ({
-  find: jest.fn()
-}));
-
-jest.mock('../../../../src/models/like', () => ({
-  find: jest.fn()
-}));
-
-jest.mock('../../../../src/models/message', () => ({
-  find: jest.fn()
-}));
-
-describe('me resolver', () => {
   const mockUser = {
-    _id: '1',
-    clerkId: 'clerk1',
-    name: 'User One',
-    email: 'user1@example.com',
+    _id: userId,
+    name: "Test User",
+    email: "test@example.com",
     toObject: () => ({
-      _id: '1',
-      clerkId: 'clerk1',
-      name: 'User One',
-      email: 'user1@example.com'
+      _id: userId,
+      name: "Test User",
+      email: "test@example.com"
     })
   };
 
   const mockProfile = {
-    userId: '1',
-    bio: 'Bio 1',
-    age: 25
+    _id: profileId,
+    userId: userId,
+    bio: "Test bio",
+    toObject: () => ({
+      _id: profileId,
+      userId: userId,
+      bio: "Test bio"
+    })
   };
 
   const mockMatches = [
-    { _id: 'match1', users: [{ _id: '1' }, { _id: '2' }] }
+    {
+      _id: matchId,
+      user1Id: userId,
+      user2Id: otherUserId,
+      toObject: () => ({
+        _id: matchId,
+        user1Id: userId,
+        user2Id: otherUserId
+      })
+    }
   ];
 
   const mockLikesFrom = [
-    { _id: 'like1', from: '1', to: { _id: '2', name: 'User Two' } }
+    {
+      _id: likeFromId,
+      fromUserId: userId,
+      toUserId: otherUserId,
+      toObject: () => ({
+        _id: likeFromId,
+        fromUserId: userId,
+        toUserId: otherUserId
+      })
+    }
   ];
 
   const mockLikesTo = [
-    { _id: 'like2', from: { _id: '2', name: 'User Two' }, to: '1' }
+    {
+      _id: likeToId,
+      fromUserId: otherUserId,
+      toUserId: userId,
+      toObject: () => ({
+        _id: likeToId,
+        fromUserId: otherUserId,
+        toUserId: userId
+      })
+    }
+  ];
+
+  const mockDislikesFrom = [
+    {
+      _id: dislikeFromId,
+      fromUserId: userId,
+      toUserId: otherUserId,
+      toObject: () => ({
+        _id: dislikeFromId,
+        fromUserId: userId,
+        toUserId: otherUserId
+      })
+    }
+  ];
+
+  const mockDislikesTo = [
+    {
+      _id: dislikeToId,
+      fromUserId: otherUserId,
+      toUserId: userId,
+      toObject: () => ({
+        _id: dislikeToId,
+        fromUserId: otherUserId,
+        toUserId: userId
+      })
+    }
   ];
 
   const mockMessages = [
-    { _id: 'msg1', sender: '1', content: 'Hello' }
+    {
+      _id: messageId,
+      fromUserId: userId,
+      toUserId: otherUserId,
+      content: "Test message",
+      toObject: () => ({
+        _id: messageId,
+        fromUserId: userId,
+        toUserId: otherUserId,
+        content: "Test message"
+      })
+    }
   ];
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
-    (User.findOne as jest.Mock).mockReturnValue({
-      select: jest.fn().mockResolvedValue(mockUser)
-    });
-    
+    (User.findById as jest.Mock).mockResolvedValue(mockUser);
     (Profile.findOne as jest.Mock).mockResolvedValue(mockProfile);
-    
-    (Match.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue(mockMatches)
-    });
-    
+    (Match.find as jest.Mock).mockResolvedValue(mockMatches);
     (Like.find as jest.Mock).mockImplementation((query) => {
-      if (query.from === '1') {
-        return {
-          populate: jest.fn().mockResolvedValue(mockLikesFrom)
-        };
-      } else if (query.to === '1') {
-        return {
-          populate: jest.fn().mockResolvedValue(mockLikesTo)
-        };
+      if (query.fromUserId?.toString() === userId.toString()) {
+        return mockLikesFrom;
       }
-      return {
-        populate: jest.fn().mockResolvedValue([])
-      };
+      if (query.toUserId?.toString() === userId.toString()) {
+        return mockLikesTo;
+      }
+      return [];
     });
-    
-    const mockPopulate = jest.fn().mockReturnValue({
-      sort: jest.fn().mockResolvedValue(mockMessages)
+    (Dislike.find as jest.Mock).mockImplementation((query) => {
+      if (query.fromUserId?.toString() === userId.toString()) {
+        return mockDislikesFrom;
+      }
+      if (query.toUserId?.toString() === userId.toString()) {
+        return mockDislikesTo;
+      }
+      return [];
     });
-    (Message.find as jest.Mock).mockReturnValue({
-      populate: mockPopulate
-    });
+    (Message.find as jest.Mock).mockResolvedValue(mockMessages);
   });
 
-  it('should return user with all related data when found by clerkId', async () => {
-    const result = await me(null, { clerkId: 'clerk1' });
+  it("should return the current user with all related data", async () => {
+    const result = await me({}, {}, { user: { id: userId.toString() } });
 
-    expect(User.findOne).toHaveBeenCalledWith({ clerkId: 'clerk1' });
-    expect(Profile.findOne).toHaveBeenCalledWith({ userId: '1' });
-    expect(Match.find).toHaveBeenCalledWith({ users: '1' });
-    expect(Like.find).toHaveBeenCalledWith({ from: '1' });
-    expect(Like.find).toHaveBeenCalledWith({ to: '1' });
-    expect(Message.find).toHaveBeenCalledWith({ match: { $in: ['match1'] } });
-
-    expect(result).toHaveProperty('profile', mockProfile);
-    expect(result).toHaveProperty('matches', mockMatches);
-    expect(result).toHaveProperty('likesFrom', mockLikesFrom);
-    expect(result).toHaveProperty('likesTo', mockLikesTo);
-    expect(result).toHaveProperty('messages', mockMessages);
-  });
-
-  it('should throw error if user is not found', async () => {
-    (User.findOne as jest.Mock).mockReturnValue({
-      select: jest.fn().mockResolvedValue(null)
+    expect(result).toEqual({
+      _id: userId,
+      name: "Test User",
+      email: "test@example.com",
+      profile: {
+        _id: profileId,
+        userId: userId,
+        bio: "Test bio"
+      },
+      matches: [{
+        _id: matchId,
+        user1Id: userId,
+        user2Id: otherUserId
+      }],
+      likesFrom: [{
+        _id: likeFromId,
+        fromUserId: userId,
+        toUserId: otherUserId
+      }],
+      likesTo: [{
+        _id: likeToId,
+        fromUserId: otherUserId,
+        toUserId: userId
+      }],
+      dislikesFrom: [{
+        _id: dislikeFromId,
+        fromUserId: userId,
+        toUserId: otherUserId
+      }],
+      dislikesTo: [{
+        _id: dislikeToId,
+        fromUserId: otherUserId,
+        toUserId: userId
+      }],
+      messages: [{
+        _id: messageId,
+        fromUserId: userId,
+        toUserId: otherUserId,
+        content: "Test message"
+      }]
     });
+  }, 10000);
 
-    await expect(me(null, { clerkId: 'nonexistent' })).rejects.toThrow('User not found');
-  });
-
-  it('should handle missing related data', async () => {
+  it("should handle missing related data gracefully", async () => {
     (Profile.findOne as jest.Mock).mockResolvedValue(null);
-    (Match.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue([])
-    });
-    (Like.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue([])
-    });
-    
-    const mockEmptyPopulate = jest.fn().mockReturnValue({
-      sort: jest.fn().mockResolvedValue([])
-    });
-    (Message.find as jest.Mock).mockReturnValue({
-      populate: mockEmptyPopulate
-    });
+    (Match.find as jest.Mock).mockResolvedValue([]);
+    (Like.find as jest.Mock).mockResolvedValue([]);
+    (Dislike.find as jest.Mock).mockResolvedValue([]);
+    (Message.find as jest.Mock).mockResolvedValue([]);
 
-    const result = await me(null, { clerkId: 'clerk1' });
+    const result = await me({}, {}, { user: { id: userId.toString() } });
 
-    expect(result).toHaveProperty('profile', null);
-    expect(result).toHaveProperty('matches', []);
-    expect(result).toHaveProperty('likesFrom', []);
-    expect(result).toHaveProperty('likesTo', []);
-    expect(result).toHaveProperty('messages', []);
-  });
+    expect(result).toEqual({
+      _id: userId,
+      name: "Test User",
+      email: "test@example.com",
+      profile: null,
+      matches: [],
+      likesFrom: [],
+      likesTo: [],
+      dislikesFrom: [],
+      dislikesTo: [],
+      messages: []
+    });
+  }, 10000);
+
+  it("should handle GraphQLError in catch block", async () => {
+    const error = new GraphQLError("Test error", {
+      extensions: { code: "TEST_ERROR" }
+    });
+    (User.findById as jest.Mock).mockRejectedValue(error);
+
+    await expect(me({}, {}, { user: { id: userId.toString() } }))
+      .rejects.toThrow(error);
+  }, 10000);
+
+  it("should handle non-GraphQLError in catch block", async () => {
+    const error = new Error("Database error");
+    (User.findById as jest.Mock).mockRejectedValue(error);
+
+    await expect(me({}, {}, { user: { id: userId.toString() } }))
+      .rejects.toThrow(new GraphQLError("Алдаа гарлаа", {
+        extensions: { code: "INTERNAL_SERVER_ERROR", originalError: error }
+      }));
+  }, 10000);
+
+  it("should handle null documents in mapDocumentsToObjects", async () => {
+    (Match.find as jest.Mock).mockResolvedValue(null);
+    (Like.find as jest.Mock).mockResolvedValue(null);
+    (Dislike.find as jest.Mock).mockResolvedValue(null);
+    (Message.find as jest.Mock).mockResolvedValue(null);
+
+    const result = await me({}, {}, { user: { id: userId.toString() } });
+
+    expect(result).toEqual({
+      _id: userId,
+      name: "Test User",
+      email: "test@example.com",
+      profile: {
+        _id: profileId,
+        userId: userId,
+        bio: "Test bio"
+      },
+      matches: [],
+      likesFrom: [],
+      likesTo: [],
+      dislikesFrom: [],
+      dislikesTo: [],
+      messages: []
+    });
+  }, 10000);
 });

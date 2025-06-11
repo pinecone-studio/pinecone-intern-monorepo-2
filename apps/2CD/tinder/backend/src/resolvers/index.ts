@@ -13,10 +13,20 @@ import { updateProfile } from './mutations/profile/update-profile';
 import { getProfile } from './queries/profile/get-profile';
 import { getAllUsers } from './queries/user/get-all-users';
 import { me } from './queries/user/me';
+import { getSwipeFeed } from './queries/user/swipe-feed';
+import { createDislike } from './mutations/dislike/create-dislike';
+import { getDislikesFromUser } from './queries/dislike/get-dislikes-from-user';
+import { getDislikesToUser } from './queries/dislike/get-dislikes-to-user';
 
 export const resolvers = {
+  Date: {
+    serialize: (value: Date) => value.toISOString(),
+    parseValue: (value: string) => new Date(value),
+    parseLiteral: (ast: any) => new Date(ast.value),
+  },
   Mutation: {
     createLike,
+    createDislike,
     sendMessage,
     registerUser,
     updateUser,
@@ -27,11 +37,14 @@ export const resolvers = {
   Query: {
     getLikesFromUser,
     getLikesToUser,
+    getDislikesFromUser,
+    getDislikesToUser,
     getMessage,
     getMyMatches,
     getMatchById,
     getProfile,
     getAllUsers,
     me,
+    getSwipeFeed
   },
 };

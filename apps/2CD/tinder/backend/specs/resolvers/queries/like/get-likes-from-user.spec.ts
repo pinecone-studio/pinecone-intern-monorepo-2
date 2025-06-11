@@ -1,34 +1,83 @@
-import Like from 'src/models/like';
-import { getLikesFromUser } from 'src/resolvers/queries/like/get-likes-from-user';
+import { getLikesFromUser } from "../../../../src/resolvers/queries/like/get-likes-from-user";
+import User from "../../../../src/models/user";
+import Like from "../../../../src/models/like";
+import mongoose from "mongoose";
 
-jest.mock('src/models/like');
+jest.mock("../../../../src/models/user");
+jest.mock("../../../../src/models/like");
 
-describe('getLikesFromUser', () => {
-  afterEach(() => {
+describe("getLikesFromUser", () => {
+  const userId = new mongoose.Types.ObjectId().toString();
+  const mockUser = {
+    _id: new mongoose.Types.ObjectId(userId),
+    name: "Test User",
+    email: "test@example.com",
+  };
+
+  const mockLikes = [
+    {
+      _id: new mongoose.Types.ObjectId(),
+      sender: mockUser._id,
+      receiver: new mongoose.Types.ObjectId(),
+    },
+  ];
+
+  const mockPopulate = jest.fn().mockReturnThis();
+  const mockSort = jest.fn().mockReturnThis();
+  const mockLean = jest.fn().mockResolvedValue(mockLikes);
+
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return a list of likes from a user, populated and sorted', async () => {
-    const mockUserId = 'user123';
-    const mockLikes = [
-      {
-        from: { _id: 'user123', username: 'Alice' },
-        to: { _id: 'user456', username: 'Bob' },
-        createdAt: new Date('2023-01-01'),
-      },
-    ];
+  it("should return a list of likes from a user, populated and sorted", async () => {
+    (User.findById as jest.Mock).mockResolvedValue(mockUser);
+    (Like.find as jest.Mock).mockReturnValue({
+      populate: mockPopulate,
+      sort: mockSort,
+      lean: mockLean,
+    });
 
-    const sortMock = jest.fn().mockResolvedValue(mockLikes);
-    const populateToMock = jest.fn().mockReturnValue({ sort: sortMock });
-    const populateFromMock = jest.fn().mockReturnValue({ populate: populateToMock });
-    (Like.find as jest.Mock).mockReturnValue({ populate: populateFromMock });
+    const result = await getLikesFromUser({}, { userId });
 
-    const result = await getLikesFromUser({}, { userId: mockUserId });
+    expect(User.findById).toHaveBeenCalledWith(userId);
+    expect(Like.find).toHaveBeenCalledWith({ sender: mockUser._id });
+    expect(mockPopulate).toHaveBeenCalledWith("sender");
+    expect(mockPopulate).toHaveBeenCalledWith("receiver");
+    expect(result).toBe(mockLikes);
+  });
 
-    expect(Like.find).toHaveBeenCalledWith({ from: mockUserId });
-    expect(populateFromMock).toHaveBeenCalledWith('from');
-    expect(populateToMock).toHaveBeenCalledWith('to');
-    expect(sortMock).toHaveBeenCalledWith({ createdAt: -1 });
-    expect(result).toEqual(mockLikes);
+  it("should return empty array if no likes found", async () => {
+    (User.findById as jest.Mock).mockResolvedValue(mockUser);
+    (Like.find as jest.Mock).mockReturnValue({
+      populate: mockPopulate,
+      sort: mockSort,
+      lean: jest.fn().mockResolvedValue([]),
+    });
+
+    const result = await getLikesFromUser({}, { userId });
+
+    expect(User.findById).toHaveBeenCalledWith(userId);
+    expect(Like.find).toHaveBeenCalledWith({ sender: mockUser._id });
+    expect(mockPopulate).toHaveBeenCalledWith("sender");
+    expect(mockPopulate).toHaveBeenCalledWith("receiver");
+    expect(result).toEqual([]);
+  });
+
+  it("should throw error if user not found", async () => {
+    (User.findById as jest.Mock).mockResolvedValue(null);
+
+    await expect(getLikesFromUser({}, { userId })).rejects.toThrow("Хэрэглэгч олдсонгүй");
+  });
+
+  it("should throw error if database operation fails", async () => {
+    (User.findById as jest.Mock).mockResolvedValue(mockUser);
+    (Like.find as jest.Mock).mockReturnValue({
+      populate: mockPopulate,
+      sort: mockSort,
+      lean: jest.fn().mockRejectedValue(new Error("Алдаа гарлаа")),
+    });
+
+    await expect(getLikesFromUser({}, { userId })).rejects.toThrow("Алдаа гарлаа");
   });
 });

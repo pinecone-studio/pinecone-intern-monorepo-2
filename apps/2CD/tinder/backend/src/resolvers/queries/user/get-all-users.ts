@@ -1,153 +1,151 @@
+import { GraphQLError } from 'graphql';
 import User from '../../../models/user';
 import { Profile } from '../../../models/profile';
 import Match from '../../../models/match';
 import Like from '../../../models/like';
 import Message from '../../../models/message';
-import { Document, Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 
-type UserDocument = Document & {
-  clerkId: string;
+interface IUser extends Document {
+  _id: Types.ObjectId;
+  name: string;
   email: string;
-};
+  toObject: () => any;
+}
 
-type ProfileDocument = Document & {
+interface IProfile extends Document {
+  _id: Types.ObjectId;
   userId: Types.ObjectId;
   bio: string;
   age: number;
-};
+}
 
-type MatchDocument = Document & {
-  users: UserDocument[];
-};
+interface IMatch extends Document {
+  _id: Types.ObjectId;
+  users: IUser[];
+}
 
-type LikeDocument = Document & {
-  from: Types.ObjectId;
-  to: Types.ObjectId;
-};
-
-type MessageDocument = Document & {
+interface ILike extends Document {
+  _id: Types.ObjectId;
   sender: Types.ObjectId;
+  receiver: Types.ObjectId;
+}
+
+interface IMessage extends Document {
+  _id: Types.ObjectId;
+  sender: Types.ObjectId;
+  content: string;
+}
+
+interface IEnrichedUser {
+  _id: string;
+  name: string;
+  email: string;
+  profile: IProfile | null;
+  matches: IMatch[];
+  likesFrom: ILike[];
+  likesTo: ILike[];
+  messages: IMessage[];
+}
+
+interface ILeanProfile {
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
+  bio: string;
+  age: number;
+}
+
+interface ILeanMatch {
+  _id: Types.ObjectId;
+  users: IUser[];
+}
+
+interface ILeanLike {
+  _id: Types.ObjectId;
+  sender: Types.ObjectId;
+  receiver: Types.ObjectId;
+}
+
+interface ILeanMessage {
+  _id: Types.ObjectId;
+  sender: Types.ObjectId;
+  content: string;
+}
+
+interface IRelatedData {
+  profiles: ILeanProfile[];
+  matches: ILeanMatch[];
+  likesFrom: ILeanLike[];
+  likesTo: ILeanLike[];
+  messages: ILeanMessage[];
+}
+
+const findUserProfile = (userId: Types.ObjectId, profiles: ILeanProfile[]): ILeanProfile | null => {
+  return profiles.find(p => p.userId.toString() === userId.toString()) || null;
 };
 
-function processMatches(matches: MatchDocument[]): Map<string, MatchDocument[]> {
-  const matchMap = new Map();
-  matches.forEach(match => {
-    match.users.forEach((user: UserDocument) => {
-      const userId = user._id.toString();
-      if (!matchMap.has(userId)) {
-        matchMap.set(userId, []);
-      }
-      matchMap.get(userId).push(match);
-    });
-  });
-  return matchMap;
-}
+const findUserMatches = (userId: Types.ObjectId, matches: ILeanMatch[]): ILeanMatch[] => {
+  return matches.filter(m => m.users.some(u => u._id.toString() === userId.toString()));
+};
 
-function processLikesFrom(likes: LikeDocument[]): Map<string, LikeDocument[]> {
-  const likesMap = new Map();
-  likes.forEach(like => {
-    const userId = like.from.toString();
-    if (!likesMap.has(userId)) {
-      likesMap.set(userId, []);
-    }
-    likesMap.get(userId).push(like);
-  });
-  return likesMap;
-}
+const findUserLikesFrom = (userId: Types.ObjectId, likes: ILeanLike[]): ILeanLike[] => {
+  return likes.filter(l => l.sender.toString() === userId.toString());
+};
 
-function processLikesTo(likes: LikeDocument[]): Map<string, LikeDocument[]> {
-  const likesMap = new Map();
-  likes.forEach(like => {
-    const userId = like.to.toString();
-    if (!likesMap.has(userId)) {
-      likesMap.set(userId, []);
-    }
-    likesMap.get(userId).push(like);
-  });
-  return likesMap;
-}
+const findUserLikesTo = (userId: Types.ObjectId, likes: ILeanLike[]): ILeanLike[] => {
+  return likes.filter(l => l.receiver.toString() === userId.toString());
+};
 
-function processMessages(messages: MessageDocument[]): Map<string, MessageDocument[]> {
-  const messageMap = new Map();
-  messages.forEach(message => {
-    const userId = message.sender.toString();
-    if (!messageMap.has(userId)) {
-      messageMap.set(userId, []);
-    }
-    messageMap.get(userId).push(message);
-  });
-  return messageMap;
-}
+const findUserMessages = (userId: Types.ObjectId, messages: ILeanMessage[]): ILeanMessage[] => {
+  return messages.filter(m => m.sender.toString() === userId.toString());
+};
 
-async function fetchRelatedData(userIds: Types.ObjectId[]) {
-  return Promise.all([
-    Profile.find({ userId: { $in: userIds } }),
-    Match.find({ users: { $in: userIds } }).populate('users'),
-    Like.find({ from: { $in: userIds } }).populate('to'),
-    Like.find({ to: { $in: userIds } }).populate('from'),
-    Message.find({ sender: { $in: userIds } }).populate('sender')
-  ]) as Promise<[ProfileDocument[], MatchDocument[], LikeDocument[], LikeDocument[], MessageDocument[]]>;
-}
-
-function createDataMaps(profiles: ProfileDocument[], matches: MatchDocument[], likesFrom: LikeDocument[], likesTo: LikeDocument[], messages: MessageDocument[]) {
-  return {
-    profileMap: new Map(profiles.map(p => [p.userId.toString(), p])),
-    matchMap: processMatches(matches),
-    likesFromMap: processLikesFrom(likesFrom),
-    likesToMap: processLikesTo(likesTo),
-    messageMap: processMessages(messages)
-  };
-}
-
-function getProfileData(userId: string, dataMaps: ReturnType<typeof createDataMaps>) {
-  return dataMaps.profileMap.get(userId) || null;
-}
-
-function getMatchData(userId: string, dataMaps: ReturnType<typeof createDataMaps>) {
-  return dataMaps.matchMap.get(userId) || [];
-}
-
-function getLikeData(userId: string, dataMaps: ReturnType<typeof createDataMaps>) {
-  return {
-    likesFrom: dataMaps.likesFromMap.get(userId) || [],
-    likesTo: dataMaps.likesToMap.get(userId) || []
-  };
-}
-
-function getMessageData(userId: string, dataMaps: ReturnType<typeof createDataMaps>) {
-  return dataMaps.messageMap.get(userId) || [];
-}
-
-function getRelatedData(userId: string, dataMaps: ReturnType<typeof createDataMaps>) {
-  const profile = getProfileData(userId, dataMaps);
-  const matches = getMatchData(userId, dataMaps);
-  const { likesFrom, likesTo } = getLikeData(userId, dataMaps);
-  const messages = getMessageData(userId, dataMaps);
-
-  return {
-    profile,
-    matches,
-    likesFrom,
-    likesTo,
-    messages
-  };
-}
-
-function enrichUserData(user: UserDocument, dataMaps: ReturnType<typeof createDataMaps>) {
-  const userId = user._id.toString();
-  const relatedData = getRelatedData(userId, dataMaps);
-  return {
-    ...user.toObject(),
-    ...relatedData
-  };
-}
-
-export const getAllUsers = async () => {
-  const users = await User.find().select('-password');
+const fetchRelatedData = async (users: IUser[]): Promise<IRelatedData> => {
   const userIds = users.map(user => user._id);
-  
-  const [profiles, matches, likesFrom, likesTo, messages] = await fetchRelatedData(userIds);
-  const dataMaps = createDataMaps(profiles, matches, likesFrom, likesTo, messages);
-  
-  return users.map(user => enrichUserData(user, dataMaps));
+
+  const [profiles, matches, likesFrom, likesTo, messages] = await Promise.all([
+    Profile.find({ userId: { $in: userIds } }).lean<ILeanProfile[]>(),
+    Match.find({ users: { $in: userIds } }).populate('users').lean<ILeanMatch[]>(),
+    Like.find({ sender: { $in: userIds } }).populate('sender').populate('receiver').lean<ILeanLike[]>(),
+    Like.find({ receiver: { $in: userIds } }).populate('sender').populate('receiver').lean<ILeanLike[]>(),
+    Message.find({ sender: { $in: userIds } }).populate('sender').lean<ILeanMessage[]>(),
+  ]);
+
+  return { profiles, matches, likesFrom, likesTo, messages };
+};
+
+const enrichUserData = (user: IUser, data: IRelatedData): IEnrichedUser => {
+  const userObj = user.toObject();
+  const userId = user._id;
+
+  return {
+    ...userObj,
+    profile: findUserProfile(userId, data.profiles),
+    matches: findUserMatches(userId, data.matches),
+    likesFrom: findUserLikesFrom(userId, data.likesFrom),
+    likesTo: findUserLikesTo(userId, data.likesTo),
+    messages: findUserMessages(userId, data.messages),
+  };
+};
+
+export const getAllUsers = async (): Promise<IEnrichedUser[]> => {
+  try {
+    const users = await User.find({});
+    
+    if (!users.length) {
+      throw new GraphQLError('Хэрэглэгчид олдсонгүй', {
+        extensions: { code: 'NOT_FOUND' },
+      });
+    }
+
+    const relatedData = await fetchRelatedData(users);
+    return users.map(user => enrichUserData(user, relatedData));
+  } catch (error) {
+    if (error instanceof GraphQLError) {
+      throw error;
+    }
+    throw new GraphQLError('Алдаа гарлаа', {
+      extensions: { code: 'INTERNAL_SERVER_ERROR', originalError: error },
+    });
+  }
 };

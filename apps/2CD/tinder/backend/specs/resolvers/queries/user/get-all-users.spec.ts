@@ -1,9 +1,13 @@
-import { getAllUsers } from '../../../../src/resolvers/queries/user/get-all-users';
-import User from '../../../../src/models/user';
-import { Profile } from '../../../../src/models/profile';
-import Match from '../../../../src/models/match';
-import Like from '../../../../src/models/like';
-import Message from '../../../../src/models/message';
+/* eslint-disable max-lines */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { GraphQLError } from "graphql";
+import User from "../../../../src/models/user";
+import { Profile } from "../../../../src/models/profile";
+import Match from "../../../../src/models/match";
+import Like from "../../../../src/models/like";
+import Message from "../../../../src/models/message";
+import { getAllUsers } from "../../../../src/resolvers/queries/user/get-all-users";
+import mongoose from "mongoose";
 
 jest.mock('../../../../src/models/user');
 jest.mock('../../../../src/models/profile');
@@ -11,111 +15,233 @@ jest.mock('../../../../src/models/match');
 jest.mock('../../../../src/models/like');
 jest.mock('../../../../src/models/message');
 
-describe('getAllUsers', () => {
-  const mockUsers = [
-    { _id: '1', clerkId: 'clerk1', name: 'User One', email: 'user1@example.com', toObject: () => ({ _id: '1', clerkId: 'clerk1', name: 'User One', email: 'user1@example.com' }) },
-    { _id: '2', clerkId: 'clerk2', name: 'User Two', email: 'user2@example.com', toObject: () => ({ _id: '2', clerkId: 'clerk2', name: 'User Two', email: 'user2@example.com' }) },
-  ];
+describe("getAllUsers Query", () => {
+  const mockUserId = new mongoose.Types.ObjectId();
+  const mockUser = {
+    _id: mockUserId,
+    name: "Test User",
+    email: "test@example.com",
+    toObject: () => ({
+      _id: mockUserId,
+      name: "Test User",
+      email: "test@example.com",
+    }),
+  };
 
-  const mockProfiles = [
-    { userId: '1', bio: 'Bio 1', age: 25 },
-    { userId: '2', bio: 'Bio 2', age: 30 },
-  ];
+  const mockProfile = {
+    _id: new mongoose.Types.ObjectId(),
+    userId: mockUserId,
+    bio: "Test bio",
+    age: 25,
+  };
 
-  const mockMatches = [
-    { _id: 'match1', users: [{ _id: '1' }, { _id: '2' }] },
-  ];
+  const mockMatch = {
+    _id: new mongoose.Types.ObjectId(),
+    users: [mockUser],
+  };
 
-  const mockLikesFrom = [
-    { _id: 'like1', from: '1', to: { _id: '2', name: 'User Two' } },
-  ];
+  const mockLikeFrom = {
+    _id: new mongoose.Types.ObjectId(),
+    sender: mockUserId,
+    receiver: new mongoose.Types.ObjectId(),
+  };
 
-  const mockLikesTo = [
-    { _id: 'like2', from: { _id: '2', name: 'User Two' }, to: '1' },
-  ];
+  const mockLikeTo = {
+    _id: new mongoose.Types.ObjectId(),
+    sender: new mongoose.Types.ObjectId(),
+    receiver: mockUserId,
+  };
 
-  const mockMessages = [
-    { _id: 'msg1', sender: '1', content: 'Hello' },
-  ];
+  const mockMessage = {
+    _id: new mongoose.Types.ObjectId(),
+    sender: mockUserId,
+    content: "Test message",
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    
-    (User.find as jest.Mock).mockReturnValue({
-      select: jest.fn().mockResolvedValue(mockUsers),
-    });
-    
-    (Profile.find as jest.Mock).mockResolvedValue(mockProfiles);
-    
-    (Match.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue(mockMatches),
-    });
-    
-    (Like.find as jest.Mock).mockImplementation((query) => {
-      if (query.from) {
-        return {
-          populate: jest.fn().mockResolvedValue(mockLikesFrom),
-        };
-      } else if (query.to) {
-        return {
-          populate: jest.fn().mockResolvedValue(mockLikesTo),
-        };
-      }
-      return {
-        populate: jest.fn().mockResolvedValue([]),
-      };
-    });
-    
-    (Message.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue(mockMessages),
-    });
   });
 
-  it('should return users with their related data', async () => {
-    const result = await getAllUsers();
+  it("should return all users with related information", async () => {
+    // Mock User.find
+    (User.find as jest.Mock).mockResolvedValue([mockUser]);
 
-    expect(User.find).toHaveBeenCalled();
-    expect(Profile.find).toHaveBeenCalledWith({ userId: { $in: ['1', '2'] } });
-    expect(Match.find).toHaveBeenCalledWith({ users: { $in: ['1', '2'] } });
-    expect(Like.find).toHaveBeenCalledWith({ from: { $in: ['1', '2'] } });
-    expect(Like.find).toHaveBeenCalledWith({ to: { $in: ['1', '2'] } });
-    expect(Message.find).toHaveBeenCalledWith({ sender: { $in: ['1', '2'] } });
+    // Mock Profile.find
+    (Profile.find as jest.Mock).mockReturnValue({
+      lean: jest.fn().mockResolvedValue([mockProfile]),
+    });
 
-    expect(result).toHaveLength(2);
-    expect(result[0]).toHaveProperty('profile', mockProfiles[0]);
-    expect(result[0]).toHaveProperty('matches', mockMatches);
-    expect(result[0]).toHaveProperty('likesFrom', mockLikesFrom);
-    expect(result[0]).toHaveProperty('likesTo', mockLikesTo);
-    expect(result[0]).toHaveProperty('messages', mockMessages);
-  });
-
-  it('should handle empty related data', async () => {
-    (Profile.find as jest.Mock).mockResolvedValue([]);
+    // Mock Match.find
     (Match.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue([]),
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockMatch]),
     });
-    (Like.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue([]),
+
+    // Mock Like.find for likesFrom
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockLikeFrom]),
     });
+
+    // Mock Like.find for likesTo
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockLikeTo]),
+    });
+
+    // Mock Message.find
     (Message.find as jest.Mock).mockReturnValue({
-      populate: jest.fn().mockResolvedValue([]),
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockMessage]),
     });
 
     const result = await getAllUsers();
 
-    expect(result).toHaveLength(2);
-    expect(result[0].profile).toBeNull();
-    expect(result[0].matches).toEqual([]);
-    expect(result[0].likesFrom).toEqual([]);
-    expect(result[0].likesTo).toEqual([]);
-    expect(result[0].messages).toEqual([]);
+    expect(result).toEqual([
+      {
+        ...mockUser.toObject(),
+        profile: mockProfile,
+        matches: [mockMatch],
+        likesFrom: [mockLikeFrom],
+        likesTo: [mockLikeTo],
+        messages: [mockMessage],
+      },
+    ]);
   });
 
-  it('should throw error when DB fails', async () => {
-    (User.find as jest.Mock).mockReturnValue({
-      select: jest.fn().mockRejectedValue(new Error('DB failure')),
+  it("should throw error if no users found", async () => {
+    // Mock User.find to return empty array
+    (User.find as jest.Mock).mockResolvedValue([]);
+
+    await expect(getAllUsers())
+      .rejects.toThrow(new GraphQLError("Хэрэглэгчид олдсонгүй", {
+        extensions: { code: "NOT_FOUND" },
+      }));
+  });
+
+  it("should throw error if database operation fails", async () => {
+    const error = new Error("Database error");
+    
+    // Mock User.find to throw error
+    (User.find as jest.Mock).mockRejectedValue(error);
+
+    await expect(getAllUsers())
+      .rejects.toThrow(new GraphQLError("Алдаа гарлаа", {
+        extensions: { code: "INTERNAL_SERVER_ERROR", originalError: error },
+      }));
+  });
+
+  it("should handle empty related data", async () => {
+    // Mock User.find
+    (User.find as jest.Mock).mockResolvedValue([mockUser]);
+
+    // Mock Profile.find
+    (Profile.find as jest.Mock).mockReturnValue({
+      lean: jest.fn().mockResolvedValue([]),
     });
 
-    await expect(getAllUsers()).rejects.toThrow('DB failure');
+    // Mock Match.find
+    (Match.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([]),
+    });
+
+    // Mock Like.find for likesFrom
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([]),
+    });
+
+    // Mock Like.find for likesTo
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([]),
+    });
+
+    // Mock Message.find
+    (Message.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([]),
+    });
+
+    const result = await getAllUsers();
+
+    expect(result).toEqual([
+      {
+        ...mockUser.toObject(),
+        profile: null,
+        matches: [],
+        likesFrom: [],
+        likesTo: [],
+        messages: [],
+      },
+    ]);
+  });
+
+  it("should handle multiple users with different related data", async () => {
+    const mockUser2Id = new mongoose.Types.ObjectId();
+    const mockUser2 = {
+      _id: mockUser2Id,
+      name: "Test User 2",
+      email: "test2@example.com",
+      toObject: () => ({
+        _id: mockUser2Id,
+        name: "Test User 2",
+        email: "test2@example.com",
+      }),
+    };
+
+    // Mock User.find
+    (User.find as jest.Mock).mockResolvedValue([mockUser, mockUser2]);
+
+    // Mock Profile.find
+    (Profile.find as jest.Mock).mockReturnValue({
+      lean: jest.fn().mockResolvedValue([mockProfile]),
+    });
+
+    // Mock Match.find
+    (Match.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockMatch]),
+    });
+
+    // Mock Like.find for likesFrom
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockLikeFrom]),
+    });
+
+    // Mock Like.find for likesTo
+    (Like.find as jest.Mock).mockReturnValueOnce({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockLikeTo]),
+    });
+
+    // Mock Message.find
+    (Message.find as jest.Mock).mockReturnValue({
+      populate: jest.fn().mockReturnThis(),
+      lean: jest.fn().mockResolvedValue([mockMessage]),
+    });
+
+    const result = await getAllUsers();
+
+    expect(result).toEqual([
+      {
+        ...mockUser.toObject(),
+        profile: mockProfile,
+        matches: [mockMatch],
+        likesFrom: [mockLikeFrom],
+        likesTo: [mockLikeTo],
+        messages: [mockMessage],
+      },
+      {
+        ...mockUser2.toObject(),
+        profile: null,
+        matches: [],
+        likesFrom: [],
+        likesTo: [],
+        messages: [],
+      },
+    ]);
   });
 });
