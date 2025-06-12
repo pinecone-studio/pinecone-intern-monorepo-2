@@ -11,7 +11,7 @@ describe('delete food mutation unit tests', () => {
 
     jest.spyOn(Food, 'findByIdAndDelete').mockResolvedValue(mockDeletedFood as any);
 
-    const result = await deleteFood({}, { id: mockId });
+    const result = await deleteFood({}, { _id: mockId });
     expect(result).toEqual(mockDeletedFood);
   });
 
@@ -20,13 +20,12 @@ describe('delete food mutation unit tests', () => {
 
     jest.spyOn(Food, 'findByIdAndDelete').mockResolvedValue(null);
 
-    await expect(deleteFood({}, { id: mockId })).rejects.toThrow('Food item not found');
-  }
-  );
+    await expect(deleteFood({}, { _id: mockId })).rejects.toThrow('Food item not found');
+  });
   it('should throw an error if there is a database error', async () => {
     const mockId = '12345';
-    const mockError = new Error('Database error');  
+    const mockError = new Error('Database error');
     jest.spyOn(Food, 'findByIdAndDelete').mockRejectedValue(mockError);
-    await expect(deleteFood({}, { id: mockId })).rejects.toThrow('Error deleting food item: Database error');
+    await expect(deleteFood({}, { _id: mockId })).rejects.toThrow('Error deleting food item: Database error');
   });
 });
