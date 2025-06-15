@@ -16,4 +16,9 @@
 // Import commands.ts using ES2015 syntax:
 import '@cypress/code-coverage/support';
 import 'cypress-wait-until';
-import './commands';
+import './commands'
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('ResizeObserver loop')) {
+    return false;
+  }
+});

@@ -25,7 +25,7 @@ const ChatSection = ({
   loadingMessages, 
   refetch 
 }: ChatSectionProps) => (
-  <div className="w-2/3 p-4 flex flex-col">
+  <div className="w-2/3 p-4 flex flex-col" data-testid="chat-section">
     <h2 className="text-xl font-bold mb-4">Chat</h2>
     <MessageView 
       messages={messageData?.getMessage?.map(msg => ({
