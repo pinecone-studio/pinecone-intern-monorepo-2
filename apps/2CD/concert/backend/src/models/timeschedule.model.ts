@@ -11,6 +11,7 @@ const scheduleModel = new Schema(
     },
     concert: { type: Types.ObjectId, ref: 'Concert', required: true },
     venue: { type: Types.ObjectId, ref: 'Venue', required: true },
+    tickets: [{ type: Types.ObjectId, ref: 'Ticket', required: true }],
   },
   { timestamps: true }
 );
