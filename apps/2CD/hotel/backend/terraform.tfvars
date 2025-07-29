@@ -1,1 +1,0 @@
-VERCEL_TOKEN="ph38eHU5EmADngqftlB1YfBr"

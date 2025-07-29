@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npx nx build tinder-backend",
-  "outputDirectory": "dist/apps/2CD/tinder/backend"
-}

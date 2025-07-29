@@ -1,5 +1,0 @@
-{
-  "buildCommand": "nx build Concert-2025-2CD",
-  "outputDirectory": "dist/apps/2CD/Concert-2025-2CD",
-  "framework": "nextjs"
-}
