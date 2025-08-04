@@ -18,11 +18,32 @@
       }
     ],
     "paths": {
-      "@/components/ui/*": ["../../../libs/shadcn/src/lib/ui/*"],
-      "@/*": ["src/*"]
+      "@/components/ui/*": [
+        "../../../libs/shadcn/src/lib/ui/*"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     },
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "../../../apps/instagram/frontEnd/.next/types/**/*.ts", "../../../dist/aapps/instagram/frontEnd/.next/types/**/*.ts", "next-env.d.ts"],
-  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "../../../apps/instagram/frontEnd/.next/types/**/*.ts",
+    "../../../dist/aapps/instagram/frontEnd/.next/types/**/*.ts",
+    "next-env.d.ts",
+    "../../../dist/apps/instagram/frontEnd/.next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }
