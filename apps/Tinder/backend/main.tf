@@ -8,14 +8,14 @@ terraform {
 }
 
 resource "vercel_project" "tinder_2025_2FH_development" {
-name = "2025-2fh-tinder-development"
+  name             = "2025-2fh-tinder-development"
   build_command    = "nx build --skip-nx-cache 2025-2FH-Tinder"
   output_directory = "./dist/apps/Tinder/frontend/.next"
   framework        = "nextjs"
   team_id          = "team_qW7CWHt1mKoH5ti6SFJsQhC7"
 }
 resource "vercel_project" "tinder_2025_2FH_prod" {
-name = "2025-hf-tinder-prod"
+  name             = "2025-hf-tinder-prod"
   build_command    = "nx build --skip-nx-cache 2025-HF-Tinder"
   output_directory = "./dist/apps/Tinder/backend/.next"
   framework        = "nextjs"
