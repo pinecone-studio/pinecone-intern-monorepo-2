@@ -12,21 +12,21 @@ resource "vercel_project" "pinecone-intern-example-frontend-prod" {
   build_command    = "nx build --skip-nx-cache example-frontend"
   output_directory = "./dist/apps/example/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_2TjV6297LA267czkNg94ORef"
 }
 resource "vercel_project" "pinecone-intern-example-frontend-testing" {
   name             = "pinecone-intern-example-frontend-testing"
   build_command    = "nx build --skip-nx-cache example-frontend"
   output_directory = "./dist/apps/example/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_2TjV6297LA267czkNg94ORef"
 }
 resource "vercel_project" "pinecone-intern-example-frontend-dev" {
   name             = "pinecone-intern-example-frontend-dev"
   build_command    = "nx build --skip-nx-cache example-frontend"
   output_directory = "./dist/apps/example/frontend/.next"
   framework        = "nextjs"
-  team_id          = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team_id          = "team_2TjV6297LA267czkNg94ORef"
 }
 
 variable "VERCEL_TOKEN" {
@@ -40,5 +40,5 @@ provider "vercel" {
   api_token = var.VERCEL_TOKEN
 
   # Optional default team for all resources
-  team = "team_0ASDilhqwPl5fll9OnzqDM30"
+  team = "team_2TjV6297LA267czkNg94ORef"
 }
