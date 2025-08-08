@@ -45,6 +45,8 @@ describe('polyfills', () => {
 
 
 
+
+
   it('should create File polyfill with correct properties', async () => {
     // Import the polyfills
     const { FilePolyfill } = await import('../src/polyfills');
