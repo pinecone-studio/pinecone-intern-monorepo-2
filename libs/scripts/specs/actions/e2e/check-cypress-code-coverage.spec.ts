@@ -1,3 +1,4 @@
+import '../../../src/polyfills';
 import * as cypressCodeCoverage from '../../../src/actions/e2e/check-cypress-code-coverage';
 import * as cypressCodeCoverageUtils from '../../../src/utils/actions/check-cypress-code-coverage-utils';
 

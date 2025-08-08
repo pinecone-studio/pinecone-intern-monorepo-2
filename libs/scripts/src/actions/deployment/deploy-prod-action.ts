@@ -1,4 +1,5 @@
 /* eslint-disable no-secrets/no-secrets */
+import '../../polyfills';
 import { green, red } from 'chalk';
 import { cleanGeneratedPreviewEnvFiles, shouldAddFederationToAffected } from '../../utils/actions/clean-generated-preview-env-files';
 import { deployAffectedProjects } from '../../utils/actions/deployment';

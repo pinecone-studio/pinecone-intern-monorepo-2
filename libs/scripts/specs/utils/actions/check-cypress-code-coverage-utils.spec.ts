@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import '../../../src/polyfills';
 import * as fs from 'fs';
 import * as cypressCodeCoverageUtils from '../../../src/utils/actions/check-cypress-code-coverage-utils';
 

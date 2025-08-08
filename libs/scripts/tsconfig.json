@@ -1,7 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    "lib": ["es2020"],
+    "types": ["node"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "lib": ["es2020"]
+    }
   },
   "files": [],
   "include": [],

@@ -73,7 +73,7 @@ describe('deployAffectedProjects', () => {
     try {
       await deploymentUtils.deployAffectedProjects(affectedApps, deploymentCommand);
     } catch (error) {
-      expect(error.message).toBe(`Error while running ${affectedApps.join(',')} with ${deploymentCommand}:Error: Deployment failed`);
+      expect(error.message).toBe(`Error while running deployments for [${affectedApps.join(', ')}] with command "${deploymentCommand}": Error: Deployment failed`);
     }
 
     expect(deployProjectsSpy).toHaveBeenCalledWith(['service1', 'service2'], deploymentCommand);

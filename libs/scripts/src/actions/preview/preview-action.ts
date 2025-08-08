@@ -1,3 +1,4 @@
+import '../../polyfills';
 import { green, red } from 'chalk';
 import { handleAffectedFederationProjects, handleAffectedFederationServices, handleOtherProjects } from '../../utils/actions/preview';
 import { cleanGeneratedPreviewEnvFiles } from '../../utils/actions/clean-generated-preview-env-files';
