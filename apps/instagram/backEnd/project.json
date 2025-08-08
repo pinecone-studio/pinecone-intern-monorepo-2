@@ -34,6 +34,7 @@
         "development": {
           "buildTarget": "instagram-be:build:development",
           "dev": true
+          
         },
         "production": {
           "buildTarget": "instagram-be:build:production",

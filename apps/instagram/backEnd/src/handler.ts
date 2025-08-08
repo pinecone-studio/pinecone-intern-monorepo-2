@@ -6,8 +6,6 @@ import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
 
-connectToDb();
-
 const server = new ApolloServer<Context>({
   resolvers,
   typeDefs,
@@ -16,6 +14,7 @@ const server = new ApolloServer<Context>({
 
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
+    await connectToDb();
     return { req };
   },
 });
