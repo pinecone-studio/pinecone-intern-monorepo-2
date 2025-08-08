@@ -39,6 +39,7 @@
         "production": {
           "buildTarget": "instagram:build:production",
           "dev": false
+
         }
       },
       "dependsOn": [
