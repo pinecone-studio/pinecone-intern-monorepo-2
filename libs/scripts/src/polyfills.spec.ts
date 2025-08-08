@@ -16,7 +16,7 @@ describe('polyfills', () => {
       delete (globalThis as { File?: typeof globalThis.File }).File;
     }
     // Clear require cache to ensure fresh import
-    delete require.cache[require.resolve('../src/polyfills')];
+    delete require.cache[require.resolve('./polyfills')];
   });
 
   it('should create File polyfill when File is not defined', () => {
@@ -24,7 +24,7 @@ describe('polyfills', () => {
     expect((globalThis as { File?: typeof globalThis.File }).File).toBeUndefined();
 
     // Import the polyfills (this should create the File polyfill)
-    require('../src/polyfills');
+    require('./polyfills');
 
     // Verify File polyfill was created
     expect((globalThis as { File?: typeof globalThis.File }).File).toBeDefined();
@@ -37,7 +37,22 @@ describe('polyfills', () => {
     (globalThis as { File?: typeof globalThis.File }).File = mockFile;
 
     // Import the polyfills
-    require('../src/polyfills');
+    require('./polyfills');
+
+    // Verify the original File was not overridden
+    expect((globalThis as { File?: typeof globalThis.File }).File).toBe(mockFile);
+  });
+
+  it('should handle case when File already exists in global scope', () => {
+    // Create a mock File
+    const mockFile = class MockFile {};
+    (globalThis as { File?: typeof globalThis.File }).File = mockFile;
+    
+    // Clear require cache to ensure fresh import
+    delete require.cache[require.resolve('./polyfills')];
+    
+    // Import the polyfills again
+    require('./polyfills');
 
     // Verify the original File was not overridden
     expect((globalThis as { File?: typeof globalThis.File }).File).toBe(mockFile);
@@ -49,7 +64,7 @@ describe('polyfills', () => {
 
   it('should create File polyfill with correct properties', async () => {
     // Import the polyfills
-    const { FilePolyfill } = await import('../src/polyfills');
+    const { FilePolyfill } = await import('./polyfills');
 
     // Test that we can create an instance
     const file = new FilePolyfill(['test content'], 'test.txt', { type: 'text/plain' });
@@ -62,7 +77,7 @@ describe('polyfills', () => {
 
   it('should create File polyfill with default values when options not provided', async () => {
     // Import the polyfills
-    const { FilePolyfill } = await import('../src/polyfills');
+    const { FilePolyfill } = await import('./polyfills');
 
     // Test that we can create an instance without options
     const file = new FilePolyfill(['test content'], 'test.txt');
