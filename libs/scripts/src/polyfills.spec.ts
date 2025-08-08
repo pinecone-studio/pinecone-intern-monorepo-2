@@ -87,4 +87,52 @@ describe('polyfills', () => {
     expect(typeof file.size).toBe('number');
     expect(typeof file.lastModified).toBe('number');
   });
+
+  it('should handle mixed content types in FilePolyfill constructor', async () => {
+    // Import the polyfills
+    const { FilePolyfill } = await import('./polyfills');
+
+    // Test with mixed content types (string and object with size/length)
+    const file = new FilePolyfill([
+      'test content',
+      { size: 10 },
+      { length: 5 },
+      'more content'
+    ], 'test.txt', { type: 'text/plain', lastModified: 123456789 });
+
+    expect(file.name).toBe('test.txt');
+    expect(file.type).toBe('text/plain');
+    expect(file.size).toBe(39); // 'test content' (12) + 10 + 5 + 'more content' (12) = 39
+    expect(file.lastModified).toBe(123456789);
+  });
+
+  it('should handle empty bits array in FilePolyfill constructor', async () => {
+    // Import the polyfills
+    const { FilePolyfill } = await import('./polyfills');
+
+    // Test with empty bits array
+    const file = new FilePolyfill([], 'empty.txt');
+
+    expect(file.name).toBe('empty.txt');
+    expect(file.type).toBe('');
+    expect(file.size).toBe(0);
+    expect(typeof file.lastModified).toBe('number');
+  });
+
+  it('should handle bits with undefined size and length properties', async () => {
+    // Import the polyfills
+    const { FilePolyfill } = await import('./polyfills');
+
+    // Test with bits that have undefined size and length
+    const file = new FilePolyfill([
+      { size: undefined, length: undefined },
+      { size: null, length: null },
+      { size: 0, length: 0 }
+    ], 'test.txt');
+
+    expect(file.name).toBe('test.txt');
+    expect(file.type).toBe('');
+    expect(file.size).toBe(0); // All bits have falsy values, so size should be 0
+    expect(typeof file.lastModified).toBe('number');
+  });
 }); 
