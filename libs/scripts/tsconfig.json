@@ -3,6 +3,10 @@
   "compilerOptions": {
     "module": "commonjs"
   },
+  "ts-node": {
+    "esm": false,
+    "experimentalSpecifierResolution": "node"
+  },
   "files": [],
   "include": [],
   "references": [
