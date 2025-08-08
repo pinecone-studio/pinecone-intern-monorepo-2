@@ -117,6 +117,7 @@
     "tailwind-merge": "2.5.4",
     "tailwindcss-animate": "1.0.7",
     "tslib": "2.3.0",
+    "undici": "^6.0.0",
     "winston": "3.11.0",
     "yup": "1.4.0",
     "zod": "3.23.8"
