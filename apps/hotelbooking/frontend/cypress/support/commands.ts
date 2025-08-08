@@ -21,7 +21,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface Chainable {
       // login(email: string, password: string): Chainable<void>
       // drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
