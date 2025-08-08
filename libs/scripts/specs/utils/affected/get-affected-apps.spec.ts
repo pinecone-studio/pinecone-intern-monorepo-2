@@ -32,11 +32,17 @@ describe('execAndTrim', () => {
 });
 
 describe('without NX HEAD and BASE', () => {
+  const originalEnv = { ...process.env };
+  
   beforeAll(() => {
-    process.env = { ...process.env };
+    // Clear base and head environment variables
+    delete process.env.base;
+    delete process.env.head;
   });
-  afterEach(() => {
-    process.env = { ...process.env };
+  
+  afterAll(() => {
+    // Restore original environment
+    process.env = originalEnv;
   });
   it('1. Should return changed files', () => {
     const mockReturnValue = '  M file1.txt\nA file2.txt\nD file3.txt  \n';
