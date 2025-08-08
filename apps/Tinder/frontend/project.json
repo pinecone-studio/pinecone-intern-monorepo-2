@@ -1,5 +1,5 @@
 {
-  "name": "2025-2FH-Tinder",
+  "name": "2025-1FH-Tinder",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/Tinder/frontend",
   "projectType": "application",
@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["2025-2FH-Tinder"],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["2025-2FH-Tinder"],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["2025-2FH-Tinder"],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "prod"
         }
       }
@@ -171,9 +171,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_jOfJO7vLL12YPdyBeZA2k3BTyivo -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
           "npx env-cmd -f apps/Tinder/frontend/.env vercel build --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --archive=tgz --prebuilt --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_jOfJO7vLL12YPdyBeZA2k3BTyivo -- vercel --archive=tgz --prebuilt --token=$VERCEL_TOKEN"
         ],
         "parallel": false
       },
@@ -197,9 +197,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_V8ZFeRFyQx81u56qTBedgOCyqpI2 -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
           "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_V8ZFeRFyQx81u56qTBedgOCyqpI2 -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
         ],
         "parallel": false
       },
@@ -208,7 +208,7 @@
           "target": "clean"
         },
         {
-          "target": "get-secrets:dev"
+          "target": "get-secrets:dev --verbose"
         },
         {
           "target": "export-env"
@@ -233,7 +233,7 @@
       },
       "dependsOn": [
         {
-          "target": "get-secrets:prod"
+          "target": "get-secrets:prod --verbose"
         }
       ]
     },
@@ -259,9 +259,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_d89imtNjHkAod0xGaWoxK28M0jMM -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
           "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID= -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_0ASDilhqwPl5fll9OnzqDM30 -v VERCEL_PROJECT_ID=prj_d89imtNjHkAod0xGaWoxK28M0jMM -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
         ],
         "parallel": false
       },
