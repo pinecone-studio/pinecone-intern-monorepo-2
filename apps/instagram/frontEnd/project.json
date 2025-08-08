@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["instagram"],
+          "groups": ["Intern-2025-2fh-Instagram-FE"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["instagram"],
+          "groups": ["Intern-2025-2fh-Instagram-FE"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["instagram"],
+          "groups": ["Intern-2025-2fh-Instagram-FE"],
           "env": "prod"
         }
       }
