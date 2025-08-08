@@ -1,3 +1,4 @@
+import '../polyfills';
 import chalk from 'chalk';
 import { copyDevToLocalEnv, getAffectedApps, getAffectedFederationServices, runFederationLocally, runSelectedServices } from '../utils';
 

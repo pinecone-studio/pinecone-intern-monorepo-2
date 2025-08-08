@@ -1,3 +1,4 @@
+import '../../polyfills';
 import { blue, green, red, yellow } from 'chalk';
 import path from 'path';
 import { calculateTotalCoverage, displayCoverageRow, isCoverageAboveThreshold, parseCoverageReport, validateCoveragePath } from '../../utils/actions/check-cypress-code-coverage-utils';

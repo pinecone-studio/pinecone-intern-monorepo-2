@@ -1,3 +1,4 @@
+import '../polyfills';
 import { green, red } from 'chalk';
 import { execSync, spawn } from 'child_process';
 import { checkCypressCodeCoverage } from '../actions/e2e/check-cypress-code-coverage';
@@ -6,7 +7,7 @@ export const executeCypressTest = async () => {
   const app = process.argv.slice(2)[0];
   const { root } = JSON.parse(execSync(`npx nx show project ${app}`).toString().trim());
 
-  const result = await new Promise((resolve, _reject) => {
+  const result = await new Promise((resolve) => {
     const command = `npx nx cypress ${process.argv.slice(2).join(' ')} --parallel`;
     const childProcess = spawn(command, [], { shell: true });
 

@@ -1,3 +1,4 @@
+import '../polyfills';
 import { red } from 'chalk';
 import { performPreCommitChecks } from './pre-commit-checks';
 import { validateCurrentBranch } from './validate-branch';
