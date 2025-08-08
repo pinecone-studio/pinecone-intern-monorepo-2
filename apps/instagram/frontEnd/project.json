@@ -169,6 +169,7 @@
     },
     "preview": {
       "executor": "nx:run-commands",
+
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_KEsgJYvEcKmXZA6t8H4EyvFY -v VERCEL_PROJECT_ID=prj_qdJ2MHGje1BzGkyuZ9Df4oBd3yJA -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
