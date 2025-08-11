@@ -1,0 +1,36 @@
+scalar JSON
+scalar Date
+scalar ID
+scalar String
+
+enum Response {
+  Success
+}
+
+type Author {
+  _id: ID!
+  name: String!
+}
+
+type Book {
+  _id: ID!
+  title: String!
+  author: Author!
+}
+
+type Query {
+  sampleQuery: String!
+  getAuthor(_id: ID!): Author
+  getAuthors: [Author!]!
+  getBook(_id: ID!): Book
+  getBooks: [Book!]!
+}
+
+type Mutation {
+  sampleMutation: String!
+  createAuthor(name: String!): Author!
+  updateAuthor(_id: ID!, name: String!): Author!
+  createBook(title: String!, authorId: ID!): Book!
+  updateBook(_id: ID!, title: String!, authorId: ID!): Book!
+  deleteBook(_id: ID!): Book!
+}

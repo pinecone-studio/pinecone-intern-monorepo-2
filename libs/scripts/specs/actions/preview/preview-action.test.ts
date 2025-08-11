@@ -68,7 +68,7 @@ describe('runGeneratePreviewAction', () => {
     mockIsActionPreviewUrlAvailable.mockReturnValueOnce(true);
 
     const previewUrl = 'https://example.com/preview';
-    const affectedFederationServices = ['service1', 'service2'];
+    const affectedFederationServices = ['service1', 'service2']; 
     const federationProjectsPreviewUrl = [{ name: 'Project1', url: 'https://example.com/project1' }];
     const otherProjectsPreviewLinks = [{ name: 'Project2', url: 'https://example.com/project2' }];
 
@@ -100,4 +100,4 @@ describe('Error Handling', () => {
     errorSpy.mockRestore();
     exitProcessSpy.mockRestore();
   });
-});
+});``

@@ -25,7 +25,7 @@
       "options": {
         "buildTarget": "server:build",
         "dev": true,
-        "port": 8000
+        "port": 4200
       },
       "configurations": {
         "development": {

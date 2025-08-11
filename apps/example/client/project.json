@@ -23,7 +23,8 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "client:build",
-        "dev": true
+        "dev": true,
+        "port":8000
       },
       "configurations": {
         "development": {
@@ -109,7 +110,7 @@
       },
       "dependsOn": [
         {
-          "target": "graphql-codegen"
+          "target": "graphql-codegen --verbose"
         }
       ]
     },
@@ -121,7 +122,7 @@
       },
       "dependsOn": [
         {
-          "target": "get-secrets:testing"
+          "target": "get-secrets:testing -v"
         }
       ]
     },
@@ -159,7 +160,7 @@
           "target": "export-env"
         },
         {
-          "target": "graphql-codegen"
+          "target": "graphql-codegen --verbose"
         }
       ]
     },

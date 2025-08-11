@@ -1,5 +1,5 @@
 overwrite: true
-schema: '${API_URL}'
+schema: './apps/example/client/src/schema/schema.graphql'
 
 documents: './apps/example/client/src/**/*.graphql'
 
