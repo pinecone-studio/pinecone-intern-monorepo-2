@@ -109,13 +109,13 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/2FH/Tinder/Backend/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/2FH/tinder/backend/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "clean": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["rm -rf dist/apps/2FH/Tinder/Backend", "rm -rf .vercel"]
+        "commands": ["rm -rf dist/apps/2FH/tinder/backend", "rm -rf .vercel"]
       }
     },
     "preview": {
@@ -123,7 +123,7 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=rj_R5XpsS6AjA7bMo0Nps0SXsbXTnXZ -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
-          "npx env-cmd -f apps/2FH/Tinder/Backend/.env vercel build --token=$VERCEL_TOKEN",
+          "npx env-cmd -f apps/2FH/tinder/backend/.env vercel build --token=$VERCEL_TOKEN",
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=rj_R5XpsS6AjA7bMo0Nps0SXsbXTnXZ -- vercel --archive=tgz --prebuilt --token=$VERCEL_TOKEN"
         ],
         "parallel": false
