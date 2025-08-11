@@ -3,7 +3,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'apps/2FH/INSTAGRAM/back-end/src/schemas/**/*.ts',
+  schema: 'apps/2FH/INSTAGRAM/back-end/src/schemas/schema.graphql',
   documents: ['apps/2FH/INSTAGRAM/front-end/src/**/*.graphql'],
  
   generates: {
