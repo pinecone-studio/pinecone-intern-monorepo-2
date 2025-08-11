@@ -1,7 +1,7 @@
 {
   "name": "2FH-Tinder-Backend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/2FH/Tinder/Backend",
+  "sourceRoot": "apps/2FH/tinder/backend",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,11 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/2FH/Tinder/Backend"
+        "outputPath": "dist/apps/2FH/tinder/backend"
       },
       "configurations": {
         "development": {
-          "outputPath": "dist/apps/2FH/Tinder/Backend"
+          "outputPath": "dist/apps/2FH/tinder/backend"
         }
       },
       "dependsOn": [
@@ -45,7 +45,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/2FH/Tinder/Backend/jest.config.ts",
+        "jestConfig": "apps/2FH/tinder/backend/jest.config.ts",
         "passWithNoTests": true,
         "codeCoverage": true
       },
@@ -89,7 +89,7 @@
     "codegen": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["graphql-codegen --config ./apps/2FH/Tinder/Backend/codegen.ts"]
+        "commands": ["graphql-codegen --config ./apps/2FH/tinder/backend/codegen.ts"]
       }
     },
     "export": {
@@ -101,7 +101,7 @@
     "export-env": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["export $(cat apps/2FH/Tinder/Backend/.env | xargs)"],
+        "commands": ["export $(cat apps/2FH/tinder/backend/.env | xargs)"],
         "parallel": false
       }
     },
