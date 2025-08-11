@@ -36,7 +36,7 @@
     "**/*.js",
     "**/*.jsx",
     "../../../apps/instagram/frontEnd/.next/types/**/*.ts",
-    "../../../dist/aapps/instagram/frontEnd/.next/types/**/*.ts",
+    "../../../dist/apps/instagram/frontEnd/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../../dist/apps/instagram/frontEnd/.next/types/**/*.ts"
   ],
