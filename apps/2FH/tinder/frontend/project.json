@@ -1,5 +1,5 @@
 {
-  "name": "2FH-Tinder-Frontend",
+  "name": "2FH-tinder-frontend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/2FH/tinder/frontend",
   "projectType": "application",
