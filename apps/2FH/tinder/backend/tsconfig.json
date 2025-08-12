@@ -34,10 +34,10 @@
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
-    "../../../../apps/2FH/Tinder/Backend/.next/types/**/*.ts",
-    "../../../../dist/aapps/2FH/Tinder/Backend/.next/types/**/*.ts",
+    "../../../../apps/2FH/tinder/backend/.next/types/**/*.ts",
+    "../../../../dist/aapps/2FH/tinder/backend/.next/types/**/*.ts",
     "next-env.d.ts",
-    "../../../../dist/apps/2FH/Tinder/Backend/.next/types/**/*.ts",
+    "../../../../dist/apps/2FH/tinder/backend/.next/types/**/*.ts",
     "../../../../dist/apps/2FH/tinder/backend/.next/types/**/*.ts"
   ],
   "exclude": [

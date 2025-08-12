@@ -9,22 +9,22 @@ terraform {
 
 resource "vercel_project" "fh2-Tinder-Backend-development" {
   name             = "fh2-tinder-backend-development"
-  build_command    = "nx build --skip-nx-cache 2FH-Tinder-Backend"
-  output_directory = "./dist/apps/2FH/Tinder/Backend/.next"
+  build_command    = "nx build --skip-nx-cache 2FH-tinder-backend"
+  output_directory = "./dist/apps/2FH/tinder/backend/.next"
   framework        = "nextjs"
   team_id          = "team_lBZB5j8sdaFCwB99JPeeSTzr"
 }
 resource "vercel_project" "fh2-Tinder-Backend-prod" {
   name             = "fh2-tinder-backend-prod"
-  build_command    = "nx build --skip-nx-cache 2FH-Tinder-Backend"
-  output_directory = "./dist/apps/2FH/Tinder/Backend/.next"
+  build_command    = "nx build --skip-nx-cache 2FH-tinder-backend"
+  output_directory = "./dist/apps/2FH/tinder/backend/.next"
   framework        = "nextjs"
   team_id          = "team_lBZB5j8sdaFCwB99JPeeSTzr"
 }
 resource "vercel_project" "fh2-Tinder-Backend-testing" {
   name             = "fh2-tinder-backend-testing"
-  build_command    = "nx build --skip-nx-cache 2FH-Tinder-Backend"
-  output_directory = "./dist/apps/2FH/Tinder/Backend/.next"
+  build_command    = "nx build --skip-nx-cache 2FH-tinder-backend"
+  output_directory = "./dist/apps/2FH/tinder/backend/.next"
   framework        = "nextjs"
   team_id          = "team_lBZB5j8sdaFCwB99JPeeSTzr"
 }
