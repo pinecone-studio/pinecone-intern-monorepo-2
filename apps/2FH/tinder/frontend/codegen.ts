@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   documents: ['apps/2FH/tinder/frontend/src/**/*.graphql'],
 
   generates: {
-    'apps/2FH/Tinder/Frontend/src/generated/index.ts': {
+    'apps/2FH/tinder/frontend/src/generated/index.ts': {
       config: {
         reactApolloVersion: 3,
         withHOC: true,
