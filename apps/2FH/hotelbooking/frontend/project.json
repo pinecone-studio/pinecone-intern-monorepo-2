@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["hotelbooking-2FH-frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["hotelbooking-2FH-frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["hotelbooking-2FH-frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "prod"
         }
       }
@@ -176,9 +176,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_OLQHOON8WKTMMOdpwOV3DusFiItG -- vercel pull --yes --environment=preview --token=$VERCEL_TOKEN",
-          "npx env-cmd -f apps/2FH/hotelbooking/frontend/.env vercel build --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_OLQHOON8WKTMMOdpwOV3DusFiItG -- vercel --archive=tgz --prebuilt --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_OLQHOON8WKTMMOdpwOV3DusFiItG -- vercel pull --yes --environment=preview --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "npx env-cmd -f apps/2FH/hotelbooking/frontend/.env vercel build --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_OLQHOON8WKTMMOdpwOV3DusFiItG -- vercel --archive=tgz --prebuilt --token=yE1SzE9EjgGgp2CCyPqC0USa"
         ],
         "parallel": false
       },
@@ -202,9 +202,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_qw7GhjlSHvO53169mEv0gPALDNzC -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_qw7GhjlSHvO53169mEv0gPALDNzC -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_qw7GhjlSHvO53169mEv0gPALDNzC -- vercel pull --yes --environment=production --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "vercel build --prod --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_qw7GhjlSHvO53169mEv0gPALDNzC -- vercel --prebuilt --prod --token=yE1SzE9EjgGgp2CCyPqC0USa"
         ],
         "parallel": false
       },
@@ -264,9 +264,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_ShBS0fNCtDyhedYwBI8inq1AkNR9 -- vercel pull --yes --environment=production --token=$VERCEL_TOKEN",
-          "vercel build --prod --token=$VERCEL_TOKEN",
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_ShBS0fNCtDyhedYwBI8inq1AkNR9 -- vercel --prebuilt --prod --token=$VERCEL_TOKEN"
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_ShBS0fNCtDyhedYwBI8inq1AkNR9 -- vercel pull --yes --environment=production --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "vercel build --prod --token=yE1SzE9EjgGgp2CCyPqC0USa",
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_ShBS0fNCtDyhedYwBI8inq1AkNR9 -- vercel --prebuilt --prod --token=yE1SzE9EjgGgp2CCyPqC0USa"
         ],
         "parallel": false
       },
