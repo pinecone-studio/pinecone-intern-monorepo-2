@@ -9,7 +9,6 @@ export const deletePost = async (_: unknown, _id: string) => {
     return deletedPost;
 }
     catch (error){
-            console.error("deletePost Error:", error);
             throw new Error(error instanceof Error ? error.message : "Unknown error");
          }
 };
