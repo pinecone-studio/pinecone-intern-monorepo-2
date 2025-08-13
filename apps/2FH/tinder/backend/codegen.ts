@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: 'apps/2FH/tinder/backend/src/schemas',
   generates: {
-    'apps/2FH/Tinder/Backend/src/generated/index.ts': {
+    'apps/2FH/tinder/backend/src/generated/index.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
         contextType: '../types#Context',
