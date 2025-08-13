@@ -55,7 +55,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "2FH-tinder-trontend:build:production"
+        "buildTarget": "2FH-tinder-frontend:build:production"
       }
     },
     "test": {
