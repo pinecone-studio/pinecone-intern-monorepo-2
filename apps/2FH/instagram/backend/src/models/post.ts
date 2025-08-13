@@ -2,7 +2,7 @@ import { Schema, model, Model, models, Types } from "mongoose";
 
 export type PostSchemaType = {
     author: Types.ObjectId
-    image: string
+    image: string[]
     caption?: string
     likes: Types.ObjectId[]
     comments: Types.ObjectId[]
@@ -12,13 +12,13 @@ export type PostSchemaType = {
 
 const PostSchema = new Schema<PostSchemaType>({
     author: {type:Schema.Types.ObjectId, ref: "User", required: true},
-    image: {type: String, required: true},
-    caption: {type: String},
-    likes: [{type: Schema.Types.ObjectId, ref: "User"}],
-    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
+    image: [{type: String, required: true}],
+    caption: {type: String , default:""},
+    likes: [{type: Schema.Types.ObjectId, default:[], ref: "User"}],
+    comments: [{type: Schema.Types.ObjectId,default:[], ref: "Comment"}],
 }, {
     timestamps: true
 });
 
-export const Post = (models.Post as Model<PostSchemaType>) ||
-model<PostSchemaType>("Post", PostSchema)
+export const PostModel= (models.PostModel as Model<PostSchemaType>) ||
+model<PostSchemaType>("PostModel", PostSchema)
