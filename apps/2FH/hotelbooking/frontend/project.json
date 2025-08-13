@@ -78,7 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": ["2FH-Hotelbooking-Frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "dev"
         }
       }
@@ -88,7 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": ["2FH-Hotelbooking-Frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "test"
         }
       }
@@ -98,7 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": ["2FH-Hotelbooking-Frontend"],
+          "groups": ["2HF-Hotelbooking-Frontend"],
           "env": "prod"
         }
       }
