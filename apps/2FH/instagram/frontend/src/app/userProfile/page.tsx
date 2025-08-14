@@ -1,7 +1,6 @@
-import { BoardSVG } from "@/components/providers/assets/BoardSvg";
-import { SaveSVG } from "@/components/providers/assets/SaveSvg";
-import { SettingsSVG } from "@/components/providers/assets/SettingsSvg";
-
+import { BoardSvg } from "@/components/providers/assets/BoardSvg";
+import { SaveSvg} from "@/components/providers/assets/SaveSvg";
+import { SettingsSvg } from "@/components/providers/assets/SettingsSvg";
 
 const  UserProfile=()=> {
     return (
@@ -28,7 +27,7 @@ const  UserProfile=()=> {
                 <button className="px-3 py-1.5 text-sm rounded-xl bg-neutral-100 hover:bg-neutral-200">Edit Profile</button>
                 <button className="px-3 py-1.5 text-sm rounded-xl bg-neutral-100 hover:bg-neutral-200">Ad tools</button>
                 <button className="p-2 rounded-xl  hover:bg-neutral-200">
-                 <SettingsSVG/>
+                 <SettingsSvg/>
                 </button>
               </div>
 
@@ -56,12 +55,13 @@ const  UserProfile=()=> {
         
         <div className=" border-b flex items-center justify-center gap-8 text-xs tracking-wider text-neutral-500 ">
           <button className="-mb-px pb-3  border-neutral-900 text-neutral-900 font-semibold flex items-center gap-2 ">
-         <BoardSVG/>
+         <BoardSvg/>
             POSTS
           </button>
           <button className="pb-3 hover:text-neutral-800 flex gap-2 items-center">
             
-            <SaveSVG/>
+            <SaveSvg/>
+          
             SAVED
           </button>
         </div>
