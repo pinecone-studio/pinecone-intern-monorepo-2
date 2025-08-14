@@ -10,9 +10,12 @@ type userType = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password: {
+    type: string;
+    select: false;
+  };
   role: role;
-  dateOfBirth: Date;
+  dateOfBirth: string;
 };
 
 const userSchema = new Schema(
@@ -22,7 +25,7 @@ const userSchema = new Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: String, enum: Object.values(role), required: true, default: role.USER },
-    dateOfBirth: { type: Date, required: true },
+    dateOfBirth: { type: String, required: true },
   },
   { timestamps: true }
 );

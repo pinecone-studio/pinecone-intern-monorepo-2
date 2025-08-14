@@ -1,5 +1,6 @@
 {
   "eslint.validate": ["json"],
   "liveServer.settings.port": 5501,
-  "nxConsole.generateAiAgentRules": true
+  "nxConsole.generateAiAgentRules": true,
+  "workbench.colorTheme": "Default Dark+"
 }
