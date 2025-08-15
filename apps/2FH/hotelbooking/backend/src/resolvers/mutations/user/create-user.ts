@@ -12,8 +12,12 @@ type CreateUserInput = {
 
 const checkDuplicateEmail = async (email: string) => {
   const exists = await UserModel.findOne({ email });
-  if (exists) {
-    throw new Error(`User with email ${email} already exists`);
+  try {
+    if (exists) {
+      throw new Error(`User with email ${email} already exists`);
+    }
+  } catch (error) {
+    throw new Error('Database error');
   }
 };
 
@@ -25,23 +29,23 @@ const validatePassword = (password: string) => {
 };
 
 export const createUser = async (_: unknown, { input }: { input: CreateUserInput }) => {
-  await checkDuplicateEmail(input.email);
-  validatePassword(input.password);
+  try {
+    await checkDuplicateEmail(input.email);
+    validatePassword(input.password);
 
-  const hashedPassword = await bcrypt.hash(input.password, 10);
+    const hashedPassword = await bcrypt.hash(input.password, 10);
 
-  const newUser = await UserModel.create({
-    ...input,
-    dateOfBirth: input.dateOfBirth,
-    password: hashedPassword,
-  });
+    const newUser = await UserModel.create({
+      ...input,
+      dateOfBirth: input.dateOfBirth,
+      password: hashedPassword,
+    });
 
-  if (!newUser) {
-    throw new Error('Failed to create user');
+    return {
+      ...newUser.toObject(),
+      password: undefined,
+    };
+  } catch (error) {
+    throw new Error('Database error');
   }
-
-  return {
-    ...newUser.toObject(),
-    password: undefined,
-  };
 };
