@@ -4,7 +4,7 @@ import { User } from "src/models";
 export const checkEmailExists = async (email: string) => {
   const user = await User.findOne({ email });
   if (!user) {
-    throw new GraphQLError("User not found", {
+    throw new GraphQLError("Invalid credentials", {
       extensions: { code: "NOT_FOUND" },
     });
   }

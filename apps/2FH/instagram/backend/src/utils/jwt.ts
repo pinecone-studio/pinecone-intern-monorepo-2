@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { GraphQLError } from 'graphql';
 import { User } from '../models';
+import { getJwtSecret } from './check-jwt';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
+const JWT_SECRET = getJwtSecret()
 
 export type JWTPayload = {
   userId: string;
@@ -19,7 +20,6 @@ const handleJWTError = (error: unknown): never => {
       }
     });
   }
-
   if (error.name === 'TokenExpiredError') {
     throw new GraphQLError('Token has expired', {
       extensions: {
@@ -67,6 +67,22 @@ export const getUserFromToken = async (token: string) => {
   return user;
 };
 
+const validateAuthScheme = (scheme: string): void => {
+  if (!/^Bearer$/i.test(scheme)) {
+    throw new GraphQLError('Invalid auth scheme', {
+      extensions: { code: 'INVALID_AUTH_SCHEME' }
+    });
+  }
+};
+
+const validateToken = (token: string): void => {
+  if (!token) {
+    throw new GraphQLError('Token is required', {
+      extensions: { code: 'MISSING_TOKEN' }
+    });
+  }
+};
+
 export const extractTokenFromHeader = (authHeader?: string): string => {
   if (!authHeader) {
     throw new GraphQLError('Authorization header is required', {
@@ -76,15 +92,11 @@ export const extractTokenFromHeader = (authHeader?: string): string => {
     });
   }
   
-  const token = authHeader.replace('Bearer ', '');
+  const [scheme, raw] = authHeader.trim().split(/\s+/);
+  validateAuthScheme(scheme);
   
-  if (!token) {
-    throw new GraphQLError('Token is required', {
-      extensions: {
-        code: 'MISSING_TOKEN'
-      }
-    });
-  }
+  const token = (raw || '').trim();
+  validateToken(token);
   
   return token;
 };
