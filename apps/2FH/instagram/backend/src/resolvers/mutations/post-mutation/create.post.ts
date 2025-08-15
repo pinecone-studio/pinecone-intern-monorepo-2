@@ -2,8 +2,12 @@ import { GraphQLError } from "graphql";
 import { PostModel } from "src/models";
 
 const validatePost = (author: string, image: string[]) => {
-  if (!author) throw new GraphQLError("User not found");
-  if (!image || image.length === 0) throw new GraphQLError("Images not found");
+  if (!author){
+    throw new GraphQLError("User not found");
+  }
+  if (!image || image.length === 0) {
+    throw new GraphQLError("Images not found");
+  }
 };
 
 export const createPost = async (_: unknown, author: string, image: string[], caption?: string) => {
