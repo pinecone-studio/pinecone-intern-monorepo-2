@@ -31,7 +31,7 @@ describe('updateHotel - Amenity Mapping', () => {
     jest.clearAllMocks();
   });
 
-  it('should update hotel with amenities mapping', async () => {
+  it('1. should update hotel with amenities mapping', async () => {
     const updateInputWithAmenities = {
       ...baseUpdateInput,
       amenities: ['POOL', 'GYM', 'RESTAURANT'],
@@ -61,7 +61,7 @@ describe('updateHotel - Amenity Mapping', () => {
     });
   });
 
-  it('should handle unknown amenities with fallback', async () => {
+  it('2. should handle unknown amenities with fallback', async () => {
     const updateInputWithUnknownAmenities = {
       ...baseUpdateInput,
       amenities: ['UNKNOWN_AMENITY', 'ANOTHER_UNKNOWN', 'WIFI'],
@@ -91,7 +91,7 @@ describe('updateHotel - Amenity Mapping', () => {
     });
   });
 
-  it('should update hotel without amenities', async () => {
+  it('3. should update hotel without amenities', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndUpdate.mockResolvedValue({
       ...existingHotel,

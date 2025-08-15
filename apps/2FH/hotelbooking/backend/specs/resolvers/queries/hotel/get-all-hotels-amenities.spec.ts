@@ -14,7 +14,7 @@ describe('hotels - Amenity Mapping', () => {
     jest.clearAllMocks();
   });
 
-  it('should map all amenities correctly', async () => {
+  it('1. should map all amenities correctly', async () => {
     const hotelWithAllAmenities = [
       {
         _id: '507f1f77bcf86cd799439013',
@@ -98,7 +98,7 @@ describe('hotels - Amenity Mapping', () => {
     ]);
   });
 
-  it('should handle unknown amenities with fallback to Wifi', async () => {
+  it('2. should handle unknown amenities with fallback to Wifi', async () => {
     const hotelWithUnknownAmenities = [
       {
         _id: '507f1f77bcf86cd799439014',
@@ -119,7 +119,7 @@ describe('hotels - Amenity Mapping', () => {
     expect(result[0].amenities).toEqual(['WIFI', 'WIFI', 'POOL']); // unknown amenities fallback to Wifi
   });
 
-  it('should handle hotel with empty amenities array', async () => {
+  it('3. should handle hotel with empty amenities array', async () => {
     const hotelWithNoAmenities = [
       {
         _id: '507f1f77bcf86cd799439015',

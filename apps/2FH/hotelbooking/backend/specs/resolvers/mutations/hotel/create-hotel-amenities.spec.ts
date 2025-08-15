@@ -33,7 +33,7 @@ describe('createHotel - Amenity Mapping', () => {
     jest.clearAllMocks();
   });
 
-  it('should handle basic amenity mappings correctly', async () => {
+  it('1. should handle basic amenity mappings correctly', async () => {
     const hotelWithAmenities = {
       ...baseHotelInput,
       amenities: ['POOL', 'GYM', 'RESTAURANT'],
@@ -60,7 +60,7 @@ describe('createHotel - Amenity Mapping', () => {
     });
   });
 
-  it('should handle unknown amenities with fallback', async () => {
+  it('2. should handle unknown amenities with fallback', async () => {
     const hotelWithUnknownAmenities = {
       ...baseHotelInput,
       amenities: ['UNKNOWN_AMENITY', 'ANOTHER_UNKNOWN', 'WIFI'],
@@ -87,7 +87,7 @@ describe('createHotel - Amenity Mapping', () => {
     });
   });
 
-  it('should handle hotel with empty amenities array', async () => {
+  it('3. should handle hotel with empty amenities array', async () => {
     const hotelWithNoAmenities = {
       ...baseHotelInput,
       amenities: [],

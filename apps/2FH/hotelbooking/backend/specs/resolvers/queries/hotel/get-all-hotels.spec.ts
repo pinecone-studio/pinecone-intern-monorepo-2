@@ -51,7 +51,7 @@ describe('hotels', () => {
     jest.clearAllMocks();
   });
 
-  it('should return all hotels successfully', async () => {
+  it('1. should return all hotels successfully', async () => {
     mockHotelModel.find.mockResolvedValue(mockHotels as any);
 
     const result = await (hotels as any)({}, {}, {}, {});
@@ -62,7 +62,7 @@ describe('hotels', () => {
     expect(result[0].amenities).toEqual(['AIR_CONDITIONING', 'WIFI']);
   });
 
-  it('should return empty array when no hotels exist', async () => {
+  it('2. should return empty array when no hotels exist', async () => {
     mockHotelModel.find.mockResolvedValue([] as any);
 
     const result = await (hotels as any)({}, {}, {}, {});
@@ -71,7 +71,7 @@ describe('hotels', () => {
     expect(result).toEqual([]);
   });
 
-  it('should throw error when database query fails', async () => {
+  it('3. should throw error when database query fails', async () => {
     mockHotelModel.find.mockRejectedValue(new Error('Database error'));
 
     try {

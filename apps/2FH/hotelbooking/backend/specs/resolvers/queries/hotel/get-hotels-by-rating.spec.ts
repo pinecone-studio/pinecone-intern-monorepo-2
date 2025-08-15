@@ -41,8 +41,7 @@ describe('hotelsByRating', () => {
     jest.clearAllMocks();
   });
 
-  it('should return hotels by rating successfully', async () => {
-    // Mock the chained methods: find().sort()
+  it('1. should return hotels by rating successfully', async () => {
     const mockSort = jest.fn().mockResolvedValue(mockHotels);
     const mockFind = jest.fn().mockReturnValue({ sort: mockSort });
     mockHotelModel.find = mockFind;
@@ -60,7 +59,7 @@ describe('hotelsByRating', () => {
     expect(result[1].amenities).toEqual(['WIFI']);
   });
 
-  it('should return empty array when no hotels meet rating criteria', async () => {
+  it('2. should return empty array when no hotels meet rating criteria', async () => {
     const mockSort = jest.fn().mockResolvedValue([]);
     const mockFind = jest.fn().mockReturnValue({ sort: mockSort });
     mockHotelModel.find = mockFind;
@@ -70,7 +69,7 @@ describe('hotelsByRating', () => {
     expect(result).toEqual([]);
   });
 
-  it('should throw error when database query fails', async () => {
+  it('3. should throw error when database query fails', async () => {
     const mockSort = jest.fn().mockRejectedValue(new Error('Database error'));
     const mockFind = jest.fn().mockReturnValue({ sort: mockSort });
     mockHotelModel.find = mockFind;
@@ -83,7 +82,7 @@ describe('hotelsByRating', () => {
     }
   });
 
-  it('should handle unknown amenities with fallback to Wifi', async () => {
+  it('4. should handle unknown amenities with fallback to Wifi', async () => {
     const hotelWithUnknownAmenities = [
       {
         _id: '507f1f77bcf86cd799439014',
@@ -108,7 +107,7 @@ describe('hotelsByRating', () => {
     expect(result[0].amenities).toEqual(['WIFI', 'WIFI', 'POOL']); // unknown amenities fallback to Wifi
   });
 
-  it('should handle completely undefined amenity with fallback to Wifi', async () => {
+  it('5. should handle completely undefined amenity with fallback to Wifi', async () => {
     const hotelWithUndefinedAmenity = [
       {
         _id: '507f1f77bcf86cd799439015',

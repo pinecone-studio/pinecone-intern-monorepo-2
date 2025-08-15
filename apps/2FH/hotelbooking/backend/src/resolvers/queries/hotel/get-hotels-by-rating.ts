@@ -1,7 +1,6 @@
 import { QueryResolvers, Amenity } from 'src/generated';
 import { HotelModel } from 'src/models';
 
-// Map Mongoose enum values to GraphQL enum values
 const mapAmenityToGraphQL = (amenity: string): Amenity => {
   const mapping: Record<string, Amenity> = {
     'pool': Amenity.Pool,

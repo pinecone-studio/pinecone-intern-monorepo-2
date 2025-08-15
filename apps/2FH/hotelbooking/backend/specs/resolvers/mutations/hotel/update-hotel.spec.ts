@@ -32,7 +32,7 @@ describe('updateHotel', () => {
     jest.clearAllMocks();
   });
 
-  it('should update a hotel successfully', async () => {
+  it('1. should update a hotel successfully', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndUpdate.mockResolvedValue({
       ...existingHotel,
@@ -50,27 +50,27 @@ describe('updateHotel', () => {
     });
   });
 
-  it('should throw error when hotel not found', async () => {
+  it('2. should throw error when hotel not found', async () => {
     mockHotelModel.findById.mockResolvedValue(null);
 
     await expect((updateHotel as any)({}, { id: 'nonexistent-id', hotel: validUpdateInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should throw error when update fails', async () => {
+  it('3. should throw error when update fails', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndUpdate.mockRejectedValue(new Error('Update failed'));
 
     await expect((updateHotel as any)({}, { id: '507f1f77bcf86cd799439011', hotel: validUpdateInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should throw error when findByIdAndUpdate returns null', async () => {
+  it('4. should throw error when findByIdAndUpdate returns null', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndUpdate.mockResolvedValue(null);
 
     await expect((updateHotel as any)({}, { id: '507f1f77bcf86cd799439011', hotel: validUpdateInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should re-throw GraphQLError when hotel not found', async () => {
+  it('5. should re-throw GraphQLError when hotel not found', async () => {
     mockHotelModel.findById.mockResolvedValue(null);
 
     try {

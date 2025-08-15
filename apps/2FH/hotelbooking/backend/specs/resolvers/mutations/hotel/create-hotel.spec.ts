@@ -37,7 +37,7 @@ describe('createHotel', () => {
     jest.clearAllMocks();
   });
 
-  it('should create a hotel successfully', async () => {
+  it('1. should create a hotel successfully', async () => {
     const mockCreatedHotel = {
       _id: '507f1f77bcf86cd799439011',
       ...validHotelInput,
@@ -59,19 +59,19 @@ describe('createHotel', () => {
     });
   });
 
-  it('should throw error when hotel creation fails', async () => {
+  it('2. should throw error when hotel creation fails', async () => {
     mockHotelModel.create.mockRejectedValue(new Error('Database error'));
 
     await expect((createHotel as any)({}, { hotel: validHotelInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should throw error when HotelModel.create returns null', async () => {
+  it('3. should throw error when HotelModel.create returns null', async () => {
     mockHotelModel.create.mockResolvedValue(null as any);
 
     await expect((createHotel as any)({}, { hotel: validHotelInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should throw error when HotelModel.create returns undefined', async () => {
+  it('4. should throw error when HotelModel.create returns undefined', async () => {
     mockHotelModel.create.mockResolvedValue(undefined as any);
 
     await expect((createHotel as any)({}, { hotel: validHotelInput }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);

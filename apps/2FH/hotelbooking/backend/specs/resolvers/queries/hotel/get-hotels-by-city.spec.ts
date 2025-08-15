@@ -29,7 +29,7 @@ describe('hotelsByCity', () => {
     jest.clearAllMocks();
   });
 
-  it('should return hotels by city successfully', async () => {
+  it('1. should return hotels by city successfully', async () => {
     mockHotelModel.find.mockResolvedValue(mockHotels as any);
 
     const result = await (hotelsByCity as any)({}, { city: 'New York' }, {}, {});
@@ -42,7 +42,7 @@ describe('hotelsByCity', () => {
     expect(result[0].amenities).toEqual(['WIFI', 'POOL']);
   });
 
-  it('should return empty array when no hotels found', async () => {
+  it('2. should return empty array when no hotels found', async () => {
     mockHotelModel.find.mockResolvedValue([] as any);
 
     const result = await (hotelsByCity as any)({}, { city: 'NonExistentCity' }, {}, {});
@@ -53,7 +53,7 @@ describe('hotelsByCity', () => {
     expect(result).toEqual([]);
   });
 
-  it('should throw error when database query fails', async () => {
+  it('3. should throw error when database query fails', async () => {
     mockHotelModel.find.mockRejectedValue(new Error('Database error'));
 
     try {
@@ -64,7 +64,7 @@ describe('hotelsByCity', () => {
     }
   });
 
-  it('should handle unknown amenities with fallback to Wifi', async () => {
+  it('4. should handle unknown amenities with fallback to Wifi', async () => {
     const hotelWithUnknownAmenity = [
       {
         _id: '507f1f77bcf86cd799439011',

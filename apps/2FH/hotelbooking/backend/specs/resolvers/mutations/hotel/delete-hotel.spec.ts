@@ -25,7 +25,7 @@ describe('deleteHotel', () => {
     jest.clearAllMocks();
   });
 
-  it('should delete a hotel successfully', async () => {
+  it('1. should delete a hotel successfully', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndDelete.mockResolvedValue(existingHotel as any);
 
@@ -40,7 +40,7 @@ describe('deleteHotel', () => {
     });
   });
 
-  it('should return false when hotel not found', async () => {
+  it('2. should return false when hotel not found', async () => {
     mockHotelModel.findById.mockResolvedValue(null);
 
     const result = await (deleteHotel as any)({}, { hotelId: 'nonexistent-id' }, mockContext, mockInfo);
@@ -51,7 +51,7 @@ describe('deleteHotel', () => {
     });
   });
 
-  it('should return false when findByIdAndDelete returns null', async () => {
+  it('3. should return false when findByIdAndDelete returns null', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndDelete.mockResolvedValue(null);
 
@@ -63,7 +63,7 @@ describe('deleteHotel', () => {
     });
   });
 
-  it('should return false when findByIdAndDelete returns undefined', async () => {
+  it('4. should return false when findByIdAndDelete returns undefined', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndDelete.mockResolvedValue(undefined);
 
@@ -75,13 +75,13 @@ describe('deleteHotel', () => {
     });
   });
 
-  it('should throw error when findById fails', async () => {
+  it('5. should throw error when findById fails', async () => {
     mockHotelModel.findById.mockRejectedValue(new Error('Database error'));
 
     await expect((deleteHotel as any)({}, { hotelId: '507f1f77bcf86cd799439011' }, mockContext, mockInfo)).rejects.toThrow(GraphQLError);
   });
 
-  it('should throw error when findByIdAndDelete operation fails', async () => {
+  it('6. should throw error when findByIdAndDelete operation fails', async () => {
     mockHotelModel.findById.mockResolvedValue(existingHotel as any);
     mockHotelModel.findByIdAndDelete.mockRejectedValue(new Error('Delete failed'));
 
