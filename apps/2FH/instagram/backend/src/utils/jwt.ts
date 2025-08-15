@@ -45,16 +45,47 @@ const handleJWTError = (error: unknown): never => {
 
 export const verifyToken = async (token: string): Promise<JWTPayload> => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
+    const decoded = jwt.verify(token, JWT_SECRET, {
+      algorithms: ['HS256'],
+    }) as JWTPayload;
     return decoded;
   } catch (error: unknown) {
     return handleJWTError(error);
   }
 };
 
+const validateUserId = (userId: unknown): string => {
+  if (typeof userId !== 'string' || !userId.trim()) {
+    throw new GraphQLError('Missing or invalid userId claim', {
+      extensions: { code: 'INVALID_TOKEN_PAYLOAD' }
+    });
+  }
+  return userId;
+};
+
+const handleUserLookupError = (err: unknown): never => {
+  if (err instanceof Error && err.name === 'CastError') {
+    throw new GraphQLError('Invalid user id format', {
+      extensions: { code: 'INVALID_USER_ID' }
+    });
+  }
+  throw new GraphQLError('User lookup failed', {
+    extensions: { code: 'USER_LOOKUP_FAILED' }
+  });
+};
+
+const findUserById = async (userId: string) => {
+  try {
+    return await User.findById(userId);
+  } catch (err) {
+    return handleUserLookupError(err);
+  }
+};
+
 export const getUserFromToken = async (token: string) => {
   const decoded = await verifyToken(token);
-  const user = await User.findById(decoded.userId);
+  const userId = validateUserId(decoded.userId);
+  const user = await findUserById(userId);
   
   if (!user) {
     throw new GraphQLError('User not found', {
