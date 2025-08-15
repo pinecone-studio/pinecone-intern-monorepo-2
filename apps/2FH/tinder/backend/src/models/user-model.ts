@@ -1,6 +1,7 @@
-import { Schema, model, models, Model,} from "mongoose";
+import { Schema, model, models, Model, Types,} from "mongoose";
  
 export type UserType = {
+  id:Types.ObjectId
   name: string;
   email: string;
   password: string;
@@ -10,7 +11,6 @@ export type UserType = {
  
 const userSchema = new Schema<UserType>(
   {
-    name: { type: String, required: true, trim: true },
     email: {
       type: String,
       required: true,
