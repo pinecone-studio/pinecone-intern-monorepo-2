@@ -19,6 +19,5 @@ const PostSchema = new Schema<PostSchemaType>({
 }, {
     timestamps: true
 });
-
-export const PostModel= (models.PostModel as Model<PostSchemaType>) ||
-model<PostSchemaType>("PostModel", PostSchema)
+export const PostModel = (models.Post as Model<PostSchemaType>) ||
+  model<PostSchemaType>("Post", PostSchema)
