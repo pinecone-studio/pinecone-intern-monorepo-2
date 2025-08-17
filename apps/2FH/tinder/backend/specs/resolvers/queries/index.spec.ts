@@ -1,5 +1,14 @@
-describe('example test', () => {
-  it('1. example test', async () => {
-    console.log('example-test');
+describe('Query Index', () => {
+  beforeAll(() => {
+    jest.spyOn(console, 'log').mockImplementation(jest.fn());
+  });
+
+  afterAll(() => {
+    jest.spyOn(console, 'log').mockRestore();
+  });
+
+  it('should pass example test', () => {
+    console.log('example-test'); // Mock-логдсон тул гаралтад харагдахгүй
+    expect(true).toBe(true);
   });
 });
