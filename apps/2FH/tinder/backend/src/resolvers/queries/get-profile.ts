@@ -3,7 +3,6 @@ import { Profile as ProfileModel } from 'src/models';
 import { Gender } from 'src/generated';
 import { GraphQLError } from 'graphql';
 
-// Интерфейсийн тодорхойлолт
 interface GetProfileArgs {
   userId: string;
 }
@@ -12,18 +11,18 @@ interface Profile {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
   name: string;
-  gender: string; // Mongoose загварын gender (жишээ нь, 'male', 'female', 'both')
+  gender: string; // Mongoose model gender (e.g., 'male', 'female', 'both')
   bio: string;
   interests: string[];
   profession: string;
   work: string;
   images: string[];
-  dateOfBirth?: string | null; // Mongoose загвартай нийцсэн
+  dateOfBirth?: string | null; // Align with Mongoose model
   createdAt: Date;
   updatedAt: Date;
 }
 
-// Алдааны мэдэгдэл тодорхойлох
+// Error messages
 const ERRORS = {
   INVALID_USER_ID: 'Invalid userId format',
   PROFILE_NOT_FOUND: 'Profile not found',
@@ -31,22 +30,41 @@ const ERRORS = {
   FETCH_FAILED: 'Failed to fetch profile',
 };
 
-// Mongoose-ийн Gender-ийг GraphQL-ийн Gender руу хөрвүүлэх
+// Validate userId
+const validateUserId = (userId: string): void => {
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new GraphQLError(ERRORS.INVALID_USER_ID, {
+      extensions: { code: 'BAD_USER_INPUT' },
+    });
+  }
+};
+
+// Fetch profile
+const fetchProfile = async (userId: string): Promise<Profile> => {
+  const profile = await ProfileModel.findOne({ userId: new Types.ObjectId(userId) });
+  if (!profile) {
+    throw new GraphQLError(ERRORS.PROFILE_NOT_FOUND, {
+      extensions: { code: 'NOT_FOUND', http: { status: 404 } },
+    });
+  }
+  return profile;
+};
+
+// Map Mongoose gender to GraphQL Gender
 const mapGenderToGraphQL = (gender: string): Gender => {
   const genderMap: Record<string, Gender> = {
     male: Gender.Male,
     female: Gender.Female,
     both: Gender.Both,
   };
-
-  const normalizedGender = gender.toLowerCase();
-  if (!(normalizedGender in genderMap)) {
+  const mappedGender = genderMap[gender.toLowerCase()];
+  if (!mappedGender) {
     throw new Error(ERRORS.INVALID_GENDER);
   }
-  return genderMap[normalizedGender];
+  return mappedGender;
 };
 
-// dateOfBirth-ийг зохицуулах
+// Parse dateOfBirth
 const parseDateOfBirth = (dateOfBirth: string | null | undefined): string | null => {
   if (!dateOfBirth) return null;
   const parsedDate = new Date(dateOfBirth);
@@ -57,7 +75,7 @@ const parseDateOfBirth = (dateOfBirth: string | null | undefined): string | null
   return parsedDate.toISOString();
 };
 
-// Профайлын өгөгдлийг форматлах
+// Format profile response
 const formatProfile = (profile: Profile, graphqlGender: Gender, dateOfBirth: string | null) => ({
   id: profile._id.toHexString(),
   userId: profile.userId.toHexString(),
@@ -75,33 +93,19 @@ const formatProfile = (profile: Profile, graphqlGender: Gender, dateOfBirth: str
   matches: [],
 });
 
+// Main resolver
 export const getProfile = async (
   _: unknown,
   { userId }: GetProfileArgs,
-  context: unknown,
-  info: unknown
+  _context: unknown,
+  _info: unknown
 ) => {
-  // userId-ийн форматыг шалгах
-  if (!Types.ObjectId.isValid(userId)) {
-    throw new GraphQLError(ERRORS.INVALID_USER_ID, {
-      extensions: { code: 'BAD_USER_INPUT' },
-    });
-  }
+  validateUserId(userId);
 
   try {
-    // Профайлыг татах
-    const profile = await ProfileModel.findOne({ userId: new Types.ObjectId(userId) });
-    if (!profile) {
-      throw new GraphQLError(ERRORS.PROFILE_NOT_FOUND, {
-        extensions: { code: 'NOT_FOUND', http: { status: 404 } },
-      });
-    }
-
-    // Gender болон dateOfBirth зохицуулах
+    const profile = await fetchProfile(userId);
     const graphqlGender = mapGenderToGraphQL(profile.gender);
     const dateOfBirth = parseDateOfBirth(profile.dateOfBirth);
-
-    // Профайлын өгөгдлийг буцаах
     return formatProfile(profile, graphqlGender, dateOfBirth);
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : ERRORS.FETCH_FAILED;
