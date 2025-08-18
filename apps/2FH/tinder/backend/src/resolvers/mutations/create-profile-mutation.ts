@@ -47,7 +47,7 @@ export const createProfile: MutationResolvers["createProfile"] = async (
     });
 
     return ProfileResponse.Success;
-  } catch (error: any) {
-    throw new GraphQLError(`Cannot create profile: ${error.message || "Unknown error occurred"}`);
+  } catch (error: unknown) {
+    throw new GraphQLError(`Cannot create profile: ${error instanceof Error ? error.message : "Unknown error occurred"}`);
   }
 };
