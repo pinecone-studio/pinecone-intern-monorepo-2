@@ -1,7 +1,6 @@
 import { BoardSvg } from "@/components/providers/assets/BoardSvg";
-import { SaveSvg} from "@/components/providers/assets/SaveSvg";
+import { SaveSvg } from "@/components/providers/assets/SaveSvg";
 import { SettingsSvg } from "@/components/providers/assets/SettingsSvg";
-
 const  UserProfile=()=> {
     return (
         <div className="min-h-screen w-full bg-white text-neutral-900 flex justify-center">
@@ -33,9 +32,9 @@ const  UserProfile=()=> {
 
               
               <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-                <div><span className="font-semibold">number</span> posts</div>
-                <div><span className="font-semibold">number</span> followers</div>
-                <div><span className="font-semibold">number</span> following</div>
+                <div><span className="font-semibold">10</span> posts</div>
+                <div><span className="font-semibold">10</span> followers</div>
+                <div><span className="font-semibold">10</span> following</div>
               </div>
 
               {/* Name + bio */}
