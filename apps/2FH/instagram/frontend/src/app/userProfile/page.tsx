@@ -73,9 +73,9 @@ const  UserProfile=()=> {
 
         </div>
 
-        {/* <div className="mt-8 flex justify-center">
+         <div className="mt-8 flex justify-center">
           <div className="w-6 h-6 rounded-full border-2 border-neutral-300 border-t-neutral-800 animate-spin" />
-        </div> */}
+        </div> 
       </div>
     </div>
 
