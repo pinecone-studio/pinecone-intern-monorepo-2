@@ -6,16 +6,20 @@ import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
 
-connectToDb();
+async function start() {
+  await connectToDb();
 
-const server = new ApolloServer<Context>({
-  resolvers,
-  typeDefs,
-  introspection: true,
-});
+  const server = new ApolloServer<Context>({
+    resolvers,
+    typeDefs,
+    introspection: true,
+  });
 
-export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
-  context: async (req) => {
-    return { req };
-  },
-});
+  return startServerAndCreateNextHandler<NextRequest, Context>(server, {
+    context: async (req) => {
+      return { req };
+    },
+  });
+}
+
+export const handler = await start();

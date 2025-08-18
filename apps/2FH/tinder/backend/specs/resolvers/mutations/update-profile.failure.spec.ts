@@ -37,7 +37,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (User.findById as jest.Mock).mockResolvedValueOnce(null);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('User with this userId does not exist')
     );
 
@@ -53,7 +53,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (Profile.findOne as jest.Mock).mockResolvedValueOnce(null);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Profile not found')
     );
 
@@ -70,7 +70,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (Profile.findOneAndUpdate as jest.Mock).mockResolvedValueOnce(null);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Failed to update profile')
     );
 
@@ -90,7 +90,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (User.findById as jest.Mock).mockRejectedValueOnce(invalidIdError);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: invalidInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: invalidInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Unknown error occurred')
     );
 
@@ -108,7 +108,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (Profile.findOneAndUpdate as jest.Mock).mockRejectedValueOnce(dbError);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Unknown error occurred')
     );
 
@@ -126,7 +126,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (Profile.findOneAndUpdate as jest.Mock).mockRejectedValueOnce(nonError);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Unknown error occurred')
     );
 
@@ -142,7 +142,7 @@ describe('updateProfile mutation - Failure Cases', () => {
     (User.findById as jest.Mock).mockRejectedValueOnce(graphQLError);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo)).rejects.toThrow(
+    await expect(updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo)).rejects.toThrow(
       new GraphQLError('Custom error')
     );
 
