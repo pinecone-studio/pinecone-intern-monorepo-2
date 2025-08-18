@@ -1,15 +1,15 @@
 // schema.ts эсвэл typeDefs.ts
-import { gql } from "graphql-tag";
+import { gql } from 'graphql-tag';
 
 export const ProfileTypeDefs = gql`
-scalar DateTime
+  scalar DateTime
   enum Gender {
     male
     female
     both
   }
 
-  enum ProfileResponse {  
+  enum ProfileResponse {
     SUCCESS
     ERROR
   }
@@ -44,6 +44,7 @@ scalar DateTime
   }
 
   input UpdateProfileInput {
+    userId: ID!
     name: String
     gender: Gender
     bio: String
@@ -54,12 +55,12 @@ scalar DateTime
     dateOfBirth: String
   }
 
-type Query {
-  getProfile(userId: ID!): Profile!
-}
+  type Query {
+    getProfile(userId: ID!): Profile!
+  }
 
   type Mutation {
-    createProfile(input: CreateProfileInput!): ProfileResponse!  
+    createProfile(input: CreateProfileInput!): ProfileResponse!
     updateProfile(input: UpdateProfileInput!): ProfileResponse!
   }
 `;
