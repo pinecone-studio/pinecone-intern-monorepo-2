@@ -62,5 +62,6 @@ export const ProfileTypeDefs = gql`
   type Mutation {
     createProfile(input: CreateProfileInput!): ProfileResponse!
     updateProfile(input: UpdateProfileInput!): ProfileResponse!
+    matchProfiles(userId: ID!, targetUserId: ID!): ProfileResponse!
   }
 `;

@@ -1,13 +1,13 @@
 import { PostModel } from "src/models";
-import { deletePost } from "src/resolvers/mutations/post-mutation/delete.post";
+import { deletePost } from "src/resolvers/mutations/post-mutation/delete-post";
 
 jest.mock("src/models", () => ({
   PostModel: {
-    findByIdAndDelete: jest.fn(),
-  },
+    findByIdAndDelete: jest.fn()
+  }
 }));
 
-describe("deletePost", () => {
+describe("deletePost resolver", () => {
   const mockId = "123abc";
 
   afterEach(() => {
@@ -52,4 +52,5 @@ describe("deletePost", () => {
     });
     await expect(deletePost({}, mockId)).rejects.toThrow("Failed to delete post: null");
   });
+
 });
