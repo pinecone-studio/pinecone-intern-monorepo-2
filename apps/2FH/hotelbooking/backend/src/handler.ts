@@ -11,6 +11,7 @@ connectToDb();
 const server = new ApolloServer<Context>({
   resolvers,
   typeDefs,
+
   introspection: true,
 });
 
