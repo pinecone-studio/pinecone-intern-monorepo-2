@@ -1,5 +1,5 @@
 import { Comment } from "src/models";
-import { updateComment } from "src/resolvers/mutations/comment-mutations/update-comment";
+import { updateComment } from "src/resolvers/mutations/comment/update-comment";
 
 jest.mock("src/models", () => ({
   Comment: {
