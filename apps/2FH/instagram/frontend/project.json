@@ -1,5 +1,5 @@
 {
-  "name": "instagram-frontend",
+  "name": "frontend",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/2FH/instagram/frontend",
   "projectType": "application",
@@ -27,17 +27,17 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "instagram-frontend:build",
+        "buildTarget": "frontend:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "instagram-frontend:build:development",
+          "buildTarget": "frontend:build:development",
           "dev": true,
           "port": 4201
         },
         "production": {
-          "buildTarget": "instagram-frontend:build:production",
+          "buildTarget": "frontend:build:production",
           "dev": false
         }
       },
@@ -55,7 +55,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "instagram-frontend:build:production"
+        "buildTarget": "frontend:build:production"
       }
     },
     "test": {
@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress instagram-frontend"],
+        "commands": ["npx nx cypress frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -127,7 +127,7 @@
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress instagram-frontend --watch"],
+        "commands": ["npx nx cypress frontend --watch"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
@@ -150,7 +150,7 @@
         "cypressConfig": "apps/2FH/instagram/frontend/cypress.config.ts",
         "testingType": "e2e",
         "reporter": "mochawesome",
-        "devServerTarget": "instagram-frontend:serve:development",
+        "devServerTarget": "frontend:serve:development",
         "browser": "chrome"
       },
       "dependsOn": [
