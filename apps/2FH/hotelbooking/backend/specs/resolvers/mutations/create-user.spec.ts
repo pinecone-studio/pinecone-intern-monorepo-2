@@ -36,25 +36,25 @@ describe('Create User', () => {
   it('should throw error if email already exists', async () => {
     (UserModel.findOne as jest.Mock).mockResolvedValue({ email: validInput.email });
 
-    await expect(createUser({}, { input: validInput })).rejects.toThrow(`Database error`);
+    await expect(createUser({}, { input: validInput })).rejects.toThrow(`User with email ${validInput.email} already exists`);
 
     expect(UserModel.findOne).toHaveBeenCalledWith({ email: validInput.email });
   });
   it('should throw error from catch block if createUser fails', async () => {
     (UserModel.create as jest.Mock).mockImplementation(() => {
-      throw new Error('Database error');
+      throw new Error(`User with email ${validInput.email} already exists`);
     });
 
-    await expect(createUser({}, { input: validInput })).rejects.toThrow('Database error');
+    await expect(createUser({}, { input: validInput })).rejects.toThrow(`Create user DB error:Error: User with email ${validInput.email} already exists`);
   });
 
   it('should throw new error on password syntax', async () => {
     const invalidInput = { ...validInput, password: '1234' };
     (UserModel.findOne as jest.Mock).mockResolvedValue(null);
     (UserModel.create as jest.Mock).mockImplementation(() => {
-      throw new Error('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
+      throw new Error(`User with email ${validInput.email} already exists`);
     });
-    await expect(createUser({}, { input: invalidInput })).rejects.toThrow('Database error');
+    await expect(createUser({}, { input: invalidInput })).rejects.toThrow(`Password must be at least 8 characters and include uppercase, lowercase, number, and special character.`);
   });
 
   it('should create user with hashed password when valid input', async () => {

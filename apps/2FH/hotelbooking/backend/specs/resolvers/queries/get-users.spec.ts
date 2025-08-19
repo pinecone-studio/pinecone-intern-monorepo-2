@@ -1,45 +1,59 @@
+import { getUsers } from 'src/resolvers/queries/user/get-users';
 import { UserModel } from 'src/models';
-import { getUsers } from 'src/resolvers/queries';
 
 jest.mock('src/models', () => ({
-  UserModel: { find: jest.fn() },
+  UserModel: {
+    find: jest.fn(),
+  },
 }));
 
-describe('Get all users', () => {
+describe('Get Users', () => {
+  const mockFind = UserModel.find as jest.Mock;
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return empty array when no users found', async () => {
-    (UserModel.find as jest.Mock).mockReturnValue({
-      select: jest.fn().mockResolvedValue(null),
-    });
-
-    const result = await getUsers();
-    expect(result).toEqual([]);
-    expect(UserModel.find).toHaveBeenCalled();
-  });
-
-  it('should throw error when database fails', async () => {
-    (UserModel.find as jest.Mock).mockReturnValue({
-      select: jest.fn().mockRejectedValue(new Error(`Database connection failed`)),
-    });
-    await expect(getUsers()).rejects.toThrow('Error fetching users: Error: Database connection failed');
-  });
-
-  it('should return users when find returns truthy value', async () => {
+  it('1. Should return users when found', async () => {
     const mockUsers = [
-      { firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'user', dateOfBirth: '2000-01-01', password: null },
-      { firstName: 'TestJohn', lastName: 'TestDoe', email: 'Testjohn@example.com', role: 'user', dateOfBirth: '2000-02-02', password: null },
+      { _id: '1', firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'user', dateOfBirth: '2000-01-01' },
+      { _id: '2', firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', role: 'user', dateOfBirth: '1995-05-05' },
     ];
-
-    (UserModel.find as jest.Mock).mockReturnValue({
-      select: jest.fn().mockImplementation(() => mockUsers.map((user) => ({ ...user, password: null }))),
+    mockFind.mockReturnValue({
+      select: jest.fn().mockResolvedValue(mockUsers),
     });
 
-    const result = await getUsers();
+    const result = await getUsers({}, { input: {} });
 
-    await expect(result).toEqual(mockUsers);
-    expect(UserModel.find).toHaveBeenCalledWith({});
+    expect(result).toEqual(mockUsers);
+    expect(mockFind).toHaveBeenCalledWith({});
+  });
+
+  it('2. Should filter by email', async () => {
+    const mockUsers = [{ _id: '1', firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'user', dateOfBirth: '2000-01-01' }];
+    mockFind.mockReturnValue({
+      select: jest.fn().mockResolvedValue(mockUsers),
+    });
+
+    const result = await getUsers({}, { input: { email: 'john@example.com' } });
+
+    expect(result).toEqual(mockUsers);
+    expect(mockFind).toHaveBeenCalledWith({ email: 'john@example.com' });
+  });
+
+  it('3. Should throw error if no users found', async () => {
+    mockFind.mockReturnValue({
+      select: jest.fn().mockResolvedValue([]),
+    });
+
+    await expect(getUsers({}, { input: {} })).rejects.toThrow('User not found');
+  });
+
+  it('4. Should throw error if find throws', async () => {
+    mockFind.mockImplementation(() => {
+      throw new Error('DB error');
+    });
+
+    await expect(getUsers({}, { input: {} })).rejects.toThrow('Error fetching users: Error: DB error');
   });
 });
