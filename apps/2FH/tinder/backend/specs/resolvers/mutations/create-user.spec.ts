@@ -2,12 +2,12 @@
 import { User } from "src/models";
 import { createUser } from "src/resolvers/mutations";
 import { UserResponse, CreateUserInput } from "src/generated";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 jest.mock("src/models", () => ({
   User: { create: jest.fn() },
 }));
-jest.mock("bcrypt", () => ({ hash: jest.fn() }));
+jest.mock("bcryptjs", () => ({ hash: jest.fn() }));
 
 describe("createUser mutation", () => {
   const mockUserInput: CreateUserInput = {
@@ -20,7 +20,7 @@ describe("createUser mutation", () => {
   });
 
   it("should create user successfully", async () => {
-    (bcrypt.hash as jest.Mock).mockResolvedValue("hashedPassword123");
+    (bcryptjs.hash as jest.Mock).mockResolvedValue("hashedPassword123");
     (User.create as jest.Mock).mockResolvedValue({
       _id: "507f1f77bcf86cd799439012",
       email: mockUserInput.email,
@@ -34,7 +34,7 @@ describe("createUser mutation", () => {
     if (!createUser) throw new Error("createUser is undefined");
     const result = await createUser({}, { input: mockUserInput }, {}, {} as any);
 
-    expect(bcrypt.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
+    expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
     expect(User.create).toHaveBeenCalledWith(
       expect.objectContaining({
         email: mockUserInput.email,
