@@ -46,10 +46,11 @@ describe("deletePost resolver", () => {
     await expect(deletePost({}, mockId)).rejects.toThrow("Failed to delete post: \"some string\"");
   });
 
-  // it("should catch unknown errors thrown by PostModel.findByIdAndDelete (null)", async () => {
-  //   (PostModel.findByIdAndDelete as jest.Mock).mockImplementationOnce(() => {
-  //     throw null;
-  //   });
-  //   await expect(deletePost({}, mockId)).rejects.toThrow("Failed to delete post: null");
-  // });
+  it("should catch unknown errors thrown by PostModel.findByIdAndDelete (null)", async () => {
+    (PostModel.findByIdAndDelete as jest.Mock).mockImplementationOnce(() => {
+      throw null;
+    });
+    await expect(deletePost({}, mockId)).rejects.toThrow("Failed to delete post: null");
+  });
+
 });
