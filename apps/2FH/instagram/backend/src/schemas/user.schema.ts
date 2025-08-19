@@ -70,6 +70,11 @@ export const UserTypeDefs = gql`
     newPassword: String!
   }
 
+  input OtpStorageInput {
+    identifier: String!
+    otp: String!
+  }
+
   type Query {
     getUserById(_id: ID!): User
     getUserByUsername(userName: String!): User
@@ -90,5 +95,6 @@ export const UserTypeDefs = gql`
     forgotPassword(input: ForgotPasswordInput!): Boolean!
     resetPassword(input: ResetPasswordInput!): Boolean!
     verifyOTP(identifier: String!, otp: String!): Boolean!
+    otpStorage(input: OtpStorageInput!): Boolean! 
   }
 `;
