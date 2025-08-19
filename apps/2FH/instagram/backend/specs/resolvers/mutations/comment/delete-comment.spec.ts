@@ -1,5 +1,5 @@
 import { Comment } from "src/models";
-import { deleteComment } from "src/resolvers/mutations/comment-mutations/delete-comment";
+import { deleteComment } from "src/resolvers/mutations/comment/delete-comment";
 
  jest.mock("src/models", ()=>({
     Comment:{
