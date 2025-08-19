@@ -41,6 +41,7 @@ const config: Cypress.ConfigOptions<unknown> = {
     env: {
       env: {},
     },
+    baseUrl: 'http://localhost:4201',
   },
 };
 
