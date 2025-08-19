@@ -1,4 +1,4 @@
-import { createPost } from "src/resolvers/mutations/post-mutation/create.post";
+import { createPost } from "src/resolvers/mutations/post-mutation/create-post";
 import { PostModel } from "src/models";
 
 jest.mock("src/models", () => ({
