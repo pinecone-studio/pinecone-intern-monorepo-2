@@ -9,6 +9,7 @@ describe("UserProfile Page", () => {
       cy.contains("Edit Profile").should("be.visible");
       cy.contains("Ad tools").should("be.visible");
     });
+    
   
     it("should display posts/followers/following counts", () => {
       cy.contains("10 posts").should("be.visible");
