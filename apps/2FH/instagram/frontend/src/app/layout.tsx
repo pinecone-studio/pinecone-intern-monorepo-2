@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper } from '@/components/providers';
-import { Sidebar } from '@/components/providers';
+import { ApolloWrapper } from '@/components';
+import { Sidebar } from '@/components';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
