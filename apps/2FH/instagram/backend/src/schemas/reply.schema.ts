@@ -23,8 +23,4 @@ createReply(input:ReplyInput!):Reply!
 deleteReply(_id:ID!):Boolean!
 updateReply(_id:ID!, input:ReplyInput!):Reply!
  }
-
- type Query{
- 
- }
  `

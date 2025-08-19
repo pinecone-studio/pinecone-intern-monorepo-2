@@ -19,11 +19,8 @@ input CreatePostInput {
     caption:String
 }
 
-type Query {
-}
-
 type Mutation {
-    createPost(input: CreatePostInput!):Post!
-    deletePost(_id: ID!):  Boolean!
+    createPost(input:CreatePostInput!):Post!
+     deletePost(_id: ID!):Boolean!
 }
 `
