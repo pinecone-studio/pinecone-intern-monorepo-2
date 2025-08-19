@@ -84,4 +84,17 @@ describe('getProfile Resolver - Success Cases', () => {
   it('should return profile data for both gender', async () => {
     await testProfile('both', Gender.Both);
   });
+
+  it('should handle invalid dateOfBirth and return null', async () => {
+    const mockProfile = createMockProfile('male');
+    mockFindOne.mockResolvedValue(mockProfile);
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation();
+
+    const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
+
+    expect(result.dateOfBirth).toBeNull();
+    expect(consoleWarnSpy).toHaveBeenCalledWith('dateOfBirth is invalid:', {});
+    expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
+    consoleWarnSpy.mockRestore();
+  });
 });
