@@ -10,7 +10,7 @@ const validateInput = (input: CreateStoryInput): void => {
     if (!input.author) {
         throw new GraphQLError("User is not authenticated");
     }
-    if (!input.image) {
+    if (!input.image || !input.image.trim()) {
         throw new GraphQLError("Image is required");
     }
 };
