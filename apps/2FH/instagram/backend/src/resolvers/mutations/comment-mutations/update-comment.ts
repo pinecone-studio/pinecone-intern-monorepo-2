@@ -48,7 +48,7 @@ export const updateComment = async (
     if (error instanceof GraphQLError) throw error;
 
     throw new GraphQLError(
-      "Failed to update comment: " +
+      "Failed to update comment:" +
         (error instanceof Error ? error.message : JSON.stringify(error))
     );
   }
