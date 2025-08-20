@@ -7,6 +7,7 @@ export const metadata = {
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
+  console.log('bunx nx preview-action scripts');
   return (
     <html lang="en">
       <body>{children}</body>
