@@ -31,6 +31,12 @@
     {
       "files": ["*.cy.{ts,js,tsx,jsx}", "cypress/**/*.{ts,js,tsx,jsx}"],
       "rules": {}
+    },
+    {
+      "files": ["src/components/userProfile/mock-images.ts"],
+      "rules": {
+        "no-secrets/no-secrets": "off"
+      }
     }
   ]
 }
