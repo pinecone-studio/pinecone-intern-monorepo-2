@@ -1,5 +1,5 @@
 import { UserModel } from 'src/models';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 type CreateUserInput = {
   firstName: string;
@@ -20,6 +20,8 @@ const checkDuplicateEmail = async (email: string) => {
 
 const validatePassword = (password: string) => {
   const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/;
+  const passwordValid = passwordPolicy.test(password);
+  console.log('passwordValid', passwordValid);
   if (!passwordPolicy.test(password)) {
     throw new Error('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
   }
@@ -28,15 +30,18 @@ const validatePassword = (password: string) => {
 export const createUser = async (_: unknown, { input }: { input: CreateUserInput }) => {
   try {
     await checkDuplicateEmail(input.email);
-    validatePassword(input.password);
+    await validatePassword(input.password);
 
     const hashedPassword = await bcrypt.hash(input.password, 10);
 
+    console.log('hashedPassword', hashedPassword);
     const newUser = await UserModel.create({
       ...input,
       dateOfBirth: input.dateOfBirth,
       password: hashedPassword,
     });
+
+    console.log('newUser', newUser.toObject());
 
     return {
       ...newUser.toObject(),

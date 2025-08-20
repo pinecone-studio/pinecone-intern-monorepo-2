@@ -1,6 +1,6 @@
 import { UserModel } from 'src/models';
 import { createUser } from 'src/resolvers/mutations/user/create-user';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 jest.mock('src/models', () => ({
   UserModel: { findOne: jest.fn(), create: jest.fn() },
 }));
@@ -23,7 +23,7 @@ const validInput: CreateUserInput = {
   firstName: 'John',
   lastName: 'Doe',
   email: 'john@gmail.com',
-  password: 'A@12345678',
+  password: 'Ab@12345678',
   role: 'user',
   dateOfBirth: '2000-01-01',
 };
@@ -59,7 +59,7 @@ describe('Create User', () => {
 
   it('should create user with hashed password when valid input', async () => {
     const hashedPassword = await bcrypt.hash(validInput.password, 10);
-
+    // console.log('hashedPassword', hashedPassword);
     const mockCreatedUser = {
       ...validInput,
       password: hashedPassword,
@@ -70,8 +70,18 @@ describe('Create User', () => {
 
     (UserModel.findOne as jest.Mock).mockResolvedValue(null);
     (UserModel.create as jest.Mock).mockResolvedValue(mockCreatedUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
-    await expect(createUser({}, { input: mockCreatedUser }));
+    const result = await createUser({}, { input: validInput });
+
+    expect(result).toEqual({
+      ...mockCreatedUser,
+      password: undefined,
+    });
+
+    // expect(UserModel.findOne).toHaveBeenCalledWith({ email: validInput.email });
+    // expect(UserModel.create).toHaveBeenCalledWith({
+    //   ...validInput,
+    //   password: hashedPassword,
+    // });
   });
 });
