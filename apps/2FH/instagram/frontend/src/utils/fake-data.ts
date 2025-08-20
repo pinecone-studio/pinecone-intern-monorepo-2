@@ -44,7 +44,7 @@ export const posts: Post[] = [
     id: 1,
     username: 'defavours',
     timeAgo: '5h',
-    image: '/api/placeholder/1000/1000',
+    image: 'https://carveyourcraving.com/wp-content/uploads/2021/06/chocolate-icecream-in-an-icecream-maker.jpg',
     likes: 741368,
     caption: '@defavours love these after a hard day of work. #missonsummer #strawberry is the best flavor',
     comments: 13394,
