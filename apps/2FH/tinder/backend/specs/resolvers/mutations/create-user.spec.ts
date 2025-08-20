@@ -3,6 +3,7 @@ import { sendUserVerificationLink } from 'src/utils/mail-handler';
 import { User } from 'src/models';
 import { createUser } from 'src/resolvers/mutations';
 import { UserResponse, CreateUserInput } from 'src/generated';
+
 import bcryptjs from 'bcryptjs';
 
 jest.mock('src/models', () => ({
@@ -25,6 +26,7 @@ describe('createUser mutation', () => {
 
   it('should create user successfully', async () => {
     (bcryptjs.hash as jest.Mock).mockResolvedValue('hashedPassword123');
+
     (User.create as jest.Mock).mockResolvedValue({
       _id: '507f1f77bcf86cd799439012',
       email: mockUserInput.email,
