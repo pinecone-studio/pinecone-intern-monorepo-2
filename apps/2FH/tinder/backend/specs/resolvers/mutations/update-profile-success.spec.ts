@@ -42,7 +42,7 @@ describe('updateProfile mutation - Success Cases', () => {
     });
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-    const result = await updateProfile!({}, { input: mockProfileInput }, mockContext, mockInfo);
+    const result = await updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo);
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
     expect(Profile.findOne).toHaveBeenCalledWith({ userId: mockUserId });
@@ -85,15 +85,11 @@ describe('updateProfile mutation - Success Cases', () => {
     });
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-    const result = await updateProfile!({}, { input: partialInput }, mockContext, mockInfo);
+    const result = await updateProfile!({}, { input: partialInput }, mockContext as any, mockInfo);
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
     expect(Profile.findOne).toHaveBeenCalledWith({ userId: mockUserId });
-    expect(Profile.findOneAndUpdate).toHaveBeenCalledWith(
-      { userId: mockUserId },
-      { $set: { name: partialInput.name, work: '', updatedAt: expect.any(String) } },
-      { new: true }
-    );
+    expect(Profile.findOneAndUpdate).toHaveBeenCalledWith({ userId: mockUserId }, { $set: { name: partialInput.name, work: '', updatedAt: expect.any(String) } }, { new: true });
     expect(consoleSpy).toHaveBeenCalledWith('Profile updated successfully:', expect.any(String));
     expect(result).toEqual(ProfileResponse.Success);
     consoleSpy.mockRestore();

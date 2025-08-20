@@ -1,114 +1,90 @@
-import { GraphQLError } from "graphql";
-import { User } from "src/models";
-import { createUser } from "src/resolvers/mutations";
-import { CreateUserInput } from "src/generated";
-import bcryptjs from "bcryptjs";
+import { GraphQLError } from 'graphql';
+import { User } from 'src/models';
+import { createUser } from 'src/resolvers/mutations';
+import { CreateUserInput } from 'src/generated';
+import bcryptjs from 'bcryptjs';
 
-jest.mock("src/models", () => ({
+jest.mock('src/models', () => ({
   User: { create: jest.fn() },
 }));
-jest.mock("bcryptjs", () => ({ hash: jest.fn() }));
+jest.mock('bcryptjs', () => ({ hash: jest.fn() }));
 
-describe("createUser mutation errors", () => {
+describe('createUser mutation errors', () => {
   const mockUserInput: CreateUserInput = {
-    email: "test@example.com",
-    password: "password123",
+    email: 'test@example.com',
+    password: 'password123',
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("throws GraphQLError when bcryptjs.hash fails with Error", async () => {
-    (bcryptjs.hash as jest.Mock).mockRejectedValue(new Error("Bcrypt error"));
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+  it('throws GraphQLError when bcryptjs.hash fails with Error', async () => {
+    (bcryptjs.hash as jest.Mock).mockRejectedValue(new Error('Bcrypt error'));
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    if (!createUser) throw new Error("createUser is undefined");
-    await expect(
-      createUser({}, { input: mockUserInput }, {}, {} as any)
-    ).rejects.toThrow(new GraphQLError("Bcrypt error"));
+    if (!createUser) throw new Error('createUser is undefined');
+    await expect(createUser({}, { input: mockUserInput }, {} as any, {} as any)).rejects.toThrow(new GraphQLError('Bcrypt error'));
 
     expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
     expect(User.create).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenNthCalledWith(
-      1,
-      "Creating user with input:",
-      JSON.stringify(mockUserInput)
-    );
-    expect(consoleSpy).toHaveBeenNthCalledWith(2, "Failed to create user:", expect.any(Error));
+    expect(consoleSpy).toHaveBeenNthCalledWith(1, 'Creating user with input:', JSON.stringify(mockUserInput));
+    expect(consoleSpy).toHaveBeenNthCalledWith(2, 'Failed to create user:', expect.any(Error));
     consoleSpy.mockRestore();
   });
 
-  it("throws GraphQLError when User.create fails with Error", async () => {
-    (bcryptjs.hash as jest.Mock).mockResolvedValue("hashedPassword123");
-    (User.create as jest.Mock).mockRejectedValue(new Error("Database error"));
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+  it('throws GraphQLError when User.create fails with Error', async () => {
+    (bcryptjs.hash as jest.Mock).mockResolvedValue('hashedPassword123');
+    (User.create as jest.Mock).mockRejectedValue(new Error('Database error'));
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    if (!createUser) throw new Error("createUser is undefined");
-    await expect(
-      createUser({}, { input: mockUserInput }, {}, {} as any)
-    ).rejects.toThrow(new GraphQLError("Database error"));
+    if (!createUser) throw new Error('createUser is undefined');
+    await expect(createUser({}, { input: mockUserInput }, {} as any, {} as any)).rejects.toThrow(new GraphQLError('Database error'));
 
     expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
     expect(User.create).toHaveBeenCalledWith({
       email: mockUserInput.email,
-      password: "hashedPassword123",
+      password: 'hashedPassword123',
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
     });
-    expect(consoleSpy).toHaveBeenNthCalledWith(
-      1,
-      "Creating user with input:",
-      JSON.stringify(mockUserInput)
-    );
-    expect(consoleSpy).toHaveBeenNthCalledWith(2, "Failed to create user:", expect.any(Error));
+    expect(consoleSpy).toHaveBeenNthCalledWith(1, 'Creating user with input:', JSON.stringify(mockUserInput));
+    expect(consoleSpy).toHaveBeenNthCalledWith(2, 'Failed to create user:', expect.any(Error));
     consoleSpy.mockRestore();
   });
 
-  it("throws GraphQLError for non-Error type unknown error", async () => {
-    (bcryptjs.hash as jest.Mock).mockResolvedValue("hashedPassword123");
-    (User.create as jest.Mock).mockRejectedValue("Unknown error");
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+  it('throws GraphQLError for non-Error type unknown error', async () => {
+    (bcryptjs.hash as jest.Mock).mockResolvedValue('hashedPassword123');
+    (User.create as jest.Mock).mockRejectedValue('Unknown error');
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    if (!createUser) throw new Error("createUser is undefined");
-    await expect(
-      createUser({}, { input: mockUserInput }, {}, {} as any)
-    ).rejects.toThrow(new GraphQLError("Unknown error"));
+    if (!createUser) throw new Error('createUser is undefined');
+    await expect(createUser({}, { input: mockUserInput }, {} as any, {} as any)).rejects.toThrow(new GraphQLError('Unknown error'));
 
     expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
     expect(User.create).toHaveBeenCalledWith({
       email: mockUserInput.email,
-      password: "hashedPassword123",
+      password: 'hashedPassword123',
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
     });
-    expect(consoleSpy).toHaveBeenNthCalledWith(
-      1,
-      "Creating user with input:",
-      JSON.stringify(mockUserInput)
-    );
-    expect(consoleSpy).toHaveBeenNthCalledWith(2, "Failed to create user:", "Unknown error");
+    expect(consoleSpy).toHaveBeenNthCalledWith(1, 'Creating user with input:', JSON.stringify(mockUserInput));
+    expect(consoleSpy).toHaveBeenNthCalledWith(2, 'Failed to create user:', 'Unknown error');
     consoleSpy.mockRestore();
   });
 
-  it("rethrows GraphQLError when thrown internally", async () => {
-    const graphQLError = new GraphQLError("Custom GraphQL error");
+  it('rethrows GraphQLError when thrown internally', async () => {
+    const graphQLError = new GraphQLError('Custom GraphQL error');
     (bcryptjs.hash as jest.Mock).mockRejectedValue(graphQLError);
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    if (!createUser) throw new Error("createUser is undefined");
-    await expect(
-      createUser({}, { input: mockUserInput }, {}, {} as any)
-    ).rejects.toThrow(new GraphQLError("Custom GraphQL error"));
+    if (!createUser) throw new Error('createUser is undefined');
+    await expect(createUser({}, { input: mockUserInput }, {} as any, {} as any)).rejects.toThrow(new GraphQLError('Custom GraphQL error'));
 
     expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
     expect(User.create).not.toHaveBeenCalled();
-    expect(consoleSpy).toHaveBeenNthCalledWith(
-      1,
-      "Creating user with input:",
-      JSON.stringify(mockUserInput)
-    );
-    expect(consoleSpy).toHaveBeenNthCalledWith(2, "Failed to create user:", graphQLError);
+    expect(consoleSpy).toHaveBeenNthCalledWith(1, 'Creating user with input:', JSON.stringify(mockUserInput));
+    expect(consoleSpy).toHaveBeenNthCalledWith(2, 'Failed to create user:', graphQLError);
     consoleSpy.mockRestore();
   });
 });
