@@ -2,45 +2,42 @@ import { GraphQLError } from 'graphql';
 import { MutationResolvers } from 'src/generated';
 import { EmergencyContactModel } from 'src/models';
 
-export const createEmergencyContact: MutationResolvers['createEmergencyContact'] = async (_, { name, phone, relationship, userId }, _context) => {
+export const createEmergencyContact: MutationResolvers['createEmergencyContact'] = async (
+  _, 
+  { input },
+  _context
+) => {
   try {
-    const emergencyContactData = {
-      name,
-      phone,
-      relationship,
-      userId,
-    };
+    const createdEmergencyContactDoc = await EmergencyContactModel.create(input);
 
-    const createdEmergencyContactDoc = await EmergencyContactModel.create(emergencyContactData);
     if (!createdEmergencyContactDoc) {
-      throw new GraphQLError('Failed to create emergency contact');
+      throw new GraphQLError('Failed to create emergency contact - database error');
     }
-
-    // Convert Mongoose document to plain object and map to GraphQL schema
-    const emergencyContact = createdEmergencyContactDoc.toObject() as any;
-    const emergencyContactForGraphQL = {
-      id: emergencyContact._id.toString(),
-      userId: emergencyContact.userId.toString(),
-      name: emergencyContact.name,
-      phone: emergencyContact.phone,
-      relationship: emergencyContact.relationship,
-      createdAt: emergencyContact.createdAt,
-      updatedAt: emergencyContact.updatedAt,
-    };
 
     return {
       success: true,
       message: 'Emergency contact created successfully',
-      data: emergencyContactForGraphQL,
+      data: {
+        id: createdEmergencyContactDoc._id.toString(),
+        userId: createdEmergencyContactDoc.userId.toString(),
+        name: createdEmergencyContactDoc.name,
+        phone: createdEmergencyContactDoc.phone,
+        relationship: createdEmergencyContactDoc.relationship,
+        createdAt: createdEmergencyContactDoc.createdAt,
+        updatedAt: createdEmergencyContactDoc.updatedAt,
+      },
     };
-  } catch (error) {
-    console.error('Failed to create emergency contact:', error);
+  } catch (error) { 
+    console.error('=== ERROR in createEmergencyContact ===');
+    console.error('Error:', error);
+    
+    if (error instanceof GraphQLError) {
+      throw error;
+    }
+    
     throw new GraphQLError('Failed to create emergency contact', {
       extensions: {
         code: 'INTERNAL_SERVER_ERROR',
-        http: {
-          status: 500,
-        },
       },
     });
   }

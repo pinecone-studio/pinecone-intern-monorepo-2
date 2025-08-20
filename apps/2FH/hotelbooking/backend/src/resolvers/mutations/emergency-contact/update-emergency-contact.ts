@@ -1,28 +1,35 @@
-
 import { GraphQLError } from 'graphql';
 import { MutationResolvers } from 'src/generated';
 import { EmergencyContactModel } from 'src/models';
 
-export const updateEmergencyContact: MutationResolvers['updateEmergencyContact'] = async (_, { id, name, phone, relationship }, _context) => {
-    try {
-      const updateData: any = {};
-      if (name !== undefined) updateData.name = name;
-      if (phone !== undefined) updateData.phone = phone;
-      if (relationship !== undefined) updateData.relationship = relationship;
+export const updateEmergencyContact: NonNullable<
+  MutationResolvers['updateEmergencyContact']
+> = async (_, { id, input }, _context) => {
+  try {
+    // Dynamically build the updateData object from the input to reduce complexity
+    const updateData = Object.fromEntries(
+      Object.entries(input).filter(([_, value]) => value !== undefined)
+    );
 
-      const updatedEmergencyContactDoc = await EmergencyContactModel.findByIdAndUpdate(
-        id,
-        updateData,
-        { new: true }
-      );
-      
-      if (!updatedEmergencyContactDoc) {
-        throw new GraphQLError('Emergency contact not found');
-      }
+    const updatedEmergencyContactDoc = await EmergencyContactModel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true }
+    );
 
-      // Convert Mongoose document to plain object and map to GraphQL schema
-      const emergencyContact = updatedEmergencyContactDoc.toObject() as any;
-      const emergencyContactForGraphQL = {
+    if (!updatedEmergencyContactDoc) {
+      throw new GraphQLError('Emergency contact not found', {
+        extensions: { code: 'NOT_FOUND', http: { status: 404 } },
+      });
+    }
+
+    // Use a specific type from the generated code instead of 'any'
+    const emergencyContact = updatedEmergencyContactDoc.toObject();
+    
+    return {
+      success: true,
+      message: 'Emergency contact updated successfully',
+      data: {
         id: emergencyContact._id.toString(),
         userId: emergencyContact.userId.toString(),
         name: emergencyContact.name,
@@ -30,22 +37,16 @@ export const updateEmergencyContact: MutationResolvers['updateEmergencyContact']
         relationship: emergencyContact.relationship,
         createdAt: emergencyContact.createdAt,
         updatedAt: emergencyContact.updatedAt,
-      };
-  
-      return {
-        success: true,
-        message: 'Emergency contact updated successfully',
-        data: emergencyContactForGraphQL,
-      };
-    } catch (error) {
-      console.error('Failed to update emergency contact:', error);
-      throw new GraphQLError('Failed to update emergency contact', {
-        extensions: {
-          code: 'INTERNAL_SERVER_ERROR',
-          http: {
-            status: 500,
-          },
-        },
-      });
+      },
+    };
+  } catch (error) {
+    console.error('Failed to update emergency contact:', error);
+    if (error instanceof GraphQLError) {
+      throw error;
     }
-  };
+
+    throw new GraphQLError('Failed to update emergency contact', {
+      extensions: { code: 'INTERNAL_SERVER_ERROR', http: { status: 500 } },
+    });
+  }
+};
