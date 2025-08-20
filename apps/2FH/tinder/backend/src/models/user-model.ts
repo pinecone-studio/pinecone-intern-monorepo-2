@@ -1,8 +1,6 @@
-import { Schema, model, models, Model, Types,} from "mongoose";
+import { Schema, model, models, Model,} from "mongoose";
  
 export type UserType = {
-  id:Types.ObjectId
-  name: string;
   email: string;
   password: string;
   createdAt: Date;
