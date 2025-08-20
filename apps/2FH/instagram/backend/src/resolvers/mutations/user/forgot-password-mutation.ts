@@ -17,12 +17,26 @@ const findUserByIdentifier = async (identifier: string) => {
 };
 
 const storeOTP = (identifier: string, otp: string) => {
-  const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
-  otpStorage.set(identifier.toLowerCase(), { otp, expiresAt });
+  // const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+  // otpStorage.set(identifier.toLowerCase(), { otp, expiresAt });
   
+  // setTimeout(() => {
+  //   otpStorage.delete(identifier.toLowerCase());
+  // }, 10 * 60 * 1000);
+  const OTP_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+  const key = identifier.toLowerCase().trim();
+  const expiresAt = Date.now() + OTP_TTL_MS;
+  otpStorage.set(key, { otp, expiresAt });
+
+  // Delete only if the stored record still matches this expiration (prevents
+  // a prior timeout from deleting a newer OTP)
   setTimeout(() => {
-    otpStorage.delete(identifier.toLowerCase());
-  }, 10 * 60 * 1000);
+    const current = otpStorage.get(key);
+    if (current && current.expiresAt === expiresAt) {
+      otpStorage.delete(key);
+    }
+  }, OTP_TTL_MS);
 };
 
 const validateAndGetEmail = (user: unknown, identifier: string): string => {
