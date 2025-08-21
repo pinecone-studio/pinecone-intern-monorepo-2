@@ -3,6 +3,8 @@
 import { useForm } from 'react-hook-form';
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/navigation';
+import { toast} from 'sonner';
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -29,6 +31,7 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
+  const router = useRouter();
 
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
 
@@ -40,14 +43,14 @@ const LoginPage = () => {
 
       if (result.status === 'SUCCESS') {
         localStorage.setItem('token', result.token);
-        alert('Login successful!');
-        // router.push('') 
+        toast.success(<div data-cy="login-success">Login successful!</div>);
+        router.push('/')
       } else {
-        alert(result.message);
+        toast.error(<div data-cy="login-error">{result.message || 'Login failed'}</div>);
       }
     } catch (err) {
       console.error('Login error:', err);
-      alert('Something went wrong during login.');
+      toast.error(<div data-cy="login-apollo-error">Something went wrong during login.</div>);
     }
   };
 
@@ -58,7 +61,7 @@ const LoginPage = () => {
       className="w-full max-w-md bg-white p-10 border border-gray-200 rounded-xl shadow-sm"
     >
         <div className="text-center mb-6">
-          <img src="/Logo.png" alt="Tinder Logo" className="mx-auto h-12" />
+          <img src="/logo.png" alt="Tinder Logo" className="mx-auto h-15" />
           <h2 className="text-2xl font-bold mt-4">Sign in</h2>
           <p className="text-gray-500 text-sm mt-1">
             Enter your email below to sign in
