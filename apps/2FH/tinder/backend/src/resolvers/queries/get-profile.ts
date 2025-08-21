@@ -1,116 +1,86 @@
+// src/queries/getProfile.ts
 import { Types } from 'mongoose';
-import { Profile as ProfileModel } from 'src/models';
-import { Gender } from 'src/generated';
 import { GraphQLError } from 'graphql';
+import { Profile as ProfileModel, Swipe as SwipeModel } from 'src/models';
+import { QueryResolvers, Gender as GraphQLGender } from 'src/generated';
+import { Context } from 'src/types';
 
-interface GetProfileArgs {
-  userId: string;
-}
-
-interface Profile {
-  _id: Types.ObjectId;
-  userId: Types.ObjectId;
-  name: string;
-  gender: string; // Mongoose model gender (e.g., 'male', 'female', 'both')
-  bio: string;
-  interests: string[];
-  profession: string;
-  work: string;
-  images: string[];
-  dateOfBirth?: string | null; // Align with Mongoose model
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Error messages
-const ERRORS = {
-  INVALID_USER_ID: 'Invalid userId format',
-  PROFILE_NOT_FOUND: 'Profile not found',
-  INVALID_GENDER: 'Invalid gender value',
-  FETCH_FAILED: 'Failed to fetch profile',
-};
-
-// Validate userId
-const validateUserId = (userId: string): void => {
-  if (!Types.ObjectId.isValid(userId)) {
-    throw new GraphQLError(ERRORS.INVALID_USER_ID, {
-      extensions: { code: 'BAD_USER_INPUT' },
-    });
-  }
-};
-
-// Fetch profile
-const fetchProfile = async (userId: string): Promise<Profile> => {
-  const profile = await ProfileModel.findOne({ userId: new Types.ObjectId(userId) });
-  if (!profile) {
-    throw new GraphQLError(ERRORS.PROFILE_NOT_FOUND, {
-      extensions: { code: 'NOT_FOUND', http: { status: 404 } },
-    });
-  }
-  return profile;
-};
-
-// Map Mongoose gender to GraphQL Gender
-const mapGenderToGraphQL = (gender: string): Gender => {
-  const genderMap: Record<string, Gender> = {
-    male: Gender.Male,
-    female: Gender.Female,
-    both: Gender.Both,
+// Helpers
+const mapGenderToGraphQL = (gender: string): GraphQLGender => {
+  const map: Record<string, GraphQLGender> = {
+    male: GraphQLGender.Male,
+    female: GraphQLGender.Female,
+    both: GraphQLGender.Both,
   };
-  const mappedGender = genderMap[gender.toLowerCase()];
-  if (!mappedGender) {
-    throw new Error(ERRORS.INVALID_GENDER);
+  const result = map[gender.toLowerCase()];
+  if (!result) {
+    throw new GraphQLError('Invalid gender value', { extensions: { code: 'BAD_USER_INPUT' } });
   }
-  return mappedGender;
+  return result;
 };
 
-// Parse dateOfBirth
-const parseDateOfBirth = (dateOfBirth: string | null | undefined): string | null => {
-  if (!dateOfBirth) return null;
-  const parsedDate = new Date(dateOfBirth);
-  if (isNaN(parsedDate.getTime())) {
-    console.warn('dateOfBirth is invalid:', dateOfBirth);
-    return null;
-  }
-  return parsedDate.toISOString();
-};
+const parseDateOfBirth = (dob?: string | null) => dob ? new Date(dob).toISOString() : '';
 
-// Format profile response
-const formatProfile = (profile: Profile, graphqlGender: Gender, dateOfBirth: string | null) => ({
+const formatProfile = (profile: any, likes: any[], matches: any[]) => ({
   id: profile._id.toHexString(),
   userId: profile.userId.toHexString(),
   name: profile.name,
-  gender: graphqlGender,
+  gender: mapGenderToGraphQL(profile.gender),
   bio: profile.bio,
   interests: profile.interests,
   profession: profile.profession,
   work: profile.work,
   images: profile.images,
-  dateOfBirth,
+  dateOfBirth: parseDateOfBirth(profile.dateOfBirth),
   createdAt: profile.createdAt.toISOString(),
   updatedAt: profile.updatedAt.toISOString(),
-  likes: [],
-  matches: [],
+  likes: likes.map(s => (s.targetId as any)._id.toHexString()),
+  matches: matches.map(match => match.userId.toHexString()),
 });
 
-// Main resolver
-export const getProfile = async (
-  _: unknown,
-  { userId }: GetProfileArgs,
-  _context: unknown,
-  _info: unknown
-) => {
-  validateUserId(userId);
+// Helper functions
+const validateUserId = (userId: string) => {
+  if (!Types.ObjectId.isValid(userId)) {
+    throw new GraphQLError('Invalid userId format', { extensions: { code: 'BAD_USER_INPUT' } });
+  }
+};
 
+const fetchProfileData = async (userId: string) => {
+  const profile = await ProfileModel.findOne({ userId: new Types.ObjectId(userId) });
+  if (!profile) throw new GraphQLError('Profile not found', { extensions: { code: 'NOT_FOUND' } });
+  return profile;
+};
+
+const fetchLikesAndMatches = async (userId: string, profileMatches: Types.ObjectId[]) => {
+  const likes = await SwipeModel.find({ swiperId: userId }).populate('targetId', 'userId');
+  const matches = await ProfileModel.find({ 
+    userId: { $in: profileMatches } 
+  }).select('userId name images profession');
+  return { likes, matches };
+};
+
+const handleError = (error: unknown): never => {
+  if (error instanceof GraphQLError) {
+    throw error;
+  }
+  if (error instanceof Error && error.message.includes('Database')) {
+    throw new GraphQLError('Database error', { extensions: { code: 'INTERNAL_SERVER_ERROR' } });
+  }
+  throw new GraphQLError('Failed to fetch profile', { extensions: { code: 'INTERNAL_SERVER_ERROR' } });
+};
+
+// Resolver
+export const getProfile: QueryResolvers['getProfile'] = async (
+  _parent,
+  { userId },
+  _context: Context
+) => {
   try {
-    const profile = await fetchProfile(userId);
-    const graphqlGender = mapGenderToGraphQL(profile.gender);
-    const dateOfBirth = parseDateOfBirth(profile.dateOfBirth);
-    return formatProfile(profile, graphqlGender, dateOfBirth);
+    validateUserId(userId);
+    const profile = await fetchProfileData(userId);
+    const { likes, matches } = await fetchLikesAndMatches(userId, profile.matches);
+    return formatProfile(profile, likes, matches);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : ERRORS.FETCH_FAILED;
-    throw new GraphQLError(message, {
-      extensions: { code: 'INTERNAL_SERVER_ERROR' },
-    });
+    return handleError(error);
   }
 };
