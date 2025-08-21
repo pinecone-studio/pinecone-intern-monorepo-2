@@ -47,11 +47,11 @@ const performStoryDeletion = async (storyId: string) => {
 export const deleteStory = async (
     _: unknown,
     { _id }: { _id: string },
-    context: { user?: { id: string } } 
+    context: { userId : string} 
 ) => {
     try {
-        const author = context.user?.id;
-        
+        const author = context.userId;
+
         validateDeleteInput({ _id, author: author || "" });
 
         const existingStory = await checkStoryExists(_id);
