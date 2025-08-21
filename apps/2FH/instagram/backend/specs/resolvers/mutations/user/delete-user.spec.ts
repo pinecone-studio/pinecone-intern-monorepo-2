@@ -2,9 +2,16 @@ import { deleteUser } from 'src/resolvers/mutations/user/delete-user-mutation';
 import { User } from 'src/models/user';
 import { Gender } from 'src/generated';
 import { GraphQLError } from 'graphql';
+import { ContextUser } from 'src/types/context-user';
 
 jest.mock('src/models/user');
-jest.mock('src/utils/check-jwt', () => ({ getJwtSecret: jest.fn(() => 'mock-jwt-secret') }));
+jest.mock('src/utils/check-jwt', () => ({ 
+  getJwtSecret: jest.fn(() => 'mock-jwt-secret') 
+}));
+jest.mock('src/utils/auth', () => ({
+  requireAuthentication: jest.fn(() => 'user123'),
+  validateUserOwnership: jest.fn()
+}));
 
 const mockUser = User as jest.Mocked<typeof User>;
 
@@ -14,6 +21,8 @@ beforeAll(() => {
 });
 
 describe('User Mutations', () => {
+  const mockContext: ContextUser = {} as ContextUser;
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockUser.findById = jest.fn();
@@ -46,7 +55,11 @@ describe('User Mutations', () => {
       mockUser.findById.mockResolvedValue(mockUserData as never);
       mockUser.findByIdAndDelete.mockResolvedValue(mockDeletedUser as never);
 
-      const result = await deleteUser(null, { userId: validUserId });
+      const result = await deleteUser(
+        null, 
+        { userId: validUserId }, 
+        mockContext
+      );
 
       expect(mockUser.findById).toHaveBeenCalledWith(validUserId);
       expect(mockUser.findByIdAndDelete).toHaveBeenCalledWith(validUserId);
@@ -60,8 +73,12 @@ describe('User Mutations', () => {
     it('should throw error if user not found during verification', async () => {
       mockUser.findById.mockResolvedValue(null);
 
-      await expect(deleteUser(null, { userId: validUserId })).rejects.toThrow(
-        new GraphQLError('User not found', { extensions: { code: 'USER_NOT_FOUND' } })
+      await expect(
+        deleteUser(null, { userId: validUserId }, mockContext)
+      ).rejects.toThrow(
+        new GraphQLError('User not found', { 
+          extensions: { code: 'USER_NOT_FOUND' } 
+        })
       );
 
       expect(mockUser.findById).toHaveBeenCalledWith(validUserId);
@@ -72,8 +89,12 @@ describe('User Mutations', () => {
       mockUser.findById.mockResolvedValue(mockUserData as never);
       mockUser.findByIdAndDelete.mockResolvedValue(null);
 
-      await expect(deleteUser(null, { userId: validUserId })).rejects.toThrow(
-        new GraphQLError('User not found', { extensions: { code: 'USER_NOT_FOUND' } })
+      await expect(
+        deleteUser(null, { userId: validUserId }, mockContext)
+      ).rejects.toThrow(
+        new GraphQLError('User not found', { 
+          extensions: { code: 'USER_NOT_FOUND' } 
+        })
       );
 
       expect(mockUser.findById).toHaveBeenCalledWith(validUserId);
@@ -84,8 +105,12 @@ describe('User Mutations', () => {
       const invalidUserId = 'invalid-id';
       mockUser.findById.mockRejectedValue(new Error('Invalid ObjectId'));
 
-      await expect(deleteUser(null, { userId: invalidUserId })).rejects.toThrow(
-        new GraphQLError('Failed to delete user', { extensions: { code: 'USER_DELETION_FAILED' } })
+      await expect(
+        deleteUser(null, { userId: invalidUserId }, mockContext)
+      ).rejects.toThrow(
+        new GraphQLError('Failed to delete user', { 
+          extensions: { code: 'USER_DELETION_FAILED' } 
+        })
       );
 
       expect(mockUser.findById).toHaveBeenCalledWith(invalidUserId);
@@ -93,10 +118,16 @@ describe('User Mutations', () => {
 
     it('should throw generic error for unexpected deletion failures', async () => {
       mockUser.findById.mockResolvedValue(mockUserData as never);
-      mockUser.findByIdAndDelete.mockRejectedValue(new Error('Database connection error'));
+      mockUser.findByIdAndDelete.mockRejectedValue(
+        new Error('Database connection error')
+      );
 
-      await expect(deleteUser(null, { userId: validUserId })).rejects.toThrow(
-        new GraphQLError('Failed to delete user', { extensions: { code: 'USER_DELETION_FAILED' } })
+      await expect(
+        deleteUser(null, { userId: validUserId }, mockContext)
+      ).rejects.toThrow(
+        new GraphQLError('Failed to delete user', { 
+          extensions: { code: 'USER_DELETION_FAILED' } 
+        })
       );
 
       expect(mockUser.findById).toHaveBeenCalledWith(validUserId);
@@ -106,8 +137,12 @@ describe('User Mutations', () => {
     it('should handle database errors gracefully', async () => {
       mockUser.findById.mockRejectedValue(new Error('Database timeout'));
 
-      await expect(deleteUser(null, { userId: validUserId })).rejects.toThrow(
-        new GraphQLError('Failed to delete user', { extensions: { code: 'USER_DELETION_FAILED' } })
+      await expect(
+        deleteUser(null, { userId: validUserId }, mockContext)
+      ).rejects.toThrow(
+        new GraphQLError('Failed to delete user', { 
+          extensions: { code: 'USER_DELETION_FAILED' } 
+        })
       );
     });
   });

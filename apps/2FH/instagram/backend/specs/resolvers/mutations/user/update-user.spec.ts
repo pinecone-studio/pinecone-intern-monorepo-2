@@ -2,8 +2,13 @@
 import { updateUser } from 'src/resolvers/mutations/user/update-user-mutation';
 import { User } from 'src/models/user';
 import { Gender } from 'src/generated';
+import { ContextUser } from 'src/types/context-user';
 
 jest.mock('src/models/user');
+jest.mock('src/utils/auth', () => ({
+  requireAuthentication: jest.fn(() => 'user123'),
+  validateUserOwnership: jest.fn()
+}));
 
 const mockUser = User as jest.Mocked<typeof User>;
 
@@ -29,7 +34,7 @@ describe('User Mutations - updateUser', () => {
     followings: []
   };
 
-  const mockContext = { req: { headers: { authorization: 'Bearer mock-token' } } };
+  const mockContext: ContextUser = {} as ContextUser;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -40,17 +45,25 @@ describe('User Mutations - updateUser', () => {
 
   describe('Success Cases', () => {
     it('should update user successfully', async () => {
-      const updateInput = { fullName: 'John Updated', userName: 'johnupdated' };
+      const updateInput = { 
+        fullName: 'John Updated', 
+        userName: 'johnupdated' 
+      };
       const updatedUserData = { ...existingUserData, ...updateInput };
       const mockToObject = jest.fn().mockReturnValue(updatedUserData);
 
       mockUser.findById.mockResolvedValue(existingUserData as never);
       mockUser.findOne.mockResolvedValue(null);
       mockUser.findByIdAndUpdate.mockResolvedValue({
-        ...updatedUserData, toObject: mockToObject
+        ...updatedUserData, 
+        toObject: mockToObject
       } as never);
 
-      const result = await updateUser(null, { _id: userId, input: updateInput }, mockContext);
+      const result = await updateUser(
+        null, 
+        {_id: userId, input: updateInput }, 
+        mockContext
+      );
 
       expect(mockUser.findById).toHaveBeenCalledWith(userId);
       expect(result).toEqual(updatedUserData);
@@ -68,10 +81,16 @@ describe('User Mutations - updateUser', () => {
       mockUser.findById.mockResolvedValue(existingUserData as never);
       mockUser.findOne.mockResolvedValue(null);
       mockUser.findByIdAndUpdate.mockResolvedValue({
-        ...updatedUserData, toObject: mockToObject
+        ...updatedUserData, 
+        toObject: mockToObject
       } as never);
 
-      const result = await updateUser(null, { _id: userId, input: updateInput }, mockContext);
+      const result = await updateUser(
+        null, 
+        { _id: userId, input: updateInput }, 
+        mockContext
+      );
+
       expect(result).toEqual(updatedUserData);
     });
 
@@ -82,10 +101,16 @@ describe('User Mutations - updateUser', () => {
 
       mockUser.findById.mockResolvedValue(existingUserData as never);
       mockUser.findByIdAndUpdate.mockResolvedValue({
-        ...updatedUserData, toObject: mockToObject
+        ...updatedUserData, 
+        toObject: mockToObject
       } as never);
 
-      const result = await updateUser(null, { _id: userId, input: updateInput }, mockContext);
+      const result = await updateUser(
+        null, 
+        { _id: userId, input: updateInput }, 
+        mockContext
+      );
+
       expect(mockUser.findOne).not.toHaveBeenCalled();
       expect(result).toEqual(updatedUserData);
     });
@@ -102,10 +127,16 @@ describe('User Mutations - updateUser', () => {
       mockUser.findById.mockResolvedValue(existingUserData as never);
       mockUser.findOne.mockResolvedValue(null);
       mockUser.findByIdAndUpdate.mockResolvedValue({
-        ...updatedUserData, toObject: mockToObject
+        ...updatedUserData, 
+        toObject: mockToObject
       } as never);
 
-      const result = await updateUser(null, { _id: userId, input: updateInput }, mockContext);
+      const result = await updateUser(
+        null, 
+        { _id: userId, input: updateInput }, 
+        mockContext
+      );
+
       expect(result).toEqual(updatedUserData);
     });
   });

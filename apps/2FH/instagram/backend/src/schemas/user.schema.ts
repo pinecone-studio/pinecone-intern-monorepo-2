@@ -33,6 +33,12 @@ export const UserTypeDefs = gql`
     token: String!
   }
 
+  type DeleteUserResponse {
+    success: Boolean!
+    message: String!
+    deletedUser: User!
+  }
+
   input CreateUserInput {
     fullName: String!
     userName: String!
@@ -85,16 +91,15 @@ export const UserTypeDefs = gql`
 
   type Mutation {
     createUser(input: CreateUserInput!): User!
-    updateUser(_id: ID!, input: UpdateUserInput!): User!
-    deleteUser(_id: ID!): Boolean!
-
-    followUser(targetUserId: ID!): Boolean!
-    unfollowUser(targetUserId: ID!): Boolean!
-
     loginUser(input: LoginInput!): LoginResponse!
     forgotPassword(input: ForgotPasswordInput!): Boolean!
     resetPassword(input: ResetPasswordInput!): Boolean!
     verifyOTP(identifier: String!, otp: String!): Boolean!
-    otpStorage(input: OtpStorageInput!): Boolean! 
+    otpStorage(input: OtpStorageInput!): Boolean!
+    
+    updateUser(_id: ID!, input: UpdateUserInput!): User!
+    deleteUser(userId: ID!): DeleteUserResponse!
+    followUser(targetUserId: ID!): Boolean!
+    unfollowUser(targetUserId: ID!): Boolean!
   }
 `;

@@ -1,23 +1,20 @@
-//update-user-mutation.ts
+// apps/2FH/instagram/backend/src/resolvers/mutations/user/update-user-mutation.ts
 import { User } from "src/models";
 import { UpdateUserInput } from "src/generated";
 import { GraphQLError } from "graphql";
-import { Context } from "src/types";
+import { ContextUser } from "src/types/context-user";
+import { requireAuthentication, validateUserOwnership } from "src/utils/auth";
 
 const buildSearchConditions = (input: UpdateUserInput) => {
-  const conditions = [];
+  const fieldMappings = [
+    { field: 'userName', value: input.userName },
+    { field: 'email', value: input.email },
+    { field: 'phoneNumber', value: input.phoneNumber }
+  ];
   
-  if (input.userName) {
-    conditions.push({ userName: input.userName });
-  }
-  if (input.email) {
-    conditions.push({ email: input.email });
-  }
-  if (input.phoneNumber) {
-    conditions.push({ phoneNumber: input.phoneNumber });
-  }
-  
-  return conditions;
+  return fieldMappings
+    .filter(mapping => mapping.value)
+    .map(mapping => ({ [mapping.field]: mapping.value }));
 };
 
 const buildUserSearchQuery = (input: UpdateUserInput, currentUserId: string) => {
@@ -37,50 +34,37 @@ type ExistingUser = {
   phoneNumber?: string;
 };
 
-const checkUsernameConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
-  if (input.userName && existingUser.userName === input.userName) {
-    throw new GraphQLError('Username already exists', {
-      extensions: { code: 'USERNAME_EXISTS' }
-    });
-  }
-};
-
-const checkEmailConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
-  if (input.email && existingUser.email === input.email) {
-    throw new GraphQLError('Email already exists', {
-      extensions: { code: 'EMAIL_EXISTS' }
-    });
-  }
-};
-
-const checkPhoneConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
-  if (input.phoneNumber && existingUser.phoneNumber === input.phoneNumber) {
-    throw new GraphQLError('Phone number already exists', {
-      extensions: { code: 'PHONE_EXISTS' }
-    });
-  }
-};
-
 const validateUserConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
-  checkUsernameConflict(existingUser, input);
-  checkEmailConflict(existingUser, input);
-  checkPhoneConflict(existingUser, input);
-};
+  const conflictChecks = [
+    {
+      inputValue: input.userName,
+      existingValue: existingUser.userName,
+      error: 'Username already exists',
+      code: 'USERNAME_EXISTS'
+    },
+    {
+      inputValue: input.email,
+      existingValue: existingUser.email,
+      error: 'Email already exists',
+      code: 'EMAIL_EXISTS'
+    },
+    {
+      inputValue: input.phoneNumber,
+      existingValue: existingUser.phoneNumber,
+      error: 'Phone number already exists',
+      code: 'PHONE_EXISTS'
+    }
+  ];
 
-const performUserUpdate = async (userId: string, input: UpdateUserInput) => {
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { $set: input },
-    { new: true, runValidators: true }
+  const conflict = conflictChecks.find(check => 
+    check.inputValue && check.existingValue === check.inputValue
   );
 
-  if (!updatedUser) {
-    throw new GraphQLError('Failed to update user', {
-      extensions: { code: 'UPDATE_FAILED' }
+  if (conflict) {
+    throw new GraphQLError(conflict.error, {
+      extensions: { code: conflict.code }
     });
   }
-
-  return updatedUser.toObject();
 };
 
 const checkExistingUser = async (input: UpdateUserInput, currentUserId: string) => {
@@ -95,24 +79,47 @@ const checkExistingUser = async (input: UpdateUserInput, currentUserId: string) 
   }
 };
 
+const performUserUpdate = async (userId: string, input: UpdateUserInput) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $set: input },
+    { new: true, runValidators: true }
+  );
+  
+  if (!updatedUser) {
+    throw new GraphQLError('Failed to update user', {
+      extensions: { code: 'USER_UPDATE_FAILED' }
+    });
+  }
+  
+  return updatedUser.toObject();
+};
+
+const validateUserExists = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new GraphQLError('User not found', {
+      extensions: { code: 'USER_NOT_FOUND' }
+    });
+  }
+  return user;
+};
+
+const executeUserUpdate = async (_id: string, input: UpdateUserInput) => {
+  await checkExistingUser(input, _id);
+  return await performUserUpdate(_id, input);
+};
+
 export const updateUser = async (
   _: unknown, 
-  { _id, input }: { _id: string; input: UpdateUserInput }, 
-  _context: Context
+  { _id, input }: { _id: string; input: UpdateUserInput }, // Changed id to _id
+  context: ContextUser
 ) => {
   try {
-    // Uncomment it  when authentication is implemented tiim bolhoor hulee
-    // const currentUser = await getUserFromToken(extractTokenFromHeader(_context.req.headers.authorization));
-    
-    const user = await User.findById(_id);
-    if (!user) {
-      throw new GraphQLError('User not found', {
-        extensions: { code: 'USER_NOT_FOUND' }
-      });
-    }
-
-    await checkExistingUser(input, _id);
-    return await performUserUpdate(_id, input);
+    const authenticatedUserId = requireAuthentication(context);
+    validateUserOwnership(authenticatedUserId, _id, 'update this profile'); // Changed id to _id
+    await validateUserExists(_id); // Changed id to _id
+    return await executeUserUpdate(_id, input); // Changed id to _id
   } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
