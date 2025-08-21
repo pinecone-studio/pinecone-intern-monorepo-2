@@ -3,8 +3,6 @@ import { GraphQLError } from 'graphql';
 import { User } from '../models';
 import { getJwtSecret } from './check-jwt';
 
-const JWT_SECRET = getJwtSecret()
-
 export type JWTPayload = {
   userId: string;
   userName: string;
@@ -45,6 +43,8 @@ const handleJWTError = (error: unknown): never => {
 
 export const verifyToken = async (token: string): Promise<JWTPayload> => {
   try {
+    // ✅ Call getJwtSecret() only when this function is used
+    const JWT_SECRET = getJwtSecret();
     const decoded = jwt.verify(token, JWT_SECRET, {
       algorithms: ['HS256'],
     }) as JWTPayload;
@@ -130,4 +130,9 @@ export const extractTokenFromHeader = (authHeader?: string): string => {
   validateToken(token);
   
   return token;
+};
+
+export const signToken = (payload: JWTPayload, options?: jwt.SignOptions): string => {
+  const JWT_SECRET = getJwtSecret();
+  return jwt.sign(payload, JWT_SECRET, options);
 };

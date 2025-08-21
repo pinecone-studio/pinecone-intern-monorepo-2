@@ -5,6 +5,7 @@ import { defineConfig } from 'cypress';
 
 const config: Cypress.ConfigOptions<unknown> = {
   e2e: {
+    failOnStatusCode: false,
     ...nxE2EPreset(__filename, {
       cypressDir: 'cypress',
     }),

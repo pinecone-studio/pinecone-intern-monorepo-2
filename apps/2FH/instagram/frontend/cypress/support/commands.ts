@@ -1,23 +1,25 @@
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+/// <reference types="cypress" />
 
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+// Custom commands энд нэмж болно
+// Жишээ:
+/*
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.visit('/login');
+  cy.get('[data-testid=email]').type(email);
+  cy.get('[data-testid=password]').type(password);
+  cy.get('[data-testid=submit]').click();
+});
+*/
 
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
+// Type definitions for custom commands
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+      // eslint-disable-next-line @typescript-eslint/no-empty-interface
+      interface Chainable {
+        // login(email: string, password: string): Chainable<void>;
+      }
+    }
+  }
 
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-export {}; 
+  export {};
