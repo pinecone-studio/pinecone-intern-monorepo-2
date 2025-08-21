@@ -2,7 +2,6 @@ import gql from "graphql-tag";
 
  export const CommentTypeDefs = gql`
   scalar Date
-
  type Comment {
  _id:ID!
  author:ID!
@@ -22,9 +21,6 @@ deleteComment(_id:ID!):Boolean!
 updateComment(_id:ID!, input:CommentInput!):Comment!
  }
 
- type Query{
- 
- }
  `
 
  
