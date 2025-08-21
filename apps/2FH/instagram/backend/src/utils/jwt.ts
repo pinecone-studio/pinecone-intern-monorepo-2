@@ -62,7 +62,6 @@ const validateUserId = (userId: unknown): string => {
   }
   return userId;
 };
-
 const handleUserLookupError = (err: unknown): never => {
   if (err instanceof Error && err.name === 'CastError') {
     throw new GraphQLError('Invalid user id format', {
@@ -81,7 +80,6 @@ const findUserById = async (userId: string) => {
     return handleUserLookupError(err);
   }
 };
-
 export const getUserFromToken = async (token: string) => {
   const decoded = await verifyToken(token);
   const userId = validateUserId(decoded.userId);
@@ -94,24 +92,45 @@ export const getUserFromToken = async (token: string) => {
       }
     });
   }
-  
   return user;
 };
 
 const validateAuthScheme = (scheme: string): void => {
-  if (!/^Bearer$/i.test(scheme)) {
-    throw new GraphQLError('Invalid auth scheme', {
+  if (!/^Bearer$/i.test(scheme.trim())) {
+    throw new GraphQLError('Invalid auth scheme. Expected format: "Bearer <token>"', {
       extensions: { code: 'INVALID_AUTH_SCHEME' }
     });
   }
 };
-
 const validateToken = (token: string): void => {
-  if (!token) {
+  if (!token || token.trim().length === 0) {
     throw new GraphQLError('Token is required', {
       extensions: { code: 'MISSING_TOKEN' }
     });
   }
+};
+const validateAndExtractDirectToken = (trimmedHeader: string): string => {
+  if (!trimmedHeader) {
+    throw new GraphQLError('Token is required', {
+      extensions: { code: 'MISSING_TOKEN' }
+    });
+  }
+  return trimmedHeader;
+};
+const parseBeaderToken = (trimmedHeader: string): string => {
+  const parts = trimmedHeader.split(/\s+/);
+  
+  if (parts.length !== 2) {
+    throw new GraphQLError('Invalid authorization header format. Expected: "Bearer <token>" or just "<token>"', {
+      extensions: { code: 'INVALID_AUTH_HEADER_FORMAT' }
+    });
+  }
+  
+  const [scheme, token] = parts;
+  validateAuthScheme(scheme);
+  validateToken(token);
+  
+  return token.trim();
 };
 
 export const extractTokenFromHeader = (authHeader?: string): string => {
@@ -123,13 +142,11 @@ export const extractTokenFromHeader = (authHeader?: string): string => {
     });
   }
   
-  const [scheme, raw] = authHeader.trim().split(/\s+/);
-  validateAuthScheme(scheme);
-  
-  const token = (raw || '').trim();
-  validateToken(token);
-  
-  return token;
+  const trimmedHeader = authHeader.trim();
+   if (!trimmedHeader.includes(' ')) {
+    return validateAndExtractDirectToken(trimmedHeader);
+  }
+    return parseBeaderToken(trimmedHeader);
 };
 
 export const signToken = (payload: JWTPayload, options?: jwt.SignOptions): string => {

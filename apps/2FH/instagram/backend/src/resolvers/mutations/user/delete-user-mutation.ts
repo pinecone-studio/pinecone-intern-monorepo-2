@@ -1,6 +1,7 @@
-//delete-user-mutation.t
 import { User } from "src/models";
 import { GraphQLError } from "graphql";
+import { ContextUser } from "src/types/context-user";
+import { requireAuthentication, validateUserOwnership } from "src/utils/auth";
 
 const findUserById = async (userId: string) => {
   const user = await User.findById(userId);
@@ -28,9 +29,15 @@ const performUserDeletion = async (userId: string) => {
 
 export const deleteUser = async (
   _parent: unknown,
-  { userId }: { userId: string }
+  { userId }: { userId: string },
+  context: ContextUser
 ) => {
   try {
+    const authenticatedUserId = requireAuthentication(context);
+    
+    // Check if user can only delete their own account shuu
+    validateUserOwnership(authenticatedUserId, userId, 'delete this account');
+    
     await findUserById(userId);
     
     const deletedUser = await performUserDeletion(userId);
