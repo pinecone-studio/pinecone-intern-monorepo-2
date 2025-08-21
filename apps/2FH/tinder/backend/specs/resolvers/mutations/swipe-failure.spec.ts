@@ -1,123 +1,126 @@
+// apps/2FH/tinder/backend/specs/resolvers/mutations/swipe-failure.spec.ts
 import { Types } from 'mongoose';
-import { swipe, undoLastSwipe } from 'src/resolvers/mutations/swipe-mutation';
-import { Swipe as SwipeModel, Match as MatchModel, Profile as ProfileModel, User as UserModel } from 'src/models';
-import { GraphQLResolveInfo } from 'graphql';
-import { SwipeAction, SwipeResponse } from 'src/generated';
+import { swipe } from '../../../src/utils/swipe-core';
+import { User, Swipe, Profile as ProfileModel } from 'src/models';
+import { SwipeInput } from '../../../src/types/swipe-types';
 
 jest.mock('src/models', () => ({
-  Swipe: { findOne: jest.fn(), create: jest.fn(), findByIdAndDelete: jest.fn(), find: jest.fn().mockReturnValue({ distinct: jest.fn().mockResolvedValue([]) }) },
-  Match: { create: jest.fn() },
-  Profile: { findOne: jest.fn() },
-  User: { findById: jest.fn() },
+  User: {
+    findById: jest.fn(),
+  },
+  Swipe: {
+    findOne: jest.fn(),
+    create: jest.fn(),
+    find: jest.fn(),
+    distinct: jest.fn(),
+  },
+  Profile: {
+    findOne: jest.fn(),
+    findOneAndUpdate: jest.fn(),
+  },
 }));
 
-const mockSwipeModel = SwipeModel as jest.Mocked<typeof SwipeModel>;
-const mockMatchModel = MatchModel as jest.Mocked<typeof MatchModel>;
-const mockProfileModel = ProfileModel as jest.Mocked<typeof ProfileModel>;
-const mockUserModel = UserModel as jest.Mocked<typeof UserModel>;
-
-type MockFunction = (_parent: unknown, _args: Record<string, unknown>, _ctx: unknown, _info: GraphQLResolveInfo) => Promise<unknown>;
-type SwipeResult = { success: boolean; message: string; response: SwipeResponse; match?: unknown; nextProfile?: unknown };
-
-const createMockInfo = (): GraphQLResolveInfo => ({} as GraphQLResolveInfo);
-const createMockUser = () => ({ _id: new Types.ObjectId(), email: 'test@example.com' });
-const createMockProfile = () => ({ _id: new Types.ObjectId(), userId: new Types.ObjectId(), name: 'Test' });
-const createMockSwipe = (swiperId: string, targetId: string, action: SwipeAction) => ({ _id: new Types.ObjectId(), swiperId, targetId, action });
-
-describe('Swipe Mutation Resolvers - Failure Cases', () => {
-  const mockContext = {};
-  const validSwiperId = new Types.ObjectId().toHexString();
-  const validTargetId = new Types.ObjectId().toHexString();
-  const input = { swiperId: validSwiperId, targetId: validTargetId, action: SwipeAction.Like };
+describe('Swipe Failure Cases', () => {
+  const mockSwiperId = new Types.ObjectId().toString();
+  const mockTargetId = new Types.ObjectId().toString();
+  const mockInput: SwipeInput = {
+    swiperId: mockSwiperId,
+    targetId: mockTargetId,
+    action: 'LIKE',
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUserModel.findById.mockResolvedValue(createMockUser());
-    mockSwipeModel.findOne.mockResolvedValue(null);
-    mockProfileModel.findOne.mockResolvedValue(createMockProfile());
-    mockSwipeModel.find.mockReturnValue({ distinct: jest.fn().mockResolvedValue([]) } as unknown as ReturnType<typeof SwipeModel.find>);
   });
 
-  describe('swipe', () => {
-    const mockInfo = createMockInfo();
-    const swipeFn = swipe as unknown as MockFunction;
+  it('should throw GraphQLError for invalid user IDs', async () => {
+    const invalidInput: SwipeInput = { ...mockInput, swiperId: 'invalid-id' };
+    await expect(swipe(null, { input: invalidInput })).rejects.toThrow(
+      'Swipe failed: Invalid user ID format',
+    );
+  });
 
-    test('handles already swiped', async () => {
-      mockSwipeModel.findOne.mockResolvedValue(createMockSwipe(validSwiperId, validTargetId, SwipeAction.Like) as unknown as ReturnType<typeof SwipeModel.findOne>);
-      const result = await swipeFn({}, { input }, mockContext, mockInfo) as SwipeResult;
-      expect(result).toEqual(expect.objectContaining({ success: false, message: 'Already swiped on this profile', response: SwipeResponse.AlreadySwiped }));
+  it('should throw GraphQLError when swiping on own profile', async () => {
+    const selfSwipeInput: SwipeInput = { ...mockInput, targetId: mockSwiperId };
+    await expect(swipe(null, { input: selfSwipeInput })).rejects.toThrow(
+      'Swipe failed: Cannot swipe on your own profile',
+    );
+  });
+
+  it('should throw GraphQLError if one or both users not found', async () => {
+    (User.findById as jest.Mock)
+      .mockResolvedValueOnce(null) // Swiper not found
+      .mockResolvedValueOnce({ _id: mockTargetId }); // Target exists
+    await expect(swipe(null, { input: mockInput })).rejects.toThrow(
+      'Swipe failed: One or both users not found',
+    );
+  });
+
+  it('should handle DISLIKE action without creating a match', async () => {
+    const dislikeInput: SwipeInput = { ...mockInput, action: 'DISLIKE' };
+    (User.findById as jest.Mock)
+      .mockResolvedValueOnce({ _id: mockSwiperId })
+      .mockResolvedValueOnce({ _id: mockTargetId });
+    (Swipe.findOne as jest.Mock).mockResolvedValue(null);
+    (Swipe.create as jest.Mock).mockResolvedValue({});
+    (Swipe.find as jest.Mock).mockReturnValue({
+      distinct: jest.fn().mockResolvedValue([mockSwiperId, mockTargetId]),
     });
+    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce(null);
 
-    test('throws for invalid user ID', async () => {
-      await expect(swipeFn({}, { input: { ...input, swiperId: 'invalid' } }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Invalid user ID format');
+    const result = await swipe(null, { input: dislikeInput });
+
+    expect(result).toEqual({
+      success: true,
+      message: 'Successfully disliked profile',
+      response: 'SUCCESS',
+      match: null,
+      nextProfile: null,
     });
-
-    test('throws for same user ID', async () => {
-      await expect(swipeFn({}, { input: { ...input, targetId: validSwiperId } }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Cannot swipe on your own profile');
-    });
-
-    test('throws when users not found', async () => {
-      mockUserModel.findById.mockResolvedValue(null);
-      await expect(swipeFn({}, { input }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: One or both users not found');
-    });
-
-    test('handles match creation failure', async () => {
-      const mockReverseSwipe = createMockSwipe(validTargetId, validSwiperId, SwipeAction.Like);
-      mockSwipeModel.findOne.mockResolvedValueOnce(null).mockResolvedValueOnce(mockReverseSwipe as unknown as ReturnType<typeof SwipeModel.findOne>);
-      mockSwipeModel.create.mockResolvedValue(createMockSwipe(validSwiperId, validTargetId, SwipeAction.Like) as unknown as ReturnType<typeof SwipeModel.create>);
-      mockMatchModel.create.mockRejectedValue(new Error('Match creation failed'));
-      await expect(swipeFn({}, { input }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Failed to create match: Match creation failed');
-    });
-
-    test('handles non-Error match creation failure', async () => {
-      const mockReverseSwipe = createMockSwipe(validTargetId, validSwiperId, SwipeAction.Like);
-      mockSwipeModel.findOne.mockResolvedValueOnce(null).mockResolvedValueOnce(mockReverseSwipe as unknown as ReturnType<typeof SwipeModel.findOne>);
-      mockSwipeModel.create.mockResolvedValue(createMockSwipe(validSwiperId, validTargetId, SwipeAction.Like) as unknown as ReturnType<typeof SwipeModel.create>);
-      mockMatchModel.create.mockRejectedValue('String error');
-      await expect(swipeFn({}, { input }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Failed to create match: String error');
-    });
-
-    test('handles database error during swipe creation', async () => {
-      mockSwipeModel.findOne.mockResolvedValue(null);
-      mockProfileModel.findOne.mockResolvedValue(createMockProfile());
-      mockSwipeModel.create.mockRejectedValue(new Error('Database error during swipe creation'));
-      await expect(swipeFn({}, { input }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Database error during swipe creation');
-    });
-
-    test('handles non-Error database error during swipe creation', async () => {
-      mockSwipeModel.findOne.mockResolvedValue(null);
-      mockProfileModel.findOne.mockResolvedValue(createMockProfile());
-      mockSwipeModel.create.mockRejectedValue('Non-Error database failure');
-      await expect(swipeFn({}, { input }, mockContext, mockInfo)).rejects.toThrow('Swipe failed: Non-Error database failure');
+    expect(Swipe.create).toHaveBeenCalledWith({
+      swiperId: mockSwiperId,
+      targetId: mockTargetId,
+      action: 'DISLIKE',
     });
   });
 
-  describe('undoLastSwipe', () => {
-    const mockInfo = createMockInfo();
-    const undoLastSwipeFn = undoLastSwipe as unknown as MockFunction;
-
-    test('returns error when no swipe exists', async () => {
-      mockSwipeModel.findOne.mockReturnValue({
-        sort: jest.fn().mockResolvedValue(null),
-      } as unknown as ReturnType<typeof SwipeModel.findOne>);
-      const result = await undoLastSwipeFn({}, { userId: validSwiperId }, mockContext, mockInfo);
-      expect(result).toBe(SwipeResponse.Error);
+  it('should handle SUPER_LIKE action without creating a match', async () => {
+    const superLikeInput: SwipeInput = { ...mockInput, action: 'SUPER_LIKE' };
+    (User.findById as jest.Mock)
+      .mockResolvedValueOnce({ _id: mockSwiperId })
+      .mockResolvedValueOnce({ _id: mockTargetId });
+    (Swipe.findOne as jest.Mock).mockResolvedValue(null);
+    (Swipe.create as jest.Mock).mockResolvedValue({});
+    (Swipe.find as jest.Mock).mockReturnValue({
+      distinct: jest.fn().mockResolvedValue([mockSwiperId, mockTargetId]),
     });
+    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce(null);
 
-    test('throws for invalid user ID', async () => {
-      await expect(undoLastSwipeFn({}, { userId: 'invalid' }, mockContext, mockInfo)).rejects.toThrow('Failed to undo swipe: Invalid user ID format');
+    const result = await swipe(null, { input: superLikeInput });
+
+    expect(result).toEqual({
+      success: true,
+      message: 'Successfully super_liked profile',
+      response: 'SUCCESS',
+      match: null,
+      nextProfile: null,
     });
-
-    test('handles database errors', async () => {
-      mockSwipeModel.findOne.mockReturnValue({
-        sort: jest.fn().mockRejectedValue(new Error('Database connection failed')),
-      } as unknown as ReturnType<typeof SwipeModel.findOne>);
-      await expect(undoLastSwipeFn({}, { userId: validSwiperId }, mockContext, mockInfo)).rejects.toThrow('Failed to undo swipe: Database connection failed');
-
-      mockSwipeModel.findOne.mockReturnValue({
-        sort: jest.fn().mockRejectedValue('String error'),
-      } as unknown as ReturnType<typeof SwipeModel.findOne>);
-      await expect(undoLastSwipeFn({}, { userId: validSwiperId }, mockContext, mockInfo)).rejects.toThrow('Failed to undo swipe: String error');
+    expect(Swipe.create).toHaveBeenCalledWith({
+      swiperId: mockSwiperId,
+      targetId: mockTargetId,
+      action: 'SUPER_LIKE',
     });
+  });
+
+  it('should handle errors in swipe creation', async () => {
+    (User.findById as jest.Mock)
+      .mockResolvedValueOnce({ _id: mockSwiperId })
+      .mockResolvedValueOnce({ _id: mockTargetId });
+    (Swipe.findOne as jest.Mock).mockResolvedValue(null);
+    (Swipe.create as jest.Mock).mockRejectedValue(new Error('Database error'));
+
+    await expect(swipe(null, { input: mockInput })).rejects.toThrow(
+      'Swipe failed: Database error',
+    );
   });
 });

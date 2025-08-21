@@ -1,50 +1,56 @@
 import gql from "graphql-tag";
 
 export const SwipeTypeDefs = gql`
-    enum SwipeAction {
-        LIKE
-        DISLIKE
-        SUPER_LIKE
-    }
+  scalar DateTime
 
-    enum SwipeResponse {
-        SUCCESS
-        ERROR
-        ALREADY_SWIPED
-        MATCH_CREATED
-        NO_MORE_PROFILES
-    }
+  enum SwipeAction {
+  LIKE
+  DISLIKE
+  SUPER_LIKE
+}
 
-    type Swipe {
-        id: ID!
-        swiperId: ID!
-        targetId: ID!
-        action: SwipeAction!
-        swipedAt: Date!
-    }
+enum SwipeResponse {
+  SUCCESS
+  ERROR
+  ALREADY_SWIPED
+  MATCH_CREATED
+  NO_MORE_PROFILES
+}
 
-    type SwipeResult {
-        success: Boolean!
-        message: String!
-        response: SwipeResponse!
-        match: Match
-        nextProfile: Profile
-    }
+type Match {
+  likeduserId: Profile!
+  matcheduserId: Profile!
+}
 
-    input SwipeInput {
-        swiperId: ID!
-        targetId: ID!
-        action: SwipeAction!
-    }
+type Swipe {
+  id: ID!
+  swiperId: ID!
+  targetId: ID!
+  action: SwipeAction!
+  swipedAt: Date!
+}
 
-    type Query {
-        getSwipeHistory(userId: ID!): [Swipe!]!
-        getNextProfile(userId: ID!): Profile
-        getSwipedProfiles(userId: ID!): [Profile!]!
-    }
+type SwipeResult {
+  success: Boolean!
+  message: String!
+  response: SwipeResponse!
+  match: Match
+  nextProfile: Profile
+}
 
-    type Mutation {
-        swipe(input: SwipeInput!): SwipeResult!
-        undoLastSwipe(userId: ID!): SwipeResponse!
-    }
+input SwipeInput {
+  swiperId: ID!
+  targetId: ID!
+  action: SwipeAction!
+}
+
+type Query {
+  getSwipe(userId: ID!): Profile
+}
+
+type Mutation {
+  swipe(input: SwipeInput!): SwipeResult!
+  undoLastSwipe(userId: ID!): SwipeResponse!
+}
+
 `;

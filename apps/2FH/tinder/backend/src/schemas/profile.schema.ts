@@ -3,6 +3,7 @@ import { gql } from 'graphql-tag';
 
 export const ProfileTypeDefs = gql`
   scalar DateTime
+
   enum Gender {
     male
     female
@@ -12,6 +13,11 @@ export const ProfileTypeDefs = gql`
   enum ProfileResponse {
     SUCCESS
     ERROR
+  }
+
+  enum SwipeAction {
+    LIKE
+    DISLIKE
   }
 
   type Profile {
@@ -27,8 +33,15 @@ export const ProfileTypeDefs = gql`
     dateOfBirth: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    likes: [Profile!]!
-    matches: [Profile!]!
+    likes: [ID!]!
+    matches: [ID!]!
+  }
+
+  type Swipe {
+    id: ID!
+    swiperId: ID!
+    targetId: ID!
+    action: SwipeAction!
   }
 
   input CreateProfileInput {
