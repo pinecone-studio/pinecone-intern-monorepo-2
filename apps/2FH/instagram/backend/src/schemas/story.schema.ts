@@ -14,6 +14,7 @@ export const StoryTypeDefs = gql`
 
     input CreateStoryInput {
         image: String!
+        author: String!
     }
 
     type Query {
