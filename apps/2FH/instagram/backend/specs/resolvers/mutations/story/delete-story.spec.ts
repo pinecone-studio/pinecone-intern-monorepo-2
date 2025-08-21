@@ -1,135 +1,144 @@
-import { deleteStory } from "src/resolvers/mutations/story/delete-story";
+import { deleteStory } from "src/resolvers/mutations";
 import { Story } from "src/models";
 import { GraphQLError } from "graphql";
 
 jest.mock("src/models", () => ({
-  Story: { findById: jest.fn(), findByIdAndDelete: jest.fn() },
+  Story: {
+    findById: jest.fn(),
+    findByIdAndDelete: jest.fn(),
+  },
 }));
 
-const mockStory = Story as jest.Mocked<typeof Story>;
+describe("deleteStory", () => {
+  const mockContext = { userId: "user123" };
+  const storyId = "story1";
 
-describe("deleteStory mutation", () => {
-  beforeEach(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  const ctx = { user: { id: "testuser" } };
-  const story = { _id: "story123", author: { toString: () => "testuser" } };
+  it("deletes a story successfully", async () => {
+    const mockStory = { 
+      id: storyId, 
+      author: { toString: () => mockContext.userId }
+    };
+    (Story.findById as jest.Mock).mockResolvedValue(mockStory);
+    (Story.findByIdAndDelete as jest.Mock).mockResolvedValue(mockStory);
 
-  const expectNoDbCalls = () => {
-    expect(mockStory.findById).not.toHaveBeenCalled();
-    expect(mockStory.findByIdAndDelete).not.toHaveBeenCalled();
-  };
-
-  it("should successfully delete a story", async () => {
-    mockStory.findById.mockResolvedValue(story as any);
-    mockStory.findByIdAndDelete.mockResolvedValue(story as any);
-
-    const result = await deleteStory(undefined, { _id: "story123" }, ctx);
-
-    expect(mockStory.findById).toHaveBeenCalledWith("story123");
-    expect(mockStory.findByIdAndDelete).toHaveBeenCalledWith("story123");
+    const result = await deleteStory(null, { _id: storyId }, mockContext);
+    
+    expect(Story.findById).toHaveBeenCalledWith(storyId);
+    expect(Story.findByIdAndDelete).toHaveBeenCalledWith(storyId);
     expect(result).toBe(true);
   });
 
-  it("should return false when deletion fails", async () => {
-    mockStory.findById.mockResolvedValue(story as any);
-    mockStory.findByIdAndDelete.mockResolvedValue(null);
+  it("returns false when deletion fails (findByIdAndDelete returns null)", async () => {
+    const mockStory = { 
+      id: storyId, 
+      author: { toString: () => mockContext.userId }
+    };
+    (Story.findById as jest.Mock).mockResolvedValue(mockStory);
+    (Story.findByIdAndDelete as jest.Mock).mockResolvedValue(null);
 
-    const result = await deleteStory(undefined, { _id: "story123" }, ctx);
+    const result = await deleteStory(null, { _id: storyId }, mockContext);
+    
+    expect(Story.findById).toHaveBeenCalledWith(storyId);
+    expect(Story.findByIdAndDelete).toHaveBeenCalledWith(storyId);
     expect(result).toBe(false);
   });
 
-  describe("validation errors", () => {
-    it.each([
-      ["user undefined", { user: undefined }],
-      ["empty context", {}],
-      ["empty user id", { user: { id: "" } }]
-    ])("should throw when %s", async (_, context) => {
-      await expect(
-        deleteStory(undefined, { _id: "story123" }, context as any)
-      ).rejects.toThrow(new GraphQLError("User is not authenticated"));
-      expectNoDbCalls();
-    });
-
-    it.each([
-      ["empty string", ""],
-      ["undefined", undefined],
-      ["null", null],
-      ["whitespace", "   "]
-    ])("should throw when story ID is %s", async (_, id) => {
-      await expect(
-        deleteStory(undefined, { _id: id as any }, ctx)
-      ).rejects.toThrow(new GraphQLError("Story ID is required"));
-      expectNoDbCalls();
-    });
+  it("throws error if user is not authenticated", async () => {
+    await expect(deleteStory(null, { _id: storyId }, { userId: "" }))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, { userId: "" }))
+      .rejects.toThrow("User is not authenticated");
   });
 
-  it("should throw when story not found", async () => {
-    mockStory.findById.mockResolvedValue(null);
-
-    await expect(
-      deleteStory(undefined, { _id: "nonexistent123" }, ctx)
-    ).rejects.toThrow(new GraphQLError("Story not found"));
-
-    expect(mockStory.findById).toHaveBeenCalledWith("nonexistent123");
-    expect(mockStory.findByIdAndDelete).not.toHaveBeenCalled();
+  it("throws error if story ID is missing", async () => {
+    await expect(deleteStory(null, { _id: "" }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: "" }, mockContext))
+      .rejects.toThrow("Story ID is required");
   });
 
-  it("should throw when user not authorized", async () => {
-    const unauthorizedStory = { ...story, author: { toString: () => "otheruser" } };
-    mockStory.findById.mockResolvedValue(unauthorizedStory as any);
-    
-    await expect(
-      deleteStory(undefined, { _id: "story123" }, ctx)
-    ).rejects.toThrow(new GraphQLError("Not authorized to delete this story"));
-
-    expect(mockStory.findById).toHaveBeenCalledWith("story123");
-    expect(mockStory.findByIdAndDelete).not.toHaveBeenCalled();
+  it("throws error if story ID is only whitespace", async () => {
+    await expect(deleteStory(null, { _id: "   " }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: "   " }, mockContext))
+      .rejects.toThrow("Story ID is required");
   });
 
-  describe("error handling", () => {
-    it("should handle findById GraphQLError", async () => {
-      const error = new GraphQLError("DB error");
-      mockStory.findById.mockRejectedValue(error);
-      
-      await expect(
-        deleteStory(undefined, { _id: "story123" }, ctx)
-      ).rejects.toThrow(error);
-    });
+  it("throws error if story not found", async () => {
+    (Story.findById as jest.Mock).mockResolvedValue(null);
 
-    it("should handle findByIdAndDelete GraphQLError", async () => {
-      const error = new GraphQLError("DB error");
-      mockStory.findById.mockResolvedValue(story as any);
-      mockStory.findByIdAndDelete.mockRejectedValue(error);
-      
-      await expect(
-        deleteStory(undefined, { _id: "story123" }, ctx)
-      ).rejects.toThrow(error);
-    });
-
-    it("should handle generic Error with message wrapping", async () => {
-      const error = new Error("timeout");
-      mockStory.findById.mockRejectedValue(error);
-      
-      await expect(
-        deleteStory(undefined, { _id: "story123" }, ctx)
-      ).rejects.toThrow(new GraphQLError("Failed to delete story: timeout"));
-    });
-
-    it("should handle unknown error types", async () => {
-      mockStory.findById.mockRejectedValue("string error");
-      
-      await expect(
-        deleteStory(undefined, { _id: "story123" }, ctx)
-      ).rejects.toThrow(new GraphQLError("Failed to delete story: Unknown error"));
-    });
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Story not found");
   });
 
-  it("should handle user authentication check after story exists", async () => {
-    const contextWithoutUser = { user: undefined };
-    mockStory.findById.mockResolvedValue(story as any);
+  it("throws error if user is not the author", async () => {
+    const mockStory = { 
+      id: storyId, 
+      author: { toString: () => "otherUser" }
+    };
+    (Story.findById as jest.Mock).mockResolvedValue(mockStory);
 
-    await expect(
-      deleteStory(undefined, { _id: "story123" }, contextWithoutUser)
-    ).rejects.toThrow(new GraphQLError("User is not authenticated"));
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Not authorized to delete this story");
+  });
+
+  it("re-throws GraphQLError without modification", async () => {
+    const originalError = new GraphQLError("Original GraphQL error");
+    (Story.findById as jest.Mock).mockRejectedValue(originalError);
+
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Original GraphQL error");
+  });
+
+  it("throws GraphQLError for unexpected Error instances", async () => {
+    (Story.findById as jest.Mock).mockRejectedValue(new Error("DB connection failed"));
+
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Failed to delete story: DB connection failed");
+  });
+
+  it("throws GraphQLError for non-Error instances", async () => {
+    // This covers the "Unknown error" branch in the ternary operator
+    (Story.findById as jest.Mock).mockRejectedValue("String error");
+
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Failed to delete story: Unknown error");
+  });
+
+  it("handles null/undefined errors", async () => {
+    (Story.findById as jest.Mock).mockRejectedValue(null);
+
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Failed to delete story: Unknown error");
+  });
+
+  it("handles findByIdAndDelete rejection", async () => {
+    const mockStory = { 
+      id: storyId, 
+      author: { toString: () => mockContext.userId }
+    };
+    (Story.findById as jest.Mock).mockResolvedValue(mockStory);
+    (Story.findByIdAndDelete as jest.Mock).mockRejectedValue(new Error("Delete operation failed"));
+
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(deleteStory(null, { _id: storyId }, mockContext))
+      .rejects.toThrow("Failed to delete story: Delete operation failed");
   });
 });

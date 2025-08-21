@@ -3,152 +3,90 @@ import { Story } from "src/models";
 import { GraphQLError } from "graphql";
 
 jest.mock("src/models", () => ({
-  Story: {
-    create: jest.fn(),
-  },
+  Story: { create: jest.fn() },
 }));
 
-const mockStory = Story as jest.Mocked<typeof Story>;
+describe("createStory", () => {
+  const mockContext = { userId: "user123" };
+  const validInput = { image: "http://image.url" };
 
-describe("createStory mutation", () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
-  it("should successfully create a story with valid input", async () => {
-    const input = {
-      author: "testuser",
-      image: "https://example.com/image.jpg",
+
+  it("creates a story successfully", async () => {
+    const mockStory = { 
+      id: "story1", 
+      author: mockContext.userId, 
+      image: validInput.image 
     };
-    const expectedStory = {
-      id: "1",
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-      createdAt: new Date(),
-    };
-    mockStory.create.mockResolvedValue(expectedStory as any);
-    const result = await createStory(undefined, { input });
-    expect(mockStory.create).toHaveBeenCalledWith({
-      author: "testuser",
-      image: "https://example.com/image.jpg",
+    (Story.create as jest.Mock).mockResolvedValue(mockStory);
+
+    const result = await createStory(null, { input: validInput }, mockContext);
+    
+    expect(Story.create).toHaveBeenCalledWith({ 
+      author: mockContext.userId, 
+      image: validInput.image 
     });
-    expect(mockStory.create).toHaveBeenCalledTimes(1);
-    expect(result).toEqual(expectedStory);
+    expect(result).toEqual(mockStory);
   });
-  it("should throw GraphQLError when author is missing", async () => {
-    const input = {
-      author: "",
-      image: "https://example.com/image.jpg",
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("User is not authenticated")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
+
+  it("throws an error if user is not authenticated", async () => {
+    await expect(createStory(null, { input: validInput }, { userId: "" }))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: validInput }, { userId: "" }))
+      .rejects.toThrow("User is not authenticated");
   });
-  it("should throw GraphQLError when author is undefined", async () => {
-    const input = {
-      author: undefined as any,
-      image: "https://example.com/image.jpg",
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("User is not authenticated")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
+
+  it("throws an error if image is missing", async () => {
+    await expect(createStory(null, { input: { image: "" } }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: { image: "" } }, mockContext))
+      .rejects.toThrow("Image is required");
   });
-  it("should throw GraphQLError when image is missing", async () => {
-    const input = {
-      author: "testuser",
-      image: "",
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("Image is required")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
+
+  it("throws an error if image is only whitespace", async () => {
+    await expect(createStory(null, { input: { image: "   " } }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: { image: "   " } }, mockContext))
+      .rejects.toThrow("Image is required");
   });
-  it("should throw GraphQLError when image is undefined", async () => {
-    const input = {
-      author: "testuser",
-      image: undefined as any,
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("Image is required")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
+
+  it("re-throws GraphQLError without modification", async () => {
+    const originalError = new GraphQLError("Original GraphQL error");
+    (Story.create as jest.Mock).mockRejectedValue(originalError);
+
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow("Original GraphQL error");
   });
-  it("should throw GraphQLError when both author and image are missing", async () => {
-    const input = {
-      author: "",
-      image: "",
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("User is not authenticated")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
+
+  it("throws a GraphQLError for unexpected Error instances", async () => {
+    (Story.create as jest.Mock).mockRejectedValue(new Error("DB connection failed"));
+
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow("Failed to create storyDB connection failed");
   });
-  it("should re-throw GraphQLError from Story.create", async () => {
-    const input = {
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    };
-    const originalError = new GraphQLError("Database connection failed");
-    mockStory.create.mockRejectedValue(originalError);
-    await expect(createStory(undefined, { input })).rejects.toThrow(originalError);
-    expect(mockStory.create).toHaveBeenCalledWith({
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    });
+
+  it("throws a GraphQLError for non-Error instances", async () => {
+    // This covers the "Error" branch in the ternary operator
+    (Story.create as jest.Mock).mockRejectedValue("String error");
+
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow("Failed to create storyError");
   });
-  it("should wrap generic Error from Story.create in GraphQLError", async () => {
-    const input = {
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    };
-    const originalError = new Error("Database timeout");
-    mockStory.create.mockRejectedValue(originalError);
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("Failed to create storyDatabase timeout")
-    );
-    expect(mockStory.create).toHaveBeenCalledWith({
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    });
-  });
-  it("should handle non-Error exceptions from Story.create", async () => {
-    const input = {
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    };
-    const originalError = "String error";
-    mockStory.create.mockRejectedValue(originalError);
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("Failed to create storyError")
-    );
-    expect(mockStory.create).toHaveBeenCalledWith({
-      author: "testuser",
-      image: "https://example.com/image.jpg",
-    });
-  });
-  it("should handle null values in input", async () => {
-    const input = {
-      author: null as any,
-      image: null as any,
-    };
-    await expect(createStory(undefined, { input })).rejects.toThrow(
-      new GraphQLError("User is not authenticated")
-    );
-    expect(mockStory.create).not.toHaveBeenCalled();
-  });
-  it("should trim whitespace and reject empty author", async () => {
-    const input = {
-      author: "   ",
-      image: "https://example.com/image.jpg",
-    };
-    const expectedStory = {
-      id: "1",
-      author: "   ",
-      image: "https://example.com/image.jpg",
-    };
-    mockStory.create.mockResolvedValue(expectedStory as any);
-    const result = await createStory(undefined, { input });
-    expect(result).toEqual(expectedStory);
+
+  it("handles null/undefined errors", async () => {
+    (Story.create as jest.Mock).mockRejectedValue(null);
+
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow(GraphQLError);
+    await expect(createStory(null, { input: validInput }, mockContext))
+      .rejects.toThrow("Failed to create storyError");
   });
 });
