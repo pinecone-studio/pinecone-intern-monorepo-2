@@ -4,3 +4,5 @@ export* from "./create-user"
 export * from"./update-profile"
 export * from "./swipe-mutation"
 export * from './login';
+export * from "./sendmessage-mutation"
+
