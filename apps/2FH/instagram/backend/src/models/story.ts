@@ -5,6 +5,7 @@ export type StorySchemaType = {
     image: string
     viewers: Types.ObjectId[]
     createdAt: Date
+    updatedAt: Date
     expiredAt: Date
 }
 
