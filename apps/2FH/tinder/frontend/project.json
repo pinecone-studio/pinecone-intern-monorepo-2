@@ -87,7 +87,7 @@
       "executor": "@pinecone-intern-monorepo/secrets:get",
       "defaultConfiguration": "testing",
       "configurations": {
-        "testing": {
+                "testing": {
           "groups": ["Tinder-2hf-2024-FE"],
           "env": "test"
         }

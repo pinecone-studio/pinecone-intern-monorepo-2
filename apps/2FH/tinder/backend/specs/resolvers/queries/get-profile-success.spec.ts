@@ -68,7 +68,7 @@ describe('getProfile Resolver - Success Cases', () => {
     const mockProfile = createMockProfile(gender, dateOfBirth);
     mockFindOne.mockResolvedValue(mockProfile);
 
-    const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext, mockInfo);
+    const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
 
     expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
     expect(result).toEqual({
@@ -125,7 +125,7 @@ describe('getProfile Resolver - Success Cases', () => {
       select: jest.fn().mockResolvedValue(mockMatches)
     } as any);
 
-    const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext, mockInfo);
+    const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
 
     expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
     expect(result).toEqual({
