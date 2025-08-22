@@ -1,5 +1,4 @@
-query Query {
-  sampleQuery
+query hotelsQuery {
   hotels {
     id
     name
@@ -14,8 +13,4 @@ query Query {
     amenities
     languages
   }
-}
-
-mutation Mutation {
-  sampleMutation
 }
