@@ -1,13 +1,13 @@
  import { login } from "src/resolvers/mutations/login";
 import { User } from "src/models";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { UserResponse } from "src/generated";
  
 jest.mock("src/models", () => ({
   User: { findOne: jest.fn() },
 }));
-jest.mock("bcrypt", () => ({
+jest.mock("bcryptjs", () => ({
   compare: jest.fn(),
 }));
 jest.mock("jsonwebtoken", () => ({
@@ -41,7 +41,7 @@ describe("login mutation", () => {
  
   it("should return error if password is incorrect", async () => {
     (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+    (bcryptjs.compare as jest.Mock).mockResolvedValue(false);
  
     const result = await login!({}, { email: "test@example.com", password: "wrongpassword" }, {} as any, {} as any);
  
@@ -53,7 +53,7 @@ describe("login mutation", () => {
  
   it("should handle jwt.sign exception and return error", async () => {
     (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (bcryptjs.compare as jest.Mock).mockResolvedValue(true);
     (jwt.sign as jest.Mock).mockImplementation(() => {
       throw new Error("JWT generation error");
     });
@@ -68,12 +68,12 @@ describe("login mutation", () => {
  
   it("should login successfully and return token + user", async () => {
     (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (bcryptjs.compare as jest.Mock).mockResolvedValue(true);
     (jwt.sign as jest.Mock).mockReturnValue("mockedToken123");
  
     const result = await login!({}, { email: "test@example.com", password: "password123" }, {} as any, {} as any);
  
-    expect(bcrypt.compare).toHaveBeenCalledWith("password123", mockUser.password);
+    expect(bcryptjs.compare).toHaveBeenCalledWith("password123", mockUser.password);
     expect(jwt.sign).toHaveBeenCalledWith(
       { userId: mockUser._id },
       process.env.JWT_SECRET!,
@@ -87,7 +87,7 @@ describe("login mutation", () => {
  
   it("should return error if JWT secret is not configured", async () => {
     (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-    (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+    (bcryptjs.compare as jest.Mock).mockResolvedValue(true);
  
     const previousSecret = process.env.JWT_SECRET;
     delete process.env.JWT_SECRET;
