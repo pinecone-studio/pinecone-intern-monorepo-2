@@ -125,7 +125,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress frontend"],
+        "commands": ["npx nx execute-cypress scripts frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]
