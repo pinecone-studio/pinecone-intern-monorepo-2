@@ -1,6 +1,6 @@
 import { MutationResolvers, LoginResponse, UserResponse } from "src/generated";
 import { User } from "src/models";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 class LoginError extends Error {}
@@ -10,7 +10,7 @@ async function findUserByEmail(email: string) {
 }
 
 async function validatePassword(password: string, hashedPassword: string) {
-  return await bcrypt.compare(password, hashedPassword);
+  return await bcryptjs.compare(password, hashedPassword);
 }
 
 function createToken(userId: string, secret: string) {
