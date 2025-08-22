@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 import { GraphQLError } from 'graphql';
 import { Types } from 'mongoose';
 import { EditProfile } from 'src/models/edit-profile';
