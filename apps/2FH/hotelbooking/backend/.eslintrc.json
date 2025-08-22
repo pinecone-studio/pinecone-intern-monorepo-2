@@ -26,6 +26,11 @@
       "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
+      },
+      "rules": {
+        "max-lines": ["error", { "max": 500 }],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
       }
     }
   ]
