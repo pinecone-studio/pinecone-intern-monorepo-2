@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const UserTypeDefs = gql`
   scalar Date
@@ -60,14 +60,14 @@ export const UserTypeDefs = gql`
     gender: Gender
     isPrivate: Boolean
   }
-  
+
   input LoginInput {
-    identifier: String!  
+    identifier: String!
     password: String!
   }
 
   input ForgotPasswordInput {
-    identifier: String! 
+    identifier: String!
   }
 
   input ResetPasswordInput {
@@ -96,7 +96,7 @@ export const UserTypeDefs = gql`
     resetPassword(input: ResetPasswordInput!): Boolean!
     verifyOTP(identifier: String!, otp: String!): Boolean!
     otpStorage(input: OtpStorageInput!): Boolean!
-    
+
     updateUser(_id: ID!, input: UpdateUserInput!): User!
     deleteUser(userId: ID!): DeleteUserResponse!
     followUser(targetUserId: ID!): Boolean!

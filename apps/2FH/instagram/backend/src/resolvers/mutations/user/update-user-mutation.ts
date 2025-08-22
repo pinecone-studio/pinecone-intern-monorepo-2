@@ -19,13 +19,12 @@ const buildSearchConditions = (input: UpdateUserInput) => {
 
 const buildUserSearchQuery = (input: UpdateUserInput, currentUserId: string) => {
   const conditions = buildSearchConditions(input);
-  
-  return conditions.length > 0 ? {
-    $and: [
-      { _id: { $ne: currentUserId } },
-      { $or: conditions }
-    ]
-  } : null;
+
+  return conditions.length > 0
+    ? {
+        $and: [{ _id: { $ne: currentUserId } }, { $or: conditions }],
+      }
+    : null;
 };
 
 type ExistingUser = {
@@ -34,6 +33,33 @@ type ExistingUser = {
   phoneNumber?: string;
 };
 
+<<<<<<< Updated upstream
+=======
+const checkUsernameConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
+  if (input.userName && existingUser.userName === input.userName) {
+    throw new GraphQLError('Username already exists', {
+      extensions: { code: 'USERNAME_EXISTS' },
+    });
+  }
+};
+
+const checkEmailConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
+  if (input.email && existingUser.email === input.email) {
+    throw new GraphQLError('Email already exists', {
+      extensions: { code: 'EMAIL_EXISTS' },
+    });
+  }
+};
+
+const checkPhoneConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
+  if (input.phoneNumber && existingUser.phoneNumber === input.phoneNumber) {
+    throw new GraphQLError('Phone number already exists', {
+      extensions: { code: 'PHONE_EXISTS' },
+    });
+  }
+};
+
+>>>>>>> Stashed changes
 const validateUserConflict = (existingUser: ExistingUser, input: UpdateUserInput) => {
   const conflictChecks = [
     {
@@ -56,6 +82,7 @@ const validateUserConflict = (existingUser: ExistingUser, input: UpdateUserInput
     }
   ];
 
+<<<<<<< Updated upstream
   const conflict = conflictChecks.find(check => 
     check.inputValue && check.existingValue === check.inputValue
   );
@@ -63,17 +90,25 @@ const validateUserConflict = (existingUser: ExistingUser, input: UpdateUserInput
   if (conflict) {
     throw new GraphQLError(conflict.error, {
       extensions: { code: conflict.code }
+=======
+const performUserUpdate = async (userId: string, input: UpdateUserInput) => {
+  const updatedUser = await User.findByIdAndUpdate(userId, { $set: input }, { new: true, runValidators: true });
+
+  if (!updatedUser) {
+    throw new GraphQLError('Failed to update user', {
+      extensions: { code: 'UPDATE_FAILED' },
+>>>>>>> Stashed changes
     });
   }
 };
 
 const checkExistingUser = async (input: UpdateUserInput, currentUserId: string) => {
   const searchQuery = buildUserSearchQuery(input, currentUserId);
-  
+
   if (!searchQuery) return;
-  
+
   const existingUser = await User.findOne(searchQuery);
-  
+
   if (existingUser) {
     validateUserConflict(existingUser, input);
   }
@@ -125,7 +160,7 @@ export const updateUser = async (
       throw error;
     }
     throw new GraphQLError('Failed to update user', {
-      extensions: { code: 'USER_UPDATE_FAILED' }
+      extensions: { code: 'USER_UPDATE_FAILED' },
     });
   }
 };

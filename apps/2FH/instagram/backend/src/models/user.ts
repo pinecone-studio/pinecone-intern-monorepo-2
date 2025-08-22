@@ -1,10 +1,10 @@
-import { Schema, model, Model, models, Types } from "mongoose";
+import { Schema, model, Model, models, Types } from 'mongoose';
 
 /* eslint-disable no-unused-vars */
 export enum Gender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
-  OTHER = "OTHER",
+  FEMALE = 'FEMALE',
+  MALE = 'MALE',
+  OTHER = 'OTHER',
 }
 /* eslint-enable no-unused-vars */
 
@@ -39,15 +39,14 @@ const UserSchema = new Schema<UserSchemaType>(
     gender: { type: String, enum: Object.values(Gender), required: true },
     isPrivate: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
-    posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-    stories: [{ type: Schema.Types.ObjectId, ref: "Story" }],
-    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    followings: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+    stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }],
+    followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    followings: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
-export const User =
-  (models.User as Model<UserSchemaType>) || model<UserSchemaType>("User", UserSchema);
+export const User = (models.User as Model<UserSchemaType>) || model<UserSchemaType>('User', UserSchema);
