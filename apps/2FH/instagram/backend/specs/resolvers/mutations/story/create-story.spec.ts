@@ -1,92 +1,120 @@
-import { createStory } from "src/resolvers/mutations";
-import { Story } from "src/models";
-import { GraphQLError } from "graphql";
+import { createStory } from 'src/resolvers/mutations';
+import { Story, User } from 'src/models';
+import { GraphQLError } from 'graphql';
+import { Types } from 'mongoose';
 
-jest.mock("src/models", () => ({
+jest.mock('src/models', () => ({
   Story: { create: jest.fn() },
+  User: { findById: jest.fn() }
 }));
 
-describe("createStory", () => {
-  const mockContext = { userId: "user123" };
-  const validInput = { image: "http://image.url" };
+const mockedStory = Story as jest.Mocked<typeof Story>;
+const mockedUser = User as jest.Mocked<typeof User>;
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+describe('createStory resolver', () => {
+  beforeEach(() => jest.clearAllMocks());
 
-  it("creates a story successfully", async () => {
-    const mockStory = { 
-      id: "story1", 
-      author: mockContext.userId, 
-      image: validInput.image 
-    };
-    (Story.create as jest.Mock).mockResolvedValue(mockStory);
+  const validInput = { image: 'https://example.com/image.jpg', author: '507f1f77bcf86cd799439011' };
+  const mockUser = { _id: new Types.ObjectId(validInput.author), name: 'Test User' };
+  const mockStory = { 
+    _id: new Types.ObjectId('507f1f77bcf86cd799439012'), 
+    author: new Types.ObjectId(validInput.author), 
+    image: validInput.image,
+    viewers: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    expiredAt: new Date()
+  };
 
-    const result = await createStory(null, { input: validInput }, mockContext);
-    
-    expect(Story.create).toHaveBeenCalledWith({ 
-      author: mockContext.userId, 
-      image: validInput.image 
-    });
+  it('should create story with valid input', async () => {
+    mockedUser.findById.mockResolvedValue(mockUser as any);
+    mockedStory.create.mockResolvedValue(mockStory as any);
+
+    const result = await createStory(undefined, { input: validInput });
+
+    expect(mockedUser.findById).toHaveBeenCalledWith({ _id: validInput.author });
+    expect(mockedStory.create).toHaveBeenCalledWith({ author: validInput.author, image: validInput.image });
     expect(result).toEqual(mockStory);
   });
 
-  it("throws an error if user is not authenticated", async () => {
-    await expect(createStory(null, { input: validInput }, { userId: "" }))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, { userId: "" }))
-      .rejects.toThrow("User is not authenticated");
+  it('should throw error when image is empty', async () => {
+    await expect(createStory(undefined, { input: { ...validInput, image: '' } }))
+      .rejects.toThrow(new GraphQLError('Image is required'));
+    expect(mockedUser.findById).not.toHaveBeenCalled();
   });
 
-  it("throws an error if image is missing", async () => {
-    await expect(createStory(null, { input: { image: "" } }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: { image: "" } }, mockContext))
-      .rejects.toThrow("Image is required");
+  it('should throw error when image is whitespace', async () => {
+    await expect(createStory(undefined, { input: { ...validInput, image: '   ' } }))
+      .rejects.toThrow(new GraphQLError('Image is required'));
   });
 
-  it("throws an error if image is only whitespace", async () => {
-    await expect(createStory(null, { input: { image: "   " } }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: { image: "   " } }, mockContext))
-      .rejects.toThrow("Image is required");
+  it('should throw error when image is null', async () => {
+    await expect(createStory(undefined, { input: { ...validInput, image: null as any } }))
+      .rejects.toThrow(new GraphQLError('Image is required'));
   });
 
-  it("re-throws GraphQLError without modification", async () => {
-    const originalError = new GraphQLError("Original GraphQL error");
-    (Story.create as jest.Mock).mockRejectedValue(originalError);
-
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow("Original GraphQL error");
+  it('should throw error when author is empty', async () => {
+    await expect(createStory(undefined, { input: { ...validInput, author: '' } }))
+      .rejects.toThrow(new GraphQLError('User is not authenticated'));
   });
 
-  it("throws a GraphQLError for unexpected Error instances", async () => {
-    (Story.create as jest.Mock).mockRejectedValue(new Error("DB connection failed"));
-
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow("Failed to create storyDB connection failed");
+  it('should throw error when author is null', async () => {
+    await expect(createStory(undefined, { input: { ...validInput, author: null as any } }))
+      .rejects.toThrow(new GraphQLError('User is not authenticated'));
   });
 
-  it("throws a GraphQLError for non-Error instances", async () => {
-    // This covers the "Error" branch in the ternary operator
-    (Story.create as jest.Mock).mockRejectedValue("String error");
-
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow("Failed to create storyError");
+  it('should handle User.findById errors', async () => {
+    mockedUser.findById.mockRejectedValue(new Error('DB error'));
+    await expect(createStory(undefined, { input: validInput }))
+      .rejects.toThrow(new GraphQLError('Failed to create story DB error'));
   });
 
-  it("handles null/undefined errors", async () => {
-    (Story.create as jest.Mock).mockRejectedValue(null);
+  it('should handle Story.create errors', async () => {
+    mockedUser.findById.mockResolvedValue(mockUser as any);
+    mockedStory.create.mockRejectedValue(new Error('Create error'));
+    await expect(createStory(undefined, { input: validInput }))
+      .rejects.toThrow(new GraphQLError('Failed to create story Create error'));
+  });
 
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow("Failed to create storyError");
+  it('should handle non-Error objects', async () => {
+    mockedUser.findById.mockResolvedValue(mockUser as any);
+    mockedStory.create.mockRejectedValue('String error');
+    await expect(createStory(undefined, { input: validInput }))
+      .rejects.toThrow(new GraphQLError('Failed to create story Error'));
+  });
+
+  it('should re-throw existing GraphQLError', async () => {
+    const gqlError = new GraphQLError('Custom error');
+    mockedUser.findById.mockRejectedValue(gqlError);
+    await expect(createStory(undefined, { input: validInput }))
+      .rejects.toThrow(gqlError);
+  });
+
+  it('should handle when user is not found', async () => {
+    mockedUser.findById.mockResolvedValue(null);
+    mockedStory.create.mockResolvedValue(mockStory as any);
+
+    const result = await createStory(undefined, { input: validInput });
+    expect(result).toEqual(mockStory);
+  });
+
+  it('should handle special characters in image', async () => {
+    const specialInput = { ...validInput, image: '!@#$%' };
+    mockedUser.findById.mockResolvedValue(mockUser as any);
+    const specialStory = { ...mockStory, image: '!@#$%' };
+    mockedStory.create.mockResolvedValue(specialStory as any);
+
+    const result = await createStory(undefined, { input: specialInput });
+    expect(result.image).toBe('!@#$%');
+  });
+
+  it('should handle undefined input', async () => {
+    await expect(createStory(undefined, { input: undefined as any }))
+      .rejects.toThrow();
+  });
+
+  it('should handle null input', async () => {
+    await expect(createStory(undefined, { input: null as any }))
+      .rejects.toThrow();
   });
 });
