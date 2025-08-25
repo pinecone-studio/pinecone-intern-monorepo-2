@@ -21,30 +21,48 @@ const validateBookingUpdate = (updBooking: unknown): void => {
   }
 };
 
+const validateRequiredParameters = (args: { updateBookingId?: string; input?: UpdateBookingInput }): void => {
+  if (!args.updateBookingId) {
+    throw new GraphQLError('updateBookingId is required', {
+      extensions: { code: 'MISSING_REQUIRED_PARAMETER' }
+    });
+  }
+
+  if (!args.input) {
+    throw new GraphQLError('input is required', {
+      extensions: { code: 'MISSING_REQUIRED_PARAMETER' }
+    });
+  }
+};
+
+const handleUpdateError = (error: unknown): never => {
+  if (error instanceof GraphQLError) {
+    throw error;
+  }
+  
+  console.error(error);
+  throw new GraphQLError('Cannot update booking', {
+    extensions: { code: 'BOOKING_UPDATE_FAILED' }
+  });
+};
+
 export const updateBooking = async (
   _: unknown,
-  { id, input }: { id: string; input: UpdateBookingInput },
+  args: { updateBookingId?: string; input?: UpdateBookingInput },
   __: unknown,
   ___: unknown
 ): Promise<Response> => {
   try {
-    // Transform input data to handle status mapping
-    const updateData = prepareUpdateData(input);
+    validateRequiredParameters(args);
+    const { updateBookingId, input } = args;
 
-    const updBooking = await BookingModel.findByIdAndUpdate(id, updateData, { new: true });
+    // TypeScript knows these are defined after validation
+    const updateData = prepareUpdateData(input as UpdateBookingInput);
+    const updBooking = await BookingModel.findByIdAndUpdate(updateBookingId as string, updateData, { new: true });
 
     validateBookingUpdate(updBooking);
-   
     return Response.Success;
   } catch (error) {
-    // Re-throw GraphQLError if it's already a GraphQLError
-    if (error instanceof GraphQLError) {
-      throw error;
-    }
-    
-    console.error(error);
-    throw new GraphQLError('Cannot update booking', {
-      extensions: { code: 'BOOKING_UPDATE_FAILED' }
-    });
+    return handleUpdateError(error);
   }
 };

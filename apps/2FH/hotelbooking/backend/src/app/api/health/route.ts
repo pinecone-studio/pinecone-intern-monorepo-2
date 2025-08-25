@@ -12,7 +12,14 @@ const getReadyStateText = (readyState: number): string => {
   return stateMap[readyState] || 'unknown';
 };
 
-const getDatabaseStatus = (connection: any) => ({
+interface DatabaseConnection {
+  readyState: number;
+  host: string;
+  port: number;
+  name: string;
+}
+
+const getDatabaseStatus = (connection: DatabaseConnection) => ({
   status: connection.readyState === 1 ? 'connected' : 'disconnected',
   readyState: connection.readyState,
   readyStateText: getReadyStateText(connection.readyState),
@@ -32,7 +39,16 @@ const getCacheHeaders = () => ({
   'Expires': '0'
 });
 
-const tryDatabaseConnection = async (healthStatus: any) => {
+interface HealthStatus {
+  status: string;
+  database: {
+    status: string;
+    readyState: number;
+    readyStateText: string;
+  };
+}
+
+const tryDatabaseConnection = async (healthStatus: HealthStatus) => {
   try {
     await connectToDb();
     healthStatus.database.status = 'connected';

@@ -331,6 +331,57 @@ describe('bookings resolver', () => {
       await expect(bookings(mockParent, {}, mockContext, mockInfo))
         .rejects.toThrow('Database operation timed out. Please try again.');
     });
+
+    it('should handle database connection error', async () => {
+      // Arrange
+      const mockError = new Error('Database connection is not available');
+      mockBookingModel.find = jest.fn().mockReturnValue({
+        sort: jest.fn().mockReturnValue({
+          exec: jest.fn().mockRejectedValue(mockError)
+        })
+      });
+
+      // Act & Assert
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+      
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow('Database connection is not available. Please try again later.');
+    });
+
+    it('should handle data integrity error with undefined field message', async () => {
+      // Arrange
+      const mockError = new Error('Cannot return undefined for non-nullable field');
+      mockBookingModel.find = jest.fn().mockReturnValue({
+        sort: jest.fn().mockReturnValue({
+          exec: jest.fn().mockRejectedValue(mockError)
+        })
+      });
+
+      // Act & Assert
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+      
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow('Failed to fetch bookings');
+    });
+
+    it('should handle error that is not an Error instance', async () => {
+      // Arrange
+      const mockError = 123; // Not an Error instance
+      mockBookingModel.find = jest.fn().mockReturnValue({
+        sort: jest.fn().mockReturnValue({
+          exec: jest.fn().mockRejectedValue(mockError)
+        })
+      });
+
+      // Act & Assert
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+      
+      await expect(bookings(mockParent, {}, mockContext, mockInfo))
+        .rejects.toThrow('Failed to fetch bookings');
+    });
   });
 
   describe('sample data logging', () => {

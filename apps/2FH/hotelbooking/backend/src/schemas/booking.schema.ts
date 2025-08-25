@@ -57,7 +57,7 @@ export const bookingTypeDefs = gql`
 
     extend type Mutation {
         createBooking(input: CreateBookingInput!): Booking!
-        updateBooking(id:ID!,input: UpdateBookingInput!): Response!
+        updateBooking(updateBookingId:ID!,input: UpdateBookingInput!): Response!
         deleteBooking(id:ID!): Response!
     }
 `;

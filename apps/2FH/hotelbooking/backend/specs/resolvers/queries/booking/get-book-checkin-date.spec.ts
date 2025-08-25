@@ -386,5 +386,23 @@ describe('getBookingsByCheckInDate resolver', () => {
       await expect(getBookingsByCheckInDate(mockParent, { checkInDate }, mockContext, mockInfo))
         .rejects.toThrow('Failed to fetch bookings by check-in date');
     });
+
+    it('should throw GraphQLError when database operation fails with non-Error object', async () => {
+      // Arrange
+      const checkInDate = '2024-01-01';
+      const mockError = 'String error'; // Not an Error instance
+
+      // Mock the database query to throw a non-Error to test the else branch
+      mockBookingModel.find = jest.fn().mockReturnValue({
+        sort: jest.fn().mockRejectedValue(mockError)
+      });
+
+      // Act & Assert
+      await expect(getBookingsByCheckInDate(mockParent, { checkInDate }, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+      
+      await expect(getBookingsByCheckInDate(mockParent, { checkInDate }, mockContext, mockInfo))
+        .rejects.toThrow('Failed to fetch bookings by check-in date');
+    });
   });
 });

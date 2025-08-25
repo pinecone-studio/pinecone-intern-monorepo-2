@@ -4,6 +4,8 @@ import { CreateBookingInput, Booking, BookingStatus } from '../../../generated';
 import { mapGraphQLToMongooseBookingStatus } from '../../common/booking-status.mapper';
 import { transformBooking } from '../../../utils/transform-booking';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const validateDateRange = (checkInDate: string, checkOutDate: string): void => {
   if (new Date(checkOutDate) <= new Date(checkInDate)) {
     throw new GraphQLError('Check-out date must be after check-in date', {
@@ -50,6 +52,7 @@ const validateInput = (input: CreateBookingInput): void => {
   validateCheckInDate(checkInDate);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const extractDocumentFromResult = (createdBooking: any) => {
   if (Array.isArray(createdBooking)) {
     return createdBooking[0]; // Take first item if array
@@ -57,6 +60,7 @@ const extractDocumentFromResult = (createdBooking: any) => {
   return createdBooking; // Single document
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createFallbackObject = (document: any) => ({
   _id: document._id || document.id,
   userId: document.userId,
@@ -71,6 +75,7 @@ const createFallbackObject = (document: any) => ({
   updatedAt: document.updatedAt || new Date()
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const convertDocumentToPlainObject = (document: any) => {
   if (document && typeof document.toObject === 'function') {
     return document.toObject();

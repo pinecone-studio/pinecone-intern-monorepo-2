@@ -3,12 +3,28 @@ import { Booking } from '../generated';
 import { transformBookings } from './transform-booking';
 import { convertMongooseArrayToPlain } from './convert-mongoose';
 import { PlainBooking } from '../types/booking.types';
+import { Document } from 'mongoose';
 import { 
   isTestEnvironment, 
   checkConnectionStatus, 
   logSampleBookingData, 
   handleConnectionError 
 } from './booking-helpers';
+
+// Use a more flexible type that matches Mongoose's actual document structure
+type BookingDocument = Document<unknown> & {
+  _id: import('mongoose').Types.ObjectId;
+  userId: import('mongoose').Types.ObjectId;
+  hotelId: import('mongoose').Types.ObjectId;
+  roomId: import('mongoose').Types.ObjectId;
+  checkInDate: Date;
+  checkOutDate: Date;
+  adults: number;
+  children: number;
+  status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
 // Helper function to execute database query based on environment
 const executeBookingQuery = async () => {
@@ -73,7 +89,7 @@ const logConnectionInfo = async (): Promise<void> => {
   }
 };
 
-const processBookingsData = (bookings: any[]): Booking[] => {
+const processBookingsData = (bookings: BookingDocument[]): Booking[] => {
   if (!bookings || bookings.length === 0) {
     console.log('No bookings found in database');
     return [];

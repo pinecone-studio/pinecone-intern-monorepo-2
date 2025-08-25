@@ -37,7 +37,7 @@ describe('updateBooking resolver', () => {
       mockBookingModel.findByIdAndUpdate.mockResolvedValue(mockUpdatedBooking);
 
       // Act
-      const result = await updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo);
+      const result = await updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo);
 
       // Assert
       expect(mockBookingModel.findByIdAndUpdate).toHaveBeenCalledWith(
@@ -64,7 +64,7 @@ describe('updateBooking resolver', () => {
       mockBookingModel.findByIdAndUpdate.mockResolvedValue(mockUpdatedBooking);
 
       // Act
-      const result = await updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo);
+      const result = await updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo);
 
       // Assert
       expect(result).toBe(Response.Success);
@@ -80,15 +80,51 @@ describe('updateBooking resolver', () => {
       mockBookingModel.findByIdAndUpdate.mockResolvedValue(null);
 
       // Act & Assert
-      await expect(updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo))
+      await expect(updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo))
         .rejects.toThrow(GraphQLError);
 
       try {
-        await updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo);
+        await updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo);
       } catch (error) {
         expect(error).toBeInstanceOf(GraphQLError);
         expect((error as GraphQLError).message).toBe('Booking not found');
         expect((error as GraphQLError).extensions?.code).toBe('BOOKING_NOT_FOUND');
+      }
+    });
+  });
+
+  describe('parameter validation', () => {
+    it('should throw error when updateBookingId is missing', async () => {
+      // Arrange
+      const input = { checkInDate: '2024-02-01', checkOutDate: '2024-02-03' };
+
+      // Act & Assert
+      await expect(updateBookingResolver(mockParent, { input }, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+
+      try {
+        await updateBookingResolver(mockParent, { input }, mockContext, mockInfo);
+      } catch (error) {
+        expect(error).toBeInstanceOf(GraphQLError);
+        expect((error as GraphQLError).message).toBe('updateBookingId is required');
+        expect((error as GraphQLError).extensions?.code).toBe('MISSING_REQUIRED_PARAMETER');
+      }
+    });
+
+    it('should throw error when input is missing', async () => {
+      // Arrange
+      const validId = '507f1f77bcf86cd799439011';
+
+      // Act & Assert
+      await expect(updateBookingResolver(mockParent, { updateBookingId: validId }, mockContext, mockInfo))
+        .rejects.toThrow(GraphQLError);
+
+      try {
+        await updateBookingResolver(mockParent, { updateBookingId: validId }, mockContext, mockInfo);
+      } catch (error) {
+        expect(error).toBeInstanceOf(GraphQLError);
+        expect((error as GraphQLError).message).toBe('input is required');
+        expect((error as GraphQLError).extensions?.code).toBe('MISSING_REQUIRED_PARAMETER');
       }
     });
   });
@@ -105,7 +141,7 @@ describe('updateBooking resolver', () => {
       mockBookingModel.findByIdAndUpdate.mockRejectedValue(graphQLError);
 
       // Act & Assert
-      await expect(updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo))
+      await expect(updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo))
         .rejects.toThrow(graphQLError);
     });
 
@@ -118,11 +154,11 @@ describe('updateBooking resolver', () => {
       mockBookingModel.findByIdAndUpdate.mockRejectedValue(genericError);
 
       // Act & Assert
-      await expect(updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo))
+      await expect(updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo))
         .rejects.toThrow(GraphQLError);
 
       try {
-        await updateBookingResolver(mockParent, { id: validId, input }, mockContext, mockInfo);
+        await updateBookingResolver(mockParent, { updateBookingId: validId, input }, mockContext, mockInfo);
       } catch (error) {
         expect(error).toBeInstanceOf(GraphQLError);
         expect((error as GraphQLError).message).toBe('Cannot update booking');
