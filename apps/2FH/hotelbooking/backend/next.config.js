@@ -21,16 +21,11 @@ const nextConfig = {
       },
     ];
   },
-  // Remove the env section as it's not needed for server-side environment variables
-  // env: {
-  //   MONGO_URI: process.env.MONGO_URI,
-  // },
+  env: {
+    MONGO_URI: process.env.MONGO_URI,
+  },
   nx: {
     svgr: false,
-  },
-  // Ensure environment variables are available
-  experimental: {
-    serverComponentsExternalPackages: ['mongoose'],
   },
 };
 
