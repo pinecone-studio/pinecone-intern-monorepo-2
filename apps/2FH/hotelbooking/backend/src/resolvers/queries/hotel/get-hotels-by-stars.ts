@@ -1,6 +1,7 @@
 import { QueryResolvers } from 'src/generated';
 import { HotelModel } from 'src/models';
 import { mapAmenityToGraphQL } from 'src/resolvers/common/amenities';
+import { PlainHotel } from 'src/types/hotel.types';
 
 export const hotelsByStars: QueryResolvers['hotelsByStars'] = async (_, { stars }) => {
   try {
@@ -9,7 +10,7 @@ export const hotelsByStars: QueryResolvers['hotelsByStars'] = async (_, { stars 
       .lean()
       .exec();
 
-    return hotels.map((hotelObj: any) => {
+    return hotels.map((hotelObj: PlainHotel) => {
       const { _id, amenities = [], ...rest } = hotelObj;
       return {
         ...rest,
