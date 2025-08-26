@@ -117,4 +117,12 @@ describe('createStory resolver', () => {
     await expect(createStory(undefined, { input: null as any }))
       .rejects.toThrow();
   });
+
+  it('should throw error when user is not found', async () => {
+    mockedUser.findById.mockResolvedValue(null);
+    
+    await expect(createStory(undefined, { input: validInput }))
+      .rejects.toThrow(new GraphQLError('User not found'));
+    expect(mockedStory.create).not.toHaveBeenCalled();
+  });
 });
