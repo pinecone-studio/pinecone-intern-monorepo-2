@@ -1,29 +1,41 @@
-import { GraphQLError } from "graphql";
-import { Comment } from "src/models";
+import { GraphQLError } from 'graphql';
+import { Comment } from 'src/models';
 
 function validateId(_id: string) {
-  if (!_id || _id.trim() === "") {
-    throw new GraphQLError("Id is not found");
+  if (!_id || _id.trim() === '') {
+    throw new GraphQLError('Id is not found');
   }
 }
 
-function validateDeleted(deletedComment: unknown) {
+async function checkAuthor(_id: string, userId?: string) {
+  if (!userId) return;
+
+  const comment = await Comment.findById(_id);
+  if (!comment) {
+    throw new GraphQLError('comment not found');
+  }
+  if (comment.author._id.toString() !== userId) {
+    throw new GraphQLError('You are not the author of this comment');
+  }
+}
+
+async function removeCommentById(_id: string) {
+  const deletedComment = await Comment.findByIdAndDelete(_id);
   if (!deletedComment) {
-    throw new GraphQLError("not found deleted comment");
+    throw new GraphQLError('not found deleted comment');
   }
+  return deletedComment;
 }
 
-export const deleteComment = async (_: unknown, _id: string) => {
-  validateId(_id); // id-г шууд шалгах try/catch-аас гадна
-
+export const deleteComment = async (_: unknown, _id: string, userId?: string) => {
   try {
-    const deletedComment = await Comment.findByIdAndDelete({_id});
-    validateDeleted(deletedComment);
-    return deletedComment;
+    validateId(_id);
+    await checkAuthor(_id, userId);
+    return await removeCommentById(_id);
   } catch (error) {
-    if (error instanceof GraphQLError) throw error;
-    throw new GraphQLError(
-      "Failed to delete comment:" + (error instanceof Error ? error.message : JSON.stringify(error))
-    );
+    if (error instanceof GraphQLError) {
+      throw error;
+    }
+    throw new GraphQLError('Failed to delete comment:' + (error instanceof Error ? error.message : JSON.stringify(error)));
   }
 };

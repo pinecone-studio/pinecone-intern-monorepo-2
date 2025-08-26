@@ -1,3 +1,3 @@
-export *from './create-comment'
-export * from './update-comment'
-export * from './delete-comment'
+export * from './create-comment';
+export * from './update-by-content';
+export * from './delete-comment';

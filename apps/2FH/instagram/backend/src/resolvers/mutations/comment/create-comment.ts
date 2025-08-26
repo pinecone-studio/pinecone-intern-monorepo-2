@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql"
-import { Comment } from "src/models"
+import { Comment, PostModel } from "src/models"
 
 interface CreateCommentInput {
   author: string
@@ -35,7 +35,7 @@ export const createComment = async (
       postId,
       content,
     })
-
+await PostModel.findByIdAndUpdate({postId},{$push:{comments:comment}})
     return comment
   } catch (error) {
     if (error instanceof GraphQLError) {

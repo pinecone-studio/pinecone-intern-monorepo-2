@@ -1,12 +1,12 @@
-import { GraphQLError } from "graphql";
-import { PostModel } from "src/models";
+import { GraphQLError } from 'graphql';
+import { PostModel } from 'src/models';
 
 const validatePost = (author: string, image: string[]) => {
-  if (!author){
-    throw new GraphQLError("User not found");
+  if (!author) {
+    throw new GraphQLError('User not found');
   }
   if (!image || image.length === 0) {
-    throw new GraphQLError("Images not found");
+    throw new GraphQLError('Images not found');
   }
 };
 
@@ -20,8 +20,6 @@ export const createPost = async (_: unknown, author: string, image: string[], ca
       throw error;
     }
 
-    throw new GraphQLError(
-      "Failed to create post: " + (error instanceof Error ? error.message : JSON.stringify(error))
-    );
+    throw new GraphQLError('Failed to create post: ' + (error instanceof Error ? error.message : JSON.stringify(error)));
   }
 };
