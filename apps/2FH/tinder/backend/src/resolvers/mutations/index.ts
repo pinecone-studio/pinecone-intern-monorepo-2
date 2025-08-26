@@ -5,4 +5,5 @@ export * from"./update-profile"
 export * from "./swipe-mutation"
 export * from './login';
 export * from "./sendmessage-mutation"
+export * from './forgot-reset-password';
 

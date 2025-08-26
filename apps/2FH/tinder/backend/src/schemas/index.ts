@@ -5,6 +5,7 @@ import { ProfileTypeDefs } from './profile.schema';
 import { SwipeTypeDefs } from './swipe.schema';
 import { UserTypeDefs } from './user-schema';
 import { messageTypeDefs } from './message-schema';
+import {passwordResetSchema} from './forgot-password'
 
 export const typeDefs = mergeTypeDefs([
   CommonTypeDefs,
@@ -12,5 +13,6 @@ export const typeDefs = mergeTypeDefs([
   ProfileTypeDefs,
   SwipeTypeDefs,
   UserTypeDefs,
-  messageTypeDefs
+  messageTypeDefs,
+  passwordResetSchema,
 ]);
