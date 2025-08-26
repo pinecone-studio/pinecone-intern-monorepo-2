@@ -21,6 +21,6 @@ input CreatePostInput {
 
 type Mutation {
     createPost(input:CreatePostInput!):Post!
-     deletePost(_id: ID!):Boolean!
+     deletePost(_id: ID!,userId:ID!):Boolean!
 }
 `
