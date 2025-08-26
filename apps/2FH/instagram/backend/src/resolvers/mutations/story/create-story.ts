@@ -6,7 +6,6 @@ interface CreateStoryInput {
 }
 
 const validateInput = (input: CreateStoryInput): void => {
-  
     if (!input.image || !input.image.trim()) {
         throw new GraphQLError("Image is required");
     }
@@ -23,19 +22,30 @@ const handleError = (error: unknown): never => {
 };
 
 export const createStory = async(
-    _: unknown, { input }: { input: CreateStoryInput }, context: {userId: string}
+    _: unknown, 
+    { input }: { input: CreateStoryInput }, 
+    context: { userId: string }
 ) => {
     try {
-
-       const author = context.userId;
-
-        if(!author) {throw new GraphQLError("User is not authenticated");}
-
+        const author = context.userId;
+        
+        if (!author) {
+            throw new GraphQLError("User is not authenticated");
+        }
+        
         validateInput(input);
-
         
         const { image } = input;
-        const newStory = await Story.create({ author, image });
+        
+        const now = new Date();
+        const expiredAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
+        
+        const newStory = await Story.create({ 
+            author, 
+            image, 
+            expiredAt 
+        });
+        
         return newStory;
     } catch (error) {
         handleError(error);
