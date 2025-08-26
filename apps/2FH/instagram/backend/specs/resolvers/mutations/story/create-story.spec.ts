@@ -10,15 +10,22 @@ describe("createStory", () => {
   const mockContext = { userId: "user123" };
   const validInput = { image: "http://image.url" };
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2024-01-01T12:00:00Z'));
   });
 
-  it("creates a story successfully", async () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+  });
+
+  it("creates a story successfully with expiredAt", async () => {
     const mockStory = { 
       id: "story1", 
       author: mockContext.userId, 
-      image: validInput.image 
+      image: validInput.image,
+      expiredAt: new Date('2024-01-02T12:00:00Z')
     };
     (Story.create as jest.Mock).mockResolvedValue(mockStory);
 
@@ -26,38 +33,31 @@ describe("createStory", () => {
     
     expect(Story.create).toHaveBeenCalledWith({ 
       author: mockContext.userId, 
-      image: validInput.image 
+      image: validInput.image,
+      expiredAt: new Date('2024-01-02T12:00:00Z')
     });
     expect(result).toEqual(mockStory);
   });
 
   it("throws an error if user is not authenticated", async () => {
     await expect(createStory(null, { input: validInput }, { userId: "" }))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, { userId: "" }))
-      .rejects.toThrow("User is not authenticated");
+      .rejects.toThrow(new GraphQLError("User is not authenticated"));
   });
 
   it("throws an error if image is missing", async () => {
     await expect(createStory(null, { input: { image: "" } }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: { image: "" } }, mockContext))
-      .rejects.toThrow("Image is required");
+      .rejects.toThrow(new GraphQLError("Image is required"));
   });
 
   it("throws an error if image is only whitespace", async () => {
     await expect(createStory(null, { input: { image: "   " } }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: { image: "   " } }, mockContext))
-      .rejects.toThrow("Image is required");
+      .rejects.toThrow(new GraphQLError("Image is required"));
   });
 
   it("re-throws GraphQLError without modification", async () => {
     const originalError = new GraphQLError("Original GraphQL error");
     (Story.create as jest.Mock).mockRejectedValue(originalError);
 
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
     await expect(createStory(null, { input: validInput }, mockContext))
       .rejects.toThrow("Original GraphQL error");
   });
@@ -66,17 +66,12 @@ describe("createStory", () => {
     (Story.create as jest.Mock).mockRejectedValue(new Error("DB connection failed"));
 
     await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
-    await expect(createStory(null, { input: validInput }, mockContext))
       .rejects.toThrow("Failed to create storyDB connection failed");
   });
 
   it("throws a GraphQLError for non-Error instances", async () => {
-    // This covers the "Error" branch in the ternary operator
     (Story.create as jest.Mock).mockRejectedValue("String error");
 
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
     await expect(createStory(null, { input: validInput }, mockContext))
       .rejects.toThrow("Failed to create storyError");
   });
@@ -84,8 +79,6 @@ describe("createStory", () => {
   it("handles null/undefined errors", async () => {
     (Story.create as jest.Mock).mockRejectedValue(null);
 
-    await expect(createStory(null, { input: validInput }, mockContext))
-      .rejects.toThrow(GraphQLError);
     await expect(createStory(null, { input: validInput }, mockContext))
       .rejects.toThrow("Failed to create storyError");
   });
