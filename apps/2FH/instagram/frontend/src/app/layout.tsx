@@ -1,10 +1,11 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper } from '@/components';
+import { ApolloWrapper, Sidebar } from '@/components';
 import { NavigationProvider } from '@/components';
-import { Sidebar } from '@/components/Sidebar';
+
 import { SearchSidebar } from '@/components/SearchSidebar';
 import { MainLayout } from '@/components/MainLayout/MainLayout';
+import { MainFooter } from '@/components/MainFooter';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -17,12 +18,13 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       <body>
         <ApolloWrapper>
           <NavigationProvider>
-            <div className="flex min-h-screen bg-white">
+            <div className="flex min-h-screen bg-white flex-col">
               <Sidebar />
               <SearchSidebar />
-              <MainLayout>
-                {children}
-              </MainLayout>
+              <div className="flex flex-col items-center">
+                <MainLayout>{children}</MainLayout>
+                <MainFooter />
+              </div>
             </div>
           </NavigationProvider>
         </ApolloWrapper>

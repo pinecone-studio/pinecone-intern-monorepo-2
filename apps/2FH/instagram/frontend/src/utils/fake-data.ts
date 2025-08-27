@@ -1,3 +1,5 @@
+import { demoImage } from '@/components/userProfile/mock-images';
+
 export interface Story {
   id: number;
   username: string;
@@ -23,12 +25,12 @@ export interface Post {
 }
 
 export const stories: Story[] = [
-  { id: 1, username: 'defavours', avatar: '🍓', hasStory: true },
-  { id: 2, username: 'defavours', avatar: '🍫', hasStory: true },
-  { id: 3, username: 'defavours', avatar: '🍰', hasStory: true },
-  { id: 4, username: 'defavours', avatar: '🍨', hasStory: true },
-  { id: 5, username: 'defavours', avatar: '🧁', hasStory: true },
-  { id: 6, username: 'defavours', avatar: '🍪', hasStory: true },
+  { id: 1, username: 'defavours', avatar: demoImage, hasStory: true },
+  { id: 2, username: 'defavours', avatar: demoImage, hasStory: true },
+  { id: 3, username: 'defavours', avatar: demoImage, hasStory: true },
+  { id: 4, username: 'defavours', avatar: demoImage, hasStory: true },
+  { id: 5, username: 'defavours', avatar: demoImage, hasStory: true },
+  { id: 6, username: 'defavours', avatar: demoImage, hasStory: true },
 ];
 
 export const suggestions: Suggestion[] = [
@@ -48,5 +50,5 @@ export const posts: Post[] = [
     likes: 741368,
     caption: '@defavours love these after a hard day of work. #missonsummer #strawberry is the best flavor',
     comments: 13394,
-  }
-]; 
+  },
+];

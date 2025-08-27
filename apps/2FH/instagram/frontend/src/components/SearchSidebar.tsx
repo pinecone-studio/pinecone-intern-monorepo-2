@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { useNavigation } from './NavigationProvider/NavigationProvider';
@@ -6,7 +6,7 @@ import { useNavigation } from './NavigationProvider/NavigationProvider';
 // Mock search data
 const recentSearches = [
   { id: 1, username: 'rosso_blanc', subtitle: 'Rosetta Rosalind • Followed by elijah...', avatar: '👤' },
-  { id: 2, username: 'Rosval_kitchen', subtitle: 'Rosval Kitchen and Winery', avatar: '🍷' }
+  { id: 2, username: 'Rosval_kitchen', subtitle: 'Rosval Kitchen and Winery', avatar: '🍷' },
 ];
 
 export const SearchSidebar = () => {
@@ -42,10 +42,9 @@ export const SearchSidebar = () => {
             className="w-full pl-10 pr-10 py-2 bg-gray-100 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           />
           {searchQuery && (
-            <X 
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 cursor-pointer"
-              onClick={clearSearch}
-            />
+            <button aria-label="Clear search" type="button" className="absolute right-3 top-1/2 transform -translate-y-1/2" onClick={clearSearch}>
+              <X className="text-gray-400 w-4 h-4 cursor-pointer" />
+            </button>
           )}
         </div>
       </div>
@@ -57,14 +56,11 @@ export const SearchSidebar = () => {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-semibold">Recent</h3>
-              <button 
-                onClick={clearAllRecent}
-                className="text-blue-500 text-sm hover:text-blue-700"
-              >
+              <button onClick={clearAllRecent} className="text-blue-500 text-sm hover:text-blue-700">
                 Clear all
               </button>
             </div>
-            
+
             <div className="space-y-3">
               {recentSearches.map((search) => (
                 <div key={search.id} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">

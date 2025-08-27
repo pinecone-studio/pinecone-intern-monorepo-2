@@ -1,9 +1,9 @@
-"use client"
+'use client';
 import { Heart, Search, Home, PlusSquare, User, Menu, Image as ImageIcon, Plus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
 import { useNavigation } from '@/components';
+import Image from 'next/image';
 
 export const Sidebar = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -19,31 +19,20 @@ export const Sidebar = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleCreate = () => {
-    setIsCreateOpen(!isCreateOpen);
-  };
+  const toggleCreate = () => setIsCreateOpen(!isCreateOpen);
+  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
-
-  const isActive = (path: string) => {
-    return pathname === path;
-  };
+  const isActive = (path: string) => pathname === path;
 
   const renderNavItem = (href: string, icon: React.ReactNode, label: string, isActivePath: boolean) => (
-    <a 
+    <a
       href={href}
-      className={`flex items-center px-3 py-3 rounded-lg transition-colors ${
-        isActivePath 
-          ? 'bg-gray-100 font-bold' 
-          : 'hover:bg-gray-100 font-medium'
-      } ${isSearchOpen ? 'justify-center' : 'space-x-4'}`}
+      className={`flex items-center px-3 py-3 rounded-lg transition-colors ${isActivePath ? 'bg-gray-100 font-bold' : 'hover:bg-gray-100 font-medium'} ${
+        isSearchOpen ? 'justify-center' : 'space-x-4'
+      }`}
     >
       {icon}
       {!isSearchOpen && <span>{label}</span>}
@@ -51,13 +40,11 @@ export const Sidebar = () => {
   );
 
   const renderButtonNavItem = (onClick: () => void, icon: React.ReactNode, label: string, isActivePath: boolean) => (
-    <button 
+    <button
       onClick={onClick}
-      className={`flex items-center px-3 py-3 rounded-lg transition-colors w-full text-left ${
-        isActivePath 
-          ? 'bg-gray-100 font-bold' 
-          : 'hover:bg-gray-100'
-      } ${isSearchOpen ? 'justify-center' : 'space-x-4'}`}
+      className={`flex items-center px-3 py-3 rounded-lg transition-colors w-full text-left ${isActivePath ? 'bg-gray-100 font-bold' : 'hover:bg-gray-100'} ${
+        isSearchOpen ? 'justify-center' : 'space-x-4'
+      }`}
     >
       {icon}
       {!isSearchOpen && <span>{label}</span>}
@@ -68,28 +55,23 @@ export const Sidebar = () => {
     <div className="relative" ref={createRef}>
       <button
         onClick={toggleCreate}
-        className={`flex items-center px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors text-gray-900 w-full text-left ${
-          isSearchOpen ? 'justify-center' : 'space-x-4'
-        }`}
+        className={`flex items-center px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors text-gray-900 w-full text-left ${isSearchOpen ? 'justify-center' : 'space-x-4'}`}
       >
         <PlusSquare size={24} className="text-gray-900" />
         {!isSearchOpen && <span>Create</span>}
       </button>
 
-      {/* Dropdown Menu */}
       {isCreateOpen && !isSearchOpen && (
         <div className="absolute left-full top-0 ml-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
           <button
+            data-testid="Create-Open-To-False"
             onClick={() => setIsCreateOpen(false)}
             className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left"
           >
             <ImageIcon size={20} className="text-gray-700" />
             <span>Post</span>
           </button>
-          <button
-            onClick={() => setIsCreateOpen(false)}
-            className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left"
-          >
+          <button onClick={() => setIsCreateOpen(false)} className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left">
             <Plus size={20} className="text-gray-700" />
             <span>Story</span>
           </button>
@@ -99,9 +81,7 @@ export const Sidebar = () => {
   );
 
   return (
-    <div className={`border-r border-gray-200 fixed h-full bg-white z-10 transition-all duration-300 ${
-      isSearchOpen ? 'w-20' : 'w-64'
-    }`}>
+    <div className={`border-r border-gray-200 fixed h-full bg-white z-10 transition-all duration-300  ${isSearchOpen ? 'w-20' : 'w-64'}`}>
       {!isSearchOpen && (
         <div className="p-6">
           <Image src="/Vector.png" alt="Instagram logo" width={100} height={100} />
@@ -111,23 +91,16 @@ export const Sidebar = () => {
       <nav className="px-3">
         <div className="space-y-2">
           {renderNavItem('/', <Home size={24} className="text-gray-900" />, 'Home', isActive('/'))}
-          
           {renderButtonNavItem(toggleSearch, <Search size={24} className="text-gray-900" />, 'Search', isSearchOpen)}
-          
           {renderNavItem('/notifications', <Heart size={24} className="text-gray-900" />, 'Notifications', isActive('/notifications'))}
-
           {renderCreateDropdown()}
-
-          {renderNavItem('/profile', <User size={24} className="text-gray-900" />, 'Profile', isActive('/profile'))}
+          {renderNavItem('/userProfile', <User size={24} className="text-gray-900" />, 'Profile', isActive('/userProfile'))}
         </div>
       </nav>
 
       {!isSearchOpen && (
         <div className="absolute bottom-6 px-6 w-full">
-          <a 
-            href="/more"
-            className="flex items-center space-x-4 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-          >
+          <a href="/more" className="flex items-center space-x-4 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors">
             <Menu size={24} className="text-gray-900" />
             <span>More</span>
           </a>
