@@ -4,3 +4,4 @@ export * from './post';
 export * from './comment';
 export * from './user';
 export * from './reply';
+export * from './follow';
