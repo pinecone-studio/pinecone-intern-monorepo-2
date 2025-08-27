@@ -14,7 +14,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
-  import { CallQueryProps } from 'cypress/utils/call-query';
+  import {CallQueryProps} from "cypress/utils/call-query"
   import { InterceptGraphqlType } from 'cypress/utils/intercept-graphql';
 
   interface Chainable<Subject> {
