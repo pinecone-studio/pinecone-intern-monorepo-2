@@ -13,7 +13,7 @@ export const sendOtp = async (_: unknown, { email }: { email: string }) => {
 
   await sendEmail({
     to: email,
-    subject: 'Your signup OTP',
+    subject: 'Your OTP',
     text: `Your OTP code is ${otp}.`,
   });
 

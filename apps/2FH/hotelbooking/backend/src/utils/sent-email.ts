@@ -28,6 +28,6 @@ export const sendEmail = async ({ to, subject, text, html }: SendEmailOptions) =
     const info = await transporter.sendMail(mailOptions);
     return info;
   } catch (error) {
-    throw new Error(`Email could not be sent: ${error}`,);
+    throw new Error(`Email could not be sent: ${error}`);
   }
 };

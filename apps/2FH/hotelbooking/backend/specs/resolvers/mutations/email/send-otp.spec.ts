@@ -25,14 +25,14 @@ describe('sendOtp', () => {
     expect(OtpModel.create).toHaveBeenCalledWith(
       expect.objectContaining({
         email: mockEmail,
-        otp: expect.any(String), // otp нь random байна
+        otp: expect.any(String),
         expiresAt: expect.any(Date),
       })
     );
     expect(sendEmail).toHaveBeenCalledWith(
       expect.objectContaining({
         to: mockEmail,
-        subject: 'Your signup OTP',
+        subject: 'Your OTP',
         text: expect.stringContaining('Your OTP code is'),
       })
     );

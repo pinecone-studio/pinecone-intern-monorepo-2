@@ -26,7 +26,6 @@ export const EnterEmail = () => {
       setErrorMessage('Enter email error');
     }
   };
-  console.log(error?.message);
 
   return (
     <div data-cy="Enter-Email-Component-Container" className="flex flex-col items-center justify-center gap-4 ">
