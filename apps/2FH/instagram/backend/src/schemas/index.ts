@@ -6,3 +6,8 @@ import { PostTypeDefs } from './post.schema';
 import { CommentTypeDefs } from './comment.schema';
 
 export const typeDefs = mergeTypeDefs([CommonTypeDefs, StoryTypeDefs, UserTypeDefs,PostTypeDefs,CommentTypeDefs]);
+
+import { FollowTypeDefs } from './follow.schema';
+
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, StoryTypeDefs, UserTypeDefs, PostTypeDefs, CommentTypeDefs, ReplyTypeDefs, FollowTypeDefs]);
+
