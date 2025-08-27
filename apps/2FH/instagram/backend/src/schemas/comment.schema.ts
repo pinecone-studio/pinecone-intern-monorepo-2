@@ -10,7 +10,11 @@ export const CommentTypeDefs = gql`
     content: String!
     likes: [ID!]!
   }
-
+  input createCommentInput {
+    content: String!
+    author: ID!
+    postId: ID!
+  }
   input CommentInput {
     content: String!
   }
@@ -21,9 +25,9 @@ export const CommentTypeDefs = gql`
     reply: [ID!]!
   }
   type Mutation {
-    createComment(input: CommentInput!): Comment!
-    deleteComment(_id: ID!): Boolean!
-    updateCommentByContent(_id: ID!, input: CommentInput!, userId:ID!): Comment!
+    createComment(input: createCommentInput!): Comment!
+    deleteComment(_id: ID!,userId:ID!): Comment!
+    updateCommentByContent(_id: ID!, input: CommentInput!, userId: ID!): Comment!
     updateCommentByLikes(_id: ID!, input: updateByLikeInput): Comment!
     updateCommentByReply(_id: ID!, input: updateByReplyInput): Comment!
   }

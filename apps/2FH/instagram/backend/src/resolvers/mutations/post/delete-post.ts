@@ -26,7 +26,7 @@ async function removePostById(_id: string) {
   return deletedPost;
 }
 
-export const deletePost = async (_: unknown, _id: string, userId: string) => {
+export const deletePost = async (_: unknown, { _id, userId }: { _id: string; userId: string }) => {
   try {
     validateId(_id);
     await checkAuthor(_id, userId);

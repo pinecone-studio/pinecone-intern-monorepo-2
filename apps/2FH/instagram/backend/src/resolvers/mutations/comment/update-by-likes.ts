@@ -6,9 +6,19 @@ interface UpdateCommentInput {
 }
 
 function getInputLikes(input?: UpdateCommentInput) {
-  const likes = input?.likes ?? [];
-  if (!likes.length) throw new GraphQLError('Likes input array is empty');
-  return likes;
+  if (!input) {
+    throw new Error('Input is missing');
+  }
+
+  if (!Array.isArray(input.likes)) {
+    throw new Error('Likes is not an array');
+  }
+
+  if (input.likes.length === 0) {
+    throw new Error('Likes array is empty');
+  }
+
+  return input.likes;
 }
 
 function validateId(_id: string) {
@@ -28,7 +38,7 @@ function getUpdateOps(currentLikes: string[], inputLikes: string[]) {
   return updateOps;
 }
 
-export const updateCommentByLikes = async (_: unknown, _id: string, { input }: { input?: UpdateCommentInput }) => {
+export const updateCommentByLikes = async (_: unknown, { _id, input }: { input: UpdateCommentInput; _id: string }) => {
   validateId(_id);
   const inputLikes = getInputLikes(input);
 

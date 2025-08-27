@@ -13,16 +13,12 @@ function validateInput(input: UpdateCommentInput) {
   }
 }
 async function updateComment(_id: string, input: UpdateCommentInput) {
-  const updatedComment = await Comment.findByIdAndUpdate(
-    _id,
-    { $push: { reply: { $each: input.reply } } },
-    { new: true }
-  );
+  const updatedComment = await Comment.findByIdAndUpdate(_id, { $push: { replyId: { $each: input.reply } } }, { new: true });
   if (!updatedComment) throw new GraphQLError('Comment not found');
   return updatedComment;
 }
 
-export const updateCommentByReply = async (_: unknown, _id: string, { input }: { input: UpdateCommentInput }) => {
+export const updateCommentByReply = async (_: unknown, { input, _id }: { input: UpdateCommentInput; _id: string }) => {
   validateId(_id);
   validateInput(input);
   try {

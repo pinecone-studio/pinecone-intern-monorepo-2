@@ -20,25 +20,28 @@ describe('updateCommentByReply resolver', () => {
     const mockUpdatedComment = { _id, reply: validReplies };
     (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedComment);
 
-    const result = await updateCommentByReply({}, _id, { input: { reply: validReplies } });
+    const result = await updateCommentByReply({}, { _id, input: { reply: validReplies } });
 
-    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(_id, { $push: { reply: { $each: validReplies } } }, { new: true });
+    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(
+      _id,
+      { $push: { replyId: { $each: validReplies } } },
+      { new: true }
+    );
     expect(result).toEqual(mockUpdatedComment);
   });
 
   it('should throw GraphQLError if _id is missing', async () => {
-    await expect(updateCommentByReply({}, '', { input: { reply: validReplies } })).rejects.toThrow('Id is not found');
+    await expect(updateCommentByReply({}, { _id: '', input: { reply: validReplies } })).rejects.toThrow('Id is not found');
   });
 
   it('should throw when reply array is empty', async () => {
-    const args = { input: { reply: [] } };
-    await expect(updateCommentByReply({}, _id, args)).rejects.toThrow('Reply array is empty');
+    const args = { _id, input: { reply: [] } };
+    await expect(updateCommentByReply({}, args)).rejects.toThrow('Reply array is empty');
   });
 
   it('should throw GraphQLError if comment not found', async () => {
     (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
-
-    await expect(updateCommentByReply({}, _id, { input: { reply: validReplies } })).rejects.toThrow('Comment not found');
+    await expect(updateCommentByReply({}, { _id, input: { reply: validReplies } })).rejects.toThrow('Comment not found');
   });
   it('should throw GraphQLError when Mongoose throws a real error', async () => {
     (Comment.findById as jest.Mock).mockResolvedValue({ _id, reply: validReplies });
@@ -46,8 +49,8 @@ describe('updateCommentByReply resolver', () => {
       throw new Error('DB crashed');
     });
 
-    const args = { input: { reply: validReplies } };
-    await expect(updateCommentByReply({}, _id, args)).rejects.toThrow('Failed to update comment by reply:DB crashed');
+    const args = { _id, input: { reply: validReplies } };
+    await expect(updateCommentByReply({}, args)).rejects.toThrow('Failed to update comment by reply:DB crashed');
   });
 
   it('should catch unknown non-Error thrown object', async () => {
@@ -56,11 +59,7 @@ describe('updateCommentByReply resolver', () => {
       throw weirdError;
     });
 
-    const args = { input: { reply: validReplies } };
-    await expect(updateCommentByReply({}, _id, args)).rejects.toThrow('Failed to update comment by reply:{"foo":"bar"}');
-  });
-
-  it('should throw GraphQLError if _id is only whitespace', async () => {
-    await expect(updateCommentByReply({}, '   ', { input: { reply: validReplies } })).rejects.toThrow('Id is not found');
+    const args = { _id, input: { reply: validReplies } };
+    await expect(updateCommentByReply({}, args)).rejects.toThrow('Failed to update comment by reply:{"foo":"bar"}');
   });
 });

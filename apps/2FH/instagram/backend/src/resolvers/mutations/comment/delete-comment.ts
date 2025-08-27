@@ -7,8 +7,8 @@ function validateId(_id: string) {
   }
 }
 
-async function checkAuthor(_id: string, userId?: string) {
-  if (!userId) return;
+async function checkAuthor(_id: string, userId: string) {
+  if (!userId) throw new GraphQLError('User ID is required');
 
   const comment = await Comment.findById(_id);
   if (!comment) {
@@ -27,7 +27,7 @@ async function removeCommentById(_id: string) {
   return deletedComment;
 }
 
-export const deleteComment = async (_: unknown, _id: string, userId?: string) => {
+export const deleteComment = async (_: unknown, { _id, userId }: { _id: string; userId: string }) => {
   try {
     validateId(_id);
     await checkAuthor(_id, userId);

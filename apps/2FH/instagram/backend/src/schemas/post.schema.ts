@@ -1,26 +1,26 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const PostTypeDefs = gql`
-scalar Date
+  scalar Date
 
-type Post {
+  type Post {
     _id: ID!
-    author:ID!
+    author: ID!
     image: [String!]!
     caption: String
-    likes:[ID!]!
-    comments:[ID!]!
+    likes: [ID!]!
+    comments: [ID!]!
     createdAt: Date!
     updatedAt: Date!
-}
+  }
 
-input CreatePostInput {
+  input CreatePostInput {
     image: [String!]!
-    caption:String
-}
+    caption: String
+  }
 
-type Mutation {
-    createPost(input:CreatePostInput!):Post!
-     deletePost(_id: ID!,userId:ID!):Boolean!
-}
-`
+  type Mutation {
+    createPost(author: ID!, input: CreatePostInput!): Post!
+    deletePost(_id: ID!, userId: ID!): Post!
+  }
+`;

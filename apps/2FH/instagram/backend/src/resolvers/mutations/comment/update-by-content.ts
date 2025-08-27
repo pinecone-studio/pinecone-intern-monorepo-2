@@ -34,7 +34,7 @@ async function checkAuthor(_id: string, userId: string) {
   throw new GraphQLError('You are not allowed to edit this comment');
 }
 
-export const updateCommentByContent = async (_: unknown, _id: string, { input }: { input: UpdateCommentInput },userId:string) => {
+export const updateCommentByContent = async (_: unknown,  { _id,input ,userId}: { _id: string,  userId: string,input: UpdateCommentInput },) => {
   validateInput(input);
   validateId(_id);
 

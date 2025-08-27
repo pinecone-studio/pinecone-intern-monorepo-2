@@ -23,7 +23,7 @@ describe('createComment resolver', () => {
     const args = { input: { author, postId, content } };
     const result = await createComment({}, args);
     expect(Comment.create).toHaveBeenCalledWith({ author, postId, content });
-    expect(PostModel.findByIdAndUpdate).toHaveBeenCalledWith({ postId }, { $push: { comments:mockComment } });
+    expect(PostModel.findByIdAndUpdate).toHaveBeenCalledWith(postId,{ $push: { comments:mockComment } });
     expect(result).toEqual(mockComment);
   });
   it('should throw GraphqlError if author is missing (validateInput)', async () => {

@@ -17,18 +17,18 @@ describe('deletePost resolver', () => {
   });
 
   it('should throw GraphQLError if _id is empty', async () => {
-    await expect(deletePost({}, '', mockUserId)).rejects.toThrow('Id is not found');
+    await expect(deletePost({}, { _id: '', userId: mockUserId })).rejects.toThrow('Id is not found');
   });
 
   it('should throw GraphQLError if post does not exist (checkAuthor)', async () => {
     (PostModel.findById as jest.Mock).mockResolvedValue(null);
-    await expect(deletePost({}, mockId, mockUserId)).rejects.toThrow('Post not found');
-  })
+    await expect(deletePost({}, { _id: mockId, userId: mockUserId })).rejects.toThrow('Post not found');
+  });
   it('should throw GraphQLError if user is not the author', async () => {
     const mockPost = { _id: mockId, title: 'Test Post', author: { _id: '999' } };
     (PostModel.findById as jest.Mock).mockResolvedValue(mockPost);
 
-    await expect(deletePost({}, mockId, mockUserId)).rejects.toThrow('You are not the author of this post');
+    await expect(deletePost({}, { _id: mockId, userId: mockUserId })).rejects.toThrow('You are not the author of this post');
   });
 
   it('should throw GraphQLError if post does not exist (removePostById)', async () => {
@@ -36,7 +36,7 @@ describe('deletePost resolver', () => {
     (PostModel.findById as jest.Mock).mockResolvedValue(mockPost);
     (PostModel.findByIdAndDelete as jest.Mock).mockResolvedValue(null);
 
-    await expect(deletePost({}, mockId, mockUserId)).rejects.toThrow('Post is not found');
+    await expect(deletePost({}, { _id: mockId, userId: mockUserId })).rejects.toThrow('Post is not found');
   });
 
   it('should return the deleted post if it exists', async () => {
@@ -44,7 +44,7 @@ describe('deletePost resolver', () => {
     (PostModel.findById as jest.Mock).mockResolvedValue(mockPost);
     (PostModel.findByIdAndDelete as jest.Mock).mockResolvedValue(mockPost);
 
-    const result = await deletePost({}, mockId, mockUserId);
+    const result = await deletePost({}, { _id: mockId, userId: mockUserId });
     expect(result).toEqual(mockPost);
     expect(PostModel.findById).toHaveBeenCalledWith(mockId);
     expect(PostModel.findByIdAndDelete).toHaveBeenCalledWith({ _id: mockId });
@@ -57,7 +57,7 @@ describe('deletePost resolver', () => {
       throw new Error('DB error');
     });
 
-    await expect(deletePost({}, mockId, mockUserId)).rejects.toThrow('Failed to delete post: DB error');
+    await expect(deletePost({}, { _id: mockId, userId: mockUserId })).rejects.toThrow('Failed to delete post: DB error');
   });
 
   it('should catch unknown errors thrown by PostModel.findByIdAndDelete (string)', async () => {
@@ -67,6 +67,6 @@ describe('deletePost resolver', () => {
       throw 'some string';
     });
 
-    await expect(deletePost({}, mockId, mockUserId)).rejects.toThrow('Failed to delete post: "some string"');
+    await expect(deletePost({}, { _id: mockId, userId: mockUserId })).rejects.toThrow('Failed to delete post: "some string"');
   });
 });

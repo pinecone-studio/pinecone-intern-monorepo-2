@@ -1,5 +1,5 @@
 import { Comment } from 'src/models';
-import { updateCommentByContent } from 'src/resolvers/mutations/comment/update-by-content';
+import { updateCommentByContent } from 'src/resolvers/mutations';
 
 jest.mock('src/models', () => ({
   Comment: {
@@ -9,77 +9,66 @@ jest.mock('src/models', () => ({
 }));
 
 describe('updateCommentByContent', () => {
-  const _id = 'updateDCommentId';
-  const content = 'Updated content';
-  const userId = 'user123';
+  const mockCommentId = '123abc';
+  const mockUserId = 'user123';
+  const mockInput = { content: 'Updated content' };
 
   afterEach(() => {
     jest.clearAllMocks();
   });
-
-  it('should update a comment successfully if author matches', async () => {
-    const mockComment = { _id, content: 'old content', author: userId };
-
-    (Comment.findById as jest.Mock).mockResolvedValue(mockComment);
-    (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue({ ...mockComment, content });
-
-    const args = { input: { content } };
-    const result = await updateCommentByContent({}, _id, args, userId);
-
-    expect(Comment.findById).toHaveBeenCalledWith(_id);
-    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(_id, { content }, { new: true });
-    expect(result?.content).toBe(content);
-  });
+  
 
   it('should throw if content is empty', async () => {
-    const args = { input: { content: '' } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('content is empty');
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: { content: '' } })).rejects.toThrow('content is empty');
   });
 
-  it('should throw if id is missing', async () => {
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, '', args, userId)).rejects.toThrow('Id is not found');
+  it('should throw if _id is empty', async () => {
+    await expect(updateCommentByContent({}, { _id: '', userId: mockUserId, input: mockInput })).rejects.toThrow('Id is not found');
   });
 
-  it('should throw if comment not found in checkAuthor', async () => {
+  it('should throw if comment not found', async () => {
     (Comment.findById as jest.Mock).mockResolvedValue(null);
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('Comment not found');
+
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput })).rejects.toThrow('Comment not found');
+
+    expect(Comment.findById).toHaveBeenCalledWith(mockCommentId);
   });
-
-  it('should throw if user is not the author', async () => {
-    const mockComment = { _id, content: 'old', author: 'anotherUser' };
-    (Comment.findById as jest.Mock).mockResolvedValue(mockComment);
-
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('You are not allowed to edit this comment');
-  });
-
-  it('should throw if updated comment is null', async () => {
-    const mockComment = { _id, content: 'old', author: userId };
+  it('should throw if comment not found', async () => {
+    const mockComment = { _id: mockCommentId, author: mockUserId };
     (Comment.findById as jest.Mock).mockResolvedValue(mockComment);
     (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(null);
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput })).rejects.toThrow('not found Updated comment');
+  });
+  it('should throw if user is not author', async () => {
+    const mockComment = { _id: mockCommentId, author: 'someoneElse' };
+    (Comment.findById as jest.Mock).mockResolvedValue(mockComment);
 
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('not found Updated comment');
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput })).rejects.toThrow('You are not allowed to edit this comment');
   });
 
-  it('should catch unknown errors thrown as real Error instance', async () => {
-    const realError = new Error('Real DB failure');
-    (Comment.findByIdAndUpdate as jest.Mock).mockImplementationOnce(() => {
-      throw realError;
-    });
+  it('should update and return comment successfully', async () => {
+    const mockComment = { _id: mockCommentId, author: mockUserId };
+    (Comment.findById as jest.Mock).mockResolvedValue(mockComment);
+    (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue({ _id: mockCommentId, author: mockUserId, content: mockInput.content });
 
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('Failed to update comment by content:Real DB failure');
+    const result = await updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput });
+
+    expect(result).toEqual({ _id: mockCommentId, author: mockUserId, content: mockInput.content });
+    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(mockCommentId, { content: mockInput.content }, { new: true });
   });
-  it('should catch unknown non-Error thrown object', async () => {
-    const weirdError = { foo: 'bar' };
-    (Comment.findByIdAndUpdate as jest.Mock).mockImplementationOnce(() => {
-      throw weirdError;
+
+  it('should catch unknown errors', async () => {
+    (Comment.findById as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('DB error');
     });
 
-    const args = { input: { content } };
-    await expect(updateCommentByContent({}, _id, args, userId)).rejects.toThrow('Failed to update comment by content:{"foo":"bar"}');
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput })).rejects.toThrow('Failed to update comment by content:DB error');
+  });
+  it('should catch unknown errors (string)', async () => {
+    (Comment.findById as jest.Mock).mockImplementationOnce(() => {
+      throw 'some string';
+    });
+
+    await expect(updateCommentByContent({}, { _id: mockCommentId, userId: mockUserId, input: mockInput })).rejects.toThrow('Failed to update comment by content:"some string"');
   });
 });

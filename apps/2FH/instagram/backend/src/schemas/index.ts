@@ -4,6 +4,5 @@ import { StoryTypeDefs } from './story.schema';
 import { UserTypeDefs } from './user.schema';
 import { PostTypeDefs } from './post.schema';
 import { CommentTypeDefs } from './comment.schema';
-import { ReplyTypeDefs } from './reply.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, StoryTypeDefs, UserTypeDefs,PostTypeDefs,CommentTypeDefs,ReplyTypeDefs]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, StoryTypeDefs, UserTypeDefs,PostTypeDefs,CommentTypeDefs]);

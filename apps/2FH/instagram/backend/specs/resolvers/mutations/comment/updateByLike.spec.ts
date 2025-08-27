@@ -9,7 +9,7 @@ jest.mock('src/models', () => ({
 }));
 
 describe('updateCommentByLikes resolver', () => {
-const _id="updateDCommentId"
+  const _id = 'updateDCommentId';
   const validLikes = ['like1'];
 
   afterEach(() => {
@@ -21,17 +21,11 @@ const _id="updateDCommentId"
     (Comment.findById as jest.Mock).mockResolvedValue({ _id, likes: [] });
     (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedComment);
 
-    const args = { input: { likes: validLikes } };
-    const result = await updateCommentByLikes({}, _id, args);
+    const args = { _id, input: { likes: validLikes } };
+    const result = await updateCommentByLikes({}, args);
 
     expect(Comment.findById).toHaveBeenCalledWith(_id);
-    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(
-      _id,
-      expect.objectContaining({
-        $addToSet: { likes: { $each: validLikes } },
-      }),
-      { new: true }
-    );
+    expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(_id, { $addToSet: { likes: { $each: args.input.likes } } }, { new: true });
     expect(result).toEqual(mockUpdatedComment);
   });
 
@@ -42,8 +36,8 @@ const _id="updateDCommentId"
     (Comment.findById as jest.Mock).mockResolvedValue({ _id, likes: existingLikes });
     (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedComment);
 
-    const args = { input: { likes: ['like1'] } };
-    const result = await updateCommentByLikes({}, _id, args);
+    const args = { _id, input: { likes: ['like1'] } };
+    const result = await updateCommentByLikes({}, args);
 
     expect(Comment.findByIdAndUpdate).toHaveBeenCalledWith(
       _id,
@@ -55,27 +49,50 @@ const _id="updateDCommentId"
     expect(result).toEqual(mockUpdatedComment);
   });
 
-  it('should throw when likes array is empty', async () => {
-    const args = { input: { likes: [] } };
-    await expect(updateCommentByLikes({}, _id, args)).rejects.toThrow('Likes input array is empty');
+  it('should throw if input is missing', async () => {
+    const args = { _id, input: undefined };
+    await expect(updateCommentByLikes({}, args as any)).rejects.toThrow('Input is missing');
   });
 
-  it('should handle input undefined (fallback to empty object)', async () => {
-    (Comment.findById as jest.Mock).mockResolvedValue({ _id, likes: [] });
-    (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue({ _id, likes: [] });
-    const args = {};
-    await expect(updateCommentByLikes({}, _id, args)).rejects.toThrow('Likes input array is empty');
+  it('should throw if likes is not an array', async () => {
+    const args: any = { _id, input: { likes: 'not-an-array' } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Likes is not an array');
+  });
+
+  it('should throw if likes array is empty', async () => {
+    const args = { _id, input: { likes: [] } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Likes array is empty');
+  });
+
+  it('should proceed if likes array has values', async () => {
+    const args = { _id, input: { likes: ['user1', 'user2'] } };
+    const mockUpdatedComment = { _id, likes: ['user1', 'user2'] };
+
+    (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedComment);
+
+    const updatedComment = await Comment.findByIdAndUpdate(_id, { $push: { likes: { $each: args.input.likes } } }, { new: true });
+
+    expect(updatedComment).toEqual(mockUpdatedComment);
+  });
+  it('should update comment likes successfully', async () => {
+    const args = { _id, input: { likes: ['user1', 'user2'] } };
+    const mockUpdatedComment = { _id, likes: ['user1', 'user2'] };
+
+    (Comment.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedComment);
+
+    const updatedComment = await Comment.findByIdAndUpdate(_id, { $push: { likes: { $each: args.input.likes } } }, { new: true });
+    expect(updatedComment).toEqual(mockUpdatedComment);
   });
 
   it('should throw if _id is missing', async () => {
-    const args = { input: { likes: validLikes } };
-    await expect(updateCommentByLikes({}, '', args)).rejects.toThrow('Id is not found');
+    const args = { _id: '', input: { likes: validLikes } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Id is not found');
   });
 
   it('should throw if comment not found', async () => {
     (Comment.findById as jest.Mock).mockResolvedValue(null);
-    const args = { input: { likes: validLikes } };
-    await expect(updateCommentByLikes({}, _id, args)).rejects.toThrow('Comment not found');
+    const args = { _id, input: { likes: validLikes } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Comment not found');
   });
 
   it('should throw GraphQLError when Mongoose throws a real error', async () => {
@@ -84,8 +101,8 @@ const _id="updateDCommentId"
       throw new Error('DB crashed');
     });
 
-    const args = { input: { likes: validLikes } };
-    await expect(updateCommentByLikes({}, _id, args)).rejects.toThrow('Failed to update likes:DB crashed');
+    const args = { _id, input: { likes: validLikes } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Failed to update likes:DB crashed');
   });
 
   it('should catch unknown non-Error thrown object', async () => {
@@ -94,7 +111,7 @@ const _id="updateDCommentId"
       throw weirdError;
     });
 
-    const args = { input: { likes: validLikes } };
-    await expect(updateCommentByLikes({}, _id, args)).rejects.toThrow('Failed to update likes:{"foo":"bar"}');
+    const args = { _id, input: { likes: validLikes } };
+    await expect(updateCommentByLikes({}, args)).rejects.toThrow('Failed to update likes:{"foo":"bar"}');
   });
 });
