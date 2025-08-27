@@ -1,4 +1,3 @@
-
 {
   "name": "@pinecone-intern-monorepo/source",
   "version": "0.0.0",
@@ -156,6 +155,7 @@
     "react-toastify": "10.0.5",
     "shadcn": "^2.1.8",
     "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "sonner": "1.5.0",
     "sonnet": "^0.0.1",
     "styled-components": "6.1.8",
