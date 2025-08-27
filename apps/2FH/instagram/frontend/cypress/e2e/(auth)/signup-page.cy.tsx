@@ -125,7 +125,7 @@ describe('Signup Page', () => {
     cy.wait('@CreateUser');
     cy.wait(100);
 
-    cy.reload();
+    cy.visit('/signup');
     cy.get('input').invoke('removeAttr', 'required');
     cy.get('button[type="submit"]').click();
     cy.wait(100);

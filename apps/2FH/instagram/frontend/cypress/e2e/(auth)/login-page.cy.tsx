@@ -111,7 +111,7 @@ describe('Login Page', () => {
   });
 
   it('should test precise validation error coverage', () => {
-    cy.reload();
+    cy.visit('/login');
     
     cy.get('input[placeholder="Username, phone number, or email"]').invoke('removeAttr', 'required');
     cy.get('input[placeholder="Password"]').invoke('removeAttr', 'required');
