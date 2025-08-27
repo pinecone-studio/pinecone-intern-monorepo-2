@@ -2,20 +2,11 @@ import { GraphQLError } from 'graphql';
 import { MutationResolvers } from 'src/generated';
 import { EmergencyContactModel } from 'src/models';
 
-export const updateEmergencyContact: NonNullable<
-  MutationResolvers['updateEmergencyContact']
-> = async (_, { id, input }, _context) => {
+export const updateEmergencyContact: NonNullable<MutationResolvers['updateEmergencyContact']> = async (_, { id, input }, _context) => {
   try {
-    // Dynamically build the updateData object from the input to reduce complexity
-    const updateData = Object.fromEntries(
-      Object.entries(input).filter(([_, value]) => value !== undefined)
-    );
+    const updateData = Object.fromEntries(Object.entries(input).filter(([_, value]) => value !== undefined));
 
-    const updatedEmergencyContactDoc = await EmergencyContactModel.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
+    const updatedEmergencyContactDoc = await EmergencyContactModel.findByIdAndUpdate(id, updateData, { new: true });
 
     if (!updatedEmergencyContactDoc) {
       throw new GraphQLError('Emergency contact not found', {
@@ -23,9 +14,8 @@ export const updateEmergencyContact: NonNullable<
       });
     }
 
-    // Use a specific type from the generated code instead of 'any'
     const emergencyContact = updatedEmergencyContactDoc.toObject();
-    
+
     return {
       success: true,
       message: 'Emergency contact updated successfully',
