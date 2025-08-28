@@ -10,10 +10,10 @@ export const typeDefs = gql`
   }
 
   type Query {
-    sampleQuery: String!
+    _empty: String
   }
 
   type Mutation {
-    sampleMutation: String!
+    _empty: String
   }
 `;

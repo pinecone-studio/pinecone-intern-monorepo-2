@@ -1,5 +1,6 @@
 export * from './hotel';
-export * from './emergency-contact'
+export * from './emergency-contact';
 export * from './user';
 export * from './room';
+export * from './booking';
 export * from './email';
