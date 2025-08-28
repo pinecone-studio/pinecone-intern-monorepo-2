@@ -1,4 +1,4 @@
 import { mergeTypeDefs } from '@graphql-tools/merge';
 import { typeDefs as CommonTypeDefs } from './common.schema';
-
-export const typeDefs = mergeTypeDefs([CommonTypeDefs]);
+import { bookingTypeDefs } from './booking.schema';
+export const typeDefs = mergeTypeDefs([CommonTypeDefs,bookingTypeDefs]);
