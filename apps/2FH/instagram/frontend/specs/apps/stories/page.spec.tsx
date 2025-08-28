@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
-import Stories from '../../../src/app/stories/page';
+import Stories from '../../../src/app/(sidebargui)/stories/page';
 import { useRouter } from 'next/navigation';
 
 jest.mock('next/navigation', () => ({
