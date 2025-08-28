@@ -1,18 +1,17 @@
 'use client';
 
-import { RightSidebar } from '../components/RightSidebar';
-import { useNavigation } from '@/components';
+import { RightSidebar, useNavigation } from '@/components';
+import { HomePageStories } from '@/components/HomePageStories';
 
 import { Posts } from '@/components/Posts';
-import { Stories } from '@/components/Story';
 
 const HomePage = () => {
   const { isSearchOpen } = useNavigation();
 
   return (
-    <div className="min-h-screen w-full bg-white text-neutral-900 flex justify-center ">
+    <div className="min-h-screen w-full bg-white text-neutral-900 flex justify-center  ">
       <div className="w-full max-w-[935px] px-4 sm:px-6 pb-16">
-        <Stories />
+        <HomePageStories />
         <Posts />
       </div>
       {!isSearchOpen && <RightSidebar />}

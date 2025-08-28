@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { stories } from '../utils/fake-data';
 
-export const Stories = () => {
+export const HomePageStories = () => {
   return (
     <div className="border-b border-gray-200 bg-white top-0 z-10">
       <div className="flex space-x-4 p-4 overflow-x-auto scrollbar-hide">
