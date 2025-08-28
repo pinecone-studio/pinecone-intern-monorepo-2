@@ -2,6 +2,7 @@ import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 import { Types } from 'mongoose';
 import { updateEmergencyContact } from 'src/resolvers/mutations';
 import { EmergencyContactModel } from 'src/models';
+import { Context } from '../../../../src/types/index';
 
 jest.mock('src/models', () => ({
   EmergencyContactModel: {
@@ -27,6 +28,12 @@ describe('updateEmergencyContact', () => {
     toObject: jest.fn().mockReturnThis(),
   };
 
+  const mockContext = {
+    req: {
+      user: { id: 'mockUserId' },
+    },
+  } as unknown as Context;
+
   beforeEach(() => {
     jest.clearAllMocks();
     jest.spyOn(console, 'error').mockImplementation(() => null);
@@ -38,16 +45,14 @@ describe('updateEmergencyContact', () => {
 
   it('should throw NOT_FOUND when emergency contact does not exist', async () => {
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(null);
-    await expect(
-      updateEmergencyContact({}, { id: mockEmergencyContactId, input: { phone: '123' } }, {}, mockInfo)
-    ).rejects.toThrow('Emergency contact not found');
+    await expect(updateEmergencyContact({}, { id: mockEmergencyContactId, input: { phone: '123' } }, mockContext, mockInfo)).rejects.toThrow('Emergency contact not found');
   });
 
   it('should update emergency contact with given input', async () => {
     const input = { name: 'Updated John Doe', phone: '+1234567890', relationship: 'Brother' };
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(mockEmergencyContactDoc);
 
-    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, {}, mockInfo);
+    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, mockContext, mockInfo);
 
     expect(mockEmergencyContactModel.findByIdAndUpdate).toHaveBeenCalledWith(mockEmergencyContactId, input, { new: true });
     expect(result.success).toBe(true);
@@ -60,7 +65,7 @@ describe('updateEmergencyContact', () => {
     const input = { [field]: 'Test Value' };
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(mockEmergencyContactDoc);
 
-    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, {}, mockInfo);
+    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, mockContext, mockInfo);
 
     expect(mockEmergencyContactModel.findByIdAndUpdate).toHaveBeenCalledWith(mockEmergencyContactId, input, { new: true });
     expect(result.success).toBe(true);
@@ -70,7 +75,7 @@ describe('updateEmergencyContact', () => {
     const input = { name: 'John' };
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(mockEmergencyContactDoc);
 
-    await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, {}, mockInfo);
+    await updateEmergencyContact({}, { id: mockEmergencyContactId, input }, mockContext, mockInfo);
 
     expect(mockEmergencyContactModel.findByIdAndUpdate).toHaveBeenCalledWith(mockEmergencyContactId, input, { new: true });
   });
@@ -78,7 +83,7 @@ describe('updateEmergencyContact', () => {
   it('should handle empty input gracefully', async () => {
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(mockEmergencyContactDoc);
 
-    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input: {} }, {}, mockInfo);
+    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input: {} }, mockContext, mockInfo);
 
     expect(mockEmergencyContactModel.findByIdAndUpdate).toHaveBeenCalledWith(mockEmergencyContactId, {}, { new: true });
     expect(result.success).toBe(true);
@@ -88,9 +93,7 @@ describe('updateEmergencyContact', () => {
     const dbError = new Error('DB fail');
     mockEmergencyContactModel.findByIdAndUpdate.mockRejectedValue(dbError);
 
-    await expect(
-      updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test' } }, {}, mockInfo)
-    ).rejects.toThrow('Failed to update emergency contact');
+    await expect(updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test' } }, mockContext, mockInfo)).rejects.toThrow('Failed to update emergency contact');
 
     expect(console.error).toHaveBeenCalledWith('Failed to update emergency contact:', dbError);
   });
@@ -112,7 +115,7 @@ describe('updateEmergencyContact', () => {
     };
     mockEmergencyContactModel.findByIdAndUpdate.mockResolvedValue(mockDocWithIds);
 
-    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test User' } }, {}, mockInfo);
+    const result = await updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test User' } }, mockContext, mockInfo);
 
     expect(result.data).toEqual({
       id: '507f1f77bcf86cd799439011',
@@ -129,9 +132,7 @@ describe('updateEmergencyContact', () => {
     const graphqlError = new GraphQLError('Custom GraphQL Error');
     mockEmergencyContactModel.findByIdAndUpdate.mockRejectedValue(graphqlError);
 
-    await expect(
-      updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test' } }, {}, mockInfo)
-    ).rejects.toThrow('Custom GraphQL Error');
+    await expect(updateEmergencyContact({}, { id: mockEmergencyContactId, input: { name: 'Test' } }, mockContext, mockInfo)).rejects.toThrow('Custom GraphQL Error');
 
     expect(console.error).toHaveBeenCalledWith('Failed to update emergency contact:', graphqlError);
   });

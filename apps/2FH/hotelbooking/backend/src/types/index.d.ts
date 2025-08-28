@@ -1,2 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
-export type Context = {};
+import type { NextRequest } from 'next/server';
+import type { AuthenticatedUser } from '../middlewares/authenticate';
+
+export type Context = {
+  req: NextRequest;
+  user?: AuthenticatedUser | null;
+};

@@ -1,33 +1,44 @@
-/* eslint-disable no-unused-vars */
 import { Schema, model, models, Model } from 'mongoose';
 
-enum role {
-  ADMIN = 'admin',
-  USER = 'user',
-}
+type Role = 'admin' | 'user';
 
-type userType = {
-  firstName: string;
-  lastName: string;
-  email: string;
+type UserType = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
   password: {
     type: string;
     select: false;
   };
-  role: role;
-  dateOfBirth: string;
+  role?: Role;
+  dateOfBirth?: string;
 };
 
 const userSchema = new Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: Object.values(role), required: true, default: role.USER },
-    dateOfBirth: { type: String, required: true },
+    firstName: {
+      type: String,
+      required: false,
+    },
+    lastName: {
+      type: String,
+      required: false,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: { type: String },
+    dateOfBirth: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
 
-export const UserModel: Model<userType> = models['User'] || model('User', userSchema);
+export const UserModel: Model<UserType> = models['User'] || model('User', userSchema);

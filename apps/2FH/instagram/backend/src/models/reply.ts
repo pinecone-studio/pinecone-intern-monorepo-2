@@ -1,22 +1,28 @@
-import { Schema, model, Model, models, Types } from "mongoose";
+import { Schema, model, Model, models, Types } from 'mongoose';
 
 export type ReplySchemaType = {
-    author: Types.ObjectId
-    commentId: Types.ObjectId
-    replyId:  Types.ObjectId
-    content: string
-    createdAt: Date
-    updateAt: Date
-}
+  author: Types.ObjectId;
+  parentId: Types.ObjectId;
+  parentType: 'Comment' | 'Reply'; 
+  replyId: Types.ObjectId[];
+  likes: Types.ObjectId[];
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
-const ReplySchema = new Schema<ReplySchemaType>({
-    author: {type: Schema.Types.ObjectId, ref: "User", required: true},
-    commentId: {type: Schema.Types.ObjectId, ref: "Comment", required: true},
-    replyId:  {type: Schema.Types.ObjectId, ref: "Reply"},
-    content: {type: String, required: true}
-}, {
-    timestamps: true
-});
+const ReplySchema = new Schema<ReplySchemaType>(
+  {
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    parentId: { type: Schema.Types.ObjectId, required: true }, 
+    parentType: { type: String, enum: ['Comment', 'Reply'], required: true },
+    replyId: [{ type: Schema.Types.ObjectId, ref: 'Reply', default: [] }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+    content: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const Reply = (models.Reply as Model<ReplySchemaType>) ||
-model<ReplySchemaType>("Reply", ReplySchema)
+export const Reply: Model<ReplySchemaType> = models.Reply || model<ReplySchemaType>('Reply', ReplySchema);
