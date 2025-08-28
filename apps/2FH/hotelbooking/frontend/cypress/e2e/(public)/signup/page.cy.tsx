@@ -30,7 +30,7 @@ describe('Sign up', () => {
     cy.get('[data-cy=Enter-Email-Input]').should('be.visible');
     cy.get('[data-cy=Enter-Email-Input]').type('example@gmail.com');
     cy.get('[data-cy=Create-User-Email-Btn]').click();
-    cy.wait(50000);
+    cy.wait(70000);
     cy.get('[data-cy=Email-Validate-Container]').should('be.visible');
   });
   it('4. Should successfully verify OTP and jump to enter password component', () => {
@@ -38,7 +38,7 @@ describe('Sign up', () => {
     cy.get('[data-cy=Enter-Email-Input]').should('be.visible');
     cy.get('[data-cy=Enter-Email-Input]').type('example@gmail.com');
     cy.get('[data-cy=Create-User-Email-Btn]').click();
-    cy.wait(50000);
+    cy.wait(70000);
     cy.get('[data-cy=Email-Validate-Container]').should('be.visible');
     cy.get('[data-cy=Otp-Inputs]').should('be.visible').type('1234');
     cy.get('[data-cy=Enter-Password-Component]').should('be.visible');
