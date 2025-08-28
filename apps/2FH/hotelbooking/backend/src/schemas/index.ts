@@ -6,4 +6,4 @@ import { roomSchemaTypeDefs } from './room.schema';
 import { hotelSchemaTypeDefs } from './hotel.schema';
 import { emergencyContactSchemaTypeDefs } from './emergency-contact.schema';
 
-export const typeDefs = mergeTypeDefs([CommonTypeDefs, hotelSchemaTypeDefs, roomSchemaTypeDefs, userDefs, emergencyContactSchemaTypeDefs, ]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, hotelSchemaTypeDefs, roomSchemaTypeDefs, userDefs, emergencyContactSchemaTypeDefs, bookingTypeDefs ]);
