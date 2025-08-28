@@ -5,7 +5,6 @@ import { EmailValidate } from '@/components/signup/_components/EmailValidate';
 import { EnterEmail } from '@/components/signup/_components/EnterEmail';
 import { EnterPassword } from '@/components/signup/_components/EnterPassword';
 
-
 const SignUpHomePage = () => {
   const { step } = useOtpContext();
   return (
