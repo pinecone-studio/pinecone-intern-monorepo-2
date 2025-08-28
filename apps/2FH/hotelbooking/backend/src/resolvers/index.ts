@@ -1,6 +1,8 @@
-import { mutations } from './mutations';
-import { queries } from './queries';
 import { mapBookingStatusToGraphQL } from './common/booking-status.mapper';
+import * as Mutation from './mutations';
+
+import * as Query from './queries';
+ 
 
 // Interface for the parent object in field resolvers
 interface BookingParent {
@@ -92,8 +94,11 @@ const createFieldResolver = (fieldName: string, fallbackField?: string) => {
 };
 
 export const resolvers = {
-  Mutation: mutations,
-  Query: queries,
+
+    Mutation,
+  
+    Query,
+  
   Booking: {
     // Field resolvers to handle database field mapping and null values
     id: (parent: BookingParent) => {
