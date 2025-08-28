@@ -4,3 +4,5 @@ declare module '*.svg' {
   export const ReactComponent: any;
   export default content;
 }
+
+/// <reference types="@testing-library/jest-dom" />
