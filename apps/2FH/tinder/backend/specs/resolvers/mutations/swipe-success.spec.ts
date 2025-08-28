@@ -83,11 +83,13 @@ describe('Swipe Success Cases', () => {
         profession: 'Developer',
       },
     });
-    expect(Swipe.create).toHaveBeenCalledWith({
-      swiperId: mockSwiperId,
-      targetId: mockTargetId,
-      action: 'LIKE',
-    });
+    expect(Swipe.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        swiperId: new Types.ObjectId(mockSwiperId),
+        targetId: new Types.ObjectId(mockTargetId),
+        action: 'LIKE',
+      })
+    );
   });
 
   it('should create a match when mutual like exists', async () => {

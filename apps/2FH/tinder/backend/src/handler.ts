@@ -5,6 +5,8 @@ import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
+import jwt from 'jsonwebtoken';
+
 connectToDb();
 
 const server = new ApolloServer<Context>({
@@ -13,8 +15,32 @@ const server = new ApolloServer<Context>({
   introspection: true,
 });
 
+// Extract JWT verification logic to reduce complexity
+const verifyJWTToken = (token: string): { userId: string } | undefined => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as { userId: string };
+    return decoded?.userId ? { userId: decoded.userId } : undefined;
+  } catch (error) {
+    console.error('JWT verification failed:', error);
+    return undefined;
+  }
+};
+
+// Extract user extraction logic to reduce complexity
+const extractUserFromHeader = (authHeader: string | null): { userId: string } | undefined => {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return undefined;
+  }
+  
+  const token = authHeader.substring(7);
+  return verifyJWTToken(token);
+};
+
 export const handler = startServerAndCreateNextHandler<NextRequest, Context>(server, {
   context: async (req) => {
-    return { req };
+    const authHeader = req.headers.get('authorization');
+    const currentUser = extractUserFromHeader(authHeader);
+    
+    return { req, currentUser };
   },
 });

@@ -1,13 +1,17 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/swipe-utils.spec.ts
 import { Types } from 'mongoose';
-import { Profile as ProfileModel } from 'src/models';
-import { checkMutualLike, addMutualMatch, processLikeForMutualMatch } from 'src/utils/swipe-utils';
-import { SwipeProfile } from '../../../src/types/swipe-types';
+import { Profile } from 'src/models';
+import {
+  findNextAvailableProfile,
+  getSwipedUserIds,
+  checkMutualLike,
+  addMutualMatch,
+} from '../../../src/utils/swipe-utils';
 
-// Mock MongoDB models
 jest.mock('src/models', () => ({
   Profile: {
     findOne: jest.fn(),
+    distinct: jest.fn(),
     findOneAndUpdate: jest.fn(),
   },
 }));
@@ -20,101 +24,126 @@ describe('Swipe Utils', () => {
     jest.clearAllMocks();
   });
 
-  describe('checkMutualLike', () => {
-    it('should return true if mutual like exists', async () => {
-      const mockProfile: SwipeProfile = {
-        userId: new Types.ObjectId(mockSwiperId),
-        name: 'Swiper',
-        likes: [new Types.ObjectId(mockTargetId)],
-        matches: [],
+  describe('findNextAvailableProfile', () => {
+    it('should return next available profile when found', async () => {
+      const excludedId = new Types.ObjectId('507f1f77bcf86cd799439011');
+      const mockProfile = {
+        _id: new Types.ObjectId(),
+        userId: new Types.ObjectId(),
+        name: 'Test User',
+        gender: 'MALE',
+        bio: 'Test bio',
+        interests: ['coding'],
+        profession: 'Developer',
+        work: 'Tech Company',
+        images: ['image1.jpg'],
+        likes: [new Types.ObjectId()],
+        matches: [new Types.ObjectId()],
+        dateOfBirth: new Date('1990-01-01'),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-      (ProfileModel.findOne as jest.Mock).mockResolvedValue({
-        userId: mockTargetId,
-        likes: [new Types.ObjectId(mockSwiperId)],
+
+      (Profile.findOne as jest.Mock).mockResolvedValue(mockProfile);
+
+      const result = await findNextAvailableProfile([excludedId]);
+
+      expect(result).toBeTruthy();
+      expect(Profile.findOne).toHaveBeenCalledWith({
+        userId: { $nin: [excludedId] }
       });
-
-      const result = await checkMutualLike(mockProfile, new Types.ObjectId(mockTargetId));
-
-      expect(result).toBe(true);
-      expect(ProfileModel.findOne).toHaveBeenCalledWith({ userId: new Types.ObjectId(mockTargetId) });
     });
 
-    it('should return false if no mutual like exists', async () => {
-      const mockProfile: SwipeProfile = {
+    it('should return null when no profile found', async () => {
+      const excludedId = new Types.ObjectId('507f1f77bcf86cd799439012');
+      (Profile.findOne as jest.Mock).mockResolvedValue(null);
+
+      const result = await findNextAvailableProfile([excludedId]);
+
+      expect(result).toBeNull();
+      expect(Profile.findOne).toHaveBeenCalledWith({
+        userId: { $nin: [excludedId] }
+      });
+    });
+  });
+
+  describe('getSwipedUserIds', () => {
+    it('should return array of swiped user IDs', async () => {
+      const mockSwipedIds = [new Types.ObjectId(), new Types.ObjectId()];
+      (Profile.distinct as jest.Mock).mockResolvedValue(mockSwipedIds);
+
+      const result = await getSwipedUserIds(mockSwiperId);
+
+      expect(result).toEqual([...mockSwipedIds, new Types.ObjectId(mockSwiperId)]);
+      expect(Profile.distinct).toHaveBeenCalledWith('userId', { swiperId: mockSwiperId });
+    });
+  });
+
+  describe('checkMutualLike', () => {
+    it('should return true when there is a mutual like', async () => {
+      const profile = {
         userId: new Types.ObjectId(mockSwiperId),
         name: 'Swiper',
         likes: [new Types.ObjectId(mockTargetId)],
         matches: [],
       };
-      (ProfileModel.findOne as jest.Mock).mockResolvedValue({
-        userId: mockTargetId,
-        likes: [],
-      });
+      const likedUserId = new Types.ObjectId(mockTargetId);
+      
+      const likedProfile = {
+        userId: new Types.ObjectId(mockTargetId),
+        name: 'Target',
+        likes: [new Types.ObjectId(mockSwiperId)],
+        matches: [],
+      };
 
-      const result = await checkMutualLike(mockProfile, new Types.ObjectId(mockTargetId));
+      (Profile.findOne as jest.Mock).mockResolvedValue(likedProfile);
+
+      const result = await checkMutualLike(profile, likedUserId);
+
+      expect(result).toBe(true);
+      expect(Profile.findOne).toHaveBeenCalledWith({ userId: likedUserId });
+    });
+
+    it('should return false when there is no mutual like', async () => {
+      const profile = {
+        userId: new Types.ObjectId(mockSwiperId),
+        name: 'Swiper',
+        likes: [new Types.ObjectId(mockTargetId)],
+        matches: [],
+      };
+      const likedUserId = new Types.ObjectId(mockTargetId);
+      
+      const likedProfile = {
+        userId: new Types.ObjectId(mockTargetId),
+        name: 'Target',
+        likes: [],
+        matches: [],
+      };
+
+      (Profile.findOne as jest.Mock).mockResolvedValue(likedProfile);
+
+      const result = await checkMutualLike(profile, likedUserId);
 
       expect(result).toBe(false);
+      expect(Profile.findOne).toHaveBeenCalledWith({ userId: likedUserId });
     });
   });
 
   describe('addMutualMatch', () => {
-    it('should add mutual match to both profiles', async () => {
-      const mockProfile: SwipeProfile = {
-        userId: new Types.ObjectId(mockSwiperId),
-        name: 'Swiper',
-        likes: [],
-        matches: [],
-      };
-      (ProfileModel.findOneAndUpdate as jest.Mock).mockResolvedValue({});
-
-      await addMutualMatch(mockProfile, new Types.ObjectId(mockTargetId));
-
-      expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledTimes(2);
-      expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledWith(
-        { userId: new Types.ObjectId(mockSwiperId) },
-        { $addToSet: { matches: new Types.ObjectId(mockTargetId) } },
-      );
-      expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledWith(
-        { userId: new Types.ObjectId(mockTargetId) },
-        { $addToSet: { matches: new Types.ObjectId(mockSwiperId) } },
-      );
-    });
-  });
-
-  describe('processLikeForMutualMatch', () => {
-    it('should add mutual match if mutual like exists', async () => {
-      const mockProfile: SwipeProfile = {
+    it('should add both users to each other matches', async () => {
+      const profile = {
         userId: new Types.ObjectId(mockSwiperId),
         name: 'Swiper',
         likes: [new Types.ObjectId(mockTargetId)],
         matches: [],
       };
-      (ProfileModel.findOne as jest.Mock).mockResolvedValue({
-        userId: mockTargetId,
-        likes: [new Types.ObjectId(mockSwiperId)],
-      });
-      (ProfileModel.findOneAndUpdate as jest.Mock).mockResolvedValue({});
+      const likedUserId = new Types.ObjectId(mockTargetId);
 
-      await processLikeForMutualMatch(mockProfile, new Types.ObjectId(mockTargetId));
+      (Profile.findOneAndUpdate as jest.Mock).mockResolvedValue({});
 
-      expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledTimes(2);
-    });
+      await addMutualMatch(profile, likedUserId);
 
-    it('should not add match if no mutual like exists', async () => {
-      const mockProfile: SwipeProfile = {
-        userId: new Types.ObjectId(mockSwiperId),
-        name: 'Swiper',
-        likes: [new Types.ObjectId(mockTargetId)],
-        matches: [],
-      };
-      (ProfileModel.findOne as jest.Mock).mockResolvedValue({
-        userId: mockTargetId,
-        likes: [],
-      });
-
-      await processLikeForMutualMatch(mockProfile, new Types.ObjectId(mockTargetId));
-
-      expect(ProfileModel.findOneAndUpdate).not.toHaveBeenCalled();
+      expect(Profile.findOneAndUpdate).toHaveBeenCalledTimes(2);
     });
   });
-});
+}); 

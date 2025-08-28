@@ -6,7 +6,7 @@ import {
   addUsersToMatches,
   refreshProfilesAfterMatch,
   addTargetToSwiperLikes,
-} from '../../../src/utils/swipe-helpers';
+} from '../../../src/utils/swipe-helpers-advanced';
 
 jest.mock('src/models', () => ({
   Profile: {
@@ -80,8 +80,8 @@ describe('Swipe Helpers Advanced', () => {
       );
 
       expect(result).toBeDefined();
-      expect(result?.likeduserId.userId).toBe(mockSwiperId);
-      expect(result?.matcheduserId.userId).toBe(mockTargetId);
+      expect(result?.likeduserId.userId.toString()).toBe(mockSwiperId);
+      expect(result?.matcheduserId.userId.toString()).toBe(mockTargetId);
     });
 
     it('should return null when one profile is missing after refresh', async () => {
@@ -100,6 +100,19 @@ describe('Swipe Helpers Advanced', () => {
 
   describe('addTargetToSwiperLikes', () => {
     it('should add target to swiper likes', async () => {
+      const mockSwiperProfile = {
+        userId: new Types.ObjectId(mockSwiperId),
+        gender: 'male',
+      };
+      const mockTargetProfile = {
+        userId: new Types.ObjectId(mockTargetId),
+        gender: 'male',
+      };
+      
+      (ProfileModel.findOne as jest.Mock)
+        .mockResolvedValueOnce(mockSwiperProfile)
+        .mockResolvedValueOnce(mockTargetProfile);
+
       await addTargetToSwiperLikes(
         new Types.ObjectId(mockSwiperId),
         new Types.ObjectId(mockTargetId)

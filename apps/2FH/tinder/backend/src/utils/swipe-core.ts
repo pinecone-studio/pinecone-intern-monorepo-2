@@ -11,6 +11,8 @@ import {
 import { findNextAvailableProfile } from "./swipe-utils";
 import { SwipeInput } from "../types/swipe-types";
 
+type SwipeAction = 'LIKE' | 'DISLIKE' | 'SUPER_LIKE';
+
 const validateUserIds = (swiperId: string, targetId: string) => {
   if (!Types.ObjectId.isValid(swiperId) || !Types.ObjectId.isValid(targetId)) {
     throw new GraphQLError("Swipe failed: Invalid user ID format");
@@ -28,7 +30,7 @@ const handleExistingSwipeCase = async (existingSwipe: any, swiperObjectId: Types
   };
 };
 
-const createSuccessResponse = (action: string, match: any, nextProfile: any) => {
+const createSuccessResponse = (action: SwipeAction, match: any, nextProfile: any) => {
   return {
     success: true,
     message: `Successfully ${action.toLowerCase()}d profile`,
@@ -57,8 +59,13 @@ const checkUsersExist = async (swiperId: string, targetId: string) => {
   }
 };
 
-const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action: string, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await Swipe.create({ swiperId, targetId, action });
+const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
+  await Swipe.create({ 
+    swiperId: swiperObjectId, 
+    targetId: targetObjectId, 
+    action,
+    swipedAt: new Date()
+  });
   let match = null;
   if (action === "LIKE") {
     match = await handleNewLike(swiperObjectId, targetObjectId, swiperId);
@@ -71,7 +78,7 @@ const getNextProfile = async (swiperId: string) => {
   return await findNextAvailableProfile(swipedUserIds);
 };
 
-const handleSwipeCreation = async (swiperId: string, targetId: string, action: string, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
+const handleSwipeCreation = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
   try {
     const match = await createSwipeAndGetMatch(swiperId, targetId, action, swiperObjectId, targetObjectId);
     const nextProfile = await getNextProfile(swiperId);
@@ -86,6 +93,7 @@ const handleSwipeCreation = async (swiperId: string, targetId: string, action: s
 
 export const swipe = async (_: unknown, { input }: { input: SwipeInput }) => {
   const { swiperId, targetId, action } = input;
+  const typedAction: SwipeAction = action as SwipeAction;
   const { swiperObjectId, targetObjectId } = validateAndPrepareSwipe(swiperId, targetId);
   await checkUsersExist(swiperId, targetId);
   await syncExistingMatches(swiperId);
@@ -94,5 +102,5 @@ export const swipe = async (_: unknown, { input }: { input: SwipeInput }) => {
   if (existingSwipe) {
     return await handleExistingSwipeCase(existingSwipe, swiperObjectId, targetObjectId);
   }
-  return await handleSwipeCreation(swiperId, targetId, action, swiperObjectId, targetObjectId);
+  return await handleSwipeCreation(swiperId, targetId, typedAction, swiperObjectId, targetObjectId);
 };

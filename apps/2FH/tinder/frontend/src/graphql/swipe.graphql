@@ -1,0 +1,17 @@
+mutation Swipe($input: SwipeInput!) {
+  swipe(input: $input) {
+    success
+    message
+    response
+    match {
+      likeduserId {
+        userId
+        name
+      }
+      matcheduserId {
+        userId
+        name
+      }
+    }
+  }
+}

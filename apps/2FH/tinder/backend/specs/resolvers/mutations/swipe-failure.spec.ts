@@ -77,11 +77,13 @@ describe('Swipe Failure Cases', () => {
       match: null,
       nextProfile: null,
     });
-    expect(Swipe.create).toHaveBeenCalledWith({
-      swiperId: mockSwiperId,
-      targetId: mockTargetId,
-      action: 'DISLIKE',
-    });
+    expect(Swipe.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        swiperId: new Types.ObjectId(mockSwiperId),
+        targetId: new Types.ObjectId(mockTargetId),
+        action: 'DISLIKE',
+      })
+    );
   });
 
   it('should handle SUPER_LIKE action without creating a match', async () => {
@@ -105,11 +107,13 @@ describe('Swipe Failure Cases', () => {
       match: null,
       nextProfile: null,
     });
-    expect(Swipe.create).toHaveBeenCalledWith({
-      swiperId: mockSwiperId,
-      targetId: mockTargetId,
-      action: 'SUPER_LIKE',
-    });
+    expect(Swipe.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        swiperId: new Types.ObjectId(mockSwiperId),
+        targetId: new Types.ObjectId(mockTargetId),
+        action: 'SUPER_LIKE',
+      })
+    );
   });
 
   it('should handle errors in swipe creation', async () => {

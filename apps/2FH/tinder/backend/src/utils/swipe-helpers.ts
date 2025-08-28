@@ -1,9 +1,8 @@
-// apps/2FH/tinder/backend/src/mutations/swipe-helpers.ts
+
 import { Types } from "mongoose";
 import { Profile as ProfileModel } from "src/models";
 import { SwipeProfile } from "../types/swipe-types";
 import { 
-  processLikeForMutualMatch, 
   findNextAvailableProfile, 
   getSwipedUserIds 
 } from "./swipe-utils";
@@ -83,55 +82,17 @@ const getProfiles = async (swiperObjectId: Types.ObjectId, targetObjectId: Types
   return { swiper: swiperProfile, target: targetProfile };
 };
 
-export const handleExistingSwipe = async (existingSwipe: any, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  if (existingSwipe.action === "LIKE") {
-    return await checkProfilesAndMatch(swiperObjectId, targetObjectId);
-  }
-  return null;
-};
+// Import advanced functions from separate file
+export {
+  checkTargetLikedSwiper,
+  addUsersToMatches,
+  refreshProfilesAfterMatch,
+  addTargetToSwiperLikes,
+  handleExistingSwipe,
+  handleNewLike,
+} from './swipe-helpers-advanced';
 
-export const checkTargetLikedSwiper = async (targetObjectId: Types.ObjectId, swiperObjectId: Types.ObjectId) => {
-  const targetProfile = await ProfileModel.findOne({ userId: targetObjectId });
-  if (!targetProfile || !targetProfile.likes || !Array.isArray(targetProfile.likes)) return false;
-  return targetProfile.likes.some((id: Types.ObjectId) => id.equals(swiperObjectId));
-};
-
-export const addUsersToMatches = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await ProfileModel.findOneAndUpdate(
-    { userId: swiperObjectId },
-    { $addToSet: { matches: targetObjectId } }
-  );
-  await ProfileModel.findOneAndUpdate(
-    { userId: targetObjectId },
-    { $addToSet: { matches: swiperObjectId } }
-  );
-};
-
-export const refreshProfilesAfterMatch = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  const updatedSwiperProfile = await ProfileModel.findOne({ userId: swiperObjectId });
-  const updatedTargetProfile = await ProfileModel.findOne({ userId: targetObjectId });
-  if (!updatedSwiperProfile || !updatedTargetProfile) return null;
-  return createMatchObject(updatedSwiperProfile, updatedTargetProfile);
-};
-
-export const addTargetToSwiperLikes = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await ProfileModel.findOneAndUpdate(
-    { userId: swiperObjectId },
-    { $addToSet: { likes: targetObjectId } }
-  );
-};
-
-export const handleNewLike = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId, _swiperId: string) => {
-  const isMatch = await checkTargetLikedSwiper(targetObjectId, swiperObjectId);
-  await addTargetToSwiperLikes(swiperObjectId, targetObjectId);
-  
-  if (isMatch) {
-    return await processMatch(swiperObjectId, targetObjectId);
-  }
-  return null;
-};
-
-const processMatch = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await addUsersToMatches(swiperObjectId, targetObjectId);
-  return await refreshProfilesAfterMatch(swiperObjectId, targetObjectId);
+export const processLikeForMutualMatch = async (profile: SwipeProfile, likedUserId: Types.ObjectId) => {
+  const likedProfile = await ProfileModel.findOne({ userId: likedUserId });
+  return likedProfile && likedProfile.likes.some(id => id.equals(profile.userId));
 };
