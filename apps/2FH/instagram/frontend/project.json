@@ -255,9 +255,9 @@
       },
       "dependsOn": [
         {
-         "target": "get-secrets:dev" 
-         }
-        ]
+          "target": "get-secrets:dev"
+        }
+      ]
     },
     "codegen:testing": {
       "executor": "nx:run-commands",
