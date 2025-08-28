@@ -5,6 +5,8 @@ type emergencyContactType = {
   name: string;
   phone: string;
   relationship: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 const emergencyContactSchema = new Schema<emergencyContactType>(

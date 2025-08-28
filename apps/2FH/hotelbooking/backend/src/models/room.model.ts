@@ -4,7 +4,6 @@ import { Schema, model, models, Model, Types } from 'mongoose';
 type roomType = {
   hotelId: Types.ObjectId;
   name: string;
-  description: string;
   images: string[];
   pricePerNight: number;
   typePerson: typePerson;
@@ -123,7 +122,6 @@ const roomSchema = new Schema<roomType>(
   {
     hotelId: { type: Schema.Types.ObjectId, ref: 'Hotel', required: true },
     name: { type: String, required: true },
-    description: { type: String, required: true },
     images: { type: [String], required: true },
     pricePerNight: { type: Number, required: true },
     typePerson: { type: String, enum: Object.values(typePerson), required: true },

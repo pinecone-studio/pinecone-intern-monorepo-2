@@ -36,6 +36,12 @@
           "dev": true,
           "port": 4201
         },
+        "test": {
+          "buildTarget": "frontend:build:test",
+          "dev": true,
+          "port": 4201
+        },
+
         "production": {
           "buildTarget": "frontend:build:production",
           "dev": false
@@ -119,7 +125,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress example-frontend"],
+        "commands": ["npx nx execute-cypress scripts frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]

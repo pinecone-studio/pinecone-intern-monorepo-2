@@ -1,0 +1,110 @@
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { Generalmode } from '../../../src/components/room/Generalmode';
+
+jest.mock('../../../src/components/room/GeneralForm', () => ({
+  GeneralForm: ({ formData, errors, onInputChange }: any) => (
+    <div data-testid="general-form">
+      <input data-testid="name-input" value={formData?.name || ''} onChange={(e: any) => onInputChange('name', e.target.value)} placeholder="Room name" />
+      <input data-testid="price-input" value={formData?.pricePerNight || ''} onChange={(e: any) => onInputChange('pricePerNight', e.target.value)} placeholder="Price" />
+      <select data-testid="type-select" value={formData?.type?.[0] || ''} onChange={(e: any) => onInputChange('type', [e.target.value])}>
+        <option value="">Select type</option>
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+      </select>
+      <div data-testid="errors-display" style={{ display: 'none' }}>
+        {JSON.stringify(errors)}
+      </div>
+    </div>
+  ),
+}));
+
+describe('Generalmode Primitive Types', () => {
+  const defaultProps = {
+    isOpen: true,
+    onClose: jest.fn(),
+    onSave: jest.fn(),
+    loading: false,
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should handle useEffect with null initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={null as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with undefined initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={undefined} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with false initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={false as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with zero initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={0 as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with empty string initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={'' as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with non-empty string initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={'test' as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with number initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={123 as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with boolean true initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={true as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with NaN initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={NaN as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with Infinity initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={Infinity as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+
+  it('should handle useEffect with -Infinity initialData', () => {
+    render(<Generalmode {...defaultProps} initialData={-Infinity as any} />);
+    expect(screen.getByTestId('name-input')).toHaveValue('');
+    expect(screen.getByTestId('price-input')).toHaveValue('');
+    expect(screen.getByTestId('type-select')).toHaveValue('');
+  });
+});

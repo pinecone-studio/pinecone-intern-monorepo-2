@@ -1,29 +1,33 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const StoryTypeDefs = gql`
-scalar Date
+  scalar Date
 
-type Story {
+  type Story {
     _id: ID!
-    author: User!
+    author: User
     image: String!
     viewers: [User!]!
     createdAt: Date!
     expiredAt: Date!
-}
+  }
 
-input CreateStoryInput {
-    image: String
-}
+  input CreateStoryInput {
+    image: String!
+  }
 
-type Query {
+  type Query {
     getStoryByUserId(author: ID!): [Story!]!
     getStoryById(_id: ID!): Story
-}
+    # Get current user's active stories
+    getMyStories: [Story!]!
+    # Get all active stories from followed users
+    getActiveStories: [Story!]!
+  }
 
-type Mutation {
+  type Mutation {
     createStory(input: CreateStoryInput!): Story!
-    deleteStory(_id: ID!):  Boolean!
+    deleteStory(_id: ID!): Boolean!
     viewStory(_id: ID!): Story!
-}
-`
+  }
+`;

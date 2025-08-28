@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
+    "importHelpers": false,
     "lib": [
       "dom",
       "dom.iterable",

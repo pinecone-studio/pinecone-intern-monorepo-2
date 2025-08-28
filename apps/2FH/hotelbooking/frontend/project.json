@@ -68,7 +68,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:testing",
+          "target": "codegen:dev",
           "params": "forward"
         }
       ]
@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress hotelbooking-2FH-frontend"],
+        "commands": ["npx nx execute-cypress scripts hotelbooking-2FH-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]

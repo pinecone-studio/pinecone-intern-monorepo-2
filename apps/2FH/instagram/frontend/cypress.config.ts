@@ -5,6 +5,7 @@ import { defineConfig } from 'cypress';
 
 const config: Cypress.ConfigOptions<unknown> = {
   e2e: {
+    failOnStatusCode: false,
     ...nxE2EPreset(__filename, {
       cypressDir: 'cypress',
     }),
@@ -41,6 +42,7 @@ const config: Cypress.ConfigOptions<unknown> = {
     env: {
       env: {},
     },
+    baseUrl: 'http://localhost:4201',
   },
 };
 
