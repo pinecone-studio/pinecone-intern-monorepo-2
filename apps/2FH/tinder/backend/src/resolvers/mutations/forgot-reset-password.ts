@@ -18,6 +18,7 @@ const errorResponse = (message: string) => ({
 export const forgotPassword: MutationResolvers['forgotPassword'] = async (_, { input }) => {
   try {
     const { email } = input;  
+    console.log(email)
     const user = await User.findOne({ email });
     if (!user) return errorResponse('Email not registered');
 
@@ -28,7 +29,7 @@ export const forgotPassword: MutationResolvers['forgotPassword'] = async (_, { i
     await OtpToken.create({
       email,
       otp: otp.toString(),
-      expiresAt: new Date(Date.now() + 5 * 60 * 1000), 
+      expiresAt: new Date(Date.now() + 15 * 1000),
     });
     return successResponse('OTP sent to your email');
   } catch (err) {
@@ -47,6 +48,7 @@ function getOtpValidationError(token: any, otp: string): string | null {
 export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) => {
   try {
     const { email, otp } = input;
+    console.log("OTPOTPPPPP",otp)
     const token = await OtpToken.findOne({ email });
 
     const errorMessage = getOtpValidationError(token, otp);
