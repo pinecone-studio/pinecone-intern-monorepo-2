@@ -3,7 +3,7 @@ import { Schema, model, Model, models, Types } from "mongoose";
 export type CommentSchemaType = {
     author: Types.ObjectId
     postId: Types.ObjectId
-    replyId?: Types.ObjectId[]
+    replyId: Types.ObjectId[]
     content: string
     likes: Types.ObjectId[]
     createdAt: Date
