@@ -1,20 +1,17 @@
 'use client';
-
 import { TypePerson, RoomInformation } from '@/generated';
-
 interface GeneralFormProps {
   formData: FormData;
   errors: Record<string, string>;
   onInputChange: (_field: keyof FormData, _value: string | string[]) => void;
 }
-
 interface FormData {
   name: string;
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber: number;
 }
-
 const TYPE_OPTIONS = [
   { value: TypePerson.Single, label: 'Single' },
   { value: TypePerson.Double, label: 'Double' },
@@ -23,7 +20,6 @@ const TYPE_OPTIONS = [
   { value: TypePerson.Queen, label: 'Queen' },
   { value: TypePerson.King, label: 'King' },
 ];
-
 const ROOM_OPTIONS = [
   { value: RoomInformation.PrivateBathroom, label: 'Private Bathroom' },
   { value: RoomInformation.SharedBathroom, label: 'Shared Bathroom' },
@@ -39,7 +35,6 @@ const ROOM_OPTIONS = [
   { value: RoomInformation.Desk, label: 'Desk' },
   { value: RoomInformation.Elevator, label: 'Elevator' },
 ];
-
 export const NameField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
   <div>
     <label htmlFor="room-name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -58,7 +53,6 @@ export const NameField = ({ formData, errors, onInputChange }: GeneralFormProps)
     {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
   </div>
 );
-
 export const TypeField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
   <div>
     <label htmlFor="room-type" className="block text-sm font-medium text-gray-700 mb-1">
@@ -89,7 +83,6 @@ export const TypeField = ({ formData, errors, onInputChange }: GeneralFormProps)
     {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
   </div>
 );
-
 export const PriceField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
   <div>
     <label htmlFor="room-price" className="block text-sm font-medium text-gray-700 mb-1">
@@ -105,12 +98,31 @@ export const PriceField = ({ formData, errors, onInputChange }: GeneralFormProps
       }`}
       placeholder="Enter price"
       min="0"
-      step="0.01"
+      step="100"
     />
     {errors.pricePerNight && <p className="mt-1 text-sm text-red-600">{errors.pricePerNight}</p>}
   </div>
 );
-
+export const BedNumberField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
+  <div>
+    <label htmlFor="bed-number" className="block text-sm font-medium text-gray-700 mb-1">
+      Bed number
+    </label>
+    <input
+      id="bed-number"
+      type="number"
+      value={formData.bedNumber ?? ''}
+      onChange={(e) => onInputChange('bedNumber', e.target.value)}
+      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
+        errors.bedNumber ? 'border-red-300 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+      }`}
+      placeholder="1"
+      min="0"
+      step="1"
+    />
+    {errors.bedNumber && <p className="mt-1 text-sm text-red-600">{errors.bedNumber}</p>}
+  </div>
+);
 export const RoomInformationField = ({ formData, errors, onInputChange }: GeneralFormProps) => {
   const handleCheckboxChange = (optionValue: string, checked: boolean) => {
     if (checked) {
@@ -122,7 +134,6 @@ export const RoomInformationField = ({ formData, errors, onInputChange }: Genera
       );
     }
   };
-
   return (
     <div>
       <label htmlFor="room-information" className="block text-sm font-medium text-gray-700 mb-2">

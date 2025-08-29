@@ -27,6 +27,7 @@ describe('updateRoom mutation', () => {
     bedRoom: [BedRoom.BedSheets],
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
+    bedNumber: 1,
   };
 
   it('should return Response.Success when room is updated', async () => {
