@@ -7,8 +7,8 @@ describe("Verify OTP Resend Tests", () => {
   });
 
   it("resends OTP successfully after timer", () => {
-    cy.tick(15000); // timer-г дуусгах
-    cy.get("[data-cy='resend-otp']").should("be.visible"); // ensure button exists
+    cy.tick(15000); 
+    cy.get("[data-cy='resend-otp']").should("be.visible"); 
   
     cy.intercept("POST", "/api/graphql", {
       body: { data: { forgotPassword: { status: "SUCCESS", message: "OTP resent successfully!" } } },
@@ -64,29 +64,26 @@ describe("Verify OTP Resend Tests", () => {
   });
 
   it("enables resend button when timer reaches exactly 0", () => {
-    // Timer starts at 15, tick to exactly 0
     cy.tick(15000);
     cy.get("[data-cy='resend-otp']").should("be.visible");
   });
 
   it("decrements timer correctly when timer is greater than 0", () => {
-    // Timer starts at 15, tick to 10 seconds
     cy.tick(5000);
     
-    // The timer should still be running and not show resend button
     cy.get("[data-cy='resend-otp']").should("not.exist");
   });
 
   it("handles console error in resend OTP catch block", () => {
-    // Enable resend button
+    
     cy.tick(15000);
     
-    // Spy on console.error
+  
     cy.window().then((win) => {
       cy.spy(win.console, 'error').as('consoleError');
     });
     
-    // Mock a network error to trigger the catch block
+ 
     cy.intercept("POST", "/api/graphql", { forceNetworkError: true }).as("resendOtpNetworkError");
     
     cy.get("[data-cy='resend-otp']").click();

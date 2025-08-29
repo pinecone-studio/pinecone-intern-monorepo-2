@@ -14,11 +14,9 @@ describe('Reset Password Page UI Tests', () => {
   it('should toggle password visibility for confirm password', () => {
     cy.get('input[placeholder="Confirm Password"]').should('have.attr', 'type', 'password');
     
-    // Toggle to text
     cy.get('[data-cy="toggle-confirm-password"]').click();
     cy.get('input[placeholder="Confirm Password"]').should('have.attr', 'type', 'text');
     
-    // Toggle back to password
     cy.get('[data-cy="toggle-confirm-password"]').click();
     cy.get('input[placeholder="Confirm Password"]').should('have.attr', 'type', 'password');
   });
