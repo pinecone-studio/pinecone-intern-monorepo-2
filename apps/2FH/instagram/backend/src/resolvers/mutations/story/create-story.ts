@@ -1,6 +1,7 @@
 import { Story } from "src/models";
 import { User } from "src/models/user";
 import { GraphQLError } from "graphql";
+import { Types } from "mongoose";
 
 interface CreateStoryInput {
     image: string;
@@ -14,7 +15,7 @@ const validateInput = (input: CreateStoryInput): void => {
 
 const getExpiredAt = (): Date => {
     const now = new Date();
-    const expiredAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Add 24 hours in milliseconds
+    const expiredAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); 
     return expiredAt;
 };
 
@@ -59,22 +60,22 @@ export const createStory = async (
     context: { userId: string }
 ) => {
     try {
-        const author = context.userId;
+        const authorId = context.userId;
         
-        validateUserAuthentication(author);
-        await validateUserExists(author);
+        validateUserAuthentication(authorId);
+        await validateUserExists(authorId);
         validateInput(input);
         
         const { image } = input;
         const expiredAt = getExpiredAt();
         
         const newStory = await Story.create({
-            author,
+            author: new Types.ObjectId(authorId),
             image,
             expiredAt
         });
         
-        await updateUserStory(author, newStory._id.toString());
+        await updateUserStory(authorId, newStory._id.toString());
         
         return newStory;
     } catch (error) {
