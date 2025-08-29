@@ -41,6 +41,7 @@ describe('Generalmode Buttons', () => {
       type: [],
       pricePerNight: '',
       roomInformation: [],
+      bedNumber: 0,
     });
   });
 

@@ -37,11 +37,7 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 jest.mock('@/components/ui/select', () => ({
   Select: ({ children, onValueChange, value: _value }: { children: React.ReactNode; onValueChange?: (_value: string) => void; value?: string }) => (
     <div data-testid="select-mock">
-      <select 
-        data-testid="gender-select"
-        value={_value} 
-        onChange={(e) => onValueChange?.(e.target.value)}
-      >
+      <select data-testid="gender-select" value={_value} onChange={(e) => onValueChange?.(e.target.value)}>
         <option value="">Select gender</option>
         <option value="MALE">Male</option>
         <option value="FEMALE">Female</option>
@@ -100,12 +96,12 @@ describe('SignupPage', () => {
     const passwordInput = screen.getByPlaceholderText('Password');
     const fullNameInput = screen.getByPlaceholderText('Full Name');
     const usernameInput = screen.getByPlaceholderText('Username');
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     fireEvent.change(fullNameInput, { target: { value: 'Test User' } });
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
-    
+
     expect((emailInput as HTMLInputElement).value).toBe('test@example.com');
     expect((passwordInput as HTMLInputElement).value).toBe('password123');
     expect((fullNameInput as HTMLInputElement).value).toBe('Test User');
@@ -124,17 +120,17 @@ describe('SignupPage', () => {
     const passwordInput = screen.getByPlaceholderText('Password');
     const fullNameInput = screen.getByPlaceholderText('Full Name');
     const usernameInput = screen.getByPlaceholderText('Username');
-    
+
     fireEvent.click(submitButton);
     expect(mockCreateUser).not.toHaveBeenCalled();
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: '123' } });
     fireEvent.change(fullNameInput, { target: { value: 'Test User' } });
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.click(submitButton);
     expect(mockCreateUser).not.toHaveBeenCalled();
-    
+
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     fireEvent.change(fullNameInput, { target: { value: '' } });
     fireEvent.click(submitButton);
@@ -154,17 +150,17 @@ describe('SignupPage', () => {
     const fullNameInput = screen.getByPlaceholderText('Full Name');
     const usernameInput = screen.getByPlaceholderText('Username');
     const submitButton = screen.getByRole('button', { name: /sign up/i });
-    
+
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123');
     await user.type(fullNameInput, 'Test User');
     await user.type(usernameInput, 'testuser');
-    
+
     const genderSelect = screen.getByTestId('gender-select');
     await user.selectOptions(genderSelect, 'OTHER');
-    
+
     await user.click(submitButton);
-    
+
     expect(mockCreateUser).toHaveBeenCalledWith({
       variables: {
         input: {
@@ -172,9 +168,9 @@ describe('SignupPage', () => {
           password: 'password123',
           fullName: 'Test User',
           userName: 'testuser',
-          gender: 'OTHER'
-        }
-      }
+          gender: 'OTHER',
+        },
+      },
     });
   });
 

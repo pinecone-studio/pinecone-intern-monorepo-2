@@ -1,0 +1,56 @@
+query GetActiveStories {
+  getActiveStories {
+    _id
+    image
+    createdAt
+    expiredAt
+    author {
+      _id
+      userName
+      profileImage
+    }
+    viewers {
+      _id
+      userName
+      profileImage
+    }
+  }
+}
+
+query GetStoryById($_id: ID!) {
+  getStoryById(_id: $_id) {
+    _id
+    image
+    createdAt
+    expiredAt
+    author {
+      _id
+      userName
+      profileImage
+    }
+    viewers {
+      _id
+      userName
+      profileImage
+    }
+  }
+}
+
+query GetStoryByUserId($author: ID!) {
+  getStoryByUserId(author: $author) {
+    _id
+    image
+    createdAt
+    expiredAt
+    author {
+      _id
+      userName
+      profileImage
+    }
+    viewers {
+      _id
+      userName
+      profileImage
+    }
+  }
+}
