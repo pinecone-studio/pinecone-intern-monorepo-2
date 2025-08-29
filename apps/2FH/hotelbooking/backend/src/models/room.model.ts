@@ -15,6 +15,7 @@ type roomType = {
   bedRoom: bedRoom;
   other: other;
   entertainment: entertainment;
+  bedNumber: number;
 };
 
 enum typePerson {
@@ -133,6 +134,7 @@ const roomSchema = new Schema<roomType>(
     bedRoom: [{ type: String, enum: Object.values(bedRoom), required: true }],
     other: [{ type: String, enum: Object.values(other), required: true }],
     entertainment: [{ type: String, enum: Object.values(entertainment), required: true }],
+    bedNumber: { type: Number, required: true },
   },
   { timestamps: true }
 );

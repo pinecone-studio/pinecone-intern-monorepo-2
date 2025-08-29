@@ -1,8 +1,29 @@
+import { TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment } from '../../generated';
+
+// Define RoomInput type locally to avoid import issues
+type RoomInput = {
+  hotelId: string;
+  name: string;
+  pricePerNight: number;
+  imageURL: string[];
+  typePerson: TypePerson;
+  roomInformation: RoomInformation[];
+  bathroom: Bathroom[];
+  accessibility: Accessibility[];
+  internet: Internet[];
+  foodAndDrink: FoodAndDrink[];
+  bedRoom: BedRoom[];
+  other: Other[];
+  entertainment: Entertainment[];
+  bedNumber: number;
+};
+
 interface FormData {
   name: string;
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber?: number;
 }
 
 interface ServiceData {
@@ -21,25 +42,26 @@ interface RoomData {
   images: string[];
 }
 
-export const createRoomData = (selectedHotelId: string, roomData: RoomData) => {
+export const createRoomData = (selectedHotelId: string, roomData: RoomData): RoomInput => {
   console.log('createRoomData called with roomData:', roomData);
   console.log('roomData.images:', roomData.images);
   console.log('roomData.images length:', roomData.images.length);
 
-  const result = {
+  const result: RoomInput = {
     hotelId: selectedHotelId,
     name: roomData.general.name,
     pricePerNight: parseInt(roomData.general.pricePerNight),
     imageURL: roomData.images,
-    typePerson: roomData.general.type[0],
-    roomInformation: roomData.general.roomInformation,
-    bathroom: roomData.services.bathroom,
-    accessibility: roomData.services.accessibility,
-    internet: roomData.services.internet,
-    foodAndDrink: roomData.services.foodAndDrink,
-    bedRoom: roomData.services.bedRoom,
-    other: roomData.services.other,
-    entertainment: roomData.services.entertainment,
+    typePerson: roomData.general.type[0] as TypePerson,
+    roomInformation: roomData.general.roomInformation as RoomInformation[],
+    bathroom: roomData.services.bathroom as Bathroom[],
+    accessibility: roomData.services.accessibility as Accessibility[],
+    internet: roomData.services.internet as Internet[],
+    foodAndDrink: roomData.services.foodAndDrink as FoodAndDrink[],
+    bedRoom: roomData.services.bedRoom as BedRoom[],
+    other: roomData.services.other as Other[],
+    entertainment: roomData.services.entertainment as Entertainment[],
+    bedNumber: roomData.general.bedNumber ? parseInt(roomData.general.bedNumber.toString()) : 0,
   };
 
   console.log('createRoomData result:', result);
@@ -66,7 +88,7 @@ export const handleFinalSave = async (selectedHotelId: string, roomData: RoomDat
     console.log('ImageURL in input data:', inputData.imageURL);
     console.log('ImageURL length:', inputData.imageURL.length);
 
-    await (createRoom as (_params: { variables: { input: ReturnType<typeof createRoomData> } }) => Promise<unknown>)({
+    await (createRoom as (_params: { variables: { input: RoomInput } }) => Promise<unknown>)({
       variables: {
         input: inputData,
       },

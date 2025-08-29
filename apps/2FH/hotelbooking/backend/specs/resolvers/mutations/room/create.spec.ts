@@ -8,7 +8,7 @@ jest.mock('src/models', () => ({
     create: jest.fn(),
   },
 }));
-
+const mockBedNumber = 2;
 describe('createRoom mutation', () => {
   const mockContext = {} as any;
   const mockInfo = {} as any;
@@ -27,6 +27,7 @@ describe('createRoom mutation', () => {
     bedRoom: [BedRoom.BedSheets],
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
+    bedNumber: mockBedNumber,
   };
 
   const expectedRoomData = {
@@ -43,6 +44,7 @@ describe('createRoom mutation', () => {
     bedRoom: [BedRoom.BedSheets],
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
+    bedNumber: mockBedNumber,
   };
 
   afterEach(() => jest.clearAllMocks());

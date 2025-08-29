@@ -25,6 +25,12 @@ jest.mock('../../../src/components/room/GeneralFormFields', () => ({
       {errors.pricePerNight && <span data-testid="price-error">{errors.pricePerNight}</span>}
     </div>
   ),
+  BedNumberField: ({ formData, errors, onInputChange }: any) => (
+    <div data-testid="bed-number-field">
+      <input data-testid="bed-number-input" type="number" value={formData.bedNumber || ''} onChange={(e: any) => onInputChange('bedNumber', e.target.value)} placeholder="1" />
+      {errors.bedNumber && <span data-testid="bed-number-error">{errors.bedNumber}</span>}
+    </div>
+  ),
   RoomInformationField: ({ formData, errors, onInputChange }: any) => (
     <div data-testid="room-info-field">
       <input
@@ -53,29 +59,29 @@ describe('GeneralForm', () => {
       type: ['Single'],
       pricePerNight: '100',
       roomInformation: ['WiFi'],
+      bedNumber: 1,
     },
     errors: {},
     onInputChange: jest.fn(),
   };
-
   it('should render all form fields', () => {
     render(<GeneralForm {...defaultProps} />);
 
     expect(screen.getByTestId('name-field')).toBeInTheDocument();
     expect(screen.getByTestId('type-field')).toBeInTheDocument();
     expect(screen.getByTestId('price-field')).toBeInTheDocument();
+    expect(screen.getByTestId('bed-number-field')).toBeInTheDocument();
     expect(screen.getByTestId('room-info-field')).toBeInTheDocument();
   });
-
   it('should pass form data to all fields', () => {
     render(<GeneralForm {...defaultProps} />);
 
     expect(screen.getByTestId('name-input')).toHaveValue('Test Room');
     expect(screen.getByTestId('type-select')).toHaveValue('Single');
     expect(screen.getByTestId('price-input')).toHaveValue(100);
+    expect(screen.getByTestId('bed-number-input')).toHaveValue(1);
     expect(screen.getByTestId('room-info-checkbox')).toBeChecked();
   });
-
   it('should pass errors to all fields', () => {
     const propsWithErrors = {
       ...defaultProps,
@@ -104,7 +110,6 @@ describe('GeneralForm', () => {
 
     expect(mockOnInputChange).toHaveBeenCalledWith('name', 'New Room Name');
   });
-
   it('should call onInputChange when type field changes', () => {
     const mockOnInputChange = jest.fn();
     render(<GeneralForm {...defaultProps} onInputChange={mockOnInputChange} />);
@@ -114,14 +119,11 @@ describe('GeneralForm', () => {
 
     expect(mockOnInputChange).toHaveBeenCalledWith('type', ['Double']);
   });
-
   it('should call onInputChange when price field changes', () => {
     const mockOnInputChange = jest.fn();
     render(<GeneralForm {...defaultProps} onInputChange={mockOnInputChange} />);
-
     const priceInput = screen.getByTestId('price-input');
     fireEvent.change(priceInput, { target: { value: '150' } });
-
     expect(mockOnInputChange).toHaveBeenCalledWith('pricePerNight', '150');
   });
   it('should call onInputChange when room information checkbox changes', () => {
@@ -133,20 +135,19 @@ describe('GeneralForm', () => {
 
     expect(mockOnInputChange).toHaveBeenCalledWith('roomInformation', []);
   });
-
   it('should handle empty form data', () => {
     const emptyFormData = {
       name: '',
       type: [],
       pricePerNight: '',
       roomInformation: [],
+      bedNumber: 0,
     };
-
     render(<GeneralForm {...defaultProps} formData={emptyFormData} />);
-
     expect(screen.getByTestId('name-input')).toHaveValue('');
     expect(screen.getByTestId('type-select')).toHaveValue('');
     expect(screen.getByTestId('price-input')).toHaveValue(null);
+    expect(screen.getByTestId('bed-number-input')).toHaveValue(null);
     expect(screen.getByTestId('room-info-checkbox')).not.toBeChecked();
   });
   it('should render with proper spacing classes', () => {
