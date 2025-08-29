@@ -5,7 +5,7 @@ export const StoryTypeDefs = gql`
 
   type Story {
     _id: ID!
-    author: String
+    author: User!
     image: String!
     viewers: [User!]!
     createdAt: Date!
