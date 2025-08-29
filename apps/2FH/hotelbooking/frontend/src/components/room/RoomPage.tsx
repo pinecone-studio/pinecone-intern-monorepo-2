@@ -21,6 +21,7 @@ export const RoomPage = () => {
       type: [] as string[],
       pricePerNight: '',
       roomInformation: [] as string[],
+      bedNumber: 0,
     },
     services: {
       bathroom: [] as string[],

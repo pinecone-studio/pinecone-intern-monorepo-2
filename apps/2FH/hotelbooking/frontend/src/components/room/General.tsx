@@ -8,6 +8,7 @@ interface FormData {
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber: number;
 }
 
 interface GeneralProps {
@@ -69,6 +70,10 @@ export const General = ({ onSave, loading, _onImageSave, _data }: GeneralProps) 
         <div className="flex justify-between items-center py-2">
           <span className="text-sm font-medium text-gray-700">Room Information:</span>
           <span className="text-sm text-gray-900">{formatValue(_data.roomInformation)}</span>
+        </div>
+        <div className="flex justify-between items-center py-2">
+          <span className="text-sm font-medium text-gray-700">Bed Number:</span>
+          <span className="text-sm text-gray-900">{_data.bedNumber || '-/-'}</span>
         </div>
       </div>
 
