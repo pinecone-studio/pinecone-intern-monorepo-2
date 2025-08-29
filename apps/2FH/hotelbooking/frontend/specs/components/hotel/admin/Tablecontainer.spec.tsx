@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@/TestUtils';
 import { useRouter } from 'next/navigation';
-import { useHotelsQuery } from '@/generated';
+import { useHotelsAdminQuery } from '@/generated';
 import Tablecontainer from '@/components/admin/Tablecontainer';
 
 // Mock Next.js router
@@ -12,7 +12,7 @@ jest.mock('next/navigation', () => ({
 
 // Mock the generated GraphQL hook
 jest.mock('@/generated', () => ({
-  useHotelsQuery: jest.fn(),
+  useHotelsAdminQuery: jest.fn(),
 }));
 
 // Mock Next.js Image component
@@ -168,7 +168,7 @@ describe('Tablecontainer', () => {
 
   describe('Loading State', () => {
     it('should display loading message when data is loading', () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: null,
         loading: true,
         error: null,
@@ -183,7 +183,7 @@ describe('Tablecontainer', () => {
   describe('Error State', () => {
     it('should display error message when query fails', () => {
       const errorMessage = 'Failed to fetch hotels';
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: null,
         loading: false,
         error: { message: errorMessage },
@@ -197,7 +197,7 @@ describe('Tablecontainer', () => {
 
   describe('Empty Data State', () => {
     it('should handle empty hotels array', () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: [] },
         loading: false,
         error: null,
@@ -209,7 +209,7 @@ describe('Tablecontainer', () => {
     });
 
     it('should handle null hotels data', () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: null },
         loading: false,
         error: null,
@@ -223,7 +223,7 @@ describe('Tablecontainer', () => {
 
   describe('Successful Data Rendering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -269,7 +269,7 @@ describe('Tablecontainer', () => {
 
   describe('Hotel Row Click Navigation', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -297,7 +297,7 @@ describe('Tablecontainer', () => {
 
   describe('FilterControls Integration', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -329,7 +329,7 @@ describe('Tablecontainer', () => {
 
   describe('Search Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -404,7 +404,7 @@ describe('Tablecontainer', () => {
 
   describe('Location Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -442,7 +442,7 @@ describe('Tablecontainer', () => {
 
   describe('Star Rating Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -482,7 +482,7 @@ describe('Tablecontainer', () => {
 
   describe('User Rating Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -522,7 +522,7 @@ describe('Tablecontainer', () => {
 
   describe('Room Type Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -595,7 +595,7 @@ describe('Tablecontainer', () => {
 
   describe('Combined Filtering', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -676,7 +676,7 @@ describe('Tablecontainer', () => {
 
   describe('Filter Reset Behavior', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -739,7 +739,7 @@ describe('Tablecontainer', () => {
 
   describe('Edge Cases - Missing Fields', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotelsWithMissingFields },
         loading: false,
         error: null,
@@ -788,7 +788,7 @@ describe('Tablecontainer', () => {
 
   describe('Memoized Calculations', () => {
     it('should generate location options from hotel data', () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -806,7 +806,7 @@ describe('Tablecontainer', () => {
     });
 
     it('should recalculate filtered hotels when filters change', async () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -826,7 +826,7 @@ describe('Tablecontainer', () => {
 
   describe('Performance and Edge Cases', () => {
     it('should handle rapid filter changes without errors', async () => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,
@@ -863,7 +863,7 @@ describe('Tablecontainer', () => {
         amenities: ['AIR_CONDITIONING', 'WIFI'],
       }));
 
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: largeHotelDataset },
         loading: false,
         error: null,
@@ -883,7 +883,7 @@ describe('Tablecontainer', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      (useHotelsQuery as jest.Mock).mockReturnValue({
+      (useHotelsAdminQuery as jest.Mock).mockReturnValue({
         data: { hotels: mockHotels },
         loading: false,
         error: null,

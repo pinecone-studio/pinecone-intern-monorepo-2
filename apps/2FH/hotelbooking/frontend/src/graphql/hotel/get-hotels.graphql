@@ -44,7 +44,7 @@ query HotelsByRating($rating: Float!) {
   }
 }
 
-query Hotels {
+query HotelsAdmin {
   hotels {
     id
     name
