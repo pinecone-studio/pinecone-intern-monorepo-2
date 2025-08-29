@@ -2,7 +2,8 @@ import { PropsWithChildren } from 'react';
 import './global.css';
 import { Toaster } from 'sonner';
 import { ApolloWrapper } from '@/components/providers/ApolloWrapper';
-import { UserAuthProvider } from '../components/providers/UserAuthProvider';
+import { UserAuthProvider } from '@/components/providers';
+
 
 export const metadata = {
   title: 'Welcome to example-frontend',
