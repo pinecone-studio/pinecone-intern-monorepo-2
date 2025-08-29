@@ -35,6 +35,7 @@ export const deletePost = async (_: unknown, { _id, userId }: { _id: string; use
     if (error instanceof GraphQLError) {
       throw error;
     }
-    throw new GraphQLError('Failed to delete post: ' + (error instanceof Error ? error.message : JSON.stringify(error)));
+    const message = error instanceof Error ? error.message : String(error);
+    throw new GraphQLError('Failed to delete post: ' + message);
   }
 };
