@@ -1,6 +1,0 @@
-query Hotels {
-  hotels {
-    id
-    name
-  }
-}
