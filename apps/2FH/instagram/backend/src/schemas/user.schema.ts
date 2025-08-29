@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const UserTypeDefs = gql`
   scalar Date
@@ -20,12 +20,23 @@ export const UserTypeDefs = gql`
     gender: Gender!
     isPrivate: Boolean!
     isVerified: Boolean!
-    posts: [ID!]!
+    posts: [Post!]!
     stories: [Story!]!
     followers: [User!]!
     followings: [User!]!
     createdAt: Date!
     updatedAt: Date!
+  }
+
+  type LoginResponse {
+    user: User!
+    token: String!
+  }
+
+  type DeleteUserResponse {
+    success: Boolean!
+    message: String!
+    deletedUser: User!
   }
 
   input CreateUserInput {
@@ -50,20 +61,41 @@ export const UserTypeDefs = gql`
     isPrivate: Boolean
   }
 
+  input LoginInput {
+    identifier: String!
+    password: String!
+  }
+
+  input ForgotPasswordInput {
+    identifier: String!
+  }
+
+  input ResetPasswordInput {
+    identifier: String!
+    otp: String!
+    newPassword: String!
+  }
+
+  input OtpStorageInput {
+    identifier: String!
+    otp: String!
+  }
+
   type Query {
     getUserById(_id: ID!): User
     getUserByUsername(userName: String!): User
     searchUsers(keyword: String!): [User!]!
-    getFollowers(userId: ID!): [User!]!
-    getFollowings(userId: ID!): [User!]!
   }
 
   type Mutation {
     createUser(input: CreateUserInput!): User!
-    updateUser(_id: ID!, input: UpdateUserInput!): User!
-    deleteUser(_id: ID!): Boolean!
+    loginUser(input: LoginInput!): LoginResponse!
+    forgotPassword(input: ForgotPasswordInput!): Boolean!
+    resetPassword(input: ResetPasswordInput!): Boolean!
+    verifyOTP(identifier: String!, otp: String!): Boolean!
+    otpStorage(input: OtpStorageInput!): Boolean!
 
-    followUser(targetUserId: ID!): Boolean!
-    unfollowUser(targetUserId: ID!): Boolean!
+    updateUser(_id: ID!, input: UpdateUserInput!): User!
+    deleteUser(userId: ID!): DeleteUserResponse!
   }
 `;

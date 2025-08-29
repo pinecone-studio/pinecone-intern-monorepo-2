@@ -119,7 +119,7 @@
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["npx nx cypress 2FH-tinder-frontend"],
+        "commands": ["npx nx execute-cypress scripts 2FH-tinder-frontend"],
         "parallel": false
       },
       "dependsOn": [{ "target": "cypress:clean" }]

@@ -133,9 +133,9 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_bAdd5zLImNHsTKXqWElAbthCClSK -- vercel pull --yes --environment=preview --token=qnXHkxgD4FZKRCNILDrQYlKq",
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_pIcJayM2YbH7gIdIxjRQApC71jWg -- vercel pull --yes --environment=preview --token=qnXHkxgD4FZKRCNILDrQYlKq",
           "npx env-cmd -f apps/2FH/hotelbooking/backend/.env vercel build --token=qnXHkxgD4FZKRCNILDrQYlKq",
-          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_bAdd5zLImNHsTKXqWElAbthCClSK -- vercel --archive=tgz --prebuilt --token=qnXHkxgD4FZKRCNILDrQYlKq"
+          "npx dotenv -v VERCEL_ORG_ID=team_2TjV6297LA267czkNg94ORef -v VERCEL_PROJECT_ID=prj_pIcJayM2YbH7gIdIxjRQApC71jWg -- vercel --archive=tgz --prebuilt --token=qnXHkxgD4FZKRCNILDrQYlKq"
         ],
         "parallel": false
       },

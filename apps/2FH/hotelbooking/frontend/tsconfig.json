@@ -18,17 +18,10 @@
       }
     ],
     "paths": {
-      "@/components/ui/*": [
-        "../../../../libs/shadcn/src/lib/ui/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
+      "@/components/ui/*": ["../../../../libs/shadcn/src/lib/ui/*"],
+      "@/*": ["src/*"]
     },
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"]
   },
   "include": [
     "**/*.ts",
@@ -40,10 +33,5 @@
     "next-env.d.ts",
     "../../../../dist/apps/2FH/hotelbooking/frontend/.next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

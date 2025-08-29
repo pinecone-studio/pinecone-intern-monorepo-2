@@ -10,7 +10,7 @@ const searchDepth = (folderPath: string) => {
   const folders = rootFolders.filter((folder) => !folder.includes('.'));
 
   if (rootFolders.includes('page.tsx')) {
-    pages.push(`//${folderPath}`);
+    pages.push(`${folderPath}`);
   }
 
   folders.forEach((folder) => {

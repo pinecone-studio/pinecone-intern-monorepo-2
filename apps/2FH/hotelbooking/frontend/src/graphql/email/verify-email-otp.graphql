@@ -1,0 +1,5 @@
+mutation VerifyOtp($input: VerifyOtpInput!) {
+  verifyOtp(input: $input) {
+    message
+  }
+}
