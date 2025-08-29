@@ -1,7 +1,8 @@
+/* eslint-disable max-lines, complexity */
 'use client';
 import { avatar, avatar2, avatar3, avatar4, avatar5, storyImage, storyImage2, storyImage3, storyImage5, storyImage6, storyImage7 } from '@/components/stories/story-images';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 const users = [
   {
     id: 1,
@@ -42,8 +43,44 @@ const Stories = () => {
   const [currentStory, setCurrentStory] = useState(0);
   const [progress, setProgress] = useState(0);
   const router = useRouter();
-  const story = users[currentUser].stories[currentStory];
+  
+  const handleNextUser = useCallback(() => {
+    if (currentUser < users.length - 1) {
+      setCurrentUser(currentUser + 1);
+      setCurrentStory(0);
+    } else {
+      router.push('/stories');
+    }
+  }, [currentUser, router]);
+
+  const handlePrevUser = useCallback(() => {
+    if (currentUser > 0) {
+      setCurrentUser(currentUser - 1);
+      setCurrentStory(users[currentUser - 1].stories.length - 1);
+    }
+  }, [currentUser]);
+
+  const handleNextStory = useCallback(() => {
+    if (currentStory < users[currentUser].stories.length - 1) {
+      setCurrentStory(currentStory + 1);
+    } else {
+      handleNextUser();
+    }
+  }, [currentStory, currentUser, handleNextUser]);
+
+  const handlePrevStory = useCallback(() => {
+    if (currentStory > 0) {
+      setCurrentStory(currentStory - 1);
+    } else {
+      handlePrevUser();
+    }
+  }, [currentStory, handlePrevUser]);
+
+  const story = users[currentUser]?.stories?.[currentStory];
+  
   useEffect(() => {
+    if (!story || !users[currentUser]) return;
+    
     setProgress(0);
     const interval = setInterval(() => {
       setProgress((p) => {
@@ -55,36 +92,9 @@ const Stories = () => {
       });
     }, story.duration / 50);
     return () => clearInterval(interval);
-  }, [currentUser, currentStory]);
-  const handleNextStory = () => {
-    if (currentStory < users[currentUser].stories.length - 1) {
-      setCurrentStory(currentStory + 1);
-    } else {
-      handleNextUser();
-    }
-  };
-  const handlePrevStory = () => {
-    if (currentStory > 0) {
-      setCurrentStory(currentStory - 1);
-    } else {
-      handlePrevUser();
-    }
-  };
-  const handleNextUser = () => {
-    if (currentUser < users.length - 1) {
-      setCurrentUser(currentUser + 1);
-      setCurrentStory(0);
-    } else {
-      router.push('/stories');
-    }
-  };
-  const handlePrevUser = () => {
-    if (currentUser > 0) {
-      setCurrentUser(currentUser - 1);
-      setCurrentStory(users[currentUser - 1].stories.length - 1);
-    }
-  };
-  const getVisibleUsers = () => {
+  }, [currentUser, currentStory, story, handleNextStory]);
+  
+  const visibleUsers = useMemo(() => {
     const visible = [];
     if (currentUser > 1) {
       visible.push(users[currentUser - 2]);
@@ -100,7 +110,17 @@ const Stories = () => {
       visible.push(users[currentUser + 2]);
     }
     return visible;
-  };
+  }, [currentUser]);
+
+  // Guard against invalid state
+  if (!users[currentUser] || !users[currentUser].stories || !users[currentUser].stories[currentStory]) {
+    return (
+      <div className="w-full h-screen bg-[#18181b] flex flex-col items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-screen bg-[#18181b] flex flex-col items-center ">
       <div className="w-full flex justify-between items-center p-4 text-white">
@@ -108,9 +128,9 @@ const Stories = () => {
         <button onClick={() => router.push('/')}>X</button>
       </div>
       <div className="flex-1 flex items-center justify-center gap-6 mt-6">
-        {getVisibleUsers().map((user, _index) => (
+        {visibleUsers.map((user, _index) => (
           <div
-            key={user.id}
+            key={`${user.id}-${currentUser}-${currentStory}`}
             className={`relative flex flex-col items-center justify-center rounded-xl overflow-hidden transition-all duration-300
               ${user.id === users[currentUser].id ? 'w-[521px] h-[927px]' : 'w-[245px] h-[433px] opacity-70'}`}
           >
@@ -129,12 +149,18 @@ const Stories = () => {
                   ))}
                 </div>
                 <img src={users[currentUser].stories[currentStory].src} alt="story" className="w-full h-full object-cover" data-testid="main-story-image" />
-                <div className="absolute left-0 top-0 w-1/2 h-full cursor-pointer" onClick={handlePrevStory} />
-                <div className="absolute right-0 top-0 w-1/2 h-full cursor-pointer" onClick={handleNextStory} />
-                <button onClick={handlePrevUser} className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">
+                <div className="absolute left-0 top-0 w-1/2 h-full cursor-pointer" onClick={handlePrevStory} data-testid="prev-story-area" />
+                <div className="absolute right-0 top-0 w-1/2 h-full cursor-pointer" onClick={handleNextStory} data-testid="next-story-area" />
+                <button 
+                  onClick={handlePrevUser} 
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-sm bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300 disabled:cursor-not-allowed flex items-center justify-center"
+                >
                   ◀
                 </button>
-                <button onClick={handleNextUser} className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full">
+                <button 
+                  onClick={handleNextUser} 
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-sm bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300 disabled:cursor-not-allowed flex items-center justify-center"
+                >
                   ▶
                 </button>
               </div>

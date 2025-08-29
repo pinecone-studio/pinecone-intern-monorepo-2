@@ -1,4 +1,5 @@
 // Add these additional test cases to your existing Cypress spec file
+/* eslint-disable max-lines */
 
 describe('Instagram Stories Component - Coverage Tests', () => {
   beforeEach(() => {

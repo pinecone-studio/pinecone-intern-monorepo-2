@@ -2,7 +2,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
-import LoginPage from '../../../src/app/login/page';
+import LoginPage from '../../../src/app/(sidebargui)/login/page';
 import { AuthProvider } from '../../../src/contexts/AuthContext';
 
 const mockPush = jest.fn();

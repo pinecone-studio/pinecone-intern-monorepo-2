@@ -28,7 +28,7 @@ export const SearchSidebar = () => {
   if (!isSearchOpen) return null;
 
   return (
-    <div className="w-80 border-r border-gray-200 bg-white h-full fixed left-20 z-20">
+    <div data-testid="search-sidebar" className="w-80 border-r border-gray-200 bg-white h-full fixed left-20 z-20">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-xl font-bold mb-4">Search</h2>

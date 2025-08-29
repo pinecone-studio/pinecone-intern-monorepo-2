@@ -81,7 +81,7 @@ export const Sidebar = () => {
   );
 
   return (
-    <div className={`border-r border-gray-200 fixed h-full bg-white z-10 transition-all duration-300  ${isSearchOpen ? 'w-20' : 'w-64'}`}>
+    <div data-testid="sidebar" className={`border-r border-gray-200 fixed h-full bg-white z-10 transition-all duration-300  ${isSearchOpen ? 'w-20' : 'w-64'}`}>
       {!isSearchOpen && (
         <div className="p-6">
           <Image src="/Vector.png" alt="Instagram logo" width={100} height={100} />
