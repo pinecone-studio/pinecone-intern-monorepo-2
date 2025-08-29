@@ -5,14 +5,7 @@ import { ProfileTypeDefs } from './profile.schema';
 import { SwipeTypeDefs } from './swipe.schema';
 import { UserTypeDefs } from './user-schema';
 import { messageTypeDefs } from './message-schema';
-import {passwordResetSchema} from './forgot-password'
+import { passwordResetSchema } from './forgot-password';
+import { SignupSendOtpTypeDefs } from './signupSendotp.schema';
 
-export const typeDefs = mergeTypeDefs([
-  CommonTypeDefs,
-  MatchesTypeDefs,
-  ProfileTypeDefs,
-  SwipeTypeDefs,
-  UserTypeDefs,
-  messageTypeDefs,
-  passwordResetSchema,
-]);
+export const typeDefs = mergeTypeDefs([CommonTypeDefs, MatchesTypeDefs, ProfileTypeDefs, SwipeTypeDefs, UserTypeDefs, messageTypeDefs, passwordResetSchema, SignupSendOtpTypeDefs]);

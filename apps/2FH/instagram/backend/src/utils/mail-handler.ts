@@ -52,11 +52,11 @@ export const sendOTPEmail = async (email: string, otp: string): Promise<void> =>
     console.log(`OTP email sent to ${email}`);
   } catch (error) {
     console.error('Error sending OTP email:', error);
-        
+
     throw new GraphQLError('Failed to send OTP email', {
       extensions: {
         code: 'EMAIL_SERVICE_ERROR',
-      }
+      },
     });
   }
 };

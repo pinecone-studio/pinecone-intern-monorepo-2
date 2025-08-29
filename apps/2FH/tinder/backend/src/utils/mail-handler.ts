@@ -12,19 +12,24 @@ const transport = createTransport({
     pass: EMAIL_PASS,
   },
 });
-
 export const sendUserVerificationLink = async (baseURL: string, email: string) => {
   const otp = Math.floor(1000 + Math.random() * 9000);
+  console.log('📨 Sending OTP:', otp, 'to', email);
 
-  await transport.sendMail({
-    from: EMAIL_USER,
-    to: email,
-    subject: 'Your OTP Verification Code',
-    text: `Your OTP is: ${otp}`,
-    html: `<h1>Your OTP is: ${otp}</h1>
-           <p>It is valid for 5 minutes.</p>`,
-  });
+  try {
+    const result = await transport.sendMail({
+      from: EMAIL_USER,
+      to: email,
+      subject: 'Your OTP Verification Code',
+      text: `Your OTP is: ${otp}`,
+      html: `<h1>Your OTP is: ${otp}</h1><p>It is valid for 5 minutes.</p>`,
+    });
 
-  // Return OTP so you can save it in DB or verify later
-  return otp;
+    console.log('✅ Email sent:', result);
+
+    return otp;
+  } catch (error) {
+    console.error('❌ Failed to send OTP email:', error);
+    throw new Error('Email sending failed');
+  }
 };
