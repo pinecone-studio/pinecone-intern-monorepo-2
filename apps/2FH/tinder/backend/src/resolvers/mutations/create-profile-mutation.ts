@@ -1,6 +1,6 @@
 // src/resolvers/mutations/create-profile-mutation.ts
 import { GraphQLError } from "graphql";
-import { Profile, User } from "src/models";
+import { ProfileModel, User } from "src/models";
 import { Types } from "mongoose";
 import { MutationResolvers, ProfileResponse } from "src/generated";
 
@@ -30,7 +30,7 @@ const validateDateOfBirth = (dateOfBirth: string) => {
 };
 
 export const createProfile: MutationResolvers["createProfile"] = async (
-  _:unknown,
+  _: unknown,
   { input },
 ): Promise<ProfileResponse> => {
   const { userId, dateOfBirth } = input;
@@ -41,7 +41,7 @@ export const createProfile: MutationResolvers["createProfile"] = async (
   const parsedDate = validateDateOfBirth(dateOfBirth);
 
   try {
-    await Profile.create({
+    await ProfileModel.create({
       ...input,
       dateOfBirth: parsedDate,
     });

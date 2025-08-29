@@ -1,7 +1,7 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/swipe-failure.spec.ts
 import { Types } from 'mongoose';
 import { swipe } from '../../../src/utils/swipe-core';
-import { User, Swipe, Profile as ProfileModel } from 'src/models';
+import { User, Swipe, ProfileModel } from 'src/models';
 import { SwipeInput } from '../../../src/types/swipe-types';
 
 jest.mock('src/models', () => ({

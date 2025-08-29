@@ -1,5 +1,5 @@
 import { MutationResolvers, UpdateProfileInput, ProfileResponse } from "src/generated";
-import { Profile, User } from "src/models";
+import { ProfileModel, User } from "src/models";
 import { GraphQLError } from "graphql";
 
 async function validateUserExists(userId: string) {
@@ -9,7 +9,7 @@ async function validateUserExists(userId: string) {
 }
 
 async function validateProfileExists(userId: string) {
-  const profile = await Profile.findOne({ userId });
+  const profile = await ProfileModel.findOne({ userId });
   if (!profile) throw new GraphQLError("Profile not found");
   return profile;
 }
@@ -35,7 +35,7 @@ export const updateProfile: MutationResolvers["updateProfile"] = async (
     await validateProfileExists(input.userId);
 
     const updateData = buildProfileUpdateData(input);
-    const updatedProfile = await Profile.findOneAndUpdate(
+    const updatedProfile = await ProfileModel.findOneAndUpdate(
       { userId: input.userId },
       { $set: updateData },
       { new: true }

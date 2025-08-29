@@ -1,6 +1,6 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/create-profile-failure.spec.ts
-import { createProfile } from "src/resolvers/mutations";
-import { Profile, User } from "src/models";
+import { createProfile } from "src/resolvers/mutations/create-profile-mutation";
+import { ProfileModel, User } from "src/models";
 import { Types } from "mongoose";
 import { GraphQLError } from "graphql";
 import { Gender } from "src/generated";
@@ -47,7 +47,7 @@ describe("createProfile Mutation - Failure", () => {
       new GraphQLError("Cannot create profile: User with this userId does not exist")
     );
 
-    expect(Profile.create).not.toHaveBeenCalled();
+    expect(ProfileModel.create).not.toHaveBeenCalled();
     expect(consoleSpy).not.toHaveBeenCalled();
   });
 
@@ -60,7 +60,7 @@ describe("createProfile Mutation - Failure", () => {
       createProfile!({}, { input: invalidInput }, {} as any, {} as any)
     ).rejects.toThrow(new GraphQLError("Cannot create profile: Invalid time value"));
 
-    expect(Profile.create).not.toHaveBeenCalled();
+    expect(ProfileModel.create).not.toHaveBeenCalled();
     expect(consoleSpy).not.toHaveBeenCalled();
   });
 
@@ -75,19 +75,19 @@ describe("createProfile Mutation - Failure", () => {
       )
     );
 
-    expect(Profile.create).not.toHaveBeenCalled();
+    expect(ProfileModel.create).not.toHaveBeenCalled();
     expect(consoleSpy).not.toHaveBeenCalled();
   });
 
-  it("should throw GraphQLError if Profile.create fails", async () => {
+  it("should throw GraphQLError if ProfileModel.create fails", async () => {
     (User.findById as jest.Mock).mockResolvedValue(mockUser);
-    (Profile.create as jest.Mock).mockRejectedValue(new Error("Database error"));
+    (ProfileModel.create as jest.Mock).mockRejectedValue(new Error("Database error"));
 
     await expect(
       createProfile!({}, { input: mockProfileInput }, {} as any, {} as any)
     ).rejects.toThrow(new GraphQLError("Cannot create profile: Database error"));
 
-    expect(Profile.create).toHaveBeenCalledWith(
+    expect(ProfileModel.create).toHaveBeenCalledWith(
       expect.objectContaining({
         ...mockProfileInput,
         dateOfBirth: expect.any(Date),
@@ -98,7 +98,7 @@ describe("createProfile Mutation - Failure", () => {
 
   it("should throw GraphQLError for non-Error type unknown error", async () => {
     (User.findById as jest.Mock).mockResolvedValue(mockUser);
-    (Profile.create as jest.Mock).mockRejectedValue("Unknown error");
+    (ProfileModel.create as jest.Mock).mockRejectedValue("Unknown error");
 
     await expect(
       createProfile!({}, { input: mockProfileInput }, {} as any, {} as any)
@@ -106,7 +106,7 @@ describe("createProfile Mutation - Failure", () => {
       new GraphQLError("Cannot create profile: Unknown error occurred")
     );
 
-    expect(Profile.create).toHaveBeenCalledWith(
+    expect(ProfileModel.create).toHaveBeenCalledWith(
       expect.objectContaining({
         ...mockProfileInput,
         dateOfBirth: expect.any(Date),

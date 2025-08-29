@@ -1,0 +1,25 @@
+query GetConversations($userId: ID!) {
+  getConversations(userId: $userId) {
+    user {
+      id
+    }
+    profile{
+      name
+      work
+      images
+    }
+    messages {
+      id
+      content
+      createdAt
+      sender {
+        id
+        email
+      }
+      receiver {
+        id
+        email
+      }
+    }
+  }
+} 

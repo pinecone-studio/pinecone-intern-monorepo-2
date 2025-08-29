@@ -1,7 +1,2 @@
-query Query {
-  sampleQuery
-}
-
-mutation Mutation {
-  sampleMutation
-}
+# This file imports all GraphQL operations
+# Individual .graphql files should be imported here for codegen

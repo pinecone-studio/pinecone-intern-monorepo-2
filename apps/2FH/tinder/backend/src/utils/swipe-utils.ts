@@ -1,6 +1,6 @@
 // apps/2FH/tinder/backend/src/utils/swipe-utils.ts
 import { Types } from "mongoose";
-import { Profile as ProfileModel, Swipe } from "src/models";
+import { ProfileModel, Swipe } from "../models";
 import { SwipeProfile } from "../types/swipe-types";
 import { GraphQLError } from "graphql";
 
@@ -9,10 +9,10 @@ export const getSwipedUserIds = async (userId: string): Promise<Types.ObjectId[]
   try {
     const swipedUserIds = await Swipe.find({ swiperId: userId })
       .distinct('targetId');
-    
+
     // Add the user's own ID to exclude it
     swipedUserIds.push(new Types.ObjectId(userId));
-    
+
     return swipedUserIds;
   } catch (error: unknown) {
     throw new GraphQLError(`Failed to get swiped user IDs: ${error instanceof Error ? error.message : String(error)}`);
@@ -48,9 +48,9 @@ export const findNextAvailableProfile = async (swipedUserIds: Types.ObjectId[]) 
     const profile = await ProfileModel.findOne({
       userId: { $nin: swipedUserIds }
     });
-    
+
     if (!profile) return null;
-    
+
     // Return the profile data in the expected format
     return {
       userId: profile.userId.toString(),

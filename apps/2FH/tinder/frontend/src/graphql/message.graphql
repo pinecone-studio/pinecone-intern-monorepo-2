@@ -1,0 +1,30 @@
+query GetMessages($senderId: ID, $receiverId: ID) {
+  getMessages(senderId: $senderId, receiverId: $receiverId) {
+    id
+    content
+    createdAt
+    receiver {
+      id
+      email
+    }
+    sender {
+      id
+      email
+    }
+  }
+}
+mutation SendMessage($input: SendMessageInput!) {
+  sendMessage(input: $input) {
+    id
+    content
+    createdAt
+    sender {
+      id
+      email
+    }
+    receiver {
+      id
+      email
+    }
+  }
+}

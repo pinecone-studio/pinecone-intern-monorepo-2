@@ -5,6 +5,8 @@ import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
+import './server'; // Import server.ts to initialize Socket.IO server
+
 connectToDb();
 
 const server = new ApolloServer<Context>({

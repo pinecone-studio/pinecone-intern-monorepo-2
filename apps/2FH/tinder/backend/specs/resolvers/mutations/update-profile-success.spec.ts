@@ -1,9 +1,9 @@
-import { Profile, User } from 'src/models';
-import { updateProfile } from 'src/resolvers/mutations';
+import { ProfileModel, User } from 'src/models';
+import { updateProfile } from 'src/resolvers/mutations/update-profile';
 import { ProfileResponse, UpdateProfileInput } from 'src/generated';
 
 jest.mock('src/models', () => ({
-  Profile: {
+  ProfileModel: {
     findOne: jest.fn(),
     findOneAndUpdate: jest.fn(),
   },
@@ -34,8 +34,8 @@ describe('updateProfile mutation - Success Cases', () => {
 
   it('should update profile successfully', async () => {
     (User.findById as jest.Mock).mockResolvedValueOnce({ _id: mockUserId });
-    (Profile.findOne as jest.Mock).mockResolvedValueOnce({ _id: '507f1f77bcf86cd799439012', userId: mockUserId });
-    (Profile.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
+    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce({ _id: '507f1f77bcf86cd799439012', userId: mockUserId });
+    (ProfileModel.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
       _id: '507f1f77bcf86cd799439012',
       ...mockProfileInput,
       updatedAt: new Date().toISOString(),
@@ -45,8 +45,8 @@ describe('updateProfile mutation - Success Cases', () => {
     const result = await updateProfile!({}, { input: mockProfileInput }, mockContext as any, mockInfo);
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
-    expect(Profile.findOne).toHaveBeenCalledWith({ userId: mockUserId });
-    expect(Profile.findOneAndUpdate).toHaveBeenCalledWith(
+    expect(ProfileModel.findOne).toHaveBeenCalledWith({ userId: mockUserId });
+    expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledWith(
       { userId: mockUserId },
       {
         $set: expect.objectContaining({
@@ -75,8 +75,8 @@ describe('updateProfile mutation - Success Cases', () => {
       work: '',
     };
     (User.findById as jest.Mock).mockResolvedValueOnce({ _id: mockUserId });
-    (Profile.findOne as jest.Mock).mockResolvedValueOnce({ _id: '507f1f77bcf86cd799439012', userId: mockUserId });
-    (Profile.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
+    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce({ _id: '507f1f77bcf86cd799439012', userId: mockUserId });
+    (ProfileModel.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
       _id: '507f1f77bcf86cd799439012',
       userId: mockUserId,
       name: partialInput.name,
@@ -88,8 +88,8 @@ describe('updateProfile mutation - Success Cases', () => {
     const result = await updateProfile!({}, { input: partialInput }, mockContext as any, mockInfo);
 
     expect(User.findById).toHaveBeenCalledWith(mockUserId);
-    expect(Profile.findOne).toHaveBeenCalledWith({ userId: mockUserId });
-    expect(Profile.findOneAndUpdate).toHaveBeenCalledWith({ userId: mockUserId }, { $set: { name: partialInput.name, work: '', updatedAt: expect.any(String) } }, { new: true });
+    expect(ProfileModel.findOne).toHaveBeenCalledWith({ userId: mockUserId });
+    expect(ProfileModel.findOneAndUpdate).toHaveBeenCalledWith({ userId: mockUserId }, { $set: { name: partialInput.name, work: '', updatedAt: expect.any(String) } }, { new: true });
     expect(consoleSpy).toHaveBeenCalledWith('Profile updated successfully:', expect.any(String));
     expect(result).toEqual(ProfileResponse.Success);
     consoleSpy.mockRestore();

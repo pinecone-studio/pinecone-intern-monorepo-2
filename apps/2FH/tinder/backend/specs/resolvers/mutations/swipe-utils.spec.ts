@@ -1,12 +1,12 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/swipe-utils.spec.ts
 import { Types } from 'mongoose';
-import { Profile as ProfileModel } from 'src/models';
+import { ProfileModel } from 'src/models';
 import { checkMutualLike, addMutualMatch, processLikeForMutualMatch } from 'src/utils/swipe-utils';
 import { SwipeProfile } from '../../../src/types/swipe-types';
 
 // Mock MongoDB models
 jest.mock('src/models', () => ({
-  Profile: {
+  ProfileModel: {
     findOne: jest.fn(),
     findOneAndUpdate: jest.fn(),
   },

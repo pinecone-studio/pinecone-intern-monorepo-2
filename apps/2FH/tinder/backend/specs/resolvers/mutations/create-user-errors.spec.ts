@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { User } from 'src/models';
-import { createUser } from 'src/resolvers/mutations';
+import { createUser } from 'src/resolvers/mutations/create-user';
 import { CreateUserInput } from 'src/generated';
 import bcryptjs from 'bcryptjs';
 

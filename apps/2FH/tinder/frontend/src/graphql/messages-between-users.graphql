@@ -1,0 +1,15 @@
+query GetMessagesBetweenUsers($userId1: ID!, $userId2: ID!) {
+  getMessagesBetweenUsers(userId1: $userId1, userId2: $userId2) {
+    id
+    content
+    createdAt
+    sender {
+      id
+      email
+    }
+    receiver {
+      id
+      email
+    }
+  }
+} 

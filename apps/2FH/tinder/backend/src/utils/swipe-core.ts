@@ -11,13 +11,43 @@ import {
 import { findNextAvailableProfile } from "./swipe-utils";
 import { SwipeInput } from "../types/swipe-types";
 
+interface Match {
+  likeduserId: {
+    userId: string;
+    name: string;
+    likes: string[];
+    matches: string[];
+  };
+  matcheduserId: {
+    userId: string;
+    name: string;
+    likes: string[];
+    matches: string[];
+  };
+}
+
+interface Profile {
+  id?: string;
+  userId: string;
+  name: string;
+  gender?: string;
+  bio?: string;
+  interests?: string[];
+  profession: string;
+  work?: string;
+  images: string[];
+  dateOfBirth?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 const validateUserIds = (swiperId: string, targetId: string) => {
   if (!Types.ObjectId.isValid(swiperId) || !Types.ObjectId.isValid(targetId)) {
     throw new GraphQLError("Swipe failed: Invalid user ID format");
   }
 };
 
-const handleExistingSwipeCase = async (existingSwipe: any, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
+const handleExistingSwipeCase = async (existingSwipe: unknown, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
   const match = await handleExistingSwipe(existingSwipe, swiperObjectId, targetObjectId);
   return {
     success: false,
@@ -28,7 +58,7 @@ const handleExistingSwipeCase = async (existingSwipe: any, swiperObjectId: Types
   };
 };
 
-const createSuccessResponse = (action: string, match: any, nextProfile: any) => {
+const createSuccessResponse = (action: string, match: Match | null, nextProfile: Profile | null) => {
   return {
     success: true,
     message: `Successfully ${action.toLowerCase()}d profile`,
@@ -68,7 +98,9 @@ const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action
 
 const getNextProfile = async (swiperId: string) => {
   const swipedUserIds = await getSwipedUserIds(swiperId);
-  return await findNextAvailableProfile(swipedUserIds);
+  // Convert string IDs to ObjectIds
+  const swipedObjectIds = swipedUserIds.map(id => new Types.ObjectId(id));
+  return await findNextAvailableProfile(swipedObjectIds);
 };
 
 const handleSwipeCreation = async (swiperId: string, targetId: string, action: string, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {

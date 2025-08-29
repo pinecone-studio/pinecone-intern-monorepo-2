@@ -33,8 +33,8 @@ export const ProfileTypeDefs = gql`
     dateOfBirth: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    likes: [ID!]!
-    matches: [ID!]!
+    likes: [Profile!]!
+    matches: [Profile!]!
   }
 
   type Swipe {
