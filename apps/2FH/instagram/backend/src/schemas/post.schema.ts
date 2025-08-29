@@ -22,5 +22,7 @@ export const PostTypeDefs = gql`
   type Mutation {
     createPost(author: ID!, input: CreatePostInput!): Post!
     deletePost(_id: ID!, userId: ID!): Post!
+
+    updatePostByCaption(_id: ID!, caption: String!): Post!
   }
 `;

@@ -5,7 +5,8 @@ export const CommentTypeDefs = gql`
   type Comment {
     _id: ID!
     author: ID!
-    postId: ID!
+    parentId: ID!
+    parentType: String!
     replyId: [ID!]!
     content: String!
     likes: [ID!]!
@@ -25,10 +26,14 @@ export const CommentTypeDefs = gql`
     reply: [ID!]!
   }
   type Mutation {
-    createComment(input: createCommentInput!): Comment!
-    deleteComment(_id: ID!,userId:ID!): Comment!
+    createCommentOnPost(postId: ID!, content: String!): Comment!
+    createReplyOnComment(commentId: ID!, content: String!): Comment!
+    deleteComment(_id: ID!, userId: ID!): Comment!
     updateCommentByContent(_id: ID!, input: CommentInput!, userId: ID!): Comment!
     updateCommentByLikes(_id: ID!, input: updateByLikeInput): Comment!
-    updateCommentByReply(_id: ID!, input: updateByReplyInput): Comment!
+  }
+  type Query {
+    getCommentById(_id: ID!): Comment!
+    getCommentByParentId(parentId: ID!): [Comment!]!
   }
 `;
