@@ -203,6 +203,7 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_YTHg6KzZzx0MVpIH0WtvweaqEjPT -- vercel pull --yes --environment=production --token=9G6Uxh7gUd002tY1tF2IZWeL",
+          "rm -rf .vercel/output",
           "vercel build --prod --token=9G6Uxh7gUd002tY1tF2IZWeL",
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_YTHg6KzZzx0MVpIH0WtvweaqEjPT -- vercel --prebuilt --prod --token=9G6Uxh7gUd002tY1tF2IZWeL"
         ],

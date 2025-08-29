@@ -3,7 +3,6 @@ import { MutationResolvers, UserResponse } from 'src/generated';
 import { User } from 'src/models';
 import { GraphQLError } from 'graphql';
 import bcryptjs from 'bcryptjs';
-import { sendUserVerificationLink } from 'src/utils/mail-handler';
 
 export const createUser: MutationResolvers['createUser'] = async (_, { input }, { req }) => {
   try {
@@ -18,8 +17,7 @@ export const createUser: MutationResolvers['createUser'] = async (_, { input }, 
     });
 
     console.log('User created successfully:', input.email);
-    const origin = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
-    await sendUserVerificationLink(origin, input.email);
+
     return UserResponse.Success;
   } catch (error: unknown) {
     console.log('Failed to create user:', error);

@@ -1,9 +1,10 @@
 export * from './sample-mutation';
-export *from "./create-profile-mutation"
-export* from "./create-user"
-export * from"./update-profile"
-export * from "./swipe-mutation"
+export * from './create-profile-mutation';
+export * from './create-user';
+export * from './update-profile';
+export * from './swipe-mutation';
 export * from './login';
-export * from "./sendmessage-mutation"
+export * from './sendmessage-mutation';
 export * from './forgot-reset-password';
-
+export * from './signup-sendOtp-mutation';
+export * from './signup-verifyOtp-mutation';
