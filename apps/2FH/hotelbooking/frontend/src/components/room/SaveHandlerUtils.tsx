@@ -43,7 +43,7 @@ export const createRoomData = (selectedHotelId: string, roomData: RoomData): Roo
     bedRoom: roomData.services.bedRoom as BedRoom[],
     other: roomData.services.other as Other[],
     entertainment: roomData.services.entertainment as Entertainment[],
-    bedNumber: roomData.general.bedNumber as number,
+    bedNumber: parseInt(roomData.general.bedNumber),
   };
 
   console.log('createRoomData result:', result);
