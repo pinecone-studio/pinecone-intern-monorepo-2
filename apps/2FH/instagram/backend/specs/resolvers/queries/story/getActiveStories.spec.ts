@@ -1,282 +1,171 @@
 /* eslint-disable max-lines */
 import { GraphQLError } from 'graphql';
-import { FollowRequest, FollowRequestStatus } from 'src/models/follow-request';
 import { Story } from 'src/models/story';
 import { getActiveStories } from 'src/resolvers/queries/story/get-active-stories';
 
-// Mock the models
-jest.mock('src/models/follow-request');
 jest.mock('src/models/story');
-
-const mockUserContext = {
-  user: {
-    id: 'user123',
-    username: 'testuser',
-  },
-};
-
 describe('getActiveStories', () => {
-  // Cast mocks to jest.Mock for TypeScript
-  const mockFollowRequestFind = FollowRequest.find as jest.Mock;
   const mockStoryFind = Story.find as jest.Mock;
-
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
   afterEach(() => {
     jest.clearAllMocks();
+    jest.clearAllTimers();
   });
-
-  it('should throw error if user is not authenticated', async () => {
-    await expect(getActiveStories({}, {}, {})).rejects.toThrow('User not authenticated');
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
-
-  it('should return active stories of accepted followed users', async () => {
-    const mockFollowRequests = [{ receiverId: 'user456' }, { receiverId: 'user789' }];
-
-    // Mock FollowRequest chain
-    const mockSelect = jest.fn().mockResolvedValue(mockFollowRequests);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
+  it('should return all stories with author and viewers populated', async () => {
     const mockStories = [
       {
         _id: 'story1',
-        author: { _id: 'user456', userName: 'user1', profileImage: 'img1.jpg' },
+        author: { _id: 'user456', userName: 'user1', profileImage: 'img1.jpg', email: 'user1@test.com', isVerified: true },
         image: 'story1.jpg',
-        createdAt: new Date(),
-        expiredAt: new Date(Date.now() + 10000),
-        viewers: [],
-      },
-    ];
-
-    // Mock Story query chain
-    const mockSort = jest.fn().mockResolvedValue(mockStories);
-    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
-    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
-    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
-
-    const result = await getActiveStories({}, {}, mockUserContext);
-
-    // Verify FollowRequest.find was called correctly
-    expect(mockFollowRequestFind).toHaveBeenCalledWith({
-      requesterId: 'user123',
-      status: FollowRequestStatus.ACCEPTED,
-    });
-
-    // Verify select was called
-    expect(mockSelect).toHaveBeenCalledWith('receiverId');
-
-    // Verify Story.find was called correctly
-    expect(mockStoryFind).toHaveBeenCalledWith({
-      author: { $in: ['user456', 'user789'] },
-      $or: [{ expiredAt: { $exists: false } }, { expiredAt: null }, { expiredAt: { $gt: expect.any(Date) } }],
-    });
-
-    // Verify populate chains were called
-    expect(mockPopulate1).toHaveBeenCalledWith('author', 'userName profileImage');
-    expect(mockPopulate2).toHaveBeenCalledWith('viewers', 'userName profileImage');
-    expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
-
-    expect(result).toEqual(mockStories);
-  });
-
-  it('should return empty array if no followed users', async () => {
-    const mockSelect = jest.fn().mockResolvedValue([]);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    const result = await getActiveStories({}, {}, mockUserContext);
-
-    expect(mockFollowRequestFind).toHaveBeenCalledWith({
-      requesterId: 'user123',
-      status: FollowRequestStatus.ACCEPTED,
-    });
-    expect(mockSelect).toHaveBeenCalledWith('receiverId');
-    expect(result).toEqual([]);
-  });
-
-  it('should throw error if FollowRequest.find fails', async () => {
-    const mockSelect = jest.fn().mockRejectedValue(new Error('DB failure'));
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    await expect(getActiveStories({}, {}, mockUserContext)).rejects.toThrow('Failed to fetch active stories: DB failure');
-  });
-
-  it('should throw error if Story.find fails', async () => {
-    // Mock successful FollowRequest call
-    const mockFollowRequests = [{ receiverId: 'user456' }];
-    const mockSelect = jest.fn().mockResolvedValue(mockFollowRequests);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    // Mock Story.find to throw error
-    const mockPopulate1 = jest.fn().mockImplementation(() => {
-      throw new Error('DB failure');
-    });
-    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
-
-    await expect(getActiveStories({}, {}, mockUserContext)).rejects.toThrow('Failed to fetch active stories: DB failure');
-  });
-
-  it('should handle stories with no expiration date', async () => {
-    const mockFollowRequests = [{ receiverId: 'user456' }];
-    const mockSelect = jest.fn().mockResolvedValue(mockFollowRequests);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    const mockStories = [
-      {
-        _id: 'story1',
-        author: { _id: 'user456', userName: 'user1', profileImage: 'img1.jpg' },
-        image: 'story1.jpg',
-        createdAt: new Date(),
-        expiredAt: null, // No expiration
-        viewers: [],
-      },
-    ];
-
-    const mockSort = jest.fn().mockResolvedValue(mockStories);
-    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
-    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
-    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
-
-    const result = await getActiveStories({}, {}, mockUserContext);
-
-    expect(result).toEqual(mockStories);
-  });
-
-  it('should filter out expired stories', async () => {
-    const mockFollowRequests = [{ receiverId: 'user456' }];
-    const mockSelect = jest.fn().mockResolvedValue(mockFollowRequests);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    const mockStories = [
-      {
-        _id: 'story1',
-        author: { _id: 'user456', userName: 'user1', profileImage: 'img1.jpg' },
-        image: 'story1.jpg',
-        createdAt: new Date(),
-        expiredAt: new Date(Date.now() + 10000), // Future date
-        viewers: [],
-      },
-    ];
-
-    const mockSort = jest.fn().mockResolvedValue(mockStories);
-    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
-    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
-    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
-
-    // Call the function to trigger the mock calls
-    await getActiveStories({}, {}, mockUserContext);
-
-    // Now verify the query was called with correct filter
-    expect(mockStoryFind).toHaveBeenCalledWith({
-      author: { $in: ['user456'] },
-      $or: [{ expiredAt: { $exists: false } }, { expiredAt: null }, { expiredAt: { $gt: expect.any(Date) } }],
-    });
-  });
-
-  it('should sort stories by createdAt in descending order', async () => {
-    const mockFollowRequests = [{ receiverId: 'user456' }];
-    const mockSelect = jest.fn().mockResolvedValue(mockFollowRequests);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    const mockStories = [
-      {
-        _id: 'story1',
         createdAt: new Date('2024-01-02'),
+        expiredAt: new Date(Date.now() + 10000),
+        viewers: [{ _id: 'viewer1', userName: 'viewer1', profileImage: 'viewer1.jpg' }],
       },
       {
         _id: 'story2',
+        author: { _id: 'user789', userName: 'user2', profileImage: 'img2.jpg', email: 'user2@test.com', isVerified: false },
+        image: 'story2.jpg',
         createdAt: new Date('2024-01-01'),
-      },
-    ];
-
-    const mockSort = jest.fn().mockResolvedValue(mockStories);
-    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
-    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
-    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
-
-    const result = await getActiveStories({}, {}, mockUserContext);
-
-    expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
-    expect(result).toEqual(mockStories);
-  });
-
-  // Additional test to improve coverage
-  it('should filter out null/undefined follow requests gracefully', async () => {
-    // Mock FollowRequest to return mixed valid and invalid data
-    const mockSelect = jest.fn().mockResolvedValue([
-      null,
-      undefined,
-      { receiverId: 'user456' }, // Valid
-      { receiverId: null }, // Invalid
-      { receiverId: 'user789' }, // Valid
-    ]);
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
-    });
-
-    const mockStories = [
-      {
-        _id: 'story1',
-        author: { _id: 'user456', userName: 'user1', profileImage: 'img1.jpg' },
-        image: 'story1.jpg',
-        createdAt: new Date(),
-        expiredAt: new Date(Date.now() + 10000),
+        expiredAt: new Date(Date.now() + 5000),
         viewers: [],
       },
     ];
-
-    const mockSort = jest.fn().mockResolvedValue(mockStories);
+    const mockLean = jest.fn().mockResolvedValue(mockStories);
+    const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
     const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
     const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
     mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
 
-    const result = await getActiveStories({}, {}, mockUserContext);
+    const result = await getActiveStories();
 
-    expect(mockStoryFind).toHaveBeenCalledWith({
-      author: { $in: ['user456', 'user789'] },
-      $or: [{ expiredAt: { $exists: false } }, { expiredAt: null }, { expiredAt: { $gt: expect.any(Date) } }],
-    });
-
+    expect(mockStoryFind).toHaveBeenCalledWith();
+    expect(mockPopulate1).toHaveBeenCalledWith('author', 'userName profileImage email isVerified');
+    expect(mockPopulate2).toHaveBeenCalledWith('viewers', 'userName profileImage');
+    expect(mockSort).toHaveBeenCalledWith({ createdAt: -1 });
+    expect(mockLean).toHaveBeenCalled();
     expect(result).toEqual(mockStories);
   });
+  it('should return empty array if no stories exist', async () => {
+    const mockLean = jest.fn().mockResolvedValue([]);
+    const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
+    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
+    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
+    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
+    const result = await getActiveStories();
+    expect(result).toEqual([]);
+  });
 
-  it('should throw GraphQLError with proper message format', async () => {
-    const mockSelect = jest.fn().mockRejectedValue(new Error('Database connection failed'));
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
+  it('should re-throw existing GraphQLError without modification', async () => {
+    const existingGraphQLError = new GraphQLError('Existing GraphQL error');
+    mockStoryFind.mockImplementation(() => {
+      throw existingGraphQLError;
     });
-
     try {
-      await getActiveStories({}, {}, mockUserContext);
+      await getActiveStories();
+      expect(true).toBe(false);
     } catch (error) {
+      expect(error).toBe(existingGraphQLError);
       expect(error).toBeInstanceOf(GraphQLError);
-      expect((error as GraphQLError).message).toBe('Failed to fetch active stories: Database connection failed');
+      expect((error as GraphQLError).message).toBe('Existing GraphQL error');
     }
   });
 
-  it('should handle non-Error exceptions', async () => {
-    const mockSelect = jest.fn().mockRejectedValue('String error');
-    mockFollowRequestFind.mockReturnValue({
-      select: mockSelect,
+  it('should wrap Error instances in GraphQLError with message', async () => {
+    const regularError = new Error('Database connection failed');
+    mockStoryFind.mockImplementation(() => {
+      throw regularError;
+    });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:Database connection failed');
+    }
+  });
+  it('should handle string errors with unknown error message', async () => {
+    mockStoryFind.mockImplementation(() => {
+      throw 'String error';
     });
 
     try {
-      await getActiveStories({}, {}, mockUserContext);
+      await getActiveStories();
+      expect(true).toBe(false);
     } catch (error) {
       expect(error).toBeInstanceOf(GraphQLError);
-      expect((error as GraphQLError).message).toBe('Failed to fetch active stories');
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:unknown error');
+    }
+  });
+  it('should handle null errors with unknown error message', async () => {
+    mockStoryFind.mockImplementation(() => {
+      throw null;
+    });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:unknown error');
+    }
+  });
+  it('should handle undefined errors with unknown error message', async () => {
+    mockStoryFind.mockImplementation(() => {
+      throw undefined;
+    });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:unknown error');
+    }
+  });
+  it('should handle number errors with unknown error message', async () => {
+    mockStoryFind.mockImplementation(() => {
+      throw 404;
+    });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:unknown error');
+    }
+  });
+
+  it('should handle error in populate chain', async () => {
+    const dbError = new Error('Population failed');
+    const mockPopulate1 = jest.fn().mockImplementation(() => {
+      throw dbError;
+    });
+    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:Population failed');
+    }
+  });
+  it('should handle async error in lean call', async () => {
+    const dbError = new Error('Lean operation failed');
+    const mockLean = jest.fn().mockRejectedValue(dbError);
+    const mockSort = jest.fn().mockReturnValue({ lean: mockLean });
+    const mockPopulate2 = jest.fn().mockReturnValue({ sort: mockSort });
+    const mockPopulate1 = jest.fn().mockReturnValue({ populate: mockPopulate2 });
+    mockStoryFind.mockReturnValue({ populate: mockPopulate1 });
+    try {
+      await getActiveStories();
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error).toBeInstanceOf(GraphQLError);
+      expect((error as GraphQLError).message).toBe('Failed to fetch all stories:Lean operation failed');
     }
   });
 });
-/* eslint-enable max-lines */
