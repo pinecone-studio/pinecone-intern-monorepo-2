@@ -1,8 +1,10 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+
 import '@testing-library/jest-dom';
 import { Sidebar } from '@/components/Sidebar';
 import { useNavigation } from '@/components';
 import { usePathname } from 'next/navigation';
+
 import { NavigationProvider } from '@/components/NavigationProvider/NavigationProvider';
 
 jest.mock('@/components', () => ({ useNavigation: jest.fn() }));
@@ -152,5 +154,6 @@ describe('Sidebar - Part 1: Event Listeners and Click Outside', () => {
     fireEvent.click(screen.getByRole('button', { name: /create/i }));
     fireEvent.mouseDown(document.body);
     await waitFor(() => expect(screen.queryByText('Post')).not.toBeInTheDocument());
+
   });
 });

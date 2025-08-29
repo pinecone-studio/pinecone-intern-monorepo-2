@@ -10,7 +10,6 @@ describe('HomePageStories', () => {
       const links = screen.getAllByRole('link', {
         name: new RegExp(story.username, 'i'),
       });
-
       const match = links.find((link) => link.getAttribute('href') === `/stories/${story.id}`);
       expect(match).toBeInTheDocument();
     });

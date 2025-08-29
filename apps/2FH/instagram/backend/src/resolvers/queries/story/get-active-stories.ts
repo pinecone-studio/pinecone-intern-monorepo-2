@@ -1,49 +1,21 @@
 import { GraphQLError } from 'graphql';
-import { FollowRequest, FollowRequestStatus, Story, StorySchemaType } from 'src/models';
+import { HydratedDocument } from 'mongoose';
+import { Story, StorySchemaType } from 'src/models';
 
-interface Context {
-  user?: {
-    id: string;
-    username: string;
-  };
-}
+type StoryDocument = HydratedDocument<StorySchemaType>;
 
-const validateUser = (context: Context): void => {
-  if (!context.user) {
-    throw new GraphQLError('User not authenticated');
+const handleError = (error: unknown): never => {
+  if (error instanceof GraphQLError) {
+    throw error;
   }
+  throw new GraphQLError('Failed to fetch all stories' + (error instanceof Error ? `:${error.message}` : ':unknown error'));
 };
 
-const getFollowedUserIds = async (userId: string): Promise<string[]> => {
-  const followRequests = await FollowRequest.find({
-    requesterId: userId,
-    status: FollowRequestStatus.ACCEPTED,
-  }).select('receiverId');
-
-  return followRequests.filter((req) => req && req.receiverId).map((req) => req.receiverId.toString());
-};
-
-export const getActiveStories = async (_: unknown, __: unknown, context: Context): Promise<StorySchemaType[]> => {
-  validateUser(context);
-
+export const getActiveStories = async (): Promise<StoryDocument[]> => {
   try {
-    const followedUserIds = await getFollowedUserIds(context.user!.id);
-
-    if (followedUserIds.length === 0) {
-      return [];
-    }
-
-    const now = new Date();
-    const stories = await Story.find({
-      author: { $in: followedUserIds },
-      $or: [{ expiredAt: { $exists: false } }, { expiredAt: null }, { expiredAt: { $gt: now } }],
-    })
-      .populate('author', 'userName profileImage')
-      .populate('viewers', 'userName profileImage')
-      .sort({ createdAt: -1 });
-
-    return stories;
+    const stories = await Story.find().populate('author', 'userName profileImage email isVerified').populate('viewers', 'userName profileImage').sort({ createdAt: -1 }).lean();
+    return stories as StoryDocument[];
   } catch (error) {
-    throw new GraphQLError('Failed to fetch active stories' + (error instanceof Error ? `: ${error.message}` : ''));
+    return handleError(error);
   }
 };
