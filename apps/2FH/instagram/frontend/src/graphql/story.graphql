@@ -1,0 +1,8 @@
+  mutation createStory($input: CreateStoryInput!) {
+    createStory(input: $input) {
+      _id
+      author
+      image
+      expiredAt
+    }
+  }
