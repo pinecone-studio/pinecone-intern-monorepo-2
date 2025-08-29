@@ -1,4 +1,22 @@
-import { RoomInput, TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment } from '../../generated';
+import { TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment } from '../../generated';
+
+// Define RoomInput type locally to avoid import issues
+type RoomInput = {
+  hotelId: string;
+  name: string;
+  pricePerNight: number;
+  imageURL: string[];
+  typePerson: TypePerson;
+  roomInformation: RoomInformation[];
+  bathroom: Bathroom[];
+  accessibility: Accessibility[];
+  internet: Internet[];
+  foodAndDrink: FoodAndDrink[];
+  bedRoom: BedRoom[];
+  other: Other[];
+  entertainment: Entertainment[];
+  bedNumber: number;
+};
 
 interface FormData {
   name: string;
