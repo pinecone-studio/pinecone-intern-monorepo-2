@@ -105,6 +105,7 @@ const Stories = () => {
     <div className="w-full h-screen bg-[#18181b] flex flex-col items-center ">
       <div className="w-full flex justify-between items-center p-4 text-white">
         <p className="text-white text-lg">Instagram</p>
+
         <button onClick={() => router.push('/')}>X</button>
       </div>
       <div className="flex-1 flex items-center justify-center gap-6 mt-6">
