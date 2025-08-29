@@ -67,7 +67,7 @@ describe('useImageUpload Error Handling', () => {
 
     (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error')).mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ secure_url: 'https://example.com/image2.jpg' }), // eslint-disable-line camelcase
+      json: () => Promise.resolve({ secureUrl: 'https://example.com/image2.jpg' }), // eslint-disable-line camelcase
     });
 
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
@@ -103,7 +103,7 @@ describe('useImageUpload Error Handling', () => {
 
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ secure_url: 'https://example.com/image.jpg' }), // eslint-disable-line camelcase
+      json: () => Promise.resolve({ secureUrl: 'https://example.com/image.jpg' }), // eslint-disable-line camelcase
     });
 
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();

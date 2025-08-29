@@ -2,15 +2,15 @@ import gql from 'graphql-tag';
 
 export const StoryTypeDefs = gql`
   scalar Date
+    type Story {
+        _id: ID!
+        author: User!
+        image: String!
+        viewers: [User!]!
+        createdAt: Date!
+        expiredAt: Date!
+    }
 
-  type Story {
-    _id: ID!
-    author: User!
-    image: String!
-    viewers: [User!]!
-    createdAt: Date!
-    expiredAt: Date!
-  }
 
   input CreateStoryInput {
     image: String!
