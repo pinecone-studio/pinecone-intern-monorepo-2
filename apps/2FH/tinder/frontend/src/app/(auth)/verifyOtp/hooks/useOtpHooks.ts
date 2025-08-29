@@ -2,6 +2,9 @@ import { useCallback } from 'react';
 import { useMutation } from '@apollo/client';
 import { toast } from 'sonner';
 import { gql } from '@apollo/client';
+import { useRouter } from 'next/navigation';
+import { UseFormSetValue } from 'react-hook-form';
+import { MutableRefObject } from 'react';
 
 const VERIFY_OTP = gql`
   mutation verifyOtp($input: VerifyOtpInput!) {
@@ -26,7 +29,7 @@ type ForgotPasswordResult = {
   message: string | null;
 };
 
-export const useOtpVerification = (email: string, otpCode: string, router: any) => {
+export const useOtpVerification = (email: string, otpCode: string, router: ReturnType<typeof useRouter>) => {
   const [verifyOtp] = useMutation(VERIFY_OTP);
   
   const handleVerifyOtpSuccess = useCallback(() => {
@@ -55,7 +58,14 @@ export const useOtpVerification = (email: string, otpCode: string, router: any) 
   return { handleVerifyOtp };
 };
 
-export const useOtpResend = (email: string, otpValues: string[], setValue: any, setCanResend: any, setTimer: any, inputRefs: any) => {
+export const useOtpResend = (
+  email: string, 
+  otpValues: string[], 
+  setValue: UseFormSetValue<{ otp: string[] }>, 
+  setCanResend: (_value: boolean) => void, 
+  setTimer: (_value: number) => void, 
+  inputRefs: MutableRefObject<Array<HTMLInputElement | null>>
+) => {
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
 
   const handleResendSuccess = (result: ForgotPasswordResult) => {
