@@ -18,11 +18,19 @@ export const PostTypeDefs = gql`
     image: [String!]!
     caption: String
   }
+  input updateCommentByLikesInput {
+    likes: [ID!]!
+  }
 
   type Mutation {
     createPost(author: ID!, input: CreatePostInput!): Post!
     deletePost(_id: ID!, userId: ID!): Post!
-
+    updatePostByLikes(_id: ID!, input: updateCommentByLikesInput!): Post!
     updatePostByCaption(_id: ID!, caption: String!): Post!
+  }
+  type Query {
+    GetPostById(_id: ID!): Post!
+    getPostsByFollowingUsers: [Post!]!
+    getPostsByAuthor(author: ID!): [Post!]!
   }
 `;
