@@ -1,17 +1,48 @@
 'use client';
-import { GET_ALL_STORIES } from '@/graphql/queries/storyQueries';
-import { useQuery } from '@apollo/client';
+import { avatar, avatar2, avatar3, avatar4, avatar5, storyImage, storyImage2, storyImage3, storyImage5, storyImage6, storyImage7 } from '@/components/stories/story-images';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-
-
+const users = [
+  {
+    id: 1,
+    username: 'user1',
+    avatar: avatar,
+    stories: [
+      { id: 1, src: storyImage, duration: 5000 },
+      { id: 2, src: storyImage2, duration: 5000 },
+    ],
+  },
+  {
+    id: 2,
+    username: 'user2',
+    avatar: avatar2,
+    stories: [{ id: 1, src: storyImage3, duration: 5000 }],
+  },
+  {
+    id: 3,
+    username: 'user3',
+    avatar: avatar3,
+    stories: [{ id: 1, src: storyImage5, duration: 5000 }],
+  },
+  {
+    id: 4,
+    username: 'user4',
+    avatar: avatar4,
+    stories: [{ id: 1, src: storyImage6, duration: 5000 }],
+  },
+  {
+    id: 5,
+    username: 'user5',
+    avatar: avatar5,
+    stories: [{ id: 1, src: storyImage7, duration: 5000 }],
+  },
+];
 const Stories = () => {
   const [currentUser, setCurrentUser] = useState(0);
   const [currentStory, setCurrentStory] = useState(0);
   const [progress, setProgress] = useState(0);
   const router = useRouter();
-  const {data, loading,error}= useQuery(GET_ALL_STORIES, {client});
+  const story = users[currentUser].stories[currentStory];
   useEffect(() => {
     setProgress(0);
     const interval = setInterval(() => {
