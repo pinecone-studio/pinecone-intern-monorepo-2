@@ -11,6 +11,15 @@ export const StoryTypeDefs = gql`
         expiredAt: Date!
     }
 
+  type Story {
+    _id: ID!
+    author: User
+    image: String!
+    viewers: [User!]!
+    createdAt: Date!
+    expiredAt: Date!
+  }
+
 
   input CreateStoryInput {
     image: String!
