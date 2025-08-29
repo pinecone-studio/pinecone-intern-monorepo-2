@@ -1,58 +1,45 @@
-import { Comment, PostModel } from 'src/models';
-import { createComment } from 'src/resolvers/mutations/comment/create-comment';
+import { Types } from 'mongoose';
+import { GraphQLError } from 'graphql';
+import { PostModel, Comment } from 'src/models/';
+import { createCommentOnPost } from 'src/resolvers/mutations';
 
-jest.mock('src/models', () => ({
-  Comment: {
-    create: jest.fn(),
-  },
-  PostModel: { findByIdAndUpdate: jest.fn() },
+jest.mock('src/models/', () => ({
+  PostModel: { findById: jest.fn() },
+  Comment: { create: jest.fn() },
 }));
 
-describe('createComment resolver', () => {
-  const author = '123';
-  const postId = '456';
-  const content = 'this comment for mock test';
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-  it('should create a comment successfully', async () => {
-    const mockComment = { author, postId, content };
-    const mockPost = { author, _id: postId, image: 'mockPostImage' };
-    (Comment.create as jest.Mock).mockResolvedValue(mockComment);
-    (PostModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockPost);
-    const args = { input: { author, postId, content } };
-    const result = await createComment({}, args);
-    expect(Comment.create).toHaveBeenCalledWith({ author, postId, content });
-    expect(PostModel.findByIdAndUpdate).toHaveBeenCalledWith(postId,{ $push: { comments:mockComment } });
-    expect(result).toEqual(mockComment);
-  });
-  it('should throw GraphqlError if author is missing (validateInput)', async () => {
-    const args = { input: { author: '', postId, content } };
-    await expect(createComment({}, args)).rejects.toThrow('User is not authenticated');
-  });
-  it('should throw GraphqlError if postId is missing (validateInput)', async () => {
-    const args = { input: { author, postId: '', content } };
-    await expect(createComment({}, args)).rejects.toThrow('postId is required!');
-  });
-  it('should throw GraphqlError if content is empty (validateInput)', async () => {
-    const args = { input: { author, postId, content: '' } };
-    await expect(createComment({}, args)).rejects.toThrow('content is empty');
-  });
-  it('should catch unknown errors thrown as object', async () => {
-    const unknownError = { message: 'DB error', code: 123 };
-    (Comment.create as jest.Mock).mockImplementationOnce(() => {
-      throw unknownError;
-    });
-    const args = { input: { author, postId, content } };
-    await expect(createComment({}, args)).rejects.toThrow('Failed to create comment:' + JSON.stringify(unknownError));
-  });
-  it('should catch unknown errors thrown as real Error instance', async () => {
-    const realError = new Error('Real DB failure');
-    (Comment.create as jest.Mock).mockImplementationOnce(() => {
-      throw realError;
-    });
+describe('createCommentOnPost', () => {
+  const user = { id: new Types.ObjectId().toHexString() };
+  const context = { user };
 
-    const args = { input: { author, postId, content } };
-    await expect(createComment({}, args)).rejects.toThrow('Failed to create comment:Real DB failure');
+  it('should throw if user not authenticated', async () => {
+    await expect(createCommentOnPost({}, { postId: '123', content: 'test' }, { user: undefined })).rejects.toThrow(GraphQLError);
+  });
+
+  it('should throw if content is empty', async () => {
+    await expect(createCommentOnPost({}, { postId: '507f1f77bcf86cd799439011', content: '' }, context)).rejects.toThrow('Content is empty');
+  });
+
+  it('should throw if invalid postId format', async () => {
+    await expect(createCommentOnPost({}, { postId: 'not-an-id', content: 'hello' }, context)).rejects.toThrow('Invalid ID format');
+  });
+
+  it('should throw if post not found', async () => {
+    (PostModel.findById as jest.Mock).mockResolvedValueOnce(null);
+
+    await expect(createCommentOnPost({}, { postId: new Types.ObjectId().toHexString(), content: 'test' }, context)).rejects.toThrow('Post not found');
+  });
+
+  it('should create and return new comment successfully', async () => {
+    const mockPost = { comments: [], save: jest.fn() };
+    (PostModel.findById as jest.Mock).mockResolvedValue(mockPost);
+    const mockComment = { _id: new Types.ObjectId(), content: 'test' };
+    (Comment.create as jest.Mock).mockResolvedValue(mockComment);
+
+    const result = await createCommentOnPost({}, { postId: new Types.ObjectId().toHexString(), content: 'test' }, context);
+
+    expect(result).toEqual(mockComment);
+    expect(mockPost.comments).toContain(mockComment._id);
+    expect(mockPost.save).toHaveBeenCalled();
   });
 });
