@@ -9,6 +9,7 @@ interface FormData {
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber: number;
 }
 
 interface ServiceData {
@@ -41,7 +42,7 @@ export const SaveHandler = (props: SaveHandlerProps) => {
 
   const resetForm = () => {
     props.setRoomData({
-      general: { name: '', type: [], pricePerNight: '', roomInformation: [] },
+      general: { name: '', type: [], pricePerNight: '', roomInformation: [], bedNumber: 0 },
       services: { bathroom: [], accessibility: [], entertainment: [], internet: [], foodAndDrink: [], bedRoom: [], other: [] },
       images: [],
     });

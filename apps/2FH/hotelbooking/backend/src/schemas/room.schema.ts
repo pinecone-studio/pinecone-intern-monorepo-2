@@ -90,6 +90,7 @@ export const roomSchemaTypeDefs = gql`
     bedRoom: [bedRoom!]!
     other: [other!]!
     entertainment: [entertainment!]!
+    bedNumber: Int!
   }
 
   input RoomUpdateInput {
@@ -106,6 +107,7 @@ export const roomSchemaTypeDefs = gql`
     bedRoom: [bedRoom!]
     other: [other!]
     entertainment: [entertainment!]
+    bedNumber: Int!
   }
 
   type Room {
@@ -125,6 +127,7 @@ export const roomSchemaTypeDefs = gql`
     bedRoom: [bedRoom!]!
     other: [other!]!
     entertainment: [entertainment!]!
+    bedNumber: Int!
   }
 
   type Mutation {

@@ -8,6 +8,7 @@ interface FormData {
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber: number;
 }
 
 interface GeneralmodeProps {
@@ -27,6 +28,7 @@ export const Generalmode: React.FC<GeneralmodeProps> = ({ isOpen, onClose, onSav
     type: [],
     pricePerNight: '',
     roomInformation: [],
+    bedNumber: 0,
   };
 
   const [formData, setFormData] = React.useState<FormData>(initialData ?? defaultFormData);
@@ -46,7 +48,7 @@ export const Generalmode: React.FC<GeneralmodeProps> = ({ isOpen, onClose, onSav
   const handleInputChange = React.useCallback((field: keyof FormData, value: string | string[]) => {
     setFormData((prev) => ({
       ...prev,
-      [field]: value,
+      [field]: field === 'bedNumber' ? parseInt(value as string) || 0 : value,
     }));
   }, []);
 
