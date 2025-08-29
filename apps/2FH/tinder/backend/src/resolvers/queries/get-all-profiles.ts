@@ -1,5 +1,5 @@
-import { QueryResolvers, Gender } from "src/generated";
-import { Profile } from "../../models/profile-model";
+import { QueryResolvers, Gender } from "../../generated";
+import { Profile } from "../../models";
 import { Context } from "../../types";
 
 // Helper function to map gender string to enum
@@ -61,11 +61,8 @@ const getFilteredProfiles = async (userGender: string, currentUserId: string): P
     });
   }
   
-  // Default fallback
-  return await Profile.find({
-    gender: "female",
-    userId: { $ne: currentUserId },
-  });
+  // Return empty array for unknown gender
+  return [];
 };
 
 // Helper function to validate user authentication

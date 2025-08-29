@@ -1,70 +1,29 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Profile, mockProfiles } from './MockData';
+import { Profile } from './MockData';
 import { toast } from 'react-toastify';
-import { useGetAllProfilesQuery, useGetProfileQuery } from '../../generated';
+import { useProfileData } from './useProfileData';
+import { useProfileFiltering } from './useProfileFiltering';
 
-interface ProfileData {
-  gender: string;
-  userId: string;
-}
-
-const useProfileData = (currentUserId: string) => {
-  const { data: profilesData, loading, error, refetch } = useGetAllProfilesQuery();
-  const { data: userProfileData, loading: userLoading, error: userError } = useGetProfileQuery({
-    variables: { userId: currentUserId },
-  });
-
-  return { profilesData, userProfileData, loading, userLoading, error, userError, refetch };
-};
-
-const filterProfilesByGender = (userGender: string, profiles: ProfileData[], currentUserId: string) => {
-  if (userGender === 'male') {
-    return profiles.filter(profile => 
-      profile.gender.toLowerCase() === 'female' && profile.userId !== currentUserId
-    );
-  } else if (userGender === 'female') {
-    return profiles.filter(profile => 
-      profile.gender.toLowerCase() === 'male' && profile.userId !== currentUserId
-    );
-  } else if (userGender === 'both') {
-    return profiles.filter(profile => 
-      (profile.gender.toLowerCase() === 'male' || profile.gender.toLowerCase() === 'female') && 
-      profile.userId !== currentUserId
-    );
-  }
-  return [];
-};
-
-const useProfileFiltering = (currentUserId: string) => {
-  const { profilesData, userProfileData, loading, error } = useProfileData(currentUserId);
-  const [profiles, setProfiles] = useState<Profile[]>([]);
-
-  useEffect(() => {
-    if (!userProfileData?.getProfile?.gender || !profilesData?.getAllProfiles) {
-      return;
-    }
-
-    const userGender = userProfileData.getProfile.gender.toLowerCase();
-    const filteredProfiles = filterProfilesByGender(userGender, profilesData.getAllProfiles as ProfileData[], currentUserId);
-
-    setProfiles(filteredProfiles as Profile[]);
-
-    if (!loading && !error && filteredProfiles.length === 0) {
-      const mockFilteredProfiles = filterProfilesByGender(userGender, mockProfiles as ProfileData[], currentUserId);
-      setProfiles(mockFilteredProfiles as Profile[]);
-    }
-  }, [profilesData, userProfileData, loading, error, currentUserId]);
-
-  return { profiles, setProfiles };
+// Separate function to calculate visible profiles
+const calculateVisibleProfiles = (profiles: Profile[], currentIndex: number) => {
+  if (profiles.length === 0) return [];
+  
+  // Show current profile and next 2 profiles for smooth transitions
+  const startIndex = Math.max(0, currentIndex);
+  const endIndex = Math.min(startIndex + 3, profiles.length);
+  
+  const visible = profiles.slice(startIndex, endIndex);
+  return visible;
 };
 
 export const useTinderSwipe = (currentUserId: string) => {
-  const { profilesData, userProfileData, loading, userLoading, error, userError, refetch } = useProfileData(currentUserId);
-  const { profiles, setProfiles } = useProfileFiltering(currentUserId);
+  const { loading, error, refetch } = useProfileData(currentUserId);
+  const { profiles } = useProfileFiltering(currentUserId);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matchedProfile, setMatchedProfile] = useState<Profile | null>(null);
-  const [animatingCards, setAnimatingCards] = useState<Set<string>>(new Set());
+  const [animatingCards] = useState<Set<string>>(new Set());
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Reset currentIndex when profiles change
   useEffect(() => {
@@ -73,98 +32,124 @@ export const useTinderSwipe = (currentUserId: string) => {
     }
   }, [profiles, currentIndex]);
 
-  const mockSwipe = useCallback(async (direction: 'left' | 'right') => {
-    toast.success(`Swipe ${direction === 'right' ? 'LIKE' : 'DISLIKE'} амжилттай!`);
-    if (direction === 'right' && Math.random() > 0.7) {
-      const currentProfile = profiles[currentIndex];
-      if (currentProfile) {
-        setMatchedProfile(currentProfile);
-      }
-    }
-  }, [profiles, currentIndex]);
-
-  const realSwipe = useCallback(async (direction: 'left' | 'right') => {
+  const realSwipe = useCallback(async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      // Use mockSwipe for now since we don't have real API
-      await mockSwipe(direction);
+      const currentProfile = profiles[currentIndex];
+      if (!currentProfile) {
+        toast.error('Profile олдсонгүй');
+        return;
+      }
+
+      // Simulate swipe success for now
+      toast.success('Swipe амжилттай!');
+      await refetch();
     } catch (error) {
       console.error('Swipe error:', error);
       toast.error('Swipe хийхэд алдаа гарлаа');
     }
-  }, [mockSwipe]);
+  }, [currentIndex, profiles, refetch]);
 
   const handleSwipe = useCallback(
-    async (direction: 'left' | 'right') => {
+    async () => {
       const currentProfile = profiles[currentIndex];
-      if (!currentProfile) return;
+      if (!currentProfile || isTransitioning) return;
 
-      setAnimatingCards((prev) => new Set([...prev, currentProfile.id]));
+      // Set transition state to prevent multiple swipes
+      setIsTransitioning(true);
 
-      try {
-        await realSwipe(direction);
-      } catch (error) {
-        console.error('Swipe error:', error);
-      }
+      // Add animation delay for smooth transition
+      await new Promise(resolve => setTimeout(resolve, 400));
+      
+      // Perform the actual swipe
+      await realSwipe();
+      
+      // Move to next profile with smooth transition
+      setCurrentIndex(prevIndex => {
+        const nextIndex = prevIndex + 1;
+        // Ensure we don't go beyond available profiles
+        const finalIndex = Math.min(nextIndex, profiles.length - 1);
+        
+        // If we've reached the end, reset to 0 to show profiles again
+        if (finalIndex >= profiles.length - 1) {
+          return 0;
+        }
+        
+        return finalIndex;
+      });
 
+      // Reset transition state after animation completes
       setTimeout(() => {
-        setCurrentIndex((prev) => prev + 1);
-        setTimeout(() => {
-          setAnimatingCards((prev) => {
-            const newSet = new Set(prev);
-            newSet.delete(currentProfile.id);
-            return newSet;
-          });
-        }, 50);
-      }, 50);
+        setIsTransitioning(false);
+      }, 300);
     },
-    [currentIndex, profiles, realSwipe]
+    [currentIndex, profiles, realSwipe, isTransitioning]
   );
 
-  const handleDislike = useCallback(() => {
-    const currentProfile = profiles[currentIndex];
-    setAnimatingCards((prev) => new Set([...prev, currentProfile.id]));
-    setTimeout(() => handleSwipe('left'), 20);
-  }, [handleSwipe, currentIndex, profiles]);
+  // Individual button handlers
+  const onLike = useCallback(() => { if (!isTransitioning) handleSwipe(); }, [handleSwipe, isTransitioning]);
+  const onDislike = useCallback(() => { if (!isTransitioning) handleSwipe(); }, [handleSwipe, isTransitioning]);
+  const onSuperLike = useCallback(() => { if (!isTransitioning) handleSwipe(); }, [handleSwipe, isTransitioning]);
 
-  const handleLike = useCallback(() => {
-    const currentProfile = profiles[currentIndex];
-    setAnimatingCards((prev) => new Set([...prev, currentProfile.id]));
-    setTimeout(() => handleSwipe('right'), 20);
-  }, [handleSwipe, currentIndex, profiles]);
+  const goBack = useCallback(() => {
+    if (currentIndex > 0 && !isTransitioning) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  }, [currentIndex, isTransitioning]);
 
-  const handleSuperLike = useCallback(() => {
-    const currentProfile = profiles[currentIndex];
-    setAnimatingCards((prev) => new Set([...prev, currentProfile.id]));
-    setTimeout(() => handleSwipe('right'), 20);
-  }, [handleSwipe, currentIndex, profiles]);
+  const resetProfiles = useCallback(() => {
+    setCurrentIndex(0);
+    setIsTransitioning(false);
+    refetch();
+  }, [refetch]);
 
-  const handleKeepSwiping = useCallback(() => setMatchedProfile(null), []);
+  const handleKeepSwiping = useCallback(() => {
+    setMatchedProfile(null);
+  }, []);
 
   const handleMessage = useCallback(() => {
     setMatchedProfile(null);
     alert('Opening messages...');
   }, []);
 
-  const visibleProfiles = profiles.slice(currentIndex, currentIndex + 3);
+  // Create visibleProfiles array with smooth transitions
+  const visibleProfiles = useCallback(() => {
+    return calculateVisibleProfiles(profiles, currentIndex);
+  }, [profiles, currentIndex]);
+
+  // Test function to verify swipe logic
+  const testSwipe = useCallback(() => {
+    console.log('Testing swipe logic...');
+    console.log('Current state:', {
+      currentIndex, totalProfiles: profiles.length, visibleProfiles: visibleProfiles(),
+      hasMoreProfiles: currentIndex < profiles.length - 1, isTransitioning
+    });
+  }, [currentIndex, profiles.length, visibleProfiles, isTransitioning]);
 
   return {
-    profiles,
+    // State
     currentIndex,
+    currentProfile: profiles[currentIndex] || null,
     matchedProfile,
     animatingCards,
     loading,
-    userLoading,
     error,
-    userError,
-    visibleProfiles,
-    refetch,
-    handleSwipe,
-    handleDislike,
-    handleLike,
-    handleSuperLike,
+    isTransitioning,
+    
+    // Actions
+    handleLike: onLike,
+    handleDislike: onDislike,
+    handleSuperLike: onSuperLike,
     handleKeepSwiping,
     handleMessage,
+    goBack,
+    resetProfiles,
     setCurrentIndex,
+    testSwipe, // For debugging
+    
+    // Data
+    profiles,
+    visibleProfiles: visibleProfiles(),
+    totalProfiles: profiles.length,
+    hasMoreProfiles: currentIndex < profiles.length - 1,
   };
 }; 

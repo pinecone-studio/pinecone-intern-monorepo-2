@@ -69,12 +69,12 @@ export const login: MutationResolvers["login"] = async (
         updatedAt: user.updatedAt.toISOString(),
       },
     }; 
-  }catch (error: unknown) {
-      return {
-        status: UserResponse.Error,
-        message: toErrorMessage(error),
-        token: undefined,
-        user: undefined,
-      };
-    }
-  };
+  } catch (error: unknown) {
+    return {
+      status: UserResponse.Error,
+      message: toErrorMessage(error),
+      token: undefined,
+      user: undefined,
+    };
+  }
+};

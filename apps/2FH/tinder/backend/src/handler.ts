@@ -7,7 +7,16 @@ import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
 import jwt from 'jsonwebtoken';
 
-connectToDb();
+// Ensure database connection is established before server starts
+(async () => {
+  try {
+    await connectToDb();
+    console.log('🚀 Database connected, server ready to start');
+  } catch (error) {
+    console.error('❌ Failed to connect to database:', error);
+    process.exit(1);
+  }
+})();
 
 const server = new ApolloServer<Context>({
   resolvers,

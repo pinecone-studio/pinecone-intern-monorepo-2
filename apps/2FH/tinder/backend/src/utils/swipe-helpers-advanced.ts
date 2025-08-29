@@ -1,148 +1,155 @@
-import { Types } from 'mongoose';
-import { Profile as ProfileModel } from 'src/models';
-import { SwipeProfile } from '../types/swipe-types';
-
-// Extract individual gender validation checks to reduce complexity
-const validateMaleGender = (swiperGender: string, targetGender: string): boolean => {
-  return swiperGender === 'male' && targetGender !== 'male';
-};
-
-const validateFemaleGender = (swiperGender: string, targetGender: string): boolean => {
-  return swiperGender === 'female' && targetGender !== 'female';
-};
-
-const validateBothGender = (swiperGender: string, targetGender: string): boolean => {
-  return swiperGender === 'both' && !['male', 'female'].includes(targetGender);
-};
-
-// Extract gender validation logic to reduce complexity
-const validateGenderCompatibility = (swiperGender: string, targetGender: string): boolean => {
-  if (validateMaleGender(swiperGender, targetGender)) {
-    return false; // Male users can only match with male profiles
-  } else if (validateFemaleGender(swiperGender, targetGender)) {
-    return false; // Female users can only match with female profiles
-  } else if (validateBothGender(swiperGender, targetGender)) {
-    return false; // Both users can only match with male or female profiles
-  }
-  return true;
-};
-
-// Extract profile validation logic to reduce complexity
-const validateProfiles = (swiperProfile: any, targetProfile: any): boolean => {
-  return !!(swiperProfile && targetProfile && targetProfile.likes && Array.isArray(targetProfile.likes));
-};
-
-export const checkTargetLikedSwiper = async (targetObjectId: Types.ObjectId, swiperObjectId: Types.ObjectId) => {
-  const swiperProfile = await ProfileModel.findOne({ userId: swiperObjectId });
-  const targetProfile = await ProfileModel.findOne({ userId: targetObjectId });
-  
-  if (!validateProfiles(swiperProfile, targetProfile)) {
+import { Types } from "mongoose";
+import { Profile as ProfileModel, Swipe as SwipeModel } from "../models";
+export const checkTargetLikedSwiper = async (
+  targetUserId: Types.ObjectId,
+  swiperUserId: Types.ObjectId
+): Promise<boolean> => {
+  try {
+    const existingSwipe = await SwipeModel.findOne({
+      swiperId: targetUserId,
+      targetId: swiperUserId,
+      action: 'LIKE'
+    });
+    return !!existingSwipe;
+  } catch (error) {
+    console.error('Error checking if target liked swiper:', error);
     return false;
   }
-
-  // At this point, we know both profiles exist and are valid
-  const swiperProfileSafe = swiperProfile!;
-  const targetProfileSafe = targetProfile!;
-
-  // Validate gender compatibility
-  const swiperGender = swiperProfileSafe.gender.toLowerCase();
-  const targetGender = targetProfileSafe.gender.toLowerCase();
-  
-  if (!validateGenderCompatibility(swiperGender, targetGender)) {
-    return false;
+};
+export const addUsersToMatches = async (
+  swiperUserId: Types.ObjectId,
+  targetUserId: Types.ObjectId
+): Promise<void> => {
+  try {
+    await Promise.all([
+      ProfileModel.updateOne(
+        { userId: swiperUserId },
+        { $addToSet: { matches: targetUserId } }
+      ),
+      ProfileModel.updateOne(
+        { userId: targetUserId },
+        { $addToSet: { matches: swiperUserId } }
+      )
+    ]);
+  } catch (error) {
+    console.error('Error adding users to matches:', error);
+    throw new Error('Failed to update matches');
   }
-
-  return targetProfileSafe.likes.some((id: Types.ObjectId) => id.equals(swiperObjectId));
 };
-
-export const addUsersToMatches = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await ProfileModel.findOneAndUpdate(
-    { userId: swiperObjectId },
-    { $addToSet: { matches: targetObjectId } }
-  );
-  await ProfileModel.findOneAndUpdate(
-    { userId: targetObjectId },
-    { $addToSet: { matches: swiperObjectId } }
-  );
-};
-
-export const refreshProfilesAfterMatch = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  const updatedSwiperProfile = await ProfileModel.findOne({ userId: swiperObjectId });
-  const updatedTargetProfile = await ProfileModel.findOne({ userId: targetObjectId });
-  if (!updatedSwiperProfile || !updatedTargetProfile) return null;
-  return createMatchObject(updatedSwiperProfile, updatedTargetProfile);
-};
-
-export const addTargetToSwiperLikes = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  const swiperProfile = await ProfileModel.findOne({ userId: swiperObjectId });
-  const targetProfile = await ProfileModel.findOne({ userId: targetObjectId });
-  
-  if (!swiperProfile || !targetProfile) {
-    return;
+export const refreshProfilesAfterMatch = async (
+  swiperUserId: Types.ObjectId,
+  targetUserId: Types.ObjectId
+): Promise<{ swiperProfile: any; targetProfile: any } | null> => {
+  try {
+    const [swiperProfile, targetProfile] = await Promise.all([
+      ProfileModel.findOne({ userId: swiperUserId }),
+      ProfileModel.findOne({ userId: targetUserId })
+    ]);
+    if (!swiperProfile || !targetProfile) {
+      return null;
+    }
+    return { swiperProfile, targetProfile };
+  } catch (error) {
+    console.error('Error refreshing profiles after match:', error);
+    return null;
   }
-
-  // Validate gender compatibility
-  const swiperGender = swiperProfile.gender.toLowerCase();
-  const targetGender = targetProfile.gender.toLowerCase();
-  
-  if (!validateGenderCompatibility(swiperGender, targetGender)) {
-    return;
-  }
-
-  await ProfileModel.findOneAndUpdate(
-    { userId: swiperObjectId },
-    { $addToSet: { likes: targetObjectId } }
-  );
 };
-
-export const handleExistingSwipe = async (existingSwipe: any, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  // Check if this is a mutual like that creates a match
-  if (existingSwipe.action === 'LIKE') {
-    const isMatch = await checkTargetLikedSwiper(targetObjectId, swiperObjectId);
-    if (isMatch) {
-      return await processMatch(swiperObjectId, targetObjectId);
+export const addTargetToSwiperLikes = async (
+  swiperUserId: Types.ObjectId,
+  targetUserId: Types.ObjectId
+): Promise<void> => {
+  try {
+    await ProfileModel.updateOne(
+      { userId: swiperUserId },
+      { $addToSet: { likes: targetUserId } }
+    );
+  } catch (error) {
+    console.error('Error adding target to swiper likes:', error);
+    throw new Error('Failed to update matches');
+  }
+};
+const processExistingLike = async (
+  swiperObjectId: Types.ObjectId,
+  targetObjectId: Types.ObjectId
+): Promise<any> => {
+  const targetLikedSwiper = await checkTargetLikedSwiper(targetObjectId, swiperObjectId);
+  if (targetLikedSwiper) {
+    await addUsersToMatches(swiperObjectId, targetObjectId);
+    const refreshedProfiles = await refreshProfilesAfterMatch(swiperObjectId, targetObjectId);
+    
+    if (refreshedProfiles) {
+      return {
+        type: 'MATCH_CREATED',
+        profiles: refreshedProfiles
+      };
     }
   }
   return null;
 };
-
-export const processLikeForMutualMatch = async (profile: SwipeProfile, likedUserId: Types.ObjectId) => {
-  const likedProfile = await ProfileModel.findOne({ userId: likedUserId });
-  return likedProfile && likedProfile.likes.some(id => id.equals(profile.userId));
-};
-
-export const handleNewLike = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId, _swiperId: string) => {
-  // Check for mutual match first
-  const isMatch = await checkTargetLikedSwiper(targetObjectId, swiperObjectId);
-  
-  // Add target to swiper's likes
-  await addTargetToSwiperLikes(swiperObjectId, targetObjectId);
-  
-  // If it's a match, process it
-  if (isMatch) {
-    return await processMatch(swiperObjectId, targetObjectId);
+export const handleExistingSwipe = async (
+  existingSwipe: any,
+  swiperObjectId: Types.ObjectId,
+  targetObjectId: Types.ObjectId
+): Promise<any> => {
+  try {
+    if (existingSwipe.action === 'LIKE') {
+      const matchResult = await processExistingLike(swiperObjectId, targetObjectId);
+      if (matchResult) return matchResult;
+    }
+    return {
+      type: 'ALREADY_SWIPED',
+      existingSwipe
+    };
+  } catch (error) {
+    console.error('Error handling existing swipe:', error);
+    return {
+      type: 'ERROR',
+      message: 'Failed to process existing swipe'
+    };
   }
-  
+};
+const createMatchIfMutual = async (
+  swiperObjectId: Types.ObjectId,
+  targetObjectId: Types.ObjectId
+): Promise<any> => {
+  await addUsersToMatches(swiperObjectId, targetObjectId);
+  const refreshedProfiles = await refreshProfilesAfterMatch(swiperObjectId, targetObjectId);
+  if (refreshedProfiles) {
+    return {
+      type: 'MATCH_CREATED',
+      profiles: refreshedProfiles
+    };
+  }
   return null;
 };
-
-const processMatch = async (swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await addUsersToMatches(swiperObjectId, targetObjectId);
-  return await refreshProfilesAfterMatch(swiperObjectId, targetObjectId);
-};
-
-// Helper function for creating match object
-const createMatchObject = (swiperProfile: any, targetProfile: any) => {
+const processLikeResult = async (
+  swiperObjectId: Types.ObjectId,
+  targetObjectId: Types.ObjectId
+): Promise<any> => {
+  const targetLikedSwiper = await checkTargetLikedSwiper(targetObjectId, swiperObjectId);
+  
+  if (targetLikedSwiper) {
+    const matchResult = await createMatchIfMutual(swiperObjectId, targetObjectId);
+    if (matchResult) return matchResult;
+  }
+  
   return {
-    likeduserId: {
-      userId: swiperProfile.userId,
-      name: swiperProfile.name,
-      images: swiperProfile.images,
-    },
-    matcheduserId: {
-      userId: targetProfile.userId,
-      name: targetProfile.name,
-      images: targetProfile.images,
-    },
+    type: 'LIKE_ADDED',
+    message: 'Like added successfully'
   };
-}; 
+};
+export const handleNewLike = async (
+  swiperObjectId: Types.ObjectId,
+  targetObjectId: Types.ObjectId
+): Promise<any> => {
+  try {
+    await addTargetToSwiperLikes(swiperObjectId, targetObjectId);
+    return await processLikeResult(swiperObjectId, targetObjectId);
+  } catch (error) {
+    console.error('Error handling new like:', error);
+    return {
+      type: 'ERROR',
+      message: 'Failed to process like'
+    };
+  }
+};

@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
-import { Profile } from "src/models";
+import { Profile, Swipe } from "../models";
 
-export const findNextAvailableProfile = async (excludedUserIds: Types.ObjectId[]) => {
+export const findNextAvailableProfile = async (excludedProfileIds: Types.ObjectId[]) => {
   const profile = await Profile.findOne({
-    userId: { $nin: excludedUserIds }
+    _id: { $nin: excludedProfileIds }
   });
 
   if (!profile) return null;
@@ -27,8 +27,21 @@ export const findNextAvailableProfile = async (excludedUserIds: Types.ObjectId[]
 };
 
 export const getSwipedUserIds = async (swiperId: string) => {
-  const swipedIds = await Profile.distinct('userId', { swiperId });
-  return [...swipedIds, new Types.ObjectId(swiperId)];
+  // Get all swiped user IDs from Swipe collection
+  const swipedProfiles = await Swipe.find({ 
+    swiperId: new Types.ObjectId(swiperId) 
+  }).select('targetId');
+  
+  // Extract target user IDs
+  const swipedUserIds = swipedProfiles.map(swipe => swipe.targetId);
+  
+  // Also exclude the swiper's own profile
+  const swiperProfile = await Profile.findOne({ userId: new Types.ObjectId(swiperId) });
+  if (swiperProfile) {
+    swipedUserIds.push(swiperProfile._id);
+  }
+  
+  return swipedUserIds;
 };
 
 export const checkMutualLike = async (profile: any, likedUserId: Types.ObjectId) => {

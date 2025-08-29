@@ -9,7 +9,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (token: string, userData: User) => void;
+  login: (_token: string, _userData: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -48,10 +48,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const login = (token: string, userData: User) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+  const login = (_token: string, _userData: User) => {
+    localStorage.setItem('token', _token);
+    localStorage.setItem('user', JSON.stringify(_userData));
+    setUser(_userData);
   };
 
   const logout = () => {

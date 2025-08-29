@@ -13,5 +13,19 @@ mutation Swipe($input: SwipeInput!) {
         name
       }
     }
+    nextProfile {
+      id
+      userId
+      name
+      gender
+      bio
+      interests
+      profession
+      work
+      images
+      dateOfBirth
+      createdAt
+      updatedAt
+    }
   }
 }

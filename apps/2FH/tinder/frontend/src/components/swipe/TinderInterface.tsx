@@ -1,128 +1,99 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { HeaderSwipe } from './HeaderSwipe';
 import { ActionButtons } from './ActionButtons';
 import { MatchModal } from './MatchModal';
-import { ProfileCard } from './ProfileCard';
-import { AnimatePresence } from 'framer-motion';
 import { useTinderSwipe } from './useTinderSwipe';
-import { Profile } from './MockData';
+import { LoadingState } from './LoadingState';
+import { ErrorState } from './ErrorState';
+import { NoMoreProfiles } from './NoMoreProfiles';
+import { ProfileCards } from './ProfileCards';
 
-const LoadingState: React.FC = () => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center w-full">
-    <div className="text-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-500"></div>
-      <p className="mt-4 text-gray-600">Profiles ачаалж байна...</p>
-    </div>
-  </div>
-);
-
-const ErrorState: React.FC<{ refetch: () => void }> = ({ refetch }) => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center w-full">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Алдаа гарлаа!</h2>
-      <p className="text-gray-600 mb-4">
-        {'Unknown error occurred'}
-      </p>
-      <div className="text-sm text-gray-500 mb-4">
-        <p>Error details:</p>
-        <p>Profiles error: {'Error occurred'}</p>
-        <p>User profile error: {'No error'}</p>
-        <p>Network status: {'Unknown'}</p>
-      </div>
-      <button
-        onClick={() => {
-          refetch();
-          window.location.reload();
-        }}
-        className="bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition-colors"
-      >
-        Дахин оролдох
-      </button>
-    </div>
-  </div>
-);
-
-const NoMoreProfiles: React.FC<{ setCurrentIndex: (index: number) => void }> = ({ setCurrentIndex }) => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center w-full">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">No more profiles!</h2>
-      <button 
-        onClick={() => setCurrentIndex(0)} 
-        className="bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition-colors"
-      >
-        Start Over
-      </button>
-    </div>
-  </div>
-);
-
-const ProfileCards: React.FC<{
-  visibleProfiles: Profile[];
-  isDragging: boolean;
-  setIsDragging: (dragging: boolean) => void;
-  animatingCards: Set<string>;
-}> = ({ visibleProfiles, isDragging, setIsDragging, animatingCards }) => (
-  <div className="relative mb-12" style={{ height: '600px' }}>
-    <AnimatePresence mode="popLayout">
-      {visibleProfiles.map((profile, index) => (
-        <ProfileCard
-          key={`${profile.id}-${index}`}
-          profile={profile}
-          index={index}
-          onSwipe={() => {}} // This is now handled by the hook
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
-          isExiting={animatingCards.has(profile.id)}
-        />
-      ))}
-    </AnimatePresence>
-  </div>
-);
-
-const TinderSwipeDeck: React.FC<{ currentUserId: string }> = ({ currentUserId }) => {
+const TinderSwipeContent: React.FC<{ currentUserId: string }> = ({ currentUserId }) => {
   const [isDragging, setIsDragging] = useState(false);
   
   const {
-    profiles,
-    currentIndex,
     matchedProfile,
     animatingCards,
-    loading,
-    userLoading,
-    error,
-    userError,
     visibleProfiles,
-    refetch,
     handleDislike,
     handleLike,
     handleSuperLike,
     handleKeepSwiping,
     handleMessage,
-    setCurrentIndex,
+    testSwipe,
+    currentIndex,
+    totalProfiles,
+    isTransitioning,
   } = useTinderSwipe(currentUserId);
 
-  if (loading || userLoading) {
-    return <LoadingState />;
-  }
-
-  if (error || userError) {
-    return <ErrorState refetch={refetch} />;
-  }
-
-  if (currentIndex >= profiles.length) {
-    return <NoMoreProfiles setCurrentIndex={setCurrentIndex} />;
-  }
+  const handleSwipe = (direction: 'left' | 'right') => {
+    if (direction === 'left') {
+      handleDislike();
+    } else {
+      handleLike();
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-15 w-full">
       <div className="w-full">
         <HeaderSwipe />
-        <ProfileCards
-          visibleProfiles={visibleProfiles}
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
-          animatingCards={animatingCards}
-        />
+        
+        {/* Enhanced debug info with smooth animations */}
+        <motion.div 
+          className="text-center mb-4 text-sm text-gray-600"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <motion.span
+            key={`profile-${currentIndex}`}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="font-medium"
+          >
+            Profile {currentIndex + 1} of {totalProfiles}
+          </motion.span>
+          {' | '}
+          <span>Visible: {visibleProfiles.length}</span>
+          {' | '}
+          <motion.button 
+            onClick={testSwipe}
+            className="text-blue-500 underline hover:text-blue-600 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            disabled={isTransitioning}
+          >
+            Test Swipe Logic
+          </motion.button>
+          {isTransitioning && (
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="ml-2 text-orange-500"
+            >
+              Transitioning...
+            </motion.span>
+          )}
+        </motion.div>
+        
+        {/* Enhanced ProfileCards with better animation handling */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <ProfileCards
+            visibleProfiles={visibleProfiles}
+            _isDragging={isDragging}
+            _setIsDragging={setIsDragging}
+            animatingCards={animatingCards}
+            onSwipe={handleSwipe}
+          />
+        </motion.div>
+        
         <ActionButtons
           onDislike={handleDislike}
           onLike={handleLike}
@@ -140,6 +111,45 @@ const TinderSwipeDeck: React.FC<{ currentUserId: string }> = ({ currentUserId })
       </AnimatePresence>
     </div>
   );
+};
+
+const TinderSwipeMain: React.FC<{ currentUserId: string }> = ({ currentUserId }) => {
+  const {
+    setCurrentIndex,
+    totalProfiles,
+    hasMoreProfiles,
+  } = useTinderSwipe(currentUserId);
+
+  // Check if we have profiles and if there are more to show
+  if (totalProfiles > 0 && hasMoreProfiles) {
+    return <TinderSwipeContent currentUserId={currentUserId} />;
+  }
+
+  return <NoMoreProfiles setCurrentIndex={setCurrentIndex} />;
+};
+
+const TinderSwipeConditional: React.FC<{ currentUserId: string }> = ({ currentUserId }) => {
+  const {
+    loading,
+    error,
+  } = useTinderSwipe(currentUserId);
+
+  if (loading) {
+    return <LoadingState />;
+  }
+
+  if (error) {
+    return <ErrorState refetch={() => {
+      // Refetch functionality placeholder
+      console.log('Refetch requested');
+    }} />;
+  }
+
+  return <TinderSwipeMain currentUserId={currentUserId} />;
+};
+
+const TinderSwipeDeck: React.FC<{ currentUserId: string }> = ({ currentUserId }) => {
+  return <TinderSwipeConditional currentUserId={currentUserId} />;
 };
 
 export default TinderSwipeDeck;
