@@ -3,7 +3,7 @@ import { Heart, Search, Home, PlusSquare, User, Menu, Image as ImageIcon, Plus }
 import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@/components';
-import { StoryCreateDialog } from './StoryCreateDialog'; // Import the new component
+import { StoryCreateDialog } from '@/components/create-story-dialog/StoryCreateDialog';
 import Image from 'next/image';
 
 export const Sidebar = () => {
@@ -28,8 +28,8 @@ export const Sidebar = () => {
   const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
   const handleStoryClick = () => {
-    setIsCreateOpen(false); // Close dropdown
-    setIsStoryDialogOpen(true); // Open story dialog
+    setIsCreateOpen(false); 
+    setIsStoryDialogOpen(true); 
   };
 
   const isActive = (path: string) => pathname === path;
@@ -119,7 +119,6 @@ export const Sidebar = () => {
         )}
       </div>
 
-      {/* Story Create Dialog */}
       <StoryCreateDialog 
         isOpen={isStoryDialogOpen}
         onClose={() => setIsStoryDialogOpen(false)}

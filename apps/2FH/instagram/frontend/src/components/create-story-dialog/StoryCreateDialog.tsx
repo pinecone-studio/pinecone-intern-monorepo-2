@@ -2,10 +2,10 @@
 
 import { useState, useRef } from 'react';
 import { X } from 'lucide-react';
-import { useCreateStoryMutation } from '@/generated';
 import { FileUploadArea } from './FileUploadArea';
 import { FilePreview } from './FilePreview';
 import { DialogActions } from './DialogActions';
+import { useCreateStoryMutation } from '@/generated';
 
 interface Props { 
   isOpen: boolean; 
@@ -57,18 +57,18 @@ export const StoryCreateDialog = ({ isOpen, onClose }: Props) => {
       { method: 'POST', body: fd }
     );
     if (!res.ok) throw new Error('Upload failed');
-    return (await res.json()).secure_url;
+    return (await res.json()).secureUrl;
   };
 
   const handleUpload = async () => {
-    if (!file) { 
-      setError('Select image'); 
-      return; 
-    }
+    // if (!file) { 
+    //   setError('Select image'); 
+    //   return; 
+    // }
     setUploading(true); 
     setError('');
     try {
-      const url = await uploadToCloudinary(file);
+      const url = await uploadToCloudinary(file as File);
       await createStory({ variables: { input: { image: url } } });
     } catch { 
       setError('Upload failed'); 

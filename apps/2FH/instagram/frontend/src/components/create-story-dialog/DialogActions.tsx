@@ -1,4 +1,3 @@
-import { Image as ImageIcon } from 'lucide-react';
 
 interface DialogActionsProps {
   file: File | null;
@@ -24,8 +23,7 @@ export const DialogActions = ({ file, isUploading, loading, onUpload, onClose }:
           disabled={isUploading||loading} 
           className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 flex items-center space-x-2"
         >
-            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : 
-            <ImageIcon size={16}/>
+           Share Story
         </button>
       )}
     </div>

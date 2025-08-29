@@ -20,7 +20,7 @@ export const useImageUpload = (onSave: (_images: string[]) => void, onClose: () 
     }
 
     const data = await response.json();
-    return data.secure_url;
+    return data.secureUrl;
   };
 
   const handleFileSelect = (files: FileList | null) => {

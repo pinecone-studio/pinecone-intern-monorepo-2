@@ -1,8 +1,10 @@
-  mutation createStory($input: CreateStoryInput!) {
-    createStory(input: $input) {
+mutation createStory($input: CreateStoryInput!) {
+  createStory(input: $input) {
+    _id
+    author {
       _id
-      author
-      image
-      expiredAt
     }
+    image
+    expiredAt
   }
+}
