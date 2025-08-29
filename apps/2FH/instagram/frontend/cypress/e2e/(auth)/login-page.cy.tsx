@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 describe('Login Page', () => {
   beforeEach(() => {
     cy.visit('/login');
@@ -31,17 +33,31 @@ describe('Login Page', () => {
   });
 
   it('should test validation errors', () => {
-    cy.get('button[type="submit"]').click();
-    cy.wait(100);
+    // Test by removing the disabled attribute to trigger validation
+    cy.get('input[placeholder="Username, phone number, or email"]').invoke('removeAttr', 'required');
+    cy.get('input[placeholder="Password"]').invoke('removeAttr', 'required');
+    
+    // Remove disabled state temporarily to test validation
+    cy.get('button[type="submit"]').invoke('removeAttr', 'disabled').click();
+    cy.contains('Please fill in all fields').should('be.visible');
 
+    // Test with only email
     cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
     cy.get('button[type="submit"]').click();
-    cy.wait(100);
+    cy.contains('Please fill in all fields').should('be.visible');
 
+    // Test with only password
     cy.get('input[placeholder="Username, phone number, or email"]').clear();
     cy.get('input[placeholder="Password"]').type('password123');
     cy.get('button[type="submit"]').click();
-    cy.wait(100);
+    cy.contains('Please fill in all fields').should('be.visible');
+
+    // Test form validation state - both fields filled should be enabled
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.reload(); // Reload to restore normal form behavior
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.get('input[placeholder="Password"]').type('password123');
+    cy.get('button[type="submit"]').should('not.be.disabled');
   });
 
   it('should have correct navigation links', () => {
@@ -53,12 +69,13 @@ describe('Login Page', () => {
     cy.get('input[placeholder="Username, phone number, or email"]').type('test@test.com').clear().type('test@test.com');
     cy.get('input[placeholder="Password"]').type('pass123').clear().type('pass123');
     
+    // Clear password - button should become disabled
     cy.get('input[placeholder="Password"]').clear();
-    cy.get('button[type="submit"]').click();
-    cy.wait(100);
+    cy.get('button[type="submit"]').should('be.disabled');
     
+    // Add password back - button should be enabled
     cy.get('input[placeholder="Password"]').type('validpassword123');
-    cy.get('button[type="submit"]').click();
+    cy.get('button[type="submit"]').should('not.be.disabled').click();
     cy.wait(100);
   });
 
@@ -113,29 +130,121 @@ describe('Login Page', () => {
   it('should test precise validation error coverage', () => {
     cy.visit('/login');
     
-    cy.get('input[placeholder="Username, phone number, or email"]').invoke('removeAttr', 'required');
-    cy.get('input[placeholder="Password"]').invoke('removeAttr', 'required');
+    // Test initial state - button should be disabled
+    cy.get('button[type="submit"]').should('be.disabled');
     
-    cy.get('button[type="submit"]').click();
-    cy.wait(100);
-    
+    // With only email, button should be disabled
     cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
-    cy.get('button[type="submit"]').click();
-    cy.wait(100);
+    cy.get('button[type="submit"]').should('be.disabled');
     
+    // Clear email, add password only - button should be disabled
     cy.get('input[placeholder="Username, phone number, or email"]').clear();
     cy.get('input[placeholder="Password"]').type('password123');
+    cy.get('button[type="submit"]').should('be.disabled');
+    
+    // Add both fields - button should be enabled and can be clicked
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.get('button[type="submit"]').should('not.be.disabled').click();
+    cy.wait(100);
+  });
+
+  it('should test complete error handling coverage', () => {
+    // Test error clearing when input changes
+    cy.interceptGraphql({
+      operationName: 'LoginUser', 
+      state: 'error',
+      data: {
+        errors: [{
+          message: 'Test error',
+          extensions: { code: 'TEST_ERROR' }
+        }]
+      }
+    });
+
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.get('input[placeholder="Password"]').type('password123');
     cy.get('button[type="submit"]').click();
+    
+    cy.wait('@LoginUser');
+    cy.contains('Test error').should('be.visible');
+    
+    // Clear error by changing input
+    cy.get('input[placeholder="Username, phone number, or email"]').clear().type('new@example.com');
+    cy.contains('Test error').should('not.exist');
+    
+    // Test error with password input change
+    cy.get('button[type="submit"]').click();
+    cy.wait('@LoginUser');
+    cy.contains('Test error').should('be.visible');
+    
+    cy.get('input[placeholder="Password"]').clear().type('newpassword');
+    cy.contains('Test error').should('not.exist');
+  });
+
+  it('should test form validation edge cases', () => {
+    // First, let's check the initial state
+    cy.get('button[type="submit"]').should('be.disabled');
+    
+    // Test with whitespace only - should remain disabled
+    cy.get('input[placeholder="Username, phone number, or email"]').type('   ');
+    cy.get('input[placeholder="Password"]').type('   ');
+    cy.get('button[type="submit"]').should('be.disabled');
+    
+    // Clear and test with valid email but spaces in password
+    cy.get('input[placeholder="Username, phone number, or email"]').clear().type('test@example.com');
+    cy.get('input[placeholder="Password"]').clear().type('  password  ');
+    
+    // Button should be enabled with non-empty values
+    cy.get('button[type="submit"]').should('not.be.disabled').click();
     cy.wait(100);
     
-    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
-    cy.get('input[placeholder="Password"]').clear().type('password123');
+    // Test clearing one field - button should be disabled
+    cy.get('input[placeholder="Username, phone number, or email"]').clear();
+    cy.get('button[type="submit"]').should('be.disabled');
     
-    cy.window().then((win) => {
-      cy.get('form').then($form => {
-        const event = new win.Event('submit', { bubbles: true });
-        $form[0].dispatchEvent(event);
-      });
+    // Test clearing other field - button should be disabled
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.get('input[placeholder="Password"]').clear();
+    cy.get('button[type="submit"]').should('be.disabled');
+    
+    // Both fields filled - button should be enabled
+    cy.get('input[placeholder="Password"]').type('password123');
+    cy.get('button[type="submit"]').should('not.be.disabled');
+  });
+
+  it('should display success message from URL parameters', () => {
+    // Visit login page with success message parameter
+    cy.visit('/login?message=Password reset successfully! Please sign in with your new password.');
+    
+    // Should display the success message
+    cy.contains('Password reset successfully! Please sign in with your new password.').should('be.visible');
+    
+    // Test clearing success message when typing
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test');
+    cy.contains('Password reset successfully! Please sign in with your new password.').should('not.exist');
+  });
+
+  it('should handle email not verified error', () => {
+    cy.interceptGraphql({
+      operationName: 'LoginUser', 
+      state: 'error',
+      data: {
+        errors: [{
+          message: 'Email not verified',
+          extensions: { 
+            code: 'EMAIL_NOT_VERIFIED',
+            email: 'test@example.com'
+          }
+        }]
+      }
     });
+
+    cy.get('input[placeholder="Username, phone number, or email"]').type('test@example.com');
+    cy.get('input[placeholder="Password"]').type('password123');
+    cy.get('button[type="submit"]').click();
+    
+    cy.wait('@LoginUser');
+    cy.contains('Your email address needs to be verified to continue.').should('be.visible');
+    cy.contains('Verify your email now').should('have.attr', 'href', '/verify-otp?email=test%40example.com');
   });
 });

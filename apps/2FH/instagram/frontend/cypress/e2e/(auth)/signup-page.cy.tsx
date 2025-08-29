@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 describe('Signup Page', () => {
   beforeEach(() => {
     cy.visit('/signup');
@@ -145,5 +147,80 @@ describe('Signup Page', () => {
     cy.get('select[aria-hidden="true"]').first().select('FEMALE', { force: true });
     cy.wait(100);
     cy.contains('Password must be at least 6 characters long').should('not.exist');
+  });
+
+  it('should test error clearing on input changes', () => {
+    // Test error clearing when inputs change
+    cy.interceptGraphql({
+      operationName: 'CreateUser',
+      state: 'error',
+      data: {
+        errors: [{
+          message: 'Test signup error',
+          extensions: { code: 'TEST_ERROR' }
+        }]
+      }
+    });
+
+    cy.get('input[placeholder="Email Address"]').type('test@example.com');
+    cy.get('input[placeholder="Password"]').type('password123');
+    cy.get('input[placeholder="Full Name"]').type('Test User');
+    cy.get('input[placeholder="Username"]').type('testuser');
+    cy.get('select[aria-hidden="true"]').first().select('OTHER', { force: true });
+    cy.get('button[type="submit"]').click();
+    cy.wait('@CreateUser');
+    cy.contains('Test signup error').should('be.visible');
+    
+    // Clear error by changing email
+    cy.get('input[placeholder="Email Address"]').clear().type('new@example.com');
+    cy.contains('Test signup error').should('not.exist');
+    
+    // Trigger error again
+    cy.get('button[type="submit"]').click();
+    cy.wait('@CreateUser');
+    cy.contains('Test signup error').should('be.visible');
+    
+    // Clear error by changing password
+    cy.get('input[placeholder="Password"]').clear().type('newpassword123');
+    cy.contains('Test signup error').should('not.exist');
+    
+    // Test with other inputs
+    cy.get('button[type="submit"]').click();
+    cy.wait('@CreateUser');
+    cy.contains('Test signup error').should('be.visible');
+    
+    cy.get('input[placeholder="Full Name"]').clear().type('New User');
+    cy.contains('Test signup error').should('not.exist');
+    
+    cy.get('button[type="submit"]').click();
+    cy.wait('@CreateUser');
+    cy.contains('Test signup error').should('be.visible');
+    
+    cy.get('input[placeholder="Username"]').clear().type('newuser');
+    cy.contains('Test signup error').should('not.exist');
+  });
+
+  it('should test all gender selection options', () => {
+    // Test all gender options to ensure complete coverage
+    cy.get('select[aria-hidden="true"]').first().select('MALE', { force: true });
+    cy.get('select[aria-hidden="true"]').first().should('have.value', 'MALE');
+    
+    cy.get('select[aria-hidden="true"]').first().select('FEMALE', { force: true });
+    cy.get('select[aria-hidden="true"]').first().should('have.value', 'FEMALE');
+    
+    cy.get('select[aria-hidden="true"]').first().select('OTHER', { force: true });
+    cy.get('select[aria-hidden="true"]').first().should('have.value', 'OTHER');
+  });
+
+  it('should test whitespace handling in form fields', () => {
+    // Test with whitespace in various fields
+    cy.get('input[placeholder="Email Address"]').type('  test@example.com  ');
+    cy.get('input[placeholder="Password"]').type('  password123  ');
+    cy.get('input[placeholder="Full Name"]').type('  Test User  ');
+    cy.get('input[placeholder="Username"]').type('  testuser  ');
+    cy.get('select[aria-hidden="true"]').first().select('OTHER', { force: true });
+    
+    // Button should be enabled even with whitespace
+    cy.get('button[type="submit"]').should('not.be.disabled');
   });
 });

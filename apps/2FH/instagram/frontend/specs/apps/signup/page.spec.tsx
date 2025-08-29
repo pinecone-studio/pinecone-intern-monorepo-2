@@ -1,20 +1,38 @@
+/* eslint-disable max-lines */
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SignupPage from '../../../src/app/signup/page';
+import { AuthProvider } from '../../../src/contexts/AuthContext';
 
 const mockPush = jest.fn();
 const mockCreateUser = jest.fn();
 
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/signup',
 }));
 
 jest.mock('@apollo/client', () => ({
   gql: jest.fn(),
   useMutation: () => [mockCreateUser, { loading: false }],
 }));
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AuthProvider>{children}</AuthProvider>
+);
 
 jest.mock('@/components/ui/select', () => ({
   Select: ({ children, onValueChange, value: _value }: { children: React.ReactNode; onValueChange?: (_value: string) => void; value?: string }) => (
@@ -41,15 +59,24 @@ jest.mock('@/components/ui/select', () => ({
 describe('SignupPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    localStorageMock.getItem.mockReturnValue(null);
   });
 
   it('should render without crashing', () => {
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     expect(screen.getByAltText('Instagram')).toBeInTheDocument();
   });
 
   it('should display the signup form with correct elements', () => {
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     expect(screen.getByAltText('Instagram')).toBeInTheDocument();
     expect(screen.getByText('Sign up to see photos and videos from your friends')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Email Address')).toBeInTheDocument();
@@ -64,7 +91,11 @@ describe('SignupPage', () => {
   });
 
   it('should handle input changes', () => {
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     const emailInput = screen.getByPlaceholderText('Email Address');
     const passwordInput = screen.getByPlaceholderText('Password');
     const fullNameInput = screen.getByPlaceholderText('Full Name');
@@ -82,7 +113,11 @@ describe('SignupPage', () => {
   });
 
   it('should validate form inputs before submission', () => {
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     
     const submitButton = screen.getByRole('button', { name: /sign up/i });
     const emailInput = screen.getByPlaceholderText('Email Address');
@@ -108,7 +143,11 @@ describe('SignupPage', () => {
 
   it('should call create user mutation when form is valid', async () => {
     const user = userEvent.setup();
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     
     const emailInput = screen.getByPlaceholderText('Email Address');
     const passwordInput = screen.getByPlaceholderText('Password');
@@ -140,7 +179,11 @@ describe('SignupPage', () => {
   });
 
   it('should have correct link attributes', () => {
-    render(<SignupPage />);
+    render(
+      <TestWrapper>
+        <SignupPage />
+      </TestWrapper>
+    );
     expect(screen.getByText('Log in').closest('a')).toHaveAttribute('href', '/login');
     expect(screen.getByText('Terms').closest('a')).toHaveAttribute('href', '/terms');
     expect(screen.getByText('Privacy Policy').closest('a')).toHaveAttribute('href', '/privacy');

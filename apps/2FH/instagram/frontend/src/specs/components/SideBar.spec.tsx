@@ -16,6 +16,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('next/image', () => {
   // eslint-disable-next-line @next/next/no-img-element
   const MockImage = ({ src, alt, ...props }: React.ComponentProps<'img'>) => {
+    // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} {...props} />;
   };
   MockImage.displayName = 'MockImage';
