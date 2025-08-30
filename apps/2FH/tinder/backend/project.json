@@ -106,7 +106,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "2FH-Tinder-backend:build:production"
+        "buildTarget": "2FH-tinder-backend:build:production"
       }
     },
     "export-env": {

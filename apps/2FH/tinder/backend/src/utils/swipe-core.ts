@@ -1,15 +1,18 @@
 // apps/2FH/tinder/backend/src/mutations/swipe-core.ts
 import { GraphQLError } from "graphql";
 import { Types } from "mongoose";
-import { Swipe, User } from "src/models";
+import { Swipe, User } from "../models";
 import {
-  getSwipedUserIds,
-  syncExistingMatches,
+  syncExistingMatches
+} from "./swipe-helpers";
+import {
   handleExistingSwipe,
   handleNewLike
-} from "./swipe-helpers";
-import { findNextAvailableProfile } from "./swipe-utils";
+} from "./swipe-helpers-advanced";
+import { findNextAvailableProfile, getSwipedUserIds } from "./swipe-utils";
 import { SwipeInput } from "../types/swipe-types";
+
+type SwipeAction = 'LIKE' | 'DISLIKE' | 'SUPER_LIKE';
 
 const validateUserIds = (swiperId: string, targetId: string) => {
   if (!Types.ObjectId.isValid(swiperId) || !Types.ObjectId.isValid(targetId)) {
@@ -28,13 +31,14 @@ const handleExistingSwipeCase = async (existingSwipe: any, swiperObjectId: Types
   };
 };
 
-const createSuccessResponse = (action: string, match: any, nextProfile: any) => {
+const createSuccessResponse = (action: SwipeAction, match: any, nextProfile: any, updatedProfiles?: any) => {
   return {
     success: true,
     message: `Successfully ${action.toLowerCase()}d profile`,
     response: match ? "MATCH_CREATED" : "SUCCESS",
     match,
     nextProfile,
+    updatedProfiles
   };
 };
 
@@ -57,25 +61,47 @@ const checkUsersExist = async (swiperId: string, targetId: string) => {
   }
 };
 
-const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action: string, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await Swipe.create({ swiperId, targetId, action });
+const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
+  await Swipe.create({ 
+    swiperId: swiperObjectId, 
+    targetId: targetObjectId, 
+    action,
+    swipedAt: new Date()
+  });
   let match = null;
   if (action === "LIKE") {
-    match = await handleNewLike(swiperObjectId, targetObjectId, swiperId);
+            match = await handleNewLike(swiperObjectId, targetObjectId);
   }
   return match;
 };
 
 const getNextProfile = async (swiperId: string) => {
-  const swipedUserIds = await getSwipedUserIds(swiperId);
-  return await findNextAvailableProfile(swipedUserIds);
+  const swipedProfileIds = await getSwipedUserIds(swiperId);
+  return await findNextAvailableProfile(swipedProfileIds);
 };
 
-const handleSwipeCreation = async (swiperId: string, targetId: string, action: string, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
+const handleSwipeCreation = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
   try {
     const match = await createSwipeAndGetMatch(swiperId, targetId, action, swiperObjectId, targetObjectId);
     const nextProfile = await getNextProfile(swiperId);
-    return createSuccessResponse(action, match, nextProfile);
+    
+    // Get updated profiles for likes/matches
+    const updatedProfiles = {
+      swiperProfile: {
+        id: swiperId,
+        userId: swiperId,
+        likes: [], // Will be updated by swipe logic
+        matches: [] // Will be updated by swipe logic
+      },
+      targetProfile: {
+        id: targetId,
+        userId: targetId,
+        likes: [], // Will be updated by swipe logic
+        matches: [] // Will be updated by swipe logic
+      }
+    };
+    
+    return createSuccessResponse(action, match, nextProfile, updatedProfiles);
   } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
@@ -86,6 +112,7 @@ const handleSwipeCreation = async (swiperId: string, targetId: string, action: s
 
 export const swipe = async (_: unknown, { input }: { input: SwipeInput }) => {
   const { swiperId, targetId, action } = input;
+  const typedAction: SwipeAction = action as SwipeAction;
   const { swiperObjectId, targetObjectId } = validateAndPrepareSwipe(swiperId, targetId);
   await checkUsersExist(swiperId, targetId);
   await syncExistingMatches(swiperId);
@@ -94,5 +121,5 @@ export const swipe = async (_: unknown, { input }: { input: SwipeInput }) => {
   if (existingSwipe) {
     return await handleExistingSwipeCase(existingSwipe, swiperObjectId, targetObjectId);
   }
-  return await handleSwipeCreation(swiperId, targetId, action, swiperObjectId, targetObjectId);
+  return await handleSwipeCreation(swiperId, targetId, typedAction, swiperObjectId, targetObjectId);
 };

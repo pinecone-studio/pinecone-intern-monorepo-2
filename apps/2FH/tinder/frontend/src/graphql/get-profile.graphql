@@ -1,0 +1,5 @@
+query GetProfile($userId: ID!) {
+  getProfile(userId: $userId) {
+    gender
+  }
+}

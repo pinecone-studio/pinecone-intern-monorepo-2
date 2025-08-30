@@ -1,0 +1,31 @@
+mutation Swipe($input: SwipeInput!) {
+  swipe(input: $input) {
+    success
+    message
+    response
+    match {
+      likeduserId {
+        userId
+        name
+      }
+      matcheduserId {
+        userId
+        name
+      }
+    }
+    nextProfile {
+      id
+      userId
+      name
+      gender
+      bio
+      interests
+      profession
+      work
+      images
+      dateOfBirth
+      createdAt
+      updatedAt
+    }
+  }
+}

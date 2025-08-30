@@ -4,4 +4,7 @@ import { NextRequest } from 'next/server';
 
 export type Context = {
   req: NextRequest;
+  currentUser?: {
+    userId: string;
+  };
 };

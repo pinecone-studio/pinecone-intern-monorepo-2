@@ -33,13 +33,16 @@ const Page = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 drop-shadow-lg">
           Swipe Right®
         </h1>
-        <button
-          onClick={handleCreateAccount}
-          className="bg-[#E11D48] text-white px-8 py-3 rounded-full text-xl font-medium hover:bg-red-600 transition-colors shadow-lg cursor-pointer"
-          type="button"
-        >
-          Create Account
-        </button>
+        <div className="flex flex-col gap-4">
+          <button
+            onClick={handleCreateAccount}
+            className="bg-[#E11D48] text-white px-8 py-3 rounded-full text-xl font-medium hover:bg-red-600 transition-colors shadow-lg cursor-pointer"
+            type="button"
+          >
+            Create Account
+          </button>
+
+        </div>
       </main>
       
       <Footer />

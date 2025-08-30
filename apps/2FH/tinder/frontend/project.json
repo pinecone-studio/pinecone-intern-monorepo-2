@@ -45,10 +45,6 @@
         {
           "target": "codegen:dev",
           "params": "forward"
-        },
-        {
-          "target": "export-env",
-          "params": "forward"
         }
       ]
     },
@@ -106,8 +102,9 @@
     "export-env": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["export $(cat apps/2FH/tinder/frontend/.env | xargs)"],
-        "parallel": false
+        "commands": ["if [ -f apps/2FH/tinder/frontend/.env ]; then export $(cat apps/2FH/tinder/frontend/.env | xargs); fi"],
+        "parallel": false,
+        "forwardAllArgs": false
       }
     },
     "clean": {
