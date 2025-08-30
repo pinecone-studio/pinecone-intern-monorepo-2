@@ -7,5 +7,5 @@
     "types": ["cypress", "node"],
     "sourceMap": false
   },
-  "include": ["**/*.ts", "**/*.js", "../cypress.config.ts", "../**/*.cy.ts", "../**/*.cy.tsx", "../**/*.cy.js", "../**/*.cy.jsx", "../**/*.d.ts"]
+  "include": ["**/*.ts", "**/*.js", "../cypress.config.ts", "../**/*.cy.ts", "../**/*.cy.tsx", "../**/*.cy.js", "../**/*.cy.jsx", "../**/*.d.ts", "e2e/(main)/stories.cy.tsx.disabled", "e2e/(auth)/verify-otp-uncovered.cy.tsx.disabled", "e2e/(auth)/verify-otp-resend.cy.tsx.disabled", "e2e/(auth)/verify-otp-navigation.cy.tsx.disabled", "e2e/(auth)/verify-otp-basic.cy.tsx.disabled", "e2e/(auth)/verify-otp-api.cy.tsx.disabled", "e2e/(auth)/signup-uncovered.cy.tsx.disabled", "e2e/(auth)/signup-page-validation.cy.tsx.disabled", "e2e/(auth)/signup-page-basic.cy.tsx.disabled", "e2e/(auth)/reset-password-page-validation.cy.tsx.disabled", "e2e/(auth)/reset-password-page-basic.cy.tsx.disabled", "e2e/(auth)/reset-password-page-api.cy.tsx.disabled", "e2e/(auth)/reset-password-line92.cy.tsx.disabled", "e2e/(auth)/login-page-basic.cy.tsx.bak", "e2e/(auth)/forgot-password.cy.tsx.bak", "e2e/(auth)/forgot-password-api.cy.tsx.bak"]
 }
