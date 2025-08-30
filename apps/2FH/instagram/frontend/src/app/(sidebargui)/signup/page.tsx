@@ -38,10 +38,13 @@ const SignupPage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<SignupFormData>({ email: '', password: '', fullName: '', userName: '', gender: '' });
   const [error, setError] = useState<AuthError | null>(null);
-
   const [createUser, { loading }] = useMutation(CREATE_USER, {
-    onCompleted: () => {
-      router.push('/login?message=Account created successfully! Please sign in.');
+    onCompleted: (_data) => {
+      if (formData.email) {
+        router.push(`/verify-otp?email=${encodeURIComponent(formData.email)}`);
+      } else {
+        router.push('/login?message=Account created successfully! Please sign in.');
+      }
     },
     onError: (apolloError) => {
       setError({
@@ -55,30 +58,25 @@ const SignupPage = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
     if (error) setError(null);
   };
-
   const handleGenderChange = (value: string) => {
     setFormData(prev => ({ ...prev, gender: value }));
     if (error) setError(null);
   };
   // eslint-disable-next-line complexity
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    e.preventDefault();    
     const validationError = validateForm(formData);
     if (validationError) {
       setError(validationError);
       return;
     }
-
     await createUser({
       variables: { input: formData },
     });
   };
 
   const isUsernameError = error?.code === 'USERNAME_EXISTS';
-
   const inputClassName = "w-full rounded-sm border border-gray-300 bg-gray-50 py-2 px-2 text-sm text-gray-900 placeholder:text-gray-500 focus:border-gray-400 focus:bg-white focus:outline-none";
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -91,7 +89,6 @@ const SignupPage = () => {
               height={48}
               className="h-12 w-auto"
               style={{ filter: 'brightness(0)' }}
-              priority
             />
           </div>
           <div className="text-center mb-6 text-gray-600 text-base font-medium">

@@ -1,3 +1,4 @@
+//stories/page.tsx
 'use client';
 import { avatar, avatar2, avatar3, avatar4, avatar5, storyImage, storyImage2, storyImage3, storyImage5, storyImage6, storyImage7 } from '@/components/stories/story-images';
 import { useRouter } from 'next/navigation';
@@ -105,6 +106,7 @@ const Stories = () => {
     <div className="w-full h-screen bg-[#18181b] flex flex-col items-center ">
       <div className="w-full flex justify-between items-center p-4 text-white">
         <p className="text-white text-lg">Instagram</p>
+
         <button onClick={() => router.push('/')}>X</button>
       </div>
       <div className="flex-1 flex items-center justify-center gap-6 mt-6">

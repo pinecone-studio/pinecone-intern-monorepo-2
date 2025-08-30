@@ -1,0 +1,28 @@
+query GetUserByUsername($userName: String!) {
+  getUserByUsername(userName: $userName) {
+    _id
+    userName
+    profileImage
+    fullName
+    bio
+    isVerified
+    isPrivate
+    email
+    followers {
+      _id
+      userName
+      profileImage
+      fullName
+      bio
+      email
+    }
+    followings {
+      _id
+      userName
+      profileImage
+      fullName
+      bio
+      email
+    }
+  }
+}

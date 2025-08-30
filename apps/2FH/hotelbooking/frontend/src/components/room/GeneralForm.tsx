@@ -1,6 +1,6 @@
 'use client';
 
-import { NameField, TypeField, PriceField, RoomInformationField } from './GeneralFormFields';
+import { NameField, TypeField, PriceField, RoomInformationField, BedNumberField } from './GeneralFormFields';
 
 interface GeneralFormProps {
   formData: FormData;
@@ -13,6 +13,7 @@ interface FormData {
   type: string[];
   pricePerNight: string;
   roomInformation: string[];
+  bedNumber: number;
 }
 
 export const GeneralForm = (props: GeneralFormProps) => (
@@ -20,6 +21,7 @@ export const GeneralForm = (props: GeneralFormProps) => (
     <NameField {...props} />
     <TypeField {...props} />
     <PriceField {...props} />
+    <BedNumberField {...props} />
     <RoomInformationField {...props} />
   </div>
 );
