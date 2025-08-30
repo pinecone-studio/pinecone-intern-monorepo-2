@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { PriceDetail } from './PriceDetail';
 export const RoomInformation = () => {
   return (
-    <div className="w-full flex flex-col gap-3">
+    <div data-testid="Room-Information-Container" className="w-full flex flex-col gap-3">
       <div className="relative w-full h-[200px]">
         <Image src="/images/Hotel-Image.png" fill alt="Picture of the author" className="rounded-xl" />
       </div>

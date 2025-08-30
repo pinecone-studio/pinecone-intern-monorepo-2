@@ -1,5 +1,4 @@
 import { BookingPayment } from '@/components/payment/_components/BookingPayment';
-import { BookingSuccess } from '@/components/payment/_components/BookingSuccess';
 import { RoomInformation } from '@/components/payment/_components/RoomInformation';
 
 const Booking = () => {

@@ -8,9 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from 'sonner';
-import { useState } from 'react';
 import { useOtpContext } from '@/components/providers';
-import { BookingSuccess } from './BookingSuccess';
+import { useRouter } from 'next/navigation';
+
 const mockUserId = '68b017713bb2696705c69369';
 const mockHotelId = '689d5d72980117e81dad2925';
 const mockRoomId = '68b0f2b7c3c8ff1e6241a4d3';
@@ -35,13 +35,14 @@ export const BookingPayment = () => {
       firstname: '',
     },
   });
+  const router = useRouter();
   const { setBookingSuccess } = useOtpContext();
   const [createBooking, { loading }] = useCreateBookingMutation();
   const [updateUser] = useUpdateUserMutationMutation();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      createBooking({
+      await createBooking({
         variables: {
           input: {
             userId: mockUserId,
@@ -53,7 +54,7 @@ export const BookingPayment = () => {
         },
       });
 
-      updateUser({
+      await updateUser({
         variables: {
           input: {
             _id: mockUserId,
@@ -63,8 +64,9 @@ export const BookingPayment = () => {
           },
         },
       });
-      setBookingSuccess(true);
-      await toast.success('Booking success');
+      await setBookingSuccess(true);
+      toast.success('Booking success');
+      router.push(`/booking/${1}/confirmed`);
     } catch (error) {
       toast.error('Booking error');
     }
@@ -128,7 +130,7 @@ export const BookingPayment = () => {
           </div>
 
           <div className="w-full flex justify-end">
-            <Button type="submit" className="bg-[#2563EB] hover:bg-[#2564ebd9]">
+            <Button data-testid="Complete-Booking-Btn" type="submit" className="bg-[#2563EB] hover:bg-[#2564ebd9]">
               {loading ? <LoadingSvg /> : 'Complete booking'}
             </Button>
           </div>
