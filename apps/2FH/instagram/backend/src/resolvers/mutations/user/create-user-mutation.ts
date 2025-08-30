@@ -1,8 +1,9 @@
 //create-user-mutation.ts
 import { User } from "src/models";
 import { CreateUserInput } from "src/generated";
-import { encryptHash } from "src/utils";
+import { encryptHash, generateOTP, sendVerificationEmail } from "src/utils";
 import { GraphQLError } from "graphql";
+import { otpStorage } from "./forgot-password-mutation";
 
 const buildUserSearchQuery = (input: CreateUserInput) => ({
   $or: [
@@ -12,7 +13,7 @@ const buildUserSearchQuery = (input: CreateUserInput) => ({
   ]
 });
 
-type ExistingUser ={
+type ExistingUser = {
   userName: string;
   email?: string;
   phoneNumber?: string;
@@ -74,8 +75,48 @@ const createUserObject = (input: CreateUserInput) => {
     posts: [],
     stories: [],
     followers: [],
-    followings: []
+    followings: [],
+    isVerified: false // User starts unverified
   });
+};
+
+const storeVerificationOTP = (email: string, otp: string) => {
+  const OTP_TTL_MS = 10 * 60 * 1000; // 10 minutes
+  const key = `verification_${email.toLowerCase().trim()}`;
+  const expiresAt = Date.now() + OTP_TTL_MS;
+  otpStorage.set(key, { otp, expiresAt });
+  
+  setTimeout(() => {
+    const current = otpStorage.get(key);
+    if (current && current.expiresAt === expiresAt) {
+      otpStorage.delete(key);
+    }
+  }, OTP_TTL_MS);
+};
+
+const handleVerificationEmail = async (email: string) => {
+  try {
+    const otp = generateOTP();
+    storeVerificationOTP(email, otp);
+    await sendVerificationEmail(email, otp);
+  } catch (emailError) {
+    console.error('Failed to send verification email:', emailError);
+    // Don't fail user creation if email sending fails
+  }
+};
+
+const processUserCreation = async (input: CreateUserInput) => {
+  await checkExistingUser(input);
+  validateContactInfo(input);
+  
+  const newUser = createUserObject(input);
+  await newUser.save();
+  
+  if (input.email) {
+    await handleVerificationEmail(input.email);
+  }
+  
+  return newUser.toObject();
 };
 
 export const createUser = async (
@@ -83,13 +124,7 @@ export const createUser = async (
   { input }: { input: CreateUserInput }
 ) => {
   try {
-    await checkExistingUser(input);
-    validateContactInfo(input);
-    
-    const newUser = createUserObject(input);
-    await newUser.save();
-    
-    return newUser.toObject();
+    return await processUserCreation(input);
   } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
