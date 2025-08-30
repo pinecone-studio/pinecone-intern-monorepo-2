@@ -19,5 +19,6 @@ declare namespace Cypress {
 
   interface Chainable<Subject> {
     interceptGraphql(props: InterceptGraphqlType): void;
+    mockGraphQL(): void;
   }
 }

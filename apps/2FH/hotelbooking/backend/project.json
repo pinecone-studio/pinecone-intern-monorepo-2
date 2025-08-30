@@ -39,7 +39,13 @@
           "buildTarget": "hotelbooking-2fh-backend:build:production",
           "dev": false
         }
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "codegen",
+          "params": "forward"
+        }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -90,7 +96,12 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": ["graphql-codegen --config ./apps/2FH/hotelbooking/backend/codegen.ts"]
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "get-secrets:dev"
+        }
+      ]
     },
     "export": {
       "executor": "@nx/next:export",
