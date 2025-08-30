@@ -3,32 +3,13 @@ import { BoardSvg } from '@/components/assets/BoardSvg';
 import { formatNumber } from '@/components/userProfile/format-number';
 import { Posts } from '@/components/userProfile/Post';
 import Image from 'next/image';
-import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'next/navigation';
 import { demoImage } from '@/components/userProfile/mock-images';
 import { BadgeCheck, Lock } from 'lucide-react';
 import { FollowButton } from '@/components/userProfile/FollowButton';
 import { Followers } from '@/components/userProfile/Followers';
-const GET_USER_BY_USERNAME = gql`
-  query GetUserByUsername($userName: String!) {
-    getUserByUsername(userName: $userName) {
-      _id
-      userName
-      fullName
-      bio
-      isVerified
-      isPrivate
-      email
-      profileImage
-      followers {
-        userName
-      }
-      followings {
-        userName
-      }
-    }
-  }
-`;
+import { useGetUserByUsernameQuery } from '@/generated';
+
 const getCurrentUser = () => {
   const user = localStorage.getItem('user');
   return user ? JSON.parse(user) : null;
@@ -37,13 +18,15 @@ interface User {
   followers: Array<{ userName: string }>;
 }
 interface CurrentUser {
+  _id: string;
   userName: string;
 }
-const checkIfFollowing = (user: User, currentUser: CurrentUser) => {
+const checkIfFollowing = (user: User, currentUser: CurrentUser | null) => {
+  if (!currentUser) return false;
   return user.followers.some((follower: { userName: string }) => follower.userName === currentUser.userName);
 };
 const useUserData = (userName: string) => {
-  const { data, loading, error } = useQuery(GET_USER_BY_USERNAME, {
+  const { data, loading, error } = useGetUserByUsernameQuery({
     variables: { userName },
   });
 
@@ -127,7 +110,7 @@ const OtherUser = () => {
         </div>
         <h2 className="text-lg font-semibold text-neutral-900">This account is private</h2>
         <p className="text-sm text-neutral-500 mb-4">Follow to see their photos and videos</p>
-        <FollowButton targetUserId={user._id} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={user.isPrivate} />
+        {/* <FollowButton targetUserId={user._id} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={user.isPrivate} /> */}
       </div>
     );
   };
