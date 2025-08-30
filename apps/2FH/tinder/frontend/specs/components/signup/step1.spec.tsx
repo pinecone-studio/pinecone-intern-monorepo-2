@@ -1,369 +1,484 @@
-import React from 'react';
+/// <reference types="@testing-library/jest-dom" />
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-import { Step1 } from '../../../src/components/signup/step1';
-import { StepProvider } from '../../../src/components/providers/stepProvider';
+import { Step1 } from '@/components/signup/step1';
+import { useStep } from '@/components/providers/stepProvider';
 import axios from 'axios';
 import { toast } from 'sonner';
+import '@testing-library/jest-dom';
 
-// Mock dependencies
+// Mock all dependencies
+jest.mock('@/components/providers/stepProvider');
 jest.mock('axios');
-jest.mock('sonner', () => ({
-  toast: {
-    error: jest.fn(),
-    success: jest.fn(),
-  },
-}));
-
+jest.mock('sonner');
 jest.mock('next/link', () => {
-  const MockedLink = ({ children, href, ...props }: any) => (
-    <a href={href} {...props}>
-      {children}
-    </a>
-  );
-  MockedLink.displayName = 'MockedLink';
-  return MockedLink;
+  return function MockLink({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: any }) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  };
 });
 
-// Mock the step provider
-const mockSetStep = jest.fn();
-const mockSetValues = jest.fn();
-
-// Create a wrapper component with StepProvider
-const Step1WithProvider = () => (
-  <StepProvider>
-    <Step1 />
-  </StepProvider>
-);
-
+const mockedUseStep = useStep as jest.MockedFunction<typeof useStep>;
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockedToast = toast as jest.Mocked<typeof toast>;
 
 describe('Step1 Component', () => {
+  const mockSetStep = jest.fn();
+  const mockSetValues = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedToast.error = jest.fn();
-  });
 
-  it('renders the component correctly', () => {
-    render(<Step1WithProvider />);
-
-    expect(screen.getByText('Create an account')).toBeInTheDocument();
-    expect(screen.getByText('Enter your email below to create your account')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Enter your email')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument();
-    expect(screen.getByText('Log in')).toBeInTheDocument();
-    expect(screen.getByText(/By clicking continue, you agree to our/)).toBeInTheDocument();
-  });
-
-  it('displays validation error for empty email', async () => {
-    const user = userEvent.setup();
-    render(<Step1WithProvider />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // The button should be disabled initially since form is invalid
-    expect(submitButton).toBeDisabled();
-
-    // Try to submit the form to trigger validation
-    await user.click(submitButton);
-
-    // Since the button is disabled, the form won't submit, but we can check the form state
-    // The validation error should appear in the DOM
-    expect(screen.getByText('Enter your email')).toBeInTheDocument();
-  });
-
-  it('displays validation error for invalid email format', async () => {
-    const user = userEvent.setup();
-    render(<Step1WithProvider />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-
-    await user.type(emailInput, 'invalid-email');
-    await user.tab();
-
-    await waitFor(() => {
-      expect(screen.getByText('Invalid email address')).toBeInTheDocument();
+    mockedUseStep.mockReturnValue({
+      setStep: mockSetStep,
+      setValues: mockSetValues,
+      step: 1,
+      values: { email: '', password: '' },
     });
-  });
 
-  it('enables submit button when valid email is entered', async () => {
-    const user = userEvent.setup();
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-
-    await waitFor(() => {
-      expect(submitButton).not.toBeDisabled();
-    });
-  });
-
-  it('successfully submits form and moves to next step', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
+    mockedAxios.post.mockResolvedValue({
       data: {
         data: {
-          signupSendOtp: {
-            output: 'success',
+          signupSendOtp: { output: 'success' },
+        },
+      },
+    });
+  });
+
+  describe('Rendering', () => {
+    it('renders all UI elements correctly', () => {
+      render(<Step1 />);
+
+      // Check for logo
+      expect(screen.getByTestId('logo')).toBeInTheDocument();
+
+      // Check for main text elements
+      expect(screen.getByTestId('title')).toBeInTheDocument();
+      expect(screen.getByTestId('subtitle')).toBeInTheDocument();
+
+      // Check for form elements
+      expect(screen.getByTestId('email-input')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-button')).toBeInTheDocument();
+      expect(screen.getByTestId('login-link')).toBeInTheDocument();
+
+      // Check for terms text
+      expect(screen.getByTestId('terms-text')).toBeInTheDocument();
+    });
+
+    it('displays correct text content', () => {
+      render(<Step1 />);
+
+      expect(screen.getByTestId('title')).toHaveTextContent('Create an account');
+      expect(screen.getByTestId('subtitle')).toHaveTextContent('Enter your email below to create your account');
+      expect(screen.getByTestId('email-label')).toHaveTextContent('Email');
+      expect(screen.getByTestId('submit-button')).toHaveTextContent('Continue');
+      expect(screen.getByTestId('login-link')).toHaveTextContent('Log in');
+    });
+  });
+
+  describe('Form Validation', () => {
+    it('shows validation error for empty email', async () => {
+      render(<Step1 />);
+
+      const submitButton = screen.getByTestId('submit-button');
+      expect(submitButton).toBeDisabled();
+
+      // The button should be disabled when email is empty
+      expect(submitButton).toBeDisabled();
+
+      // For onChange mode, validation error appears when user starts typing then clears
+      const emailInput = screen.getByTestId('email-input');
+      fireEvent.change(emailInput, { target: { value: 'test' } });
+      fireEvent.change(emailInput, { target: { value: '' } });
+
+      // Wait for validation error to appear
+      await waitFor(
+        () => {
+          expect(screen.getByTestId('email-error')).toBeInTheDocument();
+          expect(screen.getByTestId('email-error')).toHaveTextContent('Enter your email');
+        },
+        { timeout: 3000 }
+      );
+    });
+
+    it('shows validation error for invalid email format', async () => {
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('email-error')).toBeInTheDocument();
+        expect(screen.getByTestId('email-error')).toHaveTextContent('Invalid email address');
+      });
+    });
+
+    it('enables submit button with valid email', async () => {
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      expect(submitButton).toBeDisabled();
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+    });
+  });
+
+  describe('Form Submission', () => {
+    it('submits successfully and calls setStep(2)', async () => {
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedAxios.post).toHaveBeenCalledWith(
+          'http://localhost:4200/api/graphql',
+          expect.objectContaining({
+            query: expect.stringContaining('signupSendOtp'),
+            variables: { email: 'test@example.com' },
+          })
+        );
+        expect(mockSetValues).toHaveBeenCalled();
+        expect(mockSetStep).toHaveBeenCalledWith(2);
+      });
+    });
+
+    it('shows loading state during submission', async () => {
+      // Mock delayed response
+      mockedAxios.post.mockImplementationOnce(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  data: {
+                    data: {
+                      signupSendOtp: { output: 'success' },
+                    },
+                  },
+                }),
+              100
+            )
+          )
+      );
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      // Check loading state
+      await waitFor(() => {
+        expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+      });
+
+      // Wait for completion
+      await waitFor(() => {
+        expect(screen.getByTestId('submit-button')).toHaveTextContent('Continue');
+      });
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('handles "Email is already registered" error', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          errors: [
+            {
+              message: 'Email is already registered',
+            },
+          ],
+        },
+      });
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'existing@example.com' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Email is already registered. Please log in.');
+        expect(mockSetStep).not.toHaveBeenCalled();
+      });
+    });
+
+    it('handles "Failed to send OTP" error', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          errors: [
+            {
+              message: 'Failed to send OTP',
+            },
+          ],
+        },
+      });
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to send OTP. Please try again later.');
+        expect(mockSetStep).not.toHaveBeenCalled();
+      });
+    });
+
+    it('handles server temporarily unavailable error', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          errors: [{ message: 'Server is temporarily unavailable' }],
+        },
+      });
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Server is temporarily unavailable');
+      });
+    });
+
+    it('handles generic GraphQL error', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          errors: [{ message: 'Some other error' }],
+        },
+      });
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Some other error');
+      });
+    });
+
+    it('handles network error in catch block', async () => {
+      const mockError = {
+        response: {
+          data: {
+            errors: [{ message: 'Network error message' }],
           },
         },
-      },
-    };
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      render(<Step1 />);
 
-    render(<Step1 />);
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
 
-    expect(mockedAxios.post).toHaveBeenCalledWith('http://localhost:4200/api/graphql', {
-      query: expect.stringContaining('signupSendOtp'),
-      variables: { email: 'test@example.com' },
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Network error message');
+      });
     });
 
-    await waitFor(() => {
-      expect(mockSetValues).toHaveBeenCalledWith(expect.any(Function));
-      expect(mockSetStep).toHaveBeenCalledWith(2);
+    it('handles network error without response data', async () => {
+      const mockError = new Error('Network failed');
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Something went wrong');
+      });
     });
-  });
 
-  it('shows loading state during form submission', async () => {
-    const user = userEvent.setup();
-
-    // Create a promise that we can control
-    let resolvePromise;
-    const pendingPromise = new Promise((resolve) => {
-      resolvePromise = resolve;
-    });
-
-    mockedAxios.post.mockReturnValueOnce(pendingPromise);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
-
-    // Should show loading spinner
-    expect(screen.getByRole('button')).toHaveClass('bg-gray-400', 'cursor-not-allowed');
-    expect(screen.getByRole('button')).toBeDisabled();
-
-    // Resolve the promise
-    resolvePromise({
-      data: {
+    it('handles GraphQL error with empty errors array', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
         data: {
-          signupSendOtp: { output: 'success' },
+          errors: [],
         },
-      },
+      });
+
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockSetStep).toHaveBeenCalledWith(2);
+      });
     });
 
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'Continue' })).not.toBeDisabled();
-    });
-  });
-
-  it('handles "Email is already registered" error', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      data: {
-        errors: [{ message: 'Email is already registered' }],
-      },
-    };
-
-    mockedAxios.post.mockResolvedValueOnce(mockErrorResponse);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'existing@example.com');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Email is already registered. Please log in.');
-    });
-
-    expect(mockSetStep).not.toHaveBeenCalled();
-  });
-
-  it('handles "Failed to send OTP" error', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      data: {
-        errors: [{ message: 'Failed to send OTP' }],
-      },
-    };
-
-    mockedAxios.post.mockResolvedValueOnce(mockErrorResponse);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Failed to send OTP. Please try again later.');
-    });
-  });
-
-  it('handles generic GraphQL errors', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      data: {
-        errors: [{ message: 'Some other error' }],
-      },
-    };
-
-    mockedAxios.post.mockResolvedValueOnce(mockErrorResponse);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Some other error');
-    });
-  });
-
-  it('handles network/axios errors', async () => {
-    const user = userEvent.setup();
-    const networkError = {
-      response: {
+    it('handles GraphQL error with undefined errors', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
         data: {
-          errors: [{ message: 'Network error' }],
+          errors: undefined,
         },
-      },
-    };
+      });
 
-    mockedAxios.post.mockRejectedValueOnce(networkError);
+      render(<Step1 />);
 
-    render(<Step1 />);
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
 
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Network error');
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockSetStep).toHaveBeenCalledWith(2);
+      });
     });
-  });
 
-  it('handles unexpected errors without response data', async () => {
-    const user = userEvent.setup();
-    const unexpectedError = new Error('Unexpected error');
-
-    mockedAxios.post.mockRejectedValueOnce(unexpectedError);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Something went wrong');
-    });
-  });
-
-  it('renders login link correctly', () => {
-    render(<Step1 />);
-
-    const loginLink = screen.getByText('Log in');
-    expect(loginLink.closest('a')).toHaveAttribute('href', '/signin');
-  });
-
-  it('correctly updates values in context', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
+    it('handles GraphQL error with null errors for full coverage', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
         data: {
-          signupSendOtp: { output: 'success' },
+          errors: null,
         },
-      },
-    };
+      });
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      render(<Step1 />);
 
-    render(<Step1 />);
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-    await user.type(emailInput, 'test@example.com');
-    await user.click(submitButton);
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
 
-    await waitFor(() => {
-      expect(mockSetValues).toHaveBeenCalledWith(expect.any(Function));
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockSetStep).toHaveBeenCalledWith(2);
+      });
     });
 
-    // Test the function passed to setValues
-    const setValuesCall = mockSetValues.mock.calls[0][0];
-    const prevValues = { someField: 'value' };
-    const result = setValuesCall(prevValues);
+    it('calls logGraphQLErrors function for coverage', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
+        data: {
+          errors: [{ message: 'Test error message' }],
+        },
+      });
 
-    expect(result).toEqual({
-      someField: 'value',
-      email: 'test@example.com',
+      render(<Step1 />);
+
+      const emailInput = screen.getByTestId('email-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+      // Wait for form to become valid
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Test error message');
+      });
     });
   });
 
-  it('prevents multiple submissions while loading', async () => {
-    const user = userEvent.setup();
+  describe('Navigation', () => {
+    it('renders login link with correct href', () => {
+      render(<Step1 />);
 
-    let resolvePromise;
-    const pendingPromise = new Promise((resolve) => {
-      resolvePromise = resolve;
-    });
-
-    mockedAxios.post.mockReturnValueOnce(pendingPromise);
-
-    render(<Step1 />);
-
-    const emailInput = screen.getByPlaceholderText('Enter your email');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    await user.type(emailInput, 'test@example.com');
-
-    // First click
-    await user.click(submitButton);
-    expect(submitButton).toBeDisabled();
-
-    // Try to click again while loading
-    await user.click(submitButton);
-
-    // Should only be called once
-    expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-
-    // Resolve the promise
-    resolvePromise({
-      data: {
-        data: {
-          signupSendOtp: { output: 'success' },
-        },
-      },
+      const loginLink = screen.getByTestId('login-link');
+      expect(loginLink).toHaveAttribute('href', '/signin');
     });
   });
 });

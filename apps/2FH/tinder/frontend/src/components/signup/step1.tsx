@@ -42,7 +42,7 @@ export const Step1 = () => {
         variables: { email: data.email },
       });
       const graphqlErrors = response.data?.errors;
-      console.log('Graphql Errors:', response.data?.errors?.[0]?.message);
+      logGraphQLErrors(graphqlErrors);
       if (graphqlErrors && graphqlErrors.length > 0) {
         const message = graphqlErrors[0]?.message || 'Something went wrong';
 
@@ -67,42 +67,61 @@ export const Step1 = () => {
     }
   };
 
+  const logGraphQLErrors = (errors: any) => {
+    console.log('Graphql Errors:', errors?.[0]?.message);
+  };
+
   return (
-    <div className="w-[350px] h-[414px] flex flex-col gap-6 items-center">
+    <div className="w-[350px] h-[414px] flex flex-col gap-6 items-center" data-testid="step1-container">
       <div className="flex flex-col items-center">
-        <img src="/images/logo.png" alt="logo" className="w-[100px]" />
-        <div className="text-[24px] font-semibold">Create an account</div>
-        <div className="text-[14px] text-center text-[#71717a]">Enter your email below to create your account</div>
+        <img src="/images/logo.png" alt="logo" className="w-[100px]" data-testid="logo" />
+        <div className="text-[24px] font-semibold" data-testid="title">
+          Create an account
+        </div>
+        <div className="text-[14px] text-center text-[#71717a]" data-testid="subtitle">
+          Enter your email below to create your account
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4" data-testid="signup-form">
         <div className="flex flex-col gap-2 w-full">
-          <div className="text-[14px]">Email</div>
-          <input type="email" {...register('email')} placeholder="Enter your email" className="border-[1px] border-[#E4E4E7] h-9 w-full rounded-[6px] pl-4" />
-          {errors.email && <p className="text-red-500 text-[12px]">{errors.email.message}</p>}
+          <div className="text-[14px]" data-testid="email-label">
+            Email
+          </div>
+          <input type="email" {...register('email')} placeholder="Enter your email" className="border-[1px] border-[#E4E4E7] h-9 w-full rounded-[6px] pl-4" data-testid="email-input" />
+          {errors.email && (
+            <p className="text-red-500 text-[12px]" data-testid="email-error">
+              {errors.email.message}
+            </p>
+          )}
           <button
             type="submit"
             disabled={loading || !isValid}
             className={`w-full h-9 rounded-full text-white flex items-center justify-center hover:opacity-100 duration-200
               ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#E11D48] opacity-90'}
             `}
+            data-testid="submit-button"
           >
-            {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : 'Continue'}
+            {loading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" data-testid="loading-spinner"></div> : 'Continue'}
           </button>
         </div>
 
-        <div className="flex w-full h-9 items-center">
+        <div className="flex w-full h-9 items-center" data-testid="divider">
           <div className="flex-1 h-[1px] bg-[#e4e4e7]"></div>
-          <div className="flex items-center justify-center w-9 h-full font-light text-[#71717a]">OR</div>
+          <div className="flex items-center justify-center w-9 h-full font-light text-[#71717a]" data-testid="or-text">
+            OR
+          </div>
           <div className="flex-1 h-[1px] bg-[#e4e4e7]"></div>
         </div>
 
-        <Link href="/signin" className="w-full flex items-center justify-center h-9 rounded-full border-[1px] border-[#e4e4e7]">
+        <Link href="/signin" className="w-full flex items-center justify-center h-9 rounded-full border-[1px] border-[#e4e4e7]" data-testid="login-link">
           Log in
         </Link>
       </form>
 
-      <div className="w-[249px] text-[14px] text-[#71717a] text-center">By clicking continue, you agree to our Terms of Service and Privacy Policy.</div>
+      <div className="w-[249px] text-[14px] text-[#71717a] text-center" data-testid="terms-text">
+        By clicking continue, you agree to our Terms of Service and Privacy Policy.
+      </div>
     </div>
   );
 };

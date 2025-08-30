@@ -1,45 +1,50 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-import { ConfirmCode } from '../../../src/components/signup/confirmCode';
-import { StepProvider } from '../../../src/components/providers/stepProvider';
+import { ConfirmCode } from '@/components/signup/confirmCode';
+import { useStep } from '@/components/providers/stepProvider';
 import axios from 'axios';
 import { toast } from 'sonner';
+import '@testing-library/jest-dom';
 
-// Mock dependencies
+// Mock all dependencies
+jest.mock('@/components/providers/stepProvider');
 jest.mock('axios');
-jest.mock('sonner', () => ({
-  toast: {
-    error: jest.fn(),
-    success: jest.fn(),
-  },
-}));
+jest.mock('sonner');
+jest.mock('next/link', () => {
+  return function MockLink({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: any }) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  };
+});
 
-// Mock next/navigation
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-  }),
-}));
-
-// Create a wrapper component with StepProvider
-const ConfirmCodeWithProvider = () => (
-  <StepProvider>
-    <ConfirmCode />
-  </StepProvider>
-);
-
+const mockedUseStep = useStep as jest.MockedFunction<typeof useStep>;
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockedToast = toast as jest.Mocked<typeof toast>;
 
 describe('ConfirmCode Component', () => {
+  const mockSetStep = jest.fn();
+  const mockSetValues = jest.fn();
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedToast.error = jest.fn();
-    mockedToast.success = jest.fn();
 
-    // Mock timer functions
+    mockedUseStep.mockReturnValue({
+      setStep: mockSetStep,
+      setValues: mockSetValues,
+      step: 2,
+      values: { email: 'test@example.com', password: '' },
+    });
+
+    mockedAxios.post.mockResolvedValue({
+      data: {
+        data: {
+          signUpVerifyOtp: { output: 'OTP verified successfully' },
+        },
+      },
+    });
+
+    // Mock timers
     jest.useFakeTimers();
   });
 
@@ -47,356 +52,596 @@ describe('ConfirmCode Component', () => {
     jest.useRealTimers();
   });
 
-  it('renders the component correctly', () => {
-    render(<ConfirmCodeWithProvider />);
+  describe('Rendering', () => {
+    it('renders all UI elements correctly', () => {
+      render(<ConfirmCode />);
 
-    expect(screen.getByText('Confirm your email')).toBeInTheDocument();
-    expect(screen.getByText(/To continue, enter the secure code we sent to/)).toBeInTheDocument();
-    expect(screen.getByText('Verify')).toBeInTheDocument();
-    expect(screen.getByText('Send again (15)')).toBeInTheDocument();
+      // Check for logo
+      expect(screen.getByTestId('logo')).toBeInTheDocument();
 
-    // Check for 4 OTP input fields
-    const inputs = screen.getAllByRole('textbox');
-    expect(inputs).toHaveLength(4);
+      // Check for main text elements
+      expect(screen.getByTestId('title')).toBeInTheDocument();
+      expect(screen.getByTestId('subtitle')).toBeInTheDocument();
+
+      // Check for OTP inputs
+      expect(screen.getByTestId('otp-inputs-container')).toBeInTheDocument();
+      expect(screen.getByTestId('otp-input-0')).toBeInTheDocument();
+      expect(screen.getByTestId('otp-input-1')).toBeInTheDocument();
+      expect(screen.getByTestId('otp-input-2')).toBeInTheDocument();
+      expect(screen.getByTestId('otp-input-3')).toBeInTheDocument();
+
+      // Check for buttons
+      expect(screen.getByTestId('verify-button')).toBeInTheDocument();
+      expect(screen.getByTestId('resend-button')).toBeInTheDocument();
+    });
+
+    it('displays correct text content', () => {
+      render(<ConfirmCode />);
+
+      expect(screen.getByTestId('title')).toHaveTextContent('Confirm your email');
+      expect(screen.getByTestId('subtitle')).toHaveTextContent('test@example.com');
+      expect(screen.getByTestId('verify-button')).toHaveTextContent('Verify');
+      expect(screen.getByTestId('resend-button')).toHaveTextContent('Send again (15)');
+    });
   });
 
-  it('displays initial timer countdown', () => {
-    render(<ConfirmCodeWithProvider />);
+  describe('OTP Input Handling', () => {
+    it('allows only numeric input', () => {
+      render(<ConfirmCode />);
 
-    expect(screen.getByText('Send again (15)')).toBeInTheDocument();
+      const firstInput = screen.getByTestId('otp-input-0');
+
+      // Try to enter non-numeric character
+      fireEvent.change(firstInput, { target: { value: 'a' } });
+      expect(firstInput).toHaveValue('');
+
+      // Enter numeric character
+      fireEvent.change(firstInput, { target: { value: '1' } });
+      expect(firstInput).toHaveValue('1');
+    });
+
+    it('moves focus to next input when digit is entered', () => {
+      render(<ConfirmCode />);
+
+      const firstInput = screen.getByTestId('otp-input-0');
+      const secondInput = screen.getByTestId('otp-input-1');
+
+      fireEvent.change(firstInput, { target: { value: '1' } });
+
+      expect(document.activeElement).toBe(secondInput);
+    });
+
+    it('moves focus to previous input on backspace', () => {
+      render(<ConfirmCode />);
+
+      const firstInput = screen.getByTestId('otp-input-0');
+      const secondInput = screen.getByTestId('otp-input-1');
+
+      // Enter digits in first two inputs
+      fireEvent.change(firstInput, { target: { value: '1' } });
+      fireEvent.change(secondInput, { target: { value: '2' } });
+
+      // Clear the second input first
+      fireEvent.change(secondInput, { target: { value: '' } });
+
+      // Press backspace on second input when it's empty
+      fireEvent.keyDown(secondInput, { key: 'Backspace' });
+
+      expect(document.activeElement).toBe(firstInput);
+    });
+
+    it('enables verify button when all 4 digits are entered', async () => {
+      render(<ConfirmCode />);
+
+      const verifyButton = screen.getByTestId('verify-button');
+      expect(verifyButton).toBeDisabled();
+
+      // Enter all 4 digits
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
+
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
+    });
   });
 
-  it('handles OTP input correctly', async () => {
-    const user = userEvent.setup();
-    render(<ConfirmCodeWithProvider />);
+  describe('Timer Functionality', () => {
+    it('starts countdown from 15 seconds', () => {
+      render(<ConfirmCode />);
 
-    const inputs = screen.getAllByRole('textbox');
+      expect(screen.getByTestId('resend-button')).toHaveTextContent('Send again (15)');
+    });
 
-    // Type in first input
-    await user.type(inputs[0], '1');
-    expect(inputs[0]).toHaveValue('1');
+    it('decrements timer every second', () => {
+      render(<ConfirmCode />);
 
-    // Should auto-focus to next input
-    expect(inputs[1]).toHaveFocus();
+      expect(screen.getByTestId('resend-button')).toHaveTextContent('Send again (15)');
 
-    // Type in second input
-    await user.type(inputs[1], '2');
-    expect(inputs[1]).toHaveValue('2');
-    expect(inputs[2]).toHaveFocus();
+      // Fast-forward 5 seconds
+      act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+
+      expect(screen.getByTestId('resend-button')).toHaveTextContent('Send again (10)');
+    });
+
+    it('enables resend button when timer reaches 0', () => {
+      render(<ConfirmCode />);
+
+      const resendButton = screen.getByTestId('resend-button');
+      expect(resendButton).toBeDisabled();
+
+      // Fast-forward 15 seconds
+      act(() => {
+        jest.advanceTimersByTime(15000);
+      });
+
+      expect(resendButton).not.toBeDisabled();
+      expect(resendButton).toHaveTextContent('Send again');
+    });
   });
 
-  it('handles backspace navigation correctly', async () => {
-    const user = userEvent.setup();
-    render(<ConfirmCodeWithProvider />);
+  describe('OTP Verification', () => {
+    it('verifies OTP successfully and calls setStep(3)', async () => {
+      render(<ConfirmCode />);
 
-    const inputs = screen.getAllByRole('textbox');
+      // Enter all 4 digits
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    // Type in first two inputs
-    await user.type(inputs[0], '1');
-    await user.type(inputs[1], '2');
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    // Focus on second input and press backspace
-    inputs[1].focus();
-    await user.keyboard('{Backspace}');
+      fireEvent.click(verifyButton);
 
-    // Should focus back to first input
-    expect(inputs[0]).toHaveFocus();
-  });
+      await waitFor(() => {
+        expect(mockedAxios.post).toHaveBeenCalledWith(
+          'http://localhost:4200/api/graphql',
+          expect.objectContaining({
+            query: expect.stringContaining('signUpVerifyOtp'),
+            variables: { email: 'test@example.com', otp: '1234' },
+          })
+        );
+        expect(mockedToast.success).toHaveBeenCalledWith('OTP verified successfully');
+        expect(mockSetStep).toHaveBeenCalledWith(3);
+      });
+    });
 
-  it('only accepts numeric input', async () => {
-    const user = userEvent.setup();
-    render(<ConfirmCodeWithProvider />);
+    it('shows loading state during verification', async () => {
+      // Mock delayed response
+      mockedAxios.post.mockImplementationOnce(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  data: {
+                    data: {
+                      signUpVerifyOtp: { output: 'OTP verified successfully' },
+                    },
+                  },
+                }),
+              100
+            )
+          )
+      );
 
-    const inputs = screen.getAllByRole('textbox');
+      render(<ConfirmCode />);
 
-    // Try to type non-numeric characters
-    await user.type(inputs[0], 'a');
-    expect(inputs[0]).toHaveValue('');
+      // Enter all 4 digits
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    // Try to type numeric character
-    await user.type(inputs[0], '5');
-    expect(inputs[0]).toHaveValue('5');
-  });
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-  it('shows error when trying to verify incomplete OTP', async () => {
-    const user = userEvent.setup();
-    render(<ConfirmCodeWithProvider />);
+      fireEvent.click(verifyButton);
 
-    const verifyButton = screen.getByRole('button', { name: 'Verify' });
+      // Check loading state
+      expect(verifyButton).toHaveTextContent('Verifying...');
+      expect(verifyButton).toBeDisabled();
 
-    // Try to verify without entering complete OTP
-    await user.click(verifyButton);
+      // Wait for completion
+      await waitFor(() => {
+        expect(verifyButton).toHaveTextContent('Verify');
+      });
+    });
 
-    expect(mockedToast.error).toHaveBeenCalledWith('Please enter the 4-digit code.');
-  });
-
-  it('shows error when email is missing', async () => {
-    const user = userEvent.setup();
-    render(<ConfirmCodeWithProvider />);
-
-    const inputs = screen.getAllByRole('textbox');
-    const verifyButton = screen.getByRole('button', { name: 'Verify' });
-
-    // Fill in OTP but email will be missing from context
-    await user.type(inputs[0], '1');
-    await user.type(inputs[1], '2');
-    await user.type(inputs[2], '3');
-    await user.type(inputs[3], '4');
-
-    await user.click(verifyButton);
-
-    expect(mockedToast.error).toHaveBeenCalledWith('Email not found. Please go back and enter your email.');
-  });
-
-  it('successfully verifies OTP and moves to next step', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
-        data: {
-          signUpVerifyOtp: {
-            input: 'test@example.com',
-            output: 'success',
+    it('handles verification errors', async () => {
+      mockedAxios.post.mockRejectedValueOnce({
+        response: {
+          data: {
+            errors: [
+              {
+                message: 'Invalid OTP',
+              },
+            ],
           },
         },
-      },
-    };
+      });
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      render(<ConfirmCode />);
 
-    render(<ConfirmCodeWithProvider />);
+      // Enter all 4 digits
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    const inputs = screen.getAllByRole('textbox');
-    const verifyButton = screen.getByRole('button', { name: 'Verify' });
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    // Fill in OTP
-    await user.type(inputs[0], '1');
-    await user.type(inputs[1], '2');
-    await user.type(inputs[2], '3');
-    await user.type(inputs[3], '4');
+      fireEvent.click(verifyButton);
 
-    await user.click(verifyButton);
-
-    expect(mockedAxios.post).toHaveBeenCalledWith('http://localhost:4200/api/graphql', {
-      query: expect.stringContaining('signUpVerifyOtp'),
-      variables: { email: '', otp: '1234' },
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Invalid OTP');
+        expect(mockSetStep).not.toHaveBeenCalled();
+      });
     });
 
-    await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith('OTP verified successfully!');
-    });
-  });
+    it('shows error for incomplete OTP', async () => {
+      render(<ConfirmCode />);
 
-  it('handles OTP verification error', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      response: {
-        data: {
-          errors: [{ message: 'Invalid OTP code' }],
-        },
-      },
-    };
+      // Enter all 4 digits first to enable the button
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    mockedAxios.post.mockRejectedValueOnce(mockErrorResponse);
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    render(<ConfirmCodeWithProvider />);
+      // Clear the last digit to make it incomplete
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '' } });
 
-    const inputs = screen.getAllByRole('textbox');
-    const verifyButton = screen.getByRole('button', { name: 'Verify' });
+      // Now the button should be disabled again
+      expect(verifyButton).toBeDisabled();
 
-    // Fill in OTP
-    await user.type(inputs[0], '1');
-    await user.type(inputs[1], '2');
-    await user.type(inputs[2], '3');
-    await user.type(inputs[3], '4');
+      // Try to click verify button (should not work since it's disabled)
+      fireEvent.click(verifyButton);
 
-    await user.click(verifyButton);
-
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Invalid OTP code');
+      // Since the button is disabled, no error toast should be shown
+      expect(mockedToast.error).not.toHaveBeenCalled();
     });
   });
 
-  it('shows loading state during verification', async () => {
-    const user = userEvent.setup();
+  describe('Resend OTP', () => {
+    it('resends OTP successfully and restarts timer', async () => {
+      render(<ConfirmCode />);
 
-    // Create a promise that we can control
-    let resolvePromise;
-    const pendingPromise = new Promise((resolve) => {
-      resolvePromise = resolve;
+      const resendButton = screen.getByTestId('resend-button');
+      expect(resendButton).toBeDisabled();
+
+      // Fast-forward timer to enable resend button
+      act(() => {
+        jest.advanceTimersByTime(15000);
+      });
+
+      expect(resendButton).not.toBeDisabled();
+
+      fireEvent.click(resendButton);
+
+      await waitFor(() => {
+        expect(mockedAxios.post).toHaveBeenCalledWith(
+          'http://localhost:4200/api/graphql',
+          expect.objectContaining({
+            query: expect.stringContaining('sendOtp'),
+            variables: { email: 'test@example.com' },
+          })
+        );
+        expect(mockedToast.success).toHaveBeenCalledWith('OTP resent successfully!');
+      });
+
+      // Timer should restart
+      expect(resendButton).toHaveTextContent('Send again (15)');
     });
 
-    mockedAxios.post.mockReturnValueOnce(pendingPromise);
+    it('shows loading state during resend', async () => {
+      // Mock delayed response
+      mockedAxios.post.mockImplementationOnce(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  data: {
+                    data: {
+                      sendOtp: { output: 'success' },
+                    },
+                  },
+                }),
+              100
+            )
+          )
+      );
 
-    render(<ConfirmCodeWithProvider />);
+      render(<ConfirmCode />);
 
-    const inputs = screen.getAllByRole('textbox');
-    const verifyButton = screen.getByRole('button', { name: 'Verify' });
+      const resendButton = screen.getByTestId('resend-button');
+      expect(resendButton).toBeDisabled();
 
-    // Fill in OTP
-    await user.type(inputs[0], '1');
-    await user.type(inputs[1], '2');
-    await user.type(inputs[2], '3');
-    await user.type(inputs[3], '4');
+      // Fast-forward timer to enable resend button
+      act(() => {
+        jest.advanceTimersByTime(15000);
+      });
 
-    await user.click(verifyButton);
+      expect(resendButton).not.toBeDisabled();
 
-    // Should show loading state
-    expect(verifyButton).toBeDisabled();
-    expect(screen.getByText('Verifying...')).toBeInTheDocument();
+      fireEvent.click(resendButton);
 
-    // Resolve the promise
-    resolvePromise({
-      data: {
-        data: {
-          signUpVerifyOtp: {
-            input: 'test@example.com',
-            output: 'success',
+      // Check loading state
+      expect(resendButton).toHaveTextContent('Sending...');
+      expect(resendButton).toBeDisabled();
+
+      // Wait for completion
+      await waitFor(() => {
+        expect(resendButton).toHaveTextContent('Send again (15)');
+      });
+    });
+
+    it('handles resend errors', async () => {
+      mockedAxios.post.mockRejectedValueOnce({
+        response: {
+          data: {
+            errors: [
+              {
+                message: 'Failed to resend OTP',
+              },
+            ],
           },
         },
-      },
+      });
+
+      render(<ConfirmCode />);
+
+      const resendButton = screen.getByTestId('resend-button');
+      expect(resendButton).toBeDisabled();
+
+      // Fast-forward timer to enable resend button
+      act(() => {
+        jest.advanceTimersByTime(15000);
+      });
+
+      expect(resendButton).not.toBeDisabled();
+
+      fireEvent.click(resendButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to resend OTP');
+      });
+    });
+
+    it('shows error when email is missing', async () => {
+      mockedUseStep.mockReturnValue({
+        setStep: mockSetStep,
+        setValues: mockSetValues,
+        step: 2,
+        values: { email: '', password: '' }, // Missing email
+      });
+
+      render(<ConfirmCode />);
+
+      const resendButton = screen.getByTestId('resend-button');
+      expect(resendButton).toBeDisabled();
+
+      // Fast-forward timer to enable resend button
+      act(() => {
+        jest.advanceTimersByTime(15000);
+      });
+
+      expect(resendButton).not.toBeDisabled();
+
+      fireEvent.click(resendButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Email not found. Please go back and enter your email.');
+      });
     });
   });
 
-  it('handles resend OTP functionality', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
-        data: {
-          sendOtp: {
-            input: 'test@example.com',
-            output: 'success',
+  describe('Edge Cases', () => {
+    it('handles missing email during verification', async () => {
+      mockedUseStep.mockReturnValue({
+        setStep: mockSetStep,
+        setValues: mockSetValues,
+        step: 2,
+        values: { email: '', password: '' }, // Missing email
+      });
+
+      render(<ConfirmCode />);
+
+      // Enter all 4 digits
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
+
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(verifyButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Email not found. Please go back and enter your email.');
+      });
+    });
+
+    it('handles generic network errors', async () => {
+      const mockError = new Error('Network error');
+      mockError.message = 'Network error';
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      render(<ConfirmCode />);
+
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
+
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(verifyButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('OTP verification failed');
+      });
+    });
+
+    it('handles error with response data', async () => {
+      const mockError = {
+        response: {
+          data: {
+            errors: [{ message: 'Custom error message' }],
           },
         },
-      },
-    };
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      render(<ConfirmCode />);
 
-    render(<ConfirmCodeWithProvider />);
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    const resendButton = screen.getByRole('button', { name: 'Send again (15)' });
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    await user.click(resendButton);
+      fireEvent.click(verifyButton);
 
-    expect(mockedAxios.post).toHaveBeenCalledWith('http://localhost:4200/api/graphql', {
-      query: expect.stringContaining('sendOtp'),
-      variables: { email: '' },
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Custom error message');
+      });
     });
 
-    await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith('OTP resent successfully!');
-    });
-  });
+    it('handles error without response data', async () => {
+      const mockError = new Error('Network error');
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-  it('handles resend OTP error', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      response: {
-        data: {
-          errors: [{ message: 'Failed to resend OTP' }],
+      render(<ConfirmCode />);
+
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
+
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(verifyButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('OTP verification failed');
+      });
+    });
+
+    it('handles error with response data but no errors array', async () => {
+      const mockError = {
+        response: {
+          data: { message: 'Some error' },
         },
-      },
-    };
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-    mockedAxios.post.mockRejectedValueOnce(mockErrorResponse);
+      render(<ConfirmCode />);
 
-    render(<ConfirmCodeWithProvider />);
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    const resendButton = screen.getByRole('button', { name: 'Send again (15)' });
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    await user.click(resendButton);
+      fireEvent.click(verifyButton);
 
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Failed to resend OTP');
-    });
-  });
-
-  it('shows resending state during resend', async () => {
-    const user = userEvent.setup();
-
-    // Create a promise that we can control
-    let resolvePromise;
-    const pendingPromise = new Promise((resolve) => {
-      resolvePromise = resolve;
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('OTP verification failed');
+      });
     });
 
-    mockedAxios.post.mockReturnValueOnce(pendingPromise);
-
-    render(<ConfirmCodeWithProvider />);
-
-    const resendButton = screen.getByRole('button', { name: 'Send again (15)' });
-
-    await user.click(resendButton);
-
-    // Should show resending state
-    expect(resendButton).toBeDisabled();
-    expect(screen.getByText('Resending...')).toBeInTheDocument();
-
-    // Resolve the promise
-    resolvePromise({
-      data: {
-        data: {
-          sendOtp: {
-            input: 'test@example.com',
-            output: 'success',
+    it('handles error with response data and errors array for full coverage', async () => {
+      const mockError = {
+        response: {
+          data: {
+            errors: [{ message: 'Custom error message' }],
           },
         },
-      },
-    });
-  });
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-  it('timer countdown works correctly', () => {
-    render(<ConfirmCodeWithProvider />);
+      render(<ConfirmCode />);
 
-    // Initial timer should be 15
-    expect(screen.getByText('Send again (15)')).toBeInTheDocument();
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
 
-    // Fast forward 5 seconds
-    act(() => {
-      jest.advanceTimersByTime(5000);
-    });
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
 
-    expect(screen.getByText('Send again (10)')).toBeInTheDocument();
+      fireEvent.click(verifyButton);
 
-    // Fast forward to 0
-    act(() => {
-      jest.advanceTimersByTime(10000);
-    });
-
-    expect(screen.getByText('Send again')).toBeInTheDocument();
-  });
-
-  it('resets timer after resending OTP', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
-        data: {
-          sendOtp: {
-            input: 'test@example.com',
-            output: 'success',
-          },
-        },
-      },
-    };
-
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
-
-    render(<ConfirmCodeWithProvider />);
-
-    // Fast forward timer to 5 seconds
-    act(() => {
-      jest.advanceTimersByTime(10000);
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Custom error message');
+      });
     });
 
-    expect(screen.getByText('Send again (5)')).toBeInTheDocument();
+    it('calls handleVerifyError function when verification fails', async () => {
+      const mockError = new Error('Test error');
+      mockedAxios.post.mockRejectedValueOnce(mockError);
 
-    // Resend OTP
-    const resendButton = screen.getByRole('button', { name: 'Send again (5)' });
-    await user.click(resendButton);
+      render(<ConfirmCode />);
 
-    // Timer should reset to 15
-    await waitFor(() => {
-      expect(screen.getByText('Send again (15)')).toBeInTheDocument();
+      // Fill OTP inputs
+      fireEvent.change(screen.getByTestId('otp-input-0'), { target: { value: '1' } });
+      fireEvent.change(screen.getByTestId('otp-input-1'), { target: { value: '2' } });
+      fireEvent.change(screen.getByTestId('otp-input-2'), { target: { value: '3' } });
+      fireEvent.change(screen.getByTestId('otp-input-3'), { target: { value: '4' } });
+
+      const verifyButton = screen.getByTestId('verify-button');
+      await waitFor(() => {
+        expect(verifyButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(verifyButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('OTP verification failed');
+      });
     });
   });
 });

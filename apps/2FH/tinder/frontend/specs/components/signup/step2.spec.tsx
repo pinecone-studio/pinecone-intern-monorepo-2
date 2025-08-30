@@ -1,445 +1,583 @@
-import React, { useEffect } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-import { Step2 } from '../../../src/components/signup/step2';
-import { StepProvider, useStep } from '../../../src/components/providers/stepProvider';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { Step2 } from '@/components/signup/step2';
+import { useStep } from '@/components/providers/stepProvider';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import '@testing-library/jest-dom';
 
-// Mock dependencies
+// Mock all dependencies
+jest.mock('@/components/providers/stepProvider');
 jest.mock('axios');
-jest.mock('sonner', () => ({
-  toast: {
-    error: jest.fn(),
-    success: jest.fn(),
-  },
-}));
+jest.mock('sonner');
+jest.mock('next/navigation');
+jest.mock('next/link', () => {
+  return function MockLink({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: any }) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  };
+});
 
-// Mock next/navigation
-jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-  }),
-}));
-
-// Create a wrapper component with StepProvider
-const Step2WithProvider = () => (
-  <StepProvider>
-    <Step2 />
-  </StepProvider>
-);
-
-// Test component that sets up the context properly
-const TestStep2WithEmail = () => {
-  const { setValues } = useStep();
-
-  useEffect(() => {
-    setValues({ email: 'test@example.com', password: '' });
-  }, [setValues]);
-
-  return <Step2 />;
-};
-
-const Step2WithEmailProvider = () => (
-  <StepProvider>
-    <TestStep2WithEmail />
-  </StepProvider>
-);
-
+const mockedUseStep = useStep as jest.MockedFunction<typeof useStep>;
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockedToast = toast as jest.Mocked<typeof toast>;
+const mockedUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
 
 describe('Step2 Component', () => {
+  const mockSetStep = jest.fn();
+  const mockSetValues = jest.fn();
+  const mockPush = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
-    mockedToast.error = jest.fn();
-    mockedToast.success = jest.fn();
-  });
 
-  it('renders the component correctly', () => {
-    render(<Step2WithEmailProvider />);
-
-    expect(screen.getByText('Create password')).toBeInTheDocument();
-    expect(screen.getByText(/Use a minimum of 10 characters/)).toBeInTheDocument();
-    expect(screen.getByText('Password')).toBeInTheDocument();
-    expect(screen.getByText('Confirm password')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument();
-  });
-
-  it('shows password requirements', () => {
-    render(<Step2WithEmailProvider />);
-
-    // Password requirements are shown in the description text
-    expect(screen.getByText(/Use a minimum of 10 characters/)).toBeInTheDocument();
-    expect(screen.getByText(/including uppercase letters, lowercase letters, and numbers/)).toBeInTheDocument();
-  });
-
-  it('toggles password visibility', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const togglePasswordButton = screen.getAllByAltText('eye')[0];
-    const toggleConfirmPasswordButton = screen.getAllByAltText('eye')[1];
-
-    // Initially passwords should be hidden
-    expect(passwordInput).toHaveAttribute('type', 'password');
-    expect(confirmPasswordInput).toHaveAttribute('type', 'password');
-
-    // Toggle password visibility
-    await user.click(togglePasswordButton);
-    expect(passwordInput).toHaveAttribute('type', 'text');
-
-    await user.click(toggleConfirmPasswordButton);
-    expect(confirmPasswordInput).toHaveAttribute('type', 'text');
-
-    // Toggle back to hidden
-    await user.click(togglePasswordButton);
-    expect(passwordInput).toHaveAttribute('type', 'password');
-
-    await user.click(toggleConfirmPasswordButton);
-    expect(confirmPasswordInput).toHaveAttribute('type', 'password');
-  });
-
-  it('shows validation error for empty password', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Focus and blur password input to trigger validation
-    await user.click(passwordInput);
-    await user.tab();
-
-    await waitFor(() => {
-      expect(screen.getByText('Enter your password')).toBeInTheDocument();
+    mockedUseStep.mockReturnValue({
+      setStep: mockSetStep,
+      setValues: mockSetValues,
+      step: 3,
+      values: { email: 'test@example.com', password: '' },
     });
 
-    expect(submitButton).toBeDisabled();
-  });
+    mockedUseRouter.mockReturnValue({
+      push: mockPush,
+    } as any);
 
-  it('shows validation error for empty confirm password', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Focus and blur confirm password input to trigger validation
-    await user.click(confirmPasswordInput);
-    await user.tab();
-
-    await waitFor(() => {
-      expect(screen.getByText('Enter your confirm password')).toBeInTheDocument();
-    });
-
-    expect(submitButton).toBeDisabled();
-  });
-
-  it('shows validation error for password too short', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Type a short password
-    await user.type(passwordInput, 'short');
-
-    await waitFor(() => {
-      expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
-    });
-
-    expect(submitButton).toBeDisabled();
-  });
-
-  it('shows validation error for password without required characters', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Type a password that's long enough but missing required characters
-    await user.type(passwordInput, 'password123');
-
-    await waitFor(() => {
-      expect(screen.getByText('Password must include uppercase, lowercase, and number')).toBeInTheDocument();
-    });
-
-    expect(submitButton).toBeDisabled();
-  });
-
-  it('shows validation error for mismatched passwords', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Type valid password
-    await user.type(passwordInput, 'Password123');
-
-    // Type different confirm password
-    await user.type(confirmPasswordInput, 'DifferentPassword123');
-
-    await waitFor(() => {
-      expect(screen.getByText('Passwords do not match')).toBeInTheDocument();
-    });
-
-    expect(submitButton).toBeDisabled();
-  });
-
-  it('enables submit button when form is valid', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Type valid password
-    await user.type(passwordInput, 'Password123');
-
-    // Type matching confirm password
-    await user.type(confirmPasswordInput, 'Password123');
-
-    await waitFor(() => {
-      expect(submitButton).not.toBeDisabled();
-    });
-  });
-
-  it('successfully creates account and navigates', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
+    mockedAxios.post.mockResolvedValue({
       data: {
         data: {
           createUser: 'SUCCESS',
         },
       },
-    };
-
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
-
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Fill in form
-    await user.type(passwordInput, 'Password123');
-    await user.type(confirmPasswordInput, 'Password123');
-
-    await user.click(submitButton);
-
-    expect(mockedAxios.post).toHaveBeenCalledWith(
-      'http://localhost:4200/api/graphql',
-      {
-        query: expect.stringContaining('CreateUser'),
-        variables: { email: 'test@example.com', password: 'Password123' },
-      },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
-
-    await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith('User created successfully');
     });
   });
 
-  it('handles account creation error', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
-        data: {
-          createUser: 'ERROR',
-        },
-      },
-    };
+  describe('Rendering', () => {
+    it('renders all UI elements correctly', () => {
+      render(<Step2 />);
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      // Check for logo
+      expect(screen.getByTestId('logo')).toBeInTheDocument();
 
-    render(<Step2WithEmailProvider />);
+      // Check for main text elements
+      expect(screen.getByTestId('title')).toBeInTheDocument();
+      expect(screen.getByTestId('subtitle')).toBeInTheDocument();
 
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      // Check for form elements
+      expect(screen.getByTestId('password-input')).toBeInTheDocument();
+      expect(screen.getByTestId('confirm-password-input')).toBeInTheDocument();
+      expect(screen.getByTestId('submit-button')).toBeInTheDocument();
 
-    // Fill in form
-    await user.type(passwordInput, 'Password123');
-    await user.type(confirmPasswordInput, 'Password123');
+      // Check for labels
+      expect(screen.getByTestId('password-label')).toBeInTheDocument();
+      expect(screen.getByTestId('confirm-password-label')).toBeInTheDocument();
+    });
 
-    await user.click(submitButton);
+    it('displays correct text content', () => {
+      render(<Step2 />);
 
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      expect(screen.getByTestId('title')).toHaveTextContent('Create password');
+      expect(screen.getByTestId('subtitle')).toHaveTextContent('Use a minimum of 10 characters, including uppercase letters, lowercase letters, and numbers');
+      expect(screen.getByTestId('password-label')).toHaveTextContent('Password');
+      expect(screen.getByTestId('confirm-password-label')).toHaveTextContent('Confirm password');
+      expect(screen.getByTestId('submit-button')).toHaveTextContent('Continue');
     });
   });
 
-  it('handles API error during account creation', async () => {
-    const user = userEvent.setup();
-    const mockErrorResponse = {
-      response: {
-        data: {
-          errors: [{ message: 'Network error' }],
-        },
-      },
-    };
+  describe('Password Visibility Toggle', () => {
+    it('toggles password visibility when eye icon is clicked', () => {
+      render(<Step2 />);
 
-    mockedAxios.post.mockRejectedValueOnce(mockErrorResponse);
+      const passwordInput = screen.getByTestId('password-input');
+      const passwordToggle = screen.getByTestId('password-toggle');
 
-    render(<Step2WithEmailProvider />);
+      // Initially password should be hidden
+      expect(passwordInput).toHaveAttribute('type', 'password');
 
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      // Click toggle to show password
+      fireEvent.click(passwordToggle);
+      expect(passwordInput).toHaveAttribute('type', 'text');
 
-    // Fill in form
-    await user.type(passwordInput, 'Password123');
-    await user.type(confirmPasswordInput, 'Password123');
+      // Click toggle to hide password again
+      fireEvent.click(passwordToggle);
+      expect(passwordInput).toHaveAttribute('type', 'password');
+    });
 
-    await user.click(submitButton);
+    it('toggles confirm password visibility when eye icon is clicked', () => {
+      render(<Step2 />);
 
-    await waitFor(() => {
-      expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const confirmPasswordToggle = screen.getByTestId('confirm-password-toggle');
+
+      // Initially password should be hidden
+      expect(confirmPasswordInput).toHaveAttribute('type', 'password');
+
+      // Click toggle to show password
+      fireEvent.click(confirmPasswordToggle);
+      expect(confirmPasswordInput).toHaveAttribute('type', 'text');
+
+      // Click toggle to hide password again
+      fireEvent.click(confirmPasswordToggle);
+      expect(confirmPasswordInput).toHaveAttribute('type', 'password');
     });
   });
 
-  it('shows loading state during form submission', async () => {
-    const user = userEvent.setup();
+  describe('Form Validation', () => {
+    it('shows validation error for empty password', async () => {
+      render(<Step2 />);
 
-    // Create a promise that we can control
-    let resolvePromise;
-    const pendingPromise = new Promise((resolve) => {
-      resolvePromise = resolve;
-    });
-
-    mockedAxios.post.mockReturnValueOnce(pendingPromise);
-
-    render(<Step2WithEmailProvider />);
-
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
-
-    // Fill in form
-    await user.type(passwordInput, 'Password123');
-    await user.type(confirmPasswordInput, 'Password123');
-
-    await user.click(submitButton);
-
-    // Should show loading state
-    await waitFor(() => {
+      const submitButton = screen.getByTestId('submit-button');
       expect(submitButton).toBeDisabled();
-      expect(screen.getByText('Creating Account...')).toBeInTheDocument();
+
+      // For onChange mode, we need to trigger validation by typing then clearing
+      const passwordInput = screen.getByTestId('password-input');
+      fireEvent.change(passwordInput, { target: { value: 'test' } });
+      fireEvent.change(passwordInput, { target: { value: '' } });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('password-error')).toBeInTheDocument();
+        expect(screen.getByTestId('password-error')).toHaveTextContent('Enter your password');
+      });
     });
 
-    // Resolve the promise
-    resolvePromise({
-      data: {
-        data: {
-          createUser: 'SUCCESS',
-        },
-      },
+    it('shows validation error for password too short', async () => {
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: '123' } });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('password-error')).toBeInTheDocument();
+        expect(screen.getByTestId('password-error')).toHaveTextContent('Password must be at least 10 characters');
+      });
+    });
+
+    it('shows validation error for password without required characters', async () => {
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: '1234567890' } });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('password-error')).toBeInTheDocument();
+        expect(screen.getByTestId('password-error')).toHaveTextContent('Password must include uppercase, lowercase, and number');
+      });
+    });
+
+    it('shows validation error for empty confirm password', async () => {
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('confirm-password-error')).toBeInTheDocument();
+        expect(screen.getByTestId('confirm-password-error')).toHaveTextContent('Enter your confirm password');
+      });
+    });
+
+    it('shows validation error when passwords do not match', async () => {
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'DifferentPass1234' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('confirm-password-error')).toBeInTheDocument();
+        expect(screen.getByTestId('confirm-password-error')).toHaveTextContent('Passwords do not match');
+      });
+    });
+
+    it('enables submit button with valid passwords', async () => {
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      expect(submitButton).toBeDisabled();
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass123' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass123' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
     });
   });
 
-  it('shows error when email is missing from context', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
+  describe('Form Submission', () => {
+    it('submits successfully and navigates to home', async () => {
+      render(<Step2 />);
 
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-    // Fill in form
-    await user.type(passwordInput, 'Password123');
-    await user.type(confirmPasswordInput, 'Password123');
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
 
-    await user.click(submitButton);
+      // Ensure form is touched by blurring inputs
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
 
-    // Should show error since email is missing from context
-    expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
-  });
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
 
-  it('validates password strength correctly', async () => {
-    const user = userEvent.setup();
-    render(<Step2WithEmailProvider />);
+      fireEvent.click(submitButton);
 
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      await waitFor(() => {
+        expect(mockedAxios.post).toHaveBeenCalledWith(
+          'http://localhost:4200/api/graphql',
+          expect.objectContaining({
+            query: expect.stringContaining('createUser'),
+            variables: { email: 'test@example.com', password: 'ValidPass1234' },
+          }),
+          expect.objectContaining({
+            headers: { 'Content-Type': 'application/json' },
+          })
+        );
+        expect(mockSetStep).toHaveBeenCalledWith(1);
+        expect(mockPush).toHaveBeenCalledWith('/');
+        expect(mockedToast.success).toHaveBeenCalledWith('User created successfully');
+      });
+    });
 
-    // Test various password combinations
-    const testCases = [
-      { password: 'weak', expectedError: 'Password must be at least 8 characters' },
-      { password: 'password123', expectedError: 'Password must include uppercase, lowercase, and number' },
-      { password: 'Password123', expectedError: null }, // Valid password
-      { password: 'PASSWORD123', expectedError: 'Password must include uppercase, lowercase, and number' },
-      { password: 'passwordABC', expectedError: 'Password must include uppercase, lowercase, and number' },
-    ];
+    it('shows loading state during submission', async () => {
+      // Mock delayed response
+      mockedAxios.post.mockImplementationOnce(
+        () =>
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve({
+                  data: {
+                    data: {
+                      createUser: 'SUCCESS',
+                    },
+                  },
+                }),
+              50
+            )
+          )
+      );
 
-    for (const testCase of testCases) {
-      // Clear previous input
-      await user.clear(passwordInput);
+      render(<Step2 />);
 
-      // Type password
-      await user.type(passwordInput, testCase.password);
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-      if (testCase.expectedError) {
-        await waitFor(() => {
-          expect(screen.getByText(testCase.expectedError)).toBeInTheDocument();
-        });
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      act(() => {
+        fireEvent.click(submitButton);
+      });
+
+      // Check loading state appears
+      await waitFor(() => {
+        expect(submitButton).toHaveTextContent('Creating Account...');
         expect(submitButton).toBeDisabled();
-      } else {
-        await waitFor(() => {
-          expect(screen.queryByText(/Password must/)).not.toBeInTheDocument();
-        });
-      }
-    }
+      });
+
+      // Wait for completion
+      await waitFor(() => {
+        expect(submitButton).toHaveTextContent('Continue');
+      });
+    });
   });
 
-  it('handles form submission with valid data', async () => {
-    const user = userEvent.setup();
-    const mockResponse = {
-      data: {
+  describe('Error Handling', () => {
+    it('handles createUser ERROR response', async () => {
+      mockedAxios.post.mockResolvedValueOnce({
         data: {
-          createUser: 'SUCCESS',
+          data: {
+            createUser: 'ERROR',
+          },
         },
-      },
-    };
+      });
 
-    mockedAxios.post.mockResolvedValueOnce(mockResponse);
+      render(<Step2 />);
 
-    render(<Step2WithEmailProvider />);
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
 
-    const passwordInput = screen.getByPlaceholderText('Enter your password');
-    const confirmPasswordInput = screen.getByPlaceholderText('Confirm your password');
-    const submitButton = screen.getByRole('button', { name: 'Continue' });
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
 
-    // Fill in form with valid data
-    await user.type(passwordInput, 'StrongPassword123');
-    await user.type(confirmPasswordInput, 'StrongPassword123');
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
 
-    // Submit form
-    await user.click(submitButton);
+      fireEvent.click(submitButton);
 
-    // Verify API call
-    expect(mockedAxios.post).toHaveBeenCalledWith(
-      'http://localhost:4200/api/graphql',
-      {
-        query: expect.stringContaining('CreateUser'),
-        variables: { email: 'test@example.com', password: 'StrongPassword123' },
-      },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+        expect(mockSetStep).not.toHaveBeenCalled();
+        expect(mockPush).not.toHaveBeenCalled();
+      });
+    });
 
-    // Verify success message
-    await waitFor(() => {
-      expect(mockedToast.success).toHaveBeenCalledWith('User created successfully');
+    it('handles network error without response', async () => {
+      const mockError = new Error('Network failed');
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+    });
+
+    it('handles error with response data and logs it', async () => {
+      const mockError = {
+        message: 'Server error details',
+        response: {
+          data: { message: 'Server error details' },
+        },
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      // Mock console.error to verify it's called
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Server error details');
+        expect(consoleSpy).toHaveBeenCalledWith({ message: 'Server error details' });
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+
+      consoleSpy.mockRestore();
+    });
+
+    it('handles error with console.error logging', async () => {
+      const mockError = {
+        message: 'Test error message',
+        response: {
+          data: { message: 'Test error message' },
+        },
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      // Mock console.error to verify it's called
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Test error message');
+        expect(consoleSpy).toHaveBeenCalledWith({ message: 'Test error message' });
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+
+      consoleSpy.mockRestore();
+    });
+
+    it('handles error with response data for console.error coverage', async () => {
+      const mockError = {
+        message: 'Test error',
+        response: {
+          data: { message: 'Response error message' },
+        },
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      // Mock console.error to verify it's called
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Test error');
+        expect(consoleSpy).toHaveBeenCalledWith({ message: 'Response error message' });
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+
+      consoleSpy.mockRestore();
+    });
+
+    it('handles error with response data for console.error line 146 coverage', async () => {
+      const mockError = {
+        message: 'Another test error',
+        response: {
+          data: { message: 'Another response error' },
+        },
+      };
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      // Mock console.error to verify it's called
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Another test error');
+        expect(consoleSpy).toHaveBeenCalledWith({ message: 'Another response error' });
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+
+      consoleSpy.mockRestore();
+    });
+
+    it('calls handleCreateUserError function for coverage', async () => {
+      const mockError = new Error('Test error');
+      mockedAxios.post.mockRejectedValueOnce(mockError);
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.blur(passwordInput);
+      fireEvent.blur(confirmPasswordInput);
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(mockedToast.error).toHaveBeenCalledWith('Failed to create user');
+      });
+    });
+
+    it('handles missing email from step1', async () => {
+      mockedUseStep.mockReturnValue({
+        setStep: mockSetStep,
+        setValues: mockSetValues,
+        step: 3,
+        values: { email: '', password: '' }, // Missing email
+      });
+
+      render(<Step2 />);
+
+      const passwordInput = screen.getByTestId('password-input');
+      const confirmPasswordInput = screen.getByTestId('confirm-password-input');
+      const submitButton = screen.getByTestId('submit-button');
+
+      fireEvent.change(passwordInput, { target: { value: 'ValidPass1234' } });
+      fireEvent.change(confirmPasswordInput, { target: { value: 'ValidPass1234' } });
+
+      await waitFor(() => {
+        expect(submitButton).not.toBeDisabled();
+      });
+
+      fireEvent.click(submitButton);
+
+      // Should not make API call when email is missing
+      expect(mockedAxios.post).not.toHaveBeenCalled();
     });
   });
 });
