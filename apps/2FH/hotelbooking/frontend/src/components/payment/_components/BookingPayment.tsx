@@ -78,7 +78,7 @@ export const BookingPayment = () => {
         <div className="w-full flex flex-col gap-10">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3">
-              <div className="font-semibold">1. Who's checking</div>
+              <div className="font-semibold">1. Whos checking</div>
               <div className="opacity-50 text-[13px]">
                 Please tell us the name of the guest staying at the hotel as it appears on the ID that they’ll present at check-in. If the guest has more than one last name, please enter them all.
               </div>

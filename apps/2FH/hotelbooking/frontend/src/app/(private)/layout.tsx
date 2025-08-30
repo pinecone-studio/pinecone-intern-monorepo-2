@@ -2,7 +2,7 @@ import { Footer } from '@/components/privateHeaderAndFooter/Footer';
 import { Header } from '@/components/privateHeaderAndFooter/Header';
 
 import { UserAuthProvider } from '@/components/providers/UserAuthProvider';
-export default function PrivateLayout({ children }: { children: React.ReactNode }) {
+const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <UserAuthProvider>
       <div className="flex items-center flex-col min-h-screen w-screen ">
@@ -12,4 +12,6 @@ export default function PrivateLayout({ children }: { children: React.ReactNode 
       </div>
     </UserAuthProvider>
   );
-}
+};
+
+export default PrivateLayout;

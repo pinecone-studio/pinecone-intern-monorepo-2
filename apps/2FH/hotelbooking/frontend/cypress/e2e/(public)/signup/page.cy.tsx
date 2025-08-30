@@ -36,32 +36,25 @@ describe('Sign up', () => {
       }
     }).as('graphqlMutations');
 
-    // 2️⃣ Step 1: Enter Email
     cy.get('[data-cy=Enter-Email-Component-Container]').should('be.visible');
     cy.get('[data-cy="Enter-Email-Input"]').type('test@example.com');
     cy.get('[data-cy="Create-User-Email-Btn"]').click();
 
-    // SendOtp mutation дууссан эсэхийг хүлээх
     cy.wait('@graphqlMutations');
 
-    // 3️⃣ Step 2: OTP оруулах
     cy.get('[data-cy=Email-Validate-Container]').should('be.visible');
     cy.get('[data-cy=Otp-Inputs]').type('1234');
 
-    // VerifyOtp mutation дууссан эсэхийг хүлээх
     cy.wait('@graphqlMutations');
 
-    // Step 3: EnterPassword component
     cy.get('[data-cy=Enter-Password-Component]').should('be.visible');
     cy.get('[data-cy=Input-Password-Container]').should('be.visible');
     cy.get('[data-cy=Enter-Password-Input]').type('Password123');
     cy.get('[data-cy=Enter-Confirm-Password-Input]').type('Password123');
 
-    // CreateUser mutation дууссан эсэхийг хүлээх
     cy.get('[data-cy=Create-User-Button]').click();
     cy.wait('@graphqlMutations');
 
-    // Амжилттай үүссэн эсэхийг URL эсвэл toast message-аар шалгах
     cy.url().should('include', '/login');
   });
 });

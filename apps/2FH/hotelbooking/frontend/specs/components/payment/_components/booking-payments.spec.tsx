@@ -1,9 +1,7 @@
-// BookingPayment.test.tsx
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { useCreateBookingMutation, useUpdateUserMutationMutation } from '@/generated';
 import { useRouter } from 'next/navigation';
 import { useOtpContext } from '@/components/providers';
-import { toast } from 'sonner';
 import { BookingPayment } from '@/components/payment/_components/BookingPayment';
 
 jest.mock('@/generated', () => ({
