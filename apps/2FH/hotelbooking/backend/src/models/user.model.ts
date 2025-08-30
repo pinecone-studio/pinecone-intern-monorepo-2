@@ -6,10 +6,7 @@ type UserType = {
   firstName?: string;
   lastName?: string;
   email?: string;
-  password: {
-    type: string;
-    select: false;
-  };
+  password: string;
   role?: Role;
   dateOfBirth?: string;
 };

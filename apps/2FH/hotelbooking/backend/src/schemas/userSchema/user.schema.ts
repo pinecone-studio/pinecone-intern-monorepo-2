@@ -64,15 +64,29 @@ export const userDefs = gql`
     dateOfBirth: String
   }
 
+  # New input for login
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  # New type for login response
+  type LoginResponse {
+    token: String!
+    user: User!
+  }
+
   type Mutation {
     createUser(input: CreateUserInput!): User!
     updateUser(input: UpdateUserInput!): User!
     deleteUser(input: deleteUser): User!
+    login(input: LoginInput!): LoginResponse!
   }
 
   type Query {
     getUserById(input: UserId!): User!
     getUserByEmail(input: UserEmail!): User!
     getUsers(input: InputUserType!): [User!]!
+    getMe: User
   }
 `;

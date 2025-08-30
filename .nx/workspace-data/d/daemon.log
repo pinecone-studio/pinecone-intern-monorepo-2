@@ -1,0 +1,127 @@
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.883Z - Started listening on: /tmp/ea9468c3c21e7ae4c3b8/d.sock
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.886Z - [WATCHER]: Subscribed to changes within: /home/unuruu/pinecone-intern-monorepo-2 (native)
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.892Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.895Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.906Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.906Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.907Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.908Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:49.922Z - Time taken for 'loadSpecifiedNxPlugins' 0.7108369999999979ms
+Time for 'plugin worker 92957 code loading' 3.2458729999999996
+Time for 'plugin worker 92959 code loading' 2.882722000000001
+Time for 'plugin worker 92997 code loading' 2.7212539999999983
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.029Z - Time taken for 'Load Nx Plugin: /home/unuruu/pinecone-intern-monorepo-2/node_modules/nx/src/plugins/package-json' 119.62252000000001ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.034Z - Time taken for 'Load Nx Plugin: /home/unuruu/pinecone-intern-monorepo-2/node_modules/nx/src/plugins/project-json/build-nodes/project-json' 124.21807799999999ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.038Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.038Z - [REQUEST]: 
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.038Z - [REQUEST]: 
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.050Z - No files changed, but no in-memory cached project graph found. Recomputing it...
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.056Z - Time taken for 'loadDefaultNxPlugins' 127.812859ms
+Time for 'nx/core/project-json:createNodes' 2.2202900000000056
+Time for 'nx/core/package-json:createNodes' 154.620024
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 515.8277420000001
+Unable to find local plugin [ 'libs/secrets/src/index.ts' ] Map(1) { 'apps/example/backend' => 'example-backend' }
+Unable to find local plugin [ 'libs/secrets/src/index.ts' ] Map(1) { 'apps/example/backend' => 'example-backend' }
+Unable to find local plugin [ 'libs/secrets/src/index.ts' ] Map(1) { 'apps/example/backend' => 'example-backend' }
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:50.817Z - Time taken for 'build-project-configs' 742.678834ms
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:34:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:36:42 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:44:25 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:78:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:78:34 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:92:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:92:34 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:109:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:109:23 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:131:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:131:34 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:148:0 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+DEBUG nx::native::plugins::js::ts_import_locators: /home/unuruu/pinecone-intern-monorepo-2/libs/shadcn/src/lib/ui/form.tsx:148:44 Unexpected token. Did you mean `{'>'}` or `&gt;`?
+Time for 'build typescript dependencies' 316.44170499999996
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.216Z - Wrote project graph cache to /home/unuruu/pinecone-intern-monorepo-2/.nx/workspace-data/project-graph.json
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.216Z - [SYNC]: collect registered sync generators
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.217Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.220Z - Time taken for 'total for creating and serializing project graph' 1309.179291ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.221Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.221Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 1309. Response time: 4.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.232Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.233Z - Done responding to the client handleContextFileData
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.233Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 1. Response time: 1.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.236Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.429Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.429Z - Established a connection. Number of open connections: 2
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.429Z - Closed a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.429Z - Established a connection. Number of open connections: 2
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.430Z - Closed a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.430Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.430Z - Reusing in-memory cached project graph because no files changed.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.430Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.433Z - Time taken for 'total for creating and serializing project graph' 0.22448800000006486ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.435Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.435Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 5.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.443Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.443Z - Reusing in-memory cached project graph because no files changed.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.443Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.445Z - Time taken for 'total for creating and serializing project graph' 0.2704349999999067ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.448Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.448Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 5.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.456Z - Established a connection. Number of open connections: 2
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:46:51.607Z - [WATCHER]: Processing file changes in outputs
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.594Z - [WATCHER]: Processing file changes in outputs
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.595Z - [WATCHER]: package.json was modified
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.597Z - [REQUEST]: Responding to the client. File watch changed
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.597Z - Done responding to the client File watch changed
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.597Z - Handled FILE-WATCH-CHANGED. Handling time: 0. Response time: 0.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.597Z - Time taken for 'changed-projects' 0.8279099999999744ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.697Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.697Z - [REQUEST]: package.json
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.697Z - [REQUEST]: 
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.714Z - Time taken for 'hash changed files from watcher' 0.8790110000009008ms
+Time for 'nx/core/project-json:createNodes' 0.7793920000003709
+Time for 'nx/core/package-json:createNodes' 1.6066519999985758
+Time for 'nx/js/dependencies-and-lockfile:createNodes' 7.306048999998893
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.738Z - Time taken for 'build-project-configs' 17.045814000000973ms
+Time for 'build typescript dependencies' 0.06761199999891687
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.776Z - Wrote project graph cache to /home/unuruu/pinecone-intern-monorepo-2/.nx/workspace-data/project-graph.json
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.776Z - [SYNC]: collect registered sync generators
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.776Z - [SYNC]: project graph hash is the same, not collecting task sync generators
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.776Z - [SYNC]: nx.json hash is the same, not collecting global sync generators
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.777Z - Time taken for 'total execution time for createProjectGraph()' 31.40981500000089ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:04.777Z - [WATCHER]: Processing file changes in outputs
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.605Z - Established a connection. Number of open connections: 3
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.605Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.605Z - Reusing in-memory cached project graph because no files changed.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.605Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.607Z - Time taken for 'total for creating and serializing project graph' 0.22888199999943026ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.607Z - Closed a connection. Number of open connections: 2
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.609Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.609Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 4.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.618Z - [REQUEST]: Responding to the client. handleContextFileData
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.618Z - Done responding to the client handleContextFileData
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.618Z - Handled GET_CONTEXT_FILE_DATA. Handling time: 1. Response time: 0.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.621Z - Closed a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.794Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.802Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.802Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.803Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.803Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.803Z - Established a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.803Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.803Z - Reusing in-memory cached project graph because no files changed.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.804Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.805Z - Time taken for 'total for creating and serializing project graph' 0.24414599999909115ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.806Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.806Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 1. Response time: 2.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.811Z - [REQUEST]: Client Request for Project Graph Received
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.811Z - Reusing in-memory cached project graph because no files changed.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.812Z - [REQUEST]: Responding to the client. project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.813Z - Time taken for 'total for creating and serializing project graph' 0.31226799999967625ms
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.814Z - Done responding to the client project-graph
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.814Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 1. Response time: 2.
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:47:05.818Z - Established a connection. Number of open connections: 2
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.457Z - [WATCHER]: Processing file changes in outputs
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.457Z - Closed a connection. Number of open connections: 1
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.457Z - Closed a connection. Number of open connections: 0
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.457Z - [WATCHER]: Stopping the watcher for /home/unuruu/pinecone-intern-monorepo-2 (sources)
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.457Z - [WATCHER]: Stopping the watcher for /home/unuruu/pinecone-intern-monorepo-2 (outputs)
+[NX v21.4.1 Daemon Server] - 2025-08-29T11:48:00.458Z - Server stopped because: "NX_VERSION_CHANGED"
