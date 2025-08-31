@@ -123,6 +123,7 @@ export const BookingPayment = () => {
               <div className="font-semibold">2. Contact information</div>
             </div>
 
+
             <div>
               <div className="text-[12px] font-medium">Email address</div>
               <Input disabled type="mail" defaultValue={mockEmailAddress} />
