@@ -1,10 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { Star } from 'lucide-react';
-import { useHotelQuery } from '@/generated';
+import { Amenity, useHotelQuery } from '@/generated';
 import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
+import { Star, CircleParking, AirVent, Dumbbell, Wifi, Utensils, WavesLadder, Presentation, Handshake, Landmark, Phone } from 'lucide-react';
+import { RoomInfo } from './RoomInfo';
 
 export const HotelInfo = () => {
   const { hotelId } = useParams();
@@ -14,7 +15,7 @@ export const HotelInfo = () => {
   });
 
   return (
-    <div className="w-[1280px] m-auto py-8 px-[60px] ">
+    <div className="w-[1280px] m-auto py-8 px-[60px] flex flex-col gap-y-14 ">
       <div className="flex flex-col gap-8">
         <div className="grid grid-cols-4 grid-rows-2 gap-2 ">
           <div className="row-span-2 col-span-2">
@@ -55,10 +56,66 @@ export const HotelInfo = () => {
             </div>
             <div className="border border-solid"></div>
 
-            <div></div>
+            <div className="flex flex-col gap-y-4">
+              <h3 className="text-sm font-bold">Most popular facilities</h3>
+              <div className="grid grid-cols-3 grid-rows-3 gap-4">
+                <div className="flex gap-x-2">
+                  <CircleParking className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Parking) ? 'Parking' : 'No Parking'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <AirVent className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.AirConditioning) ? 'Air Conditioning' : 'No Air Conditioning'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Dumbbell className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.FitnessCenter) ? 'Fitness Center' : 'No Fitness Center'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Wifi className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Wifi) ? 'Wifi' : 'No Wifi'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Utensils className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.RoomService) ? 'Room Service' : 'No Room Service'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <WavesLadder className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Pool) ? 'Pool' : 'No Pool'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Presentation className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.BusinessCenter) ? 'Business Center' : 'No Business Center'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Handshake className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.MeetingRooms) ? 'Meeting Rooms' : 'No Meeting Rooms'}</p>
+                </div>
+                <div className="flex gap-x-2">
+                  <Landmark className="w-4 h-4" />
+                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.ConferenceRooms) ? 'Conference Rooms' : 'No Conference Rooms'}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-y-2">
+            <h3 className="text-base font-bold">Location</h3>
+            <div className="px-4 py-4 ">
+              <p className="text-base font-normal">{data?.hotel?.location}</p>
+            </div>
+            <h3 className="text-base font-bold">Contact</h3>
+            <div className="px-4 py-4 flex gap-x-3 items-center">
+              <Phone className="h-[20px] w-[20px]" />
+              <div className="flex flex-col gap-y-1">
+                <p className="text-sm font-medium text-gray-500">Phone Number</p>
+                {data?.hotel?.phone}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <RoomInfo hotelId={hotelId as string} />
     </div>
   );
 };
