@@ -18,6 +18,7 @@ const mockEmailAddress = 'bati202009@gmail.com';
 const mockCheInDate = '2025-08-30';
 const mockCheOutDate = '2025-08-31';
 
+
 const formSchema = z.object({
   firstname: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
