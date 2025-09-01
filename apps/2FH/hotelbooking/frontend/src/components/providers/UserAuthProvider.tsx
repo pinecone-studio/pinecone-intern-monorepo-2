@@ -18,6 +18,8 @@ type OtpContextType = {
   startTime: boolean;
   setStartTime: Dispatch<SetStateAction<boolean>>;
   setTimeLeft: Dispatch<SetStateAction<number>>;
+  bookingSuccess: boolean;
+  setBookingSuccess: Dispatch<SetStateAction<boolean>>;
 };
 
 const OtpContext = createContext<OtpContextType | null>(null);
@@ -30,7 +32,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [otp, setOtp] = useState('');
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
-
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  
   useEffect(() => {
     if (!startTime) return;
     if (timeLeft <= 0) return;
@@ -67,6 +70,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setStartTime,
         resetOtp,
         setTimeLeft,
+        bookingSuccess,
+        setBookingSuccess,
       }}
     >
       {children}
