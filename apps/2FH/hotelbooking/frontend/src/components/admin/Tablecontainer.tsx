@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useHotelsAdminQuery } from '@/generated';
+import { useHotelsQuery } from '@/generated';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import { FilterControls } from './FilterControls';
@@ -59,7 +59,7 @@ const Tablecontainer = () => {
   const [userRating, setUserRating] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const { data, loading, error } = useHotelsAdminQuery();
+  const { data, loading, error } = useHotelsQuery();
 
   const locationOptions = useMemo(() => {
     if (!data?.hotels) return [];

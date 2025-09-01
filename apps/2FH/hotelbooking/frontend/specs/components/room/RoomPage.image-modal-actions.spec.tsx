@@ -42,7 +42,7 @@ jest.mock('../../../src/components/room/ImageModal', () => ({
   ImageModal: ({ isOpen, onClose, onSave }: any) =>
     isOpen ? (
       <div data-testid="image-modal">
-        <button onClick={() => onSave(['image1.jpg', 'image2.jpg'])}>Save Images</button>
+        <button onClick={() => onSave(['/image1.jpg', '/image2.jpg'])}>Save Images</button>
         <button onClick={onClose}>Close Modal</button>
       </div>
     ) : null,

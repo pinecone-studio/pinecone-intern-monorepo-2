@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Plus, X, Globe } from 'lucide-react';
 
 export const LanguagesSection = ({ languages, onLanguagesChange }: { languages: string[]; onLanguagesChange: (_languages: string[]) => void }) => {
@@ -32,13 +32,13 @@ export const LanguagesSection = ({ languages, onLanguagesChange }: { languages: 
             <div key={index} className="flex gap-2">
               <Input value={language} onChange={(e) => updateLanguage(index, e.target.value)} placeholder="Enter language" required />
               {languages.length > 1 && (
-                <Button type="button" variant="outline" size="sm" onClick={() => removeLanguage(index)}>
+                <Button type="button" variant="outline" size="sm" onClick={() => removeLanguage(index)} data-testid="button">
                   <X size={16} />
                 </Button>
               )}
             </div>
           ))}
-          <Button type="button" variant="outline" onClick={addLanguage} className="flex items-center gap-2">
+          <Button type="button" variant="outline" onClick={addLanguage} className="flex items-center gap-2" data-testid="button">
             <Plus size={16} />
             Add Language
           </Button>

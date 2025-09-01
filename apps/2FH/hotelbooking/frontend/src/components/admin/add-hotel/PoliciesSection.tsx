@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
 import { Textarea } from '@/components/ui/Textarea';
 import { Plus, X, Shield } from 'lucide-react';
@@ -63,7 +63,7 @@ export const PoliciesSection = ({ policies, onPoliciesChange }: { policies: Poli
             <div className="flex items-center justify-between">
               <h4 className="font-medium">Policy {policyIndex + 1}</h4>
               {policies.length > 1 && (
-                <Button type="button" variant="outline" size="sm" onClick={() => removePolicy(policyIndex)}>
+                <Button type="button" variant="outline" size="sm" onClick={() => removePolicy(policyIndex)} data-testid="button">
                   <X size={16} />
                 </Button>
               )}
@@ -98,13 +98,13 @@ export const PoliciesSection = ({ policies, onPoliciesChange }: { policies: Poli
                   <div key={methodIndex} className="flex gap-2">
                     <Input value={method} onChange={(e) => updateAccessMethod(policyIndex, methodIndex, e.target.value)} placeholder="Enter access method..." />
                     {policy.accessMethods.length > 1 && (
-                      <Button type="button" variant="outline" size="sm" onClick={() => removeAccessMethod(policyIndex, methodIndex)}>
+                      <Button type="button" variant="outline" size="sm" onClick={() => removeAccessMethod(policyIndex, methodIndex)} data-testid="button">
                         <X size={16} />
                       </Button>
                     )}
                   </div>
                 ))}
-                <Button type="button" variant="outline" size="sm" onClick={() => addAccessMethod(policyIndex)} className="flex items-center gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={() => addAccessMethod(policyIndex)} className="flex items-center gap-2" data-testid="button">
                   <Plus size={16} />
                   Add Access Method
                 </Button>
@@ -128,7 +128,7 @@ export const PoliciesSection = ({ policies, onPoliciesChange }: { policies: Poli
           </div>
         ))}
 
-        <Button type="button" variant="outline" onClick={addPolicy} className="flex items-center gap-2">
+        <Button type="button" variant="outline" onClick={addPolicy} className="flex items-center gap-2" data-testid="button">
           <Plus size={16} />
           Add Policy
         </Button>

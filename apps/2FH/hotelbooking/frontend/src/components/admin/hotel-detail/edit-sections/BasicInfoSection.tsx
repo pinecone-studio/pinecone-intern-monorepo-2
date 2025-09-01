@@ -1,5 +1,5 @@
 'use client';
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Label } from '@/components/ui/Label';
 

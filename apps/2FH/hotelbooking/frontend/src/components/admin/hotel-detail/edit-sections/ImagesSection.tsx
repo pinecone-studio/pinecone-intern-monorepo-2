@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/Label';
 import { DragDropArea } from './DragDropArea';
 import Image from 'next/image';

@@ -1,6 +1,6 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 import { Star, Phone } from 'lucide-react';
 import { EditHotelModal } from './EditHotelModal';

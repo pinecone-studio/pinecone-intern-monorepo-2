@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 import { Wifi, WavesLadder, Droplet, Beef, Car, Dumbbell } from 'lucide-react';
 import { EditHotelModal } from './EditHotelModal';

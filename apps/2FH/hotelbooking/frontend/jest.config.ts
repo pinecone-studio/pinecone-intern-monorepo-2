@@ -9,8 +9,8 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
     '^@/components/ui/(.*)$': '<rootDir>/../../../../libs/shadcn/src/lib/ui/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   coverageDirectory: '../../../../coverage/apps/2FH/hotelbooking/frontend',
   collectCoverageFrom: [
@@ -20,5 +20,7 @@ export default {
     '!src/components/**/index.ts',
     '!src/types/jest-dom.d.ts',
     '!src/components/providers/ApolloWrapper.tsx',
+    '!src/setup-tests.ts',
+    '!src/components/providers/UserAuthProvider.tsx',
   ],
 };

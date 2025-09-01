@@ -1,6 +1,6 @@
 'use client';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Label } from '@/components/ui/Label';
 
@@ -21,7 +21,10 @@ export const FAQSection = ({ formData, handleInputChange }: FAQSectionProps) => 
               variant="outline"
               size="sm"
               onClick={() => {
-                handleInputChange('faq', formData.faq.filter((_: any, i: number) => i !== index));
+                handleInputChange(
+                  'faq',
+                  formData.faq.filter((_: any, i: number) => i !== index)
+                );
               }}
               className="text-red-600 hover:text-red-700"
             >
@@ -67,4 +70,4 @@ export const FAQSection = ({ formData, handleInputChange }: FAQSectionProps) => 
       </Button>
     </div>
   );
-}; 
+};

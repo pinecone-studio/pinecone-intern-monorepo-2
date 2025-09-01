@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCreateHotelMutation, Amenity } from '@/generated';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { BasicInformation } from '@/components/admin/add-hotel/BasicInformation';
 import { LanguagesSection } from '@/components/admin/add-hotel/LanguagesSection';

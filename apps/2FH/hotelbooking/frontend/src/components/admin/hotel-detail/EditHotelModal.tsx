@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useUpdateHotelMutation } from '@/generated';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { BasicInfoSection, LocationSection, AmenitiesSection, LanguagesSection, PoliciesSection, FAQSection, DetailsSection, ImagesSection } from './edit-sections';
 

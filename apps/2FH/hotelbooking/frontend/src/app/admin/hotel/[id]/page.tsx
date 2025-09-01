@@ -2,7 +2,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useHotelQuery } from '@/generated';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { HotelInfoCard, HotelDetailsCard, AmenitiesCard, PoliciesCard, FAQCard, LocationCard, HotelImagesCard, LoadingSkeleton, ErrorMessage, NotFoundMessage } from '@/components/admin/hotel-detail';
 
@@ -10,7 +10,7 @@ const HotelDetailPage = () => {
   const params = useParams();
   const router = useRouter();
   const hotelId = params.id as string;
-  
+
   const [editModalState, setEditModalState] = useState<{
     isOpen: boolean;
     section: 'basic' | 'location' | 'amenities' | 'policies' | 'languages' | 'faq' | 'images' | 'details';
@@ -59,64 +59,22 @@ const HotelDetailPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Side - Information Sections */}
           <div className="space-y-6">
-            <HotelInfoCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
-            
-            <HotelDetailsCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
-            
-            <AmenitiesCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
-            
-            <PoliciesCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
-            
-            <FAQCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
+            <HotelInfoCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
+
+            <HotelDetailsCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
+
+            <AmenitiesCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
+
+            <PoliciesCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
+
+            <FAQCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
           </div>
 
           {/* Right Side - Images */}
           <div className="space-y-6">
-            <LocationCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
-            
-            <HotelImagesCard 
-              hotel={hotel} 
-              editModalState={editModalState} 
-              setEditModalState={setEditModalState} 
-              refetch={refetch} 
-              hotelId={hotelId} 
-            />
+            <LocationCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
+
+            <HotelImagesCard hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
           </div>
         </div>
       </div>
