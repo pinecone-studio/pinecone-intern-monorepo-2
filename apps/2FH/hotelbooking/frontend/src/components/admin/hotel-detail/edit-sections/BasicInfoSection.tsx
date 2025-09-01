@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/Textarea';
-import { Label } from '@/components/ui/Label';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 interface BasicInfoSectionProps {
   formData: any;

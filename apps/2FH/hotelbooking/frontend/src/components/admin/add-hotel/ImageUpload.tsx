@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
-import { Label } from '@/components/ui/Label';
+import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 
 export const ImageUpload = ({
