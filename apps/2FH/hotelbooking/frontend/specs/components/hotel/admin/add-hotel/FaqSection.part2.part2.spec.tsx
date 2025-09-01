@@ -3,22 +3,22 @@ import { render, screen, fireEvent } from '@/TestUtils';
 import { FaqSection } from '@/components/admin/add-hotel/FaqSection';
 import type { FaqItem } from '@/components/admin/add-hotel/types';
 
-jest.mock('@/components/ui/Card', () => ({
+jest.mock('@/components/ui/card', () => ({
   Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,
   CardContent: ({ children }: { children: React.ReactNode }) => <div data-testid="card-content">{children}</div>,
   CardHeader: ({ children }: { children: React.ReactNode }) => <div data-testid="card-header">{children}</div>,
   CardTitle: ({ children }: { children: React.ReactNode }) => <div data-testid="card-title">{children}</div>,
 }));
 
-jest.mock('@/components/ui/Input', () => ({
+jest.mock('@/components/ui/input', () => ({
   Input: ({ id, value, onChange, placeholder }: any) => <input data-testid={`input-${id}`} value={value} onChange={onChange} placeholder={placeholder} />,
 }));
 
-jest.mock('@/components/ui/Textarea', () => ({
+jest.mock('@/components/ui/textarea', () => ({
   Textarea: ({ id, value, onChange, placeholder, rows }: any) => <textarea data-testid={`textarea-${id}`} value={value} onChange={onChange} placeholder={placeholder} rows={rows} />,
 }));
 
-jest.mock('@/components/ui/Button', () => ({
+jest.mock('@/components/ui/button', () => ({
   Button: ({ children, onClick, type, _variant, _size, className }: any) => (
     <button data-testid="button" onClick={onClick} type={type} className={className}>
       {children}
@@ -26,7 +26,7 @@ jest.mock('@/components/ui/Button', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/Label', () => ({
+jest.mock('@/components/ui/label', () => ({
   Label: ({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) => <label data-testid={`label-${htmlFor}`}>{children}</label>,
 }));
 

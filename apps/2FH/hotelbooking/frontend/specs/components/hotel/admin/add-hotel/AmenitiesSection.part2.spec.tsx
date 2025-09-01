@@ -4,20 +4,20 @@ import { AmenitiesSection } from '@/components/admin/add-hotel/AmenitiesSection'
 import { Amenity } from '@/generated';
 
 // Mock the UI components
-jest.mock('@/components/ui/Card', () => ({
+jest.mock('@/components/ui/card', () => ({
   Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,
   CardContent: ({ children }: { children: React.ReactNode }) => <div data-testid="card-content">{children}</div>,
   CardHeader: ({ children }: { children: React.ReactNode }) => <div data-testid="card-header">{children}</div>,
   CardTitle: ({ children }: { children: React.ReactNode }) => <div data-testid="card-title">{children}</div>,
 }));
 
-jest.mock('@/components/ui/Checkbox', () => ({
+jest.mock('@/components/ui/checkbox', () => ({
   Checkbox: ({ id, checked, onCheckedChange }: any) => (
     <input type="checkbox" id={id} checked={checked} onChange={(e) => onCheckedChange && onCheckedChange(e.target.checked)} data-testid={`checkbox-${id}`} />
   ),
 }));
 
-jest.mock('@/components/ui/Label', () => ({
+jest.mock('@/components/ui/label', () => ({
   Label: ({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) => (
     <label htmlFor={htmlFor} data-testid={`label-${htmlFor}`}>
       {children}
