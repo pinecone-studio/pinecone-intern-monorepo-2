@@ -30,7 +30,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
   const { data } = useGetRoomsQuery({ variables: { hotelId } });
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div data-testid="room-info" className="flex flex-col gap-y-4">
       <h3 className="text-2xl font-semibold">Choose your room</h3>
 
       <div className="flex w-[223px] rounded-md bg-[#F4F4F5] px-1 py-1">
@@ -58,9 +58,9 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
                 ))}
               </div>
               {showMore ? (
-                <ShowMore open={true} onOpenChange={setShowMore} rooms={rooms} />
+                <ShowMore data-testid="show-more-room-modal" open={true} onOpenChange={setShowMore} rooms={rooms} />
               ) : (
-                <div onClick={handleClickShow} className="flex gap-x-2  py-2  cursor-pointer text-blue-600">
+                <div data-testid="show-more-room-modal-btn" onClick={handleClickShow} className="flex gap-x-2  py-2  cursor-pointer text-blue-600">
                   <p className="text-sm font-medium">Show more </p>
                   <ChevronRight className="w-4 h-4  mt-[3px] " />
                 </div>

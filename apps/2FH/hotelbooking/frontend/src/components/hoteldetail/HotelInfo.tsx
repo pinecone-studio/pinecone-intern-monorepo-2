@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Amenity, useHotelQuery } from '@/generated';
 import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
-import { Star, CircleParking, AirVent, Dumbbell, Wifi, Utensils, WavesLadder, Presentation, Handshake, Landmark, Phone } from 'lucide-react';
+import { Star, CircleParking, Phone } from 'lucide-react';
 import { RoomInfo } from './RoomInfo';
 
 export const HotelInfo = () => {
@@ -45,9 +45,10 @@ export const HotelInfo = () => {
               <h3 className="text-3xl font-semibold">{data?.hotel?.name}</h3>
               <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`w-4 h-4 ${i < (data?.hotel?.stars ?? 0) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} />
+                  <Star data-testid={`Star ${i}`} key={i} className={`w-4 h-4 ${i < (data?.hotel?.stars ?? 0) ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`} />
                 ))}
               </div>
+
               <p className="text-base font-normal ">{data?.hotel?.description}</p>
             </div>
             <div className="flex gap-x-2">
@@ -59,42 +60,12 @@ export const HotelInfo = () => {
             <div className="flex flex-col gap-y-4">
               <h3 className="text-sm font-bold">Most popular facilities</h3>
               <div className="grid grid-cols-3 grid-rows-3 gap-4">
-                <div className="flex gap-x-2">
-                  <CircleParking className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Parking) ? 'Parking' : 'No Parking'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <AirVent className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.AirConditioning) ? 'Air Conditioning' : 'No Air Conditioning'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Dumbbell className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.FitnessCenter) ? 'Fitness Center' : 'No Fitness Center'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Wifi className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Wifi) ? 'Wifi' : 'No Wifi'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Utensils className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.RoomService) ? 'Room Service' : 'No Room Service'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <WavesLadder className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.Pool) ? 'Pool' : 'No Pool'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Presentation className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.BusinessCenter) ? 'Business Center' : 'No Business Center'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Handshake className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.MeetingRooms) ? 'Meeting Rooms' : 'No Meeting Rooms'}</p>
-                </div>
-                <div className="flex gap-x-2">
-                  <Landmark className="w-4 h-4" />
-                  <p className="text-sm font-medium">{data?.hotel?.amenities.includes(Amenity.ConferenceRooms) ? 'Conference Rooms' : 'No Conference Rooms'}</p>
-                </div>
+                {data?.hotel?.amenities.map((amenity) => (
+                  <div className="flex gap-x-2">
+                    <CircleParking className="w-4 h-4" />
+                    <p className="text-sm font-medium">{amenity}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
