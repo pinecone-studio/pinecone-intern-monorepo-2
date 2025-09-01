@@ -9,15 +9,18 @@ import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from 'sonner';
 import { useOtpContext } from '@/components/providers';
-import { useRouter } from 'next/navigation';
-
+import { Dispatch, SetStateAction } from 'react';
+import { Data } from '@/app/(private)/booking/[userid]/payment/page';
+type Props = {
+  setConfirmed: Dispatch<SetStateAction<boolean>>;
+  setBookingData: Dispatch<SetStateAction<Data | undefined | null>>;
+};
 const mockUserId = '68b017713bb2696705c69369';
 const mockHotelId = '689d5d72980117e81dad2925';
 const mockRoomId = '68b2a9fdb61cd7a760dbf94f';
 const mockEmailAddress = 'bati202009@gmail.com';
 const mockCheInDate = '2025-09-10';
 const mockCheOutDate = '2025-09-15';
-
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -28,7 +31,7 @@ const formSchema = z.object({
   }),
 });
 
-export const BookingPayment = () => {
+export const BookingPayment = ({ setConfirmed, setBookingData }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,15 +39,13 @@ export const BookingPayment = () => {
       firstname: '',
     },
   });
-  const router = useRouter();
   const { setBookingSuccess } = useOtpContext();
   const [createBooking, { loading }] = useCreateBookingMutation();
   const [updateUser] = useUpdateUserMutationMutation();
 
-  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createBooking({
+      const { data } = await createBooking({
         variables: {
           input: {
             userId: mockUserId,
@@ -67,11 +68,23 @@ export const BookingPayment = () => {
         },
       });
       await setBookingSuccess(true);
+      setBookingData(
+        data?.createBooking
+          ? {
+              userId: data.createBooking.userId,
+              hotelId: data.createBooking.hotelId,
+              roomId: data.createBooking.roomId,
+              checkInDate: data.createBooking.checkInDate,
+              checkOutDate: data.createBooking.checkOutDate,
+              bookingId: data.createBooking.id,
+            }
+          : null
+      );
+      setConfirmed(true);
       toast.success('Booking success');
-      router.push(`/booking/${1}/confirmed`);
     } catch (error) {
       console.log(error);
-      
+
       toast.error('Booking error');
     }
   }
@@ -126,7 +139,6 @@ export const BookingPayment = () => {
             <div className="flex flex-col gap-3">
               <div className="font-semibold">2. Contact information</div>
             </div>
-
 
             <div>
               <div className="text-[12px] font-medium">Email address</div>
