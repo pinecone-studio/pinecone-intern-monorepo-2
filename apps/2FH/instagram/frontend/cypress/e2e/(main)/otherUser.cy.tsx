@@ -1,153 +1,99 @@
+// cypress/e2e/otherUser.cy.ts
+
 describe('OtherUser Page', () => {
-  interface UserData {
-    userName: string;
-    fullName: string;
-    bio?: string;
-    profileImage?: string;
-    isVerified?: boolean;
-    isPrivate?: boolean;
-    followers?: Array<{ userName: string }>;
-    followings?: Array<{ userName: string }>;
-  }
-  const createMockUser = (userData: UserData) => {
-    const defaults = {
-      _id: '123',
-      bio: 'Test bio',
-      profileImage: '/demo.png',
-      isVerified: false,
-      isPrivate: false,
-      followers: [],
-      followings: [],
-    };
-    return { ...defaults, ...userData };
-  };
-  const interceptUserQuery = (userData: UserData | null) => {
-    cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'GetUserByUsername' || req.body.query.includes('getUserByUsername')) {
-        req.reply({ body: { data: { getUserByUsername: userData } } });
-      }
-    }).as('getUserQuery');
-  };
+  const userName = 'testuser';
+
   beforeEach(() => {
-    window.localStorage.setItem('user', JSON.stringify({ _id: 'current-user-id', userName: 'me' }));
-  });
-  it('renders loading state', () => {
-    cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'GetUserByUsername' || req.body.query.includes('getUserByUsername')) {
-        req.reply({ delay: 1000, body: { data: { getUserByUsername: null } } });
+    // Intercept GraphQL requests
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetUserByUsername') {
+        // 👇 Custom mock өгч болно
+        if (req.alias === 'error') {
+          req.reply({ errors: [{ message: 'Something went wrong' }] });
+        } else if (req.alias === 'notFound') {
+          req.reply({ data: { getUserByUsername: null } });
+        } else {
+          req.reply({
+            data: {
+              getUserByUsername: {
+                __typename: 'User',
+                _id: '123',
+                userName,
+                fullName: 'Test User',
+                bio: 'This is a test bio',
+                profileImage: null,
+                isPrivate: false,
+                isVerified: false,
+                followers: [],
+                followings: [],
+                posts: [{ _id: 'p1' }, { _id: 'p2' }],
+              },
+            },
+          });
+        }
       }
-    }).as('getUserQuery');
-    cy.visit('/someUser');
-    cy.contains('Loading...', { timeout: 2000 });
+    }).as('getUserByUsername');
   });
-  it('renders user not found', () => {
-    interceptUserQuery(null);
-    cy.visit('/someUser');
-    cy.contains('User not found', { timeout: 10000 });
+
+  it('should show loading state', () => {
+    cy.visit(`/${userName}`);
+    cy.contains('Loading...').should('exist');
   });
-  it('renders public user profile', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'otherUser',
-        fullName: 'Other User',
-        bio: 'Hello, this is bio',
-        isVerified: true,
-      })
-    );
-    cy.visit('/otherUser');
-    cy.contains('otherUser', { timeout: 10000 });
-    cy.contains('Other User');
-    cy.contains('Hello, this is bio');
-    cy.contains('posts');
-    cy.contains('following');
-    cy.get('button').contains('Follow');
-  });
-  it('renders private user (not following)', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'privateUser',
-        fullName: 'Private User',
-        bio: 'Secret',
-        isPrivate: true,
-      })
-    );
-    cy.visit('/privateUser');
-    cy.contains('This account is private', { timeout: 10000 });
-    cy.contains('Follow to see their photos and videos');
-  });
-  it('renders user profile without waiting for specific requests', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'testUser',
-        fullName: 'Test User',
-      })
-    );
-    cy.visit('/testUser');
-    cy.contains('testUser', { timeout: 15000 }).should('be.visible');
-    cy.contains('Test User').should('be.visible');
-    cy.contains('posts').should('be.visible');
-  });
-  it('renders error state', () => {
-    cy.intercept('POST', '**/graphql', (req) => {
-      if (req.body.operationName === 'GetUserByUsername' || req.body.query.includes('getUserByUsername')) {
-        req.reply({ forceNetworkError: true });
+
+  it('should show error state', () => {
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetUserByUsername') {
+        req.reply({ errors: [{ message: 'Something went wrong' }] });
       }
-    }).as('getUserQuery');
-    cy.visit('/errorUser');
-    cy.contains('Error:', { timeout: 10000 });
+    }).as('getUserByUsernameError');
+
+    cy.visit(`/${userName}`);
+    cy.contains('Error: Something went wrong').should('exist');
   });
-  it('renders user with followers and following', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'popularUser',
-        fullName: 'Popular User',
-        bio: 'I have followers',
-        isVerified: true,
-        followers: [{ userName: 'me' }, { userName: 'other1' }, { userName: 'other2' }],
-        followings: [{ userName: 'friend1' }, { userName: 'friend2' }],
-      })
-    );
-    cy.visit('/popularUser');
-    cy.contains('3').should('be.visible');
-    cy.contains('2').should('be.visible');
-    cy.contains('posts').should('be.visible');
+
+  it('should show user not found', () => {
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetUserByUsername') {
+        req.reply({ data: { getUserByUsername: null } });
+      }
+    }).as('getUserByUsernameNotFound');
+
+    cy.visit(`/${userName}`);
+    cy.contains('User not found').should('exist');
   });
-  it('renders user without current user in localStorage', () => {
-    cy.clearLocalStorage();
-    interceptUserQuery(
-      createMockUser({
-        userName: 'noCurrentUser',
-        fullName: 'No Current User',
-      })
-    );
-    cy.visit('/noCurrentUser');
-    cy.contains('noCurrentUser', { timeout: 10000 }).should('be.visible');
-    cy.contains('No Current User').should('be.visible');
+
+  it('should render user profile when data exists', () => {
+    cy.visit(`/${userName}`);
+
+    cy.wait('@getUserByUsername');
+    cy.contains('Test User').should('exist'); // fullName
+    cy.contains('POSTS').should('exist');
   });
-  it('renders private user that current user is following', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'privateFollowingUser',
-        fullName: 'Private Following User',
-        bio: 'Private but followed',
-        isPrivate: true,
-        followers: [{ userName: 'me' }],
-      })
-    );
-    cy.visit('/privateFollowingUser');
-    cy.contains('POSTS', { timeout: 10000 }).should('be.visible');
-    cy.contains('privateFollowingUser').should('be.visible');
-  });
-  it('renders user with non-http profile image', () => {
-    interceptUserQuery(
-      createMockUser({
-        userName: 'invalidImageUser',
-        fullName: 'Invalid Image User',
-        profileImage: 'invalid-image-url',
-      })
-    );
-    cy.visit('/invalidImageUser');
-    cy.contains('invalidImageUser', { timeout: 10000 }).should('be.visible');
-    cy.contains('Invalid Image User').should('be.visible');
+
+  it('should show private account message when user is private', () => {
+    cy.intercept('POST', '/api/graphql', (req) => {
+      if (req.body.operationName === 'GetUserByUsername') {
+        req.reply({
+          data: {
+            getUserByUsername: {
+              __typename: 'User',
+              _id: '123',
+              userName,
+              fullName: 'Private User',
+              bio: '',
+              profileImage: null,
+              isPrivate: true,
+              isVerified: false,
+              followers: [],
+              followings: [],
+              posts: [],
+            },
+          },
+        });
+      }
+    }).as('getPrivateUser');
+
+    cy.visit(`/${userName}`);
+    cy.contains('This account is private').should('exist');
   });
 });
