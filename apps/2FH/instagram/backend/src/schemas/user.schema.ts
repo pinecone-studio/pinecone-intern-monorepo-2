@@ -20,7 +20,7 @@ export const UserTypeDefs = gql`
     gender: Gender!
     isPrivate: Boolean!
     isVerified: Boolean!
-    posts: [Post!]!
+    posts: [ID!]!
     stories: [Story!]!
     followers: [User!]!
     followings: [User!]!
@@ -81,6 +81,10 @@ export const UserTypeDefs = gql`
     otp: String!
   }
 
+  input SendVerificationEmailInput {
+    email: String!
+  }
+
   type Query {
     getUserById(_id: ID!): User
     getUserByUsername(userName: String!): User
@@ -94,6 +98,8 @@ export const UserTypeDefs = gql`
     resetPassword(input: ResetPasswordInput!): Boolean!
     verifyOTP(identifier: String!, otp: String!): Boolean!
     otpStorage(input: OtpStorageInput!): Boolean!
+    sendVerificationEmail(input: SendVerificationEmailInput!): Boolean!
+    verifyEmailOTP(email: String!, otp: String!): Boolean!
 
     updateUser(_id: ID!, input: UpdateUserInput!): User!
     deleteUser(userId: ID!): DeleteUserResponse!

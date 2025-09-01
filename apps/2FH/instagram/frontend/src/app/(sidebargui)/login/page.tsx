@@ -1,14 +1,14 @@
+/* eslint-disable max-lines, complexity */
 'use client';
-
-import { useState} from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useMutation } from '@apollo/client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { gql } from '@apollo/client';
-import { LoginFormData, AuthError } from '@/components/auth/types';
+import { LoginFormData} from '@/components/auth/types';
 import { ErrorDisplay } from '@/components/auth/ErrorDisplay';
-
+import { useAuth } from '@/contexts/AuthContext';
 const LOGIN_USER = gql`
   mutation LoginUser($input: LoginInput!) {
     loginUser(input: $input) {
@@ -17,31 +17,45 @@ const LOGIN_USER = gql`
     }
   }
 `;
+const handleLoginSuccess = (data: any, login: any, router: any) => {
+  login(data.loginUser.user, data.loginUser.token);
+  router.push('/');
+};
+type AuthError = { message: string; code?: string; email?: string; };
+const handleLoginError = (apolloError: any, setError: any) => {
+  const errorCode = (apolloError.graphQLErrors[0]?.extensions?.code as string) || 'UNKNOWN_ERROR';
+  const errorEmail = apolloError.graphQLErrors[0]?.extensions?.email as string;     
+  setError({
+    message: apolloError.message,
+    code: errorCode,
+    ...(errorEmail && { email: errorEmail }),
+  });
+};
 
 const LoginPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
   const [formData, setFormData] = useState<LoginFormData>({ identifier: '', password: '' });
   const [error, setError] = useState<AuthError | null>(null);
-
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    onCompleted: (data) => {
-      localStorage.setItem('token', data.loginUser.token);
-      localStorage.setItem('user', JSON.stringify(data.loginUser.user));
-      router.push('/');
-    },
-    onError: (apolloError) => {
-      setError({
-        message: apolloError.message,
-        code: (apolloError.graphQLErrors[0]?.extensions?.code as string) || 'UNKNOWN_ERROR',
-      });
-    },
+    onCompleted: (data) => handleLoginSuccess(data, login, router),
+    onError: (apolloError) => handleLoginError(apolloError, setError),
   });
-
+  useEffect(() => {
+    const message = searchParams.get('message');
+    if (message) {
+      setSuccessMessage(message);
+    }
+  }, [searchParams]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (error) setError(null);
+    if (successMessage) setSuccessMessage(null);
   };
+  const isFormValid = formData.identifier.trim() && formData.password.trim();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +65,6 @@ const LoginPage = () => {
     }
     await loginUser({ variables: { input: formData } });
   };
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -64,13 +77,30 @@ const LoginPage = () => {
               height={48}
               className="h-12 w-auto"
               style={{ filter: 'brightness(0)' }}
-              priority
             />
           </div>
-
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <ErrorDisplay error={error} />
-
+            {successMessage && (
+              <div className="bg-green-50 border border-green-200 rounded-sm p-3">
+                <p className="text-sm text-green-800 text-center">{successMessage}</p>
+              </div>
+            )}          
+            <ErrorDisplay error={error} />           
+            {error?.code === 'EMAIL_NOT_VERIFIED' && error.email && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-sm p-3">
+                <p className="text-sm text-yellow-800 text-center mb-2">
+                  Your email address needs to be verified to continue.
+                </p>
+                <div className="text-center">
+                  <Link 
+                    href={`/verify-otp?email=${encodeURIComponent(error.email)}`}
+                    className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    Verify your email now
+                  </Link>
+                </div>
+              </div>
+            )}
             <div>
               <input
                 id="identifier"
@@ -83,7 +113,6 @@ const LoginPage = () => {
                 placeholder="Username, phone number, or email"
               />
             </div>
-
             <div>
               <input
                 id="password"
@@ -106,7 +135,7 @@ const LoginPage = () => {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !isFormValid}
                 className="w-full rounded-sm bg-blue-500 py-2 px-4 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300 disabled:cursor-not-allowed"
               >
                 {loading ? 'Logging in...' : 'Log in'}
@@ -114,7 +143,6 @@ const LoginPage = () => {
             </div>
           </form>
         </div>
-
         <div className="bg-white py-4 px-8 shadow-sm border border-gray-300 rounded-sm mt-2 text-center">
           <p className="text-sm text-gray-900">
             Don&apos;t have an account?{' '}
@@ -128,4 +156,12 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+const LoginPageWithSuspense = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPage />
+    </Suspense>
+  );
+};
+
+export default LoginPageWithSuspense;

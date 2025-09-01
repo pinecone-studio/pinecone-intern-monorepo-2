@@ -39,7 +39,7 @@
     "../../../../dist/aapps/2FH/instagram/frontend/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../../../dist/apps/2FH/instagram/frontend/.next/types/**/*.ts"
-  ],
+, "cypress/e2e/(main)/stories.cy.tsx.disabled", "cypress/e2e/(auth)/verify-otp-uncovered.cy.tsx.disabled", "cypress/e2e/(auth)/verify-otp-resend.cy.tsx.disabled", "cypress/e2e/(auth)/verify-otp-navigation.cy.tsx.disabled", "cypress/e2e/(auth)/verify-otp-basic.cy.tsx.disabled", "cypress/e2e/(auth)/verify-otp-api.cy.tsx.disabled", "cypress/e2e/(auth)/signup-uncovered.cy.tsx.disabled", "cypress/e2e/(auth)/signup-page-validation.cy.tsx.disabled", "cypress/e2e/(auth)/signup-page-basic.cy.tsx.disabled", "cypress/e2e/(auth)/reset-password-page-validation.cy.tsx.disabled", "cypress/e2e/(auth)/reset-password-page-basic.cy.tsx.disabled", "cypress/e2e/(auth)/reset-password-page-api.cy.tsx.disabled", "cypress/e2e/(auth)/reset-password-line92.cy.tsx.disabled", "cypress/e2e/(auth)/login-page-basic.cy.tsx.bak", "cypress/e2e/(auth)/forgot-password.cy.tsx.bak", "cypress/e2e/(auth)/forgot-password-api.cy.tsx.bak"  ],
   "exclude": [
     "node_modules",
     "jest.config.ts",

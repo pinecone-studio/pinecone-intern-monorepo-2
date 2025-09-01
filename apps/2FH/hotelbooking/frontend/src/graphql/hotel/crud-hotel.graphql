@@ -11,3 +11,4 @@ mutation UpdateHotel($updateHotelId: ID!, $hotel: UpdateHotelInput!) {
     message
   }
 }
+

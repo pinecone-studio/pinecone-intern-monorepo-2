@@ -42,31 +42,50 @@ const generateToken = (userId: string, userName: string) => {
   );
 };
 
+const validateUserVerification = (user: any) => {
+  if (user.email && !user.isVerified) {
+    throw new GraphQLError('Please verify your email address before logging in', {
+      extensions: { 
+        code: 'EMAIL_NOT_VERIFIED',
+        email: user.email
+      }
+    });
+  }
+};
+
+const createLoginResponse = (user: any) => {
+  const token = generateToken(user._id.toString(), user.userName);
+  const userObject = user.toObject();
+  const { password: _, ...userWithoutPassword } = userObject;
+  
+  return {
+    user: userWithoutPassword,
+    token
+  };
+};
+
+const processLogin = async (input: LoginInput) => {
+  const { identifier, password } = input;
+  const user = await findUserByIdentifier(identifier);
+  
+  if (!user) {
+    throw new GraphQLError('Invalid credentials', {
+      extensions: { code: 'INVALID_CREDENTIALS' }
+    });
+  }
+  
+  validatePassword(password, user.password);
+  validateUserVerification(user);
+  
+  return createLoginResponse(user);
+};
+
 export const loginUser = async (
   _parent: unknown,
   { input }: { input: LoginInput }
 ) => {
   try {
-    const { identifier, password } = input;
-    const user = await findUserByIdentifier(identifier);
-    
-    if (!user) {
-      throw new GraphQLError('Invalid credentials', {
-        extensions: { code: 'INVALID_CREDENTIALS' }
-      });
-    }
-    
-    validatePassword(password, user.password);
-    
-    const token = generateToken(user._id.toString(), user.userName);
-    
-    const userObject = user.toObject();
-    const { password: _, ...userWithoutPassword } = userObject;
-    
-    return {
-      user: userWithoutPassword,
-      token
-    };
+    return await processLogin(input);
   } catch (error) {
     if (error instanceof GraphQLError) {
       throw error;
