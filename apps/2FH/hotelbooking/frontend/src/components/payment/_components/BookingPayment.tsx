@@ -9,12 +9,7 @@ import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from 'sonner';
 import { useOtpContext } from '@/components/providers';
-import { Dispatch, SetStateAction } from 'react';
-import { Data } from '@/app/(private)/booking/[userid]/payment/page';
-type Props = {
-  setConfirmed: Dispatch<SetStateAction<boolean>>;
-  setBookingData: Dispatch<SetStateAction<Data | undefined | null>>;
-};
+
 const mockUserId = '68b017713bb2696705c69369';
 const mockHotelId = '689d5d72980117e81dad2925';
 const mockRoomId = '68b2a9fdb61cd7a760dbf94f';
@@ -23,123 +18,111 @@ const mockCheInDate = '2025-09-10';
 const mockCheOutDate = '2025-09-15';
 
 const formSchema = z.object({
-  firstname: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  lastname: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
+  firstname: z.string().min(2, { message: 'Username must be at least 2 characters.' }),
+  lastname: z.string().min(2, { message: 'Username must be at least 2 characters.' }),
 });
 
-export const BookingPayment = ({ setConfirmed, setBookingData }: Props) => {
+export const BookingPayment = () => {
+  const { bookingData, setBookingData, setBookingSuccess } = useOtpContext();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      lastname: '',
-      firstname: '',
-    },
+    defaultValues: { firstname: '', lastname: '' },
   });
-  const { setBookingSuccess } = useOtpContext();
+
   const [createBooking, { loading }] = useCreateBookingMutation();
   const [updateUser] = useUpdateUserMutationMutation();
 
+  const handleCreateBooking = async () => {
+    const { data } = await createBooking({
+      variables: {
+        input: {
+          userId: mockUserId,
+          hotelId: mockHotelId,
+          roomId: mockRoomId,
+          checkInDate: mockCheInDate,
+          checkOutDate: mockCheOutDate,
+        },
+      },
+    });
+    return data?.createBooking;
+  };
+
+  const handleUpdateUser = async (values: z.infer<typeof formSchema>) => {
+    await updateUser({
+      variables: {
+        input: {
+          _id: mockUserId,
+          email: mockEmailAddress,
+          firstName: values.firstname,
+          lastName: values.lastname,
+        },
+      },
+    });
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const { data } = await createBooking({
-        variables: {
-          input: {
-            userId: mockUserId,
-            hotelId: mockHotelId,
-            roomId: mockRoomId,
-            checkInDate: mockCheInDate,
-            checkOutDate: mockCheOutDate,
-          },
-        },
+      const booking = await handleCreateBooking();
+
+      setBookingData({
+        ...bookingData,
+        ...(booking || ''),
       });
 
-      await updateUser({
-        variables: {
-          input: {
-            _id: mockUserId,
-            email: mockEmailAddress,
-            lastName: values.lastname,
-            firstName: values.firstname,
-          },
-        },
-      });
-      await setBookingSuccess(true);
-      setBookingData(
-        data?.createBooking
-          ? {
-              userId: data.createBooking.userId,
-              hotelId: data.createBooking.hotelId,
-              roomId: data.createBooking.roomId,
-              checkInDate: data.createBooking.checkInDate,
-              checkOutDate: data.createBooking.checkOutDate,
-              bookingId: data.createBooking.id,
-            }
-          : null
-      );
-      setConfirmed(true);
+      await handleUpdateUser(values);
       toast.success('Booking success');
+      await setBookingSuccess(true);
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       toast.error('Booking error');
     }
   }
 
   return (
-    <Form {...form}>
+    <Form {...form} data-cy="Booking-Payment-Container">
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="w-full flex flex-col gap-10">
           <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-3">
-              <div className="font-semibold">1. Whos checking</div>
-              <div className="opacity-50 text-[13px]">
-                Please tell us the name of the guest staying at the hotel as it appears on the ID that they’ll present at check-in. If the guest has more than one last name, please enter them all.
-              </div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <FormField
-                  control={form.control}
-                  name="firstname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[12px] font-medium">First name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter firstname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div>
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[12px] font-medium">Last name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter lastname" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+            <div className="font-semibold">1. Whos checking</div>
+            <div className="opacity-50 text-[13px]">
+              Please tell us the name of the guest staying at the hotel as it appears on the ID that they’ll present at check-in. If the guest has more than one last name, please enter them all.
             </div>
           </div>
 
-          <div className="border-[1px] w-full"></div>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-3">
-              <div className="font-semibold">2. Contact information</div>
-            </div>
+          <div className="flex flex-col gap-5">
+            <FormField
+              control={form.control}
+              name="firstname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[12px] font-medium">First name</FormLabel>
+                  <FormControl>
+                    <Input data-cy="Input-1" placeholder="Enter firstname" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[12px] font-medium">Last name</FormLabel>
+                  <FormControl>
+                    <Input data-cy="Input-2" placeholder="Enter lastname" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
+          <div className="border-[1px] w-full"></div>
+
+          <div className="flex flex-col gap-3">
+            <div className="font-semibold">2. Contact information</div>
             <div>
               <div className="text-[12px] font-medium">Email address</div>
               <Input disabled type="mail" defaultValue={mockEmailAddress} />
@@ -147,7 +130,7 @@ export const BookingPayment = ({ setConfirmed, setBookingData }: Props) => {
           </div>
 
           <div className="w-full flex justify-end">
-            <Button data-testid="Complete-Booking-Btn" type="submit" className="bg-[#2563EB] hover:bg-[#2564ebd9]">
+            <Button data-cy="Complete-Booking-Btn" data-testid="Complete-Booking-Btn" type="submit" className="bg-[#2563EB] hover:bg-[#2564ebd9]">
               {loading ? <LoadingSvg /> : 'Complete booking'}
             </Button>
           </div>

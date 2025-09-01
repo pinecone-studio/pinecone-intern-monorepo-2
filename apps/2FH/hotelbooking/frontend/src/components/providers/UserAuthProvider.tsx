@@ -20,6 +20,26 @@ type OtpContextType = {
   setTimeLeft: Dispatch<SetStateAction<number>>;
   bookingSuccess: boolean;
   setBookingSuccess: Dispatch<SetStateAction<boolean>>;
+  setBookingData: Dispatch<SetStateAction<{
+    userId: string;
+    id: string;
+    hotelId: string;
+    roomId: string;
+    checkInDate: string;
+    checkOutDate: string;
+    status: string;
+    __typeName: string;
+  }>>;
+  bookingData: {
+    userId: string;
+    id: string;
+    hotelId: string;
+    roomId: string;
+    checkInDate: string;
+    checkOutDate: string;
+    status: string;
+    __typeName: string;
+  };
 };
 
 const OtpContext = createContext<OtpContextType | null>(null);
@@ -33,7 +53,17 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  
+  const [bookingData, setBookingData] = useState({
+    userId: '',
+    id: '',
+    hotelId: '',
+    roomId: '',
+    checkInDate: '',
+    checkOutDate: '',
+    status: '',
+    __typeName: '',
+  });
+
   useEffect(() => {
     if (!startTime) return;
     if (timeLeft <= 0) return;
@@ -72,6 +102,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setTimeLeft,
         bookingSuccess,
         setBookingSuccess,
+        bookingData,
+        setBookingData,
       }}
     >
       {children}
