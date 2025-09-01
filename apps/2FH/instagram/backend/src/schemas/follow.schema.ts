@@ -32,5 +32,6 @@ export const FollowTypeDefs = gql`
     followUser(targetUserId: ID!): FollowResponse!
     acceptFollowRequest(requestId: ID!): FollowResponse!
     rejectFollowRequest(requestId: ID!): FollowResponse!
+    unfollowUser(targetUserId: ID!): FollowResponse!
   }
 `;
