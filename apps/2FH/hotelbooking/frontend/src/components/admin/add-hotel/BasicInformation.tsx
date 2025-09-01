@@ -5,8 +5,8 @@ import { Label } from '@/components/ui/label';
 import { Star } from 'lucide-react';
 import { FormData } from './types';
 
-export const BasicInformation = ({ formData, onInputChange }: { formData: FormData; onInputChange: (_field: keyof FormData, _value: string | number) => void }) => (
-  <Card>
+export const BasicInformation = ({ formData, onInputChange, ...props }: { formData: FormData; onInputChange: (_field: keyof FormData, _value: string | number) => void }) => (
+  <Card {...props}>
     <CardHeader>
       <CardTitle className="flex items-center gap-2">
         <Star size={20} className="text-yellow-500" />

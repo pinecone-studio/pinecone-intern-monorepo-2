@@ -7,9 +7,9 @@ interface PolicyItemProps {
   onDelete?: () => void; // eslint-disable-line no-unused-vars
 }
 
-export const PolicyItem: React.FC<PolicyItemProps> = ({ policy, onEdit, onDelete }) => {
+export const PolicyItem: React.FC<PolicyItemProps> = ({ policy, onEdit, onDelete, ...props }) => {
   return (
-    <div className="border rounded-lg p-4 mb-4">
+    <div className="border rounded-lg p-4 mb-4" {...props}>
       <div className="flex justify-between items-start mb-3">
         <h4 className="font-semibold text-gray-900">Hotel Policy</h4>
         <div className="flex gap-2">

@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, X, Shield } from 'lucide-react';
 import type { Policy } from './types';
 
-export const PoliciesSection = ({ policies, onPoliciesChange }: { policies: Policy[]; onPoliciesChange: (_policies: Policy[]) => void }) => {
+export const PoliciesSection = ({ policies, onPoliciesChange, ...props }: { policies: Policy[]; onPoliciesChange: (_policies: Policy[]) => void }) => {
   const addPolicy = () => {
     onPoliciesChange([
       ...policies,
@@ -50,7 +50,7 @@ export const PoliciesSection = ({ policies, onPoliciesChange }: { policies: Poli
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Shield size={20} className="text-orange-500" />

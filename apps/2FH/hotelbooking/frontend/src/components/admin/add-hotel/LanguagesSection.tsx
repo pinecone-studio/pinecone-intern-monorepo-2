@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus, X, Globe } from 'lucide-react';
 
-export const LanguagesSection = ({ languages, onLanguagesChange }: { languages: string[]; onLanguagesChange: (_languages: string[]) => void }) => {
+export const LanguagesSection = ({ languages, onLanguagesChange, ...props }: { languages: string[]; onLanguagesChange: (_languages: string[]) => void }) => {
   const addLanguage = () => {
     onLanguagesChange([...languages, '']);
   };
@@ -19,7 +19,7 @@ export const LanguagesSection = ({ languages, onLanguagesChange }: { languages: 
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Globe size={20} className="text-green-500" />

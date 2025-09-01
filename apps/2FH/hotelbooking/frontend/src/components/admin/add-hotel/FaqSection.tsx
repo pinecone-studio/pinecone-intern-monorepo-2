@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, X, HelpCircle } from 'lucide-react';
 import type { FaqItem } from './types';
 
-export const FaqSection = ({ faq, onFaqChange }: { faq: FaqItem[]; onFaqChange: (_faq: FaqItem[]) => void }) => {
+export const FaqSection = ({ faq, onFaqChange, ...props }: { faq: FaqItem[]; onFaqChange: (_faq: FaqItem[]) => void }) => {
   const addFaq = () => {
     onFaqChange([
       ...faq,
@@ -28,7 +28,7 @@ export const FaqSection = ({ faq, onFaqChange }: { faq: FaqItem[]; onFaqChange: 
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <HelpCircle size={20} className="text-blue-500" />

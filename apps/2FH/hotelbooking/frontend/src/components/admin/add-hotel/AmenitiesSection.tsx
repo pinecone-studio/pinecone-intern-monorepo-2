@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Star } from 'lucide-react';
 import { Amenity } from '@/generated';
 
-export const AmenitiesSection = ({ amenities, onAmenitiesChange }: { amenities: Amenity[]; onAmenitiesChange: (_amenities: Amenity[]) => void }) => {
+export const AmenitiesSection = ({ amenities, onAmenitiesChange, ...props }: { amenities: Amenity[]; onAmenitiesChange: (_amenities: Amenity[]) => void }) => {
   const handleAmenityChange = (amenity: Amenity, checked: boolean) => {
     if (checked) {
       onAmenitiesChange([...amenities, amenity]);
@@ -16,7 +16,7 @@ export const AmenitiesSection = ({ amenities, onAmenitiesChange }: { amenities: 
   const amenityOptions = Object.values(Amenity);
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Star size={20} className="text-purple-500" />

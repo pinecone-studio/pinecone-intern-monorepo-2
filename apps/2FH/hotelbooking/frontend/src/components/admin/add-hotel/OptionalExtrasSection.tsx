@@ -5,7 +5,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, X, Info } from 'lucide-react';
 import type { OptionalExtra } from './types';
 
-export const OptionalExtrasSection = ({ optionalExtras, onOptionalExtrasChange }: { optionalExtras: OptionalExtra[]; onOptionalExtrasChange: (_optionalExtras: OptionalExtra[]) => void }) => {
+export const OptionalExtrasSection = ({
+  optionalExtras,
+  onOptionalExtrasChange,
+  ...props
+}: {
+  optionalExtras: OptionalExtra[];
+  onOptionalExtrasChange: (_optionalExtras: OptionalExtra[]) => void;
+}) => {
   const addOptionalExtra = () => {
     onOptionalExtrasChange([
       ...optionalExtras,
@@ -27,7 +34,7 @@ export const OptionalExtrasSection = ({ optionalExtras, onOptionalExtrasChange }
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Info size={20} className="text-green-500" />

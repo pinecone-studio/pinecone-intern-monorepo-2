@@ -67,7 +67,7 @@ const AddHotelPage = () => {
         variables: {
           hotel: {
             ...formData,
-            images: imageUrls, // Use the actual Cloudinary URLs
+            images: imageUrls,
             languages: formData.languages.filter((lang) => lang.trim() !== ''),
             faq: formData.faq.filter((item) => item.question.trim() !== '' && item.answer.trim() !== ''),
             optionalExtras: formData.optionalExtras.filter((item) => item.youNeedToKnow.trim() !== '' && item.weShouldMention.trim() !== ''),
@@ -85,38 +85,48 @@ const AddHotelPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6" data-cy="add-hotel-page">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="outline" onClick={() => router.back()} className="flex items-center gap-2">
+          <Button data-cy="back-button" variant="outline" onClick={() => router.back()} className="flex items-center gap-2">
             <ArrowLeft size={16} />
             Back
           </Button>
-          <h1 className="text-3xl font-bold text-gray-900">Add New Hotel</h1>
+          <h1 data-cy="page-title" className="text-3xl font-bold text-gray-900">
+            Add New Hotel
+          </h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <BasicInformation formData={formData} onInputChange={handleInputChange} />
+        <form onSubmit={handleSubmit} className="space-y-8" data-cy="add-hotel-form">
+          <BasicInformation formData={formData} onInputChange={handleInputChange} data-cy="basic-information" />
 
-          <ImageUpload uploadedImages={uploadedImages} imageUrls={imageUrls} onImagesChange={setUploadedImages} onUrlsChange={setImageUrls} />
+          <ImageUpload uploadedImages={uploadedImages} imageUrls={imageUrls} onImagesChange={setUploadedImages} onUrlsChange={setImageUrls} data-cy="image-upload" />
 
-          <LanguagesSection languages={formData.languages} onLanguagesChange={(languages) => handleInputChange('languages', languages)} />
+          <LanguagesSection languages={formData.languages} onLanguagesChange={(languages) => handleInputChange('languages', languages)} data-cy="languages-section" />
 
-          <AmenitiesSection amenities={formData.amenities} onAmenitiesChange={(amenities) => handleInputChange('amenities', amenities)} />
+          <AmenitiesSection amenities={formData.amenities} onAmenitiesChange={(amenities) => handleInputChange('amenities', amenities)} data-cy="amenities-section" />
 
-          <PoliciesSection policies={formData.policies} onPoliciesChange={(policies) => handleInputChange('policies', policies)} />
+          <PoliciesSection policies={formData.policies} onPoliciesChange={(policies) => handleInputChange('policies', policies)} data-cy="policies-section" />
 
-          <FaqSection faq={formData.faq} onFaqChange={(faq) => handleInputChange('faq', faq)} />
+          <FaqSection faq={formData.faq} onFaqChange={(faq) => handleInputChange('faq', faq)} data-cy="faq-section" />
 
-          <OptionalExtrasSection optionalExtras={formData.optionalExtras} onOptionalExtrasChange={(optionalExtras) => handleInputChange('optionalExtras', optionalExtras)} />
+          <OptionalExtrasSection
+            optionalExtras={formData.optionalExtras}
+            onOptionalExtrasChange={(optionalExtras) => handleInputChange('optionalExtras', optionalExtras)}
+            data-cy="optional-extras-section"
+          />
 
-          {error && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">Error: {error.message}</div>}
+          {error && (
+            <div data-cy="error-message" className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+              Error: {error.message}
+            </div>
+          )}
 
           <div className="flex gap-4 pt-6">
-            <Button type="submit" disabled={loading} className="flex-1">
+            <Button data-cy="create-hotel-button" type="submit" disabled={loading} className="flex-1">
               {loading ? 'Creating Hotel...' : 'Create Hotel'}
             </Button>
-            <Button type="button" variant="outline" onClick={() => router.back()}>
+            <Button data-cy="cancel-button" type="button" variant="outline" onClick={() => router.back()}>
               Cancel
             </Button>
           </div>

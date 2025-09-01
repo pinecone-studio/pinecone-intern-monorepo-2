@@ -9,6 +9,7 @@ export const ImageUpload = ({
   imageUrls,
   onImagesChange,
   onUrlsChange,
+  ...props
 }: {
   uploadedImages: File[];
   imageUrls: string[];
@@ -82,7 +83,7 @@ export const ImageUpload = ({
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ImageIcon size={20} className="text-blue-500" />
