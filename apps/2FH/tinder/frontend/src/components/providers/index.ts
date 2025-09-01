@@ -1,4 +1,5 @@
 export * from './ApolloWrapper';
-export { Header } from './Header';
-export { Footer } from './Footer';
-export { BackgroundGradients } from './BackgroundGradients';
+export * from './AuthContext';
+export * from './BackgroundGradients';
+export * from './Footer';
+export * from './Header';

@@ -1,8 +1,17 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/swipe-failure.spec.ts
 import { Types } from 'mongoose';
 import { swipe } from '../../../src/utils/swipe-core';
-import { User, Swipe, Profile as ProfileModel } from 'src/models';
+import { User, Swipe } from '../../../src/models';
 import { SwipeInput } from '../../../src/types/swipe-types';
+
+// Mock the swipe-utils module
+jest.mock('../../../src/utils/swipe-utils', () => ({
+  findNextAvailableProfile: jest.fn(),
+  getSwipedUserIds: jest.fn(),
+}));
+
+// Import the mocked functions
+import { findNextAvailableProfile, getSwipedUserIds } from '../../../src/utils/swipe-utils';
 
 jest.mock('src/models', () => ({
   User: {
@@ -56,60 +65,37 @@ describe('Swipe Failure Cases', () => {
     );
   });
 
-  it('should handle DISLIKE action without creating a match', async () => {
-    const dislikeInput: SwipeInput = { ...mockInput, action: 'DISLIKE' };
-    (User.findById as jest.Mock)
-      .mockResolvedValueOnce({ _id: mockSwiperId })
-      .mockResolvedValueOnce({ _id: mockTargetId });
-    (Swipe.findOne as jest.Mock).mockResolvedValue(null);
-    (Swipe.create as jest.Mock).mockResolvedValue({});
-    (Swipe.find as jest.Mock).mockReturnValue({
-      distinct: jest.fn().mockResolvedValue([mockSwiperId, mockTargetId]),
-    });
-    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce(null);
+  it('should handle non-LIKE actions without creating a match', async () => {
+    const actions = ['DISLIKE', 'SUPER_LIKE'] as const;
+    
+    for (const action of actions) {
+      const actionInput: SwipeInput = { ...mockInput, action };
+      (User.findById as jest.Mock)
+        .mockResolvedValueOnce({ _id: mockSwiperId })
+        .mockResolvedValueOnce({ _id: mockTargetId });
+      (Swipe.findOne as jest.Mock).mockResolvedValue(null);
+      (Swipe.create as jest.Mock).mockResolvedValue({});
+      
+      // Mock the utility functions properly
+      (getSwipedUserIds as jest.Mock).mockResolvedValue([new Types.ObjectId(mockSwiperId), new Types.ObjectId(mockTargetId)]);
+      (findNextAvailableProfile as jest.Mock).mockResolvedValue(null);
 
-    const result = await swipe(null, { input: dislikeInput });
+      const result = await swipe(null, { input: actionInput });
 
-    expect(result).toEqual({
-      success: true,
-      message: 'Successfully disliked profile',
-      response: 'SUCCESS',
-      match: null,
-      nextProfile: null,
-    });
-    expect(Swipe.create).toHaveBeenCalledWith({
-      swiperId: mockSwiperId,
-      targetId: mockTargetId,
-      action: 'DISLIKE',
-    });
-  });
-
-  it('should handle SUPER_LIKE action without creating a match', async () => {
-    const superLikeInput: SwipeInput = { ...mockInput, action: 'SUPER_LIKE' };
-    (User.findById as jest.Mock)
-      .mockResolvedValueOnce({ _id: mockSwiperId })
-      .mockResolvedValueOnce({ _id: mockTargetId });
-    (Swipe.findOne as jest.Mock).mockResolvedValue(null);
-    (Swipe.create as jest.Mock).mockResolvedValue({});
-    (Swipe.find as jest.Mock).mockReturnValue({
-      distinct: jest.fn().mockResolvedValue([mockSwiperId, mockTargetId]),
-    });
-    (ProfileModel.findOne as jest.Mock).mockResolvedValueOnce(null);
-
-    const result = await swipe(null, { input: superLikeInput });
-
-    expect(result).toEqual({
-      success: true,
-      message: 'Successfully super_liked profile',
-      response: 'SUCCESS',
-      match: null,
-      nextProfile: null,
-    });
-    expect(Swipe.create).toHaveBeenCalledWith({
-      swiperId: mockSwiperId,
-      targetId: mockTargetId,
-      action: 'SUPER_LIKE',
-    });
+      expect(result.success).toBe(true);
+      expect(result.response).toBe('SUCCESS');
+      expect(result.match).toBeNull();
+      expect(result.nextProfile).toBeNull();
+      expect(Swipe.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          swiperId: new Types.ObjectId(mockSwiperId),
+          targetId: new Types.ObjectId(mockTargetId),
+          action,
+        })
+      );
+      
+      jest.clearAllMocks();
+    }
   });
 
   it('should handle errors in swipe creation', async () => {

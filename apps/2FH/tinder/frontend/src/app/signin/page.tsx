@@ -5,6 +5,7 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { toast} from 'sonner';
+import { useAuth } from '@/components/providers';
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -32,19 +33,21 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const router = useRouter();
+  const { login } = useAuth();
 
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  const [loginMutation, { loading, error }] = useMutation(LOGIN_MUTATION);
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await login({ variables: data });
+      const response = await loginMutation({ variables: data });
 
       const result = response.data.login;
 
       if (result.status === 'SUCCESS') {
-        localStorage.setItem('token', result.token);
+        // Use AuthContext to store user data
+        login(result.token, result.user);
         toast.success(<div data-cy="login-success">Login successful!</div>);
-        router.push('/')
+        router.push('/match'); // Redirect to match page instead of home
       } else {
         toast.error(<div data-cy="login-error">{result.message || 'Login failed'}</div>);
       }
