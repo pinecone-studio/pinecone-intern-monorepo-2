@@ -1,13 +1,11 @@
 import { GraphQLError } from 'graphql';
 import { BookingModel } from '../../../models/booking.model';
-import { CreateBookingInput, Response } from '../../../generated';
+import { CreateBookingInput, Booking } from '../../../generated';
 import { mapGraphQLToMongooseBookingStatus } from '../../common/booking-status.mapper';
 
 const validateDateRange = (checkInDate: string, checkOutDate: string): void => {
   if (new Date(checkOutDate) <= new Date(checkInDate)) {
-    throw new GraphQLError('Check-out date must be after check-in date', {
-      extensions: { code: 'INVALID_DATE_RANGE' },
-    });
+    throw new Error('Check-out date must be after check-in date');
   }
 };
 
@@ -49,44 +47,45 @@ const validateInput = (input: CreateBookingInput): void => {
   validateCheckInDate(checkInDate);
 };
 
-const createBookingInDB = async (input: CreateBookingInput): Promise<void> => {
+const createBookingInDB = async (input: CreateBookingInput): Promise<any> => {
   const bookingData = createBookingData(input);
-  await BookingModel.create(bookingData);
+  const createdBookingData = await BookingModel.create(bookingData);
+  return createdBookingData;
 };
 
-const handleValidationError = (error: Error): never => {
-  throw new GraphQLError(`Validation failed: ${error.message}`, {
-    extensions: { code: 'VALIDATION_ERROR' },
-  });
-};
+// const handleValidationError = (error: Error): never => {
+//   throw new GraphQLError(`Validation failed: ${error.message}`, {
+//     extensions: { code: 'VALIDATION_ERROR' },
+//   });
+// };
 
-const handleGenericError = (error: unknown): never => {
-  throw new GraphQLError('Failed to create booking', {
-    extensions: {
-      code: 'BOOKING_CREATION_FAILED',
-      originalError: error instanceof Error ? error.message : 'Unknown error',
-    },
-  });
-};
+// const handleGenericError = (error: unknown): never => {
+//   throw new GraphQLError('Failed to create booking', {
+//     extensions: {
+//       code: 'BOOKING_CREATION_FAILED',
+//       originalError: error instanceof Error ? error.message : 'Unknown error',
+//     },
+//   });
+// };
 
-const handleErrors = (error: unknown): never => {
-  if (error instanceof GraphQLError) {
-    throw error;
-  }
+// const handleErrors = (error: unknown): never => {
+//   if (error instanceof GraphQLError) {
+//     throw error;
+//   }
 
-  if (error instanceof Error && error.name === 'ValidationError') {
-    return handleValidationError(error);
-  }
+//   if (error instanceof Error && error.name === 'ValidationError') {
+//     return handleValidationError(error);
+//   }
 
-  return handleGenericError(error);
-};
+//   // return handleGenericError(error);
+// };
 
-export const createBooking = async (_: unknown, { input }: { input: CreateBookingInput }, __: unknown, ___: unknown): Promise<Response> => {
+export const createBooking = async (_: unknown, { input }: { input: CreateBookingInput }, __: unknown, ___: unknown): Promise<Booking> => {
   try {
     validateInput(input);
-    await createBookingInDB(input);
-    return Response.Success;
+    const booking = await createBookingInDB(input);
+    return booking as Booking;
   } catch (error) {
-    return handleErrors(error);
+    throw new Error(`Data base Error ${error}`);
   }
 };

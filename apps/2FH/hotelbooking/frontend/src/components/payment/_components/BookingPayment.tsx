@@ -13,10 +13,10 @@ import { useRouter } from 'next/navigation';
 
 const mockUserId = '68b017713bb2696705c69369';
 const mockHotelId = '689d5d72980117e81dad2925';
-const mockRoomId = '68b0f2b7c3c8ff1e6241a4d3';
+const mockRoomId = '68b2a9fdb61cd7a760dbf94f';
 const mockEmailAddress = 'bati202009@gmail.com';
-const mockCheInDate = '2025-08-30';
-const mockCheOutDate = '2025-08-31';
+const mockCheInDate = '2025-09-10';
+const mockCheOutDate = '2025-09-15';
 
 
 const formSchema = z.object({
@@ -70,6 +70,8 @@ export const BookingPayment = () => {
       toast.success('Booking success');
       router.push(`/booking/${1}/confirmed`);
     } catch (error) {
+      console.log(error);
+      
       toast.error('Booking error');
     }
   }
