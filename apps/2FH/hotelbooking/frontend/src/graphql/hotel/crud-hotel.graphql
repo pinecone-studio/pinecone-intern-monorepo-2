@@ -1,0 +1,14 @@
+mutation CreateHotel($hotel: HotelInput!) {
+  createHotel(hotel: $hotel) {
+    success
+    message
+  }
+}
+ 
+mutation UpdateHotel($updateHotelId: ID!, $hotel: UpdateHotelInput!) {
+  updateHotel(id: $updateHotelId, hotel: $hotel) {
+    success
+    message
+  }
+}
+ 
