@@ -20,7 +20,7 @@ export const createCommentOnPost = async (_: unknown, { postId, content }: { pos
   const post = await validatePost(postId);
 
   const newComment = await Comment.create({
-    author: new Types.ObjectId(context.user!.id),
+    author: new Types.ObjectId(context.user?.id || ''),
     parentId: new Types.ObjectId(postId),
     parentType: 'Post',
     content,

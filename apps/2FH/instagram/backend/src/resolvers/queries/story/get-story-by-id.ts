@@ -27,18 +27,18 @@ const isStoryExpired = (story: StoryDocument): boolean => {
   return new Date() > story.expiredAt;
 };
 
-const isPopulatedViewer = (viewer: any): boolean => {
+const isPopulatedViewer = (viewer: unknown): boolean => {
   return viewer && typeof viewer === 'object' && '_id' in viewer;
 };
 
-const compareViewerIds = (viewer: any, userId: Types.ObjectId, userIdString: string): boolean => {
+const compareViewerIds = (viewer: unknown, userId: Types.ObjectId, userIdString: string): boolean => {
   if (isPopulatedViewer(viewer)) {
     return viewer._id.equals(userId);
   }
   return viewer.equals ? viewer.equals(userId) : viewer.toString() === userIdString;
 };
 
-const checkViewerExists = (viewers: any[], userId: Types.ObjectId, userIdString: string): boolean => {
+const checkViewerExists = (viewers: unknown[], userId: Types.ObjectId, userIdString: string): boolean => {
   return viewers.some((viewer) => compareViewerIds(viewer, userId, userIdString));
 };
 

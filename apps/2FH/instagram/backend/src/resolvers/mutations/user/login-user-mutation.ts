@@ -42,7 +42,7 @@ const generateToken = (userId: string, userName: string) => {
   );
 };
 
-const validateUserVerification = (user: any) => {
+const validateUserVerification = (user: { email?: string; isVerified?: boolean }) => {
   if (user.email && !user.isVerified) {
     throw new GraphQLError('Please verify your email address before logging in', {
       extensions: { 
@@ -53,7 +53,7 @@ const validateUserVerification = (user: any) => {
   }
 };
 
-const createLoginResponse = (user: any) => {
+const createLoginResponse = (user: { _id: { toString(): string }; userName: string; toObject(): { password: string; [key: string]: unknown } }) => {
   const token = generateToken(user._id.toString(), user.userName);
   const userObject = user.toObject();
   const { password: _, ...userWithoutPassword } = userObject;
