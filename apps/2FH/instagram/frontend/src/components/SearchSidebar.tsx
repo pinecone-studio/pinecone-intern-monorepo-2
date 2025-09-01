@@ -28,7 +28,7 @@ export const SearchSidebar = () => {
   if (!isSearchOpen) return null;
 
   return (
-    <div className="w-80 border-r border-gray-200 bg-white h-full fixed left-20 z-20">
+    <div className="w-80 border-r border-gray-200 bg-white h-screen fixed left-20 top-0 z-20 overflow-y-auto">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-xl font-bold mb-4">Search</h2>
@@ -49,7 +49,6 @@ export const SearchSidebar = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-4">
         {!searchQuery ? (
           // Recent searches
@@ -77,7 +76,6 @@ export const SearchSidebar = () => {
             </div>
           </div>
         ) : (
-          // Search results
           <div className="text-center py-8">
             <p className="text-gray-500">No results found for &quot;{searchQuery}&quot;</p>
             <p className="text-gray-400 text-sm mt-2">Try searching for something else</p>

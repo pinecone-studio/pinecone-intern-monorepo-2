@@ -3,6 +3,9 @@ import './global.css';
 import { ApolloWrapper, NavigationProvider } from '@/components';
 import { MainLayout } from '@/components/MainLayout/MainLayout';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { Sidebar } from '@/components/Sidebar';
+import { SearchSidebar } from '@/components/SearchSidebar';
+import { MainFooter } from '@/components/MainFooter';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -16,7 +19,14 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <ApolloWrapper>
           <NavigationProvider>
             <AuthProvider>
-              <MainLayout>{children}</MainLayout>
+              <div className="flex min-h-screen bg-white flex-col ">
+                <Sidebar />
+                <SearchSidebar />
+                <div className="flex flex-col items-center">
+                  <MainLayout>{children}</MainLayout>
+                  <MainFooter />
+                </div>
+              </div>
             </AuthProvider>
           </NavigationProvider>
         </ApolloWrapper>
