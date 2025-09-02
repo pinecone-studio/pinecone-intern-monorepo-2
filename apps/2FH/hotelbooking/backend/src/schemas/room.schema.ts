@@ -76,6 +76,14 @@ export const roomSchemaTypeDefs = gql`
     computer
   }
 
+  enum status {
+    cancelled
+    booked
+    pending
+    completed
+    available
+  }
+
   input RoomInput {
     hotelId: ID!
     name: String!
@@ -91,6 +99,7 @@ export const roomSchemaTypeDefs = gql`
     other: [other!]!
     entertainment: [entertainment!]!
     bedNumber: Int!
+    status: status!
   }
 
   input RoomUpdateInput {
@@ -108,6 +117,7 @@ export const roomSchemaTypeDefs = gql`
     other: [other!]
     entertainment: [entertainment!]
     bedNumber: Int!
+    status: status!
   }
 
   type Room {
@@ -128,6 +138,7 @@ export const roomSchemaTypeDefs = gql`
     other: [other!]!
     entertainment: [entertainment!]!
     bedNumber: Int!
+    status: status!
   }
 
   type Mutation {
