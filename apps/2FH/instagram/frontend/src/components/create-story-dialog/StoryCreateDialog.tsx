@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { X } from 'lucide-react';
 import { FileUploadArea } from './FileUploadArea';
 import { FilePreview } from './FilePreview';
@@ -9,10 +9,11 @@ import { useCreateStoryMutation } from '@/generated';
 
 interface Props { 
   isOpen: boolean; 
-  onClose: () => void; 
+  onClose: () => void;
+  testHandleUpload?: React.MutableRefObject<(() => Promise<void>) | null>; 
 }
 
-export const StoryCreateDialog = ({ isOpen, onClose }: Props) => {
+export const StoryCreateDialog = ({ isOpen, onClose, testHandleUpload }: Props) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -57,24 +58,31 @@ export const StoryCreateDialog = ({ isOpen, onClose }: Props) => {
       { method: 'POST', body: fd }
     );
     if (!res.ok) throw new Error('Upload failed');
-    return (await res.json()).secureUrl;
+    const data = await res.json();
+    return data.secure_url;
   };
 
-  const handleUpload = async () => {
-    // if (!file) { 
-    //   setError('Select image'); 
-    //   return; 
-    // }
+  const handleUpload = useCallback(async () => {
+    if (!file) { 
+      setError('Select image'); 
+      return; 
+    }
     setUploading(true); 
     setError('');
     try {
-      const url = await uploadToCloudinary(file as File);
+      const url = await uploadToCloudinary(file);
       await createStory({ variables: { input: { image: url } } });
     } catch { 
       setError('Upload failed'); 
       setUploading(false); 
     }
-  };
+  }, [file, createStory]);
+
+  React.useEffect(() => {
+    if (testHandleUpload) {
+      testHandleUpload.current = handleUpload;
+    }
+  }, [testHandleUpload, handleUpload]);
 
   const handleClose = () => { 
     setFile(null); 
