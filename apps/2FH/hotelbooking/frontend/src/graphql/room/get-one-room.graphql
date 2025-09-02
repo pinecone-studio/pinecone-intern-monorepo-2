@@ -1,0 +1,20 @@
+query GetRoom($getRoomId: ID!) {
+  getRoom(id: $getRoomId) {
+    name
+    foodAndDrink
+    bedNumber
+    bedRoom
+    bathroom
+    accessibility
+    createdAt
+    entertainment
+    id
+    imageURL
+    internet
+    other
+    pricePerNight
+    roomInformation
+    typePerson
+    updatedAt
+  }
+}

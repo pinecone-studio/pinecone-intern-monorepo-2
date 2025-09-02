@@ -1,0 +1,32 @@
+query Hotel($hotelId: ID!) {
+  hotel(id: $hotelId) {
+    id
+    name
+    description
+    images
+    stars
+    phone
+    rating
+    city
+    country
+    location
+    amenities
+    languages
+    policies {
+      checkIn
+      checkOut
+      specialCheckInInstructions
+      accessMethods
+      childrenAndExtraBeds
+      pets
+    }
+    optionalExtras {
+      youNeedToKnow
+      weShouldMention
+    }
+    faq {
+      question
+      answer
+    }
+  }
+}
