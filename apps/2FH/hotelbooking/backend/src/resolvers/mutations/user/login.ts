@@ -20,15 +20,20 @@ export const login = async (_: unknown, { input }: { input: LoginInput }) => {
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '14d' });
 
+  const defaults = {
+    firstName: '',
+    lastName: '',
+    role: 'USER',
+    dateOfBirth: '',
+  };
+
   return {
     token,
     user: {
+      ...user,
       _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
       email: user.email,
-      role: user.role,
-      dateOfBirth: user.dateOfBirth,
+      ...defaults,
     },
   };
 };
