@@ -6,7 +6,7 @@ import { RoomInformation } from './_components/RoomInformation';
 export const PaymentParentComp = () => {
   const { bookingSuccess } = useOtpContext();
   return (
-    <>
+    <div className="flex justify-center">
       {bookingSuccess ? (
         <ConfirmedBooking />
       ) : (
@@ -15,6 +15,6 @@ export const PaymentParentComp = () => {
           <RoomInformation />
         </div>
       )}
-    </>
+    </div>
   );
 };

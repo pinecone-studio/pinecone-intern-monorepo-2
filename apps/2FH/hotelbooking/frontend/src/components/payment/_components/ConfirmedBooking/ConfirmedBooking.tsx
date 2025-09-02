@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { useGetRoomQuery, useHotelQuery } from '@/generated';
 import Image from 'next/image';
 import { RoomInformationSvg } from '../assets/RoomInformationSvg';
+import { useParams, useRouter } from 'next/navigation';
 
 export const ConfirmedBooking = () => {
+  const router = useRouter();
+  const { userid } = useParams();
   const { bookingData } = useOtpContext();
   const { data } = useHotelQuery({
     variables: {
@@ -30,7 +33,9 @@ export const ConfirmedBooking = () => {
             <div>Contact email</div>
             <div>samlee.mobbin@gmail.com</div>
           </div>
-          <Button className="bg-[#2563EB] hover:bg-[#2564ebda] w-[30%]">View your book</Button>
+          <Button onClick={() => router.push(`/booking/${userid}/history`)} className="bg-[#2563EB] hover:bg-[#2564ebda] w-[30%]">
+            View your book
+          </Button>
         </div>
 
         <div className="flex flex-col gap-5 p-5 border-[2px] rounded-xl">
