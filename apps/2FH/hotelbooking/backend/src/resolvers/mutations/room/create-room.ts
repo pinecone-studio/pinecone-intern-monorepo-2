@@ -21,7 +21,9 @@ export const createRoom: MutationResolvers['createRoom'] = async (_: unknown, { 
       other: input.other,
       entertainment: input.entertainment,
       bedNumber: input.bedNumber,
+      status: input.status,
     };
+console.log(roomData);
 
     const createdRoom = await RoomModel.create(roomData);
     if (!createdRoom) {

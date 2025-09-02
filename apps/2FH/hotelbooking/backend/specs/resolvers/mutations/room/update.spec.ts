@@ -1,7 +1,7 @@
 import { RoomModel } from 'src/models';
 import { GraphQLError } from 'graphql';
 import { updateRoom } from 'src/resolvers/mutations';
-import { Response, TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment, RoomUpdateInput } from 'src/generated';
+import { Response, TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment, RoomUpdateInput, Status } from 'src/generated';
 
 jest.mock('src/models', () => ({
   RoomModel: {
@@ -28,6 +28,7 @@ describe('updateRoom mutation', () => {
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
     bedNumber: 1,
+    status: Status.Available,
   };
 
   it('should return Response.Success when room is updated', async () => {
