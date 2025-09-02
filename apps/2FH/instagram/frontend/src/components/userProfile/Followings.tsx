@@ -5,7 +5,13 @@ import Image from 'next/image';
 import { demoImage } from '@/components/userProfile/mock-images';
 import { FollowButton } from './FollowButton';
 
-export const Followings = ({ followings, currentUser }: { followings: Array<{ _id: string; userName: string; profileImage?: string | null }>; currentUser: { _id: string; userName: string } }) => {
+export const Followings = ({
+  followings,
+  currentUser,
+}: {
+  followings: Array<{ _id: string; userName: string; profileImage?: string | null }>;
+  currentUser: { _id: string; userName: string; followings: Array<{ _id: string }> };
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,16 +28,23 @@ export const Followings = ({ followings, currentUser }: { followings: Array<{ _i
         {followings.length === 0 ? (
           <p className="text-neutral-500 text-sm">No followings yet</p>
         ) : (
-          <ul className="divide-y divide-neutral-200">
-            {followings.map((following, i) => (
-              <li key={i} className="flex items-center gap-3 py-2">
-                <Image src={following.profileImage || demoImage} alt={following.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
-                <span className="font-medium">{following.userName}</span>
-                {currentUser._id === following._id && (
-                  <FollowButton targetUserId={following._id} initialIsFollowing={true} initialIsRequested={false} isPrivate={false} userName={following.userName} />
-                )}
-              </li>
-            ))}
+          <ul>
+            {followings.map((following, i) => {
+              const isFollowing = currentUser.followings?.some((f: { _id: string }) => f._id === following._id);
+
+              return (
+                <li key={i} className="flex items-center gap-3 py-2 justify-between">
+                  <div className="flex items-center gap-3">
+                    <Image src={following.profileImage || demoImage} alt={following.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
+                    <span className="font-medium">{following.userName}</span>
+                  </div>
+
+                  {currentUser._id !== following._id && (
+                    <FollowButton targetUserId={following._id} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={false} userName={following.userName} />
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
       </DialogContent>
