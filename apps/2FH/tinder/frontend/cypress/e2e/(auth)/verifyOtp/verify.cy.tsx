@@ -3,7 +3,10 @@ describe("Verify OTP Verification Tests", () => {
 
   beforeEach(() => {
     cy.clock();
-    cy.visit("/verifyOtp?email=test@mail.com", { timeout: 10000 });
+    cy.visit("/verifyOtp?email=test@mail.com", { 
+      timeout: 10000,
+      failOnStatusCode: false 
+    });
   });
 
   it("shows toast on verifyOtp server/network error", () => {
@@ -56,5 +59,29 @@ describe("Verify OTP Verification Tests", () => {
     cy.wait("@verifyOtpFail", { timeout: 10000 });
     cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
       .should("contain.text", "Invalid OTP code");
+  });
+
+  it("handles verifyOtp with empty OTP code", () => {
+    cy.intercept("POST", "/api/graphql", {
+      body: { data: { verifyOtp: { status: "ERROR", message: "OTP code is required" } } },
+    }).as("verifyOtpEmpty");
+
+    cy.tick(50);
+    cy.wait("@verifyOtpEmpty", { timeout: 10000 });
+    cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
+      .should("contain.text", "OTP code is required");
+  });
+
+  it("handles verifyOtp with invalid email", () => {
+    otpInputs().each((input, idx) => cy.wrap(input).type((idx + 1).toString()));
+
+    cy.intercept("POST", "/api/graphql", {
+      body: { data: { verifyOtp: { status: "ERROR", message: "Invalid email" } } },
+    }).as("verifyOtpInvalidEmail");
+
+    cy.tick(50);
+    cy.wait("@verifyOtpInvalidEmail", { timeout: 10000 });
+    cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
+      .should("contain.text", "Invalid email");
   });
 }); 

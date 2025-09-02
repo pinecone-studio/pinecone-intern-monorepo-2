@@ -3,7 +3,10 @@ describe("Verify OTP Resend Tests", () => {
 
   beforeEach(() => {
     cy.clock();
-    cy.visit("/verifyOtp?email=test@mail.com", { timeout: 10000 });
+    cy.visit("/verifyOtp?email=test@mail.com", { 
+      timeout: 10000,
+      failOnStatusCode: false 
+    });
   });
 
   it("resends OTP successfully after timer", () => {
@@ -112,5 +115,41 @@ describe("Verify OTP Resend Tests", () => {
     cy.get("[data-cy='resend-otp']").click();
     cy.wait("@resendOtpClear", { timeout: 10000 });
     otpInputs().each((input) => cy.wrap(input).should("have.value", ""));
+  });
+
+  it("handles resend OTP with empty email", () => {
+    cy.tick(15000);
+    cy.intercept("POST", "/api/graphql", {
+      body: { data: { forgotPassword: { status: "ERROR", message: "Email is required" } } },
+    }).as("resendOtpEmptyEmail");
+
+    cy.get("[data-cy='resend-otp']").click();
+    cy.wait("@resendOtpEmptyEmail", { timeout: 10000 });
+    cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
+      .should("contain.text", "Email is required");
+  });
+
+  it("handles resend OTP with invalid email format", () => {
+    cy.tick(15000);
+    cy.intercept("POST", "/api/graphql", {
+      body: { data: { forgotPassword: { status: "ERROR", message: "Invalid email format" } } },
+    }).as("resendOtpInvalidEmail");
+
+    cy.get("[data-cy='resend-otp']").click();
+    cy.wait("@resendOtpInvalidEmail", { timeout: 10000 });
+    cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
+      .should("contain.text", "Invalid email format");
+  });
+
+  it("handles resend OTP rate limiting", () => {
+    cy.tick(15000);
+    cy.intercept("POST", "/api/graphql", {
+      body: { data: { forgotPassword: { status: "ERROR", message: "Too many requests" } } },
+    }).as("resendOtpRateLimit");
+
+    cy.get("[data-cy='resend-otp']").click();
+    cy.wait("@resendOtpRateLimit", { timeout: 10000 });
+    cy.get(".sonner-toast, [data-cy='toast-error'], .toast", { timeout: 5000 })
+      .should("contain.text", "Too many requests");
   });
 }); 

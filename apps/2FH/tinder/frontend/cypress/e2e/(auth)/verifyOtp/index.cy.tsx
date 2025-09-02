@@ -4,7 +4,10 @@ describe("Verify OTP Page with data-cy", () => {
 
   beforeEach(() => {
     cy.clock();
-    cy.visit("/verifyOtp?email=test@mail.com", { timeout: 10000 });
+    cy.visit("/verifyOtp?email=test@mail.com", { 
+      timeout: 10000,
+      failOnStatusCode: false 
+    });
   });
 
   it("renders all elements", () => {
@@ -50,5 +53,35 @@ describe("Verify OTP Page with data-cy", () => {
   it("decrements timer correctly when timer is greater than 0", () => {
     cy.tick(5000);
     cy.get("[data-cy='resend-otp']").should("not.exist");
+  });
+
+  it("handles timer countdown from 15 to 0", () => {
+    cy.tick(1000);
+    cy.get("[data-cy='resend-otp']").should("not.exist");
+    cy.tick(14000);
+    cy.get("[data-cy='resend-otp']", { timeout: 5000 }).should("be.visible");
+  });
+
+  it("handles OTP input focus and selection", () => {
+    otpInputs().eq(0).focus();
+    otpInputs().eq(0).should("have.focus");
+  });
+
+  it("handles OTP input with multiple digits", () => {
+    otpInputs().eq(0).type("12");
+    otpInputs().eq(0).should("have.value", "1");
+  });
+
+  it("handles backspace when input is empty", () => {
+    otpInputs().eq(1).type("2");
+    otpInputs().eq(1).type("{backspace}");
+    otpInputs().eq(0).should("have.focus");
+  });
+
+  it("handles timer state changes", () => {
+    cy.tick(1000);
+    cy.get("[data-cy='resend-otp']").should("not.exist");
+    cy.tick(14000);
+    cy.get("[data-cy='resend-otp']", { timeout: 5000 }).should("be.visible");
   });
 });

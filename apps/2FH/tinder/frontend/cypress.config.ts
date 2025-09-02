@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 
 import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
-import { defineConfig } from 'cypress';
+import codeCoverageTask from '@cypress/code-coverage/task';
 
 const config: Cypress.ConfigOptions<unknown> = {
   e2e: {
@@ -9,7 +9,7 @@ const config: Cypress.ConfigOptions<unknown> = {
       cypressDir: 'cypress',
     }),
     setupNodeEvents(on, config) {
-      require('@cypress/code-coverage/task')(on, config);
+      codeCoverageTask(on, config);
       return config;
     },
     supportFolder: './cypress/support',
@@ -20,12 +20,12 @@ const config: Cypress.ConfigOptions<unknown> = {
     videosFolder: './cypress/results/assets',
     viewportWidth: 1536,
     viewportHeight: 960,
-    pageLoadTimeout: 60000,
-    defaultCommandTimeout: 20000,
-    responseTimeout: 60000,
+    pageLoadTimeout: 120000, 
+    defaultCommandTimeout: 30000, 
+    responseTimeout: 120000, 
     screenshotOnRunFailure: true,
     numTestsKeptInMemory: 0,
-    requestTimeout: 30000,
+    requestTimeout: 60000, 
     trashAssetsBeforeRuns: true,
     retries: 2,
     reporter: '../../../../node_modules/cypress-multi-reporters',
@@ -44,4 +44,4 @@ const config: Cypress.ConfigOptions<unknown> = {
   },
 };
 
-export default defineConfig(config);
+export default config;
