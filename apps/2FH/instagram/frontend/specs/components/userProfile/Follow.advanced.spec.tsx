@@ -2,8 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { Followers } from '@/components/userProfile/Followers';
 import { gql } from '@apollo/client';
-
-// Mock GraphQL query
 const GET_USER_BY_USERNAME = gql`
   query GetUserByUsername($userName: String!) {
     getUserByUsername(userName: $userName) {
@@ -37,8 +35,6 @@ const GET_USER_BY_USERNAME = gql`
     }
   }
 `;
-
-// Mock responses for different usernames
 const mocks = [
   {
     request: {
@@ -111,46 +107,42 @@ const mocks = [
   },
 ];
 const mockCurrentUser = { _id: 'user1', userName: 'currentUser' };
-describe('Followers component', () => {
-  it('renders followers count correctly', () => {
-    render(
-      <MockedProvider mocks={mocks}>
-        <Followers followers={[]} currentUser={mockCurrentUser} />
-      </MockedProvider>
-    );
-    expect(screen.getByRole('button', { name: /0 Followers/i })).toBeInTheDocument();
-  });
-  it('shows "No followers yet" when followers list is empty', () => {
-    render(
-      <MockedProvider mocks={mocks}>
-        <Followers followers={[]} currentUser={mockCurrentUser} />
-      </MockedProvider>
-    );
-    fireEvent.click(screen.getByRole('button', { name: /0 Followers/i }));
-    expect(screen.getByText(/No followers yet/i)).toBeInTheDocument();
-  });
-  it('renders follower list when followers exist', () => {
+describe('Followers component - Advanced scenarios', () => {
+  it('renders FollowButton for other users when current user is following them', () => {
     const followers = [
       { _id: 'user2', userName: 'Alice', profileImage: null },
       { _id: 'user3', userName: 'Bob', profileImage: null },
     ];
+    const currentUserWithFollowings = {
+      ...mockCurrentUser,
+      followings: [{ _id: 'user2' }], // Following Alice
+    };
     render(
       <MockedProvider mocks={mocks}>
-        <Followers followers={followers} currentUser={mockCurrentUser} />
+        <Followers followers={followers} currentUser={currentUserWithFollowings} />
       </MockedProvider>
     );
     fireEvent.click(screen.getByRole('button', { name: /2 Followers/i }));
-    expect(screen.getByText('Alice')).toBeInTheDocument();
-    expect(screen.getByText('Bob')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-user2')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-user3')).toBeInTheDocument();
   });
-  it('renders FollowButton for the current user follower', () => {
-    const followers = [{ _id: 'user1', userName: 'currentUser', profileImage: null }];
+
+  it('renders FollowButton for other users when current user followings is undefined', () => {
+    const followers = [
+      { _id: 'user2', userName: 'Alice', profileImage: null },
+      { _id: 'user3', userName: 'Bob', profileImage: null },
+    ];
+    const currentUserWithoutFollowings = {
+      _id: 'user1',
+      userName: 'currentUser',
+    };
     render(
       <MockedProvider mocks={mocks}>
-        <Followers followers={followers} currentUser={mockCurrentUser} />
+        <Followers followers={followers} currentUser={currentUserWithoutFollowings} />
       </MockedProvider>
     );
-    fireEvent.click(screen.getByRole('button', { name: /1 Followers/i }));
-    expect(screen.queryByTestId('follow-btn-user1')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /2 Followers/i }));
+    expect(screen.getByTestId('follow-btn-user2')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-user3')).toBeInTheDocument();
   });
 });
