@@ -775,7 +775,7 @@ describe('Tablecontainer', () => {
       render(<Tablecontainer />);
 
       const images = screen.getAllByTestId('hotel-image');
-      expect(images[0]).toHaveAttribute('src', 'https://via.placeholder.com/50');
+      expect(images[0]).toHaveAttribute('src', 'https://picsum.photos/50/50');
     });
 
     it('should handle hotels with partial data', () => {

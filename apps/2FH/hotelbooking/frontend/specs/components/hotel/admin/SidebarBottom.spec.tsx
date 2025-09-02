@@ -21,7 +21,7 @@ describe('SidebarBottom', () => {
 
     const avatar = screen.getByAltText('Admin avatar');
     expect(avatar).toBeInTheDocument();
-    expect(avatar).toHaveAttribute('src', 'https://via.placeholder.com/30');
+    expect(avatar).toHaveAttribute('src', 'https://picsum.photos/30/30');
     expect(avatar).toHaveClass('rounded-full');
   });
 

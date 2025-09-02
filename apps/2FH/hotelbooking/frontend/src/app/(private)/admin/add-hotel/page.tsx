@@ -13,6 +13,8 @@ import { FaqSection } from '@/components/admin/add-hotel/FaqSection';
 import { OptionalExtrasSection } from '@/components/admin/add-hotel/OptionalExtrasSection';
 import type { FormData, Policy, FaqItem, OptionalExtra } from '@/components/admin/add-hotel/types';
 
+export const dynamic = 'force-dynamic';
+
 const AddHotelPage = () => {
   const router = useRouter();
   const [createHotel, { loading, error }] = useCreateHotelMutation();

@@ -10,7 +10,7 @@ const HotelRow = ({ hotel, index, onClick }: { hotel: any; index: number; onClic
   <tr className="border-t border-l border-r font-extralight hover:bg-gray-50 cursor-pointer transition-colors" onClick={onClick}>
     <td className="p-2 border">{index + 1}</td>
     <td className="p-2 flex items-center gap-2">
-      <Image src={hotel.images?.[0] || 'https://via.placeholder.com/50'} alt={hotel.name || 'Hotel'} width={40} height={40} className="w-10 h-10 rounded object-cover" />
+      <Image src={hotel.images?.[0] || 'https://picsum.photos/50/50'} alt={hotel.name || 'Hotel'} width={40} height={40} className="w-10 h-10 rounded object-cover" />
       {hotel.name || 'Unnamed Hotel'}
     </td>
     <td className="p-2 border">

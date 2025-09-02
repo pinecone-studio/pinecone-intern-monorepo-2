@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { HotelInfoCard, HotelDetailsCard, AmenitiesCard, PoliciesCard, FAQCard, LocationCard, HotelImagesCard, LoadingSkeleton, ErrorMessage, NotFoundMessage } from '@/components/admin/hotel-detail';
 
+export const dynamic = 'force-dynamic';
+
 const HotelDetailPage = () => {
   const params = useParams();
   const router = useRouter();
