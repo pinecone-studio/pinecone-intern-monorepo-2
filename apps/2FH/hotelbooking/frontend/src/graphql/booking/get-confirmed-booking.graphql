@@ -1,0 +1,11 @@
+query GetBooking($getBookingId: ID!) {
+  getBooking(id: $getBookingId) {
+    checkInDate
+    checkOutDate
+    hotelId
+    id
+    roomId
+    status
+    userId
+  }
+}
