@@ -89,6 +89,7 @@ const OtherUser = () => {
   const params = useParams();
   const userName = params.userName as string;
   const { user: currentUser } = useAuth();
+
   const { data, loading, error } = useGetUserByUsernameQuery({
     variables: { userName },
   });
