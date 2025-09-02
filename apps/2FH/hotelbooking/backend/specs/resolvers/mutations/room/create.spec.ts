@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { RoomModel } from 'src/models';
 import { createRoom } from 'src/resolvers/mutations';
-import { Response, TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment, RoomInput } from 'src/generated';
+import { Response, TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment, RoomInput, Status } from 'src/generated';
 
 jest.mock('src/models', () => ({
   RoomModel: {
@@ -28,6 +28,7 @@ describe('createRoom mutation', () => {
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
     bedNumber: mockBedNumber,
+    status: Status.Available,
   };
 
   const expectedRoomData = {
@@ -45,6 +46,7 @@ describe('createRoom mutation', () => {
     other: [Other.LaptopWorkspace],
     entertainment: [Entertainment.CableChannels],
     bedNumber: mockBedNumber,
+    status: Status.Available,
   };
 
   afterEach(() => jest.clearAllMocks());

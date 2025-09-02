@@ -18,9 +18,20 @@ const mockUser = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  process.env.EMAIL_USER = 'test@example.com';
+  process.env.EMAIL_PASS = 'test-password';
 });
 
 describe("forgotPassword", () => {
+  it("should return error if email credentials not configured", async () => {
+    delete process.env.EMAIL_USER;
+    delete process.env.EMAIL_PASS;
+    
+    const res = await forgotPassword!({}, { input: { email: mockEmail } }, {} as any, {} as any);
+    expect(res.status).toBe(PasswordResetResponse.Error);
+    expect(res.message).toBe("Email service not configured");
+  });
+
   it("should return error if email not registered", async () => {
     (User.findOne as jest.Mock).mockResolvedValue(null);
     const res = await forgotPassword!({}, { input: { email: mockEmail } }, {} as any, {} as any);
@@ -46,7 +57,7 @@ describe("forgotPassword", () => {
     (User.findOne as jest.Mock).mockRejectedValue(new Error("DB error"));
     const res = await forgotPassword!({}, { input: { email: mockEmail } }, {} as any, {} as any);
     expect(res.status).toBe(PasswordResetResponse.Error);
-    expect(res.message).toBe("Internal server error");
+    expect(res.message).toBe("Internal server error: DB error");
   });
 
   it("should handle internal server error on OtpToken.create", async () => {
@@ -57,6 +68,17 @@ describe("forgotPassword", () => {
 
     const res = await forgotPassword!({}, { input: { email: mockEmail } }, {} as any, {} as any);
     expect(res.status).toBe(PasswordResetResponse.Error);
-    expect(res.message).toBe("Internal server error");
+    expect(res.message).toBe("Internal server error: DB error");
+  });
+
+  it("should handle non-Error exception", async () => {
+    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
+    (sendUserVerificationLink as jest.Mock).mockResolvedValue(mockOtp);
+    (OtpToken.findOneAndDelete as jest.Mock).mockResolvedValue({});
+    (OtpToken.create as jest.Mock).mockRejectedValue("String error");
+
+    const res = await forgotPassword!({}, { input: { email: mockEmail } }, {} as any, {} as any);
+    expect(res.status).toBe(PasswordResetResponse.Error);
+    expect(res.message).toBe("Internal server error: Unknown error");
   });
 });

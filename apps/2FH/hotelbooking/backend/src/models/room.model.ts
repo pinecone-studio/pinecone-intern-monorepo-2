@@ -16,6 +16,7 @@ type roomType = {
   other: other;
   entertainment: entertainment;
   bedNumber: number;
+  status: status;
 };
 
 enum typePerson {
@@ -119,6 +120,14 @@ enum entertainment {
   CONSOLE_FREE = 'console_free',
 }
 
+enum status {
+  cancelled = 'cancelled',
+  booked = 'booked',
+  pending = 'pending',
+  completed = 'completed',
+  available = 'available',
+}
+
 const roomSchema = new Schema<roomType>(
   {
     hotelId: { type: Schema.Types.ObjectId, ref: 'Hotel', required: true },
@@ -135,6 +144,7 @@ const roomSchema = new Schema<roomType>(
     other: [{ type: String, enum: Object.values(other), required: true }],
     entertainment: [{ type: String, enum: Object.values(entertainment), required: true }],
     bedNumber: { type: Number, required: true },
+    status: { type: String, enum: Object.values(status), default: status.available },
   },
   { timestamps: true }
 );
