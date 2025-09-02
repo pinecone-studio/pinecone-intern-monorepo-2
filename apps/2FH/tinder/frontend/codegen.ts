@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.NEXT_PUBLIC_BACKEND_URI,
+  schema: 'apps/2FH/tinder/backend/src/schemas/**/*.ts',
   documents: ['apps/2FH/tinder/frontend/src/**/*.graphql'],
 
   generates: {
