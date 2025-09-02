@@ -1,4 +1,4 @@
-// describe('Reset Password Page - Validation', () => {
+describe('Reset Password Page - Validation', () => {
     beforeEach(() => {
       // Visit with identifier parameter to avoid redirect
       cy.visit('/reset-password?identifier=test@example.com');
@@ -66,4 +66,4 @@
       cy.get('input[placeholder="Confirm new password"]').type('x');
       cy.contains('Passwords do not match').should('not.exist');
     });
-  // });
+  });

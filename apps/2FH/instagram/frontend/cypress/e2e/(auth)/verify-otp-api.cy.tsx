@@ -1,4 +1,4 @@
-// describe('Verify OTP Page - Navigation and UI Interactions', () => {
+describe('Verify OTP Page - Navigation and UI Interactions', () => {
     const testEmail = 'test@example.com';
     
     beforeEach(() => {
@@ -91,4 +91,4 @@
       cy.get('input[placeholder="000000"]').should('be.visible');
       cy.get('button[type="submit"]').should('be.visible');
     });
-  // });
+});

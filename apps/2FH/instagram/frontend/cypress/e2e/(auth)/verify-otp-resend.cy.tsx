@@ -1,4 +1,4 @@
-// describe('Verify OTP Page - Resend Functionality and Edge Cases', () => {
+describe('Verify OTP Page - Resend Functionality and Edge Cases', () => {
   const testEmail = 'test@example.com';
   
   beforeEach(() => {
@@ -117,4 +117,4 @@
     cy.wait('@SendVerificationEmail');
     cy.contains('Invalid OTP').should('not.exist');
   });
-// });
+});
