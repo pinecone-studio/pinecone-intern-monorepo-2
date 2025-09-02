@@ -74,7 +74,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:testing",
+          "target": "codegen:dev",
           "params": "forward"
         }
       ]
