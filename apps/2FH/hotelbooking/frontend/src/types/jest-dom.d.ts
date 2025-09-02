@@ -8,6 +8,7 @@ declare global {
       toBeDisabled(): R;
       toHaveClass(..._classNames: string[]): R;
       toHaveAttribute(_attr: string, _value?: string): R;
+      toHaveBeenCalled(): R;
     }
   }
 }

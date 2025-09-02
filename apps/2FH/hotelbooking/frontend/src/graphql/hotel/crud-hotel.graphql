@@ -4,11 +4,11 @@ mutation CreateHotel($hotel: HotelInput!) {
     message
   }
 }
- 
+
 mutation UpdateHotel($updateHotelId: ID!, $hotel: UpdateHotelInput!) {
   updateHotel(id: $updateHotelId, hotel: $hotel) {
     success
     message
   }
 }
- 
+
