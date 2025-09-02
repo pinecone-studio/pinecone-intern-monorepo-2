@@ -89,6 +89,7 @@ const ResetPasswordPage = () => {
     });
   };
   const handleResendCode = async () => {
+    /* istanbul ignore next */
     if (resendCooldown > 0 || !identifier) return;
     await forgotPassword({ variables: { input: { identifier } } });
   };

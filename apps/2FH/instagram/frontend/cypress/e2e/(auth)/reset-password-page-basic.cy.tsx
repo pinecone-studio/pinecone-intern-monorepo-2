@@ -1,4 +1,4 @@
-// describe('Reset Password Page - Basic Functionality', () => {
+describe('Reset Password Page - Basic Functionality', () => {
     beforeEach(() => {
       // Visit with identifier parameter to avoid redirect
       cy.visit('/reset-password?identifier=test@example.com');
@@ -105,4 +105,4 @@
       // This should redirect to forgot-password, but let's test the edge case
       cy.url().should('include', '/forgot-password');
     });
-  // });
+  });
