@@ -10,12 +10,12 @@ export const userDefs = gql`
 
   type User {
     _id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     email: String!
     password: String
-    role: Role!
-    dateOfBirth: String!
+    role: Role
+    dateOfBirth: String
   }
 
   input CreateUserInput {

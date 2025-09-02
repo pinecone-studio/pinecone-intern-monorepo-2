@@ -1,8 +1,10 @@
+import { UserModel } from 'src/models';
 import { mapBookingStatusToGraphQL } from './common/booking-status.mapper';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import * as Mutation from './mutations';
-
 import * as Query from './queries';
- 
+import { LoginInput, LoginResponse, Role } from 'src/generated';
 
 // Interface for the parent object in field resolvers
 interface BookingParent {
@@ -28,24 +30,17 @@ interface BookingParent {
   [key: string]: unknown;
 }
 
-// Helper function to validate parent object
+// Helper functions for Booking resolvers
 const validateParent = (parent: BookingParent, fieldName: string): void => {
   if (!parent) {
     throw new Error(`Cannot return null for non-nullable field Booking.${fieldName}. Parent object is missing.`);
   }
 };
 
-// Helper function to get primary field value
-const getPrimaryFieldValue = (parent: BookingParent, fieldName: string): unknown => {
-  return parent[fieldName];
-};
+const getPrimaryFieldValue = (parent: BookingParent, fieldName: string): unknown => parent[fieldName];
 
-// Helper function to get fallback field value
-const getFallbackFieldValue = (parent: BookingParent, fallbackField: string): unknown => {
-  return parent[fallbackField];
-};
+const getFallbackFieldValue = (parent: BookingParent, fallbackField: string): unknown => parent[fallbackField];
 
-// Helper function to validate field value
 const validateFieldValue = (value: unknown, fieldName: string): unknown => {
   if (value === null || value === undefined) {
     throw new Error(`Cannot return null for non-nullable field Booking.${fieldName}.`);
@@ -53,29 +48,24 @@ const validateFieldValue = (value: unknown, fieldName: string): unknown => {
   return value;
 };
 
-// Helper function to get field value
 const getFieldValue = (parent: BookingParent, fieldName: string, fallbackField?: string): unknown => {
   let value = getPrimaryFieldValue(parent, fieldName);
-  
   if (fallbackField && (value === null || value === undefined)) {
     value = getFallbackFieldValue(parent, fallbackField);
   }
-  
   return validateFieldValue(value, fieldName);
 };
 
-// Helper function to log parent object details
 const logParentObjectDetails = (parent: BookingParent): void => {
   console.error('ID field resolver - parent object:', {
     hasId: !!parent.id,
     hasUnderscoreId: !!parent._id,
     parentKeys: Object.keys(parent),
     parentType: typeof parent,
-    parentValue: parent
+    parentValue: parent,
   });
 };
 
-// Helper function to resolve ID field
 const resolveIdField = (parent: BookingParent): string => {
   const value = parent.id || parent._id;
   if (value === null || value === undefined) {
@@ -85,30 +75,66 @@ const resolveIdField = (parent: BookingParent): string => {
   return value as string;
 };
 
-// Helper function to reduce complexity in field resolvers
 const createFieldResolver = (fieldName: string, fallbackField?: string) => {
   return (parent: BookingParent) => {
     validateParent(parent, fieldName);
     return getFieldValue(parent, fieldName, fallbackField);
   };
 };
+const findUser = async (email: string) => {
+  const u = await UserModel.findOne({ email });
+  if (!u) throw new Error('Invalid email or password');
+  return u;
+};
 
+const checkPassword = async (password: string, hash: string) => {
+  const valid = await bcrypt.compare(password, hash);
+  if (!valid) throw new Error('Invalid email or password');
+};
+
+function ensureString(value: unknown): string {
+  if (value === null || value === undefined) return '';
+  return String(value);
+}
+
+function ensureRole(value: unknown): Role {
+  if (value === null || value === undefined) return Role.User;
+  return value as Role;
+}
+
+const createToken = (userId: string) => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET missing');
+  return jwt.sign({ id: userId }, secret, { expiresIn: '14d' });
+};
+// --- resolvers ---
 export const resolvers = {
+  Query,
+  Mutation: {
+    ...Mutation,
+    // --- login resolver with complexity ≤4 ---
+    login: async (_: any, { input }: { input: LoginInput }): Promise<LoginResponse> => {
+      const userDoc = await findUser(input.email);
+      await checkPassword(input.password, userDoc.password);
+      const token = createToken(userDoc._id.toString());
+      const user = userDoc.toObject(); // plain JS object
 
-    Mutation,
-  
-    Query,
-  
-  Booking: {
-    // Field resolvers to handle database field mapping and null values
-    id: (parent: BookingParent) => {
-      if (!parent) {
-        console.error('ID field resolver - parent is null/undefined');
-        throw new Error('Cannot return null for non-nullable field Booking.id. Parent object is missing.');
-      }
-      
-      return resolveIdField(parent);
+      return {
+        token,
+        user: {
+          _id: user._id.toString(),
+          firstName: ensureString(user.firstName),
+          lastName: ensureString(user.lastName),
+          email: ensureString(user.email),
+          role: ensureRole(user.role),
+          dateOfBirth: ensureString(user.dateOfBirth),
+        },
+      };
     },
+  },
+
+  Booking: {
+    id: (parent: BookingParent) => resolveIdField(parent),
     userId: createFieldResolver('userId', 'user_id'),
     hotelId: createFieldResolver('hotelId', 'hotel_id'),
     roomId: createFieldResolver('roomId', 'room_id'),
