@@ -1,41 +1,29 @@
 import { Schema, model, models, Model } from 'mongoose';
-
-type Role = 'admin' | 'user';
+import { Role } from '../generated'; // ✅ use your generated enum
 
 type UserType = {
   firstName?: string;
   lastName?: string;
-  email?: string;
+  email: string;
   password: string;
   role?: Role;
   dateOfBirth?: string;
 };
 
-const userSchema = new Schema(
+const userSchema = new Schema<UserType>(
   {
-    firstName: {
+    firstName: { type: String },
+    lastName: { type: String },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    role: {
       type: String,
-      required: false,
+      enum: Object.values(Role),
+      default: Role.User,
     },
-    lastName: {
-      type: String,
-      required: false,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    role: { type: String },
-    dateOfBirth: {
-      type: String,
-      required: false,
-    },
+    dateOfBirth: { type: String },
   },
   { timestamps: true }
 );
 
-export const UserModel: Model<UserType> = models['User'] || model('User', userSchema);
+export const UserModel: Model<UserType> = models['User'] || model<UserType>('User', userSchema);
