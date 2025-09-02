@@ -42,7 +42,6 @@ interface SignupProviderProps {
   children: ReactNode;
   userId: string; // ✅ mutation-д шаардлагатай
 }
-
 export const SignupProvider: React.FC<SignupProviderProps> = ({ children, userId }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [signupData, setSignupData] = useState<SignupData>({
