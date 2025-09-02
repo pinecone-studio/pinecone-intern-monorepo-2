@@ -25,6 +25,7 @@ export const ProfileTypeDefs = gql`
     userId: ID!
     name: String!
     gender: Gender!
+    interestedIn: Gender!
     bio: String!
     interests: [String!]!
     profession: String!
@@ -48,6 +49,7 @@ export const ProfileTypeDefs = gql`
     userId: ID!
     name: String!
     gender: Gender!
+    interestedIn: Gender!
     bio: String!
     interests: [String!]!
     profession: String!
@@ -60,6 +62,7 @@ export const ProfileTypeDefs = gql`
     userId: ID!
     name: String
     gender: Gender
+    interestedIn: Gender
     bio: String
     interests: [String!]
     profession: String
