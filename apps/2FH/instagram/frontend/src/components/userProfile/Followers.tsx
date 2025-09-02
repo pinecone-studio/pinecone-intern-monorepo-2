@@ -27,7 +27,7 @@ export const Followers = ({ followers, currentUser }: { followers: Array<{ _id: 
               <li key={i} className="flex items-center gap-3 py-2">
                 <Image src={follower.profileImage || demoImage} alt={follower.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
                 <span className="font-medium">{follower.userName}</span>
-                {currentUser._id === follower._id && <FollowButton targetUserId={follower._id} initialIsFollowing={true} initialIsRequested={false} isPrivate={false} />}
+                {currentUser._id === follower._id && <FollowButton targetUserId={follower._id} initialIsFollowing={true} initialIsRequested={false} isPrivate={false} userName={follower.userName} />}
               </li>
             ))}
           </ul>
