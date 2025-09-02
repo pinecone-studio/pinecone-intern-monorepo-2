@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import * as Mutation from './mutations';
 import * as Query from './queries';
-import { LoginInput, LoginResponse } from 'src/generated';
+import { LoginInput, LoginResponse, Role } from 'src/generated';
 
 // Interface for the parent object in field resolvers
 interface BookingParent {
@@ -92,9 +92,15 @@ const checkPassword = async (password: string, hash: string) => {
   if (!valid) throw new Error('Invalid email or password');
 };
 
-const ensureString = (value: string | undefined | null): string => {
-  return value != null ? value : '';
-};
+function ensureString(value: unknown): string {
+  if (value === null || value === undefined) return '';
+  return String(value);
+}
+
+function ensureRole(value: unknown): Role {
+  if (value === null || value === undefined) return Role.User;
+  return value as Role;
+}
 
 const createToken = (userId: string) => {
   const secret = process.env.JWT_SECRET;
@@ -108,20 +114,20 @@ export const resolvers = {
     ...Mutation,
     // --- login resolver with complexity ≤4 ---
     login: async (_: any, { input }: { input: LoginInput }): Promise<LoginResponse> => {
-      const user = await findUser(input.email);
-      await checkPassword(input.password, user.password);
-
-      const token = createToken(user._id.toString());
+      const userDoc = await findUser(input.email);
+      await checkPassword(input.password, userDoc.password);
+      const token = createToken(userDoc._id.toString());
+      const user = userDoc.toObject(); // plain JS object
 
       return {
         token,
         user: {
           _id: user._id.toString(),
-          email: user.email,
           firstName: ensureString(user.firstName),
           lastName: ensureString(user.lastName),
+          email: ensureString(user.email),
+          role: ensureRole(user.role),
           dateOfBirth: ensureString(user.dateOfBirth),
-          role: user.role,
         },
       };
     },

@@ -27,13 +27,15 @@ export const login = async (_: unknown, { input }: { input: LoginInput }) => {
     dateOfBirth: '',
   };
 
+  const { password: _password, ...rest } = user;
+
   return {
     token,
     user: {
-      ...user,
+      ...defaults,
+      ...rest,
       _id: user._id,
       email: user.email,
-      ...defaults,
     },
   };
 };
