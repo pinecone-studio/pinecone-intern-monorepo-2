@@ -1,17 +1,36 @@
 import nodemailer from 'nodemailer';
 import { GraphQLError } from 'graphql';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// Only create transporter if SMTP credentials are available
+const hasSmtpCredentials = () => {
+  return !!(process.env.SMTP_USER && process.env.SMTP_PASS);
+};
+
+const createTransporter = () => {
+  if (!hasSmtpCredentials()) {
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: false,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+};
 
 export const sendOTPEmail = async (email: string, otp: string): Promise<void> => {
+  const transporter = createTransporter();
+
+  if (!transporter) {
+    console.warn('SMTP not configured. Skipping OTP email. OTP:', otp);
+    console.warn('Please set up SMTP configuration (SMTP_USER, SMTP_PASS) to enable email functionality');
+    return; // Don't throw error, just skip email sending
+  }
+
   try {
     const mailOptions = {
       from: process.env.SMTP_FROM || 'noreply@instagram.com',
@@ -52,16 +71,24 @@ export const sendOTPEmail = async (email: string, otp: string): Promise<void> =>
     console.log(`OTP email sent to ${email}`);
   } catch (error) {
     console.error('Error sending OTP email:', error);
-        
+
     throw new GraphQLError('Failed to send OTP email', {
       extensions: {
         code: 'EMAIL_SERVICE_ERROR',
-      }
+      },
     });
   }
 };
 
 export const sendVerificationEmail = async (email: string, otp: string): Promise<void> => {
+  const transporter = createTransporter();
+
+  if (!transporter) {
+    console.warn('SMTP not configured. Skipping verification email. OTP:', otp);
+    console.warn('Please set up SMTP configuration (SMTP_USER, SMTP_PASS) to enable email functionality');
+    return; // Don't throw error, just skip email sending
+  }
+
   try {
     const mailOptions = {
       from: process.env.SMTP_FROM || 'noreply@instagram.com',
@@ -102,11 +129,11 @@ export const sendVerificationEmail = async (email: string, otp: string): Promise
     console.log(`Verification email sent to ${email}`);
   } catch (error) {
     console.error('Error sending verification email:', error);
-        
+
     throw new GraphQLError('Failed to send verification email', {
       extensions: {
         code: 'EMAIL_SERVICE_ERROR',
-      }
+      },
     });
   }
 };

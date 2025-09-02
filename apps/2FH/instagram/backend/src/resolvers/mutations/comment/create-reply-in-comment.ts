@@ -19,7 +19,7 @@ export const createReplyOnComment = async (_: unknown, { commentId, content }: {
   const parentComment = await validateComment(commentId);
 
   const newReply = await Comment.create({
-    author: new Types.ObjectId(context.user!.id),
+    author: new Types.ObjectId(context.user?.id || ''),
     parentId: new Types.ObjectId(commentId),
     parentType: 'Comment',
     content,

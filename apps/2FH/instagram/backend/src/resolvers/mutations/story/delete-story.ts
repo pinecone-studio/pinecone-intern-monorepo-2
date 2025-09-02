@@ -55,7 +55,7 @@ export const deleteStory = async (
         validateDeleteInput({ _id, author: author || "" });
 
         const existingStory = await checkStoryExists(_id);
-        checkStoryOwnership(existingStory, author!);
+        checkStoryOwnership(existingStory, author || '');
         
         return await performStoryDeletion(_id);
     } catch (error) {

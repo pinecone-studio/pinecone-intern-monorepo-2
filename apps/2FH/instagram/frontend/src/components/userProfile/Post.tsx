@@ -45,20 +45,20 @@ const mockPosts = [
 
 export const Posts = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-1 sm:gap-2">
       {mockPosts.map((post) => (
         <div key={post.id} className="aspect-square relative group cursor-pointer overflow-hidden">
-          <div className="border-2">
+          <div className="border border-gray-200 sm:border-2">
             <Image src={demoImage} width={100} height={100} alt={`Post ${post.id}`} className="w-full h-full object-cover" />
           </div>
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-            <div className="flex items-center gap-4 text-white font-semibold">
+            <div className="flex items-center gap-2 sm:gap-4 text-white font-semibold text-xs sm:text-sm">
               <div className="flex items-center gap-1">
-                <Heart className="w-5 h-5 " />
+                <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>{formatNumber(post.likesCount)}</span>
               </div>
               <div className="flex items-center gap-1">
-                <MessageCircle className="w-5 h-5" />
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span>{formatNumber(post.commentsCount)}</span>
               </div>
             </div>
