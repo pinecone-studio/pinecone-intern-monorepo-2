@@ -96,6 +96,7 @@ const OtherUser = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
+
   if (!user) return <p>User not found</p>;
 
   const isFollowing = checkIfFollowing(user, currentUser?._id ?? null);
