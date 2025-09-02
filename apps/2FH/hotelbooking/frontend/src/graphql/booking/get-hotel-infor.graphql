@@ -1,0 +1,5 @@
+query HotelName($hotelId: ID!) {
+  hotel(id: $hotelId) {
+    name
+  }
+}
