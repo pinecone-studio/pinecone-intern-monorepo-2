@@ -33,6 +33,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
+          cache: false
       - run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
@@ -58,6 +59,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
+          cache: false
       - run: bun install -y
         if: "${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}"
       - name: Setup Canvas
@@ -87,6 +89,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
+          cache: false
       - run: bun install -y
       - name: Install Vercel CLI
         run: bun add --global vercel@latest
@@ -111,7 +114,7 @@ jobs:
   preview-and-E2E:
     runs-on: ubuntu-latest
     if: "${{ github.event.label.name == 'PR status: code ready' }}"
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
@@ -128,6 +131,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.10
+          cache: false
       - run: bun install -y
       - name: Install Vercel CLI
         run: bun add --global vercel@latest

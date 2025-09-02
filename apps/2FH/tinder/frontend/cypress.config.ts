@@ -20,14 +20,14 @@ const config: Cypress.ConfigOptions<unknown> = {
     videosFolder: './cypress/results/assets',
     viewportWidth: 1536,
     viewportHeight: 960,
-    pageLoadTimeout: 120000, 
-    defaultCommandTimeout: 30000, 
-    responseTimeout: 120000, 
+    pageLoadTimeout: 60000, 
+    defaultCommandTimeout: 15000, 
+    responseTimeout: 60000, 
     screenshotOnRunFailure: true,
     numTestsKeptInMemory: 0,
-    requestTimeout: 60000, 
+    requestTimeout: 30000, 
     trashAssetsBeforeRuns: true,
-    retries: 2,
+    retries: 1,
     reporter: '../../../../node_modules/cypress-multi-reporters',
     reporterOptions: {
       reporterEnabled: 'mochawesome',
@@ -41,6 +41,8 @@ const config: Cypress.ConfigOptions<unknown> = {
     env: {
       env: {},
     },
+    video: false,
+    videoCompression: false,
   },
 };
 
