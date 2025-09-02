@@ -103,57 +103,51 @@ jest.mock('next/image', () => ({
   },
 }));
 
-describe('Followings Component', () => {
+describe('Followings Component - Advanced scenarios', () => {
   const currentUser = { _id: '123', userName: 'currentUser', followings: [] };
 
-  it('renders followings count and opens dialog', () => {
-    render(
-      <MockedProvider mocks={mocks}>
-        <Followings followings={[]} currentUser={currentUser} />
-      </MockedProvider>
-    );
-    expect(screen.getByRole('button', { name: /0 Followings/i })).toBeInTheDocument();
-
-    // Dialog trigger дархад open болохыг шалгана
-    fireEvent.click(screen.getByRole('button', { name: /0 Followings/i }));
-    expect(screen.getByText(/No followings yet/i)).toBeInTheDocument();
-  });
-
-  it('renders list of followings', () => {
+  it('renders FollowButton for other users when current user is following them', () => {
     const followings = [
       { _id: '1', userName: 'Alice', profileImage: null },
       { _id: '2', userName: 'Bob', profileImage: null },
     ];
+    const currentUserWithFollowings = {
+      ...currentUser,
+      followings: [{ _id: '1' }], // Following Alice
+    };
 
     render(
       <MockedProvider mocks={mocks}>
-        <Followings followings={followings} currentUser={currentUser} />
+        <Followings followings={followings} currentUser={currentUserWithFollowings} />
       </MockedProvider>
     );
-
     fireEvent.click(screen.getByRole('button', { name: /2 Followings/i }));
 
-    expect(screen.getByText('Alice')).toBeInTheDocument();
-    expect(screen.getByText('Bob')).toBeInTheDocument();
+    // FollowButton should appear for Alice (user1) since currentUser is following her
+    expect(screen.getByTestId('follow-btn-1')).toBeInTheDocument();
+    // FollowButton should appear for Bob (user2) since currentUser is not following him
+    expect(screen.getByTestId('follow-btn-2')).toBeInTheDocument();
   });
 
-  it('renders FollowButton only for current user', () => {
+  it('renders FollowButton for other users when current user has no followings', () => {
     const followings = [
-      { _id: '123', userName: 'currentUser', profileImage: null },
+      { _id: '1', userName: 'Alice', profileImage: null },
       { _id: '2', userName: 'Bob', profileImage: null },
     ];
+    const currentUserWithoutFollowings = {
+      ...currentUser,
+      followings: [], // Not following anyone
+    };
 
     render(
       <MockedProvider mocks={mocks}>
-        <Followings followings={followings} currentUser={currentUser} />
+        <Followings followings={followings} currentUser={currentUserWithoutFollowings} />
       </MockedProvider>
     );
-
     fireEvent.click(screen.getByRole('button', { name: /2 Followings/i }));
 
-    // FollowButton should NOT appear for the current user (same ID)
-    expect(screen.queryByTestId('follow-btn-123')).not.toBeInTheDocument();
-    // FollowButton should appear for other users (different ID)
+    // FollowButton should appear for both Alice and Bob
+    expect(screen.getByTestId('follow-btn-1')).toBeInTheDocument();
     expect(screen.getByTestId('follow-btn-2')).toBeInTheDocument();
   });
 });
