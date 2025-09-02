@@ -1,4 +1,4 @@
-// describe('Reset Password Page - API Interactions', () => {
+ describe('Reset Password Page - API Interactions', () => {
     beforeEach(() => {
       cy.visit('/reset-password?identifier=test@example.com');
     });
@@ -146,4 +146,4 @@
         });
       });
     });
-  // });
+});
