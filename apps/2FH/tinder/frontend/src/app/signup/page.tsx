@@ -1,5 +1,5 @@
 'use client';
-import { useStep } from '../../components/providers/stepProvider';
+import { useStep } from '../../components/providers/StepProvider';
 import { Step1 } from '../../components/signup/Step1';
 import { Step2 } from '../../components/signup/Step2';
 import { ConfirmCode } from '../../components/signup/ConfirmCode';

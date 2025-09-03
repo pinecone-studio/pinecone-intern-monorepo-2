@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ConfirmCode } from '../../../src/components/signup/ConfirmCode';
-import { StepProvider } from '../../../src/components/providers/stepProvider';
+import { StepProvider } from '../../../src/components/providers/StepProvider';
 
 // Mock ConfirmCodeForm component
 jest.mock('../../../src/components/signup/ConfirmCodeForm', () => ({

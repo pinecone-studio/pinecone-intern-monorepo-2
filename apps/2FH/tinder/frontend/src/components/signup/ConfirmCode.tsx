@@ -1,4 +1,4 @@
-import { useStep } from '../providers/stepProvider';
+import { useStep } from '../providers/StepProvider';
 import { ConfirmCodeForm } from './ConfirmCodeForm';
 
 export const ConfirmCode = () => {

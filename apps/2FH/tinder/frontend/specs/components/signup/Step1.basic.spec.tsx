@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Step1 } from '../../../src/components/signup/Step1';
-import { StepProvider } from '../../../src/components/providers/stepProvider';
+import { StepProvider } from '../../../src/components/providers/StepProvider';
 import axios from 'axios';
 
 // Mock dependencies

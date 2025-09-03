@@ -49,9 +49,13 @@ export const useStep2Form = ({ email, setStep: _setStep }: Step2FormProps) => {
   });
 
   const handleCreateUserError = (error: unknown) => {
-    console.error('Error creating user:', error instanceof Error ? error.message : 'Unknown error');
-    if (error instanceof Error && 'response' in error) {
-      console.error((error as { response?: { data?: unknown } }).response?.data);
+    if (error && typeof error === 'object' && 'response' in error) {
+      const e = error as { response?: { data?: { errors?: Array<{ message?: string }> } } };
+      const message = e.response?.data?.errors?.[0]?.message;
+      if (message) {
+        toast.error(message);
+        return;
+      }
     }
     toast.error('Failed to create user');
   };

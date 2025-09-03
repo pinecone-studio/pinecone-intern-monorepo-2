@@ -1,4 +1,4 @@
-import { useStep } from '../providers/stepProvider';
+import { useStep } from '../providers/StepProvider';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -58,7 +58,6 @@ export const Step1 = () => {
   };
 
   const handleError = (err: unknown) => {
-    console.error(err);
     const errorMessage =
       err instanceof Error && 'response' in err ? (err as { response?: { data?: { errors?: Array<{ message?: string }> } } }).response?.data?.errors?.[0]?.message : 'Something went wrong';
     toast.error(errorMessage);

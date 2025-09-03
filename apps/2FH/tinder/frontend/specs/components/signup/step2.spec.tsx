@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Step2 } from '../../../src/components/signup/Step2';
-import { StepProvider } from '../../../src/components/providers/stepProvider';
+import { StepProvider } from '../../../src/components/providers/StepProvider';
 
 // Mock the useStep2Form hook
 jest.mock('../../../src/components/signup/Step2Form', () => ({

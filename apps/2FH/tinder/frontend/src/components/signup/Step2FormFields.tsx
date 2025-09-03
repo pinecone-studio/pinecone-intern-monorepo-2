@@ -1,4 +1,5 @@
 import { EyeIcon } from './SharedComponents';
+import type { UseFormRegister, FormState } from 'react-hook-form';
 
 interface FormData {
   password: string;
@@ -6,8 +7,8 @@ interface FormData {
 }
 
 interface PasswordFieldProps {
-  register: (_name: keyof FormData) => any;
-  formState: { errors: Record<keyof FormData, { message?: string }> };
+  register: UseFormRegister<FormData>;
+  formState: FormState<FormData>;
   showPassword: boolean;
   setShowPassword: (_show: boolean) => void;
   fieldName: 'password' | 'confirmPassword';
@@ -31,15 +32,15 @@ const PasswordField = ({ register, formState, showPassword, setShowPassword, fie
     />
     {formState.errors[fieldName] && (
       <p className="text-red-500 text-[12px]" data-testid={`${fieldName}-error`}>
-        {(formState.errors[fieldName] as any)?.message}
+        {formState.errors[fieldName]?.message}
       </p>
     )}
   </div>
 );
 
 interface Step2FormFieldsProps {
-  register: any;
-  formState: any;
+  register: UseFormRegister<FormData>;
+  formState: FormState<FormData>;
   showPassword: boolean;
   setShowPassword: (_show: boolean) => void;
   showConfirmPassword: boolean;
@@ -72,7 +73,7 @@ export const Step2FormFields = ({ register, formState, showPassword, setShowPass
       />
       {formState.errors.root && (
         <p className="text-red-500 text-[12px]" data-testid="root-error">
-          {formState.errors.root?.message}
+          {formState.errors.root?.message as string}
         </p>
       )}
       <button

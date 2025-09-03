@@ -1,4 +1,4 @@
-import { useStep } from '../providers/stepProvider';
+import { useStep } from '../providers/StepProvider';
 import { Logo } from './SharedComponents';
 import { useStep2Form } from './Step2Form';
 import { Step2FormFields } from './Step2FormFields';
