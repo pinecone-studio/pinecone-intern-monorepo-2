@@ -68,7 +68,7 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, a
         1
          2
           3
-
+           4
             5 
              6
         <Button onClick={() => router.push('./detail')} variant={'outline'}>
