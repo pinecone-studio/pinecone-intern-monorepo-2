@@ -6,5 +6,5 @@ export * from './swipe-mutation';
 export * from './login';
 export * from './sendmessage-mutation';
 export * from './forgot-reset-password';
-export * from './signup-sendOtp-mutation';
-export * from './signup-verifyOtp-mutation';
+export * from './signup-send-otp-mutation';
+export * from './signup-verify-otp-mutation';

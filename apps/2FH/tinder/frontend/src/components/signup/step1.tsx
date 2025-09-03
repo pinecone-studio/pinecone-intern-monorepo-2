@@ -5,6 +5,7 @@ import { z } from 'zod';
 import axios from 'axios';
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { toast } from 'sonner';
 
 export const Step1 = () => {
@@ -26,55 +27,72 @@ export const Step1 = () => {
     defaultValues: { email: '' },
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
+  const handleGraphQLErrors = (errors: Array<{ message?: string }>) => {
+    const message = errors[0]?.message || 'Something went wrong';
+
+    if (message === 'Email is already registered') {
+      toast.error('Email is already registered. Please log in.');
+    } else if (message === 'Failed to send OTP') {
+      toast.error('Failed to send OTP. Please try again later.');
+    } else {
+      toast.error(message);
+    }
+  };
+
+  const sendOtpRequest = async (email: string) => {
+    return await axios.post('http://localhost:4200/api/graphql', {
+      query: `
+        mutation SignupSendOtp($email: String!) {
+          signupSendOtp(email: $email) {
+            output
+          }
+        }
+      `,
+      variables: { email },
+    });
+  };
+
+  const handleSuccess = (response: { data: { data: { signupSendOtp: { output: string } } } }) => {
+    console.log('SendOtp Response:', response.data);
+    setStep(2);
+  };
+
+  const handleError = (err: unknown) => {
+    console.error(err);
+    const errorMessage =
+      err instanceof Error && 'response' in err ? (err as { response?: { data?: { errors?: Array<{ message?: string }> } } }).response?.data?.errors?.[0]?.message : 'Something went wrong';
+    toast.error(errorMessage);
+  };
+  async function onSubmit(data: z.infer<typeof schema>) {
     try {
       setLoading(true);
       setValues((prev) => ({ ...prev, email: data.email }));
 
-      const response = await axios.post('http://localhost:4200/api/graphql', {
-        query: `
-          mutation SignupSendOtp($email: String!) {
-            signupSendOtp(email: $email) {
-              output
-            }
-          }
-        `,
-        variables: { email: data.email },
-      });
+      const response = await sendOtpRequest(data.email);
       const graphqlErrors = response.data?.errors;
       logGraphQLErrors(graphqlErrors);
+
       if (graphqlErrors && graphqlErrors.length > 0) {
-        const message = graphqlErrors[0]?.message || 'Something went wrong';
-
-        if (message === 'Email is already registered') {
-          toast.error('Email is already registered. Please log in.');
-        } else if (message === 'Failed to send OTP') {
-          toast.error('Failed to send OTP. Please try again later.');
-        } else {
-          toast.error(message);
-        }
-
+        handleGraphQLErrors(graphqlErrors);
         return;
       }
 
-      console.log('SendOtp Response:', response.data);
-      setStep(2);
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response?.data?.errors?.[0]?.message || 'Something went wrong');
+      handleSuccess(response);
+    } catch (err: unknown) {
+      handleError(err);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
-  const logGraphQLErrors = (errors: any) => {
+  const logGraphQLErrors = (errors: Array<{ message?: string }> | undefined) => {
     console.log('Graphql Errors:', errors?.[0]?.message);
   };
 
   return (
     <div className="w-[350px] h-[414px] flex flex-col gap-6 items-center" data-testid="step1-container">
       <div className="flex flex-col items-center">
-        <img src="/images/logo.png" alt="logo" className="w-[100px]" data-testid="logo" />
+        <Image src="/images/logo.png" alt="logo" width={100} height={100} className="w-[100px]" data-testid="logo" />
         <div className="text-[24px] font-semibold" data-testid="title">
           Create an account
         </div>

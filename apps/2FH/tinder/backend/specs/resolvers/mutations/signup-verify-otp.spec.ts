@@ -1,7 +1,7 @@
-import { signUpVerifyOtp } from 'src/resolvers/mutations/signup-verifyOtp-mutation';
-import { OtpStore } from 'src/models/signupOtp-model';
+import { signUpVerifyOtp } from 'src/resolvers/mutations/signup-verify-otp-mutation';
+import { OtpStore } from 'src/models/signup-otp-model';
 
-jest.mock('src/models/signupOtp-model', () => ({
+jest.mock('src/models/signup-otp-model', () => ({
   OtpStore: {
     findOne: jest.fn(),
     deleteOne: jest.fn(),

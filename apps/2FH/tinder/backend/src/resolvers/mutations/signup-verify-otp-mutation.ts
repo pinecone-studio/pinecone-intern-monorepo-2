@@ -1,6 +1,6 @@
 // src/resolvers/mutations/verify-otp.ts
 import { MutationResolvers } from 'src/generated';
-import { OtpStore } from 'src/models/signupOtp-model';
+import { OtpStore } from 'src/models/signup-otp-model';
 
 export const signUpVerifyOtp: MutationResolvers['signUpVerifyOtp'] = async (_, { email, otp }) => {
   const record = await OtpStore.findOne({ email, otp });

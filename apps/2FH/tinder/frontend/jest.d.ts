@@ -4,14 +4,14 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toBeInTheDocument(): R;
-      toHaveBeenCalledWith(...args: any[]): R;
+      toHaveBeenCalledWith(..._args: any[]): R;
       toBeDisabled(): R;
-      toHaveTextContent(text: string | RegExp): R;
-      toHaveValue(value: string | string[] | number): R;
+      toHaveTextContent(_text: string | RegExp): R;
+      toHaveValue(_value: string | string[] | number): R;
       toHaveFocus(): R;
-      toHaveAttribute(attr: string, value?: string): R;
-      toHaveClass(...classNames: string[]): R;
-      toHaveLength(length: number): R;
+      toHaveAttribute(_attr: string, _value?: string): R;
+      toHaveClass(..._classNames: string[]): R;
+      toHaveLength(_length: number): R;
     }
   }
 }

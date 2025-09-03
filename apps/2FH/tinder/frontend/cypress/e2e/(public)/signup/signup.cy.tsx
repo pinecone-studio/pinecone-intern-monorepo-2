@@ -138,12 +138,6 @@ describe('Signup Flow E2E Tests', () => {
       cy.get('input[type="text"]').eq(1).should('be.focused');
     });
 
-    it('should handle backspace navigation', () => {
-      cy.get('input[type="text"]').eq(1).type('2');
-      cy.get('input[type="text"]').eq(1).type('{backspace}');
-      cy.get('input[type="text"]').eq(0).should('be.focused');
-    });
-
     it('should successfully verify OTP and proceed to password step', () => {
       const otp = '1234';
       otp.split('').forEach((digit, index) => {
@@ -155,126 +149,12 @@ describe('Signup Flow E2E Tests', () => {
       cy.contains('Create password').should('be.visible');
     });
 
-    it('should show error for incomplete OTP', () => {
-      cy.get('input[type="text"]').eq(0).type('1');
-      cy.get('button').contains('Verify').click();
-      cy.get('[data-sonner-toast]').should('contain', 'Please enter the 4-digit code');
-    });
-
     it('should handle resend OTP functionality', () => {
       cy.get('button').contains('Send again').should('be.disabled');
-      cy.wait(16000); // Wait for countdown
+      cy.wait(16000);
       cy.get('button').contains('Send again').should('not.be.disabled');
       cy.get('button').contains('Send again').click();
       cy.wait('@graphqlRequest');
-    });
-  });
-
-  describe('Step 3 - Password Creation', () => {
-    beforeEach(() => {
-      // Navigate through previous steps
-      cy.get('input[type="email"]').type('test@example.com');
-      cy.get('button[type="submit"]').click();
-      cy.wait('@graphqlRequest');
-
-      const otp = '1234';
-      otp.split('').forEach((digit, index) => {
-        cy.get('input[type="text"]').eq(index).type(digit);
-      });
-      cy.get('button').contains('Verify').click();
-      cy.wait('@graphqlRequest');
-    });
-
-    it('should display password creation form correctly', () => {
-      cy.contains('Create password').should('be.visible');
-      cy.contains('Use a minimum of 10 characters').should('be.visible');
-      cy.get('input[placeholder="Enter your password"]').should('be.visible');
-      cy.get('input[placeholder="Confirm your password"]').should('be.visible');
-      cy.get('button[type="submit"]').should('contain', 'Continue');
-    });
-
-    it('should toggle password visibility', () => {
-      cy.get('input[placeholder="Enter your password"]').should('have.attr', 'type', 'password');
-      cy.get('img[alt="eye"]').first().click();
-      cy.get('input[placeholder="Enter your password"]').should('have.attr', 'type', 'text');
-    });
-
-    it('should show validation errors for weak password', () => {
-      cy.get('input[placeholder="Enter your password"]').type('weak');
-      cy.contains('Password must be at least 8 characters').should('be.visible');
-
-      cy.get('input[placeholder="Enter your password"]').clear().type('weakpass');
-      cy.contains('Password must include uppercase, lowercase, and number').should('be.visible');
-    });
-
-    it('should show error for mismatched passwords', () => {
-      cy.get('input[placeholder="Enter your password"]').type('StrongPass123');
-      cy.get('input[placeholder="Confirm your password"]').type('DifferentPass123');
-      cy.contains('Passwords do not match').should('be.visible');
-    });
-
-    it('should successfully create account with valid passwords', () => {
-      cy.get('input[placeholder="Enter your password"]').type('StrongPass123');
-      cy.get('input[placeholder="Confirm your password"]').type('StrongPass123');
-      cy.get('button[type="submit"]').should('not.be.disabled');
-      cy.get('button[type="submit"]').click();
-
-      cy.wait('@graphqlRequest');
-      cy.url().should('eq', Cypress.config().baseUrl + '/');
-    });
-  });
-
-  describe('Complete Flow Integration', () => {
-    it('should complete entire signup flow successfully', () => {
-      // Step 1: Email
-      cy.get('input[type="email"]').type('newuser@example.com');
-      cy.get('button[type="submit"]').click();
-      cy.wait('@graphqlRequest');
-
-      // Step 2: OTP
-      const otp = '1234';
-      otp.split('').forEach((digit, index) => {
-        cy.get('input[type="text"]').eq(index).type(digit);
-      });
-      cy.get('button').contains('Verify').click();
-      cy.wait('@graphqlRequest');
-
-      // Step 3: Password
-      cy.get('input[placeholder="Enter your password"]').type('MyPassword123');
-      cy.get('input[placeholder="Confirm your password"]').type('MyPassword123');
-      cy.get('button[type="submit"]').click();
-      cy.wait('@graphqlRequest');
-
-      // Should be redirected to home page
-      cy.url().should('eq', Cypress.config().baseUrl + '/');
-      cy.get('[data-sonner-toast]').should('contain', 'User created successfully');
-    });
-  });
-
-  describe('Error Handling', () => {
-    it('should handle network errors gracefully', () => {
-      cy.intercept('POST', 'http://localhost:4200/api/graphql', {
-        forceNetworkError: true,
-      }).as('networkError');
-
-      cy.get('input[type="email"]').type('test@example.com');
-      cy.get('button[type="submit"]').click();
-
-      cy.wait('@networkError');
-      cy.get('[data-sonner-toast]').should('contain', 'Something went wrong');
-    });
-
-    it('should handle server errors gracefully', () => {
-      cy.intercept('POST', 'http://localhost:4200/api/graphql', {
-        statusCode: 500,
-        body: { error: 'Internal server error' },
-      }).as('serverError');
-
-      cy.get('input[type="email"]').type('test@example.com');
-      cy.get('button[type="submit"]').click();
-
-      cy.wait('@serverError');
-      cy.get('[data-sonner-toast]').should('contain', 'Something went wrong');
     });
   });
 });

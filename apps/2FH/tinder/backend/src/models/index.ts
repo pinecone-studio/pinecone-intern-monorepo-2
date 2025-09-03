@@ -4,4 +4,4 @@ export * from './user-model';
 export * from './swipe-model';
 export * from './message-model';
 export * from './otp-token';
-export * from './signupOtp-model';
+export * from './signup-otp-model';
