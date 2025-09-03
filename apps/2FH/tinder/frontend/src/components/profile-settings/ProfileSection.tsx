@@ -32,10 +32,9 @@ export const ProfileSection = ({ onSuccess: _onSuccess }: ProfileSectionProps) =
     setSelectedInterests(prev => {
       if (prev.includes(interest)) {
         return prev.filter(i => i !== interest);
-      } else if (prev.length < 10) {
+      } else {
         return [...prev, interest];
       }
-      return prev;
     });
   };
 
@@ -46,41 +45,42 @@ export const ProfileSection = ({ onSuccess: _onSuccess }: ProfileSectionProps) =
   };
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-xl">                        
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-1">Personal Information</h2>
         <p className="text-gray-600 text-sm">This is how others will see you on the site.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Name */}
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
-            placeholder="Enter your name"
-          />
-        </div>
+        {/* Name & Email */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={formData.name}
+              onChange={(e) => handleInputChange('name', e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+              placeholder="Enter your name"
+            />
+          </div>
 
-        {/* Email */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
-            placeholder="Enter your email"
-          />
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+              placeholder="Enter your email"
+            />
+          </div>
         </div>
 
         {/* Date of Birth */}

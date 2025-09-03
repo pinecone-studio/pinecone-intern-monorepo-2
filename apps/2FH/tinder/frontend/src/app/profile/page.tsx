@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { TinderHeader } from '@/components/TinderHeader';
-import { TinderNavigation } from '@/components/TinderNavigation';
-import { ProfileSection } from '@/components/ProfileSection';
-import { ImagesSection } from '@/components/ImagesSection';
-import { Notification } from '@/components/Notification';
+import { TinderHeader } from '@/components/profile-settings/TinderHeader';
+import { TinderNavigation } from '@/components/profile-settings/TinderNavigation';
+import { ProfileSection } from '@/components/profile-settings/ProfileSection';
+import { ImagesSection } from '@/components/profile-settings/ImagesSection';
+import { Notification } from '@/components/profile-settings/Notification';
 
 export type NavigationItem = 'profile' | 'images';
 
@@ -28,14 +28,20 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-white">
       <TinderHeader />
       
-      <div className="flex">
+      <div className="flex justify-center">
+        <div className="w-full max-w-3xl px-4">
+          <div className="mt-3 mb-4">
+            <h1 className="text-lg font-semibold text-gray-800">Hi, Elon</h1>
+            <p className="text-sm text-gray-600">Musk@pinecone.mn</p>
+          </div>
+          <div className="flex gap-6">
         <TinderNavigation 
           activeSection={activeSection} 
           onSectionChange={handleSectionChange} 
         />
         
         <main className="flex-1 flex justify-center p-6">
-          <div className="w-full max-w-4xl">
+              <div className="w-full max-w-2xl">
             {activeSection === 'profile' && (
               <ProfileSection onSuccess={showSuccessNotification} />
             )}
@@ -44,6 +50,8 @@ const ProfilePage = () => {
             )}
           </div>
         </main>
+          </div>
+        </div>
       </div>
 
       {/* Footer */}

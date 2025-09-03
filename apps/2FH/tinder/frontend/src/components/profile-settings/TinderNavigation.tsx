@@ -12,13 +12,13 @@ export const TinderNavigation = ({ activeSection, onSectionChange: _onSectionCha
   ];
 
   return (
-    <nav className="w-64 bg-white p-6">
+    <nav className="w-48 bg-white p-3">
       <div className="space-y-2">
         {navigationItems.map((item) => (
           <button
             key={item.id}
             onClick={() => _onSectionChange(item.id)}
-            className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ${
+            className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 font-medium text-sm ${
               activeSection === item.id
                 ? 'bg-gray-200 text-gray-800'
                 : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
