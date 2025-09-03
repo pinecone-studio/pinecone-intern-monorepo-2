@@ -65,18 +65,15 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, a
         </div>
       </div>
       <div className="p-3 flex items-end">
-
-
-
-
-
-
-        
+        1
+         2
+          3
+           4 
+            5 
+             6
         <Button onClick={() => router.push('./detail')} variant={'outline'}>
-          
           View Detail
         </Button>
-        sss
       </div>
     </div>
   );
