@@ -1,0 +1,12 @@
+query GetUserById($input: UserId!) {
+  getUserById(input: $input) {
+    _id
+    firstName
+    lastName
+    email
+    dateOfBirth
+    role
+  }
+}
+
+
