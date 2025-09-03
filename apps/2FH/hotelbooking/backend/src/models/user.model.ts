@@ -1,5 +1,5 @@
 import { Schema, model, models, Model } from 'mongoose';
-import { Role } from '../generated'; // ✅ use your generated enum
+import { Role } from '../generated';
 
 type UserType = {
   firstName?: string;

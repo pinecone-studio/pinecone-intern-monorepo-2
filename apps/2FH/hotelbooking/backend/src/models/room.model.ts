@@ -121,11 +121,11 @@ enum entertainment {
 }
 
 enum status {
-  cancelled = 'cancelled',
-  booked = 'booked',
-  pending = 'pending',
-  completed = 'completed',
-  available = 'available',
+  Cancelled = 'Cancelled',
+  Booked = 'Booked',
+  Pending = 'Pending',
+  Completed = 'Completed',
+  Available = 'Available',
 }
 
 const roomSchema = new Schema<roomType>(
@@ -144,7 +144,7 @@ const roomSchema = new Schema<roomType>(
     other: [{ type: String, enum: Object.values(other), required: true }],
     entertainment: [{ type: String, enum: Object.values(entertainment), required: true }],
     bedNumber: { type: Number, required: true },
-    status: { type: String, enum: Object.values(status), default: status.available },
+    status: { type: String, enum: Object.values(status), default: status.Available },
   },
   { timestamps: true }
 );

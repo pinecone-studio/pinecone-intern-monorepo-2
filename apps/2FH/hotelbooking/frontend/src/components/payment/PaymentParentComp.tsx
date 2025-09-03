@@ -6,7 +6,7 @@ import { RoomInformation } from './_components/RoomInformation';
 export const PaymentParentComp = () => {
   const { bookingSuccess } = useOtpContext();
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full">
       {bookingSuccess ? (
         <ConfirmedBooking />
       ) : (

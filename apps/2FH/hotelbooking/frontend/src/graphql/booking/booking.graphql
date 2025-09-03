@@ -5,7 +5,6 @@ mutation createBooking($input: CreateBookingInput!) {
     hotelId
     id
     roomId
-    status
     userId
   }
 }

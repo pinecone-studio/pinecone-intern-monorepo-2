@@ -12,7 +12,7 @@ import { useOtpContext } from '@/components/providers';
 
 const mockUserId = '68b017713bb2696705c69369';
 const mockHotelId = '689d5d72980117e81dad2925';
-const mockRoomId = '68b2a9fdb61cd7a760dbf94f';
+const mockRoomId = '68b680fbefcd61d7eacdd6fa';
 const mockEmailAddress = 'bati202009@gmail.com';
 const mockCheInDate = '2025-09-10';
 const mockCheOutDate = '2025-09-15';
@@ -68,7 +68,7 @@ export const BookingPayment = () => {
       setBookingData({
         ...bookingData,
         ...(booking || {}),
-        status: booking?.status || 'PENDING',
+
       });
 
       await handleUpdateUser(values);
@@ -79,6 +79,7 @@ export const BookingPayment = () => {
       toast.error('Booking error');
     }
   }
+  console.log(mockUserId);
 
   return (
     <Form {...form} data-cy="Booking-Payment-Container">

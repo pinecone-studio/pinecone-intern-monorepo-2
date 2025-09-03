@@ -4,9 +4,8 @@ export const bookingTypeDefs = gql`
   scalar Date
 
   enum BookingStatus {
-    BOOKED
-    COMPLETED
-    CANCELLED
+    Completed
+    Cancelled
   }
 
   type Booking {
@@ -18,7 +17,7 @@ export const bookingTypeDefs = gql`
     checkOutDate: Date!
     adults: Int
     children: Int
-    status: BookingStatus!
+    status: BookingStatus
     createdAt: Date
     updatedAt: Date
   }

@@ -3,5 +3,6 @@ query GetRoomForBooking($getRoomId: ID!) {
     name
     imageURL
     status
+    id
   }
 }
