@@ -2,9 +2,8 @@
 import { Schema, model, models, Model, Types } from 'mongoose';
 
 enum status {
-  BOOKED = 'booked',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
 }
 
 type bookingType = {
@@ -27,7 +26,7 @@ const bookingSchema = new Schema<bookingType>(
     checkOutDate: { type: Date, required: true },
     adults: { type: Number, required: false },
     children: { type: Number, required: false },
-    status: { type: String, enum: Object.values(status), required: true, default: status.BOOKED },
+    status: { type: String, enum: Object.values(status), required: false },
   },
   { timestamps: true }
 );

@@ -1,12 +1,11 @@
 query GetBookingsByUserId($userId: ID!) {
   getBookingsByUserId(userId: $userId) {
     userId
-    status
     roomId
     id
     hotelId
+    status
     checkOutDate
     checkInDate
-    status
   }
 }

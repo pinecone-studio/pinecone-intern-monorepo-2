@@ -27,11 +27,7 @@ export const BookedCard = ({ confirmedBooking }: Props) => {
           <Image src={roomData?.getRoom.imageURL?.[0] || '/images/placeholder.png'} width={300} height={200} alt="Room picture [0]" className="w-[400px] h-[200px] rounded-xl" />
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
-          <div
-            className={`w-fit px-3 py-1 rounded-full text-white ${roomData?.getRoom.status === 'booked' ? 'bg-[#18BA51]' : roomData?.getRoom.status === 'cancelled' ? 'bg-red-500' : 'bg-gray-400'}`}
-          >
-            {roomData?.getRoom.status}
-          </div>
+          <div className={`w-fit px-3 py-1 rounded-full text-white ${roomData?.getRoom.status === 'Booked' && 'bg-[#18BA51]'}`}>{roomData?.getRoom.status}</div>
           <div></div>
           <div>
             <div className="font-bold">{hotelData?.hotel.name}</div>
