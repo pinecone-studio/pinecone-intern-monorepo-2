@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { toast } from 'sonner';
 
 const LOGIN_MUTATION = gql`
@@ -73,7 +74,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md bg-white p-10 border border-gray-200 rounded-xl shadow-sm">
         <div className="text-center mb-6">
-          <img src="/logo.png" alt="Tinder Logo" className="mx-auto h-15" />
+          <Image src="/logo.png" alt="Tinder Logo" width={60} height={60} className="mx-auto h-15" />
           <h2 className="text-2xl font-bold mt-4">Sign in</h2>
           <p className="text-gray-500 text-sm mt-1">Enter your email below to sign in</p>
 >>>>>>> 1665f221 (your message):apps/2FH/tinder/frontend/src/app/signin/page.tsx

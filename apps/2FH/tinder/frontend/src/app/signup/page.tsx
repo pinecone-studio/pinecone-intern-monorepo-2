@@ -1,11 +1,10 @@
 'use client';
-
 import { useStep } from '../../components/providers/stepProvider';
-import { Step1 } from '../../components/signup/step1';
-import { Step2 } from '../../components/signup/step2';
-import { ConfirmCode } from '../../components/signup/confirmCode';
+import { Step1 } from '../../components/signup/Step1';
+import { Step2 } from '../../components/signup/Step2';
+import { ConfirmCode } from '../../components/signup/ConfirmCode';
 
-export default function Signup() {
+const Signup = () => {
   const { step } = useStep();
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center relaitve ">
@@ -15,4 +14,6 @@ export default function Signup() {
       <div className="absolute bottom-10 text-[14px] font-light text-[#71717a]">©2024 Tinder</div>
     </div>
   );
-}
+};
+
+export default Signup;

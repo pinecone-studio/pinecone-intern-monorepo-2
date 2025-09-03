@@ -1,5 +1,4 @@
-export * from './swipe.types';
-export * from './resolvers.types';
+export * from './swipe-types';
 import { NextRequest } from 'next/server';
 
 export type Context = {

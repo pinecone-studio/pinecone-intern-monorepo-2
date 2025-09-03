@@ -4,7 +4,7 @@ import { User } from 'src/models';
 import { GraphQLError } from 'graphql';
 import bcryptjs from 'bcryptjs';
 
-export const createUser: MutationResolvers['createUser'] = async (_, { input }, { req }) => {
+export const createUser: MutationResolvers['createUser'] = async (_root, { input }) => {
   try {
     console.log('Creating user with input:', JSON.stringify(input));
 

@@ -1,5 +1,3 @@
-import { sendUserVerificationLink } from 'src/utils/mail-handler';
-
 import { User } from 'src/models';
 import { createUser } from 'src/resolvers/mutations';
 import { UserResponse, CreateUserInput } from 'src/generated';
@@ -10,10 +8,6 @@ jest.mock('src/models', () => ({
   User: { create: jest.fn() },
 }));
 jest.mock('bcryptjs', () => ({ hash: jest.fn() }));
-
-jest.mock('src/utils/mail-handler', () => ({
-  sendUserVerificationLink: jest.fn(),
-}));
 describe('createUser mutation', () => {
   const mockUserInput: CreateUserInput = {
     email: 'test@example.com',
