@@ -1,0 +1,10 @@
+query GetMe {
+  getMe {
+    _id
+    email
+    firstName
+    lastName
+    role
+    dateOfBirth
+  }
+}

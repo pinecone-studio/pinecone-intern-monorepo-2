@@ -67,7 +67,8 @@ export const BookingPayment = () => {
 
       setBookingData({
         ...bookingData,
-        ...(booking || ''),
+        ...(booking || {}),
+        status: booking?.status || 'PENDING',
       });
 
       await handleUpdateUser(values);
