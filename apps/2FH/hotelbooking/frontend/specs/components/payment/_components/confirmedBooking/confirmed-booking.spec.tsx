@@ -6,7 +6,6 @@ import { useHotelQuery, useGetRoomQuery } from '@/generated';
 import { useParams, useRouter } from 'next/navigation';
 import { ConfirmedBooking } from '@/components/payment/_components/ConfirmedBooking/ConfirmedBooking';
 
-// 🔹 Mock dependencies
 jest.mock('@/components/providers');
 jest.mock('@/generated');
 jest.mock('next/navigation', () => ({
@@ -20,15 +19,12 @@ describe('ConfirmedBooking', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    // router mock
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
 
-    // params mock
     (useParams as jest.Mock).mockReturnValue({ userid: '123' });
 
-    // context mock
     (useOtpContext as jest.Mock).mockReturnValue({
       bookingData: {
         hotelId: 'hotel-1',
@@ -38,7 +34,6 @@ describe('ConfirmedBooking', () => {
       },
     });
 
-    // GraphQL mocks
     (useHotelQuery as jest.Mock).mockReturnValue({
       data: {
         hotel: {
@@ -61,20 +56,20 @@ describe('ConfirmedBooking', () => {
     });
   });
 
-  it('renders success booking message', () => {
+  it('1. Renders success booking message', () => {
     render(<ConfirmedBooking />);
     expect(screen.getByText('You are confirmed')).toBeInTheDocument();
     expect(screen.getByText('Shangri-La Hotel')).toBeInTheDocument();
     expect(screen.getByText('Ulaanbaatar, Mongolia')).toBeInTheDocument();
   });
 
-  it('renders booking dates', () => {
+  it('2. Renders booking dates', () => {
     render(<ConfirmedBooking />);
     expect(screen.getByText('2025-09-05')).toBeInTheDocument();
     expect(screen.getByText('2025-09-10')).toBeInTheDocument();
   });
 
-  it('renders room information', () => {
+  it('3. Renders room information', () => {
     render(<ConfirmedBooking />);
     expect(screen.getByText('Deluxe Room')).toBeInTheDocument();
     expect(screen.getByText('Breakfast included')).toBeInTheDocument();
@@ -82,7 +77,7 @@ describe('ConfirmedBooking', () => {
     expect(screen.getByText('Free WiFi')).toBeInTheDocument();
   });
 
-  it('navigates to booking history when button clicked', () => {
+  it('4. Navigates to booking history when button clicked', () => {
     render(<ConfirmedBooking />);
     const button = screen.getByRole('button', { name: /view your book/i });
     fireEvent.click(button);
