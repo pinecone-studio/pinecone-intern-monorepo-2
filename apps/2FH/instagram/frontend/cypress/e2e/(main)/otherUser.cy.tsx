@@ -21,7 +21,7 @@ describe('OtherUser Page', () => {
     });
   };
   beforeEach(() => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         if (req.alias === 'error') req.reply({ errors: [{ message: 'Something went wrong' }] });
         else if (req.alias === 'notFound') req.reply({ data: { getUserByUsername: null } });
@@ -34,7 +34,7 @@ describe('OtherUser Page', () => {
     cy.contains('Loading...').should('exist');
   });
   it('should show error state', () => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({ errors: [{ message: 'Something went wrong' }] });
       }
@@ -43,7 +43,7 @@ describe('OtherUser Page', () => {
     cy.contains('Error: Something went wrong').should('exist');
   });
   it('should show user not found', () => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({ data: { getUserByUsername: null } });
       }
@@ -58,7 +58,7 @@ describe('OtherUser Page', () => {
     cy.contains('POSTS').should('exist');
   });
   it('should show private account message when user is private', () => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({ data: { getUserByUsername: mockUserData({ isPrivate: true, posts: [] }) } });
       }
@@ -68,7 +68,7 @@ describe('OtherUser Page', () => {
   });
   it('should handle following state correctly', () => {
     setupAuth();
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({
           data: {
@@ -89,7 +89,7 @@ describe('OtherUser Page', () => {
   });
   it('should show posts for private user when current user is following', () => {
     setupAuth();
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({
           data: {
@@ -111,7 +111,7 @@ describe('OtherUser Page', () => {
     cy.contains('This account is private').should('not.exist');
   });
   it('should display profile image when user has one', () => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({
           data: {
@@ -131,7 +131,7 @@ describe('OtherUser Page', () => {
     cy.get('img[alt="testuser profile picture"]').should('exist');
   });
   it('should fall back to demo image when profile image is invalid', () => {
-    cy.intercept('POST', '/api/graphql', (req) => {
+    cy.intercept('POST', 'https://backend-dev-xi.vercel.app/api/graphql', (req) => {
       if (req.body.operationName === 'GetUserByUsername') {
         req.reply({
           data: {
