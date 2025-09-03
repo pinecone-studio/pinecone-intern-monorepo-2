@@ -42,7 +42,7 @@ describe('getProfile Resolver - Success Cases', () => {
     mockSwipeFind.mockReturnValue({
       populate: jest.fn().mockResolvedValue([])
     } as any);
-    
+
     // Mock ProfileModel.find().select() chain
     mockProfileFind.mockReturnValue({
       select: jest.fn().mockResolvedValue([])
@@ -54,6 +54,7 @@ describe('getProfile Resolver - Success Cases', () => {
     userId: new Types.ObjectId(),
     name: 'Test User',
     gender,
+    interestedIn: 'female',
     bio: 'Test bio',
     interests: ['coding', 'gaming'],
     profession: 'Developer',
@@ -76,6 +77,7 @@ describe('getProfile Resolver - Success Cases', () => {
       userId: mockProfile.userId.toHexString(),
       name: mockProfile.name,
       gender: expectedGender,
+      interestedIn: Gender.Female,
       bio: mockProfile.bio,
       interests: mockProfile.interests,
       profession: mockProfile.profession,
@@ -105,7 +107,7 @@ describe('getProfile Resolver - Success Cases', () => {
     const mockProfile = createMockProfile('male', new Date('1990-01-01'));
     const likedUserId = new Types.ObjectId();
     const matchedUserId = new Types.ObjectId();
-    
+
     // Add matches to the profile
     (mockProfile as any).matches = [matchedUserId];
 
@@ -133,6 +135,7 @@ describe('getProfile Resolver - Success Cases', () => {
       userId: mockProfile.userId.toHexString(),
       name: mockProfile.name,
       gender: Gender.Male,
+      interestedIn: Gender.Female,
       bio: mockProfile.bio,
       interests: mockProfile.interests,
       profession: mockProfile.profession,

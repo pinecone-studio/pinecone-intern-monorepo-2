@@ -1,0 +1,111 @@
+query HotelsByStars($stars: Int!) {
+  hotelsByStars(stars: $stars) {
+    id
+    name
+    images
+    stars
+    rating
+    city
+    country
+    location
+  }
+}
+
+query HotelsByRating($rating: Float!) {
+  hotelsByRating(rating: $rating) {
+    id
+    name
+    description
+    images
+    stars
+    phone
+    rating
+    city
+    country
+    location
+    amenities
+    languages
+    policies {
+      checkIn
+      checkOut
+      specialCheckInInstructions
+      accessMethods
+      childrenAndExtraBeds
+      pets
+    }
+    optionalExtras {
+      youNeedToKnow
+      weShouldMention
+    }
+    faq {
+      question
+      answer
+    }
+  }
+}
+
+query Hotels {
+  hotels {
+    id
+    name
+    description
+    images
+    stars
+    phone
+    rating
+    city
+    country
+    location
+    amenities
+    languages
+    policies {
+      checkIn
+      checkOut
+      specialCheckInInstructions
+      accessMethods
+      childrenAndExtraBeds
+      pets
+    }
+    optionalExtras {
+      youNeedToKnow
+      weShouldMention
+    }
+    faq {
+      question
+      answer
+    }
+  }
+}
+
+query Hotel($hotelId: ID!) {
+  hotel(id: $hotelId) {
+    id
+    name
+    description
+    images
+    stars
+    phone
+    rating
+    city
+    country
+    location
+    amenities
+    languages
+    policies {
+      checkIn
+      checkOut
+      specialCheckInInstructions
+      accessMethods
+      childrenAndExtraBeds
+      pets
+    }
+    optionalExtras {
+      youNeedToKnow
+      weShouldMention
+    }
+    faq {
+      question
+      answer
+    }
+  }
+}

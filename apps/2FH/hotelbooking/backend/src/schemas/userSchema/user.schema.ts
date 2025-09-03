@@ -10,12 +10,12 @@ export const userDefs = gql`
 
   type User {
     _id: ID!
-    firstName: String!
-    lastName: String!
+    firstName: String
+    lastName: String
     email: String!
     password: String
-    role: Role!
-    dateOfBirth: String!
+    role: Role
+    dateOfBirth: String
   }
 
   input CreateUserInput {
@@ -63,16 +63,25 @@ export const userDefs = gql`
     role: Role
     dateOfBirth: String
   }
-
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+  type LoginResponse {
+    token: String!
+    user: User!
+  }
   type Mutation {
     createUser(input: CreateUserInput!): User!
     updateUser(input: UpdateUserInput!): User!
     deleteUser(input: deleteUser): User!
+    login(input: LoginInput!): LoginResponse!
   }
 
   type Query {
     getUserById(input: UserId!): User!
     getUserByEmail(input: UserEmail!): User!
     getUsers(input: InputUserType!): [User!]!
+    getMe: User
   }
 `;

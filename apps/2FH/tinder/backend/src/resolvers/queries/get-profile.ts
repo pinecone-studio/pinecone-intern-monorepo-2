@@ -26,6 +26,7 @@ const formatProfile = (profile: any, likes: any[], matches: any[]) => ({
   userId: profile.userId.toHexString(),
   name: profile.name,
   gender: mapGenderToGraphQL(profile.gender),
+  interestedIn: mapGenderToGraphQL(profile.interestedIn),
   bio: profile.bio,
   interests: profile.interests,
   profession: profile.profession,
@@ -53,8 +54,8 @@ const fetchProfileData = async (userId: string) => {
 
 const fetchLikesAndMatches = async (userId: string, profileMatches: Types.ObjectId[]) => {
   const likes = await SwipeModel.find({ swiperId: userId }).populate('targetId', 'userId');
-  const matches = await ProfileModel.find({ 
-    userId: { $in: profileMatches } 
+  const matches = await ProfileModel.find({
+    userId: { $in: profileMatches }
   }).select('userId name images profession');
   return { likes, matches };
 };

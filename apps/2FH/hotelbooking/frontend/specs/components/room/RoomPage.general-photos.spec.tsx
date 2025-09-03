@@ -42,7 +42,7 @@ jest.mock('../../../src/components/room/ImageModal', () => ({
   ImageModal: ({ isOpen, onClose, onSave }: any) =>
     isOpen ? (
       <div data-testid="image-modal">
-        <button onClick={() => onSave(['image1.jpg', 'image2.jpg'])}>Save Images</button>
+        <button onClick={() => onSave(['/image1.jpg', '/image2.jpg'])}>Save Images</button>
         <button onClick={onClose}>Close Modal</button>
       </div>
     ) : null,
@@ -86,8 +86,8 @@ describe('RoomPage General Component & Photos', () => {
 
     const images = screen.getAllByAltText(/Room image/);
     expect(images).toHaveLength(2);
-    expect(images[0]).toHaveAttribute('src', 'image1.jpg');
-    expect(images[1]).toHaveAttribute('src', 'image2.jpg');
+    expect(images[0]).toHaveAttribute('src', expect.stringContaining('%2Fimage1.jpg'));
+    expect(images[1]).toHaveAttribute('src', expect.stringContaining('%2Fimage2.jpg'));
   });
 
   it('should handle general info save', () => {

@@ -25,8 +25,8 @@ const bookingSchema = new Schema<bookingType>(
     roomId: { type: Schema.Types.ObjectId, ref: 'Room', required: true },
     checkInDate: { type: Date, required: true },
     checkOutDate: { type: Date, required: true },
-    adults: { type: Number, required: true },
-    children: { type: Number, required: true },
+    adults: { type: Number, required: false },
+    children: { type: Number, required: false },
     status: { type: String, enum: Object.values(status), required: true, default: status.BOOKED },
   },
   { timestamps: true }

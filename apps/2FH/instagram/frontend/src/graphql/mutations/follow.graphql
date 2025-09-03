@@ -1,0 +1,16 @@
+mutation FollowUser($targetUserId: ID!) {
+  followUser(targetUserId: $targetUserId) {
+    success
+    message
+    request {
+      status
+    }
+  }
+}
+
+mutation UnfollowUser($targetUserId: ID!) {
+  unfollowUser(targetUserId: $targetUserId) {
+    success
+    message
+  }
+}

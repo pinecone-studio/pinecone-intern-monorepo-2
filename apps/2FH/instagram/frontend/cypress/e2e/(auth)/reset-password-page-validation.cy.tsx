@@ -1,0 +1,69 @@
+describe('Reset Password Page - Validation', () => {
+    beforeEach(() => {
+      // Visit with identifier parameter to avoid redirect
+      cy.visit('/reset-password?identifier=test@example.com');
+    });
+  
+    it('should validate form inputs and show validation errors', () => {
+      // Test by removing disabled and triggering manual validation
+      cy.get('input[placeholder="000000"]').type('123');
+      cy.get('input[placeholder="New password"]').type('password123');
+      cy.get('input[placeholder="Confirm new password"]').type('password123');
+      
+      // Remove disabled state to test validation logic
+      cy.get('button[type="submit"]').invoke('removeAttr', 'disabled').click();
+      cy.contains('Please enter a valid 6-digit code').should('be.visible');
+  
+      // Complete the OTP to enable button, then test password validation
+      cy.get('input[placeholder="000000"]').clear().type('123456');
+      cy.get('input[placeholder="New password"]').clear().type('123');
+      cy.get('button[type="submit"]').click();
+      cy.contains('Password must be at least 6 characters long').should('be.visible');
+  
+      // Test validation with mismatched passwords
+      cy.get('input[placeholder="New password"]').clear().type('password123');
+      cy.get('input[placeholder="Confirm new password"]').clear().type('different123');
+      cy.get('button[type="submit"]').click();
+      cy.contains('Passwords do not match').should('be.visible');
+  
+      // Test normal form state
+      cy.reload();
+      cy.get('input[placeholder="000000"]').type('123456');
+      cy.get('input[placeholder="New password"]').type('password123');
+      cy.get('input[placeholder="Confirm new password"]').type('password123');
+      cy.get('button[type="submit"]').should('not.be.disabled');
+    });
+  
+    it('should clear errors when user types in inputs', () => {
+      // First trigger validation error with short password
+      cy.get('input[placeholder="000000"]').type('123456');
+      cy.get('input[placeholder="New password"]').type('123');
+      cy.get('input[placeholder="Confirm new password"]').type('123');
+      cy.get('button[type="submit"]').click();
+      cy.contains('Password must be at least 6 characters long').should('be.visible');
+  
+      // Type in OTP to clear error
+      cy.get('input[placeholder="000000"]').clear().type('1');
+      cy.contains('Please enter a valid 6-digit code').should('not.exist');
+  
+      // Trigger password error
+      cy.get('input[placeholder="000000"]').clear().type('123456');
+      cy.get('input[placeholder="New password"]').clear().type('123');
+      cy.get('button[type="submit"]').click();
+      cy.contains('Password must be at least 6 characters long').should('be.visible');
+  
+      // Type in password to clear error
+      cy.get('input[placeholder="New password"]').type('p');
+      cy.contains('Password must be at least 6 characters long').should('not.exist');
+  
+      // Trigger password mismatch error
+      cy.get('input[placeholder="New password"]').clear().type('password123');
+      cy.get('input[placeholder="Confirm new password"]').clear().type('different');
+      cy.get('button[type="submit"]').click();
+      cy.contains('Passwords do not match').should('be.visible');
+  
+      // Type in confirm password to clear error
+      cy.get('input[placeholder="Confirm new password"]').type('x');
+      cy.contains('Passwords do not match').should('not.exist');
+    });
+  });

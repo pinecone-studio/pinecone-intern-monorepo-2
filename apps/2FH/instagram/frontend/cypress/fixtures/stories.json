@@ -1,0 +1,58 @@
+{
+  "getActiveStories": [
+    {
+      "_id": "story1",
+      "image": "/story1.png",
+      "createdAt": "2025-09-01T12:00:00Z",
+      "expiredAt": "2025-09-02T12:00:00Z",
+      "author": {
+        "_id": "user1",
+        "userName": "testuser1",
+        "profileImage": "/avatar1.png"
+      },
+      "viewers": [
+        {
+          "_id": "viewer1",
+          "userName": "viewer1",
+          "profileImage": "/avatar2.png"
+        }
+      ]
+    },
+    {
+      "_id": "story2",
+      "image": "/story2.png",
+      "createdAt": "2025-09-01T13:00:00Z",
+      "expiredAt": "2025-09-02T13:00:00Z",
+      "author": {
+        "_id": "user2",
+        "userName": "testuser2",
+        "profileImage": "/avatar3.png"
+      },
+      "viewers": [
+        {
+          "_id": "viewer2",
+          "userName": "viewer2",
+          "profileImage": "/avatar4.png"
+        }
+      ]
+    },
+    {
+      "_id": "story3",
+      "image": "/story3.png",
+      "createdAt": "2025-09-01T14:00:00Z",
+      "expiredAt": "2025-09-02T14:00:00Z",
+      "author": {
+        "_id": "user3",
+        "userName": "testuser3",
+        "profileImage": "/avatar5.png"
+      },
+      "viewers": [
+        {
+          "_id": "viewer3",
+          "userName": "viewer3",
+          "profileImage": "/avatar6.png"
+        }
+      ]
+    }
+  ]
+}

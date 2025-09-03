@@ -1,6 +1,19 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
+import { gql, useApolloClient } from '@apollo/client';
+
+// define booking data type separately
+type BookingDataType = {
+  userId: string;
+  id: string;
+  hotelId: string;
+  roomId: string;
+  checkInDate: string;
+  checkOutDate: string;
+  status: string;
+  __typeName: string;
+};
 
 type OtpContextType = {
   step: number;
@@ -18,9 +31,31 @@ type OtpContextType = {
   startTime: boolean;
   setStartTime: Dispatch<SetStateAction<boolean>>;
   setTimeLeft: Dispatch<SetStateAction<number>>;
+  bookingSuccess: boolean;
+  setBookingSuccess: Dispatch<SetStateAction<boolean>>;
+  bookingData: BookingDataType;
+  setBookingData: Dispatch<SetStateAction<BookingDataType>>;
+  me: any; // later replace with proper User type
+  setMe: Dispatch<SetStateAction<any>>;
+  token: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
 };
 
 const OtpContext = createContext<OtpContextType | null>(null);
+
+// GraphQL query to fetch current user
+const GET_ME = gql`
+  query GetMe {
+    getMe {
+      _id
+      firstName
+      lastName
+      email
+      role
+      dateOfBirth
+    }
+  }
+`;
 
 export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
@@ -30,15 +65,26 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [otp, setOtp] = useState('');
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingDataType>({
+    userId: '',
+    id: '',
+    hotelId: '',
+    roomId: '',
+    checkInDate: '',
+    checkOutDate: '',
+    status: '',
+    __typeName: '',
+  });
+  const [me, setMe] = useState<any>(null);
+  const [token, setToken] = useState<string | null>(null);
 
+  const client = useApolloClient();
+
+  // OTP timer
   useEffect(() => {
-    if (!startTime) return;
-    if (timeLeft <= 0) return;
-
-    const timer = setTimeout(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
+    if (!startTime || timeLeft <= 0) return;
+    const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [startTime, timeLeft]);
 
@@ -48,6 +94,25 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setStartTime(false);
     setTimeout(() => setStartTime(true), 0);
   };
+
+  // Fetch current user on init if token exists
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) return;
+
+    setToken(storedToken);
+
+    client
+      .query({ query: GET_ME, fetchPolicy: 'no-cache' })
+      .then((res) => {
+        if (res.data?.getMe) setMe(res.data.getMe);
+      })
+      .catch(() => {
+        setMe(null);
+        setToken(null);
+        localStorage.removeItem('token');
+      });
+  }, [client]);
 
   return (
     <OtpContext.Provider
@@ -67,6 +132,14 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setStartTime,
         resetOtp,
         setTimeLeft,
+        bookingSuccess,
+        setBookingSuccess,
+        bookingData,
+        setBookingData,
+        me,
+        setMe,
+        token,
+        setToken,
       }}
     >
       {children}
@@ -76,6 +149,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useOtpContext = () => {
   const ctx = useContext(OtpContext);
-  if (!ctx) throw new Error('useOtpContext must be used inside OtpProvider');
+  if (!ctx) throw new Error('useOtpContext must be used inside UserAuthProvider');
   return ctx;
 };

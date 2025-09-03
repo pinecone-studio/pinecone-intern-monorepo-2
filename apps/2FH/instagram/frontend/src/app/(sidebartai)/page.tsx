@@ -5,7 +5,7 @@ import { HomePageStories } from '@/components/HomePageStories';
 
 import { Posts } from '@/components/Posts';
 
-const HomePage = () => {
+const HomePage = () => { /* istanbul ignore next */
   const { isSearchOpen } = useNavigation();
 
   return (

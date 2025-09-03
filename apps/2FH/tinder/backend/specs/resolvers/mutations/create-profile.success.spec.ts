@@ -11,6 +11,7 @@ describe("createProfile Mutation", () => {
     userId: "64d1234567890abcdef12345",
     name: "John Doe",
     gender: Gender.Male,
+    interestedIn: Gender.Female,
     bio: "Hello world",
     interests: ["coding", "music"],
     profession: "Developer",

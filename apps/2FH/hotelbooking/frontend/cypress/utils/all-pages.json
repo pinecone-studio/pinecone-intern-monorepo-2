@@ -1,1 +1,1 @@
-["///","///login","///room","///signup"]
+["//","///booking/[userid]/history","///booking/[userid]/payment","///admin","///admin/add-hotel","///admin/hotel/[id]","///login","///room","///signup"]

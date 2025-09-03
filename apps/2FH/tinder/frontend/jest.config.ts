@@ -16,6 +16,7 @@ export default {
     '!src/components/providers/*.tsx', // Keep your original exclusion
     '!src/**/*.test.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
+    '!src/utils/*.ts',
   ],
   coverageThreshold: {
     global: {

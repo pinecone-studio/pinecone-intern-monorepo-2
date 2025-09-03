@@ -35,7 +35,7 @@ describe('StoryCreateDialog - Advanced Functionality', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/fake.png' }),
+        json: () => Promise.resolve({ secureurl: 'http://cloudinary.com/fake.png' }),
       } as Response)
     );
     await waitFor(() => {
@@ -70,7 +70,7 @@ describe('StoryCreateDialog - Advanced Functionality', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/fake.png' }),
+        json: () => Promise.resolve({ secureurl: 'http://cloudinary.com/fake.png' }),
       } as Response)
     );
     await waitFor(() => {
@@ -100,7 +100,7 @@ describe('StoryCreateDialog - Advanced Functionality', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/fake.png' }),
+        json: () => Promise.resolve({ secureurl: 'http://cloudinary.com/fake.png' }),
       } as Response)
     );
     await waitFor(() => {
@@ -133,7 +133,7 @@ describe('StoryCreateDialog - Advanced Functionality', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/fake.png' }),
+        json: () => Promise.resolve({ secureurl: 'http://cloudinary.com/fake.png' }),
       } as Response)
     );
     await waitFor(() => {

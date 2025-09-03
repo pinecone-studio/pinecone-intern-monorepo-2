@@ -187,13 +187,13 @@
           "target": "clean"
         },
         {
-          "target": "get-secrets:testing"
+          "target": "get-secrets:dev"
         },
         {
           "target": "export-env"
         },
         {
-          "target": "codegen:testing",
+          "target": "codegen:dev",
           "params": "forward"
         }
       ]
