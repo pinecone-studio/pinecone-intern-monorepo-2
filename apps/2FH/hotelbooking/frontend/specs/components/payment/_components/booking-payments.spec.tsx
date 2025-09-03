@@ -116,6 +116,7 @@ describe('BookingPayment', () => {
       expect(mockSetBookingData).toHaveBeenCalledWith({
         hotelId: 'h1',
         roomId: 'r1',
+        status: 'PENDING',
       });
       expect(mockSetBookingSuccess).toHaveBeenCalledWith(true);
       expect(toast.success).toHaveBeenCalledWith('Booking success');
