@@ -60,7 +60,6 @@ export const useOtpResend = (email: string, resetTimer: () => void) => {
   };
 
   const handleResendError = (error: unknown) => {
-    console.error(error);
     const errorMessage =
       error instanceof Error && 'response' in error ? (error as { response?: { data?: { errors?: Array<{ message?: string }> } } }).response?.data?.errors?.[0]?.message : 'Failed to resend OTP';
     toast.error(errorMessage || 'Failed to resend OTP');
@@ -117,7 +116,6 @@ export const useOtpVerification = (email: string, code: string[], setStep: (_ste
   };
 
   const handleVerifyError = (error: unknown) => {
-    console.error(error);
     const errorMessage =
       error instanceof Error && 'response' in error ? (error as { response?: { data?: { errors?: Array<{ message?: string }> } } }).response?.data?.errors?.[0]?.message : 'OTP verification failed';
     toast.error(errorMessage || 'OTP verification failed');

@@ -60,7 +60,6 @@ export const sendOTPEmail = async (email: string, otp: string): Promise<void> =>
     });
   }
 };
-<<<<<<< HEAD
 
 export const sendVerificationEmail = async (email: string, otp: string): Promise<void> => {
   try {
@@ -103,13 +102,11 @@ export const sendVerificationEmail = async (email: string, otp: string): Promise
     console.log(`Verification email sent to ${email}`);
   } catch (error) {
     console.error('Error sending verification email:', error);
-        
+
     throw new GraphQLError('Failed to send verification email', {
       extensions: {
         code: 'EMAIL_SERVICE_ERROR',
-      }
+      },
     });
   }
 };
-=======
->>>>>>> 1665f221 (your message)
