@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */  
 'use client';
 
 import { useState} from 'react';
@@ -7,7 +8,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { gql } from '@apollo/client';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
 const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -16,6 +16,25 @@ const CREATE_USER = gql`
       userName
       email
       gender
+      bio
+      profileImage
+      isVerified
+      followers {
+        _id
+        userName
+        fullName
+        profileImage
+      }
+      followings {
+        _id
+        userName
+        fullName
+        profileImage
+      }
+      posts
+      stories {
+        _id
+      }
       createdAt
     }
   }
