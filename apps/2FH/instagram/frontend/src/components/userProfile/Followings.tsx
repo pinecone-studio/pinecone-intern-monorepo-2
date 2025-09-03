@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import Image from 'next/image';
 import { demoImage } from '@/components/userProfile/mock-images';
 import { FollowButton } from './FollowButton';
+import Link from 'next/link';
 
 export const Followings = ({
   followings,
@@ -33,16 +34,18 @@ export const Followings = ({
               const isFollowing = currentUser.followings?.some((f: { _id: string }) => f._id === following._id);
 
               return (
-                <li key={i} className="flex items-center gap-3 py-2 justify-between">
-                  <div className="flex items-center gap-3">
-                    <Image src={following.profileImage || demoImage} alt={following.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
-                    <span className="font-medium">{following.userName}</span>
-                  </div>
+                <Link href={`/${following.userName}`} key={i}>
+                  <li className="flex items-center gap-3 py-2 justify-between">
+                    <div className="flex items-center gap-3">
+                      <Image src={following.profileImage || demoImage} alt={following.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
+                      <span className="font-medium">{following.userName}</span>
+                    </div>
 
-                  {currentUser._id !== following._id && (
-                    <FollowButton targetUserId={following._id} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={false} userName={following.userName} />
-                  )}
-                </li>
+                    {currentUser._id !== following._id && (
+                      <FollowButton targetUserId={following._id} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={false} userName={following.userName} />
+                    )}
+                  </li>
+                </Link>
               );
             })}
           </ul>
