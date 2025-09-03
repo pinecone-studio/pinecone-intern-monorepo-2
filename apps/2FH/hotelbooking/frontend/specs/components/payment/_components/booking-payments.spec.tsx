@@ -88,6 +88,7 @@ describe('BookingPayment', () => {
       expect(toast.error).toHaveBeenCalledWith('Booking error');
     });
   });
+
   it('4. Renders <LoadingSvg /> when loading', () => {
     (useCreateBookingMutation as jest.Mock).mockReturnValue([jest.fn(), { loading: true }]);
 
@@ -95,6 +96,7 @@ describe('BookingPayment', () => {
 
     expect(screen.getByTestId('Complete-Booking-Btn').querySelector('svg')).toBeInTheDocument();
   });
+
   it('5. Keeps bookingData unchanged if createBooking returns undefined', async () => {
     mockCreateBooking.mockResolvedValue({
       data: { createBooking: undefined },
