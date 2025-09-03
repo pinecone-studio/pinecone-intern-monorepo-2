@@ -151,7 +151,7 @@
         "testingType": "e2e",
         "reporter": "mochawesome",
         "devServerTarget": "2FH-tinder-frontend:serve:development",
-        "browser": "chrome"
+        "browser": "electron"
       },
       "dependsOn": [
         {
