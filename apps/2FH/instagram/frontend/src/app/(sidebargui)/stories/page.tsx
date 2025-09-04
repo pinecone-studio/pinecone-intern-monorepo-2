@@ -20,7 +20,7 @@ const Stories: React.FC = () => {
       if (!userId) return acc;
       let user = acc.find((u: User) => u.id === userId);
       if (!user) {
-        user = { id: story.author._id as string, username: story.author?.userName || 'Unknown User', avatar: getValidImageUrl(story.author?.profileImage || '', '/default-avatar.png'), stories: [] };
+        user = { id: story.author?._id as string, username: story.author?.userName || 'Unknown User', avatar: getValidImageUrl(story.author?.profileImage || '', '/default-avatar.png'), stories: [] };
         acc.push(user);
       }
       user.stories.push({ id: story._id, src: getValidImageUrl(story.image, '/default-story.png'), duration: 5000 });

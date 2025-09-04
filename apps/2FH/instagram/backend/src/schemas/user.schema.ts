@@ -24,6 +24,7 @@ export const UserTypeDefs = gql`
     stories: [Story!]!
     followers: [User!]!
     followings: [User!]!
+    searchHistory: [User!]!
     createdAt: Date!
     updatedAt: Date!
   }
@@ -37,6 +38,11 @@ export const UserTypeDefs = gql`
     success: Boolean!
     message: String!
     deletedUser: User!
+  }
+
+  type ClearSearchHistoryResponse {
+    success: Boolean!
+    message: String!
   }
 
   input CreateUserInput {
@@ -88,7 +94,9 @@ export const UserTypeDefs = gql`
   type Query {
     getUserById(_id: ID!): User
     getUserByUsername(userName: String!): User
+    
     searchUsers(keyword: String!): [User!]!
+    getUserSearchHistory(userId: ID!): [User!]!
   }
 
   type Mutation {
@@ -103,5 +111,9 @@ export const UserTypeDefs = gql`
 
     updateUser(_id: ID!, input: UpdateUserInput!): User!
     deleteUser(userId: ID!): DeleteUserResponse!
+    
+    addToSearchHistory(searchedUserId: ID!): User!
+    removeFromSearchHistory(searchedUserId: ID!): User!
+    clearSearchHistory: ClearSearchHistoryResponse!
   }
 `;

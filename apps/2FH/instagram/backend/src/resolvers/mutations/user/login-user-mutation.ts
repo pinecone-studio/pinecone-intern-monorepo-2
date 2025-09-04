@@ -15,7 +15,11 @@ const findUserByIdentifier = async (identifier: string) => {
     ? { email: identifier.toLowerCase().trim() }
     : { userName: identifier.toLowerCase().trim() };
   
-  return await User.findOne(query);
+    return await User.findOne(query)
+    .populate('followers', '_id userName fullName profileImage')
+    .populate('followings', '_id userName fullName profileImage')
+    .populate('posts')
+    .populate('stories');
 };
 
 const validatePassword = (password: string, hashedPassword: string) => {
@@ -57,6 +61,9 @@ const createLoginResponse = (user: any) => {
   const token = generateToken(user._id.toString(), user.userName);
   const userObject = user.toObject();
   const { password: _, ...userWithoutPassword } = userObject;
+  // // DEBUG: Check the final user object
+  // console.log('Final user object:', JSON.stringify(userWithoutPassword, null, 2));
+  // console.log('Final userName:', userWithoutPassword.userName);
   
   return {
     user: userWithoutPassword,
@@ -73,7 +80,18 @@ const processLogin = async (input: LoginInput) => {
       extensions: { code: 'INVALID_CREDENTIALS' }
     });
   }
-  
+// // DEBUG: Log the user object to check for null fields
+// console.log('User found:', JSON.stringify(user, null, 2));
+// console.log('userName specifically:', user.userName);
+// console.log('userName type:', typeof user.userName);
+
+// // Check for null/undefined userName before proceeding
+// if (!user.userName) {
+//   console.error('User has null/undefined userName:', user._id);
+//   throw new GraphQLError('User account data is corrupted', {
+//     extensions: { code: 'CORRUPTED_USER_DATA' }
+//   });
+// }  
   validatePassword(password, user.password);
   validateUserVerification(user);
   
@@ -94,4 +112,5 @@ export const loginUser = async (
       extensions: { code: 'LOGIN_FAILED' }
     });
   }
+  
 };

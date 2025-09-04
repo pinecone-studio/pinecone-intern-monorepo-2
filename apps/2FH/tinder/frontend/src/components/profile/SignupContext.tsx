@@ -61,6 +61,8 @@ export const SignupProvider: React.FC<SignupProviderProps> = ({ children, userId
     onCompleted: () => {
       console.log('✅ Profile created successfully');
       toast.success('Profile амжилттай үүслээ! 🎉');
+      // Profile амжилттай үүссэний дараа Completion step рүү шилжих
+      setCurrentStep(5);
     },
     onError: (err) => {
       console.error('❌ Error creating profile:', err);
@@ -91,10 +93,10 @@ export const SignupProvider: React.FC<SignupProviderProps> = ({ children, userId
     });
   };
 
-  const nextStep = () => currentStep < 4 && setCurrentStep(currentStep + 1);
+  const nextStep = () => currentStep < 5 && setCurrentStep(currentStep + 1);
   const prevStep = () => currentStep > 0 && setCurrentStep(currentStep - 1);
-  const goToStep = (step: number) => step >= 0 && step <= 4 && setCurrentStep(step);
-  const isComplete = currentStep === 4;
+  const goToStep = (step: number) => step >= 0 && step <= 5 && setCurrentStep(step);
+  const isComplete = currentStep === 5;
 
   const value: SignupContextType = {
     currentStep,

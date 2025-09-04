@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSignup } from '@/components/profile/SignupContext';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dz3pleqcg/upload';
@@ -84,28 +84,20 @@ const UploadArea: React.FC<{ dragActive: boolean; uploadLoading: boolean; handle
 );
 
 // Navigation buttons component
-const NavigationButtons: React.FC<{ prevStep: () => void; canProceed: boolean; loading: boolean; submitProfile: () => void; setShouldProceed: (_value: boolean) => void }> = ({ prevStep, canProceed, loading, submitProfile, setShouldProceed }) => (
+const NavigationButtons: React.FC<{ prevStep: () => void; canProceed: boolean; loading: boolean; handleSubmitProfile: () => void }> = ({ prevStep, canProceed, loading, handleSubmitProfile }) => (
   <div className="flex justify-between p-4">
     <button onClick={prevStep} className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-all">Back</button>
-    <button onClick={() => { submitProfile(); setShouldProceed(true); }} disabled={!canProceed || loading} className={`px-4 py-2 rounded-lg font-semibold text-white transition-all ${canProceed && !loading ? 'bg-pink-500 hover:opacity-80' : 'bg-gray-300 cursor-not-allowed'}`}>
+    <button onClick={handleSubmitProfile} disabled={!canProceed || loading} className={`px-4 py-2 rounded-lg font-semibold text-white transition-all ${canProceed && !loading ? 'bg-pink-500 hover:opacity-80' : 'bg-gray-300 cursor-not-allowed'}`}>
       {loading ? 'Creating...' : 'Next'}
     </button>
   </div>
 );
 
 export const ImageUpload: React.FC = () => {
-  const { signupData, handleInputChange, nextStep, prevStep, submitProfile, loading, error } = useSignup();
+  const { signupData, handleInputChange, prevStep, submitProfile, loading, } = useSignup();
   const [dragActive, setDragActive] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [shouldProceed, setShouldProceed] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (shouldProceed && !loading && !error) {
-      nextStep();
-      setShouldProceed(false);
-    }
-  }, [shouldProceed, loading, error, nextStep]);
 
   const handleFiles = async (files: FileList) => {
     setUploadLoading(true);
@@ -126,6 +118,10 @@ export const ImageUpload: React.FC = () => {
     }
   };
 
+  const handleSubmitProfile = async () => {
+    await submitProfile();
+  };
+
   const removeImage = (index: number) => {
     const updatedImages = signupData.images.filter((_, i) => i !== index);
     handleInputChange({ images: updatedImages });
@@ -140,7 +136,7 @@ export const ImageUpload: React.FC = () => {
     <div className="w-full h-full flex flex-col justify-between">
       <ImageGrid signupData={signupData} removeImage={removeImage} />
       <UploadArea dragActive={dragActive} uploadLoading={uploadLoading} handleDrag={handleDrag} handleDrop={handleDrop} handleChange={handleChange} fileInputRef={fileInputRef as React.RefObject<HTMLInputElement>} />
-      <NavigationButtons prevStep={prevStep} canProceed={canProceed} loading={loading} submitProfile={submitProfile} setShouldProceed={setShouldProceed} />
+      <NavigationButtons prevStep={prevStep} canProceed={canProceed} loading={loading} handleSubmitProfile={handleSubmitProfile} />
     </div>
   );
 };

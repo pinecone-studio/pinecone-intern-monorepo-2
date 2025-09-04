@@ -23,6 +23,7 @@ export type UserSchemaType = {
   stories: Types.ObjectId[];
   followers: Types.ObjectId[];
   followings: Types.ObjectId[];
+  searchHistory: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -43,6 +44,7 @@ const UserSchema = new Schema<UserSchemaType>(
     stories: [{ type: Schema.Types.ObjectId, ref: "Story" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     followings: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    searchHistory: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true, 
