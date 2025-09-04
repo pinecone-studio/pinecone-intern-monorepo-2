@@ -1,17 +1,10 @@
 'use client';
-import { useSignup } from '@/components/profile/SignupContext';
 
 
 export const Completion: React.FC = () => {
-  const { goToStep } = useSignup();
-
   const handleStartSwiping = () => {
     // In a real app, this would navigate to the main app
     alert('Welcome to Tinder! Start swiping to find your match!');
-  };
-
-  const handleEditProfile = () => {
-    goToStep(0); // Go back to first step to edit
   };
 
   return (
@@ -42,14 +35,6 @@ export const Completion: React.FC = () => {
             className="py-2 px-2 bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg rounded-full transition-all duration-200 transform hover:scale-105"
           >
             Start Swiping
-          </button>
-        </div>
-        <div className='w-full'>
-          <button
-            onClick={handleEditProfile}
-            className="py-2 px-2 bg-gray-500 hover:bg-gray-600 text-white font-bold text-lg rounded-full transition-all duration-200 transform hover:scale-105"
-          >
-            Edit Profile
           </button>
         </div>
       </div>

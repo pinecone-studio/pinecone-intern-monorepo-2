@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useSignup } from '@/components/profile/SignupContext';
 import { validateField } from '@/utils/profile-validation';
+import TagSelector from './TagSelector';
 
 // Helper function to handle field validation and updates
 const handleFieldValidation = (
@@ -69,13 +70,24 @@ const BioField: React.FC<{ signupData: any; errors: Record<string, string>; hand
   </div>
 );
 
-const InterestField: React.FC<{ signupData: any; errors: Record<string, string>; handleBasicDetailsChange: (_field: 'name' | 'bio' | 'interests' | 'profession' | 'work', _value: string) => void }> = ({ signupData, errors, handleBasicDetailsChange }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">Interest</label>
-    <input type="text" value={signupData.interests} onChange={(e) => handleBasicDetailsChange('interests', e.target.value)} placeholder="What are your interests?" className={`w-full px-3 py-1 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent ${errors.interests ? 'border-red-500' : 'border-gray-300'}`} />
-    {errors.interests && <p className="text-red-500 text-xs mt-1">{errors.interests}</p>}
-  </div>
-);
+const InterestField: React.FC<{ signupData: any; errors: Record<string, string>; handleBasicDetailsChange: (_field: 'name' | 'bio' | 'interests' | 'profession' | 'work', _value: string) => void }> = ({ signupData, errors, handleBasicDetailsChange }) => {
+  const handleInterestChange = (interests: string[]) => {
+    handleBasicDetailsChange('interests', interests.join(','));
+  };
+
+  const currentInterests = signupData.interests ? signupData.interests.split(',').filter(Boolean) : [];
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">Interest</label>
+      <TagSelector
+        onChange={handleInterestChange}
+        initialSelected={currentInterests}
+      />
+      {errors.interests && <p className="text-red-500 text-xs mt-1">{errors.interests}</p>}
+    </div>
+  );
+};
 
 const ProfessionField: React.FC<{ signupData: any; errors: Record<string, string>; handleBasicDetailsChange: (_field: 'name' | 'bio' | 'interests' | 'profession' | 'work', _value: string) => void }> = ({ signupData, errors, handleBasicDetailsChange }) => (
   <div>
