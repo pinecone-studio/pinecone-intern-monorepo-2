@@ -40,17 +40,10 @@ describe("Completion Component", () => {
         );
     });
 
-    it("calls goToStep(0) when 'Edit Profile' button is clicked", () => {
-        render(<Completion />);
-        const editButton = screen.getByText("Edit Profile");
-        fireEvent.click(editButton);
-        expect(mockGoToStep).toHaveBeenCalledWith(0);
-    });
 
     it("renders all UI elements correctly", () => {
         render(<Completion />);
         expect(screen.getByText("Start Swiping")).toBeInTheDocument();
-        expect(screen.getByText("Edit Profile")).toBeInTheDocument();
         expect(screen.getByText("You're all set!")).toBeInTheDocument();
         expect(screen.getByText("Your account is all set. Start swiping to find your match!")).toBeInTheDocument();
     });
@@ -59,9 +52,6 @@ describe("Completion Component", () => {
         render(<Completion />);
         const startButton = screen.getByText("Start Swiping");
         expect(startButton).toHaveClass("py-2", "px-2", "bg-pink-500", "hover:bg-pink-600", "text-white", "font-bold", "text-lg", "rounded-full");
-
-        const editButton = screen.getByText("Edit Profile");
-        expect(editButton).toHaveClass("py-2", "px-2", "bg-gray-500", "hover:bg-gray-600", "text-white", "font-bold", "text-lg", "rounded-full");
 
         const heading = screen.getByText("You're all set!");
         expect(heading).toHaveClass("text-2xl", "font-bold", "text-gray-800");

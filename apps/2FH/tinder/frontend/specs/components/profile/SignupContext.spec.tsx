@@ -16,6 +16,7 @@ jest.mock("sonner", () => ({ toast: { success: jest.fn(), error: jest.fn() } }))
 const wrapper = ({ children }: { children: React.ReactNode }) => (
     <SignupProvider userId="user-123">{children}</SignupProvider>
 );
+wrapper.displayName = 'TestWrapper';
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -51,10 +52,12 @@ describe("SignupContext", () => {
         expect(result.current.currentStep).toBe(3);
     });
 
-    it("isComplete true only at step 4", () => {
+    it("isComplete true only at step 5", () => {
         const { result } = renderHook(() => useSignup(), { wrapper });
         expect(result.current.isComplete).toBe(false);
         act(() => result.current.goToStep(4));
+        expect(result.current.isComplete).toBe(false);
+        act(() => result.current.goToStep(5));
         expect(result.current.isComplete).toBe(true);
     });
 
@@ -97,7 +100,6 @@ describe("SignupContext", () => {
             },
         });
     });
-
     it("submitProfile falls back when bio/dateOfBirth missing", async () => {
         const { result } = renderHook(() => useSignup(), { wrapper });
         act(() =>
@@ -118,27 +120,38 @@ describe("SignupContext", () => {
             })
         );
     });
-
     it("triggers toast.success on completed", () => {
+        let onCompletedCallback: (() => void) | undefined;
         mockUseCreateProfileMutation.mockImplementation((o: any) => {
-            o.onCompleted();
+            onCompletedCallback = o.onCompleted;
             return [jest.fn(), { loading: false }];
         });
         renderHook(() => useSignup(), { wrapper });
+        // Manually trigger the onCompleted callback
+        if (onCompletedCallback) {
+            act(() => {
+                onCompletedCallback!();
+            });
+        }
         expect(toast.success).toHaveBeenCalled();
     });
-
     it("triggers toast.error on error", () => {
         const err = new Error("fail");
+        let onErrorCallback: ((_error: Error) => void) | undefined;
         mockUseCreateProfileMutation.mockImplementation((o: any) => {
-            o.onError(err);
+            onErrorCallback = o.onError;
             return [jest.fn(), { loading: false, error: err }];
         });
         const { result } = renderHook(() => useSignup(), { wrapper });
+        // Manually trigger the onError callback
+        if (onErrorCallback) {
+            act(() => {
+                onErrorCallback!(err);
+            });
+        }
         expect(toast.error).toHaveBeenCalled();
         expect(result.current.error).toBe("fail");
     });
-
     it("sets loading=true", () => {
         mockUseCreateProfileMutation.mockReturnValue([jest.fn(), { loading: true }]);
         const { result } = renderHook(() => useSignup(), { wrapper });
