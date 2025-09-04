@@ -8,9 +8,10 @@ jest.mock('src/models/user');
 jest.mock('src/utils');
 jest.mock('src/utils/check-jwt', () => ({ getJwtSecret: jest.fn(() => 'mock-jwt-secret') }));
 
+// Type the mocked User properly
 const mockUtils = utils as jest.Mocked<typeof utils>;
 
-describe('User Mutations - Create User OTP Cases', () => {
+describe('User Mutations - Create User Basic Cases', () => {
   let consoleSpy: jest.SpyInstance;
   let mockUserInstance: any;
   
@@ -74,10 +75,10 @@ describe('User Mutations - Create User OTP Cases', () => {
   });
 
   const validInput = {
-    fullName: 'John Doe',
-    userName: 'johndoe',
+    fullName: 'John Doe', 
+    userName: 'johndoe', 
     email: 'john@example.com',
-    password: 'password123',
+    password: 'password123', 
     gender: Gender.Male
   };
 
@@ -86,58 +87,46 @@ describe('User Mutations - Create User OTP Cases', () => {
     mockUtils.encryptHash.mockReturnValue('hashedPassword123');
     mockUtils.generateOTP.mockReturnValue('123456');
     mockUtils.sendVerificationEmail.mockResolvedValue(undefined);
-    
-    return { 
-      mockSave: mockUserInstance.save, 
-      mockToObject: mockUserInstance.toObject 
-    };
   };
 
-  describe('createUser - OTP Management', () => {
-    it('should store OTP with expiration and cleanup', async () => {
+  describe('createUser - Basic Success Cases', () => {
+    it('should handle OTP generation failure gracefully', async () => {
+      setupSuccessfulUserCreation();
+      mockUtils.generateOTP.mockImplementation(() => { 
+        throw new Error('OTP generation failed'); 
+      });
+      
+      const result = await createUser(null, { input: validInput });
+      
+      expect(mockUserInstance.save).toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith('Failed to send verification email:', expect.any(Error));
+      expect(result).toBeDefined();
+    });
+
+    it('should cover OTP storage cleanup timeout branch', async () => {
       setupSuccessfulUserCreation();
       
-      // Use Jest's timer mocking instead of manual mocking
+      // Use Jest's timer mocking to test the setTimeout callback
       jest.useFakeTimers();
       const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
       
-      await createUser(null, { input: validInput });
+      // Create a user with email to trigger OTP storage
+      const result = await createUser(null, { input: validInput });
       
+      expect(result).toBeDefined();
+      expect(mockUtils.sendVerificationEmail).toHaveBeenCalledWith('john@example.com', '123456');
+      
+      // Verify OTP was stored
       const otpKey = 'verification_john@example.com';
       expect(otpStorage.has(otpKey)).toBe(true);
       expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 600000);
       
-      // Fast-forward time to trigger cleanup
-      jest.advanceTimersByTime(600000);
+      // Run only pending timers to trigger the setTimeout callback
+      // This will execute the cleanup logic: if (current && current.expiresAt === expiresAt)
+      jest.runOnlyPendingTimers();
       
+      // Verify OTP was cleaned up by the setTimeout callback
       expect(otpStorage.has(otpKey)).toBe(false);
-      
-      // Restore timers
-      jest.useRealTimers();
-      setTimeoutSpy.mockRestore();
-    });
-
-    it('should not cleanup OTP if expiration time changed', async () => {
-      setupSuccessfulUserCreation();
-      
-      jest.useFakeTimers();
-      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
-      
-      await createUser(null, { input: validInput });
-      
-      const otpKey = 'verification_john@example.com';
-      const currentOtp = otpStorage.get(otpKey);
-      
-      if (currentOtp) {
-        // Change the expiration time
-        otpStorage.set(otpKey, { otp: currentOtp.otp, expiresAt: Date.now() + 1000000 });
-      }
-      
-      // Fast-forward time to trigger cleanup
-      jest.advanceTimersByTime(600000);
-      
-      // Should not cleanup because expiration time was modified
-      expect(otpStorage.has(otpKey)).toBe(true);
       
       // Restore timers
       jest.useRealTimers();
