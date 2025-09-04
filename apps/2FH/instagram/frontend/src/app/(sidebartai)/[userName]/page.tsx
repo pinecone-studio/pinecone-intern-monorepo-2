@@ -6,8 +6,9 @@ import { useParams } from 'next/navigation';
 import { demoImage } from '@/components/userProfile/mock-images';
 import { Lock } from 'lucide-react';
 import { useGetUserByUsernameQuery } from '@/generated';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth, User as AuthUser } from '@/contexts/AuthContext';
 import { ProfileInfo } from '../../../components/userProfile/ProfileComponents';
+import UserProfile from '../userProfile/page';
 
 interface User {
   followers: Array<{ userName: string; _id: string; profileImage?: string | null | undefined }>;
@@ -69,7 +70,7 @@ const ProfileContent = ({ user, isFollowing }: { user: User; isFollowing: boolea
   );
 };
 
-const OtherUserContent = ({ user, currentUser, isFollowing }: { user: User; currentUser: any; isFollowing: boolean }) => (
+const OtherUserContent = ({ user, currentUser, isFollowing }: { user: User; currentUser: AuthUser | null; isFollowing: boolean }) => (
   <div className="min-h-full w-screen bg-white text-neutral-900 flex justify-center">
     <div className="w-full max-w-[935px] px-4 sm:px-6 pb-16">
       <div className="mt-6 rounded-2xl p-6 sm:p-8">
@@ -85,11 +86,17 @@ const OtherUserContent = ({ user, currentUser, isFollowing }: { user: User; curr
   </div>
 );
 
+const renderUserContent = (user: User, currentUser: AuthUser | null) => {
+  if (user._id === currentUser?._id) return <UserProfile />;
+
+  const isFollowing = checkIfFollowing(user, currentUser?._id ?? null);
+  return <OtherUserContent user={user} currentUser={currentUser} isFollowing={isFollowing} />;
+};
+
 const OtherUser = () => {
   const params = useParams();
   const userName = params.userName as string;
   const { user: currentUser } = useAuth();
-
   const { data, loading, error } = useGetUserByUsernameQuery({
     variables: { userName },
   });
@@ -97,12 +104,9 @@ const OtherUser = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
-
   if (!user) return <p>User not found</p>;
 
-  const isFollowing = checkIfFollowing(user, currentUser?._id ?? null);
-
-  return <OtherUserContent user={user} currentUser={currentUser} isFollowing={isFollowing} />;
+  return renderUserContent(user, currentUser);
 };
 
 export default OtherUser;
