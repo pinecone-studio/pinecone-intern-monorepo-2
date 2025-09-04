@@ -2,6 +2,7 @@
 export default {
   displayName: '2FH-tinder-frontend',
   preset: '../../../../jest.preset.js',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/next/babel'], babelrc: false }],
@@ -12,10 +13,16 @@ export default {
     'src/**/*.{ts,tsx,js,jsx}',
     '!src/**/generated/**/*.ts',
     '!src/app/**/*.tsx',
-    '!src/components/providers/*.tsx',
+    '!src/components/providers/*.tsx', // Keep your original exclusion
     '!src/utils/*.ts',
     '!src/hooks/*.ts',
-    '!src/**/*.spec.{ts,tsx}',
-    '!src/**/*.test.{ts,tsx}',
   ],
+  coverageThreshold: {
+    global: {
+      statements: 100,
+      branches: 100,
+      functions: 100,
+      lines: 100,
+    },
+  },
 };
