@@ -1,4 +1,4 @@
-('');
+
 describe('Login Page E2E', () => {
   beforeEach(() => {
     cy.visit('/login');

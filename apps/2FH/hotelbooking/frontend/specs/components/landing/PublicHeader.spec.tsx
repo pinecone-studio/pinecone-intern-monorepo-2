@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PublicHeader } from '../../../src/components/landing-page/PublicHeader';
+import { useOtpContext } from '../../../src/components/providers';
+jest.mock('../../../src/components/providers', () => ({
+  useOtpContext: jest.fn(),
+}));
 
-// Mock Next.js router
 const mockPush = jest.fn();
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: mockPush,
-  }),
+  useRouter: () => ({ push: mockPush }),
 }));
 
 describe('PublicHeader', () => {
@@ -15,80 +16,56 @@ describe('PublicHeader', () => {
     jest.clearAllMocks();
   });
 
-  describe('Rendering', () => {
-    it('renders without crashing', () => {
-      render(<PublicHeader />);
-      expect(screen.getByTestId('Header-Container')).toBeInTheDocument();
-    });
-
-    it('displays logo and navigation buttons', () => {
-      render(<PublicHeader />);
-      
-      expect(screen.getByText('Pedia')).toBeInTheDocument();
-      expect(screen.getByText('Register')).toBeInTheDocument();
-      expect(screen.getByText('Sign in')).toBeInTheDocument();
-    });
-
-    it('has correct header styling with blue background', () => {
-      render(<PublicHeader />);
-      
-      const headerContainer = screen.getByTestId('Header-Container');
-      const innerDiv = headerContainer.querySelector('div');
-      expect(innerDiv).toHaveClass('bg-[#013B94]');
-    });
-
-    it('has correct layout classes', () => {
-      render(<PublicHeader />);
-      
-      const headerContainer = screen.getByTestId('Header-Container');
-      const innerDiv = headerContainer.querySelector('div');
-      expect(innerDiv).toHaveClass('flex', 'justify-between', 'w-full', 'pt-5', 'pb-5', 'px-40', 'items-center');
-    });
+  it('renders loader when loading', () => {
+    (useOtpContext as jest.Mock).mockReturnValue({ me: null, loading: true });
+    render(<PublicHeader />);
+    expect(screen.getByText('Pedia')).toBeInTheDocument();
+    const placeholders = screen.getAllByRole('button', { hidden: true });
+    expect(placeholders.length).toBeGreaterThan(0);
   });
 
-  describe('Navigation', () => {
-    it('navigates to home when logo is clicked', () => {
-      render(<PublicHeader />);
-      
-      const logoButton = screen.getByText('Pedia').closest('button');
-      fireEvent.click(logoButton!);
-      
-      expect(mockPush).toHaveBeenCalledWith('/');
-    });
-
-    it('navigates to signup when Register button is clicked', () => {
-      render(<PublicHeader />);
-      
-      const registerButton = screen.getByText('Register');
-      fireEvent.click(registerButton);
-      
-      expect(mockPush).toHaveBeenCalledWith('/signup');
-    });
-
-    it('navigates to login when Sign in button is clicked', () => {
-      render(<PublicHeader />);
-      
-      const signInButton = screen.getByText('Sign in');
-      fireEvent.click(signInButton);
-      
-      expect(mockPush).toHaveBeenCalledWith('/login');
-    });
+  it('renders unauthenticated header', () => {
+    (useOtpContext as jest.Mock).mockReturnValue({ me: null, loading: false });
+    render(<PublicHeader />);
+    expect(screen.getByText('Register')).toBeInTheDocument();
+    expect(screen.getByText('Sign in')).toBeInTheDocument();
   });
 
-  describe('Component Structure', () => {
-    it('maintains proper nesting of elements', () => {
-      render(<PublicHeader />);
-      
-      const headerContainer = screen.getByTestId('Header-Container');
-      const logoIcon = headerContainer.querySelector('.p-3.bg-white.rounded-full');
-      const logoText = screen.getByText('Pedia');
-      const registerButton = screen.getByText('Register');
-      const signInButton = screen.getByText('Sign in');
-      
-      expect(logoIcon).toBeInTheDocument();
-      expect(logoText).toBeInTheDocument();
-      expect(registerButton).toBeInTheDocument();
-      expect(signInButton).toBeInTheDocument();
+  it('renders authenticated header', () => {
+    (useOtpContext as jest.Mock).mockReturnValue({
+      me: { _id: '1', firstName: 'John', email: 'john@test.com' },
+      loading: false,
     });
+    render(<PublicHeader />);
+    expect(screen.getByText('My booking')).toBeInTheDocument();
+    expect(screen.getByText('John')).toBeInTheDocument();
+  });
+
+  it('navigates correctly', () => {
+    (useOtpContext as jest.Mock).mockReturnValue({ me: null, loading: false });
+    render(<PublicHeader />);
+    fireEvent.click(screen.getByText('Pedia'));
+    expect(mockPush).toHaveBeenCalledWith('/');
+    fireEvent.click(screen.getByText('Register'));
+    expect(mockPush).toHaveBeenCalledWith('/signup');
+    fireEvent.click(screen.getByText('Sign in'));
+    expect(mockPush).toHaveBeenCalledWith('/login');
+  });
+  it('shows user firstName or email in PopoverTrigger', () => {
+    // Case 1: user has firstName
+    (useOtpContext as jest.Mock).mockReturnValue({
+      me: { _id: '1', firstName: 'John', email: 'john@test.com' },
+      loading: false,
+    });
+    render(<PublicHeader />);
+    expect(screen.getByText('John')).toBeInTheDocument(); // covers firstName branch
+
+    // Case 2: user has no firstName
+    (useOtpContext as jest.Mock).mockReturnValue({
+      me: { _id: '2', firstName: '', email: 'jane@test.com' },
+      loading: false,
+    });
+    render(<PublicHeader />);
+    expect(screen.getByText('jane@test.com')).toBeInTheDocument(); // covers email branch
   });
 });

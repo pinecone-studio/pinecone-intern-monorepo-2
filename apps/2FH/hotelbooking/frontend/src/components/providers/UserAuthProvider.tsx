@@ -29,10 +29,10 @@ type OtpContextType = {
   setMe: Dispatch<SetStateAction<UserType | null>>;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
+  loading: boolean;
+  signOut: () => void;
 };
-
 const OtpContext = createContext<OtpContextType | null>(null);
-
 const GET_ME = gql`
   query GetMe {
     getMe {
@@ -58,6 +58,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [bookingData, setBookingData] = useState<BookingDataType>({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
   const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const client = useApolloClient();
 
@@ -87,17 +88,30 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Separate function to fetch user
   const fetchMe = async (storedToken: string) => {
+    setLoading(true);
     try {
       const res = await client.query({ query: GET_ME, fetchPolicy: 'no-cache', context: { headers: { authorization: `Bearer ${storedToken}` } } });
       if (res.data?.getMe) setMe(parseUser(res.data.getMe));
     } catch {
       setMe(null);
+    } finally {
+      setLoading(false);
     }
   };
-
+  // inside UserAuthProvider
+  const signOut = () => {
+    localStorage.removeItem('token');
+    setMe(null);
+    setToken(null);
+    setStep(1);
+    setBookingData({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
+  };
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    if (!storedToken) return;
+    if (!storedToken) {
+      setLoading(false);
+      return;
+    }
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
@@ -128,6 +142,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setMe,
         token,
         setToken,
+        loading,
+        signOut,
       }}
     >
       {children}
