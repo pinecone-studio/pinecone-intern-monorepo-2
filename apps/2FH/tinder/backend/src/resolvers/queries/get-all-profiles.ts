@@ -1,124 +1,110 @@
-import { QueryResolvers, Gender } from "../../generated";
-import { Profile } from "../../models";
-import { Context } from "../../types";
+// src/queries/getAllProfiles.ts
+import { Types } from 'mongoose';
+import { GraphQLError } from 'graphql';
+import { Profile, ProfileType, Gender } from '../../models/profile-model';
+import { QueryResolvers, Gender as GraphQLGender } from '../../generated';
+import { Context } from '../../types';
 
-// Helper function to map gender string to enum
-const mapGender = (genderStr: string): Gender => {
-  switch (genderStr.toLowerCase()) {
-    case "male":
-      return Gender.Male;
-    case "female":
-      return Gender.Female;
-    case "both":
-      return Gender.Both;
-    default:
-      return Gender.Male;
-  }
-};
+interface ProfileDocument extends ProfileType {
+  _id: Types.ObjectId;
+}
 
-// Helper function to map array of IDs
-const mapIds = (ids: any[] | undefined): string[] => {
-  return ids ? ids.map((id: any) => id.toString()) : [];
-};
-
-const mapProfileToGraphQL = (profile: any): any => {
-  const profileObj = profile.toObject();
-  
-  return {
-    id: profileObj._id.toString(),
-    userId: profileObj.userId.toString(),
-    name: profileObj.name,
-    gender: mapGender(profileObj.gender),
-    bio: profileObj.bio,
-    interests: profileObj.interests,
-    profession: profileObj.profession,
-    work: profileObj.work,
-    images: profileObj.images,
-    dateOfBirth: profileObj.dateOfBirth,
-    likes: mapIds(profileObj.likes),
-    matches: mapIds(profileObj.matches),
-    createdAt: profileObj.createdAt,
-    updatedAt: profileObj.updatedAt,
+// Helpers
+export const mapGenderToGraphQL = (gender: Gender): GraphQLGender => {
+  const map: Record<Gender, GraphQLGender> = {
+    [Gender.MALE]: GraphQLGender.Male,
+    [Gender.FEMALE]: GraphQLGender.Female,
+    [Gender.BOTH]: GraphQLGender.Both,
   };
+  return map[gender] || GraphQLGender.Male;
 };
 
-// Extract profile filtering logic to reduce complexity
-const getFilteredProfiles = async (userGender: string, currentUserId: string): Promise<any[]> => {
-  if (userGender === "male") {
-    return await Profile.find({
-      gender: "female",
-      userId: { $ne: currentUserId },
-    });
-  } else if (userGender === "female") {
-    return await Profile.find({
-      gender: "male",
-      userId: { $ne: currentUserId },
-    });
-  } else if (userGender === "both") {
-    return await Profile.find({
-      gender: { $in: ["male", "female"] },
-      userId: { $ne: currentUserId },
-    });
-  }
-  
-  // Return empty array for unknown gender
-  return [];
-};
-
-// Helper function to validate user authentication
-const validateUser = (context: Context) => {
-  const { currentUser } = context;
-  if (!currentUser) {
-    console.log("No currentUser in context - authentication required");
-    throw new Error("User not authenticated");
-  }
-  console.log("User authenticated:", currentUser.userId);
-  return currentUser;
-};
-
-// Helper function to fetch user profile
-const fetchUserProfile = async (userId: string) => {
-  const userProfile = await Profile.findOne({ userId });
-  if (!userProfile) {
-    throw new Error("User profile not found");
-  }
-  return userProfile;
-};
-
-// Helper function to process profiles
-const processProfiles = async (userGender: string, currentUserId: string) => {
-  const filteredProfiles = await getFilteredProfiles(userGender, currentUserId);
-  console.log(`Found ${filteredProfiles.length} filtered profiles for user ${currentUserId}`);
-  
-  const mappedProfiles = filteredProfiles.map(mapProfileToGraphQL);
-  console.log(`Mapped ${mappedProfiles.length} profiles`);
-  
-  return mappedProfiles;
-};
-
-export const getAllProfiles: QueryResolvers["getAllProfiles"] = async (
-  _parent,
-  _args,
-  context: Context,
-  _info
-): Promise<any[]> => {
+export const parseDateOfBirth = (dob?: string | null) => {
+  if (!dob) return '';
   try {
-    console.log("getAllProfiles called with context:", context);
-
-    const currentUser = validateUser(context);
-    const userProfile = await fetchUserProfile(currentUser.userId);
-    const userGender = userProfile.gender.toLowerCase();
-    
-    return await processProfiles(userGender, currentUser.userId);
-  } catch (error) {
-    console.error("Error in getAllProfiles resolver:", error);
-
-    // Re-throw the original error if it's already a GraphQL error
-    if (error instanceof Error) {
-      throw error;
-    }
-
-    // Otherwise, throw a generic error
-    throw new Error("Failed to fetch profiles");
+    const date = new Date(dob);
+    if (isNaN(date.getTime())) return '';
+    return date.toISOString();
+  } catch {
+    return '';
   }
 };
+
+export const parseStringDate = (dateString: string): string => {
+  try {
+    const parsedDate = new Date(dateString);
+    if (isNaN(parsedDate.getTime())) return new Date(0).toISOString();
+    return parsedDate.toISOString();
+  } catch {
+    return new Date(0).toISOString();
+  }
+};
+
+const safeDateToISOString = (date: Date | string | null | undefined): string => {
+  if (!date) return new Date(0).toISOString();
+  if (date instanceof Date) return date.toISOString();
+  if (typeof date === 'string') return parseStringDate(date);
+  return new Date(0).toISOString();
+};
+
+export { safeDateToISOString };
+
+export const formatBasicProfile = (profile: ProfileDocument) => ({
+  id: profile._id.toHexString(),
+  userId: profile.userId.toHexString(),
+  name: profile.name || '',
+  gender: mapGenderToGraphQL(profile.gender),
+  bio: profile.bio || '',
+  interests: profile.interests || [],
+});
+
+export const formatWorkProfile = (profile: ProfileDocument) => ({
+  profession: profile.profession || '',
+  work: profile.work || '',
+  images: profile.images || [],
+  dateOfBirth: parseDateOfBirth(profile.dateOfBirth),
+  createdAt: safeDateToISOString(profile.createdAt),
+  updatedAt: safeDateToISOString(profile.updatedAt),
+});
+
+export const formatSingleProfile = (profile: ProfileDocument) => ({
+  ...formatBasicProfile(profile),
+  ...formatWorkProfile(profile),
+  likes: [],
+  matches: [],
+});
+
+
+export const fetchAllProfiles = async (): Promise<ProfileDocument[]> => {
+  const profiles = await Profile.find({});
+  return profiles as ProfileDocument[];
+};
+
+export const handleError = (error: unknown): never => {
+  if (error instanceof GraphQLError) throw error;
+  if (error instanceof Error) return handleErrorObject(error);
+  throw new GraphQLError('Failed to fetch profiles', { extensions: { code: 'INTERNAL_SERVER_ERROR' } });
+};
+
+export const handleErrorObject = (error: Error): never => {
+  const message = error.message;
+  if (typeof message === 'string' && (message.includes('Database') || message.includes('connection'))) {
+    throw new GraphQLError('Database error', { extensions: { code: 'INTERNAL_SERVER_ERROR' } });
+  }
+  throw new GraphQLError('Failed to fetch profiles', { extensions: { code: 'INTERNAL_SERVER_ERROR' } });
+};
+
+export const processGetAllProfilesRequest = async () => {
+  const profiles = await fetchAllProfiles();
+  return profiles.map(formatSingleProfile);
+};
+
+export const getAllProfiles: QueryResolvers['getAllProfiles'] = async (
+  _parent, _args, _context: Context, _info
+) => {
+  try {
+    return await processGetAllProfilesRequest();
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+}; 

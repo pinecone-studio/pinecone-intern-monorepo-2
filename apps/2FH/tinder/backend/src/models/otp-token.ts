@@ -1,4 +1,10 @@
-import { Schema, model, models, Model } from 'mongoose';
+import { Schema, model, models, Model, Document } from 'mongoose';
+
+interface IOtpToken extends Document {
+  email: string;
+  otp: string;
+  expiresAt: Date;
+}
 
 const otpTokenSchema = new Schema({
   email: { type: String, required: true },
@@ -6,5 +12,4 @@ const otpTokenSchema = new Schema({
   expiresAt: { type: Date, required: true },
 });
 
-
-export const OtpToken: Model<any> = models.OtpToken || model('OtpToken', otpTokenSchema);
+export const OtpToken: Model<IOtpToken> = models.OtpToken || model<IOtpToken>('OtpToken', otpTokenSchema);

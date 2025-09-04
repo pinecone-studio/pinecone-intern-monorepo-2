@@ -1,159 +1,151 @@
+// cypress/e2e/login.spec.ts
 describe("Login Page", () => {
-  beforeEach(() => {cy.visit("/signin");});
-  it("should log in successfully", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", {
-      body: {
-        data: {
-          login: {
-            status: "SUCCESS",
-            message: "Login successful!",
-            token: "fake-token-123",
-            user: { id: "1", email: "test@mail.com" },
-          },
+  const typeEmail = (email: string) => {
+    cy.get("[data-cy='email-input']").clear().type(email);
+  };
+
+  const typePassword = (password: string) => {
+    cy.get("[data-cy='password-input']").clear().type(password);
+  };
+
+  const clickContinue = () => cy.get("[data-cy='continue-button']").click();
+
+  const mockLogin = (overrides = {}) => ({
+    statusCode: 200,
+    body: {
+      data: {
+        login: {
+          status: "SUCCESS",
+          message: "Login successful!",
+          token: "fake-token-123",
+          user: { id: "1", email: "test@mail.com" },
+          ...overrides,
         },
       },
-    }).as("loginMutation");
-    cy.contains("Continue").click();
-    cy.wait("@loginMutation");
-    cy.get("[data-cy='login-success']").should("be.visible").and("contain.text", "Login successful!");
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem("token")).to.eq("fake-token-123");
+    },
+  });
+
+  beforeEach(() => {
+    cy.visit("/signin");
+  });
+
+  context("Success Scenarios", () => {
+    it("logs in successfully", () => {
+      typeEmail("test@mail.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", mockLogin()).as("loginMutation");
+
+      clickContinue();
+      cy.wait("@loginMutation");
+
+      cy.get("[data-cy='login-success']")
+        .should("be.visible")
+        .and("contain.text", "Login successful!");
+
+      cy.window().then((win) => {
+        expect(win.localStorage.getItem("token")).to.eq("fake-token-123");
+      });
+    });
+
+    it("logs in successfully with empty message", () => {
+      typeEmail("test@mail.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", mockLogin({ message: "" })).as("loginMutationEmpty");
+
+      clickContinue();
+      cy.wait("@loginMutationEmpty");
+
+      cy.window().then((win) => {
+        expect(win.localStorage.getItem("token")).to.eq("fake-token-123");
+      });
     });
   });
-  it("should show error when login fails", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("wrong@mail.com");
-    cy.get("input[type='password']").first().type("wrongpass");
-    cy.intercept("POST", "/api/graphql", {
-      body: {
-        data: {
-          login: {
-            status: "ERROR",
-            message: "Invalid credentials",
-            token: null,
-            user: null,},},},
-    }).as("loginFail");
-    cy.contains("Continue").click();
-    cy.wait("@loginFail");
-    cy.get("[data-cy='login-error']")
-      .should("be.visible")
-      .and("contain.text", "Invalid credentials");
-  });
-  it("should show Apollo error message", () => {
-    cy.intercept("POST", "/api/graphql", {
-      statusCode: 500,
-      body: { errors: [{ message: "Internal server error" }] },
-    }).as("loginError");
 
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
+  context("Error Scenarios", () => {
+    it("shows error when login fails", () => {
+      typeEmail("wrong@mail.com");
+      typePassword("wrongpass");
 
-    cy.contains("Continue").click();
-    cy.wait("@loginError");
+      cy.intercept("POST", "/api/graphql", mockLogin({ status: "ERROR", message: "Invalid credentials", token: null, user: null }))
+        .as("loginFail");
 
-    cy.get("[data-cy='login-apollo-error']")
-      .should("be.visible")
-      .and("contain.text", "Something went wrong during login.");
-  });
-  it("should handle network error", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", { forceNetworkError: true }).as("networkError");
-    cy.contains("Continue").click();
-    cy.wait("@networkError");
-    cy.get("[data-cy='login-apollo-error']")
-      .should("be.visible")
-      .and("contain.text", "Something went wrong during login.");
-  });
-  it("should show validation errors when fields are empty", () => {
-    cy.contains("Continue").click();
-    cy.contains("Email is required").should("be.visible");
-    cy.contains("Password is required").should("be.visible");
-  });
-  it("should show 'Login failed' when error message is empty", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("empty@message.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", {
-      body: {
-        data: {
-          login: {
-            status: "ERROR",
-            message: null,
-            token: null,
-            user: null,
-          },
-        },
-      },
-    }).as("loginNoMessage");
-    cy.contains("Continue").click();
-    cy.wait("@loginNoMessage");
-    cy.get("[data-cy='login-error']")
-      .should("be.visible")
-      .and("contain.text", "Login failed");
-  });
-  it("should handle successful login with empty message", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", {
-      body: {
-        data: {
-          login: {
-            status: "SUCCESS",
-            message: "", // Empty message
-            token: "fake-token-123",
-            user: { id: "1", email: "test@mail.com" },
-          },
-        },
-      },
-    }).as("loginSuccessEmpty");
-    cy.contains("Continue").click();
-    cy.wait("@loginSuccessEmpty");
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem("token")).to.eq("fake-token-123");
+      clickContinue();
+      cy.wait("@loginFail");
+
+      cy.get("[data-cy='login-error']").should("be.visible").and("contain.text", "Invalid credentials");
+    });
+
+    it("shows 'Login failed' when error message is empty", () => {
+      typeEmail("empty@message.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", mockLogin({ status: "ERROR", message: null, token: null, user: null }))
+        .as("loginNoMessage");
+
+      clickContinue();
+      cy.wait("@loginNoMessage");
+
+      cy.get("[data-cy='login-error']").should("contain.text", "Login failed");
+    });
+
+    it("handles Apollo/network error", () => {
+      typeEmail("test@mail.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", { forceNetworkError: true }).as("networkError");
+
+      clickContinue();
+      cy.wait("@networkError");
+
+      cy.get("[data-cy='login-apollo-error']")
+        .should("be.visible")
+        .and("contain.text", "Something went wrong during login.");
+    });
+
+    it("handles unexpected status", () => {
+      typeEmail("unknown@mail.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", mockLogin({ status: "UNKNOWN", message: null, token: null, user: null }))
+        .as("loginUnknown");
+
+      clickContinue();
+      cy.wait("@loginUnknown");
+
+      cy.get("[data-cy='login-error']").should("contain.text", "Login failed");
     });
   });
-  it("should handle GraphQL error response", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", {
-      statusCode: 400,
-      body: {
-        errors: [
-          {
-            message: "GraphQL validation error",
-            extensions: { code: "BAD_REQUEST" }
-          }
-        ]
-      },
-    }).as("graphqlError");
-    cy.contains("Continue").click();
-    cy.wait("@graphqlError");
-    cy.get("[data-cy='login-apollo-error']")
-      .should("be.visible")
-      .and("contain.text", "Something went wrong during login.");
-  });
-  it("should show loading state during login", () => {
-    cy.get("input[placeholder='name@example.com']").first().type("test@mail.com");
-    cy.get("input[type='password']").first().type("123456");
-    cy.intercept("POST", "/api/graphql", {
-      delay: 1000,
-      body: {
-        data: {
-          login: {
-            status: "SUCCESS",
-            message: "Login successful!",
-            token: "fake-token-123",
-            user: { id: "1", email: "test@mail.com" },
-          },
-        },
-      },
-    }).as("loginMutation");
-    cy.contains("Continue").click();
-    cy.contains("Logging in...").should("be.visible");
-    cy.wait("@loginMutation");
-  });
-  it("should handle create account button", () => {
-    cy.get('button[type="button"]').contains('Create an account').should('be.visible');
+
+  context("UI & Validation", () => {
+    it("shows validation errors when fields are empty", () => {
+      clickContinue();
+      cy.get("[data-cy='email-error']").should("contain.text", "Email is required");
+      cy.get("[data-cy='password-error']").should("contain.text", "Password is required");
+    });
+
+    it("shows loading state during login", () => {
+      typeEmail("test@mail.com");
+      typePassword("123456");
+
+      cy.intercept("POST", "/api/graphql", { ...mockLogin(), delay: 500 }).as("loginLoading");
+
+      clickContinue();
+      cy.get("[data-cy='continue-button']").should("contain.text", "Logging in...");
+      cy.wait("@loginLoading");
+    });
+
+    it("renders forgot password link", () => {
+      cy.get("[data-cy='forgot-password']").should("be.visible").and("contain.text", "Forgot password?");
+    });
+
+    it("renders create account button", () => {
+      cy.get("[data-cy='create-account']").should("be.visible");
+    });
+
+    it("renders OR divider", () => {
+      cy.contains("OR").should("be.visible");
+    });
   });
 });

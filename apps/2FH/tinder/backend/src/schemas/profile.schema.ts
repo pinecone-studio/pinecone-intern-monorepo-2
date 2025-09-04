@@ -15,7 +15,10 @@ export const ProfileTypeDefs = gql`
     ERROR
   }
 
-
+  enum SwipeAction {
+    LIKE
+    DISLIKE
+  }
 
   type Profile {
     id: ID!
@@ -28,20 +31,18 @@ export const ProfileTypeDefs = gql`
     work: String!
     images: [String!]!
     dateOfBirth: String!
-    createdAt: DateTime
-    updatedAt: DateTime
+    createdAt: DateTime!
+    updatedAt: DateTime!
     likes: [Profile!]!
     matches: [Profile!]!
   }
 
-
-
-  type UserInfo {
-userId: ID!
-name: String!
+  type Swipe {
+    id: ID!
+    swiperId: ID!
+    targetId: ID!
+    action: SwipeAction!
   }
-
-
 
   input CreateProfileInput {
     userId: ID!
@@ -51,23 +52,6 @@ name: String!
     interests: [String!]!
     profession: String!
     work: String
-    images: [String!]!
-    dateOfBirth: String!
-  }
-
-  type Match {
-    likedUserId: UserInfo
-    matchedUserId: UserInfo
-  }
-
-  input CreateProfileInput {
-    userId: ID!
-    name: String!
-    gender: Gender!
-    bio: String!
-    interests: [String!]!
-    profession: String!
-    work: String!
     images: [String!]!
     dateOfBirth: String!
   }
@@ -84,11 +68,9 @@ name: String!
     dateOfBirth: String
   }
 
-
-
   type Query {
     getProfile(userId: ID!): Profile!
-    getAllProfiles:[Profile!]!
+    getAllProfiles: [Profile!]!
   }
 
   type Mutation {
@@ -97,3 +79,4 @@ name: String!
     matchProfiles(userId: ID!, targetUserId: ID!): ProfileResponse!
   }
 `;
+ 

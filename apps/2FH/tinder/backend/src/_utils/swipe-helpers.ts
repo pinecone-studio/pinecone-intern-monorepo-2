@@ -1,7 +1,9 @@
 
-import { Types } from "mongoose";
-import { Profile as ProfileModel } from "../models";
+import { Types, Document } from "mongoose";
+import { Profile as ProfileModel, ProfileType } from "../models";
 import { SwipeProfile } from "../types/swipe-types";
+
+type ProfileDocument = Document<unknown, any, ProfileType> & ProfileType & { _id: Types.ObjectId };
 
 export const syncExistingMatches = async (userId: string) => {
   try {
@@ -16,11 +18,11 @@ export const syncExistingMatches = async (userId: string) => {
   }
 };
 
-const hasValidLikes = (profile: any): boolean => {
+const hasValidLikes = (profile: ProfileDocument): boolean => {
   return profile.likes && Array.isArray(profile.likes);
 };
 
-const processLikesForMatches = async (profile: any) => {
+const processLikesForMatches = async (profile: ProfileDocument) => {
   await Promise.all(profile.likes.map((likedUserId: Types.ObjectId) => 
     processLikeForMutualMatch(profile, likedUserId)
   ));
@@ -31,14 +33,14 @@ export const createMatchObject = (swiperProfile: SwipeProfile, targetProfile: Sw
     likeduserId: {
       userId: swiperProfile.userId.toString(),
       name: swiperProfile.name,
-      likes: swiperProfile.likes.map((id: any) => id.toString()),
-      matches: swiperProfile.matches.map((id: any) => id.toString()),
+      likes: swiperProfile.likes.map((id: Types.ObjectId) => id.toString()),
+      matches: swiperProfile.matches.map((id: Types.ObjectId) => id.toString()),
     },
     matcheduserId: {
       userId: targetProfile.userId.toString(),
       name: targetProfile.name,
-      likes: targetProfile.likes.map((id: any) => id.toString()),
-      matches: targetProfile.matches.map((id: any) => id.toString()),
+      likes: targetProfile.likes.map((id: Types.ObjectId) => id.toString()),
+      matches: targetProfile.matches.map((id: Types.ObjectId) => id.toString()),
     },
   };
 };
@@ -76,7 +78,7 @@ const getProfiles = async (swiperObjectId: Types.ObjectId, targetObjectId: Types
   return { swiper: swiperProfile, target: targetProfile };
 };
 
-export const processLikeForMutualMatch = async (profile: any, likedUserId: Types.ObjectId) => {
+export const processLikeForMutualMatch = async (profile: ProfileDocument, likedUserId: Types.ObjectId) => {
   const likedProfile = await ProfileModel.findOne({ userId: likedUserId });
   return likedProfile && likedProfile.likes.some(id => id.equals(profile._id));
 };

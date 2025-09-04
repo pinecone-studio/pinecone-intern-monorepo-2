@@ -1,63 +1,76 @@
+// __tests__/create-user.test.ts
+import { createUser } from 'src/resolvers/mutations/create-user';
+import { UserResponse } from 'src/generated';
+import { User } from 'src/models';
+import { GraphQLError } from 'graphql';
+import bcryptjs from 'bcryptjs';
 import { sendUserVerificationLink } from 'src/utils/mail-handler';
 
-import { User } from 'src/models';
-import { createUser } from 'src/resolvers/mutations';
-import { UserResponse, CreateUserInput } from 'src/generated';
+jest.mock('bcryptjs');
+jest.mock('src/models', () => ({ User: { create: jest.fn() } }));
+jest.mock('src/utils/mail-handler', () => ({ sendUserVerificationLink: jest.fn() }));
 
-import bcryptjs from 'bcryptjs';
+const mockHash = bcryptjs.hash as jest.Mock;
+const mockCreate = User.create as jest.Mock;
+const mockSendLink = sendUserVerificationLink as jest.Mock;
 
-jest.mock('src/models', () => ({
-  User: { create: jest.fn() },
-}));
-jest.mock('bcryptjs', () => ({ hash: jest.fn() }));
+const ctx = {
+  req: {
+    nextUrl: { protocol: 'https:', host: 'example.com' },
+  },
+};
 
-jest.mock('src/utils/mail-handler', () => ({
-  sendUserVerificationLink: jest.fn(),
-}));
-describe('createUser mutation', () => {
-  const mockUserInput: CreateUserInput = {
-    email: 'test@example.com',
-    password: 'password123',
-  };
+describe('createUser resolver', () => {
+  const input = { email: 'test@example.com', password: '123456' };
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should create user successfully', async () => {
-    (bcryptjs.hash as jest.Mock).mockResolvedValue('hashedPassword123');
+  it('creates a user successfully and sends verification link', async () => {
+    mockHash.mockResolvedValue('hashed_pw');
+    mockCreate.mockResolvedValue({});
+    mockSendLink.mockResolvedValue({});
 
-    (User.create as jest.Mock).mockResolvedValue({
-      _id: '507f1f77bcf86cd799439012',
-      email: mockUserInput.email,
-      password: 'hashedPassword123',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
+    const result = await (createUser as any)({}, { input }, ctx as any);
 
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
-
-    const mockReq = {
-      nextUrl: {
-        protocol: 'http:',
-        host: 'localhost:3000',
-      },
-    };
-
-    if (!createUser) throw new Error('createUser is undefined');
-    const result = await createUser({}, { input: mockUserInput }, { req: mockReq as any }, {} as any);
-
-    expect(bcryptjs.hash).toHaveBeenCalledWith(mockUserInput.password, 10);
-    expect(User.create).toHaveBeenCalledWith(
+    expect(mockHash).toHaveBeenCalledWith(input.password, 10);
+    expect(mockCreate).toHaveBeenCalledWith(
       expect.objectContaining({
-        email: mockUserInput.email,
-        password: 'hashedPassword123',
+        email: input.email,
+        password: 'hashed_pw',
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
       })
     );
+    expect(mockSendLink).toHaveBeenCalledWith(
+      'https://example.com',
+      input.email
+    );
+    expect(result).toBe(UserResponse.Success);
+  });
 
-    expect(sendUserVerificationLink).toHaveBeenCalledWith('http://localhost:3000', mockUserInput.email);
+  it('throws GraphQLError when GraphQLError is thrown', async () => {
+    mockHash.mockRejectedValue(new GraphQLError('GraphQL fail'));
 
-    expect(result).toEqual(UserResponse.Success);
-    consoleSpy.mockRestore();
+    await expect((createUser as any)({}, { input }, ctx as any)).rejects.toThrow(
+      GraphQLError
+    );
+  });
+
+  it('wraps normal Error into GraphQLError', async () => {
+    mockHash.mockRejectedValue(new Error('Normal fail'));
+
+    await expect((createUser as any)({}, { input }, ctx as any)).rejects.toThrow(
+      /Normal fail/
+    );
+  });
+
+  it('throws Unknown error when error is not instance of Error', async () => {
+    mockHash.mockRejectedValue('random string');
+
+    await expect((createUser as any)({}, { input }, ctx as any)).rejects.toThrow(
+      /Unknown error/
+    );
   });
 });

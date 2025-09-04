@@ -1,5 +1,6 @@
 export * from './sample-query';
-export * from "./get-profile"
-export * from "./get-all-profiles"
-export { getMessages, getMessage } from "./get-messages.resolvers"
+export { getProfile } from "./get-profile"
+export { getAllProfiles } from "./get-all-profiles"
+
+
 

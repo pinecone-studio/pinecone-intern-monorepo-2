@@ -3,8 +3,8 @@ import gql from "graphql-tag";
 export const MatchesTypeDefs = gql`
     type Match {
         id: ID!
-        likeduserId: Profile!
-        matcheduserId: Profile!
+        likeduserId: Profile
+        matcheduserId: Profile
         matchedAt: Date!
     }
 

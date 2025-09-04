@@ -1,0 +1,33 @@
+yarn run v1.22.22
+warning ../../../package.json: No license field
+$ /Users/24LP2564/Desktop/tinderrrrrrrrrr/pinecone-intern-monorepo-2/node_modules/.bin/nx serve 2FH-tinder-backend
+
+ >  NX   Running target serve for project 2FH-tinder-backend and 2 tasks it depends on:
+
+ 
+
+> nx run 2FH-tinder-backend:"get-secrets:dev":development
+
+
+> nx run 2FH-tinder-backend:codegen
+
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to apps/2FH/tinder/backend/src/generated/index.ts
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to apps/2FH/tinder/backend/src/generated/index.ts
+[SUCCESS] Generate outputs
+
+> nx run 2FH-tinder-backend:serve:development
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.14[39m[22m
+  - Local:        http://localhost:4200
+  - Environments: .env
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 2.8s

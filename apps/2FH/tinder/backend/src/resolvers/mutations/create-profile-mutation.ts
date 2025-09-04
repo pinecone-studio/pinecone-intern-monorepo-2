@@ -32,6 +32,8 @@ const validateDateOfBirth = (dateOfBirth: string) => {
 export const createProfile: MutationResolvers["createProfile"] = async (
   _:unknown,
   { input },
+  _context: unknown,
+  _info: unknown
 ): Promise<ProfileResponse> => {
   const { userId, dateOfBirth } = input;
 
@@ -44,6 +46,7 @@ export const createProfile: MutationResolvers["createProfile"] = async (
     await Profile.create({
       ...input,
       dateOfBirth: parsedDate,
+      // gender is already lowercase in the new model, no need to convert
     });
 
     return ProfileResponse.Success;

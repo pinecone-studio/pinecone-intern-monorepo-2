@@ -1,5 +1,4 @@
 'use client';
-import TinderSwipeDeck from '@/components/swipe/TinderInterface';
 import { useAuth } from '@/components/providers';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -27,7 +26,15 @@ const TinderPage = () => {
     );
   }
 
-  return <TinderSwipeDeck currentUserId={user.id} />;
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Tinder Match Page</h1>
+        <p className="text-gray-600">Welcome, {user.email}!</p>
+        <p className="text-sm text-gray-500 mt-2">Swipe functionality coming soon...</p>
+      </div>
+    </div>
+  );
 };
 
 export default TinderPage;

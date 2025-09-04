@@ -1,22 +1,31 @@
-import  { Schema, model, models, Model, Types } from "mongoose";
- 
+import { Schema, model, models, Model } from "mongoose";
+
 export type MessageType = {
-  match?: Types.ObjectId;
-  sender: Types.ObjectId;
-  receiver: Types.ObjectId;
   content: string;
+  senderId: string;
+  receiverId: string;
   createdAt: Date;
+  updatedAt: Date;
 };
- 
+
 const messageSchema = new Schema<MessageType>(
   {
-    match: { type: Schema.Types.ObjectId, ref: "Match", required: false },
-    sender: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    receiver: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    content: { type: String, required: true, trim: true },
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    senderId: {
+      type: String,
+      required: true,
+    },
+    receiverId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
- 
+
 export const Message: Model<MessageType> =
   models.Message || model<MessageType>("Message", messageSchema);

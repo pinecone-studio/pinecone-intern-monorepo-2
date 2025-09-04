@@ -77,10 +77,11 @@ const LoginPage = () => {
   type="email"
   {...register('email', { required: 'Email is required' })}
   placeholder="name@example.com"
+  data-cy="email-input"
   className="w-full px-4 py-3 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 font-medium"
 />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-sm mt-1" data-cy="email-error">
               {errors.email.message}
             </p>
           )}
@@ -92,15 +93,16 @@ const LoginPage = () => {
   type="password"
   {...register('password', { required: 'Password is required' })}
   placeholder="name@example.com"
+  data-cy="password-input"
   className="w-full px-4 py-3 text-sm text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 font-medium"
 />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-sm mt-1" data-cy="password-error">
               {errors.password.message}
             </p>
           )}
          <div className="text-right mt-1">
-  <a href="#" className="text-sm text-blue-500 hover:underline">
+  <a href="#" className="text-sm text-blue-500 hover:underline" data-cy="forgot-password">
     Forgot password?
   </a>
 </div>
@@ -109,6 +111,7 @@ const LoginPage = () => {
         <button
   type="submit"
   disabled={loading}
+  data-cy="continue-button"
   className="w-full bg-tinder-pink hover:bg-pink-600 text-white text-sm font-semibold py-3 rounded-2xl mt-4 transition duration-200 ease-in-out"
 >
   {loading ? 'Logging in...' : 'Continue'}
@@ -128,6 +131,7 @@ const LoginPage = () => {
 
         <button
           type="button"
+          data-cy="create-account"
           className="w-full border border-gray-300 text-gray-700  py-2 rounded-2xl hover:bg-gray-100  "
         >
           Create an account

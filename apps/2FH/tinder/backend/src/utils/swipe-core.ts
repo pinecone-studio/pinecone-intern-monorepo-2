@@ -1,125 +1,112 @@
-// apps/2FH/tinder/backend/src/mutations/swipe-core.ts
-import { GraphQLError } from "graphql";
-import { Types } from "mongoose";
-import { Swipe, User } from "../models";
-import {
-  syncExistingMatches
-} from "./swipe-helpers";
-import {
-  handleExistingSwipe,
-  handleNewLike
-} from "./swipe-helpers-advanced";
-import { findNextAvailableProfile, getSwipedUserIds } from "./swipe-utils";
-import { SwipeInput } from "../types/swipe-types";
+import { Types } from 'mongoose';
+import { Profile } from '../models';
+import { validateSwipeInput } from './swipe-core-validation';
+import { 
+    handleDislike, 
+    handleLike, 
+    getNextProfile 
+} from './swipe-core-handlers';
+import { SwipeInput, SwipeResult } from './swipe-core-types';
 
-type SwipeAction = 'LIKE' | 'DISLIKE' | 'SUPER_LIKE';
-
-const validateUserIds = (swiperId: string, targetId: string) => {
-  if (!Types.ObjectId.isValid(swiperId) || !Types.ObjectId.isValid(targetId)) {
-    throw new GraphQLError("Swipe failed: Invalid user ID format");
-  }
-};
-
-const handleExistingSwipeCase = async (existingSwipe: any, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  const match = await handleExistingSwipe(existingSwipe, swiperObjectId, targetObjectId);
-  return {
-    success: false,
-    message: "You have already swiped this profile",
-    response: "ALREADY_SWIPED",
-    match,
-    nextProfile: null,
-  };
-};
-
-const createSuccessResponse = (action: SwipeAction, match: any, nextProfile: any, updatedProfiles?: any) => {
-  return {
-    success: true,
-    message: `Successfully ${action.toLowerCase()}d profile`,
-    response: match ? "MATCH_CREATED" : "SUCCESS",
-    match,
-    nextProfile,
-    updatedProfiles
-  };
-};
-
-const validateAndPrepareSwipe = (swiperId: string, targetId: string) => {
-  validateUserIds(swiperId, targetId);
-  if (swiperId === targetId) {
-    throw new GraphQLError("Swipe failed: Cannot swipe on your own profile");
-  }
-  return {
-    swiperObjectId: new Types.ObjectId(swiperId),
-    targetObjectId: new Types.ObjectId(targetId)
-  };
-};
-
-const checkUsersExist = async (swiperId: string, targetId: string) => {
-  const swiperUser = await User.findById(swiperId);
-  const targetUser = await User.findById(targetId);
-  if (!swiperUser || !targetUser) {
-    throw new GraphQLError("Swipe failed: One or both users not found");
-  }
-};
-
-const createSwipeAndGetMatch = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  await Swipe.create({ 
-    swiperId: swiperObjectId, 
-    targetId: targetObjectId, 
-    action,
-    swipedAt: new Date()
-  });
-  let match = null;
-  if (action === "LIKE") {
-            match = await handleNewLike(swiperObjectId, targetObjectId);
-  }
-  return match;
-};
-
-const getNextProfile = async (swiperId: string) => {
-  const swipedProfileIds = await getSwipedUserIds(swiperId);
-  return await findNextAvailableProfile(swipedProfileIds);
-};
-
-const handleSwipeCreation = async (swiperId: string, targetId: string, action: SwipeAction, swiperObjectId: Types.ObjectId, targetObjectId: Types.ObjectId) => {
-  try {
-    const match = await createSwipeAndGetMatch(swiperId, targetId, action, swiperObjectId, targetObjectId);
-    const nextProfile = await getNextProfile(swiperId);
+const validateProfilesExist = async (input: SwipeInput): Promise<SwipeResult | null> => {
+    console.log('Looking for swiper profile:', input.swiperId);
+    const swiperProfile = await Profile.findOne({ userId: new Types.ObjectId(input.swiperId) });
+    console.log('Swiper profile found:', !!swiperProfile);
     
-    // Get updated profiles for likes/matches
-    const updatedProfiles = {
-      swiperProfile: {
-        id: swiperId,
-        userId: swiperId,
-        likes: [], // Will be updated by swipe logic
-        matches: [] // Will be updated by swipe logic
-      },
-      targetProfile: {
-        id: targetId,
-        userId: targetId,
-        likes: [], // Will be updated by swipe logic
-        matches: [] // Will be updated by swipe logic
-      }
-    };
+    console.log('Looking for target profile:', input.targetId);
+    const targetProfile = await Profile.findOne({ userId: new Types.ObjectId(input.targetId) });
+    console.log('Target profile found:', !!targetProfile);
     
-    return createSuccessResponse(action, match, nextProfile, updatedProfiles);
-  } catch (error) {
-    if (error instanceof GraphQLError) {
-      throw error;
+    if (!swiperProfile) {
+        return {
+            success: false,
+            message: `Swiper profile not found for userId: ${input.swiperId}`,
+            response: 'ERROR'
+        };
     }
-    throw new GraphQLError(`Swipe failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
+    
+    if (!targetProfile) {
+        return {
+            success: false,
+            message: `Target profile not found for userId: ${input.targetId}`,
+            response: 'ERROR'
+        };
+    }
+    
+    return null;
 };
 
-export const swipe = async (_: unknown, { input }: { input: SwipeInput }) => {
-  const { swiperId, targetId, action } = input;
-  const typedAction: SwipeAction = action as SwipeAction;
-  const { swiperObjectId, targetObjectId } = validateAndPrepareSwipe(swiperId, targetId);
-  await checkUsersExist(swiperId, targetId);
-  await syncExistingMatches(swiperId);
-  await syncExistingMatches(targetId);
-  const existingSwipe = await Swipe.findOne({ swiperId, targetId });
-  if (existingSwipe) {
-    return await handleExistingSwipeCase(existingSwipe, swiperObjectId, targetObjectId);
-  }
-  return await handleSwipeCreation(swiperId, targetId, typedAction, swiperObjectId, targetObjectId);
+const handleSwipeAction = async (input: SwipeInput): Promise<SwipeResult> => {
+    if (input.action === 'DISLIKE') {
+        return await handleDislike(input.swiperId, input.targetId);
+    } else if (input.action === 'LIKE' || input.action === 'SUPER_LIKE') {
+        return await handleLike(input.swiperId, input.targetId);
+    } else {
+        return {
+            success: false,
+            message: 'Invalid swipe action',
+            response: 'ERROR'
+        };
+    }
+};
+
+const addNextProfileIfNeeded = async (result: SwipeResult, swiperId: string): Promise<SwipeResult> => {
+    if (result.success && result.response === 'SUCCESS') {
+        const nextProfile = await getNextProfile(swiperId);
+        if (nextProfile) {
+            result.nextProfile = nextProfile;
+        } else {
+            result.response = 'NO_MORE_PROFILES';
+            result.message = 'No more profiles available';
+        }
+    }
+    return result;
+};
+
+const handleValidationError = (validationError: string): SwipeResult => {
+    console.log('Validation error:', validationError);
+    return {
+        success: false,
+        message: validationError,
+        response: 'ERROR'
+    };
+};
+
+const processSwipeRequest = async (input: SwipeInput): Promise<SwipeResult> => {
+    // Check if profiles exist
+    const profileError = await validateProfilesExist(input);
+    if (profileError) return profileError;
+
+    // Handle different swipe actions
+    const result = await handleSwipeAction(input);
+
+    // Get next profile if successful
+    return await addNextProfileIfNeeded(result, input.swiperId);
+};
+
+const handleSwipeError = (error: unknown): SwipeResult => {
+    console.error('Error in swipe mutation:', error);
+    return {
+        success: false,
+        message: `Internal server error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        response: 'ERROR'
+    };
+};
+
+export const swipe = async (_: unknown, { input }: { input: SwipeInput }): Promise<SwipeResult> => {
+    try {
+        console.log('Swipe mutation called with input:', input);
+        
+        // Validate input
+        const validationError = validateSwipeInput(input);
+        if (validationError) {
+            return handleValidationError(validationError);
+        }
+
+        const result = await processSwipeRequest(input);
+        console.log('Swipe result:', result);
+        return result;
+    } catch (error) {
+        return handleSwipeError(error);
+    }
 };

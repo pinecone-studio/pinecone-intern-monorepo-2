@@ -4,7 +4,7 @@ import { Schema, model, models, Model, Types } from "mongoose";
  
 export enum Gender {
   MALE = "male",
-  FEMALE = "female", 
+  FEMALE = "female",
   BOTH = "both",
 }
  
@@ -12,6 +12,7 @@ export type ProfileType = {
   userId: Types.ObjectId;
   name: string;
   gender: Gender;
+  interestedIn: Gender;
   bio: string;
   interests: string[];
   profession: string;
@@ -26,33 +27,39 @@ export type ProfileType = {
  
 const profileSchema = new Schema<ProfileType>(
   {
-    userId: { 
-      type: Schema.Types.ObjectId, 
-      ref: "User", 
-      required: true, 
-      unique: true 
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true
     },
     name: { type: String, required: true },
-    gender: { 
-      type: String, 
-      enum: Object.values(Gender), 
-      default: Gender.BOTH, 
-      required: true 
+    gender: {
+      type: String,
+      enum: Object.values(Gender),
+      default: Gender.BOTH,
+      required: true
+    },
+    interestedIn: {
+      type: String,
+      enum: Object.values(Gender),
+      default: Gender.BOTH,
+      required: true
     },
     bio: { type: String, required: true },
     interests: { type: [String], required: true },
     profession: { type: String, required: true },
-    
+ 
     // Likes/Matches - ObjectId array, default хоосон
-    likes: { 
-      type: [{ type: Schema.Types.ObjectId, ref: "Profile" }], 
+    likes: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Profile" }],
       default: []
     },
-    matches: { 
-      type: [{ type: Schema.Types.ObjectId, ref: "Profile" }], 
+    matches: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Profile" }],
       default: []
     },
-    
+ 
     work: { type: String, required: true },
     images: { type: [String], required: true },
     dateOfBirth: { type: String, required: true },

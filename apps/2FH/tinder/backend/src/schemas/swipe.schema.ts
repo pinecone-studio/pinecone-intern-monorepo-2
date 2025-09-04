@@ -18,8 +18,8 @@ enum SwipeResponse {
 }
 
 type Match {
-  likeduserId: Profile!
-  matcheduserId: Profile!
+  likeduserId: Profile
+  matcheduserId: Profile
 }
 
 type Swipe {
@@ -54,3 +54,4 @@ type Mutation {
 }
 
 `;
+ 

@@ -1,8 +1,10 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/create-profile.success.spec.ts
-import { createProfile } from "src/resolvers/mutations";
+import { createProfile } from "src/resolvers/mutations/create-profile-mutation";
 import { Profile, User } from "src/models";
 import { Types } from "mongoose";
 import { Gender, ProfileResponse } from "src/generated";
+import { GraphQLResolveInfo } from "graphql";
+import { Context } from "src/types";
 
 jest.mock("src/models");
 
@@ -58,7 +60,7 @@ describe("createProfile Mutation", () => {
 
       (Profile.create as jest.Mock).mockResolvedValue(createdProfile);
 
-      const result = await createProfile!({}, { input: mockProfileInput }, {} as any, {} as any);
+      const result = await (createProfile as any)({}, { input: mockProfileInput }, {} as Context, {} as GraphQLResolveInfo);
 
       expect(Profile.create).toHaveBeenCalledWith(
         expect.objectContaining({

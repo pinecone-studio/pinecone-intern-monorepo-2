@@ -37,10 +37,10 @@ export const forgotPassword: MutationResolvers['forgotPassword'] = async (_, { i
   }
 };
 
-function getOtpValidationError(token: any, otp: string): string | null {
+function getOtpValidationError(token: Record<string, unknown> | null, otp: string): string | null {
   if (!token) return 'OTP not found';
   if (token.otp !== otp) return 'Incorrect OTP';
-  if (token.expiresAt < new Date()) return 'OTP expired';
+  if ((token.expiresAt as Date) < new Date()) return 'OTP expired';
   return null;
 }
 
@@ -49,7 +49,7 @@ export const verifyOtp: MutationResolvers['verifyOtp'] = async (_, { input }) =>
     const { email, otp } = input;
     const token = await OtpToken.findOne({ email });
 
-    const errorMessage = getOtpValidationError(token, otp);
+    const errorMessage = getOtpValidationError(token as unknown as Record<string, unknown>, otp);
     if (errorMessage) return errorResponse(errorMessage);
 
     return successResponse('OTP verified successfully');

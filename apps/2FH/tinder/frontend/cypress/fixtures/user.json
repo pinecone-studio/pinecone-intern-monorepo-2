@@ -1,0 +1,15 @@
+{
+  "id": "1",
+  "userId": "1",
+  "name": "Test User",
+  "email": "test@example.com",
+  "gender": "male",
+  "bio": "Test user for Cypress testing",
+  "interests": ["football", "music"],
+  "profession": "Software Developer",
+  "work": "Tech Company",
+  "images": [],
+  "dateOfBirth": "1990-01-01",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}

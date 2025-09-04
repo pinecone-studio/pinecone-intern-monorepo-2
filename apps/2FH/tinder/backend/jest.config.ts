@@ -9,4 +9,5 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/apps/2FH/tinder/backend',
   collectCoverageFrom: ['src/resolvers/**/*.ts', '!src/utils/**/*.ts', '!src/**/*.schema.ts', '!src/**/index.ts', '!src/handler.ts', '!src/schemas/**'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

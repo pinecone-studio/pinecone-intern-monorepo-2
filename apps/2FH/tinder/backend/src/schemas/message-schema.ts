@@ -1,23 +1,28 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
 export const messageTypeDefs = gql`
-type Message {
-  id: ID!
-  sender: User        
-  receiver: User     
-  content: String!     
-}
-type Query {
-  getMessages(senderId: ID, receiverId: ID): [Message!]!
-  getMessage(id: ID!): Message
-}
-input SendMessageInput {
-  senderId: ID!
-  receiverId: ID!
-  content: String!
-}
+  type Message {
+    id: ID!
+    content: String!
+    senderId: ID!
+    receiverId: ID!
+    createdAt: String!
+    updatedAt: String!
+  }
 
-type Mutation {
-  sendMessage(input: SendMessageInput!): Message!
-}
+  type Query {
+    messages(conversationId: ID!): [Message!]!
+    message(id: ID!): Message
+  }
+
+  type Mutation {
+    sendMessage(input: SendMessageInput!): Message!
+    deleteMessage(id: ID!): Boolean!
+  }
+
+  input SendMessageInput {
+    content: String!
+    senderId: ID!
+    receiverId: ID!
+  }
 `;

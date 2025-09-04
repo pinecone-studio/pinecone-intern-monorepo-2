@@ -1,9 +1,10 @@
 // apps/2FH/tinder/backend/specs/resolvers/mutations/create-profile-failure.spec.ts
-import { createProfile } from "src/resolvers/mutations";
+import { createProfile } from "src/resolvers/mutations/create-profile-mutation";
 import { Profile, User } from "src/models";
 import { Types } from "mongoose";
-import { GraphQLError } from "graphql";
+import { GraphQLError, GraphQLResolveInfo } from "graphql";
 import { Gender } from "src/generated";
+import { Context } from "src/types";
 
 jest.mock("src/models");
 
@@ -42,7 +43,7 @@ describe("createProfile Mutation - Failure", () => {
     (User.findById as jest.Mock).mockResolvedValue(null);
 
     await expect(
-      createProfile!({}, { input: mockProfileInput }, {} as any, {} as any)
+      (createProfile as any)({}, { input: mockProfileInput }, {} as Context, {} as GraphQLResolveInfo)
     ).rejects.toThrow(
       new GraphQLError("Cannot create profile: User with this userId does not exist")
     );
@@ -57,7 +58,7 @@ describe("createProfile Mutation - Failure", () => {
     const invalidInput = { ...mockProfileInput, dateOfBirth: "invalid-date" };
 
     await expect(
-      createProfile!({}, { input: invalidInput }, {} as any, {} as any)
+      (createProfile as any)({}, { input: invalidInput }, {} as Context, {} as GraphQLResolveInfo)
     ).rejects.toThrow(new GraphQLError("Cannot create profile: Invalid time value"));
 
     expect(Profile.create).not.toHaveBeenCalled();
@@ -68,7 +69,7 @@ describe("createProfile Mutation - Failure", () => {
     const invalidInput = { ...mockProfileInput, userId: "invalid-user-id" };
 
     await expect(
-      createProfile!({}, { input: invalidInput }, {} as any, {} as any)
+      (createProfile as any)({}, { input: invalidInput }, {} as Context, {} as GraphQLResolveInfo)
     ).rejects.toThrow(
       new GraphQLError(
         "Cannot create profile: input must be a 24 character hex string, 12 byte Uint8Array, or an integer"
@@ -84,7 +85,7 @@ describe("createProfile Mutation - Failure", () => {
     (Profile.create as jest.Mock).mockRejectedValue(new Error("Database error"));
 
     await expect(
-      createProfile!({}, { input: mockProfileInput }, {} as any, {} as any)
+      (createProfile as any)({}, { input: mockProfileInput }, {} as Context, {} as GraphQLResolveInfo)
     ).rejects.toThrow(new GraphQLError("Cannot create profile: Database error"));
 
     expect(Profile.create).toHaveBeenCalledWith(
@@ -101,7 +102,7 @@ describe("createProfile Mutation - Failure", () => {
     (Profile.create as jest.Mock).mockRejectedValue("Unknown error");
 
     await expect(
-      createProfile!({}, { input: mockProfileInput }, {} as any, {} as any)
+      (createProfile as any)({}, { input: mockProfileInput }, {} as Context, {} as GraphQLResolveInfo)
     ).rejects.toThrow(
       new GraphQLError("Cannot create profile: Unknown error occurred")
     );
