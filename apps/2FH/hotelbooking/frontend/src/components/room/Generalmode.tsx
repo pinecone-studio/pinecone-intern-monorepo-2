@@ -9,6 +9,7 @@ interface FormData {
   pricePerNight: string;
   roomInformation: string[];
   bedNumber: number;
+  status: string;
 }
 
 interface GeneralmodeProps {
@@ -29,6 +30,7 @@ export const Generalmode: React.FC<GeneralmodeProps> = ({ isOpen, onClose, onSav
     pricePerNight: '',
     roomInformation: [],
     bedNumber: 0,
+    status: '',
   };
 
   const [formData, setFormData] = React.useState<FormData>(initialData ?? defaultFormData);

@@ -1,7 +1,7 @@
-import { TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment } from '../../generated';
+import { TypePerson, RoomInformation, Bathroom, Accessibility, Internet, FoodAndDrink, BedRoom, Other, Entertainment, Status } from '../../generated';
 
 // Define RoomInput type locally to avoid import issues
-type RoomInput = {
+interface RoomInput {
   hotelId: string;
   name: string;
   pricePerNight: number;
@@ -16,7 +16,8 @@ type RoomInput = {
   other: Other[];
   entertainment: Entertainment[];
   bedNumber: number;
-};
+  status: Status; // Fix the status field type
+}
 
 interface FormData {
   name: string;
@@ -24,6 +25,7 @@ interface FormData {
   pricePerNight: string;
   roomInformation: string[];
   bedNumber?: number;
+  status: string;
 }
 
 interface ServiceData {
@@ -62,11 +64,13 @@ export const createRoomData = (selectedHotelId: string, roomData: RoomData): Roo
     other: roomData.services.other as Other[],
     entertainment: roomData.services.entertainment as Entertainment[],
     bedNumber: roomData.general.bedNumber ? parseInt(roomData.general.bedNumber.toString()) : 0,
+    status: roomData.general.status as Status, // Fix the status field casting
   };
 
   console.log('createRoomData result:', result);
   console.log('result.imageURL:', result.imageURL);
   console.log('result.imageURL length:', result.imageURL.length);
+  console.log('result.status:', result.status); // Add debugging for status field
 
   return result;
 };
@@ -87,6 +91,7 @@ export const handleFinalSave = async (selectedHotelId: string, roomData: RoomDat
     console.log('Input data for GraphQL mutation:', inputData);
     console.log('ImageURL in input data:', inputData.imageURL);
     console.log('ImageURL length:', inputData.imageURL.length);
+    console.log('Status in input data:', inputData.status); // Add debugging for status field
 
     await (createRoom as (_params: { variables: { input: RoomInput } }) => Promise<unknown>)({
       variables: {
