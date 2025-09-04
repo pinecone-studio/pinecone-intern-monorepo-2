@@ -1,7 +1,11 @@
-import React from 'react';
+import { HotelInfo } from '@/components';
 
-const page = () => {
-  return <div></div>;
+const HotelDetailPage = () => {
+  return (
+    <div data-cy="hotel-detail-page" className="flex flex-col w-screen ">
+      <HotelInfo />
+    </div>
+  );
 };
 
-export default page;
+export default HotelDetailPage;
