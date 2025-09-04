@@ -76,6 +76,7 @@ const createUserObject = (input: CreateUserInput) => {
     stories: [],
     followers: [],
     followings: [],
+    searchHistory: [],
     isVerified: false // User starts unverified
   });
 };
