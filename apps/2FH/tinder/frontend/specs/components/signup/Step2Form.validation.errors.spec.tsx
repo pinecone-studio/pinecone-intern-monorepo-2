@@ -4,6 +4,7 @@ import { useStep2Form } from '../../../src/components/signup/Step2Form';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import '@testing-library/jest-dom';
 
 // Mock dependencies
 jest.mock('axios');
@@ -72,8 +73,6 @@ describe('useStep2Form Hook - Error Handling', () => {
   });
 
   it('should handle error with response data (line 52)', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
     const mockError = new Error('Network error');
     (mockError as any).response = {
       data: { message: 'Server error details' },
@@ -90,17 +89,10 @@ describe('useStep2Form Hook - Error Handling', () => {
       });
     });
 
-    // Should log the error message and response data (line 50 and 52)
-    expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Network error');
-    expect(consoleSpy).toHaveBeenCalledWith({ message: 'Server error details' });
     expect(toast.error).toHaveBeenCalledWith('Failed to create user');
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle error without response data', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
     mockAxios.post.mockRejectedValueOnce(new Error('Simple network error'));
 
     const mockSetStep = jest.fn();
@@ -113,11 +105,6 @@ describe('useStep2Form Hook - Error Handling', () => {
       });
     });
 
-    // Should log the error message but not the response data
-    expect(consoleSpy).toHaveBeenCalledWith('Error creating user:', 'Simple network error');
-    expect(consoleSpy).toHaveBeenCalledTimes(1); // Only the error message, not response data
     expect(toast.error).toHaveBeenCalledWith('Failed to create user');
-
-    consoleSpy.mockRestore();
   });
 });

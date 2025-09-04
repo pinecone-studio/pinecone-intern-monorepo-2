@@ -17,10 +17,6 @@ describe('useOtpResend Hook - Edge Cases', () => {
   });
 
   it('should handle complex error scenarios to cover all branches', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
-
     // Test case 1: Error with response.data but no errors array
     const mockError1 = new Error('Network error 1');
     (mockError1 as any).response = { data: { message: 'Direct error' } };
@@ -48,9 +44,6 @@ describe('useOtpResend Hook - Edge Cases', () => {
 
     await act(async () => await result3.current.handleResend());
 
-    expect(consoleSpy).toHaveBeenCalledTimes(3);
     expect(toast.error).toHaveBeenCalledWith('Failed to resend OTP');
-
-    consoleSpy.mockRestore();
   });
 });

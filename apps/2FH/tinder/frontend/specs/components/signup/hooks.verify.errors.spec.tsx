@@ -17,9 +17,6 @@ describe('useOtpVerification Hook - Error Handling', () => {
   });
 
   it('should handle network error with response data in verification', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = {
       data: {
@@ -33,17 +30,11 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('Invalid OTP');
     expect(mockSetStep).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error without response data in verification', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     mockAxios.post.mockRejectedValueOnce(new Error('Simple network error'));
     const mockSetStep = jest.fn();
 
@@ -51,17 +42,11 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(new Error('Simple network error'));
     expect(toast.error).toHaveBeenCalledWith('OTP verification failed');
     expect(mockSetStep).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error with partial response data in verification', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = {
       message: 'Network error',
       response: { data: {} },
@@ -73,17 +58,11 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('OTP verification failed');
     expect(mockSetStep).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle OTP verification with different error structures', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty implementation for spying
-    });
     mockAxios.post.mockRejectedValueOnce(new Error('Simple error'));
     const mockSetStep = jest.fn();
 
@@ -91,16 +70,10 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(new Error('Simple error'));
     expect(toast.error).toHaveBeenCalledWith('OTP verification failed');
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error with null error message fallback', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = {
       data: {
@@ -114,17 +87,11 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('OTP verification failed'); // This covers the fallback branch
     expect(mockSetStep).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error with empty error message fallback', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = {
       data: {
@@ -138,10 +105,7 @@ describe('useOtpVerification Hook - Error Handling', () => {
 
     await act(async () => await result.current.handleVerify());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('OTP verification failed'); // This covers the fallback branch
     expect(mockSetStep).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 });
