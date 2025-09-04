@@ -1,20 +1,10 @@
 'use client';
-
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
 
-// define booking data type separately
-type BookingDataType = {
-  userId: string;
-  id: string;
-  hotelId: string;
-  roomId: string;
-  checkInDate: string;
-  checkOutDate: string;
-  status: string;
-  __typeName: string;
-};
-
+type BookingDataType = { userId: string; id: string; hotelId: string; roomId: string; checkInDate: string; checkOutDate: string; status: string; __typeName: string };
+type Role = 'user' | 'admin';
+type UserType = { _id: string; firstName: string; lastName: string; email: string; role: Role; dateOfBirth: string };
 type OtpContextType = {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
@@ -35,15 +25,14 @@ type OtpContextType = {
   setBookingSuccess: Dispatch<SetStateAction<boolean>>;
   bookingData: BookingDataType;
   setBookingData: Dispatch<SetStateAction<BookingDataType>>;
-  me: any; // later replace with proper User type
-  setMe: Dispatch<SetStateAction<any>>;
+  me: UserType | null;
+  setMe: Dispatch<SetStateAction<UserType | null>>;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
 };
 
 const OtpContext = createContext<OtpContextType | null>(null);
 
-// GraphQL query to fetch current user
 const GET_ME = gql`
   query GetMe {
     getMe {
@@ -66,17 +55,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [bookingData, setBookingData] = useState<BookingDataType>({
-    userId: '',
-    id: '',
-    hotelId: '',
-    roomId: '',
-    checkInDate: '',
-    checkOutDate: '',
-    status: '',
-    __typeName: '',
-  });
-  const [me, setMe] = useState<any>(null);
+  const [bookingData, setBookingData] = useState<BookingDataType>({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
+  const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const client = useApolloClient();
@@ -95,23 +75,31 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => setStartTime(true), 0);
   };
 
-  // Fetch current user on init if token exists
+  // Separate function to parse user data
+  const parseUser = (u: any): UserType => ({
+    _id: u._id,
+    email: u.email,
+    firstName: u.firstName || '',
+    lastName: u.lastName || '',
+    role: (u.role as Role) || 'user',
+    dateOfBirth: u.dateOfBirth || '',
+  });
+
+  // Separate function to fetch user
+  const fetchMe = async (storedToken: string) => {
+    try {
+      const res = await client.query({ query: GET_ME, fetchPolicy: 'no-cache', context: { headers: { authorization: `Bearer ${storedToken}` } } });
+      if (res.data?.getMe) setMe(parseUser(res.data.getMe));
+    } catch {
+      setMe(null);
+    }
+  };
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) return;
-
     setToken(storedToken);
-
-    client
-      .query({ query: GET_ME, fetchPolicy: 'no-cache' })
-      .then((res) => {
-        if (res.data?.getMe) setMe(res.data.getMe);
-      })
-      .catch(() => {
-        setMe(null);
-        setToken(null);
-        localStorage.removeItem('token');
-      });
+    fetchMe(storedToken);
   }, [client]);
 
   return (
