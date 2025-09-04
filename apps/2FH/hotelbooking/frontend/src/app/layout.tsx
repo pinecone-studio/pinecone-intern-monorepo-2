@@ -3,7 +3,8 @@ import './global.css';
 import { Toaster } from 'sonner';
 import { ApolloWrapper } from '@/components/providers/ApolloWrapper';
 import { UserAuthProvider } from '@/components/providers';
-
+import { PublicHeader } from '@/components/landing-page/PublicHeader';
+import { PublicFooter } from '@/components/landing-page/PublicFooter';
 
 export const metadata = {
   title: 'Welcome to example-frontend',
@@ -15,7 +16,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <UserAuthProvider>{children}</UserAuthProvider>
+          <UserAuthProvider>
+            <PublicHeader />
+            {children}
+            <PublicFooter />
+          </UserAuthProvider>
         </ApolloWrapper>
         <Toaster richColors position="top-center" />
       </body>
