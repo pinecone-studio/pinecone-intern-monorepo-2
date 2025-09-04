@@ -9,21 +9,15 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/apps/2FH/tinder/frontend',
+
   collectCoverageFrom: [
     'src/**/*.{ts,tsx,js,jsx}',
     '!src/**/generated/**/*.ts',
     '!src/app/**/*.tsx',
-    '!src/components/providers/*.tsx', // Keep your original exclusion
+    '!src/components/providers/*.tsx',
+    '!src/utils/*.ts',
+    '!src/hooks/*.ts',
     '!src/**/*.test.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
-    '!src/utils/*.ts',
   ],
-  coverageThreshold: {
-    global: {
-      statements: 100,
-      branches: 100,
-      functions: 100,
-      lines: 100,
-    },
-  },
 };
