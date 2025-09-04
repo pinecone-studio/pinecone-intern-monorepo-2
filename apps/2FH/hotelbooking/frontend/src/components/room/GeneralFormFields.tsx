@@ -1,40 +1,14 @@
 'use client';
-import { TypePerson, RoomInformation } from '@/generated';
+import { Status } from '@/generated';
+import { TYPE_OPTIONS, ROOM_OPTIONS } from '@/constants/roomoptions';
+import { FormData } from '@/constants/roomoptions';
+
 interface GeneralFormProps {
   formData: FormData;
   errors: Record<string, string>;
   onInputChange: (_field: keyof FormData, _value: string | string[]) => void;
 }
-interface FormData {
-  name: string;
-  type: string[];
-  pricePerNight: string;
-  roomInformation: string[];
-  bedNumber: number;
-}
-const TYPE_OPTIONS = [
-  { value: TypePerson.Single, label: 'Single' },
-  { value: TypePerson.Double, label: 'Double' },
-  { value: TypePerson.Triple, label: 'Triple' },
-  { value: TypePerson.Quad, label: 'Quad' },
-  { value: TypePerson.Queen, label: 'Queen' },
-  { value: TypePerson.King, label: 'King' },
-];
-const ROOM_OPTIONS = [
-  { value: RoomInformation.PrivateBathroom, label: 'Private Bathroom' },
-  { value: RoomInformation.SharedBathroom, label: 'Shared Bathroom' },
-  { value: RoomInformation.FreeBottleWater, label: 'Free Bottle Water' },
-  { value: RoomInformation.AirConditioner, label: 'Air Conditioner' },
-  { value: RoomInformation.Tv, label: 'TV' },
-  { value: RoomInformation.Minibar, label: 'Minibar' },
-  { value: RoomInformation.FreeWifi, label: 'Free WiFi' },
-  { value: RoomInformation.FreeParking, label: 'Free Parking' },
-  { value: RoomInformation.Shower, label: 'Shower' },
-  { value: RoomInformation.Bathtub, label: 'Bathtub' },
-  { value: RoomInformation.HairDryer, label: 'Hair Dryer' },
-  { value: RoomInformation.Desk, label: 'Desk' },
-  { value: RoomInformation.Elevator, label: 'Elevator' },
-];
+
 export const NameField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
   <div>
     <label htmlFor="room-name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -121,6 +95,29 @@ export const BedNumberField = ({ formData, errors, onInputChange }: GeneralFormP
       step="1"
     />
     {errors.bedNumber && <p className="mt-1 text-sm text-red-600">{errors.bedNumber}</p>}
+  </div>
+);
+export const StatusField = ({ formData, errors, onInputChange }: GeneralFormProps) => (
+  <div>
+    <label htmlFor="room-status" className="block text-sm font-medium text-gray-700 mb-1">
+      Status
+    </label>
+    <select
+      id="room-status"
+      value={formData.status}
+      onChange={(e) => onInputChange('status', e.target.value)}
+      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent ${
+        errors.status ? 'border-red-300 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+      }`}
+    >
+      <option value="">Select status</option>
+      <option value={Status.Available}>Available</option>
+      <option value={Status.Booked}>Booked</option>
+      <option value={Status.Cancelled}>Cancelled</option>
+      <option value={Status.Completed}>Completed</option>
+      <option value={Status.Pending}>Pending</option>
+    </select>
+    {errors.status && <p className="mt-1 text-sm text-red-600">{errors.status}</p>}
   </div>
 );
 export const RoomInformationField = ({ formData, errors, onInputChange }: GeneralFormProps) => {

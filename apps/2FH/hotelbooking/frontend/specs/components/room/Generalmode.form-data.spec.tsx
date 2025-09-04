@@ -43,6 +43,7 @@ describe('Generalmode Form Data', () => {
       pricePerNight: '',
       roomInformation: [],
       bedNumber: 0,
+      status: '',
     });
   });
 
@@ -67,6 +68,7 @@ describe('Generalmode Form Data', () => {
       pricePerNight: '',
       roomInformation: [],
       bedNumber: 0,
+      status: '',
     });
   });
 
