@@ -1,1 +1,1 @@
-["//","///admin","///admin/add-hotel","///admin/hotel/[id]","///admin/room","///booking/[userid]/confirmed","///booking/[userid]/history","///booking/[userid]/payment","///hotel/[hotelId]","///login","///most-booked-hotels","///popular-hotels","///room","///signup"]
+["///","///admin","///admin/add-hotel","///admin/hotel/[id]","///booking/[userid]/history","///booking/[userid]/payment","///hotel/[hotelId]","///login","///room","///signup"]

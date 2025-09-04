@@ -1,4 +1,5 @@
 'use client';
+
 import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { useRouter } from 'next/navigation';
@@ -21,20 +22,57 @@ const email = 'test@example.com';
 const password = 'password123';
 const token = 'mock-token';
 
-const loginSuccessMock: MockedResponse = {
+const loginSuccessUserMock: MockedResponse = {
   request: { query: LoginDocument, variables: { input: { email, password } } },
-  result: { data: { login: { token, user: { firstName: 'John', email } } } },
+  result: {
+    data: {
+      login: {
+        token,
+        user: { _id: '1', firstName: 'John', lastName: 'Doe', email, role: 'user', dateOfBirth: '2000-01-01' },
+      },
+    },
+  },
+};
+
+const loginSuccessAdminMock: MockedResponse = {
+  request: { query: LoginDocument, variables: { input: { email, password } } },
+  result: {
+    data: {
+      login: {
+        token,
+        user: { _id: '2', firstName: 'Admin', lastName: 'Boss', email, role: 'admin', dateOfBirth: '1990-01-01' },
+      },
+    },
+  },
+};
+const loginNoFirstNameMock: MockedResponse = {
+  request: { query: LoginDocument, variables: { input: { email, password } } },
+  result: {
+    data: {
+      login: {
+        token,
+        user: {
+          _id: '4',
+          firstName: '',
+          lastName: 'Doe',
+          email,
+          role: 'user',
+          dateOfBirth: '2000-01-01',
+        },
+      },
+    },
+  },
 };
 const loginNoTokenMock: MockedResponse = {
   request: { query: LoginDocument, variables: { input: { email, password } } },
-  result: { data: { login: { token: null, user: { firstName: 'John', email } } } },
+  result: { data: { login: { token: null, user: { _id: '3', firstName: 'John', email, role: 'user' } } } },
 };
+
 const loginErrorMock: MockedResponse = {
   request: { query: LoginDocument, variables: { input: { email, password } } },
   error: new Error('Invalid credentials'),
 };
 
-// --- Helpers ---
 const renderLogin = (mocks: MockedResponse[]) =>
   render(
     <MockedProvider mocks={mocks} addTypename={false}>
@@ -50,12 +88,13 @@ const fillFormAndSubmit = async (getByTestId: any) => {
   await act(async () => fireEvent.click(getByTestId('submit-button')));
 };
 
+// --- Tests ---
 describe('LoginComponent', () => {
   it('renders login form', () => {
     const { getByTestId, getByText } = renderLogin([]);
     expect(getByTestId('email-input')).toBeInTheDocument();
     expect(getByTestId('password-input')).toBeInTheDocument();
-    expect(getByText(/login/i)).toBeInTheDocument();
+    expect(getByText(/sign in/i)).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
@@ -67,9 +106,9 @@ describe('LoginComponent', () => {
     expect(input.type).toBe('text');
   });
 
-  it('logs in successfully and redirects', async () => {
+  it('logs in successfully as user and redirects to "/"', async () => {
     jest.useFakeTimers();
-    const { getByTestId } = renderLogin([loginSuccessMock]);
+    const { getByTestId } = renderLogin([loginSuccessUserMock]);
     await fillFormAndSubmit(getByTestId);
     await waitFor(() => expect(localStorage.getItem('token')).toBe(token));
     expect(toast.success).toHaveBeenCalled();
@@ -78,6 +117,26 @@ describe('LoginComponent', () => {
     jest.useRealTimers();
   });
 
+  it('logs in successfully as admin and redirects to "/admin"', async () => {
+    jest.useFakeTimers();
+    const { getByTestId } = renderLogin([loginSuccessAdminMock]);
+    await fillFormAndSubmit(getByTestId);
+    await waitFor(() => expect(localStorage.getItem('token')).toBe(token));
+    expect(toast.success).toHaveBeenCalled();
+    act(() => jest.advanceTimersByTime(2000));
+    expect(mockPush).toHaveBeenCalledWith('/admin');
+    jest.useRealTimers();
+  });
+  it('redirects to /user-profile if firstName is missing', async () => {
+    jest.useFakeTimers();
+    const { getByTestId } = renderLogin([loginNoFirstNameMock]);
+    await fillFormAndSubmit(getByTestId);
+    await waitFor(() => expect(localStorage.getItem('token')).toBe(token));
+    expect(toast.success).toHaveBeenCalled();
+    act(() => jest.advanceTimersByTime(2000));
+    expect(mockPush).toHaveBeenCalledWith('/user-profile');
+    jest.useRealTimers();
+  });
   it('shows error toast on server failure', async () => {
     const { getByTestId } = renderLogin([loginErrorMock]);
     await fillFormAndSubmit(getByTestId);
@@ -87,7 +146,6 @@ describe('LoginComponent', () => {
       expect(mockPush).not.toHaveBeenCalled();
     });
   });
-
   it('shows error when no token returned', async () => {
     const { getByTestId } = renderLogin([loginNoTokenMock]);
     await fillFormAndSubmit(getByTestId);

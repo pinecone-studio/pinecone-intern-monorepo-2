@@ -28,7 +28,6 @@ export const LoginComponent = () => {
 
       if (!data?.login?.token) throw new Error('Login failed: no token returned');
 
-      // Save token + update context
       localStorage.setItem('token', data.login.token);
       setToken(data.login.token);
       const user = {
@@ -44,8 +43,15 @@ export const LoginComponent = () => {
 
       toast.success(<span data-cy="login-success-toast">Login Successful! Welcome back, {data.login.user.email}!</span>);
 
-      // redirect after short delay
-      setTimeout(() => router.push('/'), 2000);
+      setTimeout(() => {
+        if (!user.firstName) {
+          router.push('/user-profile');
+        } else if (user.role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
+      }, 2000);
     } catch (err: any) {
       toast.error(<span data-cy="login-failed-toast">{err.message}</span>);
     }
