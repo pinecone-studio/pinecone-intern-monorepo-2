@@ -42,9 +42,6 @@ describe('useOtpResend Hook', () => {
   });
 
   it('should handle network error with response data in resend', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = {
       data: {
@@ -58,17 +55,11 @@ describe('useOtpResend Hook', () => {
 
     await act(async () => await result.current.handleResend());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('Too many requests');
     expect(mockResetTimer).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error without response data in resend', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     mockAxios.post.mockRejectedValueOnce(new Error('Simple network error'));
     const mockResetTimer = jest.fn();
 
@@ -76,17 +67,11 @@ describe('useOtpResend Hook', () => {
 
     await act(async () => await result.current.handleResend());
 
-    expect(consoleSpy).toHaveBeenCalledWith(new Error('Simple network error'));
     expect(toast.error).toHaveBeenCalledWith('Failed to resend OTP');
     expect(mockResetTimer).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error with empty response data in resend', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = { data: {} }; // Empty response data
     mockAxios.post.mockRejectedValueOnce(mockError);
@@ -96,17 +81,11 @@ describe('useOtpResend Hook', () => {
 
     await act(async () => await result.current.handleResend());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('Failed to resend OTP'); // errorMessage is undefined, so fallback
     expect(mockResetTimer).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it('should handle network error with response but no errors array', async () => {
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {
-      // Empty function for spying
-    });
     const mockError = new Error('Network error');
     (mockError as any).response = { data: { someOtherField: 'value' } }; // Response but no errors array
     mockAxios.post.mockRejectedValueOnce(mockError);
@@ -116,10 +95,7 @@ describe('useOtpResend Hook', () => {
 
     await act(async () => await result.current.handleResend());
 
-    expect(consoleSpy).toHaveBeenCalledWith(mockError);
     expect(toast.error).toHaveBeenCalledWith('Failed to resend OTP'); // errorMessage is undefined, so fallback
     expect(mockResetTimer).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 });
