@@ -23,9 +23,9 @@ export const MostBookedHotels = () => {
   const getRatingText = (rating: number): string => {
     if (rating >= 8.5) return 'Excellent';
     if (rating >= 8.0) return 'Very Good';
-    if (rating >= 7.5) return 'Good';
-    if (rating >= 7.0) return 'Very Good';
-    return 'Fair';
+    if (rating >= 7.0) return 'Good';
+    if (rating >= 6.0) return 'Fair';
+    return 'Poor';
   };
 
   const renderStars = (stars: number) => {
@@ -39,7 +39,7 @@ export const MostBookedHotels = () => {
     return null;
   };
 
-    /* eslint-disable-next-line complexity */
+  /* eslint-disable-next-line complexity */
   const renderHotelCard = (hotel: any) => (
     <div key={hotel.id} onClick={() => handleHotelClick(hotel.id)} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
       {/* Hotel Image */}

@@ -1,6 +1,6 @@
 export const HotelSkeleton = () => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+    <div data-testid="hotel-skeleton" className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
       <div className="h-48 bg-gray-300"></div>
 
       <div className="p-4">
@@ -34,7 +34,7 @@ export const HotelSkeleton = () => {
 
 export const HotelSkeletonGrid = ({ count = 4 }: { count?: number }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div data-testid="hotel-skeleton-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {Array.from({ length: count }).map((_, i) => (
         <HotelSkeleton key={i} />
       ))}
@@ -44,7 +44,7 @@ export const HotelSkeletonGrid = ({ count = 4 }: { count?: number }) => {
 
 export const HotelSkeletonHorizontal = ({ count = 4 }: { count?: number }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div data-testid="hotel-skeleton-horizontal" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {Array.from({ length: count }).map((_, i) => (
         <HotelSkeleton key={i} />
       ))}

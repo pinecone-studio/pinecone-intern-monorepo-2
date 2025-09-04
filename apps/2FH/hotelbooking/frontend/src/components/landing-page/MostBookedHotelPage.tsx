@@ -19,9 +19,9 @@ export const MostBookedHotelsPage = () => {
   const getRatingText = (rating: number): string => {
     if (rating >= 8.5) return 'Excellent';
     if (rating >= 8.0) return 'Very Good';
-    if (rating >= 7.5) return 'Good';
-    if (rating >= 7.0) return 'Very Good';
-    return 'Fair';
+    if (rating >= 7.0) return 'Good';
+    if (rating >= 6.0) return 'Fair';
+    return 'Poor';
   };
 
   const renderStars = (stars: number) => {
@@ -65,8 +65,6 @@ export const MostBookedHotelsPage = () => {
   }
 
   const allHotels = data?.hotelsByRating || [];
-
-  // Filter for hotels in Mongolia and sort by most booked (using rating as proxy)
   const mongolianHotels = allHotels.filter((hotel) => hotel.country === 'Mongolia').sort((a, b) => (b.rating || 0) - (a.rating || 0));
 
   return (
@@ -134,7 +132,7 @@ export const MostBookedHotelsPage = () => {
         {/* No Results Message */}
         {mongolianHotels.length === 0 && (
           <div className="text-center mt-12">
-            <p className="text-gray-600 text-lg">No hotels found in Mongolia. Please try a different search.</p>
+            <p className="text-gray-600 text-lg">No hotels found in Mongolia.</p>
           </div>
         )}
       </div>
