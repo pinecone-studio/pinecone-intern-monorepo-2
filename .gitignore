@@ -64,8 +64,6 @@ generated.tsx
 
 **/coverage/
 **/.nyc_output/
-coverage.txt
-coverage_confirmCode.txt
 .vercel
 .env
 .env.preview
@@ -90,4 +88,3 @@ coverage_confirmCode.txt
 
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
-
