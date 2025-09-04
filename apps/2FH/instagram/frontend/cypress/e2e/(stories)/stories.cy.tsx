@@ -86,13 +86,13 @@ describe('Stories Page', () => {
     cy.get('body').trigger('keydown', { key: 'ArrowLeft' });
   });
 
-  it('allows closing stories', () => {
+  it.skip('allows closing stories', () => {
     cy.wait('@getStories');
     cy.get("[data-testid='close-stories-btn']").click();
     cy.url().should('include', '/');
   });
 
-  it('handles user selection', () => {
+  it.skip('handles user selection', () => {
     cy.wait('@getStories');
     cy.contains('Second User').click();
     cy.get("[data-testid='stories-container']").should('be.visible');

@@ -8,9 +8,10 @@ jest.mock('src/models/user');
 jest.mock('src/utils');
 jest.mock('src/utils/check-jwt', () => ({ getJwtSecret: jest.fn(() => 'mock-jwt-secret') }));
 
+// Type the mocked User properly
 const mockUtils = utils as jest.Mocked<typeof utils>;
 
-describe('User Mutations - Create User OTP Cases', () => {
+describe('User Mutations - Create User Basic Cases', () => {
   let consoleSpy: jest.SpyInstance;
   let mockUserInstance: any;
   
@@ -74,10 +75,10 @@ describe('User Mutations - Create User OTP Cases', () => {
   });
 
   const validInput = {
-    fullName: 'John Doe',
-    userName: 'johndoe',
+    fullName: 'John Doe', 
+    userName: 'johndoe', 
     email: 'john@example.com',
-    password: 'password123',
+    password: 'password123', 
     gender: Gender.Male
   };
 
@@ -86,62 +87,49 @@ describe('User Mutations - Create User OTP Cases', () => {
     mockUtils.encryptHash.mockReturnValue('hashedPassword123');
     mockUtils.generateOTP.mockReturnValue('123456');
     mockUtils.sendVerificationEmail.mockResolvedValue(undefined);
-    
-    return { 
-      mockSave: mockUserInstance.save, 
-      mockToObject: mockUserInstance.toObject 
-    };
   };
 
-  describe('createUser - OTP Management', () => {
-    it('should store OTP with expiration and cleanup', async () => {
+  describe('createUser - Basic Success Cases', () => {
+    it('should create a user successfully', async () => {
       setupSuccessfulUserCreation();
       
-      // Use Jest's timer mocking instead of manual mocking
-      jest.useFakeTimers();
-      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+      const result = await createUser(null, { input: validInput });
       
-      await createUser(null, { input: validInput });
-      
-      const otpKey = 'verification_john@example.com';
-      expect(otpStorage.has(otpKey)).toBe(true);
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 600000);
-      
-      // Fast-forward time to trigger cleanup
-      jest.advanceTimersByTime(600000);
-      
-      expect(otpStorage.has(otpKey)).toBe(false);
-      
-      // Restore timers
-      jest.useRealTimers();
-      setTimeoutSpy.mockRestore();
+      expect(User.findOne).toHaveBeenCalledWith({
+        $or: [
+          { userName: 'johndoe' }, 
+          { email: 'john@example.com' }
+        ]
+      });
+      expect(mockUtils.encryptHash).toHaveBeenCalledWith('password123');
+      expect(mockUtils.generateOTP).toHaveBeenCalled();
+      expect(mockUtils.sendVerificationEmail).toHaveBeenCalledWith('john@example.com', '123456');
+      expect(User.findById).toHaveBeenCalledWith('user123');
+      expect(mockUserInstance.save).toHaveBeenCalled();
+      expect(result).toEqual({
+        _id: 'user123', 
+        fullName: 'John Doe', 
+        userName: 'johndoe', 
+        email: 'john@example.com',
+        gender: Gender.Male, 
+        isPrivate: false, 
+        isVerified: false,
+        posts: [], 
+        stories: [], 
+        followers: [], 
+        followings: []
+      });
     });
 
-    it('should not cleanup OTP if expiration time changed', async () => {
+    it('should create user successfully even when verification email fails', async () => {
       setupSuccessfulUserCreation();
+      mockUtils.sendVerificationEmail.mockRejectedValue(new Error('Email service down'));
       
-      jest.useFakeTimers();
-      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
+      const result = await createUser(null, { input: validInput });
       
-      await createUser(null, { input: validInput });
-      
-      const otpKey = 'verification_john@example.com';
-      const currentOtp = otpStorage.get(otpKey);
-      
-      if (currentOtp) {
-        // Change the expiration time
-        otpStorage.set(otpKey, { otp: currentOtp.otp, expiresAt: Date.now() + 1000000 });
-      }
-      
-      // Fast-forward time to trigger cleanup
-      jest.advanceTimersByTime(600000);
-      
-      // Should not cleanup because expiration time was modified
-      expect(otpStorage.has(otpKey)).toBe(true);
-      
-      // Restore timers
-      jest.useRealTimers();
-      setTimeoutSpy.mockRestore();
+      expect(mockUserInstance.save).toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalledWith('Failed to send verification email:', expect.any(Error));
+      expect(result).toBeDefined();
     });
   });
 });

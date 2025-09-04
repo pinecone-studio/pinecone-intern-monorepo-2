@@ -17,8 +17,22 @@ export type User = {
   profileImage?: string;
   bio?: string;
   isVerified?: boolean;
-  followers?: string[];
-  followings?: string[];
+  followers?: {
+    _id: string;
+    userName: string;
+    fullName: string;
+    profileImage?: string;
+  }[];
+  followings?: {
+    _id: string;
+    userName: string;
+    fullName: string;
+    profileImage?: string;
+  }[];
+  posts?: string[]; 
+  stories?: {
+    _id: string;
+  }[];
 };
 
 type AuthContextType = {
@@ -40,7 +54,7 @@ const PUBLIC_ROUTES = [
   '/verify-otp',
   '/forgot-password',
   '/reset-password',
-  '/userProfile', // Add for testing purposes
+  '/userProfile',
 ];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
