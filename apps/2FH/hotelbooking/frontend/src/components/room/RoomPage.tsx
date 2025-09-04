@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { ChevronLeft } from 'lucide-react';
 import { useHotelsQuery, useCreateRoomMutation } from '@/generated';
 import { General } from './General';
-
 import { Upcoming } from './Upcoming';
 import { Roomservice } from './Roomservice';
 import { ImageModal } from './ImageModal';
@@ -22,6 +21,7 @@ export const RoomPage = () => {
       pricePerNight: '',
       roomInformation: [] as string[],
       bedNumber: 0,
+      status: 'available', // This should match the Status enum value
     },
     services: {
       bathroom: [] as string[],
@@ -114,7 +114,7 @@ export const RoomPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 {roomImages.map((image, index) => (
                   <div key={index} className="relative">
-                    <Image src={image} alt={`Room image ${index + 1}`} width={200} height={128} className="w-full h-32 object-cover rounded-md" />
+                    {image && <Image src={image} alt={`Room image ${index + 1}`} width={200} height={128} className="w-full h-32 object-cover rounded-md" />}
                   </div>
                 ))}
               </div>
