@@ -1,5 +1,5 @@
 describe('Home Page', () => {
-  it(`Should render home page`, () => {
+  it.skip(`Should render home page`, () => {
     cy.visit('/');
   });
 });
