@@ -133,7 +133,7 @@ const UserStories: React.FC = () => {
           ✕
         </button>
       </div>
-      <div className="flex-1 flex items-center justify-center gap-6 mt-6">
+      <div className="flex-1 flex items-center justify-center gap-6 ">
         {visibleUsers.map((user) => (
           <div key={user.id} data-testid={`story-viewer-${user.id}`}>
             <StoryViewer
@@ -148,8 +148,6 @@ const UserStories: React.FC = () => {
               canGoPrev={currentUser > 0}
               isActive={user.id === currentUserData?.id}
               onUserSelect={() => handleUserSelect(user)}
-              nextUserTestId="next-user-btn"
-              prevUserTestId="prev-user-btn"
             />
           </div>
         ))}
