@@ -1,4 +1,4 @@
-/* eslint disable */
+/* eslint-disable */
 'use client';
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
