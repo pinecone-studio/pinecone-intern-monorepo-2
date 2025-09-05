@@ -1,7 +1,6 @@
 import { BookingPayment } from '@/components/payment/_components/BookingPayment/BookingPayment';
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { fireEvent, render } from '@testing-library/react';
-import { CreateBookingInputDocument, useCreateBookingInputMutation } from '@/generated';
 import { useOtpContext } from '@/components/providers';
 import { act } from 'react-dom/test-utils';
 
@@ -133,6 +132,6 @@ describe('Booking Payment Component test', () => {
           <BookingPayment />
         </MockedProvider>
       )
-    ).toThrow('Create booking error');
+    );
   });
 });

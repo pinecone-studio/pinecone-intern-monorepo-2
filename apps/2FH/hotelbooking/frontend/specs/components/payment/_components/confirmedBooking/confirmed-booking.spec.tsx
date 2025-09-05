@@ -1,5 +1,4 @@
-// ConfirmedBooking.test.tsx
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useOtpContext } from '@/components/providers';
 import { useHotelQuery, useGetRoomQuery } from '@/generated';
