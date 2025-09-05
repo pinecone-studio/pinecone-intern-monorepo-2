@@ -15,8 +15,8 @@ jest.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({ user: { userName: 'tester', profileImage: 'http://example.com/a.png' } }),
 }));
 jest.mock('@/components/ui/dialog', () => ({
-  Dialog: ({ open, onOpenChange, children }: any) =>
-    open ? (
+  Dialog: ({ open: _open, onOpenChange, children }: { open: boolean; onOpenChange: (open: boolean) => void; children: React.ReactNode }) =>
+    _open ? (
       <div role="dialog" onClick={() => onOpenChange(true)}>
         {children}
       </div>
@@ -51,15 +51,15 @@ describe('CreatePostDialog', () => {
     const file1 = new File(['a'], 'a.png', { type: 'image/png' });
     const file2 = new File(['b'], 'b.jpg', { type: 'image/jpeg' });
     fireEvent.change(input, { target: { files: [file1, file2] } });
-    await waitFor(() => (expect(screen.getByText('Edit')) as any).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Edit')).toBeInTheDocument());
     const nextBtn = screen.getByRole('button', { name: 'Next' });
     fireEvent.click(nextBtn);
-    await waitFor(() => (expect(screen.getByText('Caption')) as any).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Caption')).toBeInTheDocument());
     const captionInput = document.querySelector('input[dir="auto"]') as HTMLInputElement;
     fireEvent.change(captionInput, { target: { value: 'hello world' } });
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve({ secure_url: 'http://cloudinary.com/img.png' }),
+        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/img.png' }),
       } as unknown as Response)
     ) as unknown as typeof fetch;
     const shareBtn = screen.getByRole('button', { name: 'Share' });
@@ -81,7 +81,7 @@ describe('CreatePostDialog', () => {
 
   it('handles create post error', async () => {
     const createMock = jest.fn().mockRejectedValue(new Error('Network error'));
-    // eslint-disable-next-line @typescript-eslint/no-var-requir
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const apollo = require('@apollo/client');
     (apollo.useMutation as jest.Mock).mockReturnValue([createMock, { loading: false }]);
 
@@ -95,20 +95,13 @@ describe('CreatePostDialog', () => {
     const nextBtn = screen.getByRole('button', { name: 'Next' });
     fireEvent.click(nextBtn);
     await waitFor(() => expect(screen.getByText('Caption')).toBeInTheDocument());
-
-    // Type caption
     const captionInput = document.querySelector('input[dir="auto"]') as HTMLInputElement;
     fireEvent.change(captionInput, { target: { value: 'test caption' } });
-
-    // Mock Cloudinary uploads
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        // eslint-disable-next-line camelcase
-        json: () => Promise.resolve({ secure_url: 'http://cloudinary.com/img.png' }),
+        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/img.png' }),
       } as unknown as Response)
     ) as unknown as typeof fetch;
-
-    // Click Share - should handle error
     const shareBtn = screen.getByRole('button', { name: 'Share' });
     fireEvent.click(shareBtn);
 
@@ -124,26 +117,16 @@ describe('CreatePostDialog', () => {
     (apollo.useMutation as jest.Mock).mockReturnValue([createMock, { loading: false }]);
 
     render(<CreatePostDialog isPostDialogOpen={true} setIsPostDialogOpen={onOpenChange} />);
-
-    // Select a file first to get to Edit stage
     const input = document.querySelector('input[type="file"][multiple]') as HTMLInputElement;
     const file1 = new File(['a'], 'a.png', { type: 'image/png' });
     fireEvent.change(input, { target: { files: [file1] } });
 
     await waitFor(() => expect(screen.getByText('Edit')).toBeInTheDocument());
-
-    // Go to caption stage
     const nextBtn = screen.getByRole('button', { name: 'Next' });
     fireEvent.click(nextBtn);
     await waitFor(() => expect(screen.getByText('Caption')).toBeInTheDocument());
-
-    // Clear files to simulate no files scenario
-    // This tests the early return in handleCreatePost when selectedFiles.length === 0
-    // We need to mock the component state to have no files
     const shareBtn = screen.getByRole('button', { name: 'Share' });
     fireEvent.click(shareBtn);
-
-    // The test should pass because we have files, but we're testing the logic path
     await waitFor(() => {
       expect(createMock).toHaveBeenCalled();
     });

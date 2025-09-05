@@ -1,12 +1,9 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
-
 import '@testing-library/jest-dom';
 import { Sidebar } from '@/components/Sidebar';
 import { useNavigation } from '@/components';
 import { usePathname } from 'next/navigation';
-
 import { NavigationProvider } from '@/components/NavigationProvider/NavigationProvider';
-
 jest.mock('@/components', () => ({ useNavigation: jest.fn() }));
 jest.mock('next/navigation', () => ({ usePathname: jest.fn() }));
 jest.mock('@/components/create-post-dialog/CreatePostDialog', () => ({

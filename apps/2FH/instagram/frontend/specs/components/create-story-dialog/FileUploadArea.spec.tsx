@@ -76,9 +76,6 @@ describe('FileUploadArea', () => {
     });
 
     fireEvent.dragOver(uploadArea, dragEvent);
-
-    // The preventDefault should be called (though we can't easily test this in unit tests)
-    // This test ensures the drag over handler doesn't throw errors
     expect(uploadArea).toBeInTheDocument();
   });
 });
