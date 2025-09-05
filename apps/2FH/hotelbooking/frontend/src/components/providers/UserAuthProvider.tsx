@@ -70,6 +70,18 @@ type OtpContextType = {
       phoneNumber: string;
     };
   };
+  me: UserType | null;
+  setMe: Dispatch<SetStateAction<UserType | null>>;
+  token: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
+  adult: number;
+  setAdult: Dispatch<SetStateAction<number>>;
+  childrens: number;
+  setChildrens: Dispatch<SetStateAction<number>>;
+  range: DateRange | undefined;
+  setRange: Dispatch<SetStateAction<DateRange | undefined>>;
+  loading: boolean;
+  signOut: () => void;
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -93,7 +105,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [bookingData, setBookingData] = useState<BookingDataType>({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
+
   const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
@@ -102,6 +114,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 7),
+  });
+
   const [bookingData, setBookingData] = useState({
     userId: '',
     hotelId: '',
@@ -150,7 +164,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }, [client]);
 
-  // Separate function to parse user data
   const parseUser = (u: any): UserType => ({
     _id: u._id,
     email: u.email,
@@ -160,7 +173,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     dateOfBirth: u.dateOfBirth || '',
   });
 
-  // Separate function to fetch user
   const fetchMe = async (storedToken: string) => {
     setLoading(true);
     try {
@@ -173,13 +185,27 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // inside UserAuthProvider
   const signOut = () => {
     localStorage.removeItem('token');
     setMe(null);
     setToken(null);
     setStep(1);
-    setBookingData({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
+    setBookingData({
+      userId: '',
+      hotelId: '',
+      roomId: '',
+      checkInDate: '',
+      checkOutDate: '',
+      adults: 0,
+      children: 0,
+      status: '',
+      roomCustomer: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+      },
+    });
   };
 
   useEffect(() => {

@@ -93,7 +93,7 @@ export const BookingPayment = () => {
                 <FormItem>
                   <FormLabel className="text-[12px] font-medium">First name</FormLabel>
                   <FormControl>
-                    <Input data-testid="Inpit-1" data-cy="Input-1" placeholder="Enter firstname" {...field} />
+                    <Input data-testid="Input-1" data-cy="Input-1" placeholder="Enter firstname" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,7 +106,7 @@ export const BookingPayment = () => {
                 <FormItem>
                   <FormLabel className="text-[12px] font-medium">Last name</FormLabel>
                   <FormControl>
-                    <Input data-testid="Inpit-2" data-cy="Input-2" placeholder="Enter lastname" {...field} />
+                    <Input data-testid="Input-2" data-cy="Input-2" placeholder="Enter lastname" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -124,7 +124,7 @@ export const BookingPayment = () => {
                   <FormItem>
                     <FormLabel className="text-[12px] font-medium">Email address</FormLabel>
                     <FormControl>
-                      <Input data-testid="Inpit-3" data-cy="Input-3" placeholder="Enter email" {...field} />
+                      <Input data-testid="Input-3" data-cy="Input-3" placeholder="Enter email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -138,7 +138,7 @@ export const BookingPayment = () => {
                   <FormItem>
                     <FormLabel className="text-[12px] font-medium">Contact number</FormLabel>
                     <FormControl>
-                      <Input data-testid="Inpit-4" data-cy="Input-4" placeholder="Enter phone number" {...field} />
+                      <Input data-testid="Input-4" data-cy="Input-4" placeholder="Enter phone number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -20,13 +20,12 @@ export const BookedCard = ({ confirmedBooking }: Props) => {
       getRoomId: confirmedBooking.roomId,
     },
   });
-  console.log(confirmedBooking.children);
 
   return (
     <div className="flex items-end  justify-between border-[1px] rounded-xl">
       <div className="flex gap-5">
         <div>
-          <Image src={roomData?.getRoom.imageURL?.[0] || '/images/placeholder.png'} width={300} height={200} alt="Room picture [0]" className="w-[400px] h-[200px] rounded-xl" />
+          <Image src={roomData?.getRoom.imageURL?.[0] || '/Images/NoImage.png'} width={300} height={200} alt="Room picture [0]" className="w-[400px] h-[200px] rounded-xl" />
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
           <div className={`w-fit px-3 py-1 rounded-full text-white ${roomData?.getRoom.status === 'Booked' && 'bg-[#18BA51]'}`}>{roomData?.getRoom.status}</div>

@@ -14,11 +14,13 @@ export const EnterEmail = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const handleCreateUserEmail = async () => {
     try {
-      await SendOtp({
+      const data = await SendOtp({
         variables: {
           email,
         },
       });
+      console.log(data.data?.sendOtp.message);
+
       toast.success("We've sent OTP code. Please verify.");
       setStartTime(true);
       setStep(2);

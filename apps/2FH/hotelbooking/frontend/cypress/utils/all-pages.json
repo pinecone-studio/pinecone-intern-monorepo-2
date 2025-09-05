@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 ["///","///admin","///admin/add-hotel","///admin/hotel/[id]","///booking/[userid]/history","///booking/[userid]/payment","///hotel/[hotelId]","///login","///room","///signup"]
-=======
-["//", "///booking/[userid]/history", "///booking/[userid]/payment", "///admin", "///admin/add-hotel", "///admin/hotel/[id]", "///login", "///room", "///signup"]
->>>>>>> 7d9c612a (main pulled)
