@@ -133,7 +133,7 @@ const Stories: React.FC = () => {
           ✕
         </button>
       </div>
-      <div className="flex-1 flex items-center justify-center gap-6 mt-6">
+      <div className="flex-1 flex items-center justify-center gap-6 ">
         {visibleUsers.map((user) => (
           <div key={user.id} className="transition-all duration-300">
             <StoryViewer
