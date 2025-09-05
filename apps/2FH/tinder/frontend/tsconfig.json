@@ -18,33 +18,22 @@
       }
     ],
     "paths": {
-      "@/components/ui/*": [
-        "../../../../libs/shadcn/src/lib/ui/*"
-      ],
-      "@/*": [
-        "src/*"
-      ]
+      "@/components/ui/*": ["../../../../libs/shadcn/src/lib/ui/*"],
+      "@/*": ["src/*"]
     },
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node", "@testing-library/jest-dom"]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
     "**/*.jsx",
+    "jest.d.ts",
     "../../../../apps/2FH/tinder/frontend/.next/types/**/*.ts",
     "../../../../dist/apps/2FH/tinder/frontend/.next/types/**/*.ts",
     "next-env.d.ts",
     "../../../../dist/apps/2FH/tinder/frontend/.next/types/**/*.ts",
     "../../../../dist/apps/2FH/tinder/frontend/.next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

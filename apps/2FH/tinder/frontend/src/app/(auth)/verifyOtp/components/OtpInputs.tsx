@@ -11,12 +11,7 @@ interface OtpInputsProps {
   handleBackspace: (_index: number, _e: React.KeyboardEvent) => void;
 }
 
-export const OtpInputs = ({ 
-  control, 
-  inputRefs, 
-  handleChange, 
-  handleBackspace 
-}: OtpInputsProps) => (
+export const OtpInputs = ({ control, inputRefs, handleChange, handleBackspace }: OtpInputsProps) => (
   <div className="flex justify-center space-x-2 mb-6">
     {[0, 1, 2, 3].map((index) => (
       <Controller
@@ -41,4 +36,4 @@ export const OtpInputs = ({
       />
     ))}
   </div>
-); 
+);

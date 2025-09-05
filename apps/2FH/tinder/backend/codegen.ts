@@ -7,7 +7,7 @@ const config: CodegenConfig = {
     'apps/2FH/tinder/backend/src/generated/index.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
-        contextType: '../types#Context',
+        contextType: 'src/types#Context',
         makeResolverTypeCallable: true,
         maybeValue: 'T',
       },
