@@ -1,8 +1,21 @@
+/* eslint-disable */
 'use client';
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
+import { DateRange } from 'react-day-picker';
+import { addDays } from 'date-fns';
 
-type BookingDataType = { userId: string; id: string; hotelId: string; roomId: string; checkInDate: string; checkOutDate: string; status: string; __typeName: string };
+type BookingDataType = {
+  userId: string;
+  id: string;
+  hotelId: string;
+  roomId: string;
+  checkInDate: string;
+  checkOutDate: string;
+  status: string;
+  __typeName: string;
+};
+
 type Role = 'user' | 'admin';
 type UserType = { _id: string; firstName: string; lastName: string; email: string; role: Role; dateOfBirth: string };
 type OtpContextType = {
@@ -29,6 +42,12 @@ type OtpContextType = {
   setMe: Dispatch<SetStateAction<UserType | null>>;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
+  adult: number;
+  setAdult: Dispatch<SetStateAction<number>>;
+  childrens: number;
+  setChildrens: Dispatch<SetStateAction<number>>;
+  range: DateRange | undefined;
+  setRange: Dispatch<SetStateAction<DateRange | undefined>>;
   loading: boolean;
   signOut: () => void;
 };
@@ -45,7 +64,6 @@ const GET_ME = gql`
     }
   }
 `;
-
 export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
@@ -58,23 +76,44 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [bookingData, setBookingData] = useState<BookingDataType>({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
   const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
+
+  const [adult, setAdult] = useState(1);
+  const [childrens, setChildrens] = useState(0);
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
+
   const [loading, setLoading] = useState(true);
 
   const client = useApolloClient();
-
-  // OTP timer
   useEffect(() => {
     if (!startTime || timeLeft <= 0) return;
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [startTime, timeLeft]);
-
   const resetOtp = () => {
     setStartTime(true);
     setTimeLeft(90);
     setStartTime(false);
     setTimeout(() => setStartTime(true), 0);
   };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) return;
+    setToken(storedToken);
+    client
+      .query({ query: GET_ME, fetchPolicy: 'no-cache' })
+      .then((res) => {
+        if (res.data?.getMe) setMe(res.data.getMe);
+      })
+      .catch(() => {
+        setMe(null);
+        setToken(null);
+        localStorage.removeItem('token');
+      });
+  }, [client]);
 
   // Separate function to parse user data
   const parseUser = (u: any): UserType => ({
@@ -98,6 +137,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
+
   // inside UserAuthProvider
   const signOut = () => {
     localStorage.removeItem('token');
@@ -106,6 +146,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setStep(1);
     setBookingData({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
   };
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
@@ -115,7 +156,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
-
   return (
     <OtpContext.Provider
       value={{
@@ -142,6 +182,12 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setMe,
         token,
         setToken,
+        adult,
+        setAdult,
+        childrens,
+        setChildrens,
+        range,
+        setRange,
         loading,
         signOut,
       }}
@@ -150,7 +196,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     </OtpContext.Provider>
   );
 };
-
 export const useOtpContext = () => {
   const ctx = useContext(OtpContext);
   if (!ctx) throw new Error('useOtpContext must be used inside UserAuthProvider');
