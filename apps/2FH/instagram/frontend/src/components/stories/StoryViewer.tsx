@@ -1,4 +1,5 @@
 import React from 'react';
+import { demoImage, storyImage } from '../userProfile/mock-images';
 
 interface Story {
   id: string;
@@ -25,6 +26,8 @@ interface StoryViewerProps {
   canGoPrev: boolean;
   isActive: boolean;
   onUserSelect?: () => void;
+  nextUserTestId?: string;
+  prevUserTestId?: string;
 }
 
 const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, progress, onPrevStory, onNextStory, onPrevUser, onNextUser, canGoPrev, isActive, onUserSelect }) => {
@@ -50,7 +53,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
           className="w-full h-full object-cover"
           data-testid="main-story-image"
           onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            e.currentTarget.src = '/default-story.png';
+            e.currentTarget.src = storyImage;
           }}
         />
 
@@ -61,7 +64,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
               alt={user.username}
               className="w-8 h-8 rounded-full object-cover"
               onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                e.currentTarget.src = '/default-avatar.png';
+                e.currentTarget.src = demoImage;
               }}
             />
           </div>
@@ -93,7 +96,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
         alt="story"
         className="w-full h-full object-cover"
         onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-          e.currentTarget.src = '/default-story.png';
+          e.currentTarget.src = storyImage;
         }}
       />
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
@@ -103,7 +106,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
             alt={user.username}
             className="w-[56px] h-[56px] rounded-full object-cover"
             onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              e.currentTarget.src = '/default-avatar.png';
+              e.currentTarget.src = demoImage;
             }}
           />
         </div>

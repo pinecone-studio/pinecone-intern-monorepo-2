@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import StoryViewer from '../../../src/components/stories/StoryViewer';
+import { demoImage, storyImage } from '@/components/userProfile/mock-images';
 
 const mockUser = {
   id: 'u1',
@@ -71,13 +72,13 @@ describe('StoryViewer component', () => {
       render(<StoryViewer {...baseProps} />);
       const img = screen.getByTestId('main-story-image') as HTMLImageElement;
       fireEvent.error(img);
-      expect(img.src).toContain('/default-story.png');
+      expect(img.src).toContain(storyImage);
     });
     it('handles avatar image error with fallback', () => {
       render(<StoryViewer {...baseProps} />);
       const avatarImg = screen.getByAltText(mockUser.username) as HTMLImageElement;
       fireEvent.error(avatarImg);
-      expect(avatarImg.src).toContain('/default-avatar.png');
+      expect(avatarImg.src).toContain(demoImage);
     });
     it('renders with undefined story', () => {
       render(<StoryViewer {...baseProps} story={undefined} />);
@@ -102,13 +103,13 @@ describe('StoryViewer component', () => {
       render(<StoryViewer {...previewProps} />);
       const img = screen.getByAltText('story') as HTMLImageElement;
       fireEvent.error(img);
-      expect(img.src).toContain('/default-story.png');
+      expect(img.src).toContain(storyImage);
     });
     it('handles avatar image error with fallback in preview mode', () => {
       render(<StoryViewer {...previewProps} />);
       const avatarImg = screen.getByAltText(mockUser.username) as HTMLImageElement;
       fireEvent.error(avatarImg);
-      expect(avatarImg.src).toContain('/default-avatar.png');
+      expect(avatarImg.src).toContain(demoImage);
     });
     it('renders without onUserSelect prop', () => {
       const { onUserSelect, ...propsWithoutCallback } = previewProps;

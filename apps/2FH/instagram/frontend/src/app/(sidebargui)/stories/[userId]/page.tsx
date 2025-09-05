@@ -1,32 +1,41 @@
 'use client';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useGetActiveStoriesQuery } from '@/generated';
 import StoryViewer from '@/components/stories/StoryViewer';
 import { Story, User } from '@/app/Types/story.types';
 import { mapStoriesToUsers } from '@/utils/stories';
-
-const Stories: React.FC = () => {
+const UserStories: React.FC = () => {
   const router = useRouter();
+  const params = useParams();
+  const userId = params.userId as string;
   const { data, loading, error } = useGetActiveStoriesQuery({ fetchPolicy: 'cache-and-network' });
-  const [currentUser, setCurrentUser] = useState<number>(0);
-  const [currentStory, setCurrentStory] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
-  const users = useMemo(
-    () =>
-      mapStoriesToUsers(
-        data?.getActiveStories
-          ?.filter((story): story is typeof story & { author: NonNullable<typeof story.author> } => story.author !== null)
-          .map((story) => ({
-            ...story,
-            author: {
-              ...story.author,
-              profileImage: story.author.profileImage ?? undefined,
-            },
-          })) || []
-      ),
-    [data?.getActiveStories]
-  );
+  const [currentUser, setCurrentUser] = useState(0);
+  const [currentStory, setCurrentStory] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const users = useMemo(() => {
+    if (!data?.getActiveStories) return [];
+    return mapStoriesToUsers(
+      data.getActiveStories
+        .filter((story): story is typeof story & { author: NonNullable<typeof story.author> } => story.author !== null)
+        .map((story) => ({
+          ...story,
+          author: {
+            ...story.author,
+            profileImage: story.author.profileImage ?? undefined,
+          },
+        }))
+    );
+  }, [data?.getActiveStories]);
+  useEffect(() => {
+    if (users.length > 0 && userId) {
+      const targetUserIndex = users.findIndex((user) => user.id === userId);
+      if (targetUserIndex !== -1) {
+        setCurrentUser(targetUserIndex);
+        setCurrentStory(0);
+      }
+    }
+  }, [users, userId]);
   const story: Story | undefined = users[currentUser]?.stories?.[currentStory];
   const handleNextUser = useCallback(() => {
     if (currentUser < users.length - 1) {
@@ -38,49 +47,58 @@ const Stories: React.FC = () => {
   }, [currentUser, users.length, router]);
   const handleNextStory = useCallback(() => {
     if (!story || !users[currentUser]) return;
-    const hasMoreStories = currentStory < users[currentUser].stories.length - 1;
-    hasMoreStories ? setCurrentStory((p) => p + 1) : handleNextUser();
-  }, [story, currentUser, currentStory, users, handleNextUser]);
-
-  const handlePrevUser = () => {
+    if (currentStory < users[currentUser].stories.length - 1) {
+      setCurrentStory((p) => p + 1);
+    } else {
+      handleNextUser();
+    }
+  }, [story, currentStory, currentUser, users, handleNextUser]);
+  const handlePrevUser = useCallback(() => {
     if (currentUser > 0) {
       const prevIdx = currentUser - 1;
       setCurrentUser(prevIdx);
       setCurrentStory(users[prevIdx]?.stories?.length - 1 || 0);
     }
-  };
-
-  const handlePrevStory = () => (currentStory > 0 ? setCurrentStory((p) => p - 1) : handlePrevUser());
-
-  const handleUserSelect = (user: User) => {
-    const idx = users.findIndex((u) => u.id === user.id);
-    if (idx !== -1) {
-      setCurrentUser(idx);
-      setCurrentStory(0);
-    }
-  };
-
-  const visibleUsers = useMemo(() => {
-    const offsets = [-2, -1, 0, 1, 2];
-    return offsets.map((offset) => users[currentUser + offset]).filter((u): u is User => !!u);
   }, [currentUser, users]);
-
+  const handlePrevStory = useCallback(() => {
+    if (currentStory > 0) {
+      setCurrentStory((p) => p - 1);
+    } else {
+      handlePrevUser();
+    }
+  }, [currentStory, handlePrevUser]);
+  const handleUserSelect = useCallback(
+    (user: User) => {
+      const idx = users.findIndex((u) => u.id === user.id);
+      if (idx !== -1) {
+        setCurrentUser(idx);
+        setCurrentStory(0);
+      }
+    },
+    [users]
+  );
+  const visibleUsers = useMemo(() => {
+    const visible: User[] = [];
+    [-2, -1, 0, 1, 2].forEach((offset) => {
+      const idx = currentUser + offset;
+      if (idx >= 0 && idx < users.length) visible.push(users[idx]);
+    });
+    return visible;
+  }, [currentUser, users]);
   const handleStoryComplete = useCallback(() => {
     const isLastStory = currentStory >= users[currentUser]?.stories?.length - 1;
     const isLastUser = currentUser >= users.length - 1;
-
-    if (isLastStory && isLastUser) {
-      router.push('/');
-      return;
-    }
     if (isLastStory) {
-      setCurrentUser((p) => p + 0.5);
-      setCurrentStory(0);
+      if (isLastUser) {
+        router.push('/');
+      } else {
+        setCurrentUser((p) => p + 0.5);
+        setCurrentStory(0);
+      }
     } else {
       setCurrentStory((p) => p + 0.5);
     }
   }, [currentStory, currentUser, users, router]);
-
   useEffect(() => {
     if (!story) return;
     setProgress(0);
@@ -94,37 +112,19 @@ const Stories: React.FC = () => {
       });
     }, story.duration / 50);
     return () => clearInterval(interval);
-  }, [story?.id, story?.duration, handleStoryComplete]);
-
-  if (loading) {
+  }, [story, handleStoryComplete]);
+  if (loading) return <div data-testid="loading-stories">Loading stories...</div>;
+  if (error) return <div data-testid="error-stories">Error: {error.message}</div>;
+  if (!users.length)
     return (
-      <div data-testid="loading-stories" className="text-white p-4">
-        Loading stories...
+      <div data-testid="no-stories">
+        <button data-testid="close-stories-btn" onClick={() => router.push('/')}>
+          ✕
+        </button>
+        No stories available
       </div>
     );
-  }
-  if (error) {
-    return (
-      <div data-testid="error-stories" className="text-red-500 p-4">
-        Error: {error.message}
-      </div>
-    );
-  }
-  if (!users.length) {
-    return (
-      <div data-testid="no-stories" className="text-white p-4">
-        <div className="flex justify-between items-center">
-          <p>No stories available</p>
-          <button data-testid="close-stories-btn" onClick={() => router.push('/')}>
-            ✕
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   const currentUserData = users[currentUser];
-
   return (
     <div data-testid="stories-container" className="w-full h-screen bg-[#18181b] flex flex-col items-center">
       <div className="w-full flex justify-between items-center p-4 text-white">
@@ -135,7 +135,7 @@ const Stories: React.FC = () => {
       </div>
       <div className="flex-1 flex items-center justify-center gap-6 mt-6">
         {visibleUsers.map((user) => (
-          <div key={user.id} className="transition-all duration-300">
+          <div key={user.id} data-testid={`story-viewer-${user.id}`}>
             <StoryViewer
               user={user}
               story={user.id === currentUserData?.id ? story : undefined}
@@ -148,6 +148,8 @@ const Stories: React.FC = () => {
               canGoPrev={currentUser > 0}
               isActive={user.id === currentUserData?.id}
               onUserSelect={() => handleUserSelect(user)}
+              nextUserTestId="next-user-btn"
+              prevUserTestId="prev-user-btn"
             />
           </div>
         ))}
@@ -155,5 +157,4 @@ const Stories: React.FC = () => {
     </div>
   );
 };
-
-export default Stories;
+export default UserStories;
