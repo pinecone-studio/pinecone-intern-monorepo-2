@@ -1,9 +1,8 @@
 'use client';
-
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
-
-// define booking data type separately
+import { DateRange } from 'react-day-picker';
+import { addDays } from 'date-fns';
 type BookingDataType = {
   userId: string;
   id: string;
@@ -14,7 +13,6 @@ type BookingDataType = {
   status: string;
   __typeName: string;
 };
-
 type OtpContextType = {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
@@ -39,11 +37,14 @@ type OtpContextType = {
   setMe: Dispatch<SetStateAction<any>>;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
+  adult: number;
+  setAdult: Dispatch<SetStateAction<number>>;
+  childrens: number;
+  setChildrens: Dispatch<SetStateAction<number>>;
+  range: DateRange | undefined;
+  setRange: Dispatch<SetStateAction<DateRange | undefined>>;
 };
-
 const OtpContext = createContext<OtpContextType | null>(null);
-
-// GraphQL query to fetch current user
 const GET_ME = gql`
   query GetMe {
     getMe {
@@ -56,7 +57,6 @@ const GET_ME = gql`
     }
   }
 `;
-
 export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
@@ -78,30 +78,28 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   });
   const [me, setMe] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
-
+  const [adult, setAdult] = useState(1);
+  const [childrens, setChildrens] = useState(0);
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
   const client = useApolloClient();
-
-  // OTP timer
   useEffect(() => {
     if (!startTime || timeLeft <= 0) return;
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [startTime, timeLeft]);
-
   const resetOtp = () => {
     setStartTime(true);
     setTimeLeft(90);
     setStartTime(false);
     setTimeout(() => setStartTime(true), 0);
   };
-
-  // Fetch current user on init if token exists
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) return;
-
     setToken(storedToken);
-
     client
       .query({ query: GET_ME, fetchPolicy: 'no-cache' })
       .then((res) => {
@@ -113,7 +111,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.removeItem('token');
       });
   }, [client]);
-
   return (
     <OtpContext.Provider
       value={{
@@ -140,13 +137,18 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setMe,
         token,
         setToken,
+        adult,
+        setAdult,
+        childrens,
+        setChildrens,
+        range,
+        setRange,
       }}
     >
       {children}
     </OtpContext.Provider>
   );
 };
-
 export const useOtpContext = () => {
   const ctx = useContext(OtpContext);
   if (!ctx) throw new Error('useOtpContext must be used inside UserAuthProvider');
