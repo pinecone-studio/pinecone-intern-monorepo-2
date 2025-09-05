@@ -13,8 +13,10 @@ export const getBookingsByRoomId = async (
   try {
     const bookings = await BookingModel.find({ roomId }).sort({ createdAt: -1 });
     
-    // Convert Mongoose documents to plain objects (handle both types for testing)
+console.log(bookings);
+
     const plainBookings = convertMongooseArrayToPlain(bookings);
+
     
     return transformBookings(plainBookings) as Booking[];
   } catch (error) {

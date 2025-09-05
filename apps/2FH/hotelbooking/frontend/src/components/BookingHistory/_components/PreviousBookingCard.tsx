@@ -2,19 +2,19 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useGetRoomForBookingQuery } from '@/generated';
 import { useHotelNameQuery } from '@/generated';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { InformationOfPreviousCard } from './InformationOfPreviousCard';
 
 type Props = {
   hotelId: string;
   roomId: string;
   checkInDate: string;
-  childrens: number;
   adults: number;
+  status: string;
 };
 
-export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, adults }: Props) => {
+export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, adults, status }: Props) => {
   const router = useRouter();
-  const { userid } = useParams();
 
   const { data: hotelData } = useHotelNameQuery({
     variables: {
@@ -28,15 +28,6 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, a
     },
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status?.toUpperCase()) {
-      case 'Completed':
-        return 'bg-[#18BA51]';
-      case 'Cancelled':
-        return 'bg-red-500';
-    }
-  };
-
   return (
     <div className="flex items-end justify-between border-[1px] rounded-xl">
       <div className="flex gap-5">
@@ -44,16 +35,14 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, a
           <Image src={roomData?.getRoom.imageURL?.[0] || '/images/placeholder.png'} width={300} height={200} alt="Room picture" className="w-[400px] h-[200px] rounded-xl" />
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
-          <div className={`w-fit px-3 py-1 rounded-full text-white ${getStatusColor(status)}`}>{status || 'Unknown'}</div>
+          <div className={`w-fit px-3 py-1 rounded-full text-white ${status === 'Cancelled' ? 'bg-red-500' : status === 'Completed' ? 'bg-[#18BA51]' : 'bg-gray-400'}`}>{status}</div>
           <div>
             <div className="font-bold">{hotelData?.hotel.name}</div>
             <div className="text-[14px] opacity-50">
               {roomData?.getRoom.__typename}, {roomData?.getRoom.name}
             </div>
           </div>
-          <div>
-            {childrens === 0 ? 'N/A: children' : `${childrens}: children`}, {adults === 0 ? 'N/A: adults' : `${adults}: adults`}
-          </div>
+          <InformationOfPreviousCard adults={adults} />
           <div className="flex gap-3">
             <div className="opacity-50">Check in:</div>
             <div>{checkInDate}</div>
@@ -65,12 +54,6 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, childrens, a
         </div>
       </div>
       <div className="p-3 flex items-end">
-        1
-         2
-          3
-           4
-            5 
-             7
         <Button onClick={() => router.push('./detail')} variant={'outline'}>
           View Detail
         </Button>

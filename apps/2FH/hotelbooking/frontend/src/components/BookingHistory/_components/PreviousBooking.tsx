@@ -1,20 +1,21 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import { Booking } from '@/generated';
 import { PreviousBookingCard } from './PreviousBookingCard';
 import { EmptySvg } from './assets/EmptySvg';
+import { useGetBookingsByUserIdQuery } from '@/generated';
+import { useParams } from 'next/navigation';
 
-type Props = {
-  data?: Booking[];
-};
-
-export const PreviousBooking = ({ data }: Props) => {
+export const PreviousBooking = () => {
   const { userid } = useParams();
 
-  const withoutStatusBooking = data?.filter((item) => item.status) ?? [];
+  const { data: booking } = useGetBookingsByUserIdQuery({
+    skip: !userid,
+    variables: { userId: String(userid) },
+  });
 
-  if (withoutStatusBooking.length === 0) {
+  const withoutStatusBooking = booking?.getBookingsByUserId?.filter((item) => item.status) ?? [];
+
+  if (withoutStatusBooking.length === 0 || withoutStatusBooking.every((e) => e.status === 'Booked')) {
     return (
       <div className="flex flex-col gap-2">
         <div className="font-semibold text-[24px]">Previous Booking</div>
@@ -34,9 +35,11 @@ export const PreviousBooking = ({ data }: Props) => {
     <div className="flex flex-col gap-2">
       <div className="font-semibold text-[24px]">Previous Booking</div>
       <div className="flex flex-col gap-3 ">
-        {data?.map((e) => (
-          <PreviousBookingCard key={e.id} hotelId={e.hotelId} roomId={e.roomId} checkInDate={e.checkInDate} childrens={e.children ?? 0} adults={e.adults ?? 0} />
-        ))}
+        {withoutStatusBooking
+          ?.filter((item) => item.status && ['cancelled', 'completed'].includes(item.status.toLowerCase()))
+          .map((e) => (
+            <PreviousBookingCard key={e.id} hotelId={e.hotelId} roomId={e.roomId} checkInDate={e.checkInDate} adults={e.adults ?? 0} status={`${e.status ?? ''}`} />
+          ))}
       </div>
     </div>
   );

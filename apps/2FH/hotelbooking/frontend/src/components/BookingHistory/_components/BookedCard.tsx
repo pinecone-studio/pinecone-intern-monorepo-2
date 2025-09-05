@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { Booking, useGetRoomForBookingQuery } from '@/generated';
 import { useHotelNameQuery } from '@/generated';
 import { useRouter } from 'next/navigation';
+import { AdultInfoForBookingCard } from './AdultsInformationForBookedCard';
 type Props = {
-  confirmedBooking: Booking;
+  confirmedBooking: Pick<Booking, 'id' | 'hotelId' | 'roomId' | 'checkInDate' | 'status' | 'adults' | 'children'>;
 };
 
 export const BookedCard = ({ confirmedBooking }: Props) => {
@@ -19,6 +20,7 @@ export const BookedCard = ({ confirmedBooking }: Props) => {
       getRoomId: confirmedBooking.roomId,
     },
   });
+  console.log(confirmedBooking.children);
 
   return (
     <div className="flex items-end  justify-between border-[1px] rounded-xl">
@@ -35,6 +37,7 @@ export const BookedCard = ({ confirmedBooking }: Props) => {
               {roomData?.getRoom.__typename} ,{roomData?.getRoom.name}
             </div>
           </div>
+          {confirmedBooking?.adults && <AdultInfoForBookingCard adults={confirmedBooking?.adults} />}
           <div className="flex gap-3">
             <div className="opacity-50">Check in:</div>
             <div> {confirmedBooking.checkInDate}</div>

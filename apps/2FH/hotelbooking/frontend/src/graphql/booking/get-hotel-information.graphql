@@ -1,0 +1,16 @@
+query HotelName($hotelId: ID!) {
+  hotel(id: $hotelId) {
+    name
+  }
+}
+
+
+
+query HotelByIdForBooking($hotelId: ID!) {
+  hotel(id: $hotelId) {
+    images
+    name
+    location
+    rating
+  }
+}

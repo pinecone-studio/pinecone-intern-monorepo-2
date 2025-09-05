@@ -36,20 +36,40 @@ type OtpContextType = {
   setTimeLeft: Dispatch<SetStateAction<number>>;
   bookingSuccess: boolean;
   setBookingSuccess: Dispatch<SetStateAction<boolean>>;
-  bookingData: BookingDataType;
-  setBookingData: Dispatch<SetStateAction<BookingDataType>>;
-  me: UserType | null;
-  setMe: Dispatch<SetStateAction<UserType | null>>;
-  token: string | null;
-  setToken: Dispatch<SetStateAction<string | null>>;
-  adult: number;
-  setAdult: Dispatch<SetStateAction<number>>;
-  childrens: number;
-  setChildrens: Dispatch<SetStateAction<number>>;
-  range: DateRange | undefined;
-  setRange: Dispatch<SetStateAction<DateRange | undefined>>;
-  loading: boolean;
-  signOut: () => void;
+  setBookingData: Dispatch<
+    SetStateAction<{
+      userId: string;
+      hotelId: string;
+      roomId: string;
+      checkInDate: string;
+      checkOutDate: string;
+      children: number;
+      adults: number;
+      status: string;
+      roomCustomer: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phoneNumber: string;
+      };
+    }>
+  >;
+  bookingData: {
+    userId: string;
+    hotelId: string;
+    roomId: string;
+    checkInDate: string;
+    checkOutDate: string;
+    children: number;
+    adults: number;
+    status: string;
+    roomCustomer: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phoneNumber: string;
+    };
+  };
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -82,6 +102,21 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 7),
+  const [bookingData, setBookingData] = useState({
+    userId: '',
+    hotelId: '',
+    roomId: '',
+    checkInDate: '',
+    checkOutDate: '',
+    adults: 0,
+    children: 0,
+    status: '',
+    roomCustomer: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+    },
   });
 
   const [loading, setLoading] = useState(true);

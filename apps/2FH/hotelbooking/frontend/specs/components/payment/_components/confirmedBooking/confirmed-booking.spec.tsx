@@ -1,28 +1,26 @@
 // ConfirmedBooking.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-
+import { render, screen, act, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { useOtpContext } from '@/components/providers';
 import { useHotelQuery, useGetRoomQuery } from '@/generated';
 import { useParams, useRouter } from 'next/navigation';
 import { ConfirmedBooking } from '@/components/payment/_components/ConfirmedBooking/ConfirmedBooking';
 
-jest.mock('@/components/providers');
-jest.mock('@/generated');
 jest.mock('next/navigation', () => ({
-  useParams: jest.fn(),
   useRouter: jest.fn(),
+  useParams: jest.fn(),
 }));
 
-describe('ConfirmedBooking', () => {
+jest.mock('@/components/providers');
+jest.mock('@/generated');
+
+describe('ConfirmedBooking Component', () => {
   const mockPush = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush,
-    });
-
+    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
     (useParams as jest.Mock).mockReturnValue({ userid: '123' });
 
     (useOtpContext as jest.Mock).mockReturnValue({
@@ -56,20 +54,23 @@ describe('ConfirmedBooking', () => {
     });
   });
 
-  it('1. Renders success booking message', () => {
+  it('renders success booking message and hotel info', () => {
     render(<ConfirmedBooking />);
+
     expect(screen.getByText('You are confirmed')).toBeInTheDocument();
     expect(screen.getByText('Shangri-La Hotel')).toBeInTheDocument();
     expect(screen.getByText('Ulaanbaatar, Mongolia')).toBeInTheDocument();
+    expect(screen.getByText('4.5')).toBeInTheDocument();
+    expect(screen.getByText('Excellent')).toBeInTheDocument();
   });
 
-  it('2. Renders booking dates', () => {
+  it('renders booking dates', () => {
     render(<ConfirmedBooking />);
     expect(screen.getByText('2025-09-05')).toBeInTheDocument();
     expect(screen.getByText('2025-09-10')).toBeInTheDocument();
   });
 
-  it('3. Renders room information', () => {
+  it('renders room information', () => {
     render(<ConfirmedBooking />);
     expect(screen.getByText('Deluxe Room')).toBeInTheDocument();
     expect(screen.getByText('Breakfast included')).toBeInTheDocument();
@@ -77,10 +78,15 @@ describe('ConfirmedBooking', () => {
     expect(screen.getByText('Free WiFi')).toBeInTheDocument();
   });
 
-  it('4. Navigates to booking history when button clicked', () => {
+  it('navigates to booking history when button clicked', async () => {
     render(<ConfirmedBooking />);
-    const button = screen.getByRole('button', { name: /view your book/i });
-    fireEvent.click(button);
+
+    const button = screen.getByTestId('Push-History-Page');
+
+    await act(async () => {
+      await userEvent.click(button);
+    });
+
     expect(mockPush).toHaveBeenCalledWith('/booking/123/history');
   });
 });
