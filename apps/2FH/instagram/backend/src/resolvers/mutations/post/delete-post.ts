@@ -1,10 +1,11 @@
 import { GraphQLError } from 'graphql';
 import { PostModel } from 'src/models';
 
-function validateId(_id: string) {
+function validateId(_id: string, userId: string) {
   if (!_id || _id.trim() === '') {
     throw new GraphQLError('Id is not found');
   }
+  if (!userId) throw new GraphQLError('author Id is requ');
 }
 
 async function checkAuthor(_id: string, userId: string) {
@@ -26,10 +27,11 @@ async function removePostById(_id: string) {
   return deletedPost;
 }
 
-export const deletePost = async (_: unknown, { _id, userId }: { _id: string; userId: string }) => {
+export const deletePost = async (_: unknown, { _id }: { _id: string }, context: { userId: string }) => {
   try {
-    validateId(_id);
-    await checkAuthor(_id, userId);
+    validateId(_id, context.userId);
+
+    await checkAuthor(_id, context.userId);
     return await removePostById(_id);
   } catch (error) {
     if (error instanceof GraphQLError) {
