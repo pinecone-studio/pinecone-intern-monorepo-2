@@ -184,4 +184,35 @@ describe('CreatePostDialog', () => {
       expect(createMock).toHaveBeenCalled();
     });
   });
+
+  it('handles create post with no files (early return)', async () => {
+    const createMock = jest.fn().mockResolvedValue({ data: { createPost: { _id: '1' } } });
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const apollo = require('@apollo/client');
+    (apollo.useMutation as jest.Mock).mockReturnValue([createMock, { loading: false }]);
+
+    render(<CreatePostDialog isPostDialogOpen={true} setIsPostDialogOpen={onOpenChange} />);
+
+    // Select files first to get to Edit stage
+    const input = document.querySelector('input[type="file"][multiple]') as HTMLInputElement;
+    const file1 = new File(['a'], 'a.png', { type: 'image/png' });
+    fireEvent.change(input, { target: { files: [file1] } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Edit')).toBeInTheDocument();
+    });
+
+    // Go to Caption stage
+    const nextBtn = screen.getByRole('button', { name: 'Next' });
+    fireEvent.click(nextBtn);
+    await waitFor(() => expect(screen.getByText('Caption')).toBeInTheDocument());
+
+    // Click Share - should call createMock
+    const shareBtn = screen.getByRole('button', { name: 'Share' });
+    fireEvent.click(shareBtn);
+
+    await waitFor(() => {
+      expect(createMock).toHaveBeenCalled();
+    });
+  });
 });

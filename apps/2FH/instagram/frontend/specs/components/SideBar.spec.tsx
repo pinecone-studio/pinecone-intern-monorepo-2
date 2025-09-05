@@ -1,8 +1,6 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
-// @ts-expect-error: any type needed for testing
-const _anyValue: any = expect.anything();
 import { Sidebar } from '@/components/Sidebar';
 import { useNavigation } from '@/components';
 import { usePathname } from 'next/navigation';
