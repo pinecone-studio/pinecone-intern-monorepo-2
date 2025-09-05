@@ -112,6 +112,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(null);
         localStorage.removeItem('token');
       });
+  }, [client]);
 
   // Separate function to parse user data
   const parseUser = (u: any): UserType => ({
@@ -135,6 +136,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
+
   // inside UserAuthProvider
   const signOut = () => {
     localStorage.removeItem('token');
@@ -143,6 +145,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setStep(1);
     setBookingData({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
   };
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
