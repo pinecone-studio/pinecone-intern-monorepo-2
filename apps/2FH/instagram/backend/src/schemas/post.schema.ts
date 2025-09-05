@@ -8,7 +8,7 @@ export const PostTypeDefs = gql`
     author: ID!
     image: [String!]!
     caption: String
-    likes: [User!]!
+    likes: [ID!]!
     comments: [Comment!]!
     createdAt: Date!
     updatedAt: Date!
