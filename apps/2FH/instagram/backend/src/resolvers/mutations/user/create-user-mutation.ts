@@ -72,12 +72,13 @@ const createUserObject = (input: CreateUserInput) => {
   return new User({
     ...input,
     password: hashedPassword,
+    profileImage: "",
     posts: [],
     stories: [],
     followers: [],
     followings: [],
     searchHistory: [],
-    isVerified: false // User starts unverified
+    isVerified: false 
   });
 };
 

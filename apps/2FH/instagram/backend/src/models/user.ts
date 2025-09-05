@@ -36,7 +36,7 @@ const UserSchema = new Schema<UserSchemaType>(
     phoneNumber: { type: String, unique: true, sparse: true },
     password: { type: String, required: true },
     bio: { type: String, maxlength: 150 },
-    profileImage: { type: String },
+    profileImage: { type: String ,default:""},
     gender: { type: String, enum: Object.values(Gender), required: true },
     isPrivate: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
