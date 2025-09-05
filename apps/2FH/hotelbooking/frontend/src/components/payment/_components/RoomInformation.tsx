@@ -15,7 +15,7 @@ export const RoomInformation = () => {
     <div data-testid="Room-Information-Container" className="w-full flex flex-col gap-3">
       <div className={`relative w-full h-[200px] `}>
         {image === '/Images/NoImage.png' ? (
-          <div className="w-full h-full flex items-center justify-center border-[1px] rounded-xl">
+          <div className="w-full h-full flex items-center justify-center border-[1px]">
             <NoImage />
           </div>
         ) : (
