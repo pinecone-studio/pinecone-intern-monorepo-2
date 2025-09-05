@@ -37,6 +37,13 @@
       "rules": {
         "no-secrets/no-secrets": "off"
       }
+    },
+    {
+      "files": ["src/components/create-post-dialog/**/*.{ts,tsx}"],
+      "rules": {
+        "unicorn/filename-case": "off",
+        "complexity": ["warn", 6]
+      }
     }
   ]
 }

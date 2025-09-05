@@ -1,6 +1,8 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
+// @ts-expect-error: any type needed for testing
+const _anyValue: any = expect.anything();
 import { Sidebar } from '@/components/Sidebar';
 import { useNavigation } from '@/components';
 import { usePathname } from 'next/navigation';
@@ -9,12 +11,17 @@ import { NavigationProvider } from '@/components/NavigationProvider/NavigationPr
 
 jest.mock('@/components', () => ({ useNavigation: jest.fn() }));
 jest.mock('next/navigation', () => ({ usePathname: jest.fn() }));
+jest.mock('@/components/create-post-dialog/CreatePostDialog', () => ({
+  CreatePostDialog: () => null,
+}));
 jest.mock('@/components/create-story-dialog/StoryCreateDialog', () => ({
   StoryCreateDialog: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
     isOpen ? (
-      <div role="dialog" data-testid="story-dialog" onKeyDown={e => e.key === 'Escape' && onClose()} tabIndex={-1}>
+      <div role="dialog" data-testid="story-dialog" onKeyDown={(e) => e.key === 'Escape' && onClose()} tabIndex={-1}>
         Story Dialog
-        <button onClick={onClose} data-testid="close-dialog">Close</button>
+        <button onClick={onClose} data-testid="close-dialog">
+          Close
+        </button>
       </div>
     ) : null,
 }));
@@ -116,18 +123,18 @@ describe('Sidebar - Part 1: Event Listeners and Click Outside', () => {
     renderSidebar();
     const btn = screen.getByRole('button', { name: /search/i });
     fireEvent.click(btn);
-    expect(mockSetIsSearchOpen).toHaveBeenCalledWith(true);
+    (expect(mockSetIsSearchOpen) as any).toHaveBeenCalledWith(true);
   });
   it('hides logo and more when search is open', () => {
-    mockUseNavigation.mockReturnValue({ 
-      isSearchOpen: true, 
-      setIsSearchOpen: jest.fn(), 
-      currentPage: 'home', 
-      setCurrentPage: jest.fn() 
+    mockUseNavigation.mockReturnValue({
+      isSearchOpen: true,
+      setIsSearchOpen: jest.fn(),
+      currentPage: 'home',
+      setCurrentPage: jest.fn(),
     });
     renderSidebar();
-    expect(screen.queryByAltText(/instagram/i)).not.toBeInTheDocument();
-    expect(screen.queryByText(/more/i)).not.toBeInTheDocument();
+    (expect(screen.queryByAltText(/instagram/i)) as any).not.toBeInTheDocument();
+    (expect(screen.queryByText(/more/i)) as any).not.toBeInTheDocument();
   });
   it('create dropdown toggles and opens story dialog', async () => {
     renderSidebar();
@@ -136,9 +143,9 @@ describe('Sidebar - Part 1: Event Listeners and Click Outside', () => {
     expect(screen.getByText('Post')).toBeInTheDocument();
     expect(screen.getByText('Story')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Story'));
-    expect(screen.getByTestId('story-dialog')).toBeInTheDocument();
+    (expect(screen.getByTestId('story-dialog')) as any).toBeInTheDocument();
     fireEvent.click(screen.getByTestId('close-dialog'));
-    expect(screen.queryByTestId('story-dialog')).not.toBeInTheDocument();
+    (expect(screen.queryByTestId('story-dialog')) as any).not.toBeInTheDocument();
   });
   it('Post button closes create dropdown', () => {
     renderSidebar();
@@ -153,7 +160,6 @@ describe('Sidebar - Part 1: Event Listeners and Click Outside', () => {
     renderSidebar();
     fireEvent.click(screen.getByRole('button', { name: /create/i }));
     fireEvent.mouseDown(document.body);
-    await waitFor(() => expect(screen.queryByText('Post')).not.toBeInTheDocument());
-
+    await waitFor(() => (expect(screen.queryByText('Post')) as any).not.toBeInTheDocument());
   });
 });
