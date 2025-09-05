@@ -23,7 +23,7 @@ const formSchema = z.object({
   phoneNumber: z.string().min(8, { message: 'Please enter phone number.' }),
 });
 
-export const BookingPayment = () => {
+export const  BookingPayment = () => {
   const { bookingData, setBookingData, setBookingSuccess } = useOtpContext();
   const [createBookingInput, { loading, error }] = useCreateBookingInputMutation();
 

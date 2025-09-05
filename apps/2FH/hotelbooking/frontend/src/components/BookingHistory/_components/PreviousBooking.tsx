@@ -32,7 +32,7 @@ export const PreviousBooking = () => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div data-testid="Previous-Booking-Container" className="flex flex-col gap-2">
       <div className="font-semibold text-[24px]">Previous Booking</div>
       <div className="flex flex-col gap-3 ">
         {withoutStatusBooking
