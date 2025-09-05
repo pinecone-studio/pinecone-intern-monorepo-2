@@ -31,8 +31,6 @@ export const BookingPayment = () => {
     resolver: zodResolver(formSchema),
     defaultValues: { firstname: '', lastname: '', email: '', phoneNumber: '' },
   });
-
-  
   const handleCreateBooking = async (values: z.infer<typeof formSchema>) => {
     const { data } = await createBookingInput({
       variables: {
