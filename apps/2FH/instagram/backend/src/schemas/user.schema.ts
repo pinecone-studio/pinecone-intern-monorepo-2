@@ -20,7 +20,7 @@ export const UserTypeDefs = gql`
     gender: Gender!
     isPrivate: Boolean!
     isVerified: Boolean!
-    posts: [ID!]!
+    posts: [Post!]!
     stories: [Story!]!
     followers: [User!]!
     followings: [User!]!
