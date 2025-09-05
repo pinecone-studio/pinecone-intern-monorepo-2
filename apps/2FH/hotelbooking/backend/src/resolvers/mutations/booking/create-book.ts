@@ -1,7 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { BookingModel } from '../../../models/booking.model';
 import { CreateBookingInput, Booking } from '../../../generated';
-import { mapGraphQLToMongooseBookingStatus } from '../../common/booking-status.mapper';
 
 const validateDateRange = (checkInDate: string, checkOutDate: string): void => {
   if (new Date(checkOutDate) <= new Date(checkInDate)) {

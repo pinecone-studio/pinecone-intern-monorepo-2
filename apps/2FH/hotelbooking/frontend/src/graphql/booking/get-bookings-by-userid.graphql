@@ -7,5 +7,7 @@ query GetBookingsByUserId($userId: ID!) {
     status
     checkOutDate
     checkInDate
+    adults
+    children
   }
 }

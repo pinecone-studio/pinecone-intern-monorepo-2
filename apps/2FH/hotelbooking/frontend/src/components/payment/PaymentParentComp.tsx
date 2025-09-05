@@ -1,12 +1,12 @@
 import { useOtpContext } from '../providers';
-import { BookingPayment } from './_components/BookingPayment';
+import { BookingPayment } from './_components/BookingPayment/BookingPayment';
 import { ConfirmedBooking } from './_components/ConfirmedBooking/ConfirmedBooking';
 import { RoomInformation } from './_components/RoomInformation';
 
 export const PaymentParentComp = () => {
   const { bookingSuccess } = useOtpContext();
   return (
-    <div className="flex justify-center w-full">
+    <div data-testid='Payment-Parent-Comp' className="flex justify-center w-full">
       {bookingSuccess ? (
         <ConfirmedBooking />
       ) : (

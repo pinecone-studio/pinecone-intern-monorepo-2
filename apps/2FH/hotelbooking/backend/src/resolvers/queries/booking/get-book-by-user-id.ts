@@ -12,10 +12,7 @@ export const getBookingsByUserId = async (_: unknown, { userId }: { userId: stri
 
     const plainBookings = convertMongooseArrayToPlain(bookings);
 
-    return (transformBookings(plainBookings) as Booking[]).map((item) => ({
-      ...item,
-      status: item.status ?? undefined,
-    }));
+    return (transformBookings(plainBookings) as Booking[])
   } catch (error) {
     throw new GraphQLError('Failed to fetch bookings by user ID', {
       extensions: { code: ERROR_CODE, originalError: error instanceof Error ? error.message : 'Unknown error' },
