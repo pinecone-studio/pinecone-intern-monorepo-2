@@ -2,7 +2,7 @@
 import { PropsWithChildren } from 'react';
 import { ApolloWrapper, Sidebar } from '@/components';
 import { NavigationProvider } from '@/components';
-import { SearchSidebar } from '@/components/SearchSidebar';
+import { SearchSidebar } from '@/components/searchBar/SearchSidebar';
 import { MainLayout } from '@/components/MainLayout/MainLayout';
 import { MainFooter } from '@/components/MainFooter';
 

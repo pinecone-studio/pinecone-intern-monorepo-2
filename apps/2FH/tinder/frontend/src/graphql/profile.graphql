@@ -14,9 +14,9 @@ query GetProfile($userId: ID!) {
     work
     images
     dateOfBirth
-    createdAt
-    updatedAt
-    likes 
-    matches 
   }
+}
+
+mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input)
 }

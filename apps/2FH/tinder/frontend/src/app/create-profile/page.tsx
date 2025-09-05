@@ -4,10 +4,12 @@ import { SignupProvider, SignupContainer } from '@/components/profile';
 
 const Page = () => {
   return (
-    <SignupProvider userId="68b67dd07ffee9b8ca1fe95b">
+    <SignupProvider userId="68a7f8d00985f14515de4be0">
       <SignupContainer />
     </SignupProvider>
   );
 };
+
+Page.displayName = 'Page';
 
 export default Page;

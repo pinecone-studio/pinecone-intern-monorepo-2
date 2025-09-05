@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLoginMutation } from '@/generated';
+import { useOtpContext } from '@/components/providers/UserAuthProvider'; // adjust import if path differs
 
 export const LoginComponent = () => {
   const router = useRouter();
@@ -16,6 +17,8 @@ export const LoginComponent = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [login, { loading }] = useLoginMutation();
+
+  const { setToken, setMe } = useOtpContext();
 
   const handleLogin = async () => {
     try {
@@ -26,18 +29,37 @@ export const LoginComponent = () => {
       if (!data?.login?.token) throw new Error('Login failed: no token returned');
 
       localStorage.setItem('token', data.login.token);
+      setToken(data.login.token);
+      const user = {
+        _id: data.login.user._id,
+        email: data.login.user.email,
+        firstName: data.login.user.firstName as string,
+        lastName: data.login.user.lastName as string,
+        role: data.login.user.role as 'user' | 'admin',
+        dateOfBirth: data.login.user.dateOfBirth as string,
+      };
+
+      setMe(user);
 
       toast.success(<span data-cy="login-success-toast">Login Successful! Welcome back, {data.login.user.email}!</span>);
 
-      setTimeout(() => router.push('/'), 2000);
+      setTimeout(() => {
+        if (!user.firstName) {
+          router.push('/user-profile');
+        } else if (user.role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
+      }, 2000);
     } catch (err: any) {
       toast.error(<span data-cy="login-failed-toast">{err.message}</span>);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50" data-cy="login-container" data-testid="login-container">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="flex items-center justify-center min-h-screen" data-cy="login-container" data-testid="login-container">
+      <Card className="w-full max-w-md border-0">
         <CardHeader className="text-center">
           <img src="./images/PediaLogo.png" alt="Logo" className="mx-auto mb-4" data-cy="login-logo" />
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>

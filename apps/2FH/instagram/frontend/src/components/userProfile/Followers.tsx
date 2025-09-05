@@ -35,18 +35,17 @@ export const Followers = ({
               const isFollowing = currentUser?.followings?.some((f) => f._id === follower._id);
 
               return (
-                <Link href={`/${follower.userName}`} key={i}>
-                  <li className="flex items-center gap-3 py-2 justify-between ">
+                <li key={i} className="flex items-center gap-3 py-2 justify-between ">
+                  <Link href={`/${follower.userName}`}>
                     <div className="flex items-center gap-3">
                       <Image src={follower.profileImage || demoImage} alt={follower.userName} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
                       <span className="font-medium">{follower.userName}</span>
                     </div>
-
-                    {currentUser._id !== follower._id && (
-                      <FollowButton targetUserId={follower._id} initialIsFollowing={!!isFollowing} initialIsRequested={false} isPrivate={false} userName={follower.userName} />
-                    )}
-                  </li>
-                </Link>
+                  </Link>
+                  {currentUser._id !== follower._id && (
+                    <FollowButton targetUserId={follower._id} initialIsFollowing={!isFollowing} initialIsRequested={false} isPrivate={false} userName={follower.userName} />
+                  )}
+                </li>
               );
             })}
           </ul>
