@@ -4,7 +4,7 @@ import { useState } from 'react';
 interface DialogHeaderProps {
   stage: string;
   Stages: string[];
-  setStage: (stage: string) => void;
+  setStage: (_stage: string) => void;
   selectedFiles: File[];
   handleCreatePost: () => Promise<void>;
   setIsPostDialogOpen: (_isOpen: boolean) => void;

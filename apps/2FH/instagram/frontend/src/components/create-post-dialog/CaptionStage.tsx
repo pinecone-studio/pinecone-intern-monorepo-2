@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 type CaptionStageProps = {
   caption: string;
-  setCaption: (caption: string) => void;
+  setCaption: (_caption: string) => void;
 };
 
 export const CaptionStage = ({ caption, setCaption }: CaptionStageProps) => {
