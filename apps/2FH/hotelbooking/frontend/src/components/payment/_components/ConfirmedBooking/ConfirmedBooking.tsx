@@ -21,6 +21,10 @@ export const ConfirmedBooking = () => {
     variables: { getRoomId: bookingData.roomId },
   });
 
+  const handlePushHistoryPage = async () => {
+    router.push(`/booking/${userid}/history`);
+  };
+
   return (
     <div data-cy="Confirmed-Booking-Container" data-testid="Confirmed-Booking-Container" className="w-[30%]">
       <div className="w-full flex justify-center">
@@ -33,7 +37,7 @@ export const ConfirmedBooking = () => {
             <div>Contact email</div>
             <div>samlee.mobbin@gmail.com</div>
           </div>
-          <Button onClick={() => router.push(`/booking/${userid}/history`)} className="bg-[#2563EB] hover:bg-[#2564ebda] w-[30%]">
+          <Button data-testid="Push-History-Page" onClick={handlePushHistoryPage} className="bg-[#2563EB] hover:bg-[#2564ebda] w-[30%]">
             View your book
           </Button>
         </div>

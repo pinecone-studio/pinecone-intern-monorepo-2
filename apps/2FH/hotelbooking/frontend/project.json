@@ -18,32 +18,33 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:prod",
           "params": "forward"
         }
       ]
     },
     "serve": {
       "executor": "@nx/next:server",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "production",
       "options": {
         "buildTarget": "hotelbooking-2FH-frontend:build",
-        "dev": true
+        "dev": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "hotelbooking-2FH-frontend:build:development",
-          "dev": true,
+          "buildTarget": "hotelbooking-2FH-frontend:build:production",
+          "dev": false,
           "port": 4201
         },
         "production": {
           "buildTarget": "hotelbooking-2FH-frontend:build:production",
-          "dev": false
+          "port": 4201,
+          "dev": true
         }
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:prod",
           "params": "forward"
         },
         {
@@ -68,7 +69,7 @@
       },
       "dependsOn": [
         {
-          "target": "codegen:dev",
+          "target": "codegen:prod",
           "params": "forward"
         }
       ]

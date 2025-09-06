@@ -77,11 +77,11 @@ export const roomSchemaTypeDefs = gql`
   }
 
   enum status {
-    cancelled
-    booked
-    pending
-    completed
-    available
+    Cancelled
+    Booked
+    Pending
+    Completed
+    Available
   }
 
   input RoomInput {

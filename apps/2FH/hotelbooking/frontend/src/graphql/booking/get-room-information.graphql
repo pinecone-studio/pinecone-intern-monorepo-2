@@ -1,0 +1,8 @@
+query GetRoomForBooking($getRoomId: ID!) {
+  getRoom(id: $getRoomId) {
+    name
+    imageURL
+    status
+    id
+  }
+}

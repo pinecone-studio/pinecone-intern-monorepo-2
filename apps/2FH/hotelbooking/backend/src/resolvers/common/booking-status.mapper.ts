@@ -1,17 +1,17 @@
 export const mapBookingStatusToGraphQL = (status: string): string => {
   const mapping: Record<string, string> = {
-    'booked': 'BOOKED',
-    'completed': 'COMPLETED',
-    'cancelled': 'CANCELLED',
+    Completed: 'Completed',
+    Cancelled: 'Cancelled',
+    Booked: 'Booked',
   };
-  return mapping[status] || 'BOOKED';
+  return mapping[status];
 };
 
 export const mapGraphQLToMongooseBookingStatus = (status: string): string => {
   const mapping: Record<string, string> = {
-    BOOKED: 'booked',
-    COMPLETED: 'completed',
-    CANCELLED: 'cancelled',
+    Booked: 'Booked',
+    Completed: 'Completed',
+    Cancelled: 'Cancelled',
   };
   return mapping[status] || status;
 };

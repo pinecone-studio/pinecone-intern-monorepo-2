@@ -1,12 +1,19 @@
 import { createBooking } from '../../../../src/resolvers/mutations/booking';
 import { BookingModel } from '../../../../src/models/booking.model';
-import { CreateBookingInput } from '../../../../src/generated';
+import { CreateBookingInput, RoomCustomerInput } from '../../../../src/generated';
 
 jest.mock('../../../../src/models/booking.model');
 
 const mockBookingModel = BookingModel as jest.Mocked<typeof BookingModel>;
 
 describe('createBooking resolver (unit test)', () => {
+  const roomCustomer: RoomCustomerInput = {
+    firstName: 'Firstname',
+    lastName: 'lastName',
+    email: 'test@gmail.com',
+    phoneNumber: '12345678',
+  };
+
   const validInput: CreateBookingInput = {
     adults: 2,
     children: 1,
@@ -15,6 +22,8 @@ describe('createBooking resolver (unit test)', () => {
     hotelId: 'hotel123',
     roomId: 'room123',
     userId: 'user123',
+    roomCustomer: roomCustomer,
+    status: 'Booked' as any,
   };
 
   beforeEach(() => {
@@ -22,7 +31,7 @@ describe('createBooking resolver (unit test)', () => {
   });
 
   it('should create a booking successfully', async () => {
-    const mockBooking = { _id: 'mock-id', ...validInput, status: 'BOOKED' };
+    const mockBooking = { _id: 'mock-id', ...validInput, status: 'Booked' };
     mockBookingModel.create.mockResolvedValueOnce(mockBooking as any);
 
     const result = await createBooking({}, { input: validInput }, {}, {});

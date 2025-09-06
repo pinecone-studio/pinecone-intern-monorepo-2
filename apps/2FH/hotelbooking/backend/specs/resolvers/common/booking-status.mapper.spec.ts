@@ -3,38 +3,30 @@ import { mapBookingStatusToGraphQL, mapGraphQLToMongooseBookingStatus } from '..
 
 describe('Booking Status Mapper', () => {
   describe('mapBookingStatusToGraphQL', () => {
-    it('should map "booked" to "BOOKED"', () => {
-      expect(mapBookingStatusToGraphQL('booked')).toBe('BOOKED');
+    it('should map "Booked" to "BOOKED"', () => {
+      expect(mapBookingStatusToGraphQL('Booked')).toBe('Booked');
     });
 
-    it('should map "completed" to "COMPLETED"', () => {
-      expect(mapBookingStatusToGraphQL('completed')).toBe('COMPLETED');
+    it('should map "Completed" to "Completed"', () => {
+      expect(mapBookingStatusToGraphQL('Completed')).toBe('Completed');
     });
 
-    it('should map "cancelled" to "CANCELLED"', () => {
-      expect(mapBookingStatusToGraphQL('cancelled')).toBe('CANCELLED');
-    });
-
-    it('should return "BOOKED" for unknown status', () => {
-      expect(mapBookingStatusToGraphQL('unknown')).toBe('BOOKED');
-    });
-
-    it('should return "BOOKED" for empty string', () => {
-      expect(mapBookingStatusToGraphQL('')).toBe('BOOKED');
+    it('should map "Cancelled" to "Cancelled"', () => {
+      expect(mapBookingStatusToGraphQL('Cancelled')).toBe('Cancelled');
     });
   });
 
   describe('mapGraphQLToMongooseBookingStatus', () => {
-    it('should map "BOOKED" to "booked"', () => {
-      expect(mapGraphQLToMongooseBookingStatus('BOOKED')).toBe('booked');
+    it('should map "Booked" to "Booked"', () => {
+      expect(mapGraphQLToMongooseBookingStatus('Booked')).toBe('Booked');
     });
 
-    it('should map "COMPLETED" to "completed"', () => {
-      expect(mapGraphQLToMongooseBookingStatus('COMPLETED')).toBe('completed');
+    it('should map "Completed" to "Completed"', () => {
+      expect(mapGraphQLToMongooseBookingStatus('Completed')).toBe('Completed');
     });
 
-    it('should map "CANCELLED" to "cancelled"', () => {
-      expect(mapGraphQLToMongooseBookingStatus('CANCELLED')).toBe('cancelled');
+    it('should map "Cancelled" to "Cancelled"', () => {
+      expect(mapGraphQLToMongooseBookingStatus('Cancelled')).toBe('Cancelled');
     });
 
     it('should return original status for unknown status', () => {
