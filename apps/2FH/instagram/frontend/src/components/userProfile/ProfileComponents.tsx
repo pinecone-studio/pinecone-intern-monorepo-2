@@ -16,6 +16,12 @@ interface User {
   posts: Array<{ _id: string }>;
 }
 
+interface CurrentUser {
+  _id: string;
+  userName: string;
+  followings?: Array<{ _id: string; userName: string; profileImage?: string | null }>;
+}
+
 const UserNameSection = ({ user }: { user: User }) => (
   <div className="flex items-center gap-2">
     <h1 className="text-2xl sm:text-3xl font-semibold">{user.userName}</h1>
@@ -23,7 +29,7 @@ const UserNameSection = ({ user }: { user: User }) => (
   </div>
 );
 
-const ActionButtons = ({ user, currentUser, isFollowing }: { user: User; currentUser: any; isFollowing: boolean }) => (
+const ActionButtons = ({ user, currentUser, isFollowing }: { user: User; currentUser: CurrentUser | null; isFollowing: boolean }) => (
   <>
     {currentUser && currentUser._id !== user._id && (
       <FollowButton targetUserId={user._id} userName={user.userName} initialIsFollowing={isFollowing} initialIsRequested={false} isPrivate={user.isPrivate} />
@@ -32,14 +38,14 @@ const ActionButtons = ({ user, currentUser, isFollowing }: { user: User; current
   </>
 );
 
-export const ProfileActions = ({ user, currentUser, isFollowing }: { user: User; currentUser: any; isFollowing: boolean }) => (
+export const ProfileActions = ({ user, currentUser, isFollowing }: { user: User; currentUser: CurrentUser | null; isFollowing: boolean }) => (
   <div className="flex flex-wrap items-center gap-3 sm:gap-4">
     <UserNameSection user={user} />
     <ActionButtons user={user} currentUser={currentUser} isFollowing={isFollowing} />
   </div>
 );
 
-export const ProfileStats = ({ user, currentUser }: { user: User; currentUser: any }) => (
+export const ProfileStats = ({ user, currentUser }: { user: User; currentUser: CurrentUser | null }) => (
   <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
     <div>
       <strong className="text-neutral-900 text-xl">10</strong> posts
@@ -61,7 +67,9 @@ export const ProfileStats = ({ user, currentUser }: { user: User; currentUser: a
           userName: following.userName,
           profileImage: following.profileImage,
         }))}
-        currentUser={currentUser ?? { _id: '', userName: '' }}
+        currentUser={
+          currentUser ? { _id: currentUser._id, userName: currentUser.userName, followings: currentUser.followings?.map((f) => ({ _id: f._id })) ?? [] } : { _id: '', userName: '', followings: [] }
+        }
       />
     </div>
   </div>
@@ -74,7 +82,7 @@ export const ProfileBio = ({ user }: { user: User }) => (
   </div>
 );
 
-export const ProfileInfo = ({ user, currentUser, isFollowing }: { user: User; currentUser: any; isFollowing: boolean }) => (
+export const ProfileInfo = ({ user, currentUser, isFollowing }: { user: User; currentUser: CurrentUser | null; isFollowing: boolean }) => (
   <div className="flex-1 min-w-0">
     <ProfileActions user={user} currentUser={currentUser} isFollowing={isFollowing} />
     <ProfileStats user={user} currentUser={currentUser} />
