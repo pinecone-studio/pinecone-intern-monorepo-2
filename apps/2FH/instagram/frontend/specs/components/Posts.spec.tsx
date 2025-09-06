@@ -6,7 +6,6 @@ jest.mock('next/image', () => {
   return MockImage;
 });
 
-// Mock posts data
 jest.mock('@/utils/fake-data', () => ({
   posts: [
     {
