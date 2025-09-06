@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 import './global.css';
-import { ApolloWrapper } from '@/components/providers';
+import { ApolloWrapper, AuthProvider } from '@/components/providers';
 import { Toaster } from 'sonner';
 import { StepProvider } from '@/components/providers/StepProvider';
 export const metadata = {
@@ -12,11 +12,18 @@ const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
       <body>
-        <ApolloWrapper>
-          <StepProvider>{children}</StepProvider>
-
-          <Toaster position="top-right" richColors closeButton />
-        </ApolloWrapper>
+        <AuthProvider>
+          <ApolloWrapper>
+            <StepProvider>
+              {children}
+            </StepProvider>
+            <Toaster
+              position="top-right"
+              richColors
+              closeButton
+            />
+          </ApolloWrapper>
+        </AuthProvider>
       </body>
     </html>
   );

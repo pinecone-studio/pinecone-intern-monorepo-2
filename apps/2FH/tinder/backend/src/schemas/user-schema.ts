@@ -25,8 +25,14 @@ export const UserTypeDefs = gql`
     user: User
   }
 
+  type CreateUserResponse {
+    status: UserResponse!
+    message: String
+    userId: ID
+  }
+
   type Mutation {
-    createUser(input: CreateUserInput!): UserResponse!
+    createUser(input: CreateUserInput!): CreateUserResponse!
     updateUser(id: ID!, input: UpdateUserInput!): UserResponse!
     deleteUser(id: ID!): UserResponse!
     login(email: String!, password: String!): LoginResponse

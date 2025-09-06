@@ -66,7 +66,11 @@ export const useStep2Form = ({ email, setStep: _setStep }: Step2FormProps) => {
       {
         query: `
         mutation CreateUser($email: String!, $password: String!) {
-          createUser(input: { email: $email, password: $password })
+          createUser(input: { email: $email, password: $password }) {
+            status
+            message
+            userId
+          }
         }
       `,
         variables: { email, password },
@@ -76,10 +80,12 @@ export const useStep2Form = ({ email, setStep: _setStep }: Step2FormProps) => {
     return response;
   };
 
-  const handleCreateUserSuccess = (result: string) => {
-    if (result === 'SUCCESS') {
+  const handleCreateUserSuccess = (result: { status: string; userId?: string }) => {
+    if (result.status === 'SUCCESS' && result.userId) {
       _setStep(1);
-      router.push('/');
+      // Store userId in localStorage for the create-profile page
+      localStorage.setItem('userId', result.userId);
+      router.push('/create-profile');
       toast.success('User created successfully');
     } else {
       console.error('Failed to create user');

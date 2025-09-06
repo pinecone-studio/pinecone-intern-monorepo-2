@@ -5,4 +5,3 @@ export * from './steps/GenderSelection';
 export * from './steps/AgeInput';
 export * from './steps/BasicDetails';
 export * from './steps/ImageUpload';
-export * from './steps/Completion';

@@ -64,7 +64,7 @@ describe("createProfile Mutation", () => {
       expect(Profile.create).toHaveBeenCalledWith(
         expect.objectContaining({
           ...mockProfileInput,
-          dateOfBirth: expect.any(Date),
+          dateOfBirth: "1990-01-01T00:00:00.000Z",
         })
       );
 

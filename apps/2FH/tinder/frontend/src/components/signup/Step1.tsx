@@ -91,17 +91,17 @@ export const Step1 = () => {
   return (
     <div className="w-[350px] h-[414px] flex flex-col gap-6 items-center" data-testid="step1-container">
       <div className="flex flex-col items-center">
-        <Image src="/images/logo.png" alt="logo" width={100} height={100} className="w-[100px]" data-testid="logo" />
-        <div className="text-[24px] font-semibold" data-testid="title">
+        <Image src="/images/logo.png" alt="logo" width={130} height={100} className="w-[130px]" data-testid="logo" />
+        <div className="text-[24px] font-semibold mb-1 mt-6" data-testid="title">
           Create an account
         </div>
-        <div className="text-[14px] text-center text-[#71717a]" data-testid="subtitle">
+        <div className="text-[14px] text-center text-[#71717a] mb-3" data-testid="subtitle">
           Enter your email below to create your account
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4" data-testid="signup-form">
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-3 w-full">
           <div className="text-[14px]" data-testid="email-label">
             Email
           </div>

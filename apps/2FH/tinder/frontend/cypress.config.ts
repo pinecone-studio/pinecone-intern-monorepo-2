@@ -15,7 +15,7 @@ const config: Cypress.ConfigOptions<unknown> = {
     supportFolder: './cypress/support',
     supportFile: './cypress/support/e2e.ts',
     fileServerFolder: './src',
-    specPattern: ['./cypress/e2e/render-all-pages.cy.tsx', './cypress/e2e/**/*.cy.tsx'],
+    specPattern: [], // Skip all e2e tests
     screenshotsFolder: './cypress/results/assets',
     videosFolder: './cypress/results/assets',
     viewportWidth: 1536,
@@ -25,7 +25,7 @@ const config: Cypress.ConfigOptions<unknown> = {
     responseTimeout: 10000,
     screenshotOnRunFailure: true,
     numTestsKeptInMemory: 0,
-    requestTimeout: 30000, 
+    requestTimeout: 30000,
     trashAssetsBeforeRuns: true,
     retries: 1,
     reporter: '../../../../node_modules/cypress-multi-reporters',

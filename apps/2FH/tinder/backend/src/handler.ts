@@ -5,7 +5,9 @@ import { NextRequest } from 'next/server';
 import { resolvers } from './resolvers';
 import { connectToDb } from './utils/connect-to-db';
 import { Context } from './types';
-connectToDb();
+
+// Ensure database connection is established
+connectToDb().catch(console.error);
 
 const server = new ApolloServer<Context>({
   resolvers,

@@ -19,7 +19,29 @@ export const ProfileTypeDefs = gql`
     LIKE
     DISLIKE
   }
+  type LikeProfile {
+    id: ID!
+    userId: ID!
+    name: String!
+    bio: String!
+    interests: [String!]!
+    profession: String!
+    work: String!
+    images: [String!]!
+    dateOfBirth: String!
+  }
 
+  type MatchProfile {
+    id: ID!
+    userId: ID!
+    name: String!
+    bio: String!
+    interests: [String!]!
+    profession: String!
+    work: String!
+    images: [String!]!
+    dateOfBirth: String!
+  }
   type Profile {
     id: ID!
     userId: ID!
@@ -34,8 +56,8 @@ export const ProfileTypeDefs = gql`
     dateOfBirth: String!
     createdAt: DateTime!
     updatedAt: DateTime!
-    likes: [ID!]!
-    matches: [ID!]!
+    likes: [LikeProfile!]!
+    matches: [MatchProfile!]!
   }
 
   type Swipe {
@@ -71,8 +93,33 @@ export const ProfileTypeDefs = gql`
     dateOfBirth: String
   }
 
+  type DebugMatchData {
+    profileName: String!
+    totalMatches: Int!
+    totalLikes: Int!
+    matchAnalysis: [MatchAnalysis!]!
+  }
+
+  type MatchAnalysis {
+    matchId: ID!
+    matchedUserName: String!
+    userLikedMatch: Boolean!
+    matchLikedUser: Boolean!
+    matchRecordExists: Boolean!
+    isValid: Boolean!
+    reason: String!
+  }
+
+  type DebugMatchesResponse {
+    success: Boolean!
+    message: String!
+    data: DebugMatchData
+  }
+
   type Query {
     getProfile(userId: ID!): Profile!
+    getAllProfiles: [Profile!]!
+    debugMatches(userId: ID!): DebugMatchesResponse!
   }
 
   type Mutation {

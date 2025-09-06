@@ -6,6 +6,12 @@ import { ImageUpload } from "@/components/profile/steps/ImageUpload";
 import { useSignup } from "@/components/profile/SignupContext";
 
 jest.mock("@/components/profile/SignupContext");
+jest.mock("next/navigation", () => ({
+    useRouter: () => ({
+        push: jest.fn(),
+    }),
+}));
+
 const mockUseSignup = useSignup as jest.MockedFunction<typeof useSignup>;
 
 describe("ImageUpload Component", () => {

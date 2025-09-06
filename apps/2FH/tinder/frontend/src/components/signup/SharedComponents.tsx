@@ -4,7 +4,7 @@ interface LogoProps {
   testId?: string;
 }
 
-export const Logo = ({ testId = 'logo' }: LogoProps) => <Image src="/images/logo.png" alt="logo" width={100} height={100} className="w-[100px]" data-testid={testId} />;
+export const Logo = ({ testId = 'logo' }: LogoProps) => <Image src="/images/logo.png" alt="logo" width={200} height={200} className="w-[150px]" data-testid={testId} />;
 
 interface EyeIconProps {
   isVisible: boolean;
@@ -42,7 +42,7 @@ export const OtpInputs = ({ code, inputsRef, handleChange, handleKeyDown, testId
         value={digit}
         onChange={(_e) => handleChange(_e.target.value, i)}
         onKeyDown={(_e) => handleKeyDown(_e, i)}
-        className="w-12 h-12 text-center text-lg border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-20 h-20 text-center text-lg border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
         data-testid={`otp-input-${i}`}
       />
     ))}

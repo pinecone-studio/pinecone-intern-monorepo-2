@@ -42,7 +42,7 @@ describe('useStep2Form Hook - Password Validation', () => {
 
   it('should handle password complexity validation - valid password', async () => {
     mockAxios.post.mockResolvedValueOnce({
-      data: { data: { createUser: 'SUCCESS' } },
+      data: { data: { createUser: { status: 'SUCCESS', userId: 'test-user-id' } } },
     });
     const mockSetStep = jest.fn();
     const { result } = renderHook(() => useStep2Form({ email: 'test@example.com', setStep: mockSetStep }));

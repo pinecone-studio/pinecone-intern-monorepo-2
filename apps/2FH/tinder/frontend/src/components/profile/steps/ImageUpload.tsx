@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { useSignup } from '@/components/profile/SignupContext';
+import { useRouter } from 'next/navigation';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dz3pleqcg/upload';
 const UPLOAD_PRESET = 'tinder'; // Cloudinary-д үүсгэсэн unsigned preset
@@ -95,6 +96,7 @@ const NavigationButtons: React.FC<{ prevStep: () => void; canProceed: boolean; l
 
 export const ImageUpload: React.FC = () => {
   const { signupData, handleInputChange, prevStep, submitProfile, loading, } = useSignup();
+  const router = useRouter();
   const [dragActive, setDragActive] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -119,7 +121,16 @@ export const ImageUpload: React.FC = () => {
   };
 
   const handleSubmitProfile = async () => {
-    await submitProfile();
+    try {
+      await submitProfile();
+      // Profile creation successful - redirect to chat
+      setTimeout(() => {
+        router.push('/chat');
+      }, 1000);
+    } catch (error) {
+      console.error('Error submitting profile:', error);
+      // Handle error appropriately - don't redirect on error
+    }
   };
 
   const removeImage = (index: number) => {

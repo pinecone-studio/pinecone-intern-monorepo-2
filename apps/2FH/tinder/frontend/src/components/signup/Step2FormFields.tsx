@@ -50,7 +50,7 @@ interface Step2FormFieldsProps {
 
 export const Step2FormFields = ({ register, formState, showPassword, setShowPassword, showConfirmPassword, setShowConfirmPassword, loading }: Step2FormFieldsProps) => {
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-4">
       <PasswordField
         register={register}
         formState={formState}

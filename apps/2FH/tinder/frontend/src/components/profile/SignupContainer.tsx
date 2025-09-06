@@ -7,8 +7,8 @@ import { GenderSelection } from './steps/GenderSelection';
 import { AgeInput } from '@/components/profile/steps/AgeInput';
 import { BasicDetails } from '@/components/profile/steps/BasicDetails';
 import { ImageUpload } from '@/components/profile/steps/ImageUpload';
-import { Completion } from '@/components/profile/steps/Completion';
 import { InterestedInSelection } from './steps/InterestedIn';
+import { Completion } from './steps/Completion';
 // import { ProgressBar } from '@/components/profile/steps/ProgressBar';
 
 // Step configuration data
@@ -42,7 +42,7 @@ const stepConfig = {
     component: <Completion />,
     title: "You're all set!",
     subtitle: "Your account is all set. You're ready to explore and connect!"
-  }
+  },
 };
 
 export const SignupContainer: React.FC = () => {

@@ -14,6 +14,17 @@ query GetProfile($userId: ID!) {
     work
     images
     dateOfBirth
+    matches {
+      id
+      userId
+      bio
+      interests
+      profession
+      name
+      work
+      dateOfBirth
+      images
+    }
   }
 }
 
