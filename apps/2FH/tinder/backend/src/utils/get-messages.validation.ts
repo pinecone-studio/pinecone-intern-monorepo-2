@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { GraphQLError } from 'graphql';
-import { ERRORS } from './get-messages.types';
+import { ERRORS } from '../types/get-messages.types';
 
 export const validateObjectId = (id: string): void => {
   if (!Types.ObjectId.isValid(id)) {

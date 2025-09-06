@@ -1,0 +1,53 @@
+
+ >  NX   Running target serve for project 2FH-tinder-frontend and 3 tasks it depends on:
+
+ 
+
+> nx run 2FH-tinder-frontend:"get-secrets:dev":development
+
+
+> nx run 2FH-tinder-frontend:export-env
+
+
+> nx run 2FH-tinder-frontend:"codegen:dev"
+
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to apps/2FH/tinder/frontend/src/generated/index.ts
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to apps/2FH/tinder/frontend/src/generated/index.ts
+[SUCCESS] Generate outputs
+
+> nx run 2FH-tinder-frontend:serve:development
+
+ [31m[1m⨯[22m[39m Failed to start server
+Error: listen EADDRINUSE: address already in use :::4201
+[90m    at Server.setupListenHandle [as _listen2] (node:net:1904:16)[39m
+[90m    at listenInCluster (node:net:1961:12)[39m
+[90m    at Server.listen (node:net:2063:7)[39m
+    at /Users/24LP5618/Desktop/pinecone-intern-monorepo-2/node_modules/[4mnext[24m/dist/server/lib/start-server.js:280:16
+    at new Promise (<anonymous>)
+    at startServer (/Users/24LP5618/Desktop/pinecone-intern-monorepo-2/node_modules/[4mnext[24m/dist/server/lib/start-server.js:191:11)
+    at /Users/24LP5618/Desktop/pinecone-intern-monorepo-2/node_modules/[4mnext[24m/dist/server/lib/start-server.js:310:52
+    at Span.traceAsyncFn (/Users/24LP5618/Desktop/pinecone-intern-monorepo-2/node_modules/[4mnext[24m/dist/trace/trace.js:154:26)
+    at process.<anonymous> (/Users/24LP5618/Desktop/pinecone-intern-monorepo-2/node_modules/[4mnext[24m/dist/server/lib/start-server.js:310:35)
+[90m    at process.emit (node:events:519:28)[39m {
+  code: [32m'EADDRINUSE'[39m,
+  errno: [33m-48[39m,
+  syscall: [32m'listen'[39m,
+  address: [32m'::'[39m,
+  port: [33m4201[39m
+}
+[?25h
+
+ 
+
+ >  NX   Successfully ran target serve for project 2FH-tinder-frontend and 3 tasks it depends on
+
+

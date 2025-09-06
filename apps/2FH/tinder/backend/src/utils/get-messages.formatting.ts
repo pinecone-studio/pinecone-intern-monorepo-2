@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { MessageOutput } from './get-messages.types';
+import { MessageOutput } from '../types/get-messages.types';
 
 interface PopulatedMessage {
   _id: Types.ObjectId;

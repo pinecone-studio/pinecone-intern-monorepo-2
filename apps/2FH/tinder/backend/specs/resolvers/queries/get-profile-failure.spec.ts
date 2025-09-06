@@ -60,6 +60,7 @@ describe('getProfile Resolver - Error Cases', () => {
     work: 'Tech Company',
     images: ['image1.jpg'],
     dateOfBirth,
+    matches: [],
     createdAt: new Date('2025-08-16T16:31:10.275Z'),
     updatedAt: new Date('2025-08-16T16:31:10.275Z'),
   });
@@ -108,6 +109,12 @@ describe('getProfile Resolver - Error Cases', () => {
   it('should handle null dateOfBirth and return null', async () => {
     const mockProfile = createMockProfile('male', null);
     mockFindOne.mockResolvedValue(mockProfile);
+
+    // Mock the additional calls made by fetchLikesAndMatches
+    mockSwipeFind.mockReturnValue({
+      populate: jest.fn().mockResolvedValue([])
+    } as any);
+    mockProfileFind.mockResolvedValue([]);
 
     const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
 

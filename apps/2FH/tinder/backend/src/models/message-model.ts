@@ -1,5 +1,5 @@
-import  { Schema, model, models, Model, Types } from "mongoose";
- 
+import { Schema, model, models, Model, Types } from "mongoose";
+
 export type MessageType = {
   match?: Types.ObjectId;
   sender: Types.ObjectId;
@@ -7,7 +7,7 @@ export type MessageType = {
   content: string;
   createdAt: Date;
 };
- 
+
 const messageSchema = new Schema<MessageType>(
   {
     match: { type: Schema.Types.ObjectId, ref: "Match", required: false },
@@ -17,6 +17,6 @@ const messageSchema = new Schema<MessageType>(
   },
   { timestamps: true }
 );
- 
+
 export const Message: Model<MessageType> =
   models.Message || model<MessageType>("Message", messageSchema);

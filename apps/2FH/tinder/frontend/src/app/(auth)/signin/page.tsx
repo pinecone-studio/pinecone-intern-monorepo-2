@@ -5,6 +5,7 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useUser } from '@/contexts/UserContext';
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -32,6 +33,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const router = useRouter();
+  const { login: loginUser } = useUser();
 
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
 
@@ -42,9 +44,10 @@ const LoginPage = () => {
       const result = response.data.login;
 
       if (result.status === 'SUCCESS') {
-        localStorage.setItem('token', result.token);
+        // Use UserContext to store user data and token
+        loginUser(result.user, result.token);
         toast.success(<div data-cy="login-success">Login successful!</div>);
-        router.push('/');
+        router.push('/chat');
       } else {
         toast.error(
           <div data-cy="login-error">{result.message || 'Login failed'}</div>

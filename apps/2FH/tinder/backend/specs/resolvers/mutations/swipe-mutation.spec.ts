@@ -14,4 +14,4 @@ describe('swipe-mutation', () => {
     expect(swipe.length).toBe(swipeCore.length);
     expect(swipe.name).toBe(swipeCore.name);
   });
-}); 
+});

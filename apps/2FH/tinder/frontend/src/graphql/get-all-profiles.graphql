@@ -1,0 +1,59 @@
+# src/graphql/get-all-profiles.graphql
+
+query GetAllProfiles {
+
+  getAllProfiles {
+
+   id
+
+   userId
+
+   name
+
+   gender
+
+   bio
+
+   interests
+
+   profession
+
+   work
+
+   images
+
+   dateOfBirth
+
+   interestedIn
+
+   likes {
+     id
+     userId
+     name
+     bio
+     interests
+     profession
+     work
+     images
+     dateOfBirth
+   }
+
+   matches {
+     id
+     userId
+     name
+     bio
+     interests
+     profession
+     work
+     images
+     dateOfBirth
+   }
+
+   createdAt
+
+   updatedAt
+
+  }
+
+}

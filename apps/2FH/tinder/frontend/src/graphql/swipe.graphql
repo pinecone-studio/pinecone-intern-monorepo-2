@@ -1,0 +1,29 @@
+mutation Swipe($swiperId: ID!, $targetId: ID!, $action: SwipeAction!) {
+  swipe(input: { swiperId: $swiperId, targetId: $targetId, action: $action }) {
+    success
+    message
+    response
+    match {
+      likeduserId {
+        userId
+        name
+        bio
+        images
+        profession
+        work
+        interests
+        dateOfBirth
+      }
+      matcheduserId {
+        userId
+        name
+        bio
+        images
+        profession
+        work
+        interests
+        dateOfBirth
+      }
+    }
+  }
+}
