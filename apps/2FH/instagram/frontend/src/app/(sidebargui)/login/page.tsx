@@ -32,7 +32,9 @@ const LOGIN_USER = gql`
           fullName
           profileImage
         }
-        posts
+        posts{
+          _id
+        }
         stories {
           _id
         }

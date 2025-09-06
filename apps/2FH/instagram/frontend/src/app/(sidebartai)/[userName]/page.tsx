@@ -54,7 +54,7 @@ const ProfileContent = ({ user, isFollowing }: { user: User; isFollowing: boolea
             POSTS
           </button>
         </div>
-        <Posts />
+        <Posts userName={user.userName} />
       </>
     );
   }
