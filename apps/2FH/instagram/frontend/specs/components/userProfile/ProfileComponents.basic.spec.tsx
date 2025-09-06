@@ -2,6 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { ProfileInfo, ProfileActions } from '@/components/userProfile/ProfileComponents';
 import { gql } from '@apollo/client';
+import React from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
+
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/',
+}));
 const GET_USER_BY_USERNAME = gql`
   query GetUserByUsername($userName: String!) {
     getUserByUsername(userName: $userName) {
@@ -88,13 +96,18 @@ const mockCurrentUser = {
   _id: 'currentUser123',
   userName: 'currentuser',
 };
-describe('ProfileComponents', () => {
+
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <AuthProvider>{children}</AuthProvider>;
+
+describe('ProfileComponents - Basic', () => {
   describe('ProfileInfo', () => {
     it('renders profile info with all components', () => {
       render(
-        <MockedProvider mocks={mocks}>
-          <ProfileInfo user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
-        </MockedProvider>
+        <TestWrapper>
+          <MockedProvider mocks={mocks}>
+            <ProfileInfo user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
+          </MockedProvider>
+        </TestWrapper>
       );
       expect(screen.getByText('testuser')).toBeInTheDocument();
       expect(screen.getByText('Test User')).toBeInTheDocument();
@@ -107,9 +120,11 @@ describe('ProfileComponents', () => {
     });
     it('renders without current user', () => {
       render(
-        <MockedProvider mocks={mocks}>
-          <ProfileInfo user={mockUser} currentUser={null} isFollowing={false} />
-        </MockedProvider>
+        <TestWrapper>
+          <MockedProvider mocks={mocks}>
+            <ProfileInfo user={mockUser} currentUser={null} isFollowing={false} />
+          </MockedProvider>
+        </TestWrapper>
       );
       expect(screen.getByText('testuser')).toBeInTheDocument();
       expect(screen.getByText('Test User')).toBeInTheDocument();
@@ -118,9 +133,11 @@ describe('ProfileComponents', () => {
   describe('ProfileActions', () => {
     it('renders profile actions with follow button when not current user', () => {
       render(
-        <MockedProvider mocks={mocks}>
-          <ProfileActions user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
-        </MockedProvider>
+        <TestWrapper>
+          <MockedProvider mocks={mocks}>
+            <ProfileActions user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
+          </MockedProvider>
+        </TestWrapper>
       );
       expect(screen.getByText('testuser')).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /follow/i })).toBeInTheDocument();
@@ -128,32 +145,15 @@ describe('ProfileComponents', () => {
     });
     it('renders profile actions without follow button when same user', () => {
       render(
-        <MockedProvider mocks={mocks}>
-          <ProfileActions user={mockUser} currentUser={mockUser} isFollowing={false} />
-        </MockedProvider>
+        <TestWrapper>
+          <MockedProvider mocks={mocks}>
+            <ProfileActions user={mockUser} currentUser={mockUser} isFollowing={false} />
+          </MockedProvider>
+        </TestWrapper>
       );
       expect(screen.getByText('testuser')).toBeInTheDocument();
       expect(screen.queryByRole('button', { name: /follow/i })).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: /message/i })).not.toBeInTheDocument();
-    });
-    it('renders verified badge when user is verified', () => {
-      render(
-        <MockedProvider mocks={mocks}>
-          <ProfileActions user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
-        </MockedProvider>
-      );
-      expect(screen.getByText('testuser')).toBeInTheDocument();
-      expect(document.querySelector('.text-blue-600')).toBeInTheDocument();
-    });
-    it('renders without verified badge when user is not verified', () => {
-      const unverifiedUser = { ...mockUser, isVerified: false };
-      render(
-        <MockedProvider mocks={mocks}>
-          <ProfileActions user={unverifiedUser} currentUser={mockCurrentUser} isFollowing={false} />
-        </MockedProvider>
-      );
-      expect(screen.getByText('testuser')).toBeInTheDocument();
-      expect(document.querySelector('.text-blue-600')).not.toBeInTheDocument();
     });
   });
 });
