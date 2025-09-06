@@ -24,5 +24,23 @@ query GetUserByUsername($userName: String!) {
       bio
       email
     }
+    posts {
+      _id
+      image
+      caption
+      likes {
+        _id
+        userName
+        profileImage
+      }
+      comments {
+        _id
+        author
+        parentId
+        parentType
+        replyId
+        content
+      }
+    }
   }
 }
