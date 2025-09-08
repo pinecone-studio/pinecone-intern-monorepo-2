@@ -37,6 +37,7 @@ export const createUser = async (_: unknown, { input }: { input: CreateUserInput
     console.log('hashedPassword', hashedPassword);
     const newUser = await UserModel.create({
       ...input,
+      role: 'user',
       dateOfBirth: input.dateOfBirth,
       password: hashedPassword,
     });

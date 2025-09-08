@@ -8,104 +8,140 @@ jest.mock('src/models/user');
 jest.mock('src/utils');
 jest.mock('src/utils/check-jwt', () => ({ getJwtSecret: jest.fn(() => 'mock-jwt-secret') }));
 
-const mockUser = User as jest.Mocked<typeof User>;
 const mockUtils = utils as jest.Mocked<typeof utils>;
-
-beforeAll(() => { 
-  mockUser.findOne = jest.fn(); 
-});
 
 describe('User Mutations - Create User OTP Cases', () => {
   let consoleSpy: jest.SpyInstance;
-
+  let mockUserInstance: any;
+  
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUser.findOne = jest.fn();
+    
+    // Create a mock user instance with all required methods
+    mockUserInstance = {
+      save: jest.fn().mockResolvedValue(undefined),
+      toObject: jest.fn().mockReturnValue({
+        _id: 'user123',
+        fullName: 'John Doe',
+        userName: 'johndoe',
+        email: 'john@example.com',
+        gender: Gender.Male,
+        isPrivate: false,
+        isVerified: false,
+        posts: [],
+        stories: [],
+        followers: [],
+        followings: []
+      }),
+      _id: 'user123'
+    };
+    
+    // Mock the User constructor
+    (User as any).mockImplementation(() => mockUserInstance);
+    
+    // Mock static methods
+    (User.findOne as jest.Mock) = jest.fn();
+    (User.findById as jest.Mock) = jest.fn().mockReturnValue({
+      populate: jest.fn().mockReturnThis().mockReturnValue({
+        populate: jest.fn().mockReturnThis().mockReturnValue({
+          populate: jest.fn().mockReturnThis().mockReturnValue({
+            populate: jest.fn().mockResolvedValue({
+              toObject: () => ({
+                _id: 'user123',
+                fullName: 'John Doe',
+                userName: 'johndoe',
+                email: 'john@example.com',
+                gender: Gender.Male,
+                isPrivate: false,
+                isVerified: false,
+                posts: [],
+                stories: [],
+                followers: [],
+                followings: []
+              })
+            })
+          })
+        })
+      })
+    });
+    
     otpStorage.clear();
     consoleSpy = jest.spyOn(console, 'error').mockImplementation();
   });
-
+  
   afterEach(() => {
     consoleSpy.mockRestore();
   });
 
   const validInput = {
-    fullName: 'John Doe', 
-    userName: 'johndoe', 
+    fullName: 'John Doe',
+    userName: 'johndoe',
     email: 'john@example.com',
-    password: 'password123', 
+    password: 'password123',
     gender: Gender.Male
   };
 
   const setupSuccessfulUserCreation = () => {
-    const mockSave = jest.fn().mockResolvedValue(undefined);
-    const mockToObject = jest.fn().mockReturnValue({
-      _id: 'user123', 
-      fullName: 'John Doe', 
-      userName: 'johndoe', 
-      email: 'john@example.com',
-      gender: Gender.Male, 
-      isPrivate: false, 
-      isVerified: false,
-      posts: [], 
-      stories: [], 
-      followers: [], 
-      followings: []
-    });
-
-    mockUser.findOne.mockResolvedValue(null);
+    (User.findOne as jest.Mock).mockResolvedValue(null);
     mockUtils.encryptHash.mockReturnValue('hashedPassword123');
-    mockUser.prototype.save = mockSave;
-    mockUser.prototype.toObject = mockToObject;
     mockUtils.generateOTP.mockReturnValue('123456');
     mockUtils.sendVerificationEmail.mockResolvedValue(undefined);
-
-    return { mockSave, mockToObject };
+    
+    return { 
+      mockSave: mockUserInstance.save, 
+      mockToObject: mockUserInstance.toObject 
+    };
   };
 
   describe('createUser - OTP Management', () => {
     it('should store OTP with expiration and cleanup', async () => {
       setupSuccessfulUserCreation();
       
-      const mockSetTimeout = jest.fn();
-      jest.spyOn(global, 'setTimeout').mockImplementation(mockSetTimeout);
+      // Use Jest's timer mocking instead of manual mocking
+      jest.useFakeTimers();
+      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
       
       await createUser(null, { input: validInput });
       
       const otpKey = 'verification_john@example.com';
       expect(otpStorage.has(otpKey)).toBe(true);
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 600000);
       
-      expect(mockSetTimeout).toHaveBeenCalledWith(expect.any(Function), 600000);
-      
-      const cleanupFn = mockSetTimeout.mock.calls[0][0];
-      cleanupFn();
+      // Fast-forward time to trigger cleanup
+      jest.advanceTimersByTime(600000);
       
       expect(otpStorage.has(otpKey)).toBe(false);
       
-      jest.restoreAllMocks();
+      // Restore timers
+      jest.useRealTimers();
+      setTimeoutSpy.mockRestore();
     });
 
     it('should not cleanup OTP if expiration time changed', async () => {
       setupSuccessfulUserCreation();
       
-      const mockSetTimeout = jest.fn();
-      jest.spyOn(global, 'setTimeout').mockImplementation(mockSetTimeout);
+      jest.useFakeTimers();
+      const setTimeoutSpy = jest.spyOn(global, 'setTimeout');
       
       await createUser(null, { input: validInput });
       
       const otpKey = 'verification_john@example.com';
-      
       const currentOtp = otpStorage.get(otpKey);
+      
       if (currentOtp) {
+        // Change the expiration time
         otpStorage.set(otpKey, { otp: currentOtp.otp, expiresAt: Date.now() + 1000000 });
       }
       
-      const cleanupFn = mockSetTimeout.mock.calls[0][0];
-      cleanupFn();
+      // Fast-forward time to trigger cleanup
+      jest.advanceTimersByTime(600000);
       
+      // Should not cleanup because expiration time was modified
       expect(otpStorage.has(otpKey)).toBe(true);
       
-      jest.restoreAllMocks();
+      // Restore timers
+      jest.useRealTimers();
+      setTimeoutSpy.mockRestore();
     });
   });
 });

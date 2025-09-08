@@ -7,6 +7,10 @@ import { Context } from './types';
 import { UserModel } from './models';
 import { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 connectToDb();
 

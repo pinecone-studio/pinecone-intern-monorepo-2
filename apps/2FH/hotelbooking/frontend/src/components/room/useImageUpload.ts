@@ -20,7 +20,9 @@ export const useImageUpload = (onSave: (_images: string[]) => void, onClose: () 
     }
 
     const data = await response.json();
-    return data.secureUrl;
+    // eslint-disable-next-line camelcase
+    const { secure_url: secureUrl } = data;
+    return secureUrl;
   };
 
   const handleFileSelect = (files: FileList | null) => {

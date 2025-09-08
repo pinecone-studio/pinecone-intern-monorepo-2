@@ -5,7 +5,7 @@ function validateId(_id: string, userId: string) {
   if (!_id || _id.trim() === '') {
     throw new GraphQLError('Id is not found');
   }
-  if (!userId) throw new GraphQLError('author Id is requ');
+  if (!userId) throw new GraphQLError('author Id is required');
 }
 
 async function checkAuthor(_id: string, userId: string) {

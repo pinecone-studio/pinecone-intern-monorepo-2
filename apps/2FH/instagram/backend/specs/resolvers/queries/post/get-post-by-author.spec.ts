@@ -27,12 +27,13 @@ describe('getPostsByAuthor', () => {
     await expect(getPostsByAuthor({}, { author: 'invalid-id' })).rejects.toThrow('Invalid author ID');
   });
 
-  it('should throw GraphQLError if no posts found', async () => {
+  it('should return empty array if no posts found', async () => {
     (PostModel.find as jest.Mock).mockReturnValue({
       sort: jest.fn().mockResolvedValue([]),
     });
 
-    await expect(getPostsByAuthor({}, { author: mockAuthorId })).rejects.toThrow('No posts found for the given author.');
+    const result = await getPostsByAuthor({}, { author: mockAuthorId });
+    expect(result).toEqual([]);
   });
 
   it('should return posts successfully', async () => {

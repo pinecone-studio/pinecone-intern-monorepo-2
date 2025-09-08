@@ -12,7 +12,33 @@ import { useAuth } from '@/contexts/AuthContext';
 const LOGIN_USER = gql`
   mutation LoginUser($input: LoginInput!) {
     loginUser(input: $input) {
-      user { _id fullName userName email profileImage }
+      user {
+        _id
+        fullName
+        userName
+        email
+        profileImage
+        bio
+        isVerified
+        followers {
+          _id
+          userName
+          fullName
+          profileImage
+        }
+        followings {
+          _id
+          userName
+          fullName
+          profileImage
+        }
+        posts{
+          _id
+        }
+        stories {
+          _id
+        }
+      }
       token
     }
   }
@@ -41,7 +67,42 @@ const LoginPage = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     onCompleted: (data) => handleLoginSuccess(data, login, router),
+    // onCompleted: (data) => {
+    //   const userData = data.loginUser.user;
+      
+    //   // Log all the populated data
+    //   console.log('=== USER LOGIN DATA ===');
+    //   console.log('User ID:', userData._id);
+    //   console.log('Username:', userData.userName);
+    //   console.log('Full Name:', userData.fullName);
+      
+    //   // Followers data
+    //   console.log('Followers Count:', userData.followers?.length || 0);
+    //   console.log('Followers:', userData.followers);
+    //   userData.followers?.forEach((follower: any) => {
+    //     console.log(`  - ${follower.fullName} (@${follower.userName})`);
+    //   });
+      
+    //   // Followings data
+    //   console.log('Following Count:', userData.followings?.length || 0);
+    //   console.log('Followings:', userData.followings);
+    //   userData.followings?.forEach((following: any) => {
+    //     console.log(`  - ${following.fullName} (@${following.userName})`);
+    //   });
+      
+    //   // Posts data
+    //   console.log('Posts Count:', userData.posts?.length || 0);
+    //   console.log('Posts:', userData.posts);
+      
+    //   // Stories data
+    //   console.log('Stories Count:', userData.stories?.length || 0);
+    //   console.log('Stories:', userData.stories);
+      
+    //   // Store in AuthContext
+    //   login(userData, data.loginUser.token);
+    // },
     onError: (apolloError) => handleLoginError(apolloError, setError),
+   
   });
   useEffect(() => {
     const message = searchParams.get('message');

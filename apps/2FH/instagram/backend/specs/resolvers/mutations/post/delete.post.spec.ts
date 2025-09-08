@@ -20,6 +20,10 @@ describe('deletePost resolver', () => {
     await expect(deletePost({}, { _id: '' }, { userId: mockUserId })).rejects.toThrow('Id is not found');
   });
 
+  it('should throw GraphQLError if userId is not provided', async () => {
+    await expect(deletePost({}, { _id: mockId }, { userId: '' })).rejects.toThrow('author Id is required');
+  });
+
   it('should throw GraphQLError if post not found before delete', async () => {
     (PostModel.findById as jest.Mock).mockResolvedValue(null);
     await expect(deletePost({}, { _id: mockId }, { userId: mockUserId })).rejects.toThrow('Post not found');
@@ -76,3 +80,4 @@ describe('deletePost resolver', () => {
     await expect(deletePost({}, { _id: mockId }, { userId: mockUserId })).rejects.toThrow('Failed to delete post: null');
   });
 });
+

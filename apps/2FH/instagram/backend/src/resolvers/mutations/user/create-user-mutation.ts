@@ -1,9 +1,9 @@
 //create-user-mutation.ts
-import { User } from "src/models";
 import { CreateUserInput } from "src/generated";
-import { encryptHash, generateOTP, sendVerificationEmail } from "src/utils";
+import { User } from "src/models/user";
 import { GraphQLError } from "graphql";
-import { otpStorage } from "./forgot-password-mutation";
+import { encryptHash, generateOTP, sendVerificationEmail } from "src/utils";
+import { otpStorage } from "src/resolvers/mutations/user/forgot-password-mutation";
 
 const buildUserSearchQuery = (input: CreateUserInput) => ({
   $or: [
@@ -72,11 +72,13 @@ const createUserObject = (input: CreateUserInput) => {
   return new User({
     ...input,
     password: hashedPassword,
+    profileImage: "",
     posts: [],
     stories: [],
     followers: [],
     followings: [],
-    isVerified: false // User starts unverified
+    searchHistory: [],
+    isVerified: false 
   });
 };
 
@@ -116,7 +118,13 @@ const processUserCreation = async (input: CreateUserInput) => {
     await handleVerificationEmail(input.email);
   }
   
-  return newUser.toObject();
+  const populatedUser = await User.findById(newUser._id)
+  .populate('followers', '_id userName fullName profileImage')
+  .populate('followings', '_id userName fullName profileImage')
+  .populate('posts')
+  .populate('stories');
+/* istanbul ignore next */
+return populatedUser?.toObject();
 };
 
 export const createUser = async (

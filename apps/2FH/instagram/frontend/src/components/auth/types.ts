@@ -51,6 +51,24 @@ export enum Gender {
     userName: string;
     email: string;
     profileImage?: string;
+    bio?: string;
+    isVerified?: boolean;
+    followers?: {
+      _id: string;
+      userName: string;
+      fullName: string;
+      profileImage?: string;
+    }[];
+    followings?: {
+      _id: string;
+      userName: string;
+      fullName: string;
+      profileImage?: string;
+    }[];
+    posts?: string[]; 
+    stories?: {
+      _id: string;
+    }[];
   }
   
   export type LoginResponse = {

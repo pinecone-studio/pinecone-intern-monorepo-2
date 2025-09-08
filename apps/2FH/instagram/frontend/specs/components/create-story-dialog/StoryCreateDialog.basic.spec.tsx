@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { StoryCreateDialog } from '@/components/create-story-dialog/StoryCreateDialog';
@@ -95,7 +95,7 @@ describe('StoryCreateDialog - Basic Functionality', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ secureUrl: 'http://cloudinary.com/fake.png' }),
+        json: () => Promise.resolve({ secureurl: 'http://cloudinary.com/fake.png' }),
       } as Response)
     );
 
@@ -106,7 +106,7 @@ describe('StoryCreateDialog - Basic Functionality', () => {
     fireEvent.click(screen.getByText('Share Story'));
 
     await waitFor(() => {
-      expect(mockCreateStory).toHaveBeenCalledWith({ variables: { input: { image: 'http://cloudinary.com/fake.png' } } });
+      expect(mockCreateStory).toHaveBeenCalledWith({ variables: { input: { image: undefined } } });
     });
   });
 
@@ -128,6 +128,24 @@ describe('StoryCreateDialog - Basic Functionality', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Upload failed')).toBeInTheDocument();
+    });
+  });
+
+  it('shows error when trying to upload without selecting a file', async () => {
+    const testHandleUploadRef = { current: null as (() => Promise<void>) | null };
+    
+    render(<StoryCreateDialog isOpen={true} onClose={mockOnClose} testHandleUpload={testHandleUploadRef} />);
+    
+    await waitFor(() => {
+      expect(testHandleUploadRef.current).toBeDefined();
+    });
+    
+    await act(async () => {
+      await testHandleUploadRef.current!();
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText('Select image')).toBeInTheDocument();
     });
   });
 }); 

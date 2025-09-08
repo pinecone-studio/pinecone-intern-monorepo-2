@@ -48,8 +48,8 @@ describe('getStoryByUserId', () => {
 
     expect(result).toEqual(storyData);
     expect(Story.find).toHaveBeenCalledWith({ author: authorId });
-    expect(populateAuthor).toHaveBeenCalledWith('author', 'username profileImage email isVerified');
-    expect(populateViewers).toHaveBeenCalledWith('viewers', 'username avatar');
+    expect(populateAuthor).toHaveBeenCalledWith('author', 'userName profileImage email isVerified');
+    expect(populateViewers).toHaveBeenCalledWith('viewers', 'userName avatar');
     expect(sort).toHaveBeenCalledWith({ createdAt: -1 });
     expect(lean).toHaveBeenCalled();
   });

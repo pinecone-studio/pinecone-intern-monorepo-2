@@ -75,7 +75,8 @@ describe('useImageUpload Basic Functionality', () => {
 
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ secureUrl: 'https://example.com/image.jpg' }), // eslint-disable-line camelcase
+      // eslint-disable-next-line camelcase
+      json: () => Promise.resolve({ secure_url: 'https://example.com/image.jpg' }),
     });
 
     await act(async () => {

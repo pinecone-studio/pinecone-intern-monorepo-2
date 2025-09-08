@@ -41,7 +41,7 @@ describe('getProfile Resolver - Error Cases', () => {
     mockSwipeFind.mockReturnValue({
       populate: jest.fn().mockResolvedValue([])
     } as any);
-    
+
     // Mock ProfileModel.find().select() chain
     mockProfileFind.mockReturnValue({
       select: jest.fn().mockResolvedValue([])
@@ -53,6 +53,7 @@ describe('getProfile Resolver - Error Cases', () => {
     userId: new Types.ObjectId(),
     name: 'Test User',
     gender,
+    interestedIn: 'female',
     bio: 'Test bio',
     interests: ['coding'],
     profession: 'Developer',

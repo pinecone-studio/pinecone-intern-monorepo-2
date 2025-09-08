@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 export type User = {
@@ -17,8 +11,22 @@ export type User = {
   profileImage?: string;
   bio?: string;
   isVerified?: boolean;
-  followers?: string[];
-  followings?: string[];
+  followers?: {
+    _id: string;
+    userName: string;
+    fullName: string;
+    profileImage?: string;
+  }[];
+  followings?: {
+    _id: string;
+    userName: string;
+    fullName: string;
+    profileImage?: string;
+  }[];
+  posts?: string[];
+  stories?: {
+    _id: string;
+  }[];
 };
 
 type AuthContextType = {
@@ -30,22 +38,14 @@ type AuthContextType = {
   login: (_user: User, _token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  updateUser: (_user: User) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const PUBLIC_ROUTES = [
-  '/login',
-  '/signup',
-  '/verify-otp',
-  '/forgot-password',
-  '/reset-password',
-  '/userProfile', // Add for testing purposes
-];
+const PUBLIC_ROUTES = ['/login', '/signup', '/verify-otp', '/forgot-password', '/reset-password', '/userProfile'];
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -112,11 +112,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     login,
     logout,
     isAuthenticated: !!(user && token),
+    updateUser(_user) {
+      setUser(_user);
+      // Update localStorage to keep data in sync
+      localStorage.setItem('user', JSON.stringify(_user));
+    },
   };
 
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {

@@ -33,12 +33,17 @@ const validateCheckInDate = (checkInDate: string): void => {
   }
 };
 
-const createBookingData = (input: CreateBookingInput) => ({
-  ...input,
-  status: mapGraphQLToMongooseBookingStatus('BOOKED'),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-});
+const createBookingData = (input: CreateBookingInput) => {
+  const now = new Date();
+  const mongoliaTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+
+  return {
+    ...input,
+    status: mapGraphQLToMongooseBookingStatus('BOOKED'),
+    createdAt: mongoliaTime,
+    updatedAt: mongoliaTime,
+  };
+};
 
 const validateInput = (input: CreateBookingInput): void => {
   const { checkInDate, checkOutDate } = input;

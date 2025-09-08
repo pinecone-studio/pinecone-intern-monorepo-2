@@ -1,0 +1,22 @@
+mutation CreateProfile($input: CreateProfileInput!) {
+  createProfile(input: $input)
+}
+query GetProfile($userId: ID!) {
+  getProfile(userId: $userId) {
+    id
+    userId
+    name
+    gender
+    bio
+    interests
+    interestedIn
+    profession
+    work
+    images
+    dateOfBirth
+  }
+}
+
+mutation UpdateProfile($input: UpdateProfileInput!) {
+  updateProfile(input: $input)
+}

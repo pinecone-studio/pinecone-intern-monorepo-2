@@ -54,3 +54,4 @@ describe('createPost resolver', () => {
     await expect(createPost({}, { input: mockInput }, { userId: mockAuthor })).rejects.toThrow('Failed to create post:{"foo":"bar"}');
   });
 });
+

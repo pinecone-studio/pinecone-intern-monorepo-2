@@ -23,6 +23,7 @@ export type UserSchemaType = {
   stories: Types.ObjectId[];
   followers: Types.ObjectId[];
   followings: Types.ObjectId[];
+  searchHistory: Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -35,7 +36,7 @@ const UserSchema = new Schema<UserSchemaType>(
     phoneNumber: { type: String, unique: true, sparse: true },
     password: { type: String, required: true },
     bio: { type: String, maxlength: 150 },
-    profileImage: { type: String },
+    profileImage: { type: String ,default:""},
     gender: { type: String, enum: Object.values(Gender), required: true },
     isPrivate: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
@@ -43,6 +44,7 @@ const UserSchema = new Schema<UserSchemaType>(
     stories: [{ type: Schema.Types.ObjectId, ref: "Story" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     followings: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    searchHistory: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true, 

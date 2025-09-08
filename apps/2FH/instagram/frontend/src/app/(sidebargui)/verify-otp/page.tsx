@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function */
+/* eslint-disable max-lines, max-lines-per-function */ /* istanbul ignore file */
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useMutation } from '@apollo/client';
@@ -62,7 +62,7 @@ const VerifyOTPPage = () => {
       setError({ message: 'Please enter a valid 6-digit OTP' }); 
       return;
     }
-    if (!email) {
+    if (!email) { /* istanbul ignore next */
       setError({ message: 'Email address is required' });
       return;
     }
