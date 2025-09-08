@@ -13,7 +13,6 @@ export const Sidebar = () => {
   const createRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { isSearchOpen, setIsSearchOpen } = useNavigation();
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (createRef.current && !createRef.current.contains(event.target as Node)) {
