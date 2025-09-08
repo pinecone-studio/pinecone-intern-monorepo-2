@@ -46,7 +46,7 @@ export const DatePicker = () => {
   };
 
   return (
-    <div data-testid="date-picker" className="w-[1160px] rounded-lg border-[3px] border-[#FFB700] px-4 py-4 flex gap-x-4">
+    <div data-testid="date-picker" className="w-[1160px] rounded-lg border-[3px] border-[#FFB700] px-4 py-4 flex gap-x-4 bg-white">
       <div className="flex flex-col gap-y-2 w-[500px] py-[10px] px-4">
         <p className="text-base font-medium">Dates</p>
         <Popover>

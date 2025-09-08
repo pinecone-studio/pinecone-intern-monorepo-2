@@ -1,6 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { HeroBanner } from '@/components/landing-page/HeroBanner';
 
+// Mock DatePicker component
+jest.mock('@/components/date/Date', () => ({
+  DatePicker: () => <div data-testid="date-picker">Date Picker Mock</div>,
+}));
+
 describe('HeroBanner', () => {
   it('renders without crashing', () => {
     render(<HeroBanner />);
@@ -39,7 +44,7 @@ describe('HeroBanner', () => {
     render(<HeroBanner />);
     const heading = screen.getByRole('heading', { level: 1 });
     const subtitle = screen.getByText('Book from a wide selection of hotels for your next trip.');
-    
+
     expect(heading).toHaveClass('text-5xl', 'font-bold', 'text-white', 'mb-6');
     expect(subtitle).toHaveClass('text-xl', 'text-white');
   });
@@ -49,4 +54,4 @@ describe('HeroBanner', () => {
     const mainContainer = screen.getByText('Find the Best Hotel for Your Stay').closest('.relative');
     expect(mainContainer).toHaveClass('w-full');
   });
-}); 
+});

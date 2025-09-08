@@ -88,7 +88,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
 
                 <div className="flex  justify-between">
                   {openPriceDetail ? (
-                    <PriceDetail data-testid="price-detail-button-room-info" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} />
+                    <PriceDetail data-testid="price-detail-button-room-info" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} />
                   ) : (
                     <div data-testid="price-detail-button-room-info" onClick={handleClickPriceDetail} className=" flex gap-x-2 text-blue-600 items-center cursor-pointer">
                       <p className="text-sm font-medium">Price detail</p>
@@ -96,7 +96,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
                     </div>
                   )}
 
-                  <ReserveButton roomId={rooms.id} />
+                  <ReserveButton room={rooms} />
                 </div>
               </div>
             </div>

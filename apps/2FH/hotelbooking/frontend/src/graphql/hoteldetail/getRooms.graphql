@@ -17,5 +17,6 @@ query GetRooms($hotelId: ID!) {
     other
     entertainment
     bedNumber
+    status
   }
 }
