@@ -78,6 +78,7 @@ export const ProfileSection = ({ onSuccess: _onSuccess, profileData, onProfileDa
               Email
             </label>
             <input
+              data-testid="email-input"
               type="email"
               id="email"
               value={formData.email}
@@ -95,7 +96,9 @@ export const ProfileSection = ({ onSuccess: _onSuccess, profileData, onProfileDa
           </label>
           <div className="relative">
             <input
-              type="text"
+              data-testid="date-of-birth-input"
+              type="date"
+              required
               id="dateOfBirth"
               value={formData.dateOfBirth}
               onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
@@ -174,6 +177,7 @@ export const ProfileSection = ({ onSuccess: _onSuccess, profileData, onProfileDa
             Profession
           </label>
           <input
+            data-testid="profession-input"
             type="text"
             id="profession"
             value={formData.profession}
@@ -189,6 +193,7 @@ export const ProfileSection = ({ onSuccess: _onSuccess, profileData, onProfileDa
             School/Work
           </label>
           <input
+            data-testid="school-work-input"
             type="text"
             id="schoolWork"
             value={formData.schoolWork}

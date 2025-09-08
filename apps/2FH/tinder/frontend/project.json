@@ -66,7 +66,7 @@
         "passWithNoTests": true,
         "codeCoverage": true
       },
-      "dependsOn": [
+      "dependsOn": [  
         {
           "target": "codegen:testing",
           "params": "forward"

@@ -106,7 +106,7 @@ export const TinderProfile = () => {
               className="w-24 h-12 object-contain grayscale"
             />
           </div>
-          <div className="text-gray-500 text-xs">© Copyright 2024</div>
+          <div className="text-gray-500 text-xs">© Copyright 2025</div>
         </div>
       </footer>
 
