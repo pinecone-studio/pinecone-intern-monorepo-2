@@ -23,7 +23,7 @@ const  getPost= async(context: Context) =>{
     .populate([
       {
         path: 'comments',
-        populate: [{ path: 'author', select: 'userName profileImage  _id' }, { path: 'likes', select: 'userName profileImage' }, { path: 'content' }],
+        populate: [{ path: 'likes', select: 'userName profileImage' }],
       },
       { path: 'author', select: 'userName profileImage _id ' },
       { path: 'likes', select: 'userName profileImage ' },

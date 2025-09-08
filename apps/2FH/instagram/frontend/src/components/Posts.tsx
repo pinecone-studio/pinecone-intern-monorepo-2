@@ -6,6 +6,8 @@ import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-rea
 import { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useUpdatePostByLikesMutation, useCreateCommentOnPostMutation, useUpdateCommentByContentMutation, useUpdateCommentByLikesMutation, useDeleteCommentMutation, useCreateReplyOnCommentMutation } from '@/generated';
+import { Edit3, Trash2 } from 'lucide-react';
 
 const GET_POSTS_BY_FOLLOWING_USERS = gql`
   query GetPostsByFollowingUsers {
@@ -29,10 +31,26 @@ const GET_POSTS_BY_FOLLOWING_USERS = gql`
         _id
         content
         author
+        parentId
+        parentType
         likes {
           _id
           userName
           profileImage
+        }
+        comments {
+          _id
+          content
+          author
+          parentId
+          parentType
+          likes {
+            _id
+            userName
+            profileImage
+          }
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
@@ -51,7 +69,10 @@ interface Comment {
   _id: string;
   content: string;
   author: string;
+  parentId: string;
+  parentType: string;
   likes: User[];
+  comments: Comment[];
   createdAt: string;
   updatedAt: string;
 }
@@ -70,7 +91,22 @@ interface Post {
 export const Posts = () => {
   const [likedPosts, setLikedPosts] = useState(new Set<string>());
   const [savedPosts, setSavedPosts] = useState(new Set<string>());
-  const { isAuthenticated } = useAuth();
+  const [newComments, setNewComments] = useState<Record<string, string>>({});
+  const [newReplies, setNewReplies] = useState<Record<string, string>>({});
+  const [editingComment, setEditingComment] = useState<string | null>(null);
+  const [editCommentContent, setEditCommentContent] = useState('');
+  const [likedComments, setLikedComments] = useState(new Set<string>());
+  const [expandedComments, setExpandedComments] = useState(new Set<string>());
+  const [showReplyInput, setShowReplyInput] = useState<Record<string, boolean>>({});
+  const { user, isAuthenticated } = useAuth();
+
+  // GraphQL mutations
+  const [updatePostByLikes] = useUpdatePostByLikesMutation();
+  const [createCommentOnPost] = useCreateCommentOnPostMutation();
+  const [createReplyOnComment] = useCreateReplyOnCommentMutation();
+  const [updateCommentByContent] = useUpdateCommentByContentMutation();
+  const [updateCommentByLikes] = useUpdateCommentByLikesMutation();
+  const [deleteComment] = useDeleteCommentMutation();
 
 
   const { data, loading, error } = useQuery(GET_POSTS_BY_FOLLOWING_USERS, {
@@ -81,16 +117,40 @@ export const Posts = () => {
   });
 
 
-  const toggleLike = (postId: string) => {
-    setLikedPosts((prev) => {
-      const newLikes = new Set(prev);
-      if (newLikes.has(postId)) {
-        newLikes.delete(postId);
-      } else {
-        newLikes.add(postId);
-      }
-      return newLikes;
-    });
+  const toggleLike = async (postId: string) => {
+    if (!user) return;
+    
+    const post = data?.getPostsByFollowingUsers?.find((p: Post) => p._id === postId);
+    if (!post) return;
+
+    const currentLikes = post.likes.map((like: User) => like._id);
+    const isLiked = currentLikes.includes(user._id);
+    
+    const newLikes = isLiked 
+      ? currentLikes.filter((id: string) => id !== user._id)
+      : [...currentLikes, user._id];
+
+    try {
+      await updatePostByLikes({
+        variables: {
+          _id: postId,
+          input: { likes: newLikes }
+        }
+      });
+      
+      // Update local state
+      setLikedPosts((prev) => {
+        const newLikes = new Set(prev);
+        if (isLiked) {
+          newLikes.delete(postId);
+        } else {
+          newLikes.add(postId);
+        }
+        return newLikes;
+      });
+    } catch (err) {
+      console.error('Error updating post likes:', err);
+    }
   };
 
   const toggleSave = (postId: string) => {
@@ -105,6 +165,161 @@ export const Posts = () => {
     });
   };
 
+  const handleAddComment = async (postId: string) => {
+    if (!user || !newComments[postId]?.trim()) return;
+
+    try {
+      await createCommentOnPost({
+        variables: {
+          postId,
+          content: newComments[postId].trim()
+        }
+      });
+
+      // Clear the comment input
+      setNewComments(prev => ({
+        ...prev,
+        [postId]: ''
+      }));
+    } catch (err) {
+      console.error('Error adding comment:', err);
+    }
+  };
+
+  const handleEditComment = (commentId: string, currentContent: string) => {
+    setEditingComment(commentId);
+    setEditCommentContent(currentContent);
+  };
+
+  const handleUpdateComment = async (commentId: string) => {
+    if (!user || !editCommentContent.trim()) return;
+
+    try {
+      await updateCommentByContent({
+        variables: {
+          _id: commentId,
+          input: { content: editCommentContent.trim() },
+          userId: user._id
+        }
+      });
+
+      setEditingComment(null);
+      setEditCommentContent('');
+    } catch (err) {
+      console.error('Error updating comment:', err);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: string) => {
+    if (!user) return;
+
+    try {
+      await deleteComment({
+        variables: {
+          _id: commentId,
+          userId: user._id
+        }
+      });
+    } catch (err) {
+      console.error('Error deleting comment:', err);
+    }
+  };
+
+  const handleLikeComment = async (commentId: string) => {
+    if (!user) return;
+
+    // Find the comment in the posts data (including nested comments)
+    let comment: Comment | undefined;
+    for (const post of data?.getPostsByFollowingUsers || []) {
+      comment = post.comments.find((c: Comment) => c._id === commentId);
+      if (comment) break;
+      
+      // Check nested comments (replies)
+      for (const parentComment of post.comments) {
+        comment = parentComment.comments.find((c: Comment) => c._id === commentId);
+        if (comment) break;
+      }
+      if (comment) break;
+    }
+    
+    if (!comment) return;
+
+    const currentLikes = comment.likes.map((like: User) => like._id);
+    const isLiked = currentLikes.includes(user._id);
+    
+    const newLikes = isLiked 
+      ? currentLikes.filter((id: string) => id !== user._id)
+      : [...currentLikes, user._id];
+
+    try {
+      await updateCommentByLikes({
+        variables: {
+          _id: commentId,
+          input: { likes: newLikes }
+        }
+      });
+
+      // Update local state
+      setLikedComments((prev) => {
+        const newLikes = new Set(prev);
+        if (isLiked) {
+          newLikes.delete(commentId);
+        } else {
+          newLikes.add(commentId);
+        }
+        return newLikes;
+      });
+    } catch (err) {
+      console.error('Error updating comment likes:', err);
+    }
+  };
+
+  const handleAddReply = async (commentId: string) => {
+    if (!user || !newReplies[commentId]?.trim()) return;
+
+    try {
+      await createReplyOnComment({
+        variables: {
+          commentId,
+          content: newReplies[commentId].trim()
+        }
+      });
+
+      // Clear the reply input
+      setNewReplies(prev => ({
+        ...prev,
+        [commentId]: ''
+      }));
+
+      // Hide reply input
+      setShowReplyInput(prev => ({
+        ...prev,
+        [commentId]: false
+      }));
+    } catch (err) {
+      console.error('Error adding reply:', err);
+    }
+  };
+
+  const toggleReplyInput = (commentId: string) => {
+    setShowReplyInput(prev => ({
+      ...prev,
+      [commentId]: !prev[commentId]
+    }));
+  };
+
+  const toggleExpandedComments = (commentId: string) => {
+    setExpandedComments(prev => {
+      const newExpanded = new Set(prev);
+      if (newExpanded.has(commentId)) {
+        newExpanded.delete(commentId);
+      } else {
+        newExpanded.add(commentId);
+      }
+      return newExpanded;
+    });
+  };
+
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
@@ -115,6 +330,163 @@ export const Posts = () => {
     if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
     return `${Math.floor(diffInSeconds / 86400)}d`;
   };
+
+  const renderComment = (comment: Comment, isReply = false) => (
+    <div key={comment._id} className={`text-sm ${isReply ? 'ml-6 border-l-2 border-gray-100 pl-3' : ''}`}>
+      {editingComment === comment._id ? (
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            value={editCommentContent}
+            onChange={(e) => setEditCommentContent(e.target.value)}
+            className="flex-1 px-2 py-1 border rounded text-sm"
+            autoFocus
+            data-testid={`edit-comment-input-${comment._id}`}
+          />
+          <button
+            onClick={() => handleUpdateComment(comment._id)}
+            className="text-blue-500 text-sm"
+            data-testid={`save-comment-${comment._id}`}
+          >
+            Save
+          </button>
+          <button
+            onClick={() => {
+              setEditingComment(null);
+              setEditCommentContent('');
+            }}
+            className="text-gray-500 text-sm"
+            data-testid={`cancel-edit-${comment._id}`}
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-start gap-2">
+          <div className="flex-1">
+            <span className="font-semibold">
+              {comment.author === user?._id ? user.userName : 'User'}
+            </span>
+            <span className="ml-1">{comment.content}</span>
+            <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
+              <span>{formatTimeAgo(comment.createdAt)}</span>
+              <button
+                onClick={() => handleLikeComment(comment._id)}
+                className={`flex items-center gap-1 ${
+                  comment.likes.some(like => like._id === user?._id) || likedComments.has(comment._id)
+                    ? 'text-red-500' 
+                    : 'text-gray-500'
+                }`}
+                data-testid={`like-comment-${comment._id}`}
+              >
+                <Heart 
+                  className={`w-3 h-3 ${
+                    comment.likes.some(like => like._id === user?._id) || likedComments.has(comment._id)
+                      ? 'fill-current' 
+                      : ''
+                  }`} 
+                />
+                {comment.likes.length > 0 && comment.likes.length}
+              </button>
+              {!isReply && (
+                <button
+                  onClick={() => toggleReplyInput(comment._id)}
+                  className="text-gray-500 hover:text-gray-700"
+                  data-testid={`reply-button-${comment._id}`}
+                >
+                  Reply
+                </button>
+              )}
+              {comment.author === user?._id && (
+                <>
+                  <button
+                    onClick={() => handleEditComment(comment._id, comment.content)}
+                    className="flex items-center gap-1"
+                    data-testid={`edit-comment-${comment._id}`}
+                  >
+                    <Edit3 className="w-3 h-3" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteComment(comment._id)}
+                    className="flex items-center gap-1 text-red-500"
+                    data-testid={`delete-comment-${comment._id}`}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    Delete
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reply Input */}
+      {!isReply && showReplyInput[comment._id] && (
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            type="text"
+            placeholder="Write a reply..."
+            className="flex-1 px-2 py-1 border rounded text-sm"
+            value={newReplies[comment._id] || ''}
+            onChange={(e) => setNewReplies(prev => ({
+              ...prev,
+              [comment._id]: e.target.value
+            }))}
+            onKeyPress={(e) => e.key === 'Enter' && handleAddReply(comment._id)}
+            data-testid={`reply-input-${comment._id}`}
+          />
+          <button
+            onClick={() => handleAddReply(comment._id)}
+            className="text-blue-500 text-sm disabled:opacity-50"
+            disabled={!newReplies[comment._id]?.trim()}
+            data-testid={`add-reply-${comment._id}`}
+          >
+            Reply
+          </button>
+          <button
+            onClick={() => toggleReplyInput(comment._id)}
+            className="text-gray-500 text-sm"
+            data-testid={`cancel-reply-${comment._id}`}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {/* Replies */}
+      {!isReply && comment.comments && comment.comments.length > 0 && (
+        <div className="mt-2">
+          {comment.comments.length > 2 && !expandedComments.has(comment._id) ? (
+            <button
+              onClick={() => toggleExpandedComments(comment._id)}
+              className="text-gray-500 text-xs mb-2"
+              data-testid={`view-replies-${comment._id}`}
+            >
+              View {comment.comments.length} replies
+            </button>
+          ) : (
+            expandedComments.has(comment._id) && (
+              <button
+                onClick={() => toggleExpandedComments(comment._id)}
+                className="text-gray-500 text-xs mb-2"
+                data-testid={`hide-replies-${comment._id}`}
+              >
+                Hide replies
+              </button>
+            )
+          )}
+          
+          {(expandedComments.has(comment._id) || comment.comments.length <= 2) && (
+            <div className="space-y-1">
+              {comment.comments.map((reply) => renderComment(reply, true))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 
   // Show login prompt if not authenticated
   if (!isAuthenticated) {
@@ -231,7 +603,11 @@ export const Posts = () => {
               <div className="flex items-center space-x-4">
                 <Heart
                   data-testid={`heart-${post._id}`}
-                  className={`w-6 h-6 cursor-pointer transition-colors ${likedPosts.has(post._id) ? 'text-red-500 fill-current' : 'hover:text-gray-600'}`}
+                  className={`w-6 h-6 cursor-pointer transition-colors ${
+                    post.likes.some(like => like._id === user?._id) || likedPosts.has(post._id)
+                      ? 'text-red-500 fill-current' 
+                      : 'hover:text-gray-600'
+                  }`}
                   onClick={() => toggleLike(post._id)}
                 />
                 <MessageCircle className="w-6 h-6 cursor-pointer hover:text-gray-600" />
@@ -247,11 +623,40 @@ export const Posts = () => {
             <p className="text-sm">
               <span className="font-semibold">{post.author.userName}</span> {post.caption}
             </p>
-            <p className="text-gray-500 text-sm mt-2 cursor-pointer">View all {post.comments.length.toLocaleString()} comments</p>
+            
+            {/* Show comments with replies */}
+            {post.comments.length > 0 && (
+              <div className="mt-2 space-y-1">
+                {post.comments.slice(0, 2).map((comment) => renderComment(comment))}
+                {post.comments.length > 2 && (
+                  <p className="text-gray-500 text-sm cursor-pointer">
+                    View all {post.comments.length.toLocaleString()} comments
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center mt-3 pt-3 border-t border-gray-100">
-              <input type="text" placeholder="Add a comment..." className="flex-1 text-sm outline-none placeholder-gray-400" />
-              <button className="text-blue-500 font-semibold text-sm">Post</button>
+              <input 
+                type="text" 
+                placeholder="Add a comment..." 
+                className="flex-1 text-sm outline-none placeholder-gray-400"
+                value={newComments[post._id] || ''}
+                onChange={(e) => setNewComments(prev => ({
+                  ...prev,
+                  [post._id]: e.target.value
+                }))}
+                onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post._id)}
+                data-testid={`comment-input-${post._id}`}
+              />
+              <button 
+                className="text-blue-500 font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => handleAddComment(post._id)}
+                disabled={!newComments[post._id]?.trim()}
+                data-testid={`add-comment-${post._id}`}
+              >
+                Post
+              </button>
             </div>
           </div>
         </div>
