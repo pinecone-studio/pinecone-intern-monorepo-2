@@ -13,7 +13,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 export const DatePicker = () => {
   const { range, setRange, adult, setAdult, childrens, setChildrens } = useOtpContext();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -71,7 +70,7 @@ export const DatePicker = () => {
           </PopoverTrigger>
 
           <PopoverContent className="w-auto p-0">
-            <Calendar mode="range" selected={range} onSelect={setRange} numberOfMonths={2} />
+            <Calendar mode="range" selected={range} numberOfMonths={2} onSelect={setRange} />
           </PopoverContent>
         </Popover>
       </div>

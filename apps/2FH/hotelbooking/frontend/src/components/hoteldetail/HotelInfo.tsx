@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Star, CircleParking, Phone } from 'lucide-react';
 import { RoomInfo } from './RoomInfo';
 
-// Extract image gallery component
 const HotelImageGallery = ({ images }: { images?: (string | null)[] }) => {
   const renderImage = (src: string | null | undefined, alt: string, width: number, height: number, className?: string) => {
     if (!src) return null;
@@ -56,7 +55,6 @@ const HotelDetails = ({ hotel }: { hotel: any }) => (
   </div>
 );
 
-// Extract location and contact component
 const LocationAndContact = ({ hotel }: { hotel: any }) => (
   <div className="flex flex-col gap-y-2">
     <h3 className="text-base font-bold">Location</h3>
