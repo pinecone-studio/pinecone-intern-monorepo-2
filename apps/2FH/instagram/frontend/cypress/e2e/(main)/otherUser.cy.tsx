@@ -1,17 +1,11 @@
 describe('OtherUser Page', () => {
   const userName = 'testuser';
   const mockUserData = (overrides = {}) => ({
-    __typename: 'User',
-    _id: '123',
-    userName,
-    fullName: 'Test User',
-    bio: 'This is a test bio',
-    profileImage: null,
-    isPrivate: false,
-    isVerified: false,
-    followers: [],
-    followings: [],
-    posts: [{ _id: 'p1' }, { _id: 'p2' }],
+    __typename: 'User', _id: '123',userName,fullName: 'Test User', bio: 'This is a test bio',profileImage: null,isPrivate: false,isVerified: false,followers: [],followings: [],
+    posts: [
+      { _id: 'p1', image: 'https://example.com/image1.jpg', caption: 'Test post 1',likes: [],comments: []}, 
+      {  _id: 'p2', image: 'https://example.com/image2.jpg',caption: 'Test post 2',likes: [], comments: []}
+    ],
     ...overrides,
   });
   const setupAuth = () => {
@@ -27,7 +21,6 @@ describe('OtherUser Page', () => {
       }
     }).as(alias);
   };
-
   it('should show loading state', () => {
     setupIntercept('getUserByUsernameDelayed', {
       delay: 2000,
@@ -36,26 +29,21 @@ describe('OtherUser Page', () => {
     cy.visit(`/${userName}`);
     cy.contains('Loading...').should('exist');
     cy.wait('@getUserByUsernameDelayed');
-    // Wait for the loading to complete and content to render
     cy.contains('Loading...').should('not.exist');
-    // Just verify that some content is rendered after loading
     cy.get('body').should('not.contain', 'Loading...');
   });
-
   it('should show error state', () => {
     setupIntercept('getUserByUsernameError', { errors: [{ message: 'Something went wrong' }] });
     cy.visit(`/${userName}`);
     cy.wait('@getUserByUsernameError');
     cy.contains('Error: Something went wrong').should('exist');
   });
-
   it('should show user not found', () => {
     setupIntercept('getUserByUsernameNotFound', { data: { getUserByUsername: null } });
     cy.visit(`/${userName}`);
     cy.wait('@getUserByUsernameNotFound');
     cy.contains('User not found').should('exist');
   });
-
   it('should render user profile when data exists', () => {
     setupIntercept('getUserByUsername', { data: { getUserByUsername: mockUserData() } });
     cy.visit(`/${userName}`);
@@ -79,7 +67,13 @@ describe('OtherUser Page', () => {
           fullName: 'Followed User',
           bio: 'This user is being followed',
           followers: [{ _id: 'currentUserId', userName: 'currentuser', profileImage: null }],
-          posts: [{ _id: 'p1' }],
+          posts: [{ 
+            _id: 'p1', 
+            image: 'https://example.com/image1.jpg',
+            caption: 'Test post 1',
+            likes: [],
+            comments: []
+          }],
         }),
       },
     });
@@ -88,7 +82,6 @@ describe('OtherUser Page', () => {
     cy.contains('Followed User').should('exist');
     cy.contains('POSTS').should('exist');
   });
-
   it('should render UserProfile when visiting own profile', () => {
     setupAuth();
     setupIntercept('getOwnUser', {
@@ -101,9 +94,8 @@ describe('OtherUser Page', () => {
     });
     cy.visit(`/${userName}`);
     cy.wait('@getOwnUser');
-    cy.contains(/edit profile/i).should('exist');
+    cy.contains('Edit Profile').should('exist');
   });
-
   it('should show posts for private user when current user is following', () => {
     setupAuth();
     setupIntercept('getPrivateFollowedUser', {
@@ -113,6 +105,15 @@ describe('OtherUser Page', () => {
           bio: 'This private user is being followed',
           isPrivate: true,
           followers: [{ _id: 'currentUserId', userName: 'currentuser', profileImage: null }],
+          posts: [
+            { 
+              _id: 'p1', 
+              image: 'https://example.com/image1.jpg',
+              caption: 'Test post 1',
+              likes: [],
+              comments: []
+            }
+          ],
         }),
       },
     });
@@ -122,7 +123,6 @@ describe('OtherUser Page', () => {
     cy.contains('POSTS').should('exist');
     cy.contains('This account is private').should('not.exist');
   });
-
   it('should display profile image when user has one', () => {
     setupIntercept('getUserWithImage', {
       data: {
@@ -139,7 +139,6 @@ describe('OtherUser Page', () => {
     cy.contains('POSTS').should('exist');
     cy.get('img[alt="testuser profile picture"]').should('exist');
   });
-
   it('should fall back to demo image when profile image is invalid', () => {
     setupIntercept('getUserWithInvalidImage', {
       data: {
