@@ -8,15 +8,18 @@ import { demoImage } from '@/components/userProfile/mock-images';
 import { Posts } from '@/components/userProfile/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ProfilePicture = ({ currentUser }: { currentUser: any }) => (
-  <div className="shrink-0">
-    <div className="w-24 h-24 sm:w-40 sm:h-40 rounded-full p-[3px] bg-gradient-to-tr from-fuchsia-500 to-yellow-400">
-      <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-        <Image src={demoImage} width={100} height={100} alt={`${currentUser?.userName} profile picture`} className="w-full h-full object-cover" />
+  <Link href={`/user-stories/${currentUser?._id}`}>
+    <div className="shrink-0">
+      <div className="w-24 h-24 sm:w-40 sm:h-40 rounded-full p-[3px] bg-gradient-to-tr from-fuchsia-500 to-yellow-400">
+        <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+          <Image src={currentUser?.profileImage || demoImage} width={100} height={100} alt={`${currentUser?.userName} profile picture`} className="w-full h-full object-cover" />
+        </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 const ProfileHeader = ({ currentUser }: { currentUser: any }) => (
@@ -31,7 +34,10 @@ const ProfileHeader = ({ currentUser }: { currentUser: any }) => (
         </div>
       )}
     </div>
-    <button className="px-3 py-1.5 text-sm rounded-xl bg-neutral-100 hover:bg-neutral-200 transition-colors">Edit Profile</button>
+    <Link href={'/edit-profile'}>
+      {' '}
+      <button className="px-3 py-1.5 text-sm rounded-xl bg-neutral-100 hover:bg-neutral-200 transition-colors">Edit Profile</button>
+    </Link>
     <button className="px-3 py-1.5 text-sm rounded-xl bg-neutral-100 hover:bg-neutral-200 transition-colors">Ad tools</button>
     <button aria-label="Settings" className="p-2 rounded-xl hover:bg-neutral-200 transition-colors">
       <SettingsSvg />

@@ -42,7 +42,7 @@ export const getStoryByUserId = async (_: unknown, { author }: getStoryByUserIdA
   try {
     validateAuthorId(author);
 
-    const stories = await Story.find({ author }).populate('author', 'username profileImage email isVerified').populate('viewers', 'username avatar').sort({ createdAt: -1 }).lean();
+    const stories = await Story.find({ author }).populate('author', 'userName profileImage email isVerified').populate('viewers', 'username avatar').sort({ createdAt: -1 }).lean();
 
     return stories as StoryDocument[];
   } catch (error) {
