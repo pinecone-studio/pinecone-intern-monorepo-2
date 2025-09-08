@@ -5,8 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@/components';
 import { StoryCreateDialog } from '@/components/create-story-dialog/StoryCreateDialog';
 import { CreatePostDialog } from '@/components/create-post-dialog/CreatePostDialog';
-import Image from 'next/image';
-
 
 export const Sidebar = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
