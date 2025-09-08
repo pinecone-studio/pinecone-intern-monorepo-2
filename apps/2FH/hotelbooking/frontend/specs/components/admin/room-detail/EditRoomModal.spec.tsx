@@ -16,7 +16,7 @@ jest.mock('@/generated', () => ({
     Success: 'Success',
   },
 }));
-jest.mock('@/components/admin/room-detail/edit-sections', () => ({
+jest.mock('../../../../src/components/admin/room-detail/edit-sections', () => ({
   BasicInfoSection: ({ room, handleInputChange }: any) => (
     <div data-testid="basic-info-section">
       <input data-testid="room-name-input" value={room.name || ''} onChange={(e) => handleInputChange('name', e.target.value)} placeholder="Room name" />
