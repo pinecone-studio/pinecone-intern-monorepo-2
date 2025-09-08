@@ -1,9 +1,11 @@
 /* eslint-disable */
 'use client';
-import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
-import { gql, useApolloClient } from '@apollo/client';
+
+import { useMemo } from 'react';
 import { DateRange } from 'react-day-picker';
-import { addDays } from 'date-fns';
+import { gql, useApolloClient } from '@apollo/client';
+import { addDays, differenceInCalendarDays } from 'date-fns';
+import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 
 type BookingDataType = {
   userId: string;
@@ -50,6 +52,7 @@ type OtpContextType = {
   setRange: Dispatch<SetStateAction<DateRange | undefined>>;
   loading: boolean;
   signOut: () => void;
+  nights: number;
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -81,7 +84,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [childrens, setChildrens] = useState(0);
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
-    to: addDays(new Date(), 7),
+    to: addDays(new Date(), 1),
   });
 
   const [loading, setLoading] = useState(true);
@@ -156,6 +159,16 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
+  console.log(range);
+
+  const nights = useMemo(() => {
+    if (range?.from && range?.to) {
+      return differenceInCalendarDays(range.to, range.from);
+    }
+    return 0;
+  }, [range]);
+
+  console.log('range in provider', range, 'nights', nights);
   return (
     <OtpContext.Provider
       value={{
@@ -190,6 +203,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setRange,
         loading,
         signOut,
+        nights,
       }}
     >
       {children}

@@ -9,6 +9,16 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} alt="" />,
 }));
 
+// Mock PriceDetail component to avoid Dialog/portal issues
+jest.mock('@/components/hoteldetail/PriceDetail', () => ({
+  PriceDetail: ({ open }: { open: boolean }) => (open ? <div data-testid="price-detail">Price Detail Mock</div> : null),
+}));
+
+// Mock ReserveButton component to avoid useRouter issues
+jest.mock('@/components/hoteldetail/ReserveButton', () => ({
+  ReserveButton: ({ roomId }: { roomId: string }) => <button data-testid={`reserve-button-${roomId}`}>Reserve</button>,
+}));
+
 const mockRoom = {
   id: '1',
   hotelId: '1',
@@ -19,6 +29,7 @@ const mockRoom = {
   roomInformation: ['wifi', 'tv'],
   bathroom: ['shower'],
   accessibility: ['wheelchair'],
+  internet: ['free_wifi'], // Added missing internet property
   foodAndDrink: ['breakfast'],
   bedRoom: ['king_bed'],
   other: ['balcony'],
@@ -95,11 +106,9 @@ describe('ShowMore carousel', () => {
       </MockedProvider>
     );
 
-    // First go to second image
     const nextButton = screen.getByText('', { selector: '.absolute.right-3' });
     fireEvent.click(nextButton); // img1 -> img2
 
-    // Then click previous button
     const prevButton = screen.getByText('', { selector: '.absolute.left-3' });
     fireEvent.click(prevButton); // img2 -> img1
 
@@ -114,11 +123,36 @@ describe('ShowMore carousel', () => {
       </MockedProvider>
     );
 
-    // Click previous button when on first image (index 0)
     const prevButton = screen.getByText('', { selector: '.absolute.left-3' });
     fireEvent.click(prevButton); // img1 -> img3 (wrap around)
 
     const image = screen.getByTestId('room-info-item-image');
     expect(image).toHaveAttribute('src', 'img3.jpg');
+  });
+
+  it('should open price detail when clicking price detail button', () => {
+    render(
+      <MockedProvider mocks={[getRoomsMock]} addTypename={false}>
+        <ShowMore open={true} onOpenChange={mockOnOpenChange} rooms={mockRoom} />
+      </MockedProvider>
+    );
+
+    const priceDetailButton = screen.getByTestId('price-detail-button-show-more');
+    fireEvent.click(priceDetailButton);
+
+    expect(screen.queryByTestId('price-detail-button-show-more')).not.toBeInTheDocument();
+  });
+
+  it('should open price detail when clicking price detail button in show more', () => {
+    render(
+      <MockedProvider mocks={[getRoomsMock]} addTypename={false}>
+        <ShowMore open={true} onOpenChange={mockOnOpenChange} rooms={mockRoom} />
+      </MockedProvider>
+    );
+
+    const priceDetailButton = screen.getByTestId('price-detail-button-show-more');
+    fireEvent.click(priceDetailButton);
+
+    expect(screen.queryByTestId('price-detail-button-show-more')).not.toBeInTheDocument();
   });
 });

@@ -1,10 +1,10 @@
 'use client';
-
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
 import { Zap } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { PriceDetail } from './PriceDetail';
+import { ReserveButton } from './ReserveButton';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Room = {
@@ -33,9 +33,9 @@ type ShowMoreProps = {
   rooms: Room;
 };
 
-// eslint-disable-next-line no-unused-vars
 export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [openPriceDetail, setOpenPriceDetail] = useState(false);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? rooms.imageURL.length - 1 : prev - 1));
@@ -45,15 +45,17 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
     setCurrentIndex((prev) => (prev === rooms.imageURL.length - 1 ? 0 : prev + 1));
   };
 
+  const handleClickPriceDetail = () => {
+    setOpenPriceDetail(true);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[626px] max-w-none">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">Room Information</DialogTitle>
 
-          {/* Block wrapper instead of DialogDescription */}
           <div className="flex flex-col gap-y-5">
-            {/* Image carousel */}
             <div className="relative w-[578px] h-[325px]">
               {rooms?.imageURL[currentIndex] && <Image data-testid="room-info-item-image" src={rooms.imageURL[currentIndex] as string} alt="roomImage" fill className="object-cover rounded-lg" />}
 
@@ -66,12 +68,10 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
             </div>
 
-            {/* Room name */}
             <div>
               <h3 className="text-lg font-semibold">{rooms.name}</h3>
             </div>
 
-            {/* Room information */}
             <div className="grid grid-cols-3 grid-rows-4 gap-x-4 gap-y-8">
               {rooms.roomInformation.slice(0, 12).map((info, index) => (
                 <div key={index} className="flex gap-x-2">
@@ -81,7 +81,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               ))}
             </div>
 
-            {/* Accessibility & Bathroom */}
             <div className="flex gap-x-4">
               <div className="flex flex-col w-[281px]">
                 <h3 className="text-base font-bold">Accessibility</h3>
@@ -102,7 +101,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
             </div>
 
-            {/* Bedroom & Entertainment */}
             <div className="flex gap-x-4">
               <div className="flex flex-col w-[281px]">
                 <h3 className="text-base font-bold">Bedroom</h3>
@@ -123,7 +121,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
             </div>
 
-            {/* More info */}
             <div>
               <h3 className="text-base font-bold">More</h3>
               {rooms.other.map((other, index) => (
@@ -133,7 +130,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               ))}
             </div>
 
-            {/* Price section */}
             <div className="flex flex-col gap-y-1 border border-solid rounded-lg px-4 py-4">
               <div className="text-xs text-gray-500">Total</div>
               <div className="text-sm font-medium">{new Intl.NumberFormat('en-US').format(rooms.pricePerNight * 2)} ₮</div>
@@ -142,13 +138,16 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
                 <span className="text-base font-medium">{new Intl.NumberFormat('en-US').format(rooms.pricePerNight)} ₮</span>
                 <span className="text-xs">Price per night</span>
               </div>
-
               <div className="flex justify-between">
-                <div className="flex gap-x-2 text-blue-600 items-center">
-                  <span className="text-sm font-medium">Price detail</span>
-                  <ChevronRight className="w-4 h-4" />
-                </div>
-                <Button className="w-[70px] bg-blue-600 text-sm font-medium">Reserve</Button>
+                {openPriceDetail ? (
+                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} />
+                ) : (
+                  <div data-testid="price-detail-button-show-more" onClick={handleClickPriceDetail} className="flex gap-x-2 text-blue-600 items-center cursor-pointer">
+                    <span className="text-sm font-medium">Price detail</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </div>
+                )}
+                <ReserveButton roomId={rooms.id} />
               </div>
             </div>
           </div>

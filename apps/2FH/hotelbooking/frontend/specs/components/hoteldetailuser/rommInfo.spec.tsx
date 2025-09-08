@@ -9,6 +9,16 @@ jest.mock('next/image', () => ({
   default: (props: any) => <img {...props} />,
 }));
 
+// Mock PriceDetail component to avoid Dialog/portal issues
+jest.mock('@/components/hoteldetail/PriceDetail', () => ({
+  PriceDetail: ({ open }: { open: boolean }) => (open ? <div data-testid="price-detail">Price Detail Mock</div> : null),
+}));
+
+// Mock ReserveButton component to avoid useRouter issues
+jest.mock('@/components/hoteldetail/ReserveButton', () => ({
+  ReserveButton: ({ roomId }: { roomId: string }) => <button data-testid={`reserve-button-${roomId}`}>Reserve</button>,
+}));
+
 const mockRoom = {
   id: '1',
   hotelId: '1',
@@ -75,5 +85,21 @@ describe('RoomInfo', () => {
     await waitFor(() => {
       expect(screen.getByText('Room Information')).toBeInTheDocument();
     });
+  });
+
+  it('should open price detail when clicking price detail button', async () => {
+    render(
+      <MockedProvider mocks={[getRoomsMock]} addTypename={false}>
+        <RoomInfo hotelId="1" />
+      </MockedProvider>
+    );
+
+    await screen.findByTestId('room-info-item');
+
+    const priceDetailButton = screen.getByTestId('price-detail-button-room-info');
+    fireEvent.click(priceDetailButton);
+
+    // After clicking, the button should be replaced by PriceDetail component
+    expect(screen.queryByTestId('price-detail-button-room-info')).not.toBeInTheDocument();
   });
 });
