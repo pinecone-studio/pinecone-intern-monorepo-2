@@ -1,0 +1,61 @@
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { Booking, useGetRoomForBookingQuery } from '@/generated';
+import { useHotelNameQuery } from '@/generated';
+import { useRouter } from 'next/navigation';
+type Props = {
+  confirmedBooking: Pick<Booking, 'id' | 'hotelId' | 'roomId' | 'checkInDate' | 'status' | 'adults' | 'children'>;
+};
+
+export const BookedCard = ({ confirmedBooking }: Props) => {
+  const router = useRouter();
+  const { data: hotelData } = useHotelNameQuery({
+    variables: {
+      hotelId: confirmedBooking.hotelId,
+    },
+  });
+  const { data: roomData } = useGetRoomForBookingQuery({
+    variables: {
+      getRoomId: confirmedBooking.roomId,
+    },
+  });
+
+  return (
+    <div data-testid="Booked-Card" className="flex items-end  justify-between border-[1px] rounded-xl">
+      <div className="flex gap-5">
+        <div>
+          <Image src={roomData?.getRoom.imageURL?.[0] || '/Images/NoImage.png'} width={300} height={200} alt="Room picture [0]" className="w-[400px] h-[200px] rounded-xl" />
+        </div>
+        <div className="p-4 w-fit flex flex-col justify-between">
+          <div className={`w-fit px-3 py-1 rounded-full text-white ${roomData?.getRoom.status === 'Booked' && 'bg-[#18BA51]'}`}>{roomData?.getRoom.status}</div>
+          <div>
+            <div className="font-bold">{hotelData?.hotel.name}</div>
+            <div className="text-[14px] opacity-50">
+              {roomData?.getRoom.__typename} ,{roomData?.getRoom.name}
+            </div>
+          </div>
+          <div className="flex gap-3 items-center">
+            <div data-testid="Informatin-Text-Of-Adults" className="p-[3px] rounded-full bg-black w-fit h-fit"></div>
+            <div data-testid="Information-Of-Previous-Card" className="py-2 flex gap-2 ">
+              {confirmedBooking?.adults} adults
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <div className="opacity-50">Check in:</div>
+            <div> {confirmedBooking.checkInDate}</div>
+          </div>
+          <div className="flex gap-3">
+            <div className="opacity-50">Itinerary:</div>
+            <div> {confirmedBooking.id}</div>
+          </div>
+        </div>
+      </div>
+      <div className="p-3 flex items-end">
+        <Button onClick={() => router.push('./detail')} variant={'outline'}>
+          View Detail
+        </Button>
+      </div>
+    </div>
+  );
+};

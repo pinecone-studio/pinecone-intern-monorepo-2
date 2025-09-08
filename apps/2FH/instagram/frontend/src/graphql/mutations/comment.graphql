@@ -1,0 +1,84 @@
+mutation CreateCommentOnPost($postId: ID!, $content: String!) {
+  createCommentOnPost(postId: $postId, content: $content) {
+    _id
+    content
+    author
+    parentId
+    parentType
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateReplyOnComment($commentId: ID!, $content: String!) {
+  createReplyOnComment(commentId: $commentId, content: $content) {
+    _id
+    content
+    author
+    parentId
+    parentType
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateCommentByContent($_id: ID!, $input: CommentInput!, $userId: ID!) {
+  updateCommentByContent(_id: $_id, input: $input, userId: $userId) {
+    _id
+    content
+    author
+    parentId
+    parentType
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateCommentByLikes($_id: ID!, $input: updateByLikeInput) {
+  updateCommentByLikes(_id: $_id, input: $input) {
+    _id
+    content
+    author
+    parentId
+    parentType
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DeleteComment($_id: ID!, $userId: ID!) {
+  deleteComment(_id: $_id, userId: $userId) {
+    _id
+    content
+    author
+    parentId
+    parentType
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    createdAt
+    updatedAt
+  }
+}

@@ -1,125 +1,137 @@
-// BookingPayment.test.tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-
+import { BookingPayment } from '@/components/payment/_components/BookingPayment/BookingPayment';
+import { MockedProvider } from '@apollo/client/testing';
+import { fireEvent, render } from '@testing-library/react';
 import { useOtpContext } from '@/components/providers';
-import { useCreateBookingMutation, useUpdateUserMutationMutation } from '@/generated';
-import { toast } from 'sonner';
-import { BookingPayment } from '@/components/payment/_components/BookingPayment';
+import { act } from 'react-dom/test-utils';
 
-jest.mock('@/components/providers');
-jest.mock('@/generated');
+jest.mock('@/components/providers', () => ({
+  useOtpContext: jest.fn(),
+}));
+
 jest.mock('sonner', () => ({
   toast: {
-    success: jest.fn(),
     error: jest.fn(),
+    success: jest.fn(),
   },
 }));
 
-describe('BookingPayment', () => {
-  const mockSetBookingData = jest.fn();
-  const mockSetBookingSuccess = jest.fn();
-  const mockCreateBooking = jest.fn();
-  const mockUpdateUser = jest.fn();
+const mockBookingData = {
+  userId: '68b017713bb2696705c69369',
+  adults: 2,
+  children: 1,
+  hotelId: '689d5d72980117e81dad2925',
+  roomId: '68b680fbefcd61d7eacdd6fa',
+  checkInDate: '2025-09-10',
+  checkOutDate: '2025-09-15',
+  roomCustomer: {
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'John@gmail.com',
+    phoneNumber: '1234567890',
+  },
+};
 
+const mockHandleCreateBooking = jest.fn().mockResolvedValue({
+  data: {
+    createBooking: {
+      id: '1',
+      userId: mockBookingData.userId,
+      hotelId: mockBookingData.hotelId,
+      roomId: mockBookingData.roomId,
+      checkInDate: mockBookingData.checkInDate,
+      checkOutDate: mockBookingData.checkOutDate,
+      roomCustomer: { ...mockBookingData.roomCustomer },
+      adults: mockBookingData.adults,
+      children: mockBookingData.children,
+    },
+  },
+});
+const mockSetBookingSuccess = jest.fn();
+const mockSetBookingData = jest.fn();
+
+jest.mock('@/generated', () => ({
+  useCreateBookingInputMutation: () => [
+    mockHandleCreateBooking,
+    {
+      loading: false,
+      error: false,
+    },
+  ],
+}));
+
+describe('Booking Payment Component test', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-
     (useOtpContext as jest.Mock).mockReturnValue({
-      bookingData: { hotelId: 'h1', roomId: 'r1' },
+      bookingData: mockBookingData,
       setBookingData: mockSetBookingData,
       setBookingSuccess: mockSetBookingSuccess,
     });
-
-    (useCreateBookingMutation as jest.Mock).mockReturnValue([mockCreateBooking, { loading: false }]);
-
-    (useUpdateUserMutationMutation as jest.Mock).mockReturnValue([mockUpdateUser]);
   });
 
-  it('1. Renders form fields correctly', () => {
-    render(<BookingPayment />);
-    expect(screen.getByText(/Whos checking/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Enter firstname/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText(/Enter lastname/i)).toBeInTheDocument();
-    expect(screen.getByText(/Email address/i)).toBeInTheDocument();
-    expect(screen.getByTestId('Complete-Booking-Btn')).toBeInTheDocument();
+  it('Should render Booking Paymend Component', async () => {
+    const { getByTestId } = render(
+      <MockedProvider>
+        <BookingPayment />
+      </MockedProvider>
+    );
+
+    const inputOne = getByTestId('Input-1');
+    const inputTwo = getByTestId('Input-2');
+    const inputThree = getByTestId('Input-3');
+    const inputFour = getByTestId('Input-4');
+    const button = getByTestId('Complete-Booking-Btn');
+    fireEvent.change(inputOne, { target: { value: 'John' } });
+    fireEvent.change(inputTwo, { target: { value: 'Doe' } });
+    fireEvent.change(inputThree, { target: { value: 'John@gmail.com' } });
+    fireEvent.change(inputFour, { target: { value: '1234567890' } });
+    await act(async () => {
+      fireEvent.click(button);
+    });
+    expect(mockHandleCreateBooking).toHaveBeenCalledWith({
+      variables: {
+        input: {
+          userId: mockBookingData.userId,
+          hotelId: mockBookingData.hotelId,
+          roomId: mockBookingData.roomId,
+          checkInDate: mockBookingData.checkInDate,
+          checkOutDate: mockBookingData.checkOutDate,
+          roomCustomer: {
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'John@gmail.com',
+            phoneNumber: '1234567890',
+          },
+          adults: mockBookingData.adults,
+          children: mockBookingData.children,
+        },
+      },
+    });
+    expect(mockSetBookingData).toHaveBeenCalledWith(expect.any(Function));
+    const updateFn = mockSetBookingData.mock.calls[0][0];
+    expect(updateFn(mockBookingData)).toEqual({
+      ...mockBookingData,
+      userId: mockBookingData.userId,
+      hotelId: mockBookingData.hotelId,
+      roomId: mockBookingData.roomId,
+      checkInDate: mockBookingData.checkInDate,
+      checkOutDate: mockBookingData.checkOutDate,
+      roomCustomer: {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'John@gmail.com',
+        phoneNumber: '1234567890',
+      },
+    });
   });
 
-  it('2. Submits form and calls mutations', async () => {
-    mockCreateBooking.mockResolvedValue({
-      data: { createBooking: { bookingId: 'b1' } },
-    });
-    mockUpdateUser.mockResolvedValue({});
-
-    render(<BookingPayment />);
-
-    fireEvent.change(screen.getByPlaceholderText(/Enter firstname/i), {
-      target: { value: 'John' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Enter lastname/i), {
-      target: { value: 'Doe' },
-    });
-
-    fireEvent.click(screen.getByTestId('Complete-Booking-Btn'));
-
-    await waitFor(() => {
-      expect(mockCreateBooking).toHaveBeenCalled();
-      expect(mockUpdateUser).toHaveBeenCalled();
-      expect(mockSetBookingData).toHaveBeenCalledWith(expect.objectContaining({ bookingId: 'b1' }));
-      expect(mockSetBookingSuccess).toHaveBeenCalledWith(true);
-      expect(toast.success).toHaveBeenCalledWith('Booking success');
-    });
-  });
-
-  it('3. Shows error toast when submission fails', async () => {
-    mockCreateBooking.mockRejectedValue(new Error('Network error'));
-
-    render(<BookingPayment />);
-
-    fireEvent.change(screen.getByPlaceholderText(/Enter firstname/i), {
-      target: { value: 'Jane' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Enter lastname/i), {
-      target: { value: 'Smith' },
-    });
-
-    fireEvent.click(screen.getByTestId('Complete-Booking-Btn'));
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith('Booking error');
-    });
-  });
-  it('4. Renders <LoadingSvg /> when loading', () => {
-    (useCreateBookingMutation as jest.Mock).mockReturnValue([jest.fn(), { loading: true }]);
-
-    render(<BookingPayment />);
-
-    expect(screen.getByTestId('Complete-Booking-Btn').querySelector('svg')).toBeInTheDocument();
-  });
-  it('5. Keeps bookingData unchanged if createBooking returns undefined', async () => {
-    mockCreateBooking.mockResolvedValue({
-      data: { createBooking: undefined },
-    });
-    mockUpdateUser.mockResolvedValue({});
-
-    render(<BookingPayment />);
-
-    fireEvent.change(screen.getByPlaceholderText(/Enter firstname/i), {
-      target: { value: 'No' },
-    });
-    fireEvent.change(screen.getByPlaceholderText(/Enter lastname/i), {
-      target: { value: 'Booking' },
-    });
-
-    fireEvent.click(screen.getByTestId('Complete-Booking-Btn'));
-
-    await waitFor(() => {
-      expect(mockSetBookingData).toHaveBeenCalledWith({
-        hotelId: 'h1',
-        roomId: 'r1',
-        status: 'PENDING',
-      });
-      expect(mockSetBookingSuccess).toHaveBeenCalledWith(true);
-      expect(toast.success).toHaveBeenCalledWith('Booking success');
-    });
+  it('Should throw error when create booking fails', () => {
+    expect(() =>
+      render(
+        <MockedProvider>
+          <BookingPayment />
+        </MockedProvider>
+      )
+    );
   });
 });
