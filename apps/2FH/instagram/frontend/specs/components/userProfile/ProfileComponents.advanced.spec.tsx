@@ -95,7 +95,7 @@ describe('ProfileComponents - Advanced', () => {
     it('renders profile stats with followers and followings', () => {
       render(
         <MockedProvider mocks={mocks}>
-          <ProfileStats user={mockUser} currentUser={mockCurrentUser} />
+          <ProfileStats user={mockUser} currentUser={mockCurrentUser} postCount={10} />
         </MockedProvider>
       );
       expect(screen.getByText('10')).toBeInTheDocument();
@@ -107,7 +107,7 @@ describe('ProfileComponents - Advanced', () => {
     it('renders profile stats without current user', () => {
       render(
         <MockedProvider mocks={mocks}>
-          <ProfileStats user={mockUser} currentUser={null} />
+          <ProfileStats user={mockUser} currentUser={null} postCount={10} />
         </MockedProvider>
       );
       expect(screen.getByText('10')).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe('ProfileComponents - Advanced', () => {
       };
       render(
         <MockedProvider mocks={mocks}>
-          <ProfileStats user={userWithNoFollowers} currentUser={mockCurrentUser} />
+          <ProfileStats user={userWithNoFollowers} currentUser={mockCurrentUser} postCount={10} />
         </MockedProvider>
       );
       expect(screen.getByText('10')).toBeInTheDocument();

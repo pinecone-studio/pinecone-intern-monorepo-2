@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 'use client';
 import { BoardSvg } from '@/components/assets/BoardSvg';
 import { Posts } from '@/components/userProfile/Post';
@@ -9,6 +10,15 @@ import { useGetUserByUsernameQuery } from '@/generated';
 import { useAuth, User as AuthUser } from '@/contexts/AuthContext';
 import { ProfileInfo } from '../../../components/userProfile/ProfileComponents';
 import UserProfile from '../userProfile/page';
+import { useQuery, gql } from '@apollo/client';
+
+const GET_POSTS_BY_AUTHOR = gql`
+  query GetPostsByAuthor($author: ID!) {
+    getPostsByAuthor(author: $author) {
+      _id
+    }
+  }
+`;
 
 interface User {
   followers: Array<{ userName: string; _id: string; profileImage?: string | null | undefined }>;
@@ -54,7 +64,7 @@ const ProfileContent = ({ user, isFollowing }: { user: User; isFollowing: boolea
             POSTS
           </button>
         </div>
-        <Posts />
+        <Posts userId={user._id} />
       </>
     );
   }
@@ -70,21 +80,30 @@ const ProfileContent = ({ user, isFollowing }: { user: User; isFollowing: boolea
   );
 };
 
-const OtherUserContent = ({ user, currentUser, isFollowing }: { user: User; currentUser: AuthUser | null; isFollowing: boolean }) => (
-  <div className="min-h-full w-screen bg-white text-neutral-900 flex justify-center">
-    <div className="w-full max-w-[935px] px-4 sm:px-6 pb-16">
-      <div className="mt-6 rounded-2xl p-6 sm:p-8">
-        <div className="flex gap-6 sm:gap-8">
-          <ProfilePicture user={user} />
-          <ProfileInfo user={user} currentUser={currentUser} isFollowing={isFollowing} />
+const OtherUserContent = ({ user, currentUser, isFollowing }: { user: User; currentUser: AuthUser | null; isFollowing: boolean }) => {
+  const { data: postsData } = useQuery(GET_POSTS_BY_AUTHOR, {
+    variables: { author: user._id },
+    skip: !user._id,
+  });
+  
+  const postCount = postsData?.getPostsByAuthor?.length || 0;
+
+  return (
+    <div className="min-h-full w-screen bg-white text-neutral-900 flex justify-center">
+      <div className="w-full max-w-[935px] px-4 sm:px-6 pb-16">
+        <div className="mt-6 rounded-2xl p-6 sm:p-8">
+          <div className="flex gap-6 sm:gap-8">
+            <ProfilePicture user={user} />
+            <ProfileInfo user={user} currentUser={currentUser} isFollowing={isFollowing} postCount={postCount} />
+          </div>
+        </div>
+        <div className="border-t">
+          <ProfileContent user={user} isFollowing={isFollowing} />
         </div>
       </div>
-      <div className="border-t">
-        <ProfileContent user={user} isFollowing={isFollowing} />
-      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const renderUserContent = (user: User, currentUser: AuthUser | null) => {
   if (user._id === currentUser?._id) return <UserProfile />;

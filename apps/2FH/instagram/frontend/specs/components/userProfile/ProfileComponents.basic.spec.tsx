@@ -105,7 +105,7 @@ describe('ProfileComponents - Basic', () => {
       render(
         <TestWrapper>
           <MockedProvider mocks={mocks}>
-            <ProfileInfo user={mockUser} currentUser={mockCurrentUser} isFollowing={false} />
+            <ProfileInfo user={mockUser} currentUser={mockCurrentUser} isFollowing={false} postCount={10} />
           </MockedProvider>
         </TestWrapper>
       );
@@ -122,7 +122,7 @@ describe('ProfileComponents - Basic', () => {
       render(
         <TestWrapper>
           <MockedProvider mocks={mocks}>
-            <ProfileInfo user={mockUser} currentUser={null} isFollowing={false} />
+            <ProfileInfo user={mockUser} currentUser={null} isFollowing={false} postCount={10} />
           </MockedProvider>
         </TestWrapper>
       );

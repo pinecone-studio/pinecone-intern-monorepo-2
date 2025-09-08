@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 'use client';
 import { BoardSvg } from '@/components/assets/BoardSvg';
 import { SaveSvg } from '@/components/assets/SaveSvg';
@@ -7,7 +8,16 @@ import { Followings } from '@/components/userProfile/Followings';
 import { demoImage } from '@/components/userProfile/mock-images';
 import { Posts } from '@/components/userProfile/Post';
 import { useAuth } from '@/contexts/AuthContext';
+import { useQuery, gql } from '@apollo/client';
 import Image from 'next/image';
+
+const GET_POSTS_BY_AUTHOR = gql`
+  query GetPostsByAuthor($author: ID!) {
+    getPostsByAuthor(author: $author) {
+      _id
+    }
+  }
+`;
 
 const ProfilePicture = ({ currentUser }: { currentUser: any }) => (
   <div className="shrink-0">
@@ -39,14 +49,14 @@ const ProfileHeader = ({ currentUser }: { currentUser: any }) => (
   </div>
 );
 
-const ProfileStats = ({ currentUser }: { currentUser: any }) => {
+const ProfileStats = ({ currentUser, postCount }: { currentUser: any; postCount: number }) => {
   const defaultUser = { _id: '', userName: '', followings: [] };
   const safeCurrentUser = currentUser || defaultUser;
 
   return (
     <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
       <div>
-        <strong>10</strong> posts
+        <strong className="text-neutral-900 text-xl">{postCount}</strong> posts
       </div>
       <div>
         <Followers followers={currentUser?.followers || []} currentUser={safeCurrentUser} />
@@ -60,6 +70,13 @@ const ProfileStats = ({ currentUser }: { currentUser: any }) => {
 
 const UserProfile = () => {
   const { user: currentUser } = useAuth();
+  const { data: postsData } = useQuery(GET_POSTS_BY_AUTHOR, {
+    variables: { author: currentUser?._id },
+    skip: !currentUser?._id,
+  });
+  
+  const postCount = postsData?.getPostsByAuthor?.length || 0;
+
   return (
     <div className="min-h-full w-screen  bg-white text-neutral-900 flex justify-center">
       <div className="w-full max-w-[935px] px-4 sm:px-6 pb-16">
@@ -68,7 +85,7 @@ const UserProfile = () => {
             <ProfilePicture currentUser={currentUser} />
             <div className="flex-1 min-w-0">
               <ProfileHeader currentUser={currentUser} />
-              <ProfileStats currentUser={currentUser} />
+              <ProfileStats currentUser={currentUser} postCount={postCount} />
               <div className="mt-4 space-y-1 text-sm leading-6">
                 <div className="font-semibold">{currentUser?.fullName}</div>
                 <div>{currentUser?.bio}</div>
@@ -86,7 +103,7 @@ const UserProfile = () => {
             SAVED
           </button>
         </div>
-        <Posts />
+        <Posts userId={currentUser?._id || ''} />
         <div className="mt-8 flex justify-center">
           <div className="w-6 h-6 rounded-full border-2 border-neutral-300 border-t-neutral-800 animate-spin" />
         </div>

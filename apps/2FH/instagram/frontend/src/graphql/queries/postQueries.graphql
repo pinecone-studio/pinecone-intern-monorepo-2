@@ -1,0 +1,31 @@
+query GetPostsByAuthor($author: ID!) {
+  getPostsByAuthor(author: $author) {
+    _id
+    image
+    caption
+    createdAt
+    updatedAt
+    author {
+      _id
+      userName
+      profileImage
+    }
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    comments {
+      _id
+      content
+      author
+      likes {
+        _id
+        userName
+        profileImage
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
