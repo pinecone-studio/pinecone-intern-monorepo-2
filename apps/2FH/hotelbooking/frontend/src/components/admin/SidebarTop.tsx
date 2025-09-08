@@ -5,12 +5,12 @@ const SidebarTop = () => {
   return (
     <div>
       <div className="p-4 text-xl font-bold flex items-center gap-2">
-        <div className="w-8 h-8 bg-blue-700 flex items-center justify-center rounded-lg">
-          <Circle className="w-3 h-3 text-white bg-white  " />
+        <div className="w-9 h-9 bg-blue-700 flex items-center justify-center rounded-lg">
+          <Circle className="w-4 h-4 text-white bg-white rounded-full  " />
         </div>
         <div>
           <p className="text-[#334155] font-medium text-sm">Pedia</p>
-          <p className="text-[#334155] font-medium text-sm">media</p>
+          <p className="text-[#334155] font-medium text-sm">Admin</p>
         </div>
       </div>
       <nav>

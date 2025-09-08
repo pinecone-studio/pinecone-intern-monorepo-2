@@ -1,0 +1,1398 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AmenitiesSection matches snapshot 1`] = `
+<div
+  class="space-y-6"
+>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Internet
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="internet-free_wifi"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="internet-free_wifi"
+        >
+          Free WiFi
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="internet-free_wired_internet"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="internet-free_wired_internet"
+        >
+          Free Wired Internet
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Food & Drink
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="foodAndDrink-free_breakfast"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-free_breakfast"
+        >
+          Free Breakfast
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-free_lunch"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-free_lunch"
+        >
+          Free Lunch
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-free_dinner"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-free_dinner"
+        >
+          Free Dinner
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-free_snacks"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-free_snacks"
+        >
+          Free Snacks
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-free_drinks"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-free_drinks"
+        >
+          Free Drinks
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-electric_kettle"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-electric_kettle"
+        >
+          Electric Kettle
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="foodAndDrink-coffee_machine"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-coffee_machine"
+        >
+          Coffee Machine
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="foodAndDrink-minibar"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="foodAndDrink-minibar"
+        >
+          Minibar
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Bedroom
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="bedRoom-air_conditioner"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-air_conditioner"
+        >
+          Air Conditioner
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-bed_sheets"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-bed_sheets"
+        >
+          Bed Sheets
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-pillows"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-pillows"
+        >
+          Pillows
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-blankets"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-blankets"
+        >
+          Blankets
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-crib"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-crib"
+        >
+          Crib
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-crib_not_available"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-crib_not_available"
+        >
+          Crib Not Available
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bedRoom-heating"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bedRoom-heating"
+        >
+          Heating
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Bathroom
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="bathroom-private"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-private"
+        >
+          Private
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-shared"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-shared"
+        >
+          Shared
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-bathrobes"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-bathrobes"
+        >
+          Bathrobes
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="bathroom-free_toiletries"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_toiletries"
+        >
+          Free Toiletries
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-hair_dryer"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-hair_dryer"
+        >
+          Hair Dryer
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_shampoo"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_shampoo"
+        >
+          Free Shampoo
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_conditioner"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_conditioner"
+        >
+          Free Conditioner
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_body_wash"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_body_wash"
+        >
+          Free Body Wash
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_body_lotion"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_body_lotion"
+        >
+          Free Body Lotion
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_body_soap"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_body_soap"
+        >
+          Free Body Soap
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_body_scrub"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_body_scrub"
+        >
+          Free Body Scrub
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-free_body_mask"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-free_body_mask"
+        >
+          Free Body Mask
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-towels"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-towels"
+        >
+          Towels
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-slippers"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-slippers"
+        >
+          Slippers
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-toothbrush"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-toothbrush"
+        >
+          Toothbrush
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="bathroom-toothpaste"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="bathroom-toothpaste"
+        >
+          Toothpaste
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Accessibility
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="accessibility-wheelchair_accessible"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible"
+        >
+          Wheelchair Accessible
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_bathroom"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_bathroom"
+        >
+          Wheelchair Accessible Bathroom
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_shower"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_shower"
+        >
+          Wheelchair Accessible Shower
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_bathtub"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_bathtub"
+        >
+          Wheelchair Accessible Bathtub
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_door"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_door"
+        >
+          Wheelchair Accessible Door
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_entrance"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_entrance"
+        >
+          Wheelchair Accessible Entrance
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-wheelchair_accessible_parking"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-wheelchair_accessible_parking"
+        >
+          Wheelchair Accessible Parking
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-thin_carpet"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-thin_carpet"
+        >
+          Thin Carpet
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="accessibility-access_via_exterior_corridors"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="accessibility-access_via_exterior_corridors"
+        >
+          Access Via Exterior Corridors
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Entertainment
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="entertainment-tv"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-tv"
+        >
+          TV
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="entertainment-cable_channels"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-cable_channels"
+        >
+          Cable Channels
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="entertainment-dvd_player"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-dvd_player"
+        >
+          DVD Player
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="entertainment-adult_movies"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-adult_movies"
+        >
+          Adult Movies
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="entertainment-computer"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-computer"
+        >
+          Computer
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="entertainment-console_free"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="entertainment-console_free"
+        >
+          Console Free
+        </label>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+      Other Amenities
+    </label>
+    <div
+      class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto mt-2"
+    >
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-daily_housekeeping"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-daily_housekeeping"
+        >
+          Daily Housekeeping
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="other-desk"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-desk"
+        >
+          Desk
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-laptop_workspace"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-laptop_workspace"
+        >
+          Laptop Workspace
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-laptop_workspace_not_available"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-laptop_workspace_not_available"
+        >
+          Laptop Workspace Not Available
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-phone"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-phone"
+        >
+          Phone
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="true"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="checked"
+          id="other-safe"
+          role="checkbox"
+          type="button"
+          value="on"
+        >
+          <span
+            class="flex items-center justify-center text-current"
+            data-state="checked"
+            style="pointer-events: none;"
+          >
+            <svg
+              class="lucide lucide-check w-4 h-4"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20 6 9 17l-5-5"
+              />
+            </svg>
+          </span>
+        </button>
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-safe"
+        >
+          Safe
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-sitting_area"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-sitting_area"
+        >
+          Sitting Area
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-soundproofed_rooms"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-soundproofed_rooms"
+        >
+          Soundproofed Rooms
+        </label>
+      </div>
+      <div
+        class="flex items-center space-x-2"
+      >
+        <button
+          aria-checked="false"
+          class="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          data-state="unchecked"
+          id="other-wardrobes"
+          role="checkbox"
+          type="button"
+          value="on"
+        />
+        <label
+          class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
+          for="other-wardrobes"
+        >
+          Wardrobes
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+`;

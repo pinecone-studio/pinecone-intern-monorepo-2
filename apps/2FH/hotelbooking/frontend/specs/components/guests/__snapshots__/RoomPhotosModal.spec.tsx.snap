@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoomPhotosModal matches snapshot 1`] = `
+<button
+  aria-controls="radix-:r28:"
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 underline-offset-4 hover:underline text-blue-600 p-0 h-auto"
+  data-state="closed"
+  type="button"
+>
+  <span
+    class="flex items-center"
+  >
+    <span
+      class="mr-1"
+    >
+      👁️
+    </span>
+    View
+  </span>
+</button>
+`;
+
+exports[`RoomPhotosModal matches snapshot with no images 1`] = `
+<button
+  aria-controls="radix-:r2e:"
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 underline-offset-4 hover:underline text-blue-600 p-0 h-auto"
+  data-state="closed"
+  type="button"
+>
+  <span
+    class="flex items-center"
+  >
+    <span
+      class="mr-1"
+    >
+      👁️
+    </span>
+    View
+  </span>
+</button>
+`;
+
+exports[`RoomPhotosModal matches snapshot with single image 1`] = `
+<button
+  aria-controls="radix-:r2b:"
+  aria-expanded="false"
+  aria-haspopup="dialog"
+  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 underline-offset-4 hover:underline text-blue-600 p-0 h-auto"
+  data-state="closed"
+  type="button"
+>
+  <span
+    class="flex items-center"
+  >
+    <span
+      class="mr-1"
+    >
+      👁️
+    </span>
+    View
+  </span>
+</button>
+`;

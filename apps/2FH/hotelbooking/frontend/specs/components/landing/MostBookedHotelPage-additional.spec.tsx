@@ -19,6 +19,12 @@ jest.mock('@/components/landing-page/HotelSkeleton', () => ({
   HotelSkeletonGrid: ({ count }: { count: number }) => <div data-testid="skeleton">Loading {count}</div>,
 }));
 
+// Mock Next.js Image component
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: any) => <img src={src} alt={alt} {...props} />,
+}));
+
 describe('MostBookedHotelsPage - Additional Coverage', () => {
   const mockPush = jest.fn();
 
@@ -76,50 +82,50 @@ describe('MostBookedHotelsPage - Additional Coverage', () => {
   });
 });
 
-  it('renders "Good" rating for hotels with rating between 7.5 and 8.0', () => {
-    (useHotelsByRatingQuery as jest.Mock).mockReturnValue({
-      loading: false,
-      error: undefined,
-      data: {
-        hotelsByRating: [
-          {
-            id: '9',
-            name: 'Good Hotel Range',
-            stars: 3,
-            rating: 7.8, // Between 7.5 and 8.0 should trigger "Good" rating
-            country: 'Mongolia',
-            city: 'Darkhan',
-            images: ['hotel.jpg'],
-            amenities: [],
-          },
-        ],
-      },
-    });
-
-    render(<MostBookedHotelsPage />);
-    expect(screen.getByText('Good')).toBeInTheDocument();
+it('renders "Good" rating for hotels with rating between 7.5 and 8.0', () => {
+  (useHotelsByRatingQuery as jest.Mock).mockReturnValue({
+    loading: false,
+    error: undefined,
+    data: {
+      hotelsByRating: [
+        {
+          id: '9',
+          name: 'Good Hotel Range',
+          stars: 3,
+          rating: 7.8, // Between 7.5 and 8.0 should trigger "Good" rating
+          country: 'Mongolia',
+          city: 'Darkhan',
+          images: ['hotel.jpg'],
+          amenities: [],
+        },
+      ],
+    },
   });
 
-  it('renders spa amenity with "Spa Services" text', () => {
-    (useHotelsByRatingQuery as jest.Mock).mockReturnValue({
-      loading: false,
-      error: undefined,
-      data: {
-        hotelsByRating: [
-          {
-            id: '10',
-            name: 'Spa Services Hotel',
-            stars: 4,
-            rating: 8.0,
-            country: 'Mongolia',
-            city: 'Ulaanbaatar',
-            images: ['hotel.jpg'],
-            amenities: ['Spa Services'], // This should trigger spa icon
-          },
-        ],
-      },
-    });
+  render(<MostBookedHotelsPage />);
+  expect(screen.getByText('Good')).toBeInTheDocument();
+});
 
-    render(<MostBookedHotelsPage />);
-    expect(screen.getByText('Spa Services')).toBeInTheDocument();
+it('renders spa amenity with "Spa Services" text', () => {
+  (useHotelsByRatingQuery as jest.Mock).mockReturnValue({
+    loading: false,
+    error: undefined,
+    data: {
+      hotelsByRating: [
+        {
+          id: '10',
+          name: 'Spa Services Hotel',
+          stars: 4,
+          rating: 8.0,
+          country: 'Mongolia',
+          city: 'Ulaanbaatar',
+          images: ['hotel.jpg'],
+          amenities: ['Spa Services'], // This should trigger spa icon
+        },
+      ],
+    },
   });
+
+  render(<MostBookedHotelsPage />);
+  expect(screen.getByText('Spa Services')).toBeInTheDocument();
+});

@@ -1,3 +1,6 @@
 mutation CreateRoom($input: RoomInput!) {
   createRoom(input: $input)
 }
+mutation UpdateRoom($updateRoomId: ID!, $input: RoomUpdateInput!) {
+  updateRoom(id: $updateRoomId, input: $input)
+}

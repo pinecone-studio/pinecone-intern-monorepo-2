@@ -76,7 +76,7 @@ describe('RoomPage Basic Rendering', () => {
   it('should render successfully', () => {
     render(<RoomPage />);
 
-    expect(screen.getByText('Economy Single Room')).toBeInTheDocument();
+    expect(screen.getByText('New Room')).toBeInTheDocument();
     expect(screen.getByText('Select Hotel')).toBeInTheDocument();
     expect(screen.getByTestId('general-component')).toBeInTheDocument();
     expect(screen.getByTestId('roomservice-component')).toBeInTheDocument();

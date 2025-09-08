@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Star, Wifi, Car, PenTool } from 'lucide-react';
 import { useHotelsByRatingQuery } from '@/generated';
 import { HotelSkeletonGrid } from '@/components/landing-page/HotelSkeleton';
@@ -83,7 +84,7 @@ export const MostBookedHotelsPage = () => {
             <div key={hotel.id} onClick={() => handleHotelClick(hotel.id)} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden">
               <div className="h-48 bg-gray-200 relative">
                 {hotel.images && hotel.images.length > 0 ? (
-                  <img src={hotel.images[0]} alt={hotel.name} className="w-full h-full object-cover" />
+                  <Image src={hotel.images[0]} alt={hotel.name} fill className="object-cover" />
                 ) : (
                   <div className="w-full h-full bg-gray-300 flex items-center justify-center">
                     <span className="text-gray-500">No image</span>

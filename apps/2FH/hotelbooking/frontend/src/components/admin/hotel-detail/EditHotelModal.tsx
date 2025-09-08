@@ -1,9 +1,19 @@
 'use client';
 import { useState } from 'react';
-import { useUpdateHotelMutation } from '@/generated';
+import { useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { BasicInfoSection, LocationSection, AmenitiesSection, LanguagesSection, PoliciesSection, FAQSection, DetailsSection, ImagesSection } from './edit-sections';
+
+const UPDATE_HOTEL_MUTATION = gql`
+  mutation UpdateHotel($updateHotelId: ID!, $hotel: UpdateHotelInput!) {
+    updateHotel(id: $updateHotelId, hotel: $hotel) {
+      success
+      message
+    }
+  }
+`;
 
 interface EditHotelModalProps {
   hotel: any;
@@ -15,7 +25,7 @@ interface EditHotelModalProps {
 }
 
 export const EditHotelModal = ({ hotel, section, isOpen, onOpenChange, refetch, hotelId }: EditHotelModalProps) => {
-  const [updateHotel, { loading: updateLoading }] = useUpdateHotelMutation();
+  const [updateHotel, { loading: updateLoading }] = useMutation(UPDATE_HOTEL_MUTATION);
   const [formData, setFormData] = useState({
     name: hotel.name,
     description: hotel.description,

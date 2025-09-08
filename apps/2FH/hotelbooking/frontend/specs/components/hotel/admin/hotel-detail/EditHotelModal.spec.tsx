@@ -4,12 +4,13 @@ import { render, screen, waitFor } from '@/TestUtils';
 import userEvent from '@testing-library/user-event';
 import { EditHotelModal } from '@/components/admin/hotel-detail/EditHotelModal';
 
-// Mock the useUpdateHotelMutation hook
+// Mock the useMutation hook
 const mockUpdateHotel = jest.fn();
 const mockUpdateLoading = jest.fn();
 
-jest.mock('@/generated', () => ({
-  useUpdateHotelMutation: () => [mockUpdateHotel, { loading: mockUpdateLoading() }],
+jest.mock('@apollo/client', () => ({
+  useMutation: () => [mockUpdateHotel, { loading: mockUpdateLoading() }],
+  gql: jest.fn(),
 }));
 
 // Mock the edit section components

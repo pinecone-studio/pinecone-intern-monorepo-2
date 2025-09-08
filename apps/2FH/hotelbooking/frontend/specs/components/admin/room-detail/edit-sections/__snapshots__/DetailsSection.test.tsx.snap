@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DetailsSection Snapshot Tests matches snapshot with default props 1`] = `
+<div
+  class="space-y-6"
+>
+  <div>
+    <label
+      data-testid="label"
+      for="roomInformation"
+    >
+      Room Information
+    </label>
+    <textarea
+      class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      id="roomInformation"
+      placeholder="Enter detailed room information, policies, and any special notes..."
+      rows="6"
+    >
+      This is a detailed room description with amenities and policies.
+    </textarea>
+  </div>
+  <div>
+    <label
+      data-testid="label"
+      for="status"
+    >
+      Room Status
+    </label>
+    <div
+      data-testid="select"
+    >
+      <button
+        data-testid="select-trigger"
+        id="status"
+      >
+        available
+      </button>
+      <div
+        data-testid="select-trigger-wrapper"
+      >
+        <span
+          data-testid="select-value"
+        >
+          Select room status
+        </span>
+      </div>
+      <div
+        data-testid="select-content"
+      >
+        <div
+          data-testid="select-item-cancelled"
+        >
+          Cancelled
+        </div>
+        <div
+          data-testid="select-item-booked"
+        >
+          Booked
+        </div>
+        <div
+          data-testid="select-item-pending"
+        >
+          Pending
+        </div>
+        <div
+          data-testid="select-item-completed"
+        >
+          Completed
+        </div>
+        <div
+          data-testid="select-item-available"
+        >
+          Available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DetailsSection Snapshot Tests matches snapshot with different status 1`] = `
+<div
+  class="space-y-6"
+>
+  <div>
+    <label
+      data-testid="label"
+      for="roomInformation"
+    >
+      Room Information
+    </label>
+    <textarea
+      class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      id="roomInformation"
+      placeholder="Enter detailed room information, policies, and any special notes..."
+      rows="6"
+    >
+      This is a detailed room description with amenities and policies.
+    </textarea>
+  </div>
+  <div>
+    <label
+      data-testid="label"
+      for="status"
+    >
+      Room Status
+    </label>
+    <div
+      data-testid="select"
+    >
+      <button
+        data-testid="select-trigger"
+        id="status"
+      >
+        booked
+      </button>
+      <div
+        data-testid="select-trigger-wrapper"
+      >
+        <span
+          data-testid="select-value"
+        >
+          Select room status
+        </span>
+      </div>
+      <div
+        data-testid="select-content"
+      >
+        <div
+          data-testid="select-item-cancelled"
+        >
+          Cancelled
+        </div>
+        <div
+          data-testid="select-item-booked"
+        >
+          Booked
+        </div>
+        <div
+          data-testid="select-item-pending"
+        >
+          Pending
+        </div>
+        <div
+          data-testid="select-item-completed"
+        >
+          Completed
+        </div>
+        <div
+          data-testid="select-item-available"
+        >
+          Available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DetailsSection Snapshot Tests matches snapshot with null values 1`] = `
+<div
+  class="space-y-6"
+>
+  <div>
+    <label
+      data-testid="label"
+      for="roomInformation"
+    >
+      Room Information
+    </label>
+    <textarea
+      class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      id="roomInformation"
+      placeholder="Enter detailed room information, policies, and any special notes..."
+      rows="6"
+    />
+  </div>
+  <div>
+    <label
+      data-testid="label"
+      for="status"
+    >
+      Room Status
+    </label>
+    <div
+      data-testid="select"
+    >
+      <button
+        data-testid="select-trigger"
+        id="status"
+      >
+        available
+      </button>
+      <div
+        data-testid="select-trigger-wrapper"
+      >
+        <span
+          data-testid="select-value"
+        >
+          Select room status
+        </span>
+      </div>
+      <div
+        data-testid="select-content"
+      >
+        <div
+          data-testid="select-item-cancelled"
+        >
+          Cancelled
+        </div>
+        <div
+          data-testid="select-item-booked"
+        >
+          Booked
+        </div>
+        <div
+          data-testid="select-item-pending"
+        >
+          Pending
+        </div>
+        <div
+          data-testid="select-item-completed"
+        >
+          Completed
+        </div>
+        <div
+          data-testid="select-item-available"
+        >
+          Available
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

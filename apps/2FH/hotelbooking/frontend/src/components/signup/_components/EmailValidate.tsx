@@ -32,13 +32,13 @@ export const EmailValidate = () => {
     if (otp.length === 4) {
       handleVerifyOtp();
     }
-  }, [otp]);
+  }, [otp, handleVerifyOtp]);
 
   useEffect(() => {
     if (otp.length === 4) {
       handleVerifyOtp();
     }
-  }, [startTime]);
+  }, [startTime, otp.length, handleVerifyOtp]);
 
   return (
     <div data-cy="Email-Validate-Container" className="flex flex-col items-center gap-4 w-3/4">

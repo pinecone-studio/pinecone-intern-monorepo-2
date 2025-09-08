@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RootLayout Snapshot Tests matches snapshot with default children 1`] = `
+<html
+  lang="en"
+>
+  <body>
+    <div
+      data-testid="apollo-wrapper"
+    >
+      <div
+        data-testid="user-auth-provider"
+      >
+        <div
+          data-testid="conditional-layout"
+        >
+          <div
+            data-testid="test-children"
+          >
+            Test Content
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-position="top-center"
+      data-rich-colors="true"
+      data-testid="toaster"
+    >
+      Toaster Component
+    </div>
+  </body>
+</html>
+`;
+
+exports[`RootLayout Snapshot Tests matches snapshot with multiple children 1`] = `
+<html
+  lang="en"
+>
+  <body>
+    <div
+      data-testid="apollo-wrapper"
+    >
+      <div
+        data-testid="user-auth-provider"
+      >
+        <div
+          data-testid="conditional-layout"
+        >
+          <div>
+            Child 1
+          </div>
+          <div>
+            Child 2
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-position="top-center"
+      data-rich-colors="true"
+      data-testid="toaster"
+    >
+      Toaster Component
+    </div>
+  </body>
+</html>
+`;
+
+exports[`RootLayout Snapshot Tests matches snapshot with no children 1`] = `
+<html
+  lang="en"
+>
+  <body>
+    <div
+      data-testid="apollo-wrapper"
+    >
+      <div
+        data-testid="user-auth-provider"
+      >
+        <div
+          data-testid="conditional-layout"
+        />
+      </div>
+    </div>
+    <div
+      data-position="top-center"
+      data-rich-colors="true"
+      data-testid="toaster"
+    >
+      Toaster Component
+    </div>
+  </body>
+</html>
+`;
+
+exports[`RootLayout Snapshot Tests matches snapshot with string children 1`] = `
+<html
+  lang="en"
+>
+  <body>
+    <div
+      data-testid="apollo-wrapper"
+    >
+      <div
+        data-testid="user-auth-provider"
+      >
+        <div
+          data-testid="conditional-layout"
+        >
+          String Content
+        </div>
+      </div>
+    </div>
+    <div
+      data-position="top-center"
+      data-rich-colors="true"
+      data-testid="toaster"
+    >
+      Toaster Component
+    </div>
+  </body>
+</html>
+`;

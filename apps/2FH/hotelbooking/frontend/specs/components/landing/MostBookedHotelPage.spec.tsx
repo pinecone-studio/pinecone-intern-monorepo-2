@@ -17,6 +17,11 @@ jest.mock('@/components/landing-page/HotelSkeleton', () => ({
   HotelSkeletonGrid: ({ count }: { count: number }) => <div data-testid="skeleton">{count}</div>,
 }));
 
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: any) => <img src={src} alt={alt} {...props} />,
+}));
+
 const mockPush = jest.fn();
 const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
 const mockQuery = useHotelsByRatingQuery as jest.MockedFunction<typeof useHotelsByRatingQuery>;

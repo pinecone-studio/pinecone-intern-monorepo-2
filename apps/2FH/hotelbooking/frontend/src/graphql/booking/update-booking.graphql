@@ -1,0 +1,3 @@
+mutation UpdateBooking($updateBookingId: ID!, $input: UpdateBookingInput!) {
+  updateBooking(id: $updateBookingId, input: $input)
+}

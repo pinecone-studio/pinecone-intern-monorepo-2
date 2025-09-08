@@ -5,6 +5,7 @@ import { useHotelQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { HotelInfoCard, HotelDetailsCard, AmenitiesCard, PoliciesCard, FAQCard, LocationCard, HotelImagesCard, LoadingSkeleton, ErrorMessage, NotFoundMessage } from '@/components/admin/hotel-detail';
+import RoomBookingTable from '@/components/admin/get-room-booking/RoomBookingTable';
 
 const HotelDetailPage = () => {
   const params = useParams();
@@ -59,6 +60,7 @@ const HotelDetailPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Side - Information Sections */}
           <div className="space-y-6">
+            <RoomBookingTable data-cy="RoomBookingTable" hotelId={hotelId} />
             <HotelInfoCard data-cy="HotelInfoCard" hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
             <HotelDetailsCard data-cy="HotelDetailsCard" hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />
             <AmenitiesCard data-cy="AmenitiesCard" hotel={hotel} editModalState={editModalState} setEditModalState={setEditModalState} refetch={refetch} hotelId={hotelId} />

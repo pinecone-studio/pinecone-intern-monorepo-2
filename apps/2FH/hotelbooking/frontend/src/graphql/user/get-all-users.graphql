@@ -1,0 +1,11 @@
+query GetUsers($input: InputUserType!) {
+  getUsers(input: $input) {
+    _id
+    firstName
+    lastName
+    email
+    password
+    role
+    dateOfBirth
+  }
+}

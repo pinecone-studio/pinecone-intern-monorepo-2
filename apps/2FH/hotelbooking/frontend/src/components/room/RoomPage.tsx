@@ -34,49 +34,51 @@ export const RoomPage = () => {
     },
     images: [] as string[],
   });
-
   const { data: hotelsData, loading: hotelsLoading, error: hotelsError } = useHotelsQuery();
   const [, { loading: createRoomLoading }] = useCreateRoomMutation();
-
   const handleImageSave = (images: string[]) => {
     console.log('handleImageSave called with images:', images);
     setRoomImages(images);
     setRoomData((prev) => {
       const updated = { ...prev, images };
-      console.log('Updated roomData:', updated);
-      console.log('Updated roomData.images:', updated.images);
-      console.log('Updated roomData.images length:', updated.images.length);
       return updated;
     });
     setIsImageModalOpen(false);
   };
-
   const handleOpenImageModal = () => {
     setIsImageModalOpen(true);
   };
-
   const handleGeneralSave = (data: typeof roomData.general) => {
     setRoomData((prev) => ({ ...prev, general: data }));
   };
-
   const handleServiceSave = (data: typeof roomData.services) => {
     setRoomData((prev) => ({ ...prev, services: data }));
   };
-
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <button data-cy="Chevron-Left" className="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors">
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <h1 data-cy="Room-Name" className="text-xl font-semibold text-gray-900">
-            Economy Single Room
-          </h1>
         </div>
-
-        {/* Hotel Selection */}
+        <div className="flex-1 mb-6">
+          <h1 data-cy="Room-Name" className="text-xl font-semibold text-gray-900 mb-2">
+            {roomData.general.name || 'New Room'}
+          </h1>
+          <input
+            type="text"
+            value={roomData.general.name}
+            onChange={(e) => {
+              setRoomData((prev) => ({
+                ...prev,
+                general: { ...prev.general, name: e.target.value },
+              }));
+            }}
+            placeholder="Enter room name"
+            className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          />
+        </div>
         <div className="mb-6">
           <label data-cy="Select-Hotel" className="block text-sm font-medium text-gray-700 mb-2">
             Select Hotel
@@ -97,8 +99,6 @@ export const RoomPage = () => {
           </select>
           {hotelsError && <p className="text-red-500 text-sm mt-1">Error loading hotels: {hotelsError.message}</p>}
         </div>
-
-        {/* Top Row - General Info and Images */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <General onSave={handleGeneralSave} loading={createRoomLoading} _onImageSave={() => undefined} _data={roomData.general} />
@@ -136,17 +136,13 @@ export const RoomPage = () => {
             )}
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <Upcoming />
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
           <Roomservice onSave={handleServiceSave} loading={createRoomLoading} _data={roomData.services} />
         </div>
-
         <SaveHandler selectedHotelId={selectedHotelId} roomData={roomData} setRoomData={setRoomData} loading={createRoomLoading} />
-
         <ImageModal isOpen={isImageModalOpen} onClose={() => setIsImageModalOpen(false)} onSave={handleImageSave} />
       </div>
     </div>
