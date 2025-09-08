@@ -3,17 +3,23 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MockedProvider } from '@apollo/client/testing';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { RightSidebar } from '@/components/RightSidebar';
 import { useAuth } from '@/contexts/AuthContext';
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
+jest.mock('next/navigation', () => ({useRouter: jest.fn(),}));
 jest.mock('@/contexts/AuthContext');
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 jest.mock('@apollo/client', () => ({
   ...jest.requireActual('@apollo/client'),
   useQuery: jest.fn(),
+  useMutation: jest.fn(),
+}));
+jest.mock('@/components/userProfile/FollowButton', () => ({
+  FollowButton: ({ targetUserId }: { targetUserId: string; userName: string }) => (
+    <button data-testid={`follow-btn-${targetUserId}`}>
+      Follow
+    </button>
+  ),
 }));
 const mockRouter = {push: jest.fn(),replace: jest.fn(),prefetch: jest.fn(),back: jest.fn(),forward: jest.fn(),refresh: jest.fn(),};
 const mockUser = {_id: 'user123',fullName: 'John Doe',userName: 'johndoe',email: 'john@example.com',profileImage: 'https://example.com/profile.jpg',bio: 'Test bio',isVerified: true,followers: [],followings: [],posts: [],stories: [],};
@@ -27,7 +33,9 @@ describe('RightSidebar - Suggestions and Interactions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn(),});});
+    (useMutation as jest.Mock).mockReturnValue([jest.fn(), { loading: false }]);
+    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn(),});
+  });
   it('should render suggested users with profile images', () => {
     (useQuery as jest.Mock).mockReturnValue({
       data: {getNotFollowingUsers: mockSuggestedUsers,},loading: false,error: undefined,});
@@ -65,8 +73,10 @@ describe('RightSidebar - Suggestions and Interactions', () => {
         <RightSidebar />
       </MockedProvider>
     );
-    const followButtons = screen.getAllByText('Follow');
-    expect(followButtons).toHaveLength(4);
+    expect(screen.getByTestId('follow-btn-suggested1')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-suggested2')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-suggested3')).toBeInTheDocument();
+    expect(screen.getByTestId('follow-btn-suggested4')).toBeInTheDocument();
   });
   it('should handle follow button clicks', () => {
     (useQuery as jest.Mock).mockReturnValue({

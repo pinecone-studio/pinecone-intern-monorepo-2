@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MockedProvider } from '@apollo/client/testing';
 import { useRouter } from 'next/navigation';
@@ -57,38 +57,14 @@ const mockQuery = {
   },loading: false, error: undefined,
 };
 
-describe('RightSidebar - Authentication', () => {
+describe('RightSidebar - User Profile', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
     (useMutation as jest.Mock).mockReturnValue([jest.fn(), { loading: false }]);
   });
 
-  it('should not render when user is not authenticated', () => {
-    mockUseAuth.mockReturnValue({user: null, token: null,isLoading: false, login: jest.fn(), logout: jest.fn(),isAuthenticated: false,updateUser: jest.fn(),
-    });
-    (useQuery as jest.Mock).mockReturnValue({ data: undefined, loading: false, error: undefined });
-    const { container } = render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <RightSidebar />
-      </MockedProvider>
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('should not render when user is null but isAuthenticated is true', () => {
-    mockUseAuth.mockReturnValue({ user: null,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn(),
-    });
-    (useQuery as jest.Mock).mockReturnValue({ data: undefined, loading: false, error: undefined });
-    const { container } = render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <RightSidebar />
-      </MockedProvider>
-    );
-    expect(container.firstChild).toBeNull();
-  });
-
-  it('should render when user is authenticated', () => {
+  it('should render user profile with profile image', () => {
     mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn()});
     (useQuery as jest.Mock).mockReturnValue(mockQuery);
     render(
@@ -97,32 +73,55 @@ describe('RightSidebar - Authentication', () => {
       </MockedProvider>
     );
     expect(screen.getByText('johndoe')).toBeInTheDocument();
-    expect(screen.getByText('Suggestions for you')).toBeInTheDocument();
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByAltText('johndoe')).toBeInTheDocument();
+    expect(screen.getByAltText('johndoe')).toHaveAttribute('src', 'https://example.com/profile.jpg');
   });
 
-  it('should render loading state for suggestions', () => {
-    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn()});
-    (useQuery as jest.Mock).mockReturnValue({loading: true, error: undefined,});
-    render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <RightSidebar />
-      </MockedProvider>
-    );
-    expect(screen.getByText('Suggestions for you')).toBeInTheDocument();
-    expect(screen.getByText('See All')).toBeInTheDocument();
-    const loadingElements = document.querySelectorAll('.animate-pulse');
-    expect(loadingElements).toHaveLength(3);
-  });
-
-  it('should display suggestions header and see all button', () => {
-    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn()});
+  it('should render user profile without profile image (fallback to initial)', () => {
+    const userWithoutImage = { ...mockUser, profileImage: undefined };
+    mockUseAuth.mockReturnValue({user: userWithoutImage,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn()});
     (useQuery as jest.Mock).mockReturnValue(mockQuery);
     render(
       <MockedProvider mocks={[]} addTypename={false}>
         <RightSidebar />
       </MockedProvider>
     );
-    expect(screen.getByText('Suggestions for you')).toBeInTheDocument();
-    expect(screen.getByText('See All')).toBeInTheDocument();
+    expect(screen.getByText('johndoe')).toBeInTheDocument();
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('J')).toBeInTheDocument();
+  });
+
+  it('should call logout when logout button is clicked', () => {
+    const mockLogout = jest.fn();
+    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: mockLogout,isAuthenticated: true,updateUser: jest.fn()});
+    (useQuery as jest.Mock).mockReturnValue(mockQuery);
+    render(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <RightSidebar />
+      </MockedProvider>
+    );
+    const logoutButton = screen.getByText('Log out');
+    fireEvent.click(logoutButton);
+    expect(mockLogout).toHaveBeenCalledTimes(1);
+  });
+
+  it('should navigate to user profile when user profile is clicked', () => {
+    const mockPush = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
+    
+    mockUseAuth.mockReturnValue({user: mockUser,token: 'token123',isLoading: false,login: jest.fn(),logout: jest.fn(),isAuthenticated: true,updateUser: jest.fn()});
+    (useQuery as jest.Mock).mockReturnValue(mockQuery);
+    
+    render(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <RightSidebar />
+      </MockedProvider>
+    );
+    
+    const userProfile = screen.getByText('johndoe');
+    fireEvent.click(userProfile);
+    
+    expect(mockPush).toHaveBeenCalledWith('/userProfile');
   });
 });
