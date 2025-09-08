@@ -6,7 +6,6 @@ import { DateRange } from 'react-day-picker';
 import { gql, useApolloClient } from '@apollo/client';
 import { addDays, differenceInCalendarDays } from 'date-fns';
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
-import { useRouter } from 'next/navigation';
 
 type BookingDataType = {
   userId: string;
@@ -85,7 +84,7 @@ type OtpContextType = {
   setRange: Dispatch<SetStateAction<DateRange | undefined>>;
   loading: boolean;
   signOut: () => void;
-  nights: number
+  nights: number;
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -116,7 +115,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [childrens, setChildrens] = useState(0);
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
-    to: addDays(new Date(), 7)})
+    to: addDays(new Date(), 7),
+  });
 
   const [bookingData, setBookingData] = useState({
     userId: '',
@@ -134,7 +134,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       phoneNumber: '',
     },
   });
-  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
 
   const client = useApolloClient();
@@ -192,7 +192,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setMe(null);
     setToken(null);
     setStep(1);
-    router.push('/login');
     setBookingData({
       userId: '',
       hotelId: '',
@@ -209,7 +208,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         phoneNumber: '',
       },
     });
-        router.push('/login');
   };
 
   useEffect(() => {
