@@ -29,7 +29,37 @@ query GetPostsByAuthor($author: ID!) {
     }
   }
 }
-
+query GetPostById($id: ID!) {
+  GetPostById(_id: $id) {
+    _id
+    image
+    caption
+    createdAt
+    updatedAt
+    author {
+      _id
+      userName
+      profileImage
+    }
+    likes {
+      _id
+      userName
+      profileImage
+    }
+    comments {
+      _id
+      content
+      author
+      likes {
+        _id
+        userName
+        profileImage
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
 query GetPostsByFollowingUsers {
   getPostsByFollowingUsers {
     _id

@@ -15,7 +15,7 @@ const validateId = (_id: string): void => {
 export async function GetPostById(_: unknown, { _id }: getPostInput): Promise<PostDocument> {
   try {
     validateId(_id);
-    const Post = await PostModel.findById(_id);
+    const Post = await PostModel.findById(_id).populate('author').populate('likes').populate('comments.author').populate('comments.likes');
     if (!Post) {
       throw new GraphQLError('Post not found');
     }
