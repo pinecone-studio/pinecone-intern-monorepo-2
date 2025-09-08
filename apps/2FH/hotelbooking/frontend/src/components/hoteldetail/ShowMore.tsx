@@ -6,26 +6,27 @@ import { ReserveButton } from './ReserveButton';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Room } from '@/generated';
 
-type Room = {
-  id: string;
-  hotelId: string;
-  name: string;
-  imageURL: (string | null)[];
-  pricePerNight: number;
-  typePerson: string;
-  roomInformation: string[];
-  bathroom: string[];
-  accessibility: string[];
-  internet: string[];
-  foodAndDrink: string[];
-  bedRoom: string[];
-  other: string[];
-  entertainment: string[];
-  bedNumber: number;
-  createdAt: string;
-  updatedAt: string;
-};
+// type Room = {
+//   id: string;
+//   hotelId: string;
+//   name: string;
+//   imageURL: (string | null)[];
+//   pricePerNight: number;
+//   typePerson: string;
+//   roomInformation: string[];
+//   bathroom: string[];
+//   accessibility: string[];
+//   internet: string[];
+//   foodAndDrink: string[];
+//   bedRoom: string[];
+//   other: string[];
+//   entertainment: string[];
+//   bedNumber: number | undefined;
+//   createdAt: string;
+//   updatedAt: string;
+// };
 
 type ShowMoreProps = {
   open: boolean;
@@ -140,14 +141,14 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
               <div className="flex justify-between">
                 {openPriceDetail ? (
-                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} bedNumber={rooms.bedNumber} />
+                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} />
                 ) : (
                   <div data-testid="price-detail-button-show-more" onClick={handleClickPriceDetail} className="flex gap-x-2 text-blue-600 items-center cursor-pointer">
                     <span className="text-sm font-medium">Price detail</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 )}
-                <ReserveButton roomId={rooms.id} bedNumber={rooms.bedNumber} />
+                <ReserveButton room={rooms} />
               </div>
             </div>
           </div>

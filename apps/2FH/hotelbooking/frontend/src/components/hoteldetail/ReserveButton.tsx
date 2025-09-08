@@ -2,14 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Status, useRoomStatusUpdateMutation } from '@/generated';
+import { Room, Status, useRoomStatusUpdateMutation } from '@/generated';
 
 type ReserveButtonProps = {
-  roomId: string;
-  bedNumber: number;
+  room: Room;
 };
 
-export const ReserveButton = ({ roomId, bedNumber }: ReserveButtonProps) => {
+export const ReserveButton = ({ room }: ReserveButtonProps) => {
   const router = useRouter();
   const [updateStatus, { loading }] = useRoomStatusUpdateMutation();
 
@@ -19,19 +18,19 @@ export const ReserveButton = ({ roomId, bedNumber }: ReserveButtonProps) => {
       try {
         await updateStatus({
           variables: {
-            updateRoomId: roomId,
+            updateRoomId: room.id,
             input: {
               status: Status.Pending,
-              bedNumber: bedNumber,
+              bedNumber: room.bedNumber,
             },
           },
         });
-        router.push(`/booking/${roomId}/payment`);
+        router.push(`/booking/${room.id}/payment`);
       } catch (error) {
         console.error('Error updating room status:', error);
       }
     } else {
-      localStorage.setItem('pendingRoomId', roomId);
+      localStorage.setItem('pendingRoomId', room.id);
       router.push('/login');
     }
   };

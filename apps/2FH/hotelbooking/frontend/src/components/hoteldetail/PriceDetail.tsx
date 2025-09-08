@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ReserveButton } from './ReserveButton';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Room } from '@/generated';
 
 type PricedetailProps = {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
-  roomId: string;
-  bedNumber: number;
+  room: Room;
 };
 
-export const PriceDetail = ({ open, onOpenChange, roomId, bedNumber }: PricedetailProps) => {
+export const PriceDetail = ({ open, onOpenChange, room }: PricedetailProps) => {
   return (
     <Dialog data-testid="price-detail" open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-white">
@@ -33,7 +33,7 @@ export const PriceDetail = ({ open, onOpenChange, roomId, bedNumber }: Pricedeta
                 <span className="text-lg font-semibold">₮300,000</span>
               </div>
 
-              <ReserveButton roomId={roomId} bedNumber={bedNumber} />
+              <ReserveButton room={room} />
             </div>
           </DialogDescription>
         </DialogHeader>
