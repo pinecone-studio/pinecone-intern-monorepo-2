@@ -126,11 +126,11 @@ const BookingsCard = ({ hotelId }: BookingsCardProps) => {
             <div className="text-sm text-gray-600">Total</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{bookings.filter((b) => b.status === 'BOOKED').length}</div>
+            <div className="text-2xl font-bold text-green-600">{bookings.filter((b) => b.status === 'Booked').length}</div>
             <div className="text-sm text-gray-600">Booked</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-red-600">{bookings.filter((b) => b.status === 'CANCELLED').length}</div>
+            <div className="text-2xl font-bold text-red-600">{bookings.filter((b) => b.status === 'Cancelled').length}</div>
             <div className="text-sm text-gray-600">Cancelled</div>
           </div>
         </div>
