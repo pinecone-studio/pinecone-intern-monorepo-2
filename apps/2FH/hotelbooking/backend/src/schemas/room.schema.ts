@@ -137,7 +137,7 @@ export const roomSchemaTypeDefs = gql`
     bedRoom: [bedRoom!]!
     other: [other!]!
     entertainment: [entertainment!]!
-    bedNumber: Int!
+    bedNumber: Int
     status: status!
   }
 
