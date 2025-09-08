@@ -2,15 +2,17 @@ import { useQuery, gql } from '@apollo/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 const SEARCH_USERS = gql`
-  query SearchUsers($keyword: String!) {
-    searchUsers(keyword: $keyword) {
-      _id
-      userName
-      fullName
-      profileImage
-      isVerified
-    }
+ query GetNotFollowingUsers($userId: ID!) {
+  getNotFollowingUsers(userId: $userId) {
+    _id
+    fullName
+    userName
+    bio
+    profileImage
+    isVerified
+   
   }
+}
 `;
 
 type SuggestedUser = {
@@ -27,16 +29,15 @@ export const RightSidebar = () => {
   
   
   const { data, loading } = useQuery(SEARCH_USERS, {
-    variables: { keyword: 'user' },
-    skip: !isAuthenticated,
-    errorPolicy: 'all'
+    variables: { userId: user?._id }
   });
 
   if (!isAuthenticated || !user) {
     return null;
   }
+  console.log(data);
 
-  const suggestedUsers: SuggestedUser[] = data?.searchUsers?.slice(0, 5) || [];
+  const suggestedUsers: SuggestedUser[] = data?.getNotFollowingUsers || [];
 
   return (
     <div className="w-80 p-6  right-0 top-0 h-full bg-white">
