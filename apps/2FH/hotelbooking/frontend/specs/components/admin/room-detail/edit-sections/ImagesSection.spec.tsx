@@ -1,5 +1,5 @@
+/* eslint-disable */
 import React from 'react';
-/* eslint-disable max-lines */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ImagesSection } from '@/components/admin/room-detail/edit-sections/ImagesSection';
 

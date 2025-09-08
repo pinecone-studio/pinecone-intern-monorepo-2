@@ -1,4 +1,3 @@
-'use client'
 import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { useRouter } from 'next/navigation';

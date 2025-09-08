@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -61,9 +60,8 @@ export const LoginComponent = () => {
           router.push('/');
         }
       }, 2000);
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      toast.error(<span data-cy="login-failed-toast">{errorMessage}</span>);
+    } catch (err: any) {
+      toast.error(<span data-cy="login-failed-toast">{err.message}</span>);
     }
   };
 
@@ -71,7 +69,7 @@ export const LoginComponent = () => {
     <div className="flex items-center justify-center min-h-screen" data-cy="login-container" data-testid="login-container">
       <Card className="w-full max-w-md border-0">
         <CardHeader className="text-center">
-          <Image src="./images/PediaLogo.png" alt="Logo" width={200} height={100} className="mx-auto mb-4" data-cy="login-logo" />
+          <img src="./images/PediaLogo.png" alt="Logo" className="mx-auto mb-4" data-cy="login-logo" />
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
           <p className="text-gray-500 mt-1 text-sm">Enter your email and password to continue</p>
         </CardHeader>

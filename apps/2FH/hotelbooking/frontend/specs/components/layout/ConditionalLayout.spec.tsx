@@ -1,5 +1,5 @@
+/* eslint-disable  */
 import React from 'react';
-/* eslint-disable max-lines */
 import { render, screen } from '@testing-library/react';
 import { ConditionalLayout } from '@/components/layout/ConditionalLayout';
 import { usePathname } from 'next/navigation';
