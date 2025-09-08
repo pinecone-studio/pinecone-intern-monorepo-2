@@ -57,11 +57,7 @@ const UserStory = () => {
       <StoryHeader onClose={handleClose} />
 
       <div className="relative w-full max-w-[521px] aspect-[9/16] mx-auto">
-        <StoryProgressBars 
-          storiesLength={stories.length}
-          currentIndex={currentIndex}
-          progress={progress}
-        />
+        <StoryProgressBars storiesLength={stories.length} currentIndex={currentIndex} progress={progress} />
 
         <StoryContent story={currentStory} />
 

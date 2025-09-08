@@ -20,14 +20,6 @@ const GET_POSTS_BY_AUTHOR = gql`
   }
 `;
 
-const GET_POSTS_BY_AUTHOR = gql`
-  query GetPostsByAuthor($author: ID!) {
-    getPostsByAuthor(author: $author) {
-      _id
-    }
-  }
-`;
-
 const ProfilePicture = ({ currentUser }: { currentUser: any }) => (
   <Link href={`/user-stories/${currentUser?._id}`}>
     <div className="shrink-0">
@@ -88,7 +80,7 @@ const UserProfile = () => {
     variables: { author: currentUser?._id },
     skip: !currentUser?._id,
   });
-  
+
   const postCount = postsData?.getPostsByAuthor?.length || 0;
 
   return (
