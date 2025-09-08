@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { useUpdateBookingMutation } from '@/generated';
+import { useUpdateBookingMutation, BookingStatus, Response } from '@/generated';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,34 +17,48 @@ interface CheckoutModalProps {
 const CheckoutModal = ({ bookingId, currentStatus, onStatusUpdate }: CheckoutModalProps) => {
   const [open, setOpen] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(currentStatus);
+  const [error, setError] = useState<string | null>(null);
   const [updateBooking, { loading }] = useUpdateBookingMutation();
 
   const statusOptions = [
-    { value: 'BOOKED', label: 'Booked', color: 'bg-blue-600 text-white' },
-    { value: 'COMPLETED', label: 'Completed', color: 'bg-green-600 text-white' },
-    { value: 'CANCELLED', label: 'Cancelled', color: 'bg-orange-500 text-white' },
+    { value: BookingStatus.Booked, label: 'Booked', color: 'bg-blue-600 text-white' },
+    { value: BookingStatus.Completed, label: 'Completed', color: 'bg-green-600 text-white' },
+    { value: BookingStatus.Cancelled, label: 'Cancelled', color: 'bg-orange-500 text-white' },
   ];
 
   const handleStatusUpdate = async () => {
     try {
-      await updateBooking({
+      setError(null);
+      const result = await updateBooking({
         variables: {
           updateBookingId: bookingId,
           input: {
-            status: selectedStatus as any,
+            status: selectedStatus as BookingStatus,
           },
         },
       });
 
-      setOpen(false);
-      onStatusUpdate?.();
+      if (result.data?.updateBooking === Response.Success) {
+        setOpen(false);
+        onStatusUpdate?.();
+      } else {
+        setError('Failed to update booking status. Please try again.');
+      }
     } catch (error) {
       console.error('Error updating booking status:', error);
+      setError('An error occurred while updating the booking status. Please try again.');
+    }
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (newOpen) {
+      setError(null);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="bg-blue-600 hover:bg-blue-700 text-white">Change Status</Button>
       </DialogTrigger>
@@ -72,6 +86,12 @@ const CheckoutModal = ({ bookingId, currentStatus, onStatusUpdate }: CheckoutMod
               ))}
             </RadioGroup>
           </div>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-md p-3">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
 
           <div className="flex justify-end gap-3">
             <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>

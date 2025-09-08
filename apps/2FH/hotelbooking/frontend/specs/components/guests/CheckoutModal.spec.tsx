@@ -7,6 +7,14 @@ import { useUpdateBookingMutation } from '@/generated';
 // Mock dependencies
 jest.mock('@/generated', () => ({
   useUpdateBookingMutation: jest.fn(),
+  BookingStatus: {
+    Booked: 'Booked',
+    Completed: 'Completed',
+    Cancelled: 'Cancelled',
+  },
+  Response: {
+    Success: 'Success',
+  },
 }));
 
 const mockUpdateBooking = jest.fn();
@@ -15,12 +23,15 @@ const mockUseUpdateBookingMutation = useUpdateBookingMutation as jest.MockedFunc
 describe('CheckoutModal', () => {
   const defaultProps = {
     bookingId: 'booking-1',
-    currentStatus: 'BOOKED',
+    currentStatus: 'Booked',
     onStatusUpdate: jest.fn(),
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUpdateBooking.mockResolvedValue({
+      data: { updateBooking: 'Success' },
+    });
     mockUseUpdateBookingMutation.mockReturnValue([mockUpdateBooking, { loading: false, error: undefined }] as any);
   });
 
@@ -75,7 +86,7 @@ describe('CheckoutModal', () => {
 
   it('calls updateBooking mutation when update button is clicked', async () => {
     mockUpdateBooking.mockResolvedValue({
-      data: { updateBooking: { id: 'booking-1' } },
+      data: { updateBooking: 'Success' },
     } as any);
 
     const onStatusUpdate = jest.fn();
@@ -95,7 +106,7 @@ describe('CheckoutModal', () => {
         variables: {
           updateBookingId: 'booking-1',
           input: {
-            status: 'COMPLETED',
+            status: 'Completed',
           },
         },
       });
@@ -108,7 +119,7 @@ describe('CheckoutModal', () => {
 
   it('closes modal after successful update', async () => {
     mockUpdateBooking.mockResolvedValue({
-      data: { updateBooking: { id: 'booking-1' } },
+      data: { updateBooking: 'Success' },
     } as any);
 
     render(<CheckoutModal {...defaultProps} />);
@@ -147,6 +158,27 @@ describe('CheckoutModal', () => {
     });
 
     consoleError.mockRestore();
+  });
+
+  it('handles mutation failure response', async () => {
+    mockUpdateBooking.mockResolvedValue({
+      data: { updateBooking: 'Failure' },
+    } as any);
+
+    render(<CheckoutModal {...defaultProps} />);
+
+    const triggerButton = screen.getByText('Change Status');
+    fireEvent.click(triggerButton);
+
+    const completedOption = screen.getByLabelText('Completed');
+    fireEvent.click(completedOption);
+
+    const updateButton = screen.getByText('Update Status');
+    fireEvent.click(updateButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to update booking status. Please try again.')).toBeInTheDocument();
+    });
   });
 
   it('disables update button when loading', () => {
@@ -223,7 +255,7 @@ describe('CheckoutModal', () => {
   it('handles different current statuses', () => {
     const propsWithCompletedStatus = {
       ...defaultProps,
-      currentStatus: 'COMPLETED',
+      currentStatus: 'Completed',
     };
 
     render(<CheckoutModal {...propsWithCompletedStatus} />);
@@ -237,7 +269,7 @@ describe('CheckoutModal', () => {
   it('handles cancelled status', () => {
     const propsWithCancelledStatus = {
       ...defaultProps,
-      currentStatus: 'CANCELLED',
+      currentStatus: 'Cancelled',
     };
 
     render(<CheckoutModal {...propsWithCancelledStatus} />);
@@ -269,12 +301,12 @@ describe('CheckoutModal', () => {
 
   it('handles status update without onStatusUpdate callback', async () => {
     mockUpdateBooking.mockResolvedValue({
-      data: { updateBooking: { id: 'booking-1' } },
+      data: { updateBooking: 'Success' },
     } as any);
 
     const propsWithoutCallback = {
       bookingId: 'booking-1',
-      currentStatus: 'BOOKED',
+      currentStatus: 'Booked',
     };
 
     render(<CheckoutModal {...propsWithoutCallback} />);
@@ -293,7 +325,7 @@ describe('CheckoutModal', () => {
         variables: {
           updateBookingId: 'booking-1',
           input: {
-            status: 'COMPLETED',
+            status: 'Completed',
           },
         },
       });

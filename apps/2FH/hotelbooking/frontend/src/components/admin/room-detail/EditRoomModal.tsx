@@ -1,7 +1,7 @@
 /* eslint-disable  */
 'use client';
 import { useState } from 'react';
-import { useUpdateRoomMutation } from '@/generated';
+import { useUpdateRoomMutation, Status, Response, RoomUpdateInput } from '@/generated';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { BasicInfoSection, AmenitiesSection, ImagesSection, DetailsSection } from './edit-sections';
@@ -17,12 +17,31 @@ interface EditRoomModalProps {
 
 export const EditRoomModal = ({ room, section, isOpen, onOpenChange, refetch, roomId }: EditRoomModalProps) => {
   const [updateRoom, { loading: updateLoading }] = useUpdateRoomMutation();
+  const [error, setError] = useState<string | null>(null);
 
-  const normalizeStatus = (status: any) => {
-    if (!status) return 'available';
-    const statusStr = status.toString().toLowerCase();
-    const validStatuses = ['available', 'booked', 'cancelled', 'completed', 'pending'];
-    return validStatuses.includes(statusStr) ? statusStr : 'available';
+  const normalizeStatus = (status: any): Status => {
+    if (!status) return Status.Available;
+    const statusStr = status.toString();
+
+    // Map common variations to correct enum values
+    switch (statusStr.toLowerCase()) {
+      case 'available':
+        return Status.Available;
+      case 'booked':
+        return Status.Booked;
+      case 'cancelled':
+        return Status.Cancelled;
+      case 'completed':
+        return Status.Completed;
+      case 'pending':
+        return Status.Pending;
+      default:
+        // If it's already a valid enum value, return it
+        if (Object.values(Status).includes(statusStr as Status)) {
+          return statusStr as Status;
+        }
+        return Status.Available;
+    }
   };
 
   const [formData, setFormData] = useState(() => ({
@@ -48,11 +67,13 @@ export const EditRoomModal = ({ room, section, isOpen, onOpenChange, refetch, ro
 
   const handleSave = async () => {
     try {
-      const input: any = {};
+      setError(null);
 
-      input.bedNumber = formData.bedNumber || room.bedNumber;
-      const currentStatus = formData.status || room.status;
-      input.status = normalizeStatus(currentStatus);
+      const input: RoomUpdateInput = {
+        bedNumber: formData.bedNumber || room.bedNumber,
+        status: normalizeStatus(formData.status || room.status),
+      };
+
       if (section === 'basic') {
         if (formData.name !== undefined) input.name = formData.name;
         if (formData.pricePerNight !== undefined) input.pricePerNight = formData.pricePerNight;
@@ -71,24 +92,23 @@ export const EditRoomModal = ({ room, section, isOpen, onOpenChange, refetch, ro
       } else if (section === 'details') {
         if (formData.roomInformation !== undefined) input.roomInformation = formData.roomInformation;
       }
+
       const result = await updateRoom({
         variables: {
           updateRoomId: roomId,
           input,
         },
       });
-      if (result.data?.updateRoom) {
+
+      if (result.data?.updateRoom === Response.Success) {
         await refetch();
         onOpenChange(false);
       } else {
-        console.error('Update failed: No data returned');
+        setError('Failed to update room. Please try again.');
       }
     } catch (error: any) {
       console.error('Error updating room:', error);
-      console.error('Error details:', error.message);
-      console.error('GraphQL errors:', error.graphQLErrors);
-      console.error('Network errors:', error.networkError);
-      console.error('Full error object:', error);
+      setError('An error occurred while updating the room. Please try again.');
     }
   };
   const getSectionComponent = () => {
@@ -120,14 +140,26 @@ export const EditRoomModal = ({ room, section, isOpen, onOpenChange, refetch, ro
     };
     return titleMap[section] || 'Edit Room';
   };
+  const handleOpenChange = (newOpen: boolean) => {
+    onOpenChange(newOpen);
+    if (newOpen) {
+      setError(null);
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" data-testid="edit-room-modal">
         <DialogHeader>
           <DialogTitle data-testid="edit-room-modal-title">Edit {getSectionTitle()}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-md p-3">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
           <div className="min-h-[400px]" data-testid="edit-room-modal-content">
             {getSectionComponent()}
           </div>

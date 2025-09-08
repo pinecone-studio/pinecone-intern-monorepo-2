@@ -5,6 +5,16 @@ import { EditRoomModal } from '@/components/admin/room-detail/EditRoomModal';
 import { useUpdateRoomMutation } from '@/generated';
 jest.mock('@/generated', () => ({
   useUpdateRoomMutation: jest.fn(),
+  Status: {
+    Available: 'Available',
+    Booked: 'Booked',
+    Cancelled: 'Cancelled',
+    Completed: 'Completed',
+    Pending: 'Pending',
+  },
+  Response: {
+    Success: 'Success',
+  },
 }));
 jest.mock('@/components/admin/room-detail/edit-sections', () => ({
   BasicInfoSection: ({ room, handleInputChange }: any) => (
@@ -83,6 +93,9 @@ describe('EditRoomModal', () => {
   };
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUpdateRoom.mockResolvedValue({
+      data: { updateRoom: 'Success' },
+    });
     mockUseUpdateRoomMutation.mockReturnValue([mockUpdateRoom, { loading: false, error: undefined }] as any);
   });
   it('renders modal when open', () => {
@@ -115,7 +128,7 @@ describe('EditRoomModal', () => {
     expect(nameInput).toHaveValue('Updated Room');
   });
   it('calls updateRoom mutation for basic section', async () => {
-    mockUpdateRoom.mockResolvedValue({ data: { updateRoom: { id: 'room-1' } } } as any);
+    mockUpdateRoom.mockResolvedValue({ data: { updateRoom: 'Success' } } as any);
     const refetch = jest.fn().mockResolvedValue({});
     const onOpenChange = jest.fn();
     render(<EditRoomModal {...defaultProps} refetch={refetch} onOpenChange={onOpenChange} />);
@@ -127,7 +140,7 @@ describe('EditRoomModal', () => {
     });
   });
   it('covers line 59, 61-67, 69-71 conditions with undefined formData', async () => {
-    mockUpdateRoom.mockResolvedValue({ data: { updateRoom: { id: 'room-1' } } } as any);
+    mockUpdateRoom.mockResolvedValue({ data: { updateRoom: 'Success' } } as any);
     const refetch = jest.fn().mockResolvedValue({});
     const onOpenChange = jest.fn();
     const minimalRoom = {
@@ -141,7 +154,7 @@ describe('EditRoomModal', () => {
       expect(mockUpdateRoom).toHaveBeenCalledWith({
         variables: {
           updateRoomId: 'room-1',
-          input: { bedNumber: 1, status: 'available', roomInformation: [] },
+          input: { bedNumber: 1, status: 'Available', roomInformation: [] },
         },
       });
     });
@@ -153,7 +166,7 @@ describe('EditRoomModal', () => {
           updateRoomId: 'room-1',
           input: {
             bedNumber: 1,
-            status: 'available',
+            status: 'Available',
             internet: [],
             foodAndDrink: [],
             bedRoom: [],
@@ -169,7 +182,7 @@ describe('EditRoomModal', () => {
     fireEvent.click(screen.getByTestId('edit-room-modal-save'));
     await waitFor(() => {
       expect(mockUpdateRoom).toHaveBeenCalledWith({
-        variables: { updateRoomId: 'room-1', input: { bedNumber: 1, status: 'available', imageURL: [] } },
+        variables: { updateRoomId: 'room-1', input: { bedNumber: 1, status: 'Available', imageURL: [] } },
       });
     });
 
@@ -178,7 +191,7 @@ describe('EditRoomModal', () => {
     fireEvent.click(screen.getByTestId('edit-room-modal-save'));
     await waitFor(() => {
       expect(mockUpdateRoom).toHaveBeenCalledWith({
-        variables: { updateRoomId: 'room-1', input: { bedNumber: 1, status: 'available', roomInformation: [] } },
+        variables: { updateRoomId: 'room-1', input: { bedNumber: 1, status: 'Available', roomInformation: [] } },
       });
     });
   });

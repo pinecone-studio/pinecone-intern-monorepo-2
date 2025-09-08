@@ -2,7 +2,7 @@
 
 exports[`CheckoutModal matches snapshot 1`] = `
 <button
-  aria-controls="radix-:r39:"
+  aria-controls="radix-:r3f:"
   aria-expanded="false"
   aria-haspopup="dialog"
   class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white"
@@ -15,7 +15,7 @@ exports[`CheckoutModal matches snapshot 1`] = `
 
 exports[`CheckoutModal matches snapshot when modal is open 1`] = `
 <button
-  aria-controls="radix-:r3i:"
+  aria-controls="radix-:r3o:"
   aria-expanded="false"
   aria-haspopup="dialog"
   class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white"
