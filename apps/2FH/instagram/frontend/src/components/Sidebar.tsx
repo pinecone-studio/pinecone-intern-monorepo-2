@@ -7,6 +7,7 @@ import { StoryCreateDialog } from '@/components/create-story-dialog/StoryCreateD
 import { CreatePostDialog } from '@/components/create-post-dialog/CreatePostDialog';
 import Image from 'next/image';
 
+
 export const Sidebar = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isStoryDialogOpen, setIsStoryDialogOpen] = useState(false);
@@ -97,7 +98,9 @@ export const Sidebar = () => {
       <div className={`border-r border-gray-200 fixed h-full bg-white z-10 transition-all duration-300  ${isSearchOpen ? 'w-20' : 'w-64'}`}>
         {!isSearchOpen && (
           <div className="p-6">
-            <Image src="/Vector.png" alt="Instagram logo" width={100} height={100} />
+            <h1 className="text-3xl font-normal" style={{ fontFamily: "'Lobster', cursive" }}>
+              Instagram
+            </h1>
           </div>
         )}
 

@@ -14,10 +14,7 @@ function getInputLikes(input?: UpdatePostInput) {
     throw new Error('Likes is not an array');
   }
 
-  if (input.likes.length === 0) {
-    throw new Error('Likes array is empty');
-  }
-
+  // Allow empty array for unliking all posts
   return input.likes;
 }
 
@@ -30,8 +27,14 @@ function assertPost(postPost: PostSchemaType | null): PostSchemaType {
   return postPost;
 }
 function getUpdateOps(currentLikes: string[], inputLikes: string[]) {
+  // If inputLikes is empty, remove all likes
+  if (inputLikes.length === 0) {
+    return { $set: { likes: [] } };
+  }
+  
+  // Otherwise, use the existing logic for adding/removing specific likes
   const toAdd = inputLikes.filter((id) => !currentLikes.includes(id));
-  const toRemove = inputLikes.filter((id) => currentLikes.includes(id));
+  const toRemove = currentLikes.filter((id) => !inputLikes.includes(id));
   const updateOps: Record<string, unknown> = {};
   if (toAdd.length > 0) updateOps.$addToSet = { likes: { $each: toAdd } };
   if (toRemove.length > 0) updateOps.$pull = { likes: { $in: toRemove } };

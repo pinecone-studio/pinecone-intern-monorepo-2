@@ -7,9 +7,11 @@ export const CommentTypeDefs = gql`
     author: ID!
     parentId: ID!
     parentType: String!
-    replyId: [ID!]!
     content: String!
     likes: [User!]!
+    comments: [Comment!]!
+    createdAt: Date!
+    updatedAt: Date!
   }
   input createCommentInput {
     content: String!

@@ -36,7 +36,7 @@ describe('updatePostByLikes resolver', () => {
     (PostModel.findById as jest.Mock).mockResolvedValue({ _id, likes: existingLikes });
     (PostModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedPost);
 
-    const args = { _id, input: { likes: ['like1'] } };
+    const args = { _id, input: { likes: ['like2'] } };
     const result = await updatePostByLikes({}, args);
 
     expect(PostModel.findByIdAndUpdate).toHaveBeenCalledWith(
@@ -59,9 +59,22 @@ describe('updatePostByLikes resolver', () => {
     await expect(updatePostByLikes({}, args as any)).rejects.toThrow('Likes is not an array');
   });
 
-  it('should throw if likes array is empty', async () => {
+  it('should clear all likes when array is empty', async () => {
+    const existingLikes = ['like1', 'like2'];
+    const mockUpdatedPost = { _id, likes: [] };
+
+    (PostModel.findById as jest.Mock).mockResolvedValue({ _id, likes: existingLikes });
+    (PostModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockUpdatedPost);
+
     const args = { _id, input: { likes: [] } };
-    await expect(updatePostByLikes({}, args)).rejects.toThrow('Likes array is empty');
+    const result = await updatePostByLikes({}, args);
+
+    expect(PostModel.findByIdAndUpdate).toHaveBeenCalledWith(
+      _id,
+      { $set: { likes: [] } },
+      { new: true }
+    );
+    expect(result).toEqual(mockUpdatedPost);
   });
 
   it('should proceed if likes array has values', async () => {

@@ -9,11 +9,11 @@ jest.mock('src/models/', () => ({
 }));
 
 describe('createCommentOnPost', () => {
-  const user = { id: new Types.ObjectId().toHexString() };
-  const context = { user };
+  const userId = new Types.ObjectId().toHexString();
+  const context = { userId };
 
   it('should throw if user not authenticated', async () => {
-    await expect(createCommentOnPost({}, { postId: '123', content: 'test' }, { user: undefined })).rejects.toThrow(GraphQLError);
+    await expect(createCommentOnPost({}, { postId: '123', content: 'test' }, { userId: undefined })).rejects.toThrow(GraphQLError);
   });
 
   it('should throw if content is empty', async () => {

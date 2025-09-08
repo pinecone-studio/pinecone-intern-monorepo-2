@@ -84,7 +84,7 @@ type OtpContextType = {
   setRange: Dispatch<SetStateAction<DateRange | undefined>>;
   loading: boolean;
   signOut: () => void;
-  nights: number
+  nights: number;
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -115,7 +115,8 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [childrens, setChildrens] = useState(0);
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
-    to: addDays(new Date(), 7)})
+    to: addDays(new Date(), 7),
+  });
 
   const [bookingData, setBookingData] = useState({
     userId: '',
