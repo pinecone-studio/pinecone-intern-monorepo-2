@@ -1,0 +1,3 @@
+mutation RoomStatusUpdate($updateRoomId: ID!, $input: RoomUpdateInput!) {
+  updateRoom(id: $updateRoomId, input: $input)
+}

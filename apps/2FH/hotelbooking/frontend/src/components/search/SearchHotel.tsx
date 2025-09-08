@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import { Star } from 'lucide-react';
+import { Amenity } from '@/generated';
+import { useRouter } from 'next/navigation';
 import { useHotelsQuery } from '@/generated';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Amenity } from '@/generated';
 
 type SearchHotelProps = {
   search: string;
@@ -15,6 +16,11 @@ type SearchHotelProps = {
 };
 export const SearchHotel = ({ search, selectedStars, selectedRating, amenities }: SearchHotelProps) => {
   const { data, loading } = useHotelsQuery();
+  const router = useRouter();
+
+  const handleClickHotel = (hotelId: string) => {
+    router.push(`/hotel/${hotelId}`);
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -51,7 +57,7 @@ export const SearchHotel = ({ search, selectedStars, selectedRating, amenities }
         </div>
       </div>
       {filteredHotels?.slice(0, 6).map((hotel) => (
-        <div data-testid="hotel-card" key={hotel.id} className="flex rounded-lg shadow-lg overflow-hidden">
+        <div data-testid="hotel-card" key={hotel.id} className="flex rounded-lg shadow-lg overflow-hidden cursor-pointer" onClick={() => handleClickHotel(hotel.id)}>
           <Image src={hotel.images[0]} alt={hotel.name} width={395} height={222} className="object-cover" />
           <div className="flex-1 p-6 flex justify-between">
             <div className="flex flex-col justify-between">

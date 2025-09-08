@@ -116,8 +116,8 @@ export const roomSchemaTypeDefs = gql`
     bedRoom: [bedRoom!]
     other: [other!]
     entertainment: [entertainment!]
-    bedNumber: Int!
-    status: status!
+    bedNumber: Int
+    status: status
   }
 
   type Room {

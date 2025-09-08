@@ -143,7 +143,7 @@ const roomSchema = new Schema<roomType>(
     bedRoom: [{ type: String, enum: Object.values(bedRoom), required: true }],
     other: [{ type: String, enum: Object.values(other), required: true }],
     entertainment: [{ type: String, enum: Object.values(entertainment), required: true }],
-    bedNumber: { type: Number, required: true },
+    bedNumber: { type: Number, required: false },
     status: { type: String, enum: Object.values(status), default: status.Available },
   },
   { timestamps: true }
