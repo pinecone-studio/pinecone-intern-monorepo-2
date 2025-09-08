@@ -11,6 +11,7 @@ interface PostDetailContentProps {
       fullName: string;
     };
     likes: Array<{ _id: string }>;
+    _id: string;
     comments: Array<{
       _id: string;
       content: string;
@@ -21,11 +22,11 @@ interface PostDetailContentProps {
   };
   user: {
     _id: string;
-    profileImage: string;
+    profileImage?: string;
     userName: string;
   } | null;
   likedPosts: Set<string>;
-  formatTimeAgo: (dateString: string) => string;
+  formatTimeAgo: (_dateString: string) => string;
 }
 
 export const PostDetailContent = ({ post, user, likedPosts, formatTimeAgo }: PostDetailContentProps) => (

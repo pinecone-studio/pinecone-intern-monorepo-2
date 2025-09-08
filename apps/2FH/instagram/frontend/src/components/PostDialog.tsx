@@ -12,8 +12,8 @@ interface PostDialogProps {
     _id: string;
     userName: string;
   };
-  onDelete?: (postId: string) => void;
-  onEdit?: (postId: string) => void;
+  onDelete?: (_postId: string) => void;
+  onEdit?: (_postId: string) => void;
 }
 
 export const PostDialog = ({ isOpen, onClose, postId: _postId, postAuthor, onDelete, onEdit }: PostDialogProps) => {

@@ -11,7 +11,7 @@ interface PostDetailHeaderProps {
   };
   onGoBack: () => void;
   onOpenDialog: () => void;
-  formatTimeAgo: (dateString: string) => string;
+  formatTimeAgo: (_dateString: string) => string;
 }
 
 export const PostDetailHeader = ({ post, onGoBack, onOpenDialog, formatTimeAgo }: PostDetailHeaderProps) => (
