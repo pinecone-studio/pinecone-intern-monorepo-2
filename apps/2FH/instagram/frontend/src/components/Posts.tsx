@@ -634,7 +634,6 @@ export const Posts = () => {
           isOpen={dialogOpen}
           onClose={handleCloseDialog}
           postId={selectedPost._id}
-          postAuthor={selectedPost.author}
           onDelete={user?._id === selectedPost.author._id ? handleDeletePost : undefined}
           onEdit={user?._id === selectedPost.author._id ? handleEditPost : undefined}
         />

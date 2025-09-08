@@ -1,23 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-// Icons removed as they're not used in the simplified design
 
 interface PostDialogProps {
   isOpen: boolean;
   onClose: () => void;
   postId: string;
-  postAuthor: {
-    _id: string;
-    userName: string;
-  };
   onDelete?: (_postId: string) => void;
   onEdit?: (_postId: string) => void;
 }
 
-export const PostDialog = ({ isOpen, onClose, postId: _postId, postAuthor, onDelete, onEdit }: PostDialogProps) => {
-  const router = useRouter();
+export const PostDialog = ({ isOpen, onClose, postId: _postId, onDelete, onEdit }: PostDialogProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   if (!isOpen) return null;
@@ -43,11 +36,6 @@ export const PostDialog = ({ isOpen, onClose, postId: _postId, postAuthor, onDel
     onClose();
   };
 
-  const handleGoToPost = () => {
-    router.push(`/${postAuthor.userName}/post/${_postId}`);
-    onClose();
-  };
-
   return (
     <>
       {/* Backdrop */}
@@ -58,14 +46,9 @@ export const PostDialog = ({ isOpen, onClose, postId: _postId, postAuthor, onDel
         <div className="bg-white rounded-xl shadow-xl min-w-[280px] max-w-[320px] overflow-hidden">
           {/* Options */}
           <div className="py-1">
-            {/* Go to Post */}
-            <button onClick={handleGoToPost} className="w-full px-4 py-4 text-center hover:bg-gray-50 transition-colors">
-              <span className="text-gray-900 font-medium text-base">Go to Post</span>
-            </button>
-
             {/* Edit */}
             {onEdit && (
-              <button onClick={handleEdit} className="w-full px-4 py-4 text-center hover:bg-gray-50 transition-colors border-t border-gray-200">
+              <button onClick={handleEdit} className="w-full px-4 py-4 text-center hover:bg-gray-50 transition-colors">
                 <span className="text-gray-900 font-medium text-base">Edit</span>
               </button>
             )}
