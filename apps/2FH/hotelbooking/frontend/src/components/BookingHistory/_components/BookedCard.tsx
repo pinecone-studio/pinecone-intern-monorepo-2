@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Booking, useGetRoomForBookingQuery } from '@/generated';
 import { useHotelNameQuery } from '@/generated';
 import { useRouter } from 'next/navigation';
-import { AdultInfoForBookingCard } from './AdultsInformationForBookedCard';
 type Props = {
   confirmedBooking: Pick<Booking, 'id' | 'hotelId' | 'roomId' | 'checkInDate' | 'status' | 'adults' | 'children'>;
 };
@@ -29,14 +28,19 @@ export const BookedCard = ({ confirmedBooking }: Props) => {
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
           <div className={`w-fit px-3 py-1 rounded-full text-white ${roomData?.getRoom.status === 'Booked' && 'bg-[#18BA51]'}`}>{roomData?.getRoom.status}</div>
-          <div></div>
           <div>
             <div className="font-bold">{hotelData?.hotel.name}</div>
             <div className="text-[14px] opacity-50">
               {roomData?.getRoom.__typename} ,{roomData?.getRoom.name}
             </div>
           </div>
-          {confirmedBooking?.adults && <AdultInfoForBookingCard adults={confirmedBooking?.adults} />}
+          <div className="flex gap-3 items-center">
+            <div data-testid="Informatin-Text-Of-Adults" className="p-[3px] rounded-full bg-black w-fit h-fit"></div>
+            <div data-testid="Information-Of-Previous-Card" className="py-2 flex gap-2 ">
+              {confirmedBooking?.adults} adults
+            </div>
+          </div>
+
           <div className="flex gap-3">
             <div className="opacity-50">Check in:</div>
             <div> {confirmedBooking.checkInDate}</div>

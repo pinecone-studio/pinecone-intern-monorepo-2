@@ -36,6 +36,9 @@ export const BookingHistory = () => {
 
   const bookings = booking?.getBookingsByUserId ?? [];
 
+
+  
+
   return (
     <div className="w-[50%] flex flex-col gap-5">
       <div className="flex flex-col gap-4">

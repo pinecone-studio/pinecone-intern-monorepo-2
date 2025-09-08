@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useGetRoomForBookingQuery } from '@/generated';
 import { useHotelNameQuery } from '@/generated';
 import { useRouter } from 'next/navigation';
-import { InformationOfPreviousCard } from './InformationOfPreviousCard';
 
 type Props = {
   hotelId: string;
@@ -32,17 +31,27 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, adults, stat
     <div className="flex items-end justify-between border-[1px] rounded-xl">
       <div className="flex gap-5">
         <div>
-          <Image src={roomData?.getRoom.imageURL?.[0] || '/Images/NoImage.png'} width={300} height={200} alt="Room picture" className="w-[400px] h-[200px] rounded-xl" />
+          <Image data-testid="Image-Id" src={roomData?.getRoom.imageURL?.[0] || '/Images/NoImage.png'} width={300} height={200} alt="Room picture" className="w-[400px] h-[200px] rounded-xl" />
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
-          <div className={`w-fit px-3 py-1 rounded-full text-white ${status === 'Cancelled' ? 'bg-red-500' : status === 'Completed' ? 'bg-[#18BA51]' : 'bg-gray-400'}`}>{status}</div>
+          <div data-testid="Status-Color" className={`w-fit px-3 py-1 rounded-full text-white ${status === 'Cancelled' ? 'bg-red-500' : status === 'Completed' ? 'bg-[#18BA51]' : 'bg-gray-400'}`}>
+            {status}
+          </div>
           <div>
-            <div className="font-bold">{hotelData?.hotel.name}</div>
-            <div className="text-[14px] opacity-50">
+            <div data-testid="Hotel-Name" className="font-bold">
+              {hotelData?.hotel.name}
+            </div>
+            <div data-testid="room-name" className="text-[14px] opacity-50">
               {roomData?.getRoom.__typename}, {roomData?.getRoom.name}
             </div>
           </div>
-          <InformationOfPreviousCard adults={adults} />
+
+          <div data-testid="Information-Of-Previous-Card" className="py-2 flex gap-2 ">
+            <div className="flex items-center gap-2">
+              <div data-testid="Informatin-Text-Of-Adults" className="p-[3px] rounded-full bg-black w-fit h-fit"></div>
+              {adults} adults
+            </div>
+          </div>
           <div className="flex gap-3">
             <div className="opacity-50">Check in:</div>
             <div>{checkInDate}</div>
@@ -54,7 +63,7 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, adults, stat
         </div>
       </div>
       <div className="p-3 flex items-end">
-        <Button onClick={() => router.push('./detail')} variant={'outline'}>
+        <Button data-testid="View-Detail-Btn" onClick={() => router.push('./detail')} variant={'outline'}>
           View Detail
         </Button>
       </div>
