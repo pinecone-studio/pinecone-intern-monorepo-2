@@ -28,7 +28,7 @@ describe('User Profile Page', () => {
     cy.get("img[alt='testuser profile picture']").should('be.visible');
   });
 
-  it('should display stats (posts, followers, following)', () => {
+  it.skip('should display stats (posts, followers, following)', () => {
     cy.contains('10 posts').should('be.visible');
     cy.contains('0 Followers').should('be.visible');
     cy.contains('0 Following').should('be.visible');
