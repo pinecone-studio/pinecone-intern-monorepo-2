@@ -5,7 +5,7 @@ import { SettingsSvg } from '@/components/assets/SettingsSvg';
 import { Followers } from '@/components/userProfile/Followers';
 import { Followings } from '@/components/userProfile/Followings';
 import { demoImage } from '@/components/userProfile/mock-images';
-// import { Posts } from '@/components/userProfile/Post';
+import { Posts } from '@/components/userProfile/Post';
 import { useAuth } from '@/contexts/AuthContext';
 import Image from 'next/image';
 

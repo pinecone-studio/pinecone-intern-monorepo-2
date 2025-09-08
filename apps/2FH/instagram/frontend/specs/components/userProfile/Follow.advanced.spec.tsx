@@ -2,6 +2,13 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { Followers } from '@/components/userProfile/Followers';
 import { gql } from '@apollo/client';
+import React from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: mockPush }),
+  usePathname: () => '/',
+}));
 const GET_USER_BY_USERNAME = gql`
   query GetUserByUsername($userName: String!) {
     getUserByUsername(userName: $userName) {
@@ -106,6 +113,7 @@ const mocks = [
     },
   },
 ];
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => <AuthProvider>{children}</AuthProvider>;
 const mockCurrentUser = { _id: 'user1', userName: 'currentUser' };
 describe('Followers component - Advanced scenarios', () => {
   it('renders FollowButton for other users when current user is following them', () => {
@@ -118,9 +126,11 @@ describe('Followers component - Advanced scenarios', () => {
       followings: [{ _id: 'user2' }], // Following Alice
     };
     render(
-      <MockedProvider mocks={mocks}>
-        <Followers followers={followers} currentUser={currentUserWithFollowings} />
-      </MockedProvider>
+      <TestWrapper>
+        <MockedProvider mocks={mocks}>
+          <Followers followers={followers} currentUser={currentUserWithFollowings} />
+        </MockedProvider>
+      </TestWrapper>
     );
     fireEvent.click(screen.getByRole('button', { name: /2 Followers/i }));
     expect(screen.getByTestId('follow-btn-user2')).toBeInTheDocument();
@@ -137,9 +147,11 @@ describe('Followers component - Advanced scenarios', () => {
       userName: 'currentUser',
     };
     render(
-      <MockedProvider mocks={mocks}>
-        <Followers followers={followers} currentUser={currentUserWithoutFollowings} />
-      </MockedProvider>
+      <TestWrapper>
+        <MockedProvider mocks={mocks}>
+          <Followers followers={followers} currentUser={currentUserWithoutFollowings} />
+        </MockedProvider>
+      </TestWrapper>
     );
     fireEvent.click(screen.getByRole('button', { name: /2 Followers/i }));
     expect(screen.getByTestId('follow-btn-user2')).toBeInTheDocument();

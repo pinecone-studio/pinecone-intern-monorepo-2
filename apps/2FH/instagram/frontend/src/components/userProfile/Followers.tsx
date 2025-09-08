@@ -43,7 +43,7 @@ export const Followers = ({
                     </div>
                   </Link>
                   {currentUser._id !== follower._id && (
-                    <FollowButton targetUserId={follower._id} initialIsFollowing={!isFollowing} initialIsRequested={false} isPrivate={false} userName={follower.userName} />
+                    <FollowButton targetUserId={follower._id} initialIsFollowing={isFollowing ?? false} initialIsRequested={false} isPrivate={false} userName={follower.userName} />
                   )}
                 </li>
               );

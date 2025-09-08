@@ -2,9 +2,12 @@
 
 import Image from 'next/image';
 import { ShowMore } from './ShowMore';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { PriceDetail } from './PriceDetail';
 import { useGetRoomsQuery } from '@/generated';
 import { Button } from '@/components/ui/button';
+import { ReserveButton } from './ReserveButton';
+// import { useOtpContext } from '../providers/UserAuthProvider';
 import { Wifi, AirVent, Tv, Wine, Droplet, ShowerHead, Toilet, ChevronRight } from 'lucide-react';
 
 type RoomInfoProps = {
@@ -23,9 +26,17 @@ const infoIcons: Record<string, React.ReactNode> = {
 
 export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
   const [showMore, setShowMore] = useState(false);
+  const [openPriceDetail, setOpenPriceDetail] = useState(false);
+  // const { nights, range } = useOtpContext();
 
   const handleClickShow = () => {
     setShowMore(true);
+  };
+
+  const nights = 2;
+
+  const handleClickPriceDetail = () => {
+    setOpenPriceDetail(true);
   };
 
   const { data } = useGetRoomsQuery({ variables: { hotelId } });
@@ -69,19 +80,23 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
               <div className="border border-solid"></div>
               <div className="flex flex-col gap-y-1">
                 <p className="text-xs font-normal text-gray-500">Total</p>
-                {rooms.pricePerNight * 2}
+                {rooms.pricePerNight * nights}
 
                 <div className="flex items-center gap-x-1">
                   {rooms.pricePerNight} <p className="text-xs font-normal">Price per night</p>
                 </div>
 
                 <div className="flex  justify-between">
-                  <div className=" flex gap-x-2 text-blue-600 items-center">
-                    <p className="text-sm font-medium">Price detail</p>
-                    <ChevronRight className="w-4 h-4  " />
-                  </div>
+                  {openPriceDetail ? (
+                    <PriceDetail data-testid="price-detail-button-room-info" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} />
+                  ) : (
+                    <div data-testid="price-detail-button-room-info" onClick={handleClickPriceDetail} className=" flex gap-x-2 text-blue-600 items-center cursor-pointer">
+                      <p className="text-sm font-medium">Price detail</p>
+                      <ChevronRight className="w-4 h-4  " />
+                    </div>
+                  )}
 
-                  <Button className="w-[70px] bg-blue-600 text-sm font-medium">Reserve</Button>
+                  <ReserveButton roomId={rooms.id} />
                 </div>
               </div>
             </div>
