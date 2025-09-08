@@ -30,7 +30,7 @@ describe('BookingsCard', () => {
   const mockBookings = [
     {
       id: 'booking-1',
-      status: 'BOOKED',
+      status: 'Booked',
       checkInDate: '2024-01-15',
       checkOutDate: '2024-01-18',
       adults: 2,
@@ -38,7 +38,7 @@ describe('BookingsCard', () => {
     },
     {
       id: 'booking-2',
-      status: 'CANCELLED',
+      status: 'Cancelled',
       checkInDate: '2024-01-20',
       checkOutDate: '2024-01-22',
       adults: 1,
@@ -46,7 +46,7 @@ describe('BookingsCard', () => {
     },
     {
       id: 'booking-3',
-      status: 'COMPLETED',
+      status: 'Completed',
       checkInDate: '2024-01-10',
       checkOutDate: '2024-01-12',
       adults: 3,
@@ -227,7 +227,7 @@ describe('BookingsCard', () => {
     const bookingsWithInvalidDate = [
       {
         id: 'booking-invalid-date',
-        status: 'BOOKED',
+        status: 'Booked',
         checkInDate: 'invalid-date',
         checkOutDate: 'invalid-date',
         adults: 2,
@@ -249,7 +249,7 @@ describe('BookingsCard', () => {
   it('limits displayed bookings to 5', () => {
     const manyBookings = Array.from({ length: 10 }, (_, i) => ({
       id: `booking-${i + 1}`,
-      status: 'BOOKED',
+      status: 'Booked',
       checkInDate: '2024-01-15',
       checkOutDate: '2024-01-18',
       adults: 2,
@@ -291,7 +291,7 @@ describe('BookingsCard', () => {
     const bookingsWithZeroChildren = [
       {
         id: 'booking-1',
-        status: 'BOOKED',
+        status: 'Booked',
         checkInDate: '2024-01-15',
         checkOutDate: '2024-01-18',
         adults: 2,
@@ -316,7 +316,7 @@ describe('BookingsCard', () => {
     const bookingsWithZeroAdults = [
       {
         id: 'booking-1',
-        status: 'BOOKED',
+        status: 'Booked',
         checkInDate: '2024-01-15',
         checkOutDate: '2024-01-18',
         adults: 0,
