@@ -6,9 +6,10 @@ import { Status, useRoomStatusUpdateMutation } from '@/generated';
 
 type ReserveButtonProps = {
   roomId: string;
+  bedNumber: number;
 };
 
-export const ReserveButton = ({ roomId }: ReserveButtonProps) => {
+export const ReserveButton = ({ roomId, bedNumber }: ReserveButtonProps) => {
   const router = useRouter();
   const [updateStatus, { loading }] = useRoomStatusUpdateMutation();
 
@@ -21,6 +22,7 @@ export const ReserveButton = ({ roomId }: ReserveButtonProps) => {
             updateRoomId: roomId,
             input: {
               status: Status.Pending,
+              bedNumber: bedNumber,
             },
           },
         });

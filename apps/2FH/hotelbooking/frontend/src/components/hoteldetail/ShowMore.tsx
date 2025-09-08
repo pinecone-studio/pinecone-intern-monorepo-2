@@ -140,14 +140,14 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
               <div className="flex justify-between">
                 {openPriceDetail ? (
-                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} />
+                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} roomId={rooms.id} bedNumber={rooms.bedNumber} />
                 ) : (
                   <div data-testid="price-detail-button-show-more" onClick={handleClickPriceDetail} className="flex gap-x-2 text-blue-600 items-center cursor-pointer">
                     <span className="text-sm font-medium">Price detail</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 )}
-                <ReserveButton roomId={rooms.id} />
+                <ReserveButton roomId={rooms.id} bedNumber={rooms.bedNumber} />
               </div>
             </div>
           </div>
