@@ -66,7 +66,6 @@ describe('RoomInformation Component', () => {
     expect(screen.getByText('Darkhan, Mongolia')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
 
-    
     expect(screen.getByTestId('No-Image-Component')).toBeInTheDocument();
   });
 });
