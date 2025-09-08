@@ -1,1 +1,1 @@
-["/forgot-password","/login","/reset-password","/signup","/stories","/stories/[userId]","/verify-otp","","/[userName]","/userProfile"]
+["/forgot-password","/login","/reset-password","/signup","/stories","/stories/[userId]","/user-stories/[userId]","/verify-otp","","/[userName]","/userProfile"]
