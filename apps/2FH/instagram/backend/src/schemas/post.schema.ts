@@ -46,3 +46,4 @@ export const PostTypeDefs = gql`
     getPostsByAuthor(author: ID!): [Post!]!
   }
 `;
+

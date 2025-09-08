@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@/components';
 import { StoryCreateDialog } from '@/components/create-story-dialog/StoryCreateDialog';
+import { CreatePostDialog } from '@/components/create-post-dialog/CreatePostDialog';
 import Image from 'next/image';
 
 export const Sidebar = () => {
@@ -12,6 +13,7 @@ export const Sidebar = () => {
   const createRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { isSearchOpen, setIsSearchOpen } = useNavigation();
+  const [isPostDialogOpen, setIsPostDialogOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,10 +30,13 @@ export const Sidebar = () => {
   const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 
   const handleStoryClick = () => {
-    setIsCreateOpen(false); 
-    setIsStoryDialogOpen(true); 
+    setIsCreateOpen(false);
+    setIsStoryDialogOpen(true);
   };
-
+  const handlePostClick = () => {
+    setIsCreateOpen(false);
+    setIsPostDialogOpen(true);
+  };
   const isActive = (path: string) => pathname === path;
 
   const renderNavItem = (href: string, icon: React.ReactNode, label: string, isActivePath: boolean) => (
@@ -70,18 +75,11 @@ export const Sidebar = () => {
 
       {isCreateOpen && !isSearchOpen && (
         <div className="absolute left-full top-0 ml-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
-          <button
-            data-testid="Create-Open-To-False"
-            onClick={() => setIsCreateOpen(false)}
-            className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left"
-          >
+          <button data-testid="Create-Open-To-False" onClick={handlePostClick} className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left">
             <ImageIcon size={20} className="text-gray-700" />
             <span>Post</span>
           </button>
-          <button 
-            onClick={handleStoryClick}
-            className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left"
-          >
+          <button onClick={handleStoryClick} className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-gray-900 w-full text-left">
             <Plus size={20} className="text-gray-700" />
             <span>Story</span>
           </button>
@@ -118,11 +116,8 @@ export const Sidebar = () => {
           </div>
         )}
       </div>
-
-      <StoryCreateDialog 
-        isOpen={isStoryDialogOpen}
-        onClose={() => setIsStoryDialogOpen(false)}
-      />
+      <CreatePostDialog isPostDialogOpen={isPostDialogOpen} setIsPostDialogOpen={setIsPostDialogOpen} />
+      <StoryCreateDialog isOpen={isStoryDialogOpen} onClose={() => setIsStoryDialogOpen(false)} />
     </>
   );
 };

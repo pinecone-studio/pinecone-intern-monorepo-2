@@ -80,3 +80,4 @@ describe('deletePost resolver', () => {
     await expect(deletePost({}, { _id: mockId }, { userId: mockUserId })).rejects.toThrow('Failed to delete post: null');
   });
 });
+
