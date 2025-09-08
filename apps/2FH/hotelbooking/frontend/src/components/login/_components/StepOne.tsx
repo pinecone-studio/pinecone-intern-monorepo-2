@@ -31,6 +31,7 @@ export const LoginComponent = () => {
 
       localStorage.setItem('token', data.login.token);
       setToken(data.login.token);
+
       const user = {
         _id: data.login.user._id,
         email: data.login.user.email,
@@ -43,6 +44,13 @@ export const LoginComponent = () => {
       setMe(user);
 
       toast.success(<span data-cy="login-success-toast">Login Successful! Welcome back, {data.login.user.email}!</span>);
+
+      const pendingRoomId = localStorage.getItem('pendingRoomId');
+      if (pendingRoomId) {
+        localStorage.removeItem('pendingRoomId');
+        router.push(`/booking/${pendingRoomId}/payment`);
+        return;
+      }
 
       setTimeout(() => {
         if (!user.firstName) {

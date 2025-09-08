@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useGetActiveStoriesQuery } from '@/generated';
 import StoryViewer from '@/components/stories/StoryViewer';
 import { Story, User } from '@/app/Types/story.types';
+import { mapStoriesToUsers } from '@/utils/stories';
 
 const Stories: React.FC = () => {
   const router = useRouter();
@@ -11,35 +12,36 @@ const Stories: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<number>(0);
   const [currentStory, setCurrentStory] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
-  const getValidImageUrl = useCallback((url: string | undefined, fallback: string): string => (url && (url.startsWith('http') || url.startsWith('/')) ? url : fallback), []);
-
-  const users = useMemo(() => {
-    if (!data?.getActiveStories) return [];
-    return data.getActiveStories.reduce((acc: User[], story) => {
-      const userId = story.author?._id;
-      if (!userId) return acc;
-      let user = acc.find((u: User) => u.id === userId);
-      if (!user) {
-        user = { id: story.author?._id as string, username: story.author?.userName || 'Unknown User', avatar: getValidImageUrl(story.author?.profileImage || '', '/default-avatar.png'), stories: [] };
-        acc.push(user);
-      }
-      user.stories.push({ id: story._id, src: getValidImageUrl(story.image, '/default-story.png'), duration: 5000 });
-      return acc;
-    }, []);
-  }, [data?.getActiveStories, getValidImageUrl]);
+  const users = useMemo(
+    () =>
+      mapStoriesToUsers(
+        data?.getActiveStories
+          ?.filter((story): story is typeof story & { author: NonNullable<typeof story.author> } => story.author !== null)
+          .map((story) => ({
+            ...story,
+            author: {
+              ...story.author,
+              profileImage: story.author.profileImage ?? undefined,
+            },
+          })) || []
+      ),
+    [data?.getActiveStories]
+  );
   const story: Story | undefined = users[currentUser]?.stories?.[currentStory];
   const handleNextUser = useCallback(() => {
     if (currentUser < users.length - 1) {
       setCurrentUser((p) => p + 1);
       setCurrentStory(0);
     } else {
-      router.push('/stories');
+      router.push('/');
     }
   }, [currentUser, users.length, router]);
   const handleNextStory = useCallback(() => {
     if (!story || !users[currentUser]) return;
-    currentStory < users[currentUser].stories.length - 1 ? setCurrentStory((p) => p + 1) : handleNextUser();
+    const hasMoreStories = currentStory < users[currentUser].stories.length - 1;
+    hasMoreStories ? setCurrentStory((p) => p + 1) : handleNextUser();
   }, [story, currentUser, currentStory, users, handleNextUser]);
+
   const handlePrevUser = () => {
     if (currentUser > 0) {
       const prevIdx = currentUser - 1;
@@ -47,7 +49,9 @@ const Stories: React.FC = () => {
       setCurrentStory(users[prevIdx]?.stories?.length - 1 || 0);
     }
   };
+
   const handlePrevStory = () => (currentStory > 0 ? setCurrentStory((p) => p - 1) : handlePrevUser());
+
   const handleUserSelect = (user: User) => {
     const idx = users.findIndex((u) => u.id === user.id);
     if (idx !== -1) {
@@ -55,28 +59,28 @@ const Stories: React.FC = () => {
       setCurrentStory(0);
     }
   };
+
   const visibleUsers = useMemo(() => {
-    const visible: User[] = [];
-    [-2, -1, 0, 1, 2].forEach((offset) => {
-      const idx = currentUser + offset;
-      if (idx >= 0 && idx < users.length) visible.push(users[idx]);
-    });
-    return visible;
-  }, [currentUser, users.length]);
+    const offsets = [-2, -1, 0, 1, 2];
+    return offsets.map((offset) => users[currentUser + offset]).filter((u): u is User => !!u);
+  }, [currentUser, users]);
+
   const handleStoryComplete = useCallback(() => {
     const isLastStory = currentStory >= users[currentUser]?.stories?.length - 1;
     const isLastUser = currentUser >= users.length - 1;
+
+    if (isLastStory && isLastUser) {
+      router.push('/');
+      return;
+    }
     if (isLastStory) {
-      if (isLastUser) {
-        router.push('/');
-      } else {
-        setCurrentUser((p) => p + 1);
-        setCurrentStory(0);
-      }
+      setCurrentUser((p) => p + 0.5);
+      setCurrentStory(0);
     } else {
       setCurrentStory((p) => p + 0.5);
     }
   }, [currentStory, currentUser, users, router]);
+
   useEffect(() => {
     if (!story) return;
     setProgress(0);
@@ -91,19 +95,22 @@ const Stories: React.FC = () => {
     }, story.duration / 50);
     return () => clearInterval(interval);
   }, [story?.id, story?.duration, handleStoryComplete]);
-  if (loading)
+
+  if (loading) {
     return (
       <div data-testid="loading-stories" className="text-white p-4">
         Loading stories...
       </div>
     );
-  if (error)
+  }
+  if (error) {
     return (
       <div data-testid="error-stories" className="text-red-500 p-4">
         Error: {error.message}
       </div>
     );
-  if (!users.length)
+  }
+  if (!users.length) {
     return (
       <div data-testid="no-stories" className="text-white p-4">
         <div className="flex justify-between items-center">
@@ -114,6 +121,7 @@ const Stories: React.FC = () => {
         </div>
       </div>
     );
+  }
 
   const currentUserData = users[currentUser];
 
@@ -125,7 +133,7 @@ const Stories: React.FC = () => {
           ✕
         </button>
       </div>
-      <div className="flex-1 flex items-center justify-center gap-6 mt-6">
+      <div className="flex-1 flex items-center justify-center gap-6 ">
         {visibleUsers.map((user) => (
           <div key={user.id} className="transition-all duration-300">
             <StoryViewer

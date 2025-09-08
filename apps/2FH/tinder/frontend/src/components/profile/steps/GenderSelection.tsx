@@ -8,10 +8,10 @@ export const GenderSelection: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const genderDropdownRef = useRef<HTMLDivElement>(null);
 
-  const genders = ['Male', 'Female', 'Both',];
+  const genders = ['Male', 'Female', 'Both'];
 
   const handleGenderSelect = (gender: string) => {
-    handleInputChange({ gender: gender as any }); // ✅ context-д хадгална 
+    handleInputChange({ gender: gender as any }); // ✅ context-д хадгална
     setIsDropdownOpen(false);
   };
 
@@ -47,34 +47,15 @@ export const GenderSelection: React.FC = () => {
             className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent cursor-pointer text-gray-700"
             readOnly
           />
-          <button
-            type="button"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
+          <button type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </button>
           {isDropdownOpen && (
             <div className="absolute z-10 w-full mt-2 bg-white border border-gray-300 rounded-lg shadow-lg">
               {genders.map((gender) => (
-                <button
-                  key={gender}
-                  type="button"
-                  onClick={() => handleGenderSelect(gender)}
-                  className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
-                >
+                <button key={gender} type="button" onClick={() => handleGenderSelect(gender)} className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg">
                   {gender}
                 </button>
               ))}
@@ -87,10 +68,7 @@ export const GenderSelection: React.FC = () => {
           <button
             onClick={nextStep}
             disabled={!canProceed}
-            className={`ml-auto px-3 py-1 rounded-full font-semibold text-white ${canProceed
-              ? "bg-pink-500 hover:bg-red-500"
-              : "bg-gray-300 cursor-not-allowed opacity-50"
-              }`}
+            className={`ml-auto px-3 py-1 rounded-full font-semibold text-white ${canProceed ? 'bg-pink-500 hover:bg-red-500' : 'bg-gray-300 cursor-not-allowed opacity-50'}`}
           >
             Next
           </button>

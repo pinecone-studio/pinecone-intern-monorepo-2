@@ -1,0 +1,53 @@
+  query SearchUsers($keyword: String!) {
+    searchUsers(keyword: $keyword) {
+      _id
+      fullName
+      userName
+      profileImage
+      isVerified
+    }
+  }
+
+  query GetUserSearchHistory($userId: ID!) {
+    getUserSearchHistory(userId: $userId) {
+      _id
+      fullName
+      userName
+      profileImage
+      isVerified
+    }
+  }
+
+  mutation AddToSearchHistory($searchedUserId: ID!) {
+    addToSearchHistory(searchedUserId: $searchedUserId) {
+      _id
+      searchHistory {
+        _id
+        fullName
+        userName
+        profileImage
+        isVerified
+      }
+    }
+  }
+
+  mutation ClearSearchHistory {
+    clearSearchHistory {
+      success
+      message
+    }
+  }
+
+
+  mutation RemoveFromSearchHistory($searchedUserId: ID!) {
+    removeFromSearchHistory(searchedUserId: $searchedUserId) {
+      _id
+      searchHistory {
+        _id
+        fullName
+        userName
+        profileImage
+        isVerified
+      }
+    }
+  }

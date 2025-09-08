@@ -31,5 +31,5 @@ export const getUserSearchHistory = async (
     throw new GraphQLError('User not found');
   }
 
-  return [...user.searchHistory].reverse();
+  return user.searchHistory.reverse();
 };

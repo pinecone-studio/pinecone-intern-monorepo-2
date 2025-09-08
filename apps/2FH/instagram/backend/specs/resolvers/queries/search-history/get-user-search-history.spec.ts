@@ -52,6 +52,6 @@ describe('getUserSearchHistory', () => {
 
     const result = await getUserSearchHistory({}, { userId: 'currentUserId' }, mockContext);
 
-    expect(result).toEqual([...mockUser.searchHistory].reverse());
+    expect(result).toEqual(mockUser.searchHistory.reverse());
   });
 });

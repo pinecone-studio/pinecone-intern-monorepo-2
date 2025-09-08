@@ -20,7 +20,7 @@ export const UserTypeDefs = gql`
     gender: Gender!
     isPrivate: Boolean!
     isVerified: Boolean!
-    posts: [ID!]!
+    posts: [Post!]!
     stories: [Story!]!
     followers: [User!]!
     followings: [User!]!
@@ -94,7 +94,7 @@ export const UserTypeDefs = gql`
   type Query {
     getUserById(_id: ID!): User
     getUserByUsername(userName: String!): User
-    
+    getNotFollowingUsers(userId: ID!): [User!]!    
     searchUsers(keyword: String!): [User!]!
     getUserSearchHistory(userId: ID!): [User!]!
   }

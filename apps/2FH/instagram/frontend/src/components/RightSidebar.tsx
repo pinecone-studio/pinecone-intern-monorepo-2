@@ -1,16 +1,21 @@
+"use client";
 import { useQuery, gql } from '@apollo/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { FollowButton } from './userProfile/FollowButton';
+
 
 const SEARCH_USERS = gql`
-  query SearchUsers($keyword: String!) {
-    searchUsers(keyword: $keyword) {
-      _id
-      userName
-      fullName
-      profileImage
-      isVerified
-    }
+ query GetNotFollowingUsers($userId: ID!) {
+  getNotFollowingUsers(userId: $userId) {
+    _id
+    fullName
+    userName
+    bio
+    profileImage
+    isVerified
   }
+}
 `;
 
 type SuggestedUser = {
@@ -24,31 +29,42 @@ type SuggestedUser = {
 /* eslint-disable complexity */
 export const RightSidebar = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  
+  const router = useRouter();
   
   const { data, loading } = useQuery(SEARCH_USERS, {
-    variables: { keyword: 'user' },
-    skip: !isAuthenticated,
-    errorPolicy: 'all'
+    variables: { userId: user?._id }
   });
-
   if (!isAuthenticated || !user) {
     return null;
   }
 
-  const suggestedUsers: SuggestedUser[] = data?.searchUsers?.slice(0, 5) || [];
+  const suggestedUsers: SuggestedUser[] = data?.getNotFollowingUsers || [];
+
+  const handleUserClick = () => {
+    router.push('/userProfile');
+  };
+
+  const handleSuggestedUserClick = (userName: string) => {
+    router.push(`/${userName}`);
+  };
 
   return (
     <div className="w-80 p-6  right-0 top-0 h-full bg-white">
       <div className="flex items-center space-x-3 mb-6">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold overflow-hidden">
+        <div 
+          onClick={handleUserClick}
+          className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+        >
           {user.profileImage ? (
             <img src={user.profileImage} alt={user.userName} className="w-full h-full object-cover" />
           ) : (
             user.userName.charAt(0).toUpperCase()
           )}
         </div>
-        <div className="flex-1">
+        <div 
+          onClick={handleUserClick}
+          className="flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+        >
           <p className="font-semibold">{user.userName}</p>
           <p className="text-gray-500 text-sm">{user.fullName}</p>
         </div>
@@ -83,20 +99,24 @@ export const RightSidebar = () => {
           <div className="space-y-3">
             {suggestedUsers.map((suggestedUser) => (
               <div key={suggestedUser._id} className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm overflow-hidden">
+                <div 
+                  onClick={() => handleSuggestedUserClick(suggestedUser.userName)}
+                  className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                >
                   {suggestedUser.profileImage ? (
                     <img src={suggestedUser.profileImage} alt={suggestedUser.userName} className="w-full h-full object-cover" />
                   ) : (
                     suggestedUser.userName.charAt(0).toUpperCase()
                   )}
                 </div>
-                <div className="flex-1">
+                <div 
+                  onClick={() => handleSuggestedUserClick(suggestedUser.userName)}
+                  className="flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                >
                   <p className="font-semibold text-sm">{suggestedUser.userName}</p>
                   <p className="text-gray-500 text-xs">{suggestedUser.fullName}</p>
                 </div>
-                <button className="text-blue-500 font-semibold text-sm hover:text-blue-700">
-                  Follow
-                </button>
+                <FollowButton targetUserId={suggestedUser._id} initialIsFollowing={false} initialIsRequested={false} isPrivate={false} userName={suggestedUser.userName} />
               </div>
             ))}
             {suggestedUsers.length === 0 && (

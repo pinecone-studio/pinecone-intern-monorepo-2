@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useFollowUserMutation, useUnfollowUserMutation, useGetUserByUsernameQuery } from '@/generated';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface FollowButtonProps {
   targetUserId: string;
@@ -15,6 +16,12 @@ export const FollowButton = ({ targetUserId, initialIsFollowing, initialIsReques
   const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
   const [isRequested, setIsRequested] = useState(initialIsRequested);
   const { refetch } = useGetUserByUsernameQuery({ variables: { userName: userName } });
+  const { user: currentUser, updateUser } = useAuth();
+  const { refetch: refetchCurrentUser } = useGetUserByUsernameQuery({
+    variables: { userName: currentUser?.userName || '' },
+    skip: !currentUser?.userName,
+  });
+
   const [followUser, { loading: followLoading }] = useFollowUserMutation();
   const [unfollowUser, { loading: unfollowLoading }] = useUnfollowUserMutation();
 
@@ -35,10 +42,28 @@ export const FollowButton = ({ targetUserId, initialIsFollowing, initialIsReques
     }
   };
 
+  const updateCurrentUserData = async () => {
+    if (!currentUser?.userName) return;
+
+    const { data: currentUserData } = await refetchCurrentUser();
+    if (currentUserData?.getUserByUsername) {
+      const userData = currentUserData.getUserByUsername;
+      updateUser({
+        _id: userData._id,
+        fullName: userData.fullName,
+        userName: userData.userName,
+        isVerified: userData.isVerified,
+        followers: userData.followers as unknown as { _id: string; userName: string; fullName: string; profileImage?: string | undefined }[],
+        followings: userData.followings as unknown as { _id: string; userName: string; fullName: string; profileImage?: string | undefined }[],
+      });
+    }
+  };
+
   const handleFollow = async () => {
     try {
       const { data } = await followUser({ variables: { targetUserId } });
       refetch();
+      await updateCurrentUserData();
       handleFollowSuccess(data);
     } catch (err) {
       console.error('Follow error:', err);
@@ -49,6 +74,7 @@ export const FollowButton = ({ targetUserId, initialIsFollowing, initialIsReques
     try {
       const { data } = await unfollowUser({ variables: { targetUserId } });
       refetch();
+      await updateCurrentUserData();
       handleUnfollowSuccess(data);
     } catch (err) {
       console.error('Unfollow error:', err);

@@ -1,8 +1,23 @@
+/* eslint-disable */
 'use client';
-import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
-import { gql, useApolloClient } from '@apollo/client';
 
-type BookingDataType = { userId: string; id: string; hotelId: string; roomId: string; checkInDate: string; checkOutDate: string; status: string; __typeName: string };
+import { useMemo } from 'react';
+import { DateRange } from 'react-day-picker';
+import { gql, useApolloClient } from '@apollo/client';
+import { addDays, differenceInCalendarDays } from 'date-fns';
+import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
+
+type BookingDataType = {
+  userId: string;
+  id: string;
+  hotelId: string;
+  roomId: string;
+  checkInDate: string;
+  checkOutDate: string;
+  status: string;
+  __typeName: string;
+};
+
 type Role = 'user' | 'admin';
 type UserType = { _id: string; firstName: string; lastName: string; email: string; role: Role; dateOfBirth: string };
 type OtpContextType = {
@@ -23,14 +38,53 @@ type OtpContextType = {
   setTimeLeft: Dispatch<SetStateAction<number>>;
   bookingSuccess: boolean;
   setBookingSuccess: Dispatch<SetStateAction<boolean>>;
-  bookingData: BookingDataType;
-  setBookingData: Dispatch<SetStateAction<BookingDataType>>;
+  setBookingData: Dispatch<
+    SetStateAction<{
+      userId: string;
+      hotelId: string;
+      roomId: string;
+      checkInDate: string;
+      checkOutDate: string;
+      children: number;
+      adults: number;
+      status: string;
+      roomCustomer: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        phoneNumber: string;
+      };
+    }>
+  >;
+  bookingData: {
+    userId: string;
+    hotelId: string;
+    roomId: string;
+    checkInDate: string;
+    checkOutDate: string;
+    children: number;
+    adults: number;
+    status: string;
+    roomCustomer: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phoneNumber: string;
+    };
+  };
   me: UserType | null;
   setMe: Dispatch<SetStateAction<UserType | null>>;
   token: string | null;
   setToken: Dispatch<SetStateAction<string | null>>;
+  adult: number;
+  setAdult: Dispatch<SetStateAction<number>>;
+  childrens: number;
+  setChildrens: Dispatch<SetStateAction<number>>;
+  range: DateRange | undefined;
+  setRange: Dispatch<SetStateAction<DateRange | undefined>>;
   loading: boolean;
   signOut: () => void;
+  nights: number
 };
 const OtpContext = createContext<OtpContextType | null>(null);
 const GET_ME = gql`
@@ -45,7 +99,6 @@ const GET_ME = gql`
     }
   }
 `;
-
 export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
@@ -55,20 +108,40 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [timeLeft, setTimeLeft] = useState(90);
   const [startTime, setStartTime] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [bookingData, setBookingData] = useState<BookingDataType>({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
   const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
+
+  const [adult, setAdult] = useState(1);
+  const [childrens, setChildrens] = useState(0);
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7)})
+
+  const [bookingData, setBookingData] = useState({
+    userId: '',
+    hotelId: '',
+    roomId: '',
+    checkInDate: '',
+    checkOutDate: '',
+    adults: 0,
+    children: 0,
+    status: '',
+    roomCustomer: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+    },
+  });
+
   const [loading, setLoading] = useState(true);
 
   const client = useApolloClient();
-
-  // OTP timer
   useEffect(() => {
     if (!startTime || timeLeft <= 0) return;
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [startTime, timeLeft]);
-
   const resetOtp = () => {
     setStartTime(true);
     setTimeLeft(90);
@@ -76,7 +149,22 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setTimeout(() => setStartTime(true), 0);
   };
 
-  // Separate function to parse user data
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (!storedToken) return;
+    setToken(storedToken);
+    client
+      .query({ query: GET_ME, fetchPolicy: 'no-cache' })
+      .then((res) => {
+        if (res.data?.getMe) setMe(res.data.getMe);
+      })
+      .catch(() => {
+        setMe(null);
+        setToken(null);
+        localStorage.removeItem('token');
+      });
+  }, [client]);
+
   const parseUser = (u: any): UserType => ({
     _id: u._id,
     email: u.email,
@@ -86,7 +174,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     dateOfBirth: u.dateOfBirth || '',
   });
 
-  // Separate function to fetch user
   const fetchMe = async (storedToken: string) => {
     setLoading(true);
     try {
@@ -98,14 +185,30 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     }
   };
-  // inside UserAuthProvider
+
   const signOut = () => {
     localStorage.removeItem('token');
     setMe(null);
     setToken(null);
     setStep(1);
-    setBookingData({ userId: '', id: '', hotelId: '', roomId: '', checkInDate: '', checkOutDate: '', status: '', __typeName: '' });
+    setBookingData({
+      userId: '',
+      hotelId: '',
+      roomId: '',
+      checkInDate: '',
+      checkOutDate: '',
+      adults: 0,
+      children: 0,
+      status: '',
+      roomCustomer: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+      },
+    });
   };
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
@@ -115,7 +218,16 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
+  console.log(range);
 
+  const nights = useMemo(() => {
+    if (range?.from && range?.to) {
+      return differenceInCalendarDays(range.to, range.from);
+    }
+    return 0;
+  }, [range]);
+
+  console.log('range in provider', range, 'nights', nights);
   return (
     <OtpContext.Provider
       value={{
@@ -142,15 +254,21 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
         setMe,
         token,
         setToken,
+        adult,
+        setAdult,
+        childrens,
+        setChildrens,
+        range,
+        setRange,
         loading,
         signOut,
+        nights,
       }}
     >
       {children}
     </OtpContext.Provider>
   );
 };
-
 export const useOtpContext = () => {
   const ctx = useContext(OtpContext);
   if (!ctx) throw new Error('useOtpContext must be used inside UserAuthProvider');

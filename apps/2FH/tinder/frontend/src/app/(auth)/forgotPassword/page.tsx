@@ -50,9 +50,7 @@ const ForgetPasswordPage = () => {
       <h1 className="text-2xl font-medium mb-2 text-center">Forgot Password</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="text-center mb-6">
-          <p className="text-gray-500 text-sm mt-1">
-            Enter your email account to reset password
-          </p>
+          <p className="text-gray-500 text-sm mt-1">Enter your email account to reset password</p>
         </div>
 
         <div className="mb-4">
@@ -65,7 +63,9 @@ const ForgetPasswordPage = () => {
             data-cy="email-input"
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1" data-cy="email-error">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1" data-cy="email-error">
+              {errors.email.message}
+            </p>
           )}
         </div>
 

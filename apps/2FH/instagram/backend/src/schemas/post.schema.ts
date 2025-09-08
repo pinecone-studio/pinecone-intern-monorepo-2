@@ -2,14 +2,26 @@ import gql from 'graphql-tag';
 
 export const PostTypeDefs = gql`
   scalar Date
-
+  type User {
+    _id: ID!
+    userName: String!
+    profileImage: String!
+  }
+  type Comment {
+    _id: ID!
+    content: String!
+    author: ID!
+    likes: [User!]!
+    createdAt: Date!
+    updatedAt: Date!
+  }
   type Post {
     _id: ID!
-    author: ID!
+    author: User!
     image: [String!]!
     caption: String
-    likes: [ID!]!
-    comments: [ID!]!
+    likes: [User!]!
+    comments: [Comment!]!
     createdAt: Date!
     updatedAt: Date!
   }
@@ -18,14 +30,14 @@ export const PostTypeDefs = gql`
     image: [String!]!
     caption: String
   }
-  input updateCommentByLikesInput {
+  input updatePostByLikesInput {
     likes: [ID!]!
   }
 
   type Mutation {
-    createPost(author: ID!, input: CreatePostInput!): Post!
-    deletePost(_id: ID!, userId: ID!): Post!
-    updatePostByLikes(_id: ID!, input: updateCommentByLikesInput!): Post!
+    createPost(input: CreatePostInput!): Post!
+    deletePost(_id: ID!): Post!
+    updatePostByLikes(_id: ID!, input: updatePostByLikesInput!): Post!
     updatePostByCaption(_id: ID!, caption: String!): Post!
   }
   type Query {

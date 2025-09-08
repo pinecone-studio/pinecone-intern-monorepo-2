@@ -1,4 +1,5 @@
 import React from 'react';
+import { demoImage, storyImage } from '../userProfile/mock-images';
 
 interface Story {
   id: string;
@@ -30,7 +31,15 @@ interface StoryViewerProps {
 const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, progress, onPrevStory, onNextStory, onPrevUser, onNextUser, canGoPrev, isActive, onUserSelect }) => {
   if (isActive) {
     return (
-      <div className="relative w-[521px] h-[927px]">
+      <div
+        className="
+          relative 
+          w-full max-w-[521px] 
+          aspect-[9/16] 
+          mx-auto
+        "
+      >
+        {/* Progress bar */}
         <div className="absolute top-2 left-0 right-0 flex gap-1 px-2 z-10">
           {user.stories.map((s, i) => (
             <div key={s.id} className="flex-1 h-1 bg-black/50 rounded">
@@ -44,16 +53,18 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
           ))}
         </div>
 
+        {/* Story image */}
         <img
           src={story?.src}
           alt="story"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
           data-testid="main-story-image"
           onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-            e.currentTarget.src = '/default-story.png';
+            e.currentTarget.src = storyImage;
           }}
         />
 
+        {/* User info */}
         <div className="absolute top-12 left-4 flex items-center z-10">
           <div className="p-[2px] rounded-full bg-gradient-to-r from-red-500 to-orange-500">
             <img
@@ -61,16 +72,18 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
               alt={user.username}
               className="w-8 h-8 rounded-full object-cover"
               onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                e.currentTarget.src = '/default-avatar.png';
+                e.currentTarget.src = demoImage;
               }}
             />
           </div>
           <span className="text-white ml-2 font-semibold text-sm">{user.username}</span>
         </div>
 
+        {/* Click zones */}
         <div data-testid="left-click-zone" className="absolute left-0 top-0 w-1/2 h-full cursor-pointer z-20" onClick={onPrevStory} />
         <div data-testid="right-click-zone" className="absolute right-0 top-0 w-1/2 h-full cursor-pointer z-20" onClick={onNextStory} />
 
+        {/* Navigation buttons */}
         <button
           data-testid="prev-user-btn"
           onClick={onPrevUser}
@@ -87,13 +100,23 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
   }
 
   return (
-    <div data-testid="preview-container" className="relative w-[245px] h-[433px] overflow-hidden rounded-xl shadow-lg cursor-pointer opacity-70" onClick={onUserSelect}>
+    <div
+      data-testid="preview-container"
+      className="
+        relative 
+        w-full max-w-[245px] 
+        aspect-[9/16] 
+        overflow-hidden rounded-xl shadow-lg 
+        cursor-pointer opacity-70 mx-auto
+      "
+      onClick={onUserSelect}
+    >
       <img
         src={user.stories[0]?.src}
         alt="story"
         className="w-full h-full object-cover"
         onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-          e.currentTarget.src = '/default-story.png';
+          e.currentTarget.src = storyImage;
         }}
       />
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
@@ -103,7 +126,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({ user, story, currentStory, pr
             alt={user.username}
             className="w-[56px] h-[56px] rounded-full object-cover"
             onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              e.currentTarget.src = '/default-avatar.png';
+              e.currentTarget.src = demoImage;
             }}
           />
         </div>
