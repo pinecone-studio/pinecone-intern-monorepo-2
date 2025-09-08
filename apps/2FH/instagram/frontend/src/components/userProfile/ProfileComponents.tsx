@@ -45,10 +45,10 @@ export const ProfileActions = ({ user, currentUser, isFollowing }: { user: User;
   </div>
 );
 
-export const ProfileStats = ({ user, currentUser }: { user: User; currentUser: CurrentUser | null }) => (
+export const ProfileStats = ({ user, currentUser, postCount }: { user: User; currentUser: CurrentUser | null; postCount: number }) => (
   <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
     <div>
-      <strong className="text-neutral-900 text-xl">10</strong> posts
+      <strong className="text-neutral-900 text-xl">{postCount}</strong> posts
     </div>
     <div>
       <Followers
@@ -82,10 +82,10 @@ export const ProfileBio = ({ user }: { user: User }) => (
   </div>
 );
 
-export const ProfileInfo = ({ user, currentUser, isFollowing }: { user: User; currentUser: CurrentUser | null; isFollowing: boolean }) => (
+export const ProfileInfo = ({ user, currentUser, isFollowing, postCount }: { user: User; currentUser: CurrentUser | null; isFollowing: boolean; postCount: number }) => (
   <div className="flex-1 min-w-0">
     <ProfileActions user={user} currentUser={currentUser} isFollowing={isFollowing} />
-    <ProfileStats user={user} currentUser={currentUser} />
+    <ProfileStats user={user} currentUser={currentUser} postCount={postCount} />
     <ProfileBio user={user} />
   </div>
 );

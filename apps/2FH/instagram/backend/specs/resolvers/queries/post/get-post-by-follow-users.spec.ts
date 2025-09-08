@@ -8,7 +8,7 @@ jest.mock('src/models', () => ({
 }));
 
 describe('getPostsByFollowingUsers', () => {
-  const mockContext = { user: { id: 'u1', username: 'test' } };
+  const mockContext = { userId: 'u1' };
 
   afterEach(() => {
     jest.clearAllMocks();

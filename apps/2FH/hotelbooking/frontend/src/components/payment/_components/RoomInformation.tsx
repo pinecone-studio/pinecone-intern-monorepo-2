@@ -1,18 +1,33 @@
 import { RoomInformationSvg } from '@/components/payment/_components/assets/RoomInformationSvg';
 import Image from 'next/image';
 import { PriceDetail } from './PriceDetail';
+import { useHotelByIdForBookingQuery } from '@/generated';
+import { NoImage } from './assets/NoImage';
 export const RoomInformation = () => {
+  const { data } = useHotelByIdForBookingQuery({
+    variables: {
+      hotelId: '68b7bee57d52b027d4752888',
+    },
+  });
+  const image = data?.hotel.images[0] ?? '/Images/NoImage.png';
+
   return (
     <div data-testid="Room-Information-Container" className="w-full flex flex-col gap-3">
-      <div className="relative w-full h-[200px]">
-        <Image src="/images/Hotel-Image.png" fill alt="Picture of the author" className="rounded-xl" />
+      <div className={`relative w-full h-[200px] `}>
+        {image === '/Images/NoImage.png' ? (
+          <div className="w-full h-full flex items-center justify-center border-[1px]">
+            <NoImage />
+          </div>
+        ) : (
+          <Image src={`${image}`} fill alt="Picture of the author" className="rounded-xl" />
+        )}
       </div>
       <div className="p-[16px] flex flex-col gap-3 border-[1px] border-opacity-50 border-t-0 rounded-xl">
         <div className="flex flex-col gap-3 ">
-          <div className="font-semibold">Hotel Ulaanbaatar</div>
-          <div className="opacity-50">Zaluuchuud Avenue, 18, Bayanzurkh, Ulaanbaatar, Ulaanbaatar, 001334</div>
+          <div className="font-semibold">{data?.hotel.name}</div>
+          <div className="opacity-50">{data?.hotel.location}</div>
           <div className="flex gap-3">
-            <div className="bg-[#2563EB] text-white px-2 rounded-full">8.6</div>
+            <div className="bg-[#2563EB] text-white px-2 rounded-full">{data?.hotel.rating}</div>
             <div>Excellent</div>
           </div>
         </div>

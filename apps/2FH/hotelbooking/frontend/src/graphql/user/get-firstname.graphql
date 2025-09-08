@@ -1,0 +1,5 @@
+query GetUserFirstnameById($input: UserId!) {
+  getUserById(input: $input) {
+    firstName
+  }
+}

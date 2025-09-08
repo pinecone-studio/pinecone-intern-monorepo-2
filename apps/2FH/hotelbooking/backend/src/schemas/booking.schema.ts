@@ -4,9 +4,16 @@ export const bookingTypeDefs = gql`
   scalar Date
 
   enum BookingStatus {
-    BOOKED
-    COMPLETED
-    CANCELLED
+    Completed
+    Cancelled
+    Booked
+  }
+
+  type RoomCustomer {
+    firstName: String!
+    lastName: String!
+    email: String!
+    phoneNumber: String!
   }
 
   type Booking {
@@ -18,9 +25,17 @@ export const bookingTypeDefs = gql`
     checkOutDate: Date!
     adults: Int
     children: Int
-    status: BookingStatus!
+    status: BookingStatus
     createdAt: Date
     updatedAt: Date
+    roomCustomer: RoomCustomer!
+  }
+
+  input RoomCustomerInput {
+    email: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String!
   }
 
   input CreateBookingInput {
@@ -31,6 +46,8 @@ export const bookingTypeDefs = gql`
     checkOutDate: Date!
     adults: Int
     children: Int
+    status: BookingStatus
+    roomCustomer: RoomCustomerInput!
   }
 
   input UpdateBookingInput {

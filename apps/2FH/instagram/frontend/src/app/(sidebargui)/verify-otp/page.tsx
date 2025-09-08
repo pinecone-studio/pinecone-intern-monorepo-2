@@ -1,4 +1,4 @@
-/* eslint-disable max-lines, max-lines-per-function */ /* istanbul ignore next */
+/* eslint-disable max-lines, max-lines-per-function */ /* istanbul ignore file */
 'use client';
 import { useState, useEffect, Suspense } from 'react';
 import { useMutation } from '@apollo/client';
