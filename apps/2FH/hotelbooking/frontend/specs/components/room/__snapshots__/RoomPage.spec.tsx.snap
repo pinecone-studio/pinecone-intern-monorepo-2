@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoomPage matches snapshot 1`] = `
+<div
+  class="min-h-screen bg-gray-50 p-6"
+>
+  <div
+    class="max-w-7xl mx-auto"
+  >
+    <div
+      class="flex items-center gap-4 mb-6"
+    >
+      <button
+        class="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
+        data-cy="Chevron-Left"
+      >
+        <svg
+          class="lucide lucide-chevron-left w-4 h-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m15 18-6-6 6-6"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="flex-1 mb-6"
+    >
+      <h1
+        class="text-xl font-semibold text-gray-900 mb-2"
+        data-cy="Room-Name"
+      >
+        New Room
+      </h1>
+      <input
+        class="w-full max-w-md px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+        placeholder="Enter room name"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="mb-6"
+    >
+      <label
+        class="block text-sm font-medium text-gray-700 mb-2"
+        data-cy="Select-Hotel"
+      >
+        Select Hotel
+      </label>
+      <select
+        class="w-full max-w-md px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        data-cy="Select-Hotel-Option"
+      >
+        <option
+          value=""
+        >
+          Select a hotel
+        </option>
+        <option
+          value="hotel-1"
+        >
+          Grand Hotel
+        </option>
+        <option
+          value="hotel-2"
+        >
+          City Hotel
+        </option>
+      </select>
+    </div>
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6"
+    >
+      <div
+        class="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+      >
+        <div
+          data-testid="general-component"
+        >
+          <button>
+            Save General
+          </button>
+          <div>
+            Loading: 
+            false
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white rounded-lg shadow-sm border border-gray-200 p-6"
+      >
+        <div
+          class="flex justify-between items-center mb-4"
+        >
+          <h2
+            class="text-lg font-semibold text-gray-900"
+          >
+            Images
+          </h2>
+          <button
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+            data-cy="Edit-Images"
+          >
+            Edit
+          </button>
+        </div>
+        <div
+          class="flex flex-col items-center justify-center py-8"
+        >
+          <div
+            class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4"
+          >
+            <svg
+              class="w-8 h-8 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <h3
+            class="text-base font-medium text-gray-900 mb-2"
+          >
+            No Photos Uploaded
+          </h3>
+          <p
+            class="text-sm text-gray-500 text-center max-w-xs"
+          >
+            Add photos of your rooms, amenities, or property to showcase your hotel.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6"
+    >
+      <div
+        data-testid="upcoming-component"
+      >
+        Upcoming Component
+      </div>
+    </div>
+    <div
+      class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6"
+    >
+      <div
+        data-testid="roomservice-component"
+      >
+        <button>
+          Save Services
+        </button>
+        <div>
+          Loading: 
+          false
+        </div>
+      </div>
+    </div>
+    <div
+      data-testid="save-handler"
+    >
+      <div>
+        Selected Hotel: 
+      </div>
+      <div>
+        Room Name: 
+      </div>
+      <div>
+        Loading: 
+        false
+      </div>
+    </div>
+  </div>
+</div>
+`;

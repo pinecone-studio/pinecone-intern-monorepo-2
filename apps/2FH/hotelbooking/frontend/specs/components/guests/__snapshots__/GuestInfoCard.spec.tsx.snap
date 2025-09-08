@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GuestInfoCard matches snapshot 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="flex flex-col space-y-1.5 p-6"
+  >
+    <h3
+      class="tracking-tight text-lg font-semibold"
+    >
+      Guest Info
+    </h3>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="grid grid-cols-2 gap-4"
+    >
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          First Name
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          John
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Last Name
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Doe
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Status
+        </label>
+        <div
+          class="mt-1"
+        >
+          <div
+            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-blue-600 text-white"
+          >
+            Booked
+          </div>
+        </div>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Guests
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          2
+           adult
+          s
+          , 
+          1
+           children
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Check in
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Feb
+           
+          1
+          , 
+          Thursday
+          , 
+          10:00 PM
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Check out
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Feb
+           
+          3
+          , 
+          Saturday
+          , 
+          7:00 PM
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Email
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          john.doe@example.com
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Phone
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          +976 99112233
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Guest Request
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Late check-in requested
+        </p>
+      </div>
+    </div>
+    <div
+      class="flex justify-end mt-6"
+    >
+      <div
+        data-testid="checkout-modal"
+      >
+        <div>
+          Checkout Modal - 
+          BOOKED
+        </div>
+        <button>
+          Update Status
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`GuestInfoCard matches snapshot with different status 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="flex flex-col space-y-1.5 p-6"
+  >
+    <h3
+      class="tracking-tight text-lg font-semibold"
+    >
+      Guest Info
+    </h3>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="grid grid-cols-2 gap-4"
+    >
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          First Name
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          John
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Last Name
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Doe
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Status
+        </label>
+        <div
+          class="mt-1"
+        >
+          <div
+            class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-green-600 text-white"
+          >
+            Completed
+          </div>
+        </div>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Guests
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          2
+           adult
+          s
+          , 
+          1
+           children
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Check in
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Feb
+           
+          1
+          , 
+          Thursday
+          , 
+          10:00 PM
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Check out
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Feb
+           
+          3
+          , 
+          Saturday
+          , 
+          7:00 PM
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Email
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          john.doe@example.com
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Phone
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          +976 99112233
+        </p>
+      </div>
+      <div>
+        <label
+          class="text-sm font-medium text-gray-600"
+        >
+          Guest Request
+        </label>
+        <p
+          class="text-gray-900"
+        >
+          Late check-in requested
+        </p>
+      </div>
+    </div>
+    <div
+      class="flex justify-end mt-6"
+    >
+      <div
+        data-testid="checkout-modal"
+      >
+        <div>
+          Checkout Modal - 
+          COMPLETED
+        </div>
+        <button>
+          Update Status
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

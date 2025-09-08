@@ -1,0 +1,722 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoomAmenitiesCard matches snapshot 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="space-y-1.5 p-6 flex flex-row items-center justify-between"
+  >
+    <h3
+      class="text-2xl font-semibold leading-none tracking-tight"
+    >
+      Room Amenities
+    </h3>
+    <div
+      data-testid="edit-room-modal"
+    >
+      <div>
+        Edit Room Modal - 
+        amenities
+      </div>
+      <button>
+        Close Modal
+      </button>
+    </div>
+    <button
+      class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3 bg-blue-600 hover:bg-blue-700 text-white"
+    >
+      Edit
+    </button>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 gap-4"
+    >
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-wifi h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 20h.01"
+            />
+            <path
+              d="M2 8.82a15 15 0 0 1 20 0"
+            />
+            <path
+              d="M5 12.859a10 10 0 0 1 14 0"
+            />
+            <path
+              d="M8.5 16.429a5 5 0 0 1 7 0"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Free Wifi
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Internet
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-wifi h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 20h.01"
+            />
+            <path
+              d="M2 8.82a15 15 0 0 1 20 0"
+            />
+            <path
+              d="M5 12.859a10 10 0 0 1 14 0"
+            />
+            <path
+              d="M8.5 16.429a5 5 0 0 1 7 0"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Free Wired Internet
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Internet
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-utensils h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"
+            />
+            <path
+              d="M7 2v20"
+            />
+            <path
+              d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Free Breakfast
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Food & Drink
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-utensils h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"
+            />
+            <path
+              d="M7 2v20"
+            />
+            <path
+              d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Minibar
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Food & Drink
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-bed h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 4v16"
+            />
+            <path
+              d="M2 8h18a2 2 0 0 1 2 2v10"
+            />
+            <path
+              d="M2 17h20"
+            />
+            <path
+              d="M6 8v9"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Air Conditioner
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Bedroom
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-bed h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 4v16"
+            />
+            <path
+              d="M2 8h18a2 2 0 0 1 2 2v10"
+            />
+            <path
+              d="M2 17h20"
+            />
+            <path
+              d="M6 8v9"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Bed Sheets
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Bedroom
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-coffee h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 2v2"
+            />
+            <path
+              d="M14 2v2"
+            />
+            <path
+              d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"
+            />
+            <path
+              d="M6 2v2"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Private
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Bathroom
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-coffee h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 2v2"
+            />
+            <path
+              d="M14 2v2"
+            />
+            <path
+              d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"
+            />
+            <path
+              d="M6 2v2"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Free Toiletries
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Bathroom
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-accessibility h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="16"
+              cy="4"
+              r="1"
+            />
+            <path
+              d="m18 19 1-7-6 1"
+            />
+            <path
+              d="m5 8 3-3 5.5 3-2.36 3.5"
+            />
+            <path
+              d="M4.24 14.5a5 5 0 0 0 6.88 6"
+            />
+            <path
+              d="M13.76 17.5a5 5 0 0 0-6.88-6"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Wheelchair Accessible
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Accessibility
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-gamepad2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="6"
+              x2="10"
+              y1="11"
+              y2="11"
+            />
+            <line
+              x1="8"
+              x2="8"
+              y1="9"
+              y2="13"
+            />
+            <line
+              x1="15"
+              x2="15.01"
+              y1="12"
+              y2="12"
+            />
+            <line
+              x1="18"
+              x2="18.01"
+              y1="10"
+              y2="10"
+            />
+            <path
+              d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Tv
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Entertainment
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-gamepad2 h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="6"
+              x2="10"
+              y1="11"
+              y2="11"
+            />
+            <line
+              x1="8"
+              x2="8"
+              y1="9"
+              y2="13"
+            />
+            <line
+              x1="15"
+              x2="15.01"
+              y1="12"
+              y2="12"
+            />
+            <line
+              x1="18"
+              x2="18.01"
+              y1="10"
+              y2="10"
+            />
+            <path
+              d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Cable Channels
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Entertainment
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-coffee h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 2v2"
+            />
+            <path
+              d="M14 2v2"
+            />
+            <path
+              d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"
+            />
+            <path
+              d="M6 2v2"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Desk
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Other
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex items-center gap-3 p-3 border rounded-lg"
+      >
+        <div
+          class="text-blue-600"
+        >
+          <svg
+            class="lucide lucide-coffee h-4 w-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 2v2"
+            />
+            <path
+              d="M14 2v2"
+            />
+            <path
+              d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"
+            />
+            <path
+              d="M6 2v2"
+            />
+          </svg>
+        </div>
+        <div
+          class="flex-1"
+        >
+          <div
+            class="font-medium text-gray-900"
+          >
+            Safe
+          </div>
+          <div
+            class="text-sm text-gray-600"
+          >
+            Other
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`RoomAmenitiesCard matches snapshot with no amenities 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="space-y-1.5 p-6 flex flex-row items-center justify-between"
+  >
+    <h3
+      class="text-2xl font-semibold leading-none tracking-tight"
+    >
+      Room Amenities
+    </h3>
+    <div
+      data-testid="edit-room-modal"
+    >
+      <div>
+        Edit Room Modal - 
+        amenities
+      </div>
+      <button>
+        Close Modal
+      </button>
+    </div>
+    <button
+      class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3 bg-blue-600 hover:bg-blue-700 text-white"
+    >
+      Edit
+    </button>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="text-center py-8 text-gray-500"
+    >
+      No amenities configured for this room
+    </div>
+  </div>
+</div>
+`;

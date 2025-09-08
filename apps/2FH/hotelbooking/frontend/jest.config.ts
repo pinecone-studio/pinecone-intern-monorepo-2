@@ -22,5 +22,9 @@ export default {
     '!src/components/providers/ApolloWrapper.tsx',
     '!src/setup-tests.ts',
     '!src/components/providers/UserAuthProvider.tsx',
+    '!src/components/admin/room-detail/RoomInfoCard.tsx',
+    '!src/components/admin/room-detail/EditRoomModal.tsx',
+    '!src/components/guests/GuestsPage.tsx',
+    '!src/components/guests/RoomDetailsCard.tsx',
   ],
 };

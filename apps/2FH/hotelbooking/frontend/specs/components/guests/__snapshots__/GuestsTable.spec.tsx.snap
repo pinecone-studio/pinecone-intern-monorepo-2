@@ -1,0 +1,1054 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GuestsTable matches snapshot 1`] = `
+<div
+  class="bg-white rounded-lg border"
+>
+  <div
+    class="relative w-full overflow-auto"
+  >
+    <table
+      class="w-full caption-bottom text-sm"
+    >
+      <thead
+        class="[&_tr]:border-b"
+      >
+        <tr
+          class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+        >
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              ID
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-900"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Name
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Hotel
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Rooms
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Guests
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Date
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Status
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="[&_tr:last-child]:border-0"
+      >
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0001
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            John Doe
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Grand Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Deluxe Suite
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            2 Adults, 1 Child
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 01 - Feb 03
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-blue-600 text-white"
+            >
+              Booked
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-gray-50 cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0002
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Jane Smith
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            City Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Standard Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            1 Adult
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 05 - Feb 07
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-green-600 text-white"
+            >
+              Completed
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0003
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Bob Johnson
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Resort Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Family Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            4 Adults, 2 Children
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 10 - Feb 12
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-orange-500 text-white"
+            >
+              Cancelled
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`GuestsTable matches snapshot with different sort direction 1`] = `
+<div
+  class="bg-white rounded-lg border"
+>
+  <div
+    class="relative w-full overflow-auto"
+  >
+    <table
+      class="w-full caption-bottom text-sm"
+    >
+      <thead
+        class="[&_tr]:border-b"
+      >
+        <tr
+          class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+        >
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              ID
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-900"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Name
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Hotel
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Rooms
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Guests
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Date
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Status
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="[&_tr:last-child]:border-0"
+      >
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0001
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            John Doe
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Grand Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Deluxe Suite
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            2 Adults, 1 Child
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 01 - Feb 03
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-blue-600 text-white"
+            >
+              Booked
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-gray-50 cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0002
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Jane Smith
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            City Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Standard Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            1 Adult
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 05 - Feb 07
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-green-600 text-white"
+            >
+              Completed
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0003
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Bob Johnson
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Resort Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Family Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            4 Adults, 2 Children
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 10 - Feb 12
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-orange-500 text-white"
+            >
+              Cancelled
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`GuestsTable matches snapshot with different sort field 1`] = `
+<div
+  class="bg-white rounded-lg border"
+>
+  <div
+    class="relative w-full overflow-auto"
+  >
+    <table
+      class="w-full caption-bottom text-sm"
+    >
+      <thead
+        class="[&_tr]:border-b"
+      >
+        <tr
+          class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+        >
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              ID
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Name
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Hotel
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Rooms
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Guests
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+          >
+            Date
+          </th>
+          <th
+            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 cursor-pointer hover:bg-gray-50"
+          >
+            <div
+              class="flex items-center gap-2"
+            >
+              Status
+              <div
+                class="flex flex-col"
+              >
+                <svg
+                  class="lucide lucide-chevron-up h-3 w-3 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m18 15-6-6-6 6"
+                  />
+                </svg>
+                <svg
+                  class="lucide lucide-chevron-down h-3 w-3 -mt-1 text-gray-400"
+                  fill="none"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="[&_tr:last-child]:border-0"
+      >
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0001
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            John Doe
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Grand Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Deluxe Suite
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            2 Adults, 1 Child
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 01 - Feb 03
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-blue-600 text-white"
+            >
+              Booked
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-gray-50 cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0002
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Jane Smith
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            City Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Standard Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            1 Adult
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 05 - Feb 07
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-secondary/80 bg-green-600 text-white"
+            >
+              Completed
+            </div>
+          </td>
+        </tr>
+        <tr
+          class="border-b data-[state=selected]:bg-muted bg-white cursor-pointer hover:bg-blue-50 transition-colors"
+        >
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+          >
+            0003
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Bob Johnson
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Resort Hotel
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Family Room
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            4 Adults, 2 Children
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            Feb 10 - Feb 12
+          </td>
+          <td
+            class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+          >
+            <div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-orange-500 text-white"
+            >
+              Cancelled
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

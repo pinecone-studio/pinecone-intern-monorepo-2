@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GuestsFilters matches snapshot 1`] = `
+<div
+  class="flex gap-4 mb-6"
+>
+  <div
+    class="relative flex-1"
+  >
+    <svg
+      class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="11"
+        cy="11"
+        r="8"
+      />
+      <path
+        d="m21 21-4.3-4.3"
+      />
+    </svg>
+    <input
+      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+      placeholder="Search"
+      value=""
+    />
+  </div>
+  <button
+    aria-autocomplete="none"
+    aria-controls="radix-:r2q:"
+    aria-expanded="false"
+    class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-[180px]"
+    data-state="closed"
+    dir="ltr"
+    role="combobox"
+    type="button"
+  >
+    <span
+      style="pointer-events: none;"
+    >
+      All Status
+    </span>
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-chevron-down w-4 h-4 opacity-50"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`GuestsFilters matches snapshot with search term 1`] = `
+<div
+  class="flex gap-4 mb-6"
+>
+  <div
+    class="relative flex-1"
+  >
+    <svg
+      class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="11"
+        cy="11"
+        r="8"
+      />
+      <path
+        d="m21 21-4.3-4.3"
+      />
+    </svg>
+    <input
+      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+      placeholder="Search"
+      value="John Doe"
+    />
+  </div>
+  <button
+    aria-autocomplete="none"
+    aria-controls="radix-:r2v:"
+    aria-expanded="false"
+    class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-[180px]"
+    data-state="closed"
+    dir="ltr"
+    role="combobox"
+    type="button"
+  >
+    <span
+      style="pointer-events: none;"
+    >
+      All Status
+    </span>
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-chevron-down w-4 h-4 opacity-50"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`GuestsFilters matches snapshot with status filter 1`] = `
+<div
+  class="flex gap-4 mb-6"
+>
+  <div
+    class="relative flex-1"
+  >
+    <svg
+      class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="11"
+        cy="11"
+        r="8"
+      />
+      <path
+        d="m21 21-4.3-4.3"
+      />
+    </svg>
+    <input
+      class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pl-10"
+      placeholder="Search"
+      value=""
+    />
+  </div>
+  <button
+    aria-autocomplete="none"
+    aria-controls="radix-:r34:"
+    aria-expanded="false"
+    class="flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 w-[180px]"
+    data-state="closed"
+    dir="ltr"
+    role="combobox"
+    type="button"
+  >
+    <span
+      style="pointer-events: none;"
+    >
+      Booked
+    </span>
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-chevron-down w-4 h-4 opacity-50"
+      fill="none"
+      height="24"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="m6 9 6 6 6-6"
+      />
+    </svg>
+  </button>
+</div>
+`;

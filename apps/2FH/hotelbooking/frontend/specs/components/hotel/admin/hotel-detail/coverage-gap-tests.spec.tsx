@@ -10,8 +10,9 @@ import { PoliciesCard } from '../../../../../src/components/admin/hotel-detail/P
 
 // Mock the GraphQL mutation
 const mockUpdateHotel = jest.fn();
-jest.mock('@/generated', () => ({
-  useUpdateHotelMutation: () => [mockUpdateHotel, { loading: false }],
+jest.mock('@apollo/client', () => ({
+  useMutation: () => [mockUpdateHotel, { loading: false }],
+  gql: jest.fn(),
 }));
 
 // Mock window.alert

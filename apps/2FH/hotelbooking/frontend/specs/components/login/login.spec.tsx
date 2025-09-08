@@ -10,18 +10,19 @@ import { UserAuthProvider } from '@/components/providers/UserAuthProvider';
 
 jest.mock('next/navigation', () => ({ useRouter: jest.fn() }));
 jest.mock('sonner', () => ({ toast: { success: jest.fn(), error: jest.fn() } }));
-
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ src, alt, ...props }: any) => <img src={src} alt={alt} {...props} />,
+}));
 const mockPush = jest.fn();
 beforeEach(() => {
   (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
   localStorage.clear();
   jest.clearAllMocks();
 });
-
 const email = 'test@example.com';
 const password = 'password123';
 const token = 'mock-token';
-
 const loginSuccessUserMock: MockedResponse = {
   request: { query: LoginDocument, variables: { input: { email, password } } },
   result: {
@@ -33,7 +34,6 @@ const loginSuccessUserMock: MockedResponse = {
     },
   },
 };
-
 const loginSuccessAdminMock: MockedResponse = {
   request: { query: LoginDocument, variables: { input: { email, password } } },
   result: {

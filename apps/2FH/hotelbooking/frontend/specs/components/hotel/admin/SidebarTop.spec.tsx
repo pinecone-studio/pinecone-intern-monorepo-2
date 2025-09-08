@@ -20,7 +20,7 @@ describe('SidebarTop', () => {
     render(<SidebarTop />);
 
     expect(screen.getByText('Pedia')).toBeInTheDocument();
-    expect(screen.getByText('media')).toBeInTheDocument();
+    expect(screen.getByText('Admin')).toBeInTheDocument();
   });
 
   it('renders with correct structure', () => {
@@ -40,13 +40,13 @@ describe('SidebarTop', () => {
   it('renders the subtitle', () => {
     render(<SidebarTop />);
 
-    expect(screen.getByText('media')).toBeInTheDocument();
+    expect(screen.getByText('Admin')).toBeInTheDocument();
   });
 
   it('renders subtitle with correct styling', () => {
     render(<SidebarTop />);
 
-    const subtitle = screen.getByText('media');
+    const subtitle = screen.getByText('Admin');
     expect(subtitle).toHaveClass('text-[#334155]', 'font-medium', 'text-sm');
   });
 

@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoomDetailPage matches snapshot for loaded state 1`] = `
+<div
+  class="min-h-screen bg-gray-50 p-6"
+  data-cy="RoomDetail-Page"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      class="flex items-center gap-4 mb-8"
+      data-cy="RoomDetail-Header"
+    >
+      <button
+        class="justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex items-center gap-2"
+        data-cy="RoomDetail-BackButton"
+      >
+        <svg
+          class="lucide lucide-arrow-left"
+          fill="none"
+          height="16"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m12 19-7-7 7-7"
+          />
+          <path
+            d="M19 12H5"
+          />
+        </svg>
+        Back
+      </button>
+      <div
+        data-cy="RoomDetail-Title"
+      >
+        <h1
+          class="text-3xl font-bold text-gray-900"
+        >
+          Deluxe Suite
+        </h1>
+        <div
+          class="flex items-center gap-2 text-gray-600"
+          data-cy="RoomDetail-Price"
+        >
+          <span>
+            $
+            150000
+            /night • 
+            double
+             People
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+    >
+      <div
+        class="space-y-6"
+      >
+        <div
+          data-testid="room-info-card"
+        >
+          <div>
+            Room Info Card
+          </div>
+          <div>
+            Room: 
+            Deluxe Suite
+          </div>
+          <button>
+            Edit Basic Info
+          </button>
+        </div>
+        <div
+          data-testid="room-amenities-card"
+        >
+          <div>
+            Room Amenities Card
+          </div>
+          <button>
+            Edit Amenities
+          </button>
+        </div>
+      </div>
+      <div
+        class="space-y-6"
+      >
+        <div
+          data-testid="room-images-card"
+        >
+          <div>
+            Room Images Card
+          </div>
+          <button>
+            Edit Images
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`RoomDetailPage matches snapshot for loading state 1`] = `
+<div
+  data-testid="loading-skeleton"
+>
+  Loading...
+</div>
+`;

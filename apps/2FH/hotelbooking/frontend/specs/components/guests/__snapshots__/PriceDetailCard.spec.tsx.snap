@@ -1,0 +1,244 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PriceDetailCard matches snapshot 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="flex flex-col space-y-1.5 p-6"
+  >
+    <h3
+      class="tracking-tight text-lg font-semibold"
+    >
+      Price Detail
+    </h3>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex justify-between items-start"
+      >
+        <div>
+          <p
+            class="text-gray-900"
+          >
+            1 night
+          </p>
+          <p
+            class="text-sm text-gray-500"
+          >
+            150,000
+            ₮ per night
+          </p>
+        </div>
+        <p
+          class="text-gray-900 font-medium"
+        >
+          150,000
+          ₮
+        </p>
+      </div>
+      <div
+        class="flex justify-between"
+      >
+        <p
+          class="text-gray-900"
+        >
+          Taxes
+        </p>
+        <p
+          class="text-gray-900"
+        >
+          12,000
+          ₮
+        </p>
+      </div>
+      <div
+        class="border-t pt-3"
+      >
+        <div
+          class="flex justify-between"
+        >
+          <p
+            class="text-gray-900 font-semibold"
+          >
+            Total price
+          </p>
+          <p
+            class="text-gray-900 font-bold"
+          >
+            162,000
+            ₮
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PriceDetailCard matches snapshot with large price 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="flex flex-col space-y-1.5 p-6"
+  >
+    <h3
+      class="tracking-tight text-lg font-semibold"
+    >
+      Price Detail
+    </h3>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex justify-between items-start"
+      >
+        <div>
+          <p
+            class="text-gray-900"
+          >
+            1 night
+          </p>
+          <p
+            class="text-sm text-gray-500"
+          >
+            1,000,000
+            ₮ per night
+          </p>
+        </div>
+        <p
+          class="text-gray-900 font-medium"
+        >
+          1,000,000
+          ₮
+        </p>
+      </div>
+      <div
+        class="flex justify-between"
+      >
+        <p
+          class="text-gray-900"
+        >
+          Taxes
+        </p>
+        <p
+          class="text-gray-900"
+        >
+          80,000
+          ₮
+        </p>
+      </div>
+      <div
+        class="border-t pt-3"
+      >
+        <div
+          class="flex justify-between"
+        >
+          <p
+            class="text-gray-900 font-semibold"
+          >
+            Total price
+          </p>
+          <p
+            class="text-gray-900 font-bold"
+          >
+            1,080,000
+            ₮
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`PriceDetailCard matches snapshot with zero price 1`] = `
+<div
+  class="rounded-lg border bg-card text-card-foreground shadow-sm"
+>
+  <div
+    class="flex flex-col space-y-1.5 p-6"
+  >
+    <h3
+      class="tracking-tight text-lg font-semibold"
+    >
+      Price Detail
+    </h3>
+  </div>
+  <div
+    class="p-6 pt-0"
+  >
+    <div
+      class="space-y-3"
+    >
+      <div
+        class="flex justify-between items-start"
+      >
+        <div>
+          <p
+            class="text-gray-900"
+          >
+            1 night
+          </p>
+          <p
+            class="text-sm text-gray-500"
+          >
+            0
+            ₮ per night
+          </p>
+        </div>
+        <p
+          class="text-gray-900 font-medium"
+        >
+          0
+          ₮
+        </p>
+      </div>
+      <div
+        class="flex justify-between"
+      >
+        <p
+          class="text-gray-900"
+        >
+          Taxes
+        </p>
+        <p
+          class="text-gray-900"
+        >
+          0
+          ₮
+        </p>
+      </div>
+      <div
+        class="border-t pt-3"
+      >
+        <div
+          class="flex justify-between"
+        >
+          <p
+            class="text-gray-900 font-semibold"
+          >
+            Total price
+          </p>
+          <p
+            class="text-gray-900 font-bold"
+          >
+            0
+            ₮
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

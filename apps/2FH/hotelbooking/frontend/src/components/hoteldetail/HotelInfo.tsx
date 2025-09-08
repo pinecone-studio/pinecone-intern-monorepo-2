@@ -25,8 +25,18 @@ const HotelImageGallery = ({ images }: { images?: (string | null)[] }) => {
   );
 };
 
+interface Hotel {
+  name?: string;
+  rating?: number;
+  description?: string;
+  amenities?: string[];
+  location?: string;
+  stars?: number;
+  phone?: string;
+}
+
 // Extract hotel details component
-const HotelDetails = ({ hotel }: { hotel: any }) => (
+const HotelDetails = ({ hotel }: { hotel: Hotel }) => (
   <div className="flex flex-col gap-y-6">
     <div className="flex flex-col gap-y-2 w-[552px]">
       <h3 className="text-3xl font-semibold">{hotel?.name}</h3>
@@ -45,7 +55,7 @@ const HotelDetails = ({ hotel }: { hotel: any }) => (
     <div className="flex flex-col gap-y-4">
       <h3 className="text-sm font-bold">Most popular facilities</h3>
       <div className="grid grid-cols-3 grid-rows-3 gap-4">
-        {hotel?.amenities.map((amenity: string) => (
+        {hotel?.amenities?.map((amenity: string) => (
           <div className="flex gap-x-2" key={amenity}>
             <CircleParking className="w-4 h-4" />
             <p className="text-sm font-medium">{amenity}</p>
@@ -57,7 +67,7 @@ const HotelDetails = ({ hotel }: { hotel: any }) => (
 );
 
 // Extract location and contact component
-const LocationAndContact = ({ hotel }: { hotel: any }) => (
+const LocationAndContact = ({ hotel }: { hotel: Hotel }) => (
   <div className="flex flex-col gap-y-2">
     <h3 className="text-base font-bold">Location</h3>
     <div className="px-4 py-4 ">
@@ -85,8 +95,8 @@ export const HotelInfo = () => {
       <div className="flex flex-col gap-8">
         <HotelImageGallery images={data?.hotel?.images} />
         <div className="px-10 flex gap-x-12">
-          <HotelDetails hotel={data?.hotel} />
-          <LocationAndContact hotel={data?.hotel} />
+          <HotelDetails hotel={data?.hotel as Hotel} />
+          <LocationAndContact hotel={data?.hotel as Hotel} />
         </div>
       </div>
       <RoomInfo hotelId={hotelId as string} />

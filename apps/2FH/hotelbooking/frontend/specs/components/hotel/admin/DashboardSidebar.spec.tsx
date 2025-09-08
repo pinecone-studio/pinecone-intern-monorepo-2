@@ -7,17 +7,11 @@ jest.mock('../../../../src/components/admin/SidebarTop', () => ({
   default: () => <div data-testid="sidebar-top">Sidebar Top</div>,
 }));
 
-jest.mock('../../../../src/components/admin/SidebarBottom', () => ({
-  __esModule: true,
-  default: () => <div data-testid="sidebar-bottom">Sidebar Bottom</div>,
-}));
-
 describe('DashboardSidebar', () => {
   it('renders the sidebar container', () => {
     render(<DashboardSidebar />);
 
     expect(screen.getByTestId('sidebar-top')).toBeInTheDocument();
-    expect(screen.getByTestId('sidebar-bottom')).toBeInTheDocument();
   });
 
   it('renders with correct structure', () => {
@@ -33,12 +27,5 @@ describe('DashboardSidebar', () => {
 
     expect(screen.getByTestId('sidebar-top')).toBeInTheDocument();
     expect(screen.getByText('Sidebar Top')).toBeInTheDocument();
-  });
-
-  it('renders SidebarBottom component', () => {
-    render(<DashboardSidebar />);
-
-    expect(screen.getByTestId('sidebar-bottom')).toBeInTheDocument();
-    expect(screen.getByText('Sidebar Bottom')).toBeInTheDocument();
   });
 });

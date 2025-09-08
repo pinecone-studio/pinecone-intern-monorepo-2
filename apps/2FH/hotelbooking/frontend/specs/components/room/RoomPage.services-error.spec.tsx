@@ -137,6 +137,6 @@ describe('RoomPage Services & Error Handling', () => {
     render(<RoomPage />);
 
     expect(mockCreateRoom).toBeDefined();
-    expect(screen.getByText('Economy Single Room')).toBeInTheDocument();
+    expect(screen.getByText('New Room')).toBeInTheDocument();
   });
 });

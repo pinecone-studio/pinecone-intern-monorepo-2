@@ -9,3 +9,7 @@ mutation createBooking($input: CreateBookingInput!) {
     userId
   }
 }
+
+mutation UpdateBooking($updateBookingId: ID!, $input: UpdateBookingInput!) {
+  updateBooking(id: $updateBookingId, input: $input)
+}

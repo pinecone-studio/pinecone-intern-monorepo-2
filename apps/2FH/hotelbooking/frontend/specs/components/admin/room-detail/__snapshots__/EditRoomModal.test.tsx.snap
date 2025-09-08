@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditRoomModal Snapshot Tests matches snapshot when closed 1`] = `
+<div
+  data-open="false"
+  data-testid="dialog"
+>
+  <div
+    class="max-w-4xl max-h-[90vh] overflow-y-auto"
+    data-testid="edit-room-modal"
+  >
+    <div
+      data-testid="dialog-header"
+    >
+      <div
+        data-testid="edit-room-modal-title"
+      >
+        Edit 
+        Basic Information
+      </div>
+    </div>
+    <div
+      class="space-y-6 py-4"
+    >
+      <div
+        class="min-h-[400px]"
+        data-testid="edit-room-modal-content"
+      >
+        <div
+          data-testid="basic-info-section"
+        >
+          <input
+            data-testid="name-input"
+            placeholder="Room name"
+            value="Deluxe Suite"
+          />
+          <input
+            data-testid="price-input"
+            placeholder="Price per night"
+            value="150000"
+          />
+          <input
+            data-testid="type-person-input"
+            placeholder="Type person"
+            value="4"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end gap-3 pt-4 border-t"
+      data-testid="dialog-footer"
+    >
+      <button
+        data-testid="edit-room-modal-cancel"
+        variant="outline"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-blue-600 hover:bg-blue-700"
+        data-testid="edit-room-modal-save"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditRoomModal Snapshot Tests matches snapshot with amenities section 1`] = `
+<div
+  data-open="true"
+  data-testid="dialog"
+>
+  <div
+    class="max-w-4xl max-h-[90vh] overflow-y-auto"
+    data-testid="edit-room-modal"
+  >
+    <div
+      data-testid="dialog-header"
+    >
+      <div
+        data-testid="edit-room-modal-title"
+      >
+        Edit 
+        Amenities
+      </div>
+    </div>
+    <div
+      class="space-y-6 py-4"
+    >
+      <div
+        class="min-h-[400px]"
+        data-testid="edit-room-modal-content"
+      >
+        <div
+          data-testid="amenities-section"
+        >
+          <input
+            data-testid="internet-input"
+            placeholder="Internet"
+            value="Free WiFi"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end gap-3 pt-4 border-t"
+      data-testid="dialog-footer"
+    >
+      <button
+        data-testid="edit-room-modal-cancel"
+        variant="outline"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-blue-600 hover:bg-blue-700"
+        data-testid="edit-room-modal-save"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditRoomModal Snapshot Tests matches snapshot with basic section 1`] = `
+<div
+  data-open="true"
+  data-testid="dialog"
+>
+  <div
+    class="max-w-4xl max-h-[90vh] overflow-y-auto"
+    data-testid="edit-room-modal"
+  >
+    <div
+      data-testid="dialog-header"
+    >
+      <div
+        data-testid="edit-room-modal-title"
+      >
+        Edit 
+        Basic Information
+      </div>
+    </div>
+    <div
+      class="space-y-6 py-4"
+    >
+      <div
+        class="min-h-[400px]"
+        data-testid="edit-room-modal-content"
+      >
+        <div
+          data-testid="basic-info-section"
+        >
+          <input
+            data-testid="name-input"
+            placeholder="Room name"
+            value="Deluxe Suite"
+          />
+          <input
+            data-testid="price-input"
+            placeholder="Price per night"
+            value="150000"
+          />
+          <input
+            data-testid="type-person-input"
+            placeholder="Type person"
+            value="4"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end gap-3 pt-4 border-t"
+      data-testid="dialog-footer"
+    >
+      <button
+        data-testid="edit-room-modal-cancel"
+        variant="outline"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-blue-600 hover:bg-blue-700"
+        data-testid="edit-room-modal-save"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditRoomModal Snapshot Tests matches snapshot with details section 1`] = `
+<div
+  data-open="true"
+  data-testid="dialog"
+>
+  <div
+    class="max-w-4xl max-h-[90vh] overflow-y-auto"
+    data-testid="edit-room-modal"
+  >
+    <div
+      data-testid="dialog-header"
+    >
+      <div
+        data-testid="edit-room-modal-title"
+      >
+        Edit 
+        Details
+      </div>
+    </div>
+    <div
+      class="space-y-6 py-4"
+    >
+      <div
+        class="min-h-[400px]"
+        data-testid="edit-room-modal-content"
+      >
+        <div
+          data-testid="details-section"
+        >
+          <textarea
+            data-testid="room-information-input"
+            placeholder="Room information"
+          >
+            Free WiFi,Air Conditioning
+          </textarea>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end gap-3 pt-4 border-t"
+      data-testid="dialog-footer"
+    >
+      <button
+        data-testid="edit-room-modal-cancel"
+        variant="outline"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-blue-600 hover:bg-blue-700"
+        data-testid="edit-room-modal-save"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`EditRoomModal Snapshot Tests matches snapshot with images section 1`] = `
+<div
+  data-open="true"
+  data-testid="dialog"
+>
+  <div
+    class="max-w-4xl max-h-[90vh] overflow-y-auto"
+    data-testid="edit-room-modal"
+  >
+    <div
+      data-testid="dialog-header"
+    >
+      <div
+        data-testid="edit-room-modal-title"
+      >
+        Edit 
+        Images
+      </div>
+    </div>
+    <div
+      class="space-y-6 py-4"
+    >
+      <div
+        class="min-h-[400px]"
+        data-testid="edit-room-modal-content"
+      >
+        <div
+          data-testid="images-section"
+        >
+          <input
+            data-testid="image-url-input"
+            placeholder="Image URL"
+            value="https://example.com/image1.jpg"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex justify-end gap-3 pt-4 border-t"
+      data-testid="dialog-footer"
+    >
+      <button
+        data-testid="edit-room-modal-cancel"
+        variant="outline"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-blue-600 hover:bg-blue-700"
+        data-testid="edit-room-modal-save"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+`;
