@@ -5,18 +5,15 @@ import { HydratedDocument } from 'mongoose';
 type PostDocument = HydratedDocument<PostSchemaType>;
 
 interface Context {
-  user?: {
-    id: string;
-    username: string;
-  };
+  userId?: string;
 }
 
 const validateUser = (context: Context) => {
-  if (!context.user) throw new GraphQLError('User not authenticated');
+  if (!context.userId) throw new GraphQLError('User not authenticated');
 };
 const  getPost= async(context: Context) =>{
 
-  const userId = context.user!.id;
+  const userId = context.userId!;
 
   const user = await User.findById(userId).select('followings');
 
@@ -26,10 +23,10 @@ const  getPost= async(context: Context) =>{
     .populate([
       {
         path: 'comments',
-        populate: [{ path: 'author', select: 'username profileImage  _id' }, { path: 'likes', select: 'username profileImage' }, { path: 'content' }],
+        populate: [{ path: 'author', select: 'userName profileImage  _id' }, { path: 'likes', select: 'userName profileImage' }, { path: 'content' }],
       },
-      { path: 'author', select: 'username profileImage _id ' },
-      { path: 'likes', select: 'username profileImage ' },
+      { path: 'author', select: 'userName profileImage _id ' },
+      { path: 'likes', select: 'userName profileImage ' },
     ])
     .sort({ createdAt: -1 })
     .lean();
