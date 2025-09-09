@@ -11,7 +11,7 @@ const ProfilePage = () => {
 
   if (loading)
     return (
-      <div className="mt-10">
+      <div data-cy="loading-profile">
         <HotelLoader />
       </div>
     );
