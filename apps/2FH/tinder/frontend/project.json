@@ -6,9 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/2FH/tinder/frontend"
@@ -62,9 +60,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "{projectRoot}/jest.config.ts",
         "passWithNoTests": true,
@@ -82,9 +78,7 @@
       "defaultConfiguration": "development",
       "configurations": {
         "development": {
-          "groups": [
-            "Tinder-2hf-2024-FE"
-          ],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "dev"
         }
       }
@@ -94,9 +88,7 @@
       "defaultConfiguration": "testing",
       "configurations": {
         "testing": {
-          "groups": [
-            "Tinder-2hf-2024-FE"
-          ],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "test"
         }
       }
@@ -106,9 +98,7 @@
       "defaultConfiguration": "prod",
       "configurations": {
         "prod": {
-          "groups": [
-            "Tinder-2hf-2024-FE"
-          ],
+          "groups": ["Tinder-2hf-2024-FE"],
           "env": "prod"
         }
       }
@@ -116,38 +106,31 @@
     "export-env": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "export $(cat apps/2FH/tinder/frontend/.env | xargs)"
-        ],
+        "commands": ["export $(cat apps/2FH/tinder/frontend/.env | xargs)"],
         "parallel": false
       }
     },
     "clean": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "rm -rf dist/apps/2FH/tinder/frontend",
-          "rm -rf .vercel"
-        ]
+        "commands": ["rm -rf dist/apps/2FH/tinder/frontend", "rm -rf .vercel"]
       }
     },
     "e2e": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "echo 'E2E tests are disabled'"
-        ],
+        "commands": ["npx nx execute-cypress scripts 2FH-tinder-frontend"],
         "parallel": false
-      }
+      },
+      "dependsOn": [{ "target": "cypress:clean" }]
     },
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "echo 'E2E tests are disabled'"
-        ],
+        "commands": ["npx nx cypress 2FH-tinder-frontend --watch"],
         "parallel": false
-      }
+      },
+      "dependsOn": [{ "target": "cypress:clean" }]
     },
     "cypress:clean": {
       "executor": "nx:run-commands",
@@ -162,20 +145,30 @@
       }
     },
     "cypress": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/cypress:cypress",
       "options": {
-        "commands": [
-          "echo 'Skipping cypress tests as configured'"
-        ],
-        "parallel": false
-      }
+        "cypressConfig": "apps/2FH/tinder/frontend/cypress.config.ts",
+        "testingType": "e2e",
+        "reporter": "mochawesome",
+        "devServerTarget": "2FH-tinder-frontend:serve:development",
+        "browser": "chrome"
+      },
+      "dependsOn": [
+        {
+          "target": "cypress-generate-all-page-json"
+        },
+        {
+          "target": "get-secrets"
+        },
+        {
+          "target": "export-env"
+        }
+      ]
     },
     "cypress-generate-all-page-json": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "npx ts-node apps/2FH/tinder/frontend/cypress/utils/get-all-pages.ts"
-        ],
+        "commands": ["npx ts-node apps/2FH/tinder/frontend/cypress/utils/get-all-pages.ts"],
         "parallel": false
       }
     },
@@ -184,6 +177,7 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_SGSMboAPakCFjUagxFVAGM8PkVPj -- vercel pull --yes --environment=preview --token=9G6Uxh7gUd002tY1tF2IZWeL",
+          "npx nx build 2FH-tinder-frontend",
           "npx env-cmd -f apps/2FH/tinder/frontend/.env vercel build --token=9G6Uxh7gUd002tY1tF2IZWeL",
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_SGSMboAPakCFjUagxFVAGM8PkVPj -- vercel --archive=tgz --prebuilt --token=9G6Uxh7gUd002tY1tF2IZWeL"
         ],
@@ -233,21 +227,15 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/2FH/tinder/frontend/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["apps/2FH/tinder/frontend/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "codegen:prod": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"
-        ]
+        "commands": ["graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"]
       },
       "dependsOn": [
         {
@@ -258,22 +246,14 @@
     "codegen:dev": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"
-        ]
+        "commands": ["graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"]
       },
-      "dependsOn": [
-        {
-          "target": "get-secrets:dev"
-        }
-      ]
+      "dependsOn": [{ "target": "get-secrets:dev" }]
     },
     "codegen:testing": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"
-        ]
+        "commands": ["graphql-codegen --config ./apps/2FH/tinder/frontend/codegen.ts"]
       },
       "dependsOn": [
         {

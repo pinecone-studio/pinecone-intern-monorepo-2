@@ -18,7 +18,7 @@ const Page = () => {
     <div className="flex h-screen w-screen relative shadow-2xl">
       <div className="w-screen h-screen relative">
         <Image
-          src="https://res.cloudinary.com/dlk2by5fg/image/upload/v1757329814/Frame_1321316627_2_h31naf.png"
+          src="https://res.cloudinary.com/dlk2by5fg/image/upload/v1757400204/Frame_1321316627_4_tkuxuh.png"
           className="w-full h-full object-cover"
           alt="Background"
           fill

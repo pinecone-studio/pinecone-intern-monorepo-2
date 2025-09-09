@@ -1,0 +1,7 @@
+{
+  "buildCommand": "nx build 2FH-tinder-frontend",
+  "outputDirectory": "dist/apps/2FH/tinder/frontend",
+  "framework": "nextjs",
+  "installCommand": "yarn install",
+  "devCommand": "nx serve 2FH-tinder-frontend"
+}
