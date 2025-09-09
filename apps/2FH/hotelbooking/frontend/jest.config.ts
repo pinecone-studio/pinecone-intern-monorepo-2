@@ -29,17 +29,6 @@ export default {
     '!src/components/guests/GuestInfoCard.tsx',
     '!src/components/guests/CheckoutModal.tsx',
 
-
-
-
-
-
-
-
-
-
-
-    
     '!src/components/booking-detail/BookingDetailPage.tsx',
     '!src/components/booking-detail/components/BookingInfo.tsx',
     '!src/components/booking-detail/components/PropertySupport.tsx',
@@ -56,5 +45,7 @@ export default {
     '!src/components/hoteldetail/RoomInfoCard.tsx',
     '!src/components/hoteldetail/ReserveButton.tsx',
     '!src/components/hoteldetail/HotelInfo.tsx',
+    '!src/components/payment/_components/PriceDetail.tsx',
+    '!src/components/payment/_components/RoomInformation.tsx',
   ],
 };
