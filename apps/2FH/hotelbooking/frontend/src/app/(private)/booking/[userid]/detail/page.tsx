@@ -1,4 +1,14 @@
+'use client';
+import { BookingDetailPageUser } from '@/components/booking-detail';
+import { useParams } from 'next/navigation';
+
 const Detail = () => {
-  return <div>Booking detail</div>;
+  const params = useParams();
+  const bookingId = params.bookingId as string;
+  return (
+    <div>
+      <BookingDetailPageUser bookingId={bookingId} />
+    </div>
+  );
 };
 export default Detail;

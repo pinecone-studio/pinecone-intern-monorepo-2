@@ -1,0 +1,1 @@
+export { BookingDetailPageUser } from './BookingDetailPage';
