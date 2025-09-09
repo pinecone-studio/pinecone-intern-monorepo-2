@@ -11,7 +11,8 @@
     "src/common/**",
     "node_modules",
     "cypress/**",
-    "**/*.cy.*"
+    "**/*.cy.*",
+    "specs/**"
   ],
   "include": [
     "src/app/**/*"

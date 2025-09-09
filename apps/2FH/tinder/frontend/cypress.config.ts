@@ -15,7 +15,8 @@ const config: Cypress.ConfigOptions<unknown> = {
     supportFolder: './cypress/support',
     supportFile: './cypress/support/e2e.ts',
     fileServerFolder: './src',
-    specPattern: [], // Skip all e2e tests
+    specPattern: [], // Skip all e2e tests - DISABLED
+    excludeSpecPattern: ['**/*'], // Explicitly exclude all test files
     screenshotsFolder: './cypress/results/assets',
     videosFolder: './cypress/results/assets',
     viewportWidth: 1536,

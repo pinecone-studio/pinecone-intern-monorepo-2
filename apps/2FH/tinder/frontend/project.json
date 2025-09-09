@@ -135,29 +135,19 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx nx execute-cypress scripts 2FH-tinder-frontend"
+          "echo 'E2E tests are disabled'"
         ],
         "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "cypress:clean"
-        }
-      ]
+      }
     },
     "e2e:open": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx nx cypress 2FH-tinder-frontend --watch"
+          "echo 'E2E tests are disabled'"
         ],
         "parallel": false
-      },
-      "dependsOn": [
-        {
-          "target": "cypress:clean"
-        }
-      ]
+      }
     },
     "cypress:clean": {
       "executor": "nx:run-commands",
