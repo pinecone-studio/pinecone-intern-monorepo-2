@@ -1,0 +1,1 @@
+// Auth components are now integrated into the main authentication system

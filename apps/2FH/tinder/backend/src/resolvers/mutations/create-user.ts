@@ -8,19 +8,32 @@ export const createUser: MutationResolvers['createUser'] = async (_root, { input
   try {
     console.log('Creating user with input:', JSON.stringify(input));
 
+    // Check if user already exists
+    const existingUser = await User.findOne({ email: input.email });
+    if (existingUser) {
+      console.log('User already exists with email:', input.email);
+      return {
+        status: UserResponse.Error,
+        message: 'User already exists with this email',
+        userId: undefined,
+      };
+    }
+
     const hashedPassword = await bcryptjs.hash(input.password, 10);
-    await User.create({
+    const newUser = await User.create({
       email: input.email,
       password: hashedPassword,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     });
 
     console.log('User created successfully:', input.email);
 
-    return UserResponse.Success;
+    return {
+      status: UserResponse.Success,
+      message: 'User created successfully',
+      userId: newUser._id.toString(),
+    };
   } catch (error: unknown) {
-    console.log('Failed to create user:', error);
+    console.error('Failed to create user:', error);
     if (error instanceof GraphQLError) throw error;
     if (error instanceof Error) throw new GraphQLError(error.message);
     throw new GraphQLError('Unknown error');

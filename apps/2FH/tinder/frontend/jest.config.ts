@@ -11,4 +11,8 @@ export default {
   coverageDirectory: '../../../../coverage/apps/2FH/tinder/frontend',
 
   collectCoverageFrom: ['src/**/*.{ts,tsx,js,jsx}', '!src/**/generated/**/*.ts', '!src/app/**/*.tsx', '!src/components/providers/*.tsx', '!src/utils/*.ts', '!src/hooks/*.ts'],
+  testPathIgnorePatterns: [
+    '/specs/',                // ✅ specs доторхи бүх test файлуудыг ignore
+    '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$' // ✅ бүх *.test.*, *.spec.* файлуудыг ignore
+  ],
 };

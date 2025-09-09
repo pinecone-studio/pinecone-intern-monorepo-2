@@ -38,15 +38,11 @@ describe('getProfile Resolver - Success Cases', () => {
   });
 
   beforeEach(() => {
-    // Mock SwipeModel.find().populate() chain
-    mockSwipeFind.mockReturnValue({
-      populate: jest.fn().mockResolvedValue([])
-    } as any);
+    // Mock SwipeModel.find() to return an array directly
+    mockSwipeFind.mockResolvedValue([]);
 
-    // Mock ProfileModel.find().select() chain
-    mockProfileFind.mockReturnValue({
-      select: jest.fn().mockResolvedValue([])
-    } as any);
+    // Mock ProfileModel.find() to return an array directly
+    mockProfileFind.mockResolvedValue([]);
   });
 
   const createMockProfile = (gender: string, dateOfBirth?: Date | string | null) => ({
@@ -61,6 +57,7 @@ describe('getProfile Resolver - Success Cases', () => {
     work: 'Tech Company',
     images: ['image1.jpg'],
     dateOfBirth,
+    matches: [],
     createdAt: new Date('2025-08-16T16:31:10.275Z'),
     updatedAt: new Date('2025-08-16T16:31:10.275Z'),
   });
@@ -68,9 +65,10 @@ describe('getProfile Resolver - Success Cases', () => {
   const testProfile = async (gender: string, expectedGender: Gender, dateOfBirth?: Date | string | null, expectedDateOfBirth: string | null = null) => {
     const mockProfile = createMockProfile(gender, dateOfBirth);
     mockFindOne.mockResolvedValue(mockProfile);
-
+    // Mock the additional calls made by fetchLikesAndMatches
+    mockSwipeFind.mockResolvedValue([]);
+    mockProfileFind.mockResolvedValue([]);
     const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
-
     expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
     expect(result).toEqual({
       id: mockProfile._id.toHexString(),
@@ -90,45 +88,35 @@ describe('getProfile Resolver - Success Cases', () => {
       matches: [],
     });
   };
-
   it('should return profile data for male gender with Date dateOfBirth', async () => {
     await testProfile('male', Gender.Male, new Date('1990-01-01'), '1990-01-01T00:00:00.000Z');
   });
-
   it('should return profile data for female gender with string dateOfBirth', async () => {
     await testProfile('female', Gender.Female, '1990-01-01', '1990-01-01T00:00:00.000Z');
   });
-
   it('should return profile data for both gender with null dateOfBirth', async () => {
     await testProfile('both', Gender.Both, null, '');
   });
-
   it('should return profile data with likes and matches', async () => {
     const mockProfile = createMockProfile('male', new Date('1990-01-01'));
     const likedUserId = new Types.ObjectId();
     const matchedUserId = new Types.ObjectId();
-
     // Add matches to the profile
     (mockProfile as any).matches = [matchedUserId];
-
     const mockLikes = [{
-      targetId: { _id: likedUserId }
+      targetId: likedUserId
     }];
-
     const mockMatches = [{
-      userId: matchedUserId
+      _id: matchedUserId,
+      userId: matchedUserId,
+      name: 'Test Match',
+      images: ['match.jpg'],
+      bio: 'Match bio'
     }];
-
     mockFindOne.mockResolvedValue(mockProfile);
-    mockSwipeFind.mockReturnValue({
-      populate: jest.fn().mockResolvedValue(mockLikes)
-    } as any);
-    mockProfileFind.mockReturnValue({
-      select: jest.fn().mockResolvedValue(mockMatches)
-    } as any);
-
+    mockSwipeFind.mockResolvedValue(mockLikes);
+    mockProfileFind.mockResolvedValue(mockMatches);
     const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
-
     expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
     expect(result).toEqual({
       id: mockProfile._id.toHexString(),
@@ -145,7 +133,17 @@ describe('getProfile Resolver - Success Cases', () => {
       createdAt: mockProfile.createdAt.toISOString(),
       updatedAt: mockProfile.updatedAt.toISOString(),
       likes: [likedUserId.toHexString()],
-      matches: [matchedUserId.toHexString()],
+      matches: [{
+        id: matchedUserId.toHexString(),
+        userId: matchedUserId.toHexString(),
+        name: 'Test Match',
+        images: ['match.jpg'],
+        bio: 'Match bio',
+        dateOfBirth: '',
+        interests: undefined,
+        profession: undefined,
+        work: undefined
+      }],
     });
   });
 });

@@ -177,6 +177,7 @@
       "options": {
         "commands": [
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_SGSMboAPakCFjUagxFVAGM8PkVPj -- vercel pull --yes --environment=preview --token=9G6Uxh7gUd002tY1tF2IZWeL",
+          "npx nx build 2FH-tinder-frontend",
           "npx env-cmd -f apps/2FH/tinder/frontend/.env vercel build --token=9G6Uxh7gUd002tY1tF2IZWeL",
           "npx dotenv -v VERCEL_ORG_ID=team_lBZB5j8sdaFCwB99JPeeSTzr -v VERCEL_PROJECT_ID=prj_SGSMboAPakCFjUagxFVAGM8PkVPj -- vercel --archive=tgz --prebuilt --token=9G6Uxh7gUd002tY1tF2IZWeL"
         ],

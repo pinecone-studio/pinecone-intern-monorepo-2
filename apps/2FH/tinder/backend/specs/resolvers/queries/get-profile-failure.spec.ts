@@ -37,15 +37,11 @@ describe('getProfile Resolver - Error Cases', () => {
   });
 
   beforeEach(() => {
-    // Mock SwipeModel.find().populate() chain
-    mockSwipeFind.mockReturnValue({
-      populate: jest.fn().mockResolvedValue([])
-    } as any);
+    // Mock SwipeModel.find() to return an array directly
+    mockSwipeFind.mockResolvedValue([]);
 
-    // Mock ProfileModel.find().select() chain
-    mockProfileFind.mockReturnValue({
-      select: jest.fn().mockResolvedValue([])
-    } as any);
+    // Mock ProfileModel.find() to return an array directly
+    mockProfileFind.mockResolvedValue([]);
   });
 
   const createMockProfile = (gender: string, dateOfBirth?: Date | string | null | object) => ({
@@ -60,6 +56,7 @@ describe('getProfile Resolver - Error Cases', () => {
     work: 'Tech Company',
     images: ['image1.jpg'],
     dateOfBirth,
+    matches: [],
     createdAt: new Date('2025-08-16T16:31:10.275Z'),
     updatedAt: new Date('2025-08-16T16:31:10.275Z'),
   });
@@ -109,9 +106,23 @@ describe('getProfile Resolver - Error Cases', () => {
     const mockProfile = createMockProfile('male', null);
     mockFindOne.mockResolvedValue(mockProfile);
 
+    // Mock the additional calls made by fetchLikesAndMatches
+    mockSwipeFind.mockResolvedValue([]);
+    mockProfileFind.mockResolvedValue([]);
+
     const result = await getProfile!({}, { userId: mockProfile.userId.toHexString() }, mockContext as any, mockInfo);
 
     expect(result.dateOfBirth).toBe('');
+    expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
+  });
+
+  it('should handle non-Database errors and log error details', async () => {
+    const customError = new Error('Custom error message');
+    mockFindOne.mockRejectedValue(customError);
+
+    await expect(getProfile!({}, { userId: new Types.ObjectId().toHexString() }, mockContext as any, mockInfo)).rejects.toThrow(
+      new GraphQLError('Failed to fetch profile', { extensions: { code: 'INTERNAL_SERVER_ERROR' } })
+    );
     expect(mockFindOne).toHaveBeenCalledWith({ userId: expect.any(Types.ObjectId) });
   });
 });

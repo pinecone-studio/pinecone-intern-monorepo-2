@@ -46,7 +46,7 @@ export const useOtpResend = (email: string, resetTimer: () => void) => {
   const [resending, setResending] = useState(false);
 
   const sendOtpRequest = async () => {
-    return axios.post('http://localhost:4200/api/graphql', {
+    return axios.post(process.env.NEXT_PUBLIC_BACKEND_URI ?? 'http://localhost:4200/api/graphql', {
       query: `
         mutation SendOtp($email: String!) {
           signupSendOtp(email: $email) {

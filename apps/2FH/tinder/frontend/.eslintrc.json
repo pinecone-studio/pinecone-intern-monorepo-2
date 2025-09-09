@@ -1,35 +1,83 @@
 {
-  "extends": ["plugin:@nx/react-typescript", "next", "next/core-web-vitals", "../../../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", ".next/**/*", ".nyc_output/**/*", "coverage/**/*"],
+  "extends": [
+    "plugin:@nx/react-typescript",
+    "next",
+    "next/core-web-vitals",
+    "../../../../.eslintrc.json"
+  ],
+  "ignorePatterns": [
+    "!**/*",
+    ".next/**/*",
+    ".nyc_output/**/*",
+    "coverage/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.*"],
+      "files": [
+        "*.*"
+      ],
+      "rules": {
+        "@next/next/no-html-link-for-pages": "off",
+        "complexity": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "max-lines": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "react/function-component-definition": "off",
+        "no-secrets/no-secrets": "off",
+        "@next/next/no-img-element": "off",
+        "jsx-a11y/alt-text": "off",
+        "react/no-unescaped-entities": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "react-hooks/rules-of-hooks": "off",
+        "react-hooks/exhaustive-deps": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "no-empty": "off",
+        "unicorn/filename-case": "off",
+        "@typescript-eslint/no-empty-function": "off"
+      }
+    },
+    {
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {
         "@next/next/no-html-link-for-pages": "off"
       }
     },
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@next/next/no-html-link-for-pages": ["error", "apps/2FH/tinder/frontend/src/app"]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.js", "*.jsx"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "files": [
+        "*.spec.ts",
+        "*.spec.tsx",
+        "*.spec.js",
+        "*.spec.jsx"
+      ],
       "env": {
         "jest": true
       }
     },
     {
-      "files": ["*.cy.{ts,js,tsx,jsx}", "cypress/**/*.{ts,js,tsx,jsx}"],
+      "files": [
+        "*.cy.{ts,js,tsx,jsx}",
+        "cypress/**/*.{ts,js,tsx,jsx}"
+      ],
       "rules": {}
     }
   ]

@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
 import { Message } from "../../models";
 import { GraphQLError } from "graphql";
-import { formatMessage } from "./get-messages.formatting";
-import { validateObjectId, validateUserIds } from "./get-messages.validation";
-import { ERRORS } from "./get-messages.types";
+import { formatMessage } from "../../utils/get-messages.formatting";
+import { validateObjectId, validateUserIds } from "../../utils/get-messages.validation";
+import { ERRORS } from "../../types/get-messages.types";
 
 const buildFilter = (senderId?: string, receiverId?: string) => {
   const filter: Record<string, Types.ObjectId> = {};

@@ -9,12 +9,12 @@ export const Step2 = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="w-[350px] h-[414px]  flex flex-col gap-6 items-center" data-testid="step2-container">
-        <div className="flex flex-col items-center">
+      <div className="w-[350px] h-[414px]  flex flex-col gap-6 items-center " data-testid="step2-container">
+        <div className="flex flex-col items-center ">
           <div>
             <Logo />
           </div>
-          <div className="text-[24px] font-semibold" data-testid="title">
+          <div className="text-[24px] mt-6 font-semibold" data-testid="title">
             Create password
           </div>
           <div className="text-[14px] text-center text-[#71717a]" data-testid="subtitle">

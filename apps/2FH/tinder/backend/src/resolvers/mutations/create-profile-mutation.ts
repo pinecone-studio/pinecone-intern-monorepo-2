@@ -26,11 +26,11 @@ const validateDateOfBirth = (dateOfBirth: string) => {
   if (isNaN(parsedDate.getTime())) {
     throw new GraphQLError("Cannot create profile: Invalid time value");
   }
-  return parsedDate;
+  return parsedDate.toISOString();
 };
 
 export const createProfile: MutationResolvers["createProfile"] = async (
-  _:unknown,
+  _: unknown,
   { input },
 ): Promise<ProfileResponse> => {
   const { userId, dateOfBirth } = input;

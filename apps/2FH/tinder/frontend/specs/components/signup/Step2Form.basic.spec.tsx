@@ -52,7 +52,7 @@ describe('useStep2Form Hook - Basic Functionality', () => {
 
   it('should handle successful user creation', async () => {
     mockAxios.post.mockResolvedValueOnce({
-      data: { data: { createUser: 'SUCCESS' } },
+      data: { data: { createUser: { status: 'SUCCESS', userId: 'test-user-id' } } },
     });
     const mockSetStep = jest.fn();
 
@@ -68,7 +68,7 @@ describe('useStep2Form Hook - Basic Functionality', () => {
     expect(mockAxios.post).toHaveBeenCalled();
     expect(toast.success).toHaveBeenCalledWith('User created successfully');
     expect(mockSetStep).toHaveBeenCalledWith(1);
-    expect(mockRouter.push).toHaveBeenCalledWith('/');
+    expect(mockRouter.push).toHaveBeenCalledWith('/create-profile');
   });
 
   it('should handle user creation failure', async () => {

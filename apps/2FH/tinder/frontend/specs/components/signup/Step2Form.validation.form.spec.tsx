@@ -92,7 +92,7 @@ describe('useStep2Form Hook - Form Validation Coverage', () => {
 
   it('should pass validation with valid data and make API call', async () => {
     mockAxios.post.mockResolvedValueOnce({
-      data: { data: { createUser: 'SUCCESS' } },
+      data: { data: { createUser: { status: 'SUCCESS', userId: 'test-user-id' } } },
     });
 
     const mockSetStep = jest.fn();
@@ -109,7 +109,7 @@ describe('useStep2Form Hook - Form Validation Coverage', () => {
     expect(mockAxios.post).toHaveBeenCalled();
     expect(toast.success).toHaveBeenCalledWith('User created successfully');
     expect(mockSetStep).toHaveBeenCalledWith(1);
-    expect(mockRouter.push).toHaveBeenCalledWith('/');
+    expect(mockRouter.push).toHaveBeenCalledWith('/create-profile');
   });
 
   it('should trigger Step2Form validation logic (covers lines 28-35)', async () => {
