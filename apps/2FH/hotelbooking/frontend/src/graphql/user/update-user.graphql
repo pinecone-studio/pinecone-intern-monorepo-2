@@ -4,5 +4,6 @@ mutation UpdateUserMutation($input: UpdateUserInput!) {
     lastName
     email
     _id
+    dateOfBirth
   }
 }

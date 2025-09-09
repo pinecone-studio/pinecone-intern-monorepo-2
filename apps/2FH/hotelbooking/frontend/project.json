@@ -23,7 +23,7 @@
         }
       ]
     },
-    "serve": {
+    "ser  ve": {
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {

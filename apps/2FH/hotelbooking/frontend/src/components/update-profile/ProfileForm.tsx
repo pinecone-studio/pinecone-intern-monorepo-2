@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar } from 'lucide-react';
 import { toast } from 'sonner';
+import { useUpdateUserMutationMutation } from '@/generated';
 
 interface User {
+  _id: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -22,6 +24,8 @@ const ProfileForm: React.FC<Props> = ({ user }) => {
     dateOfBirth: '',
   });
 
+  const [updateUser] = useUpdateUserMutationMutation();
+
   useEffect(() => {
     setFormData({
       firstName: user?.firstName || '',
@@ -35,14 +39,32 @@ const ProfileForm: React.FC<Props> = ({ user }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Profile data:', formData);
-    toast.success('Profile updated!', { id: 'profile-toast' });
+    if (!user?._id) {
+      toast.error('User not found', { id: 'profile-toast' });
+      return;
+    }
+
+    try {
+      await updateUser({
+        variables: {
+          input: {
+            _id: user._id,
+            ...formData,
+          },
+        },
+      });
+
+      toast.success('Profile updated!', { id: 'profile-toast' });
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update profile', { id: 'profile-toast' });
+    }
   };
 
   return (
-    <div data-cy="profile-form-container" data-testid="profile-form-container" className="w-full max-w-2xl bg-white rounded-lg shadow border border-gray-200 p-6">
+    <div data-cy="profile-form-container" data-testid="profile-form-container" className="w-full h-fit max-w-2xl bg-white rounded-lg shadow border border-gray-200 p-6">
       <h2 data-cy="profile-form-title" className="text-2xl font-semibold text-gray-900 mb-4">
         Personal Information
       </h2>

@@ -6,6 +6,7 @@ import { DateRange } from 'react-day-picker';
 import { gql, useApolloClient } from '@apollo/client';
 import { addDays, differenceInCalendarDays } from 'date-fns';
 import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
+import { useRouter } from 'next/navigation';
 
 type BookingDataType = {
   userId: string;
@@ -138,6 +139,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const client = useApolloClient();
+  const rounter = useRouter();
   useEffect(() => {
     if (!startTime || timeLeft <= 0) return;
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
@@ -191,6 +193,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('token');
     setMe(null);
     setToken(null);
+    rounter.push('/login');
     setStep(1);
     setBookingData({
       userId: '',

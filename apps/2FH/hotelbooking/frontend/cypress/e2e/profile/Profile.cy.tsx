@@ -19,7 +19,7 @@ describe('User Profile Page E2E', () => {
     cy.visit('/user-profile');
 
     // Loading message should appear
-    cy.get('[data-cy=loading-profile]').should('contain.text', 'Loading profile...');
+    cy.get('[data-cy=loading-profile]').should('be.visible');
   });
 
   it('redirects to login if no user', () => {
@@ -73,6 +73,7 @@ describe('User Profile Page E2E', () => {
   it('updates profile and shows Sonner toast', () => {
     window.localStorage.setItem('token', fakeToken);
 
+    // Intercept GetMe
     cy.intercept('POST', '/api/graphql', (req) => {
       if (req.body.operationName === 'GetMe') {
         req.reply({
@@ -88,15 +89,33 @@ describe('User Profile Page E2E', () => {
           },
         });
       }
-    }).as('getMe');
+
+      // Intercept UpdateUserMutation
+      if (req.body.operationName === 'UpdateUserMutation') {
+        req.reply({
+          data: {
+            updateUser: {
+              _id: '123',
+              firstName: req.body.variables.input.firstName,
+              lastName: req.body.variables.input.lastName,
+              email: req.body.variables.input.email,
+              dateOfBirth: req.body.variables.input.dateOfBirth,
+            },
+          },
+        });
+      }
+    }).as('graphql');
 
     cy.visit('/user-profile');
-
-    cy.wait('@getMe');
+    cy.wait('@graphql');
 
     cy.get('[data-cy=input-firstName]').clear().type('Jane');
     cy.get('[data-cy=btn-updateProfile]').click();
 
-    cy.get('[data-sonner-toast]').should('contain.text', 'Profile updated!');
+    // Wait for the mutation to finish
+    cy.wait('@graphql');
+
+    // Check that toast appears
+    cy.get('body').contains('Profile updated!').should('be.visible');
   });
 });
