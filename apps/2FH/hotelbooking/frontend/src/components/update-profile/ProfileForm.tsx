@@ -42,7 +42,7 @@ const ProfileForm: React.FC<Props> = ({ user }) => {
   };
 
   return (
-    <div data-cy="profile-form-container" data-testid="profile-form-container" className="w-full max-w-2xl bg-white rounded-lg shadow border border-gray-200 p-6">
+    <div data-cy="profile-form-container" data-testid="profile-form-container" className="w-full h-fit max-w-2xl bg-white rounded-lg shadow border border-gray-200 p-6">
       <h2 data-cy="profile-form-title" className="text-2xl font-semibold text-gray-900 mb-4">
         Personal Information
       </h2>

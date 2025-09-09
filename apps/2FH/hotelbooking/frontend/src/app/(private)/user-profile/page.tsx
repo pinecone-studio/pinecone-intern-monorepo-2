@@ -1,5 +1,6 @@
 'use client';
 import { useOtpContext } from '@/components';
+import { HotelLoader } from '@/components/loadingComponent/Loader';
 import ProfileForm from '@/components/update-profile/ProfileForm';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -10,16 +11,16 @@ const ProfilePage = () => {
 
   if (loading)
     return (
-      <p data-cy="loading-profile" className="p-6 text-gray-500">
-        Loading profile...
-      </p>
+      <div className="mt-10">
+        <HotelLoader />
+      </div>
     );
   if (me === null) {
     router.push('/login');
   }
 
   return (
-    <div data-cy="profile-page" className="min-h-screen bg-gray-50 flex justify-center py-10">
+    <div data-cy="profile-page" className="h-fit bg-gray-50 flex justify-center py-10">
       <ProfileForm user={me} />
     </div>
   );
