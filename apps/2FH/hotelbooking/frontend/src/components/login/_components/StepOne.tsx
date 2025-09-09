@@ -66,12 +66,12 @@ export const LoginComponent = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen" data-cy="login-container" data-testid="login-container">
-      <Card className="w-full max-w-md border-0">
+    <div className="flex items-start max-w-screen pt-[200px] justify-center min-h-screen" data-cy="login-container" data-testid="login-container">
+      <Card className="w-[550px] border-0 mb-30">
         <CardHeader className="text-center">
           <img src="./images/PediaLogo.png" alt="Logo" className="mx-auto mb-4" data-cy="login-logo" />
-          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-          <p className="text-gray-500 mt-1 text-sm">Enter your email and password to continue</p>
+          <CardTitle className="text-2xl text-[30px] font-bold opacity-80">Sign In</CardTitle>
+          <p className="text-gray-500 mt-1 text-sm text-[16px]">Enter your email and password to continue</p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col gap-4">
@@ -104,7 +104,7 @@ export const LoginComponent = () => {
               </div>
             </div>
 
-            <Button onClick={handleLogin} disabled={loading} className="w-full" data-cy="login-submit" data-testid="submit-button">
+            <Button onClick={handleLogin} disabled={loading} className="w-full bg-[#013B94] hover:bg-[#2570EB]" data-cy="login-submit" data-testid="submit-button">
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </div>
