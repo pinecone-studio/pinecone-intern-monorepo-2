@@ -62,7 +62,7 @@ export const useStep2Form = ({ email, setStep: _setStep }: Step2FormProps) => {
 
   const createUserRequest = async (email: string, password: string) => {
     const response = await axios.post(
-      process.env.NEXT_PUBLIC_API_URL ?? '/api/graphql',
+      process.env.NEXT_PUBLIC_BACKEND_URI ?? '/api/graphql',
       {
         query: `
         mutation CreateUser($email: String!, $password: String!) {

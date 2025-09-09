@@ -40,7 +40,7 @@ export const Step1 = () => {
   };
 
   const sendOtpRequest = async (email: string) => {
-    return await axios.post(process.env.NEXT_PUBLIC_API_URL ?? '/api/graphql', {
+    return await axios.post(process.env.NEXT_PUBLIC_BACKEND_URI ?? '/api/graphql', {
       query: `
         mutation SignupSendOtp($email: String!) {
           signupSendOtp(email: $email) {
