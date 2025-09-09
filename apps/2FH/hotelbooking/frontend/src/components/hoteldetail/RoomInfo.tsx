@@ -49,11 +49,6 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
 
   const { data } = useGetRoomsQuery({ variables: { hotelId } });
 
-  console.log('Room info children', bookingData.childrens);
-  console.log('Room info adults', bookingData.adults);
-  console.log('Nights', nights);
-  console.log('BOKING DATA ROOM INFO', bookingData);
-
   return (
     <div data-testid="room-info" className="flex flex-col gap-y-4">
       <h3 className="text-2xl font-semibold">Choose your room</h3>

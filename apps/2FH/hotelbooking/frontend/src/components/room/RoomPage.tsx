@@ -37,7 +37,6 @@ export const RoomPage = () => {
   const { data: hotelsData, loading: hotelsLoading, error: hotelsError } = useHotelsQuery();
   const [, { loading: createRoomLoading }] = useCreateRoomMutation();
   const handleImageSave = (images: string[]) => {
-    console.log('handleImageSave called with images:', images);
     setRoomImages(images);
     setRoomData((prev) => {
       const updated = { ...prev, images };

@@ -222,12 +222,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
-  console.log('Check in', bookingData.checkInDate);
-  console.log('CHeck out', bookingData.checkOutDate);
-  console.log('Children', bookingData.childrens);
-  console.log('ADults', bookingData.adults);
-
-  console.log('BOOKING DATA', bookingData);
 
   const nights = useMemo(() => {
     if (range?.from && range?.to) {
@@ -235,8 +229,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     }
     return 0;
   }, [range]);
-
-  console.log(nights);
 
   return (
     <OtpContext.Provider

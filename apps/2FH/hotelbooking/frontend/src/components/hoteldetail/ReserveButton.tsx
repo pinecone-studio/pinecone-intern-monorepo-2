@@ -47,8 +47,6 @@ export const ReserveButton = ({ room, roomId, hotelId, adults, childrens }: Rese
       router.push('/login');
     }
   };
-  console.log('Room Id', roomId);
-  console.log('HotelId Reserve Button', hotelId);
 
   return (
     <Button data-testid="reserve-button" onClick={handleClick} className="w-[70px] bg-blue-600 text-sm font-medium" disabled={loading}>

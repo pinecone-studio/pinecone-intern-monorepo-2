@@ -31,7 +31,7 @@ export const PreviousBookingCard = ({ hotelId, roomId, checkInDate, adults, stat
     <div className="flex items-end justify-between border-[1px] rounded-xl">
       <div className="flex gap-5">
         <div>
-          <Image data-testid="Image-Id" src={roomData?.getRoom.imageURL?.[0] || '/Images/NoImage.png'} width={300} height={200} alt="Room picture" className="w-[400px] h-[200px] rounded-xl" />
+          <Image data-testid="Image-Id" src={roomData?.getRoom.imageURL?.[0] || '/Images/WhiteImage.jpeg'} width={300} height={200} alt="Room picture" className="w-[400px] h-[200px] rounded-xl" />
         </div>
         <div className="p-4 w-fit flex flex-col justify-between">
           <div data-testid="Status-Color" className={`w-fit px-3 py-1 rounded-full text-white ${status === 'Cancelled' ? 'bg-red-500' : status === 'Completed' ? 'bg-[#18BA51]' : 'bg-gray-400'}`}>
