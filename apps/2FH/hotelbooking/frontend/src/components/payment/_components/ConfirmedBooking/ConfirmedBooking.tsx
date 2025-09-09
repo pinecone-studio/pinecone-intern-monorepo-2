@@ -35,7 +35,7 @@ export const ConfirmedBooking = () => {
           <div className="w-full font-semibold text-[25px] pt-5">You are confirmed</div>
           <div className="w-full flex justify-between pt-3 pb-3">
             <div>Contact email</div>
-            <div>samlee.mobbin@gmail.com</div>
+            <div>{bookingData.roomCustomer.email}</div>
           </div>
           <Button data-testid="Push-History-Page" onClick={handlePushHistoryPage} className="bg-[#2563EB] hover:bg-[#2564ebda] w-[30%]">
             View your book
@@ -67,7 +67,7 @@ export const ConfirmedBooking = () => {
               <RoomInformationSvg /> <div>{roomData?.getRoom.foodAndDrink[0]}</div>
             </div>
             <div className="flex gap-1 items-center">
-              <RoomInformationSvg /> <div>{roomData?.getRoom.bedRoom[2]}</div>
+              <RoomInformationSvg /> <div>{roomData?.getRoom.bedRoom[0]}</div>
             </div>
             <div className="flex gap-1 items-center">
               <RoomInformationSvg /> <div>{roomData?.getRoom.internet[0]}</div>

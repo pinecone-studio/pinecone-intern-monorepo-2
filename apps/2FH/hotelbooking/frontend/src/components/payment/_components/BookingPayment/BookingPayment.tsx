@@ -9,12 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useCreateBookingInputMutation } from '@/generated';
 import { useOtpContext } from '@/components/providers';
 import { toast } from 'sonner';
-
-const mockUserId = '68b017713bb2696705c69369';
-const mockHotelId = '689d5d72980117e81dad2925';
-const mockRoomId = '68b680fbefcd61d7eacdd6fa';
-const mockCheckInDate = '2025-09-10';
-const mockCheckOutDate = '2025-09-15';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const formSchema = z.object({
   firstname: z.string().min(2, { message: 'Username must be at least 2 characters.' }),
@@ -24,22 +20,23 @@ const formSchema = z.object({
 });
 
 export const BookingPayment = () => {
+  const { userid } = useParams();
   const { bookingData, setBookingData, setBookingSuccess } = useOtpContext();
   const [createBookingInput, { loading, error }] = useCreateBookingInputMutation();
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { firstname: '', lastname: '', email: '', phoneNumber: '' },
   });
+
   const handleCreateBooking = async (values: z.infer<typeof formSchema>) => {
     const { data } = await createBookingInput({
       variables: {
         input: {
-          userId: mockUserId,
-          hotelId: mockHotelId,
-          roomId: mockRoomId,
-          checkInDate: mockCheckInDate,
-          checkOutDate: mockCheckOutDate,
+          userId: String(userid),
+          hotelId: bookingData.hotelId,
+          roomId: bookingData.roomId,
+          checkInDate: bookingData.checkInDate,
+          checkOutDate: bookingData.checkOutDate,
           roomCustomer: {
             firstName: values.firstname,
             lastName: values.lastname,
@@ -47,7 +44,7 @@ export const BookingPayment = () => {
             phoneNumber: values.phoneNumber,
           },
           adults: bookingData.adults,
-          children: bookingData.children,
+          children: bookingData.childrens,
         },
       },
     });
@@ -58,11 +55,11 @@ export const BookingPayment = () => {
     await handleCreateBooking(values);
     setBookingData((prev) => ({
       ...prev,
-      userId: mockUserId,
-      hotelId: mockHotelId,
-      roomId: mockRoomId,
-      checkInDate: mockCheckInDate,
-      checkOutDate: mockCheckOutDate,
+      userId: String(userid),
+      hotelId: bookingData.hotelId,
+      roomId: bookingData.roomId,
+      checkInDate: bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate,
       roomCustomer: {
         firstName: values.firstname,
         lastName: values.lastname,
@@ -72,6 +69,10 @@ export const BookingPayment = () => {
     }));
     toast.success('Booking created successfully');
   }
+  useEffect(() => {
+    const stored = localStorage.getItem('bookingData');
+    if (stored) setBookingData(JSON.parse(stored));
+  }, []);
 
   if (error) throw new Error('Create booking error');
 

@@ -32,9 +32,13 @@ type ShowMoreProps = {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
   rooms: Room;
+  roomId: string;
+  hotelId: string;
+  adults: number;
+  childrens: number;
 };
 
-export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
+export const ShowMore = ({ open, onOpenChange, rooms, roomId, hotelId, adults, childrens }: ShowMoreProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openPriceDetail, setOpenPriceDetail] = useState(false);
 
@@ -91,7 +95,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
                   </div>
                 ))}
               </div>
-
               <div>
                 <h3 className="text-base font-bold">Bathroom</h3>
                 {rooms.bathroom.map((bath, index) => (
@@ -101,7 +104,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
                 ))}
               </div>
             </div>
-
             <div className="flex gap-x-4">
               <div className="flex flex-col w-[281px]">
                 <h3 className="text-base font-bold">Bedroom</h3>
@@ -111,7 +113,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
                   </div>
                 ))}
               </div>
-
               <div>
                 <h3 className="text-base font-bold">Entertainment</h3>
                 {rooms.entertainment.map((enter, index) => (
@@ -121,7 +122,6 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
                 ))}
               </div>
             </div>
-
             <div>
               <h3 className="text-base font-bold">More</h3>
               {rooms.other.map((other, index) => (
@@ -141,14 +141,14 @@ export const ShowMore = ({ open, onOpenChange, rooms }: ShowMoreProps) => {
               </div>
               <div className="flex justify-between">
                 {openPriceDetail ? (
-                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} />
+                  <PriceDetail data-testid="price-detail-button-show-more" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} roomId={roomId} hotelId={hotelId} adults={adults} childrens={childrens} />
                 ) : (
                   <div data-testid="price-detail-button-show-more" onClick={handleClickPriceDetail} className="flex gap-x-2 text-blue-600 items-center cursor-pointer">
                     <span className="text-sm font-medium">Price detail</span>
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 )}
-                <ReserveButton room={rooms} />
+                <ReserveButton room={rooms} roomId={roomId} hotelId={hotelId} adults={adults} childrens={childrens} />
               </div>
             </div>
           </div>

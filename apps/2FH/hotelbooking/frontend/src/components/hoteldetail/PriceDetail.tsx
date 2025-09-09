@@ -7,9 +7,13 @@ type PricedetailProps = {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
   room: Room;
+  roomId: string;
+  hotelId: string;
+  adults: number;
+  childrens: number;
 };
 
-export const PriceDetail = ({ open, onOpenChange, room }: PricedetailProps) => {
+export const PriceDetail = ({ open, onOpenChange, room, roomId, hotelId, adults, childrens }: PricedetailProps) => {
   return (
     <Dialog data-testid="price-detail" open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-white">
@@ -33,7 +37,7 @@ export const PriceDetail = ({ open, onOpenChange, room }: PricedetailProps) => {
                 <span className="text-lg font-semibold">₮300,000</span>
               </div>
 
-              <ReserveButton room={room} />
+              <ReserveButton room={room} roomId={roomId} hotelId={hotelId} adults={adults} childrens={childrens} />
             </div>
           </DialogDescription>
         </DialogHeader>

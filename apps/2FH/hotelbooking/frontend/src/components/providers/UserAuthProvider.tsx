@@ -46,7 +46,7 @@ type OtpContextType = {
       roomId: string;
       checkInDate: string;
       checkOutDate: string;
-      children: number;
+      childrens: number;
       adults: number;
       status: string;
       roomCustomer: {
@@ -63,7 +63,7 @@ type OtpContextType = {
     roomId: string;
     checkInDate: string;
     checkOutDate: string;
-    children: number;
+    childrens: number;
     adults: number;
     status: string;
     roomCustomer: {
@@ -111,8 +111,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [me, setMe] = useState<UserType | null>(null);
   const [token, setToken] = useState<string | null>(null);
-
-  const [adult, setAdult] = useState(1);
+  const [adult, setAdult] = useState(0);
   const [childrens, setChildrens] = useState(0);
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),
@@ -123,10 +122,10 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     userId: '',
     hotelId: '',
     roomId: '',
-    checkInDate: '',
-    checkOutDate: '',
-    adults: 0,
-    children: 0,
+    checkInDate: range?.from ? range.from.toLocaleDateString('en-CA') : '',
+    checkOutDate: range?.to ? range.to.toLocaleDateString('en-CA') : '',
+    adults: adult,
+    childrens: childrens,
     status: '',
     roomCustomer: {
       firstName: '',
@@ -145,6 +144,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
   }, [startTime, timeLeft]);
+
   const resetOtp = () => {
     setStartTime(true);
     setTimeLeft(90);
@@ -202,7 +202,7 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
       checkInDate: '',
       checkOutDate: '',
       adults: 0,
-      children: 0,
+      childrens: 0,
       status: '',
       roomCustomer: {
         firstName: '',
@@ -222,7 +222,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(storedToken);
     fetchMe(storedToken);
   }, [client]);
-  console.log(range);
 
   const nights = useMemo(() => {
     if (range?.from && range?.to) {
@@ -231,7 +230,6 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     return 0;
   }, [range]);
 
-  console.log('range in provider', range, 'nights', nights);
   return (
     <OtpContext.Provider
       value={{

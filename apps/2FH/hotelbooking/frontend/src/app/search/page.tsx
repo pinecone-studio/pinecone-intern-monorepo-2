@@ -10,8 +10,6 @@ const SearchPage = () => {
   const [selectedStars, setSelectedStars] = useState<string>('');
   const [selectedRating, setSelectedRating] = useState<string>('');
 
-  console.log('search name shuu:', search);
-
   return (
     <div className="min-h-screen">
       <div className="bg-[#013B94] pt-10 pb-10 px-8">

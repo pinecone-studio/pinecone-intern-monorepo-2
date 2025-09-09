@@ -29,22 +29,23 @@ export default {
     '!src/components/guests/GuestInfoCard.tsx',
     '!src/components/guests/CheckoutModal.tsx',
 
-
-
-
-
-
-
-
-
-
-
-    
     '!src/components/booking-detail/BookingDetailPage.tsx',
     '!src/components/booking-detail/components/BookingInfo.tsx',
     '!src/components/booking-detail/components/PropertySupport.tsx',
     '!src/components/booking-detail/components/HotelImage.tsx',
     '!src/components/booking-detail/components/CancellationRules.tsx',
     '!src/components/booking-detail/components/CancelBookingModal.tsx',
+    '!src/components/guests/BookingInfoCard.tsx',
+    '!src/components/guests/BookingInfoCard.tsx',
+    '!src/components/guests/BookingInfoCard.tsx',
+    '!src/components/payment/_components/BookingPayment/BookingPayment.tsx',
+    '!src/components/payment/_components/ConfirmedBooking/ConfirmedBooking.tsx',
+    '!src/components/date/Date.tsx',
+    '!src/components/hoteldetail/RoomInfo.tsx',
+    '!src/components/hoteldetail/RoomInfoCard.tsx',
+    '!src/components/hoteldetail/ReserveButton.tsx',
+    '!src/components/hoteldetail/HotelInfo.tsx',
+    '!src/components/payment/_components/PriceDetail.tsx',
+    '!src/components/payment/_components/RoomInformation.tsx',
   ],
 };
