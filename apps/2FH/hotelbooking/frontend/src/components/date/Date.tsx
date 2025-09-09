@@ -1,3 +1,4 @@
+/*no-unused-vars*/
 'use client';
 
 import * as React from 'react';
@@ -12,7 +13,7 @@ import { useOtpContext } from '@/components/providers/UserAuthProvider';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 export const DatePicker = () => {
-  const { range, setRange, adult, setAdult, childrens, setChildrens } = useOtpContext();
+  const { range, setRange, bookingData, setBookingData } = useOtpContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -30,19 +31,31 @@ export const DatePicker = () => {
   };
 
   const handleClickAdult = () => {
-    setAdult((prev) => prev + 1);
+    setBookingData((prev) => ({
+      ...prev,
+      adults: prev.adults + 1,
+    }));
   };
 
   const handleClickAdultMinus = () => {
-    setAdult((prev) => Math.max(prev - 1, 0));
+    setBookingData((prev) => ({
+      ...prev,
+      adults: Math.max(prev.adults - 1, 0),
+    }));
   };
 
   const handleClickChildren = () => {
-    setChildrens((prev) => prev + 1);
+    setBookingData((prev) => ({
+      ...prev,
+      childrens: prev.childrens + 1,
+    }));
   };
 
   const handleClickChildrenMinus = () => {
-    setChildrens((prev) => Math.max(prev - 1, 0));
+    setBookingData((prev) => ({
+      ...prev,
+      childrens: Math.max(prev.childrens - 1, 0),
+    }));
   };
 
   return (
@@ -53,13 +66,13 @@ export const DatePicker = () => {
           <PopoverTrigger asChild>
             <div className="flex border py-[10px] px-4 rounded-md items-center gap-x-2">
               <Button variant="ghost" className="bg-white p-0 text-sm font-normal w-full flex justify-start">
-                {range?.from ? (
-                  range.to ? (
+                {bookingData.checkInDate ? (
+                  bookingData.checkOutDate ? (
                     <>
-                      {format(range.from, 'MMMM dd')} - {format(range.to, 'MMMM dd')}
+                      {format(new Date(bookingData.checkInDate), 'MMMM dd')} - {format(new Date(bookingData.checkOutDate), 'MMMM dd')}
                     </>
                   ) : (
-                    format(range.from, 'MMMM dd')
+                    format(new Date(bookingData.checkInDate), 'MMMM dd')
                   )
                 ) : (
                   'Pick a date range'
@@ -70,7 +83,20 @@ export const DatePicker = () => {
           </PopoverTrigger>
 
           <PopoverContent className="w-auto p-0">
-            <Calendar mode="range" selected={range} numberOfMonths={2} onSelect={setRange} />
+            <Calendar
+              mode="range"
+              selected={range}
+              numberOfMonths={2}
+              onSelect={(selectedRange) => {
+                setRange(selectedRange);
+
+                setBookingData((prev) => ({
+                  ...prev,
+                  checkInDate: selectedRange?.from ? selectedRange.from.toLocaleDateString('en-CA') : '',
+                  checkOutDate: selectedRange?.to ? selectedRange.to.toLocaleDateString('en-CA') : '',
+                }));
+              }}
+            />
           </PopoverContent>
         </Popover>
       </div>
@@ -79,7 +105,7 @@ export const DatePicker = () => {
         <p className="text-base font-medium">Guest</p>
         <div className="flex items-center  border  py-2 px-3 rounded-md">
           <Button data-testid="guest-button" onClick={handleClickTravels} className=" w-full bg-[#F4F4F5] flex  justify-between gap-x-[10px] text-black hover:bg-white">
-            {adult} traveller, {childrens} children
+            {bookingData.adults} traveller, {bookingData.childrens} children
             <ChevronDown className="w-4 h-4 text-black" />
           </Button>
         </div>
@@ -93,7 +119,7 @@ export const DatePicker = () => {
                   <Minus onClick={handleClickAdultMinus} className="w-4 h-4" />
                 </div>
                 <div data-testid="adult-count" className="w-9 h-9  flex items-center  justify-center">
-                  {adult}
+                  {bookingData.adults}
                 </div>
                 <div data-testid="adult-plus-button" onClick={handleClickAdult} className="w-9 h-9 rounded-lg border flex items-center justify-center cursor-pointer">
                   <Plus className="w-4 h-4" />
@@ -107,7 +133,7 @@ export const DatePicker = () => {
                   <Minus onClick={handleClickChildrenMinus} className="w-4 h-4" />
                 </div>
                 <div data-testid="children-count" className="w-9 h-9  flex items-center  justify-center">
-                  {childrens}
+                  {bookingData.childrens}
                 </div>
                 <div data-testid="children-plus-button" onClick={handleClickChildren} className="w-9 h-9 rounded-lg border flex items-center justify-center">
                   <Plus className="w-4 h-4" />

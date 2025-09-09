@@ -1,3 +1,4 @@
+/*no-unused-vars*/
 'use client';
 
 import Image from 'next/image';
@@ -9,6 +10,8 @@ import { Button } from '@/components/ui/button';
 import { ReserveButton } from './ReserveButton';
 // import { useOtpContext } from '../providers/UserAuthProvider';
 import { Wifi, AirVent, Tv, Wine, Droplet, ShowerHead, Toilet, ChevronRight } from 'lucide-react';
+import { useOtpContext } from '../providers';
+import { useParams } from 'next/navigation';
 
 type RoomInfoProps = {
   hotelId: string;
@@ -25,21 +28,31 @@ const infoIcons: Record<string, React.ReactNode> = {
 };
 
 export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
+  const params = useParams();
+  const bookingToHotelId = params.hotelId;
+  const { bookingData, nights } = useOtpContext();
   const [showMore, setShowMore] = useState(false);
   const [openPriceDetail, setOpenPriceDetail] = useState(false);
-  // const { nights, range } = useOtpContext();
+
+
+
+  console.log("roominfo deer utga bnauu:",bookingData.checkInDate);
+  
 
   const handleClickShow = () => {
     setShowMore(true);
   };
-
-  const nights = 2;
 
   const handleClickPriceDetail = () => {
     setOpenPriceDetail(true);
   };
 
   const { data } = useGetRoomsQuery({ variables: { hotelId } });
+
+  console.log('Room info children', bookingData.childrens);
+  console.log('Room info adults', bookingData.adults);
+  console.log('Nights', nights);
+  console.log('BOKING DATA ROOM INFO', bookingData);
 
   return (
     <div data-testid="room-info" className="flex flex-col gap-y-4">
@@ -70,7 +83,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
                 ))}
               </div>
               {showMore ? (
-                <ShowMore data-testid="show-more-room-modal" open={true} onOpenChange={setShowMore} rooms={rooms} />
+                <ShowMore data-testid="show-more-room-modal" open={true} onOpenChange={setShowMore} rooms={rooms} roomId={rooms.id} hotelId={String(bookingToHotelId)} adults={bookingData.adults} childrens={bookingData.childrens} />
               ) : (
                 <div data-testid="show-more-room-modal-btn" onClick={handleClickShow} className="flex gap-x-2  py-2  cursor-pointer text-blue-600">
                   <p className="text-sm font-medium">Show more </p>
@@ -88,7 +101,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
 
                 <div className="flex  justify-between">
                   {openPriceDetail ? (
-                    <PriceDetail data-testid="price-detail-button-room-info" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} />
+                    <PriceDetail data-testid="price-detail-button-room-info" open={openPriceDetail} onOpenChange={setOpenPriceDetail} room={rooms} roomId={rooms.id} hotelId={String(bookingToHotelId)} adults={bookingData.adults} childrens={bookingData.childrens} />
                   ) : (
                     <div data-testid="price-detail-button-room-info" onClick={handleClickPriceDetail} className=" flex gap-x-2 text-blue-600 items-center cursor-pointer">
                       <p className="text-sm font-medium">Price detail</p>
@@ -96,7 +109,7 @@ export const RoomInfo = ({ hotelId }: RoomInfoProps) => {
                     </div>
                   )}
 
-                  <ReserveButton room={rooms} />
+                  <ReserveButton room={rooms} roomId={rooms.id} hotelId={String(bookingToHotelId)} adults={bookingData.adults} childrens={bookingData.childrens} />
                 </div>
               </div>
             </div>
