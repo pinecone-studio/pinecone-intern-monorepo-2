@@ -11,7 +11,6 @@ import SwipeComponent, { SwipeComponentRef } from "@/components/chat/SwipeCompon
 import ChatArea from "@/components/chat/ChatArea";
 import ProfileView from "@/components/chat/ProfileView";
 import { useUser } from "@/contexts";
-import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/auth/AuthGuard";
 
 function MainLayout({ children }: { children: React.ReactNode }) {

@@ -135,10 +135,15 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "echo 'Skipping e2e tests as configured'"
+          "npx nx execute-cypress scripts 2FH-tinder-frontend"
         ],
         "parallel": false
-      }
+      },
+      "dependsOn": [
+        {
+          "target": "cypress:clean"
+        }
+      ]
     },
     "e2e:open": {
       "executor": "nx:run-commands",
