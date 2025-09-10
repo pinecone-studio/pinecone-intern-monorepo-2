@@ -11,6 +11,7 @@
     "src/common/**",
     "node_modules",
     "src/app/(sidebargui)/stories/page.tsx"
+    
   ],
   "include": [
     "src/app/**/*"
