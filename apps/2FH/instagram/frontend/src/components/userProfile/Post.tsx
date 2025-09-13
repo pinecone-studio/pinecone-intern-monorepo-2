@@ -56,14 +56,14 @@ export const Posts = ({ userId }: PostsProps) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
       {posts.map((post: any) => (
-        <div key={post._id} className="aspect-square relative group cursor-pointer overflow-hidden">
-          <div className="border-2">
+        <div key={post._id} className="aspect-square relative group cursor-pointer overflow-hidden flex items-center justify-center w-full h-full">
+          <div className="border-2 w-full h-full">
             <Image 
               src={post.image[0] || '/placeholder-image.jpg'} 
               width={100} 
               height={100} 
               alt={post.caption || `Post ${post._id}`} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover flex items-center justify-center"
             />
           </div>
           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
